@@ -21,26 +21,23 @@ export default class MenuLayout extends Component {
           </div>
           <Menu mode="inline" className="menulayout-main" >
          <SubMenu  title="Thông tin cá nhân" icon={<UserOutlined />}>
-              <Menu.Item key="1">Thông báo chung</Menu.Item>
-              <Menu.Item key="2">Thông báo của tôi</Menu.Item>
+              <Menu.Item key="1">
+              <Link to="/crm/notification">Thông báo chung</Link>
+              </Menu.Item>
+              <Menu.Item key="2"><Link to="/crm/mynotification">Thông báo của tôi</Link></Menu.Item>
               <Menu.Item key="3">Tạo</Menu.Item>
           </SubMenu>
           {/* <Menu.Item key="4" icon={<TeamOutlined />}>
          
           </Menu.Item> */}
-          <SubMenu key="sub2" icon={<UserOutlined />} title="Quản lý nhân sự" icon={<TeamOutlined />}>
+          <SubMenu key="sub2" icon={<UserOutlined />} title="Nghiệp vụ" icon={<TeamOutlined />}>
               <Menu.Item key="4">
-              <Link to="/crm"> Quản lý nhân sự </Link>
+              <Link to="/crm/usersix"> Nhân sự </Link>
               </Menu.Item>
               <Menu.Item key="5">
-                <Link to="/crm/user/department">
+                {/* <Link to="/crm/user/department"> */}
                 Bình bầu
-                </Link>
-              </Menu.Item>
-              <Menu.Item key="6">
-                <Link to="/crm/usersix">
-                User six
-                </Link>
+                {/* </Link> */}
               </Menu.Item>
               {/* <Menu.Item key="3">
                 <Link to="/crm/user/personal-history">

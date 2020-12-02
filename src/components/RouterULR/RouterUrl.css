@@ -11,5 +11,6 @@
 }
 .content-main{
     width: 95%;
+    min-height: 73vh;
     margin: 0 auto;
 }
