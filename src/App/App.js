@@ -8,7 +8,8 @@ import Login from "../components/Login/Login";
 // import Table from "../components/Table/Table";
 import ProfileOne from "../components/Profile/ProfileOne";
 import Crm from "../components/Crm/Crm";
-import tableTest from "../components/TableTest";
+import Globading from "../components/Loading/Globading"
+
 const store = configStore();
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route {...rest} render={(props) => (
@@ -21,6 +22,7 @@ export default class App extends Component {
   render() {
     return (
       <Provider store={store}>
+        <Globading/>
        <Router>
             <Route exact path="/" component={Login} />
             <PrivateRoute path="/crm" component={Crm} />

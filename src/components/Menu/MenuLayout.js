@@ -29,12 +29,17 @@ export default class MenuLayout extends Component {
          
           </Menu.Item> */}
           <SubMenu key="sub2" icon={<UserOutlined />} title="Quản lý nhân sự" icon={<TeamOutlined />}>
-              <Menu.Item key="1">
+              <Menu.Item key="4">
               <Link to="/crm"> Quản lý nhân sự </Link>
               </Menu.Item>
-              <Menu.Item key="2">
+              <Menu.Item key="5">
                 <Link to="/crm/user/department">
                 Bình bầu
+                </Link>
+              </Menu.Item>
+              <Menu.Item key="6">
+                <Link to="/crm/usersix">
+                User six
                 </Link>
               </Menu.Item>
               {/* <Menu.Item key="3">

@@ -38,7 +38,6 @@ export default class Tabs1 extends Component {
         });
       };
     onSubmit = (e) => {
-        alert("123")
         e.preventDefault();
         const {_id, name, pen_name, birth_day,home_town,
             mobile_phone,local_phone,resident,ethnic,religion,

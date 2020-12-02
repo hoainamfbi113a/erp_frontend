@@ -9,8 +9,12 @@ const deleteUserDepartment = (id) => {
 const addUserDepartment = (params) => {
     return axios.post("http://localhost:3000/departments", params)
 }
+const editUserDepartment = (params) => {
+    return axios.put(`http://localhost:3000/departments/${params.id}`, params)
+}
 export {
     getListUserDepartment,
     deleteUserDepartment,
-    addUserDepartment
+    addUserDepartment,
+    editUserDepartment
 }

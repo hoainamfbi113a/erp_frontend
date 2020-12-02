@@ -6,6 +6,7 @@ import userDepartmentSaga from "./userDepartmentSaga"
 import userJournalistCardSaga from "./userJournalistCardSaga"
 import userPersonalHistorySaga from "./userPersonalHistorySaga"
 import userWorkObjectSaga from "./userWorkObjectSaga"
+import userSixSaga from "./userSixSaga"
 function* rootSaga () {
     yield all([
         userSaga(),
@@ -15,6 +16,7 @@ function* rootSaga () {
         userJournalistCardSaga(),
         userPersonalHistorySaga(),
         userWorkObjectSaga(),
+        userSixSaga(),
     ])
 }
 export default rootSaga;

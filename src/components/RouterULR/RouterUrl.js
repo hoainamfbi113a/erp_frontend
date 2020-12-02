@@ -11,6 +11,9 @@ import ContentUserDepartment from "../content/ContentUserDepartment";
 import ContentUserJournalistCard from "../content/ContentUserJournalistCard";
 import ContentUserPersonalHistory from "../content/ContentUserPersonalHistory";
 import ContentUserWorkObject from "../content/ContentUserWorkObject";
+
+import ContentUserSix from "../content/ContentSix";
+import AddUserSix from "../Adduser/AddSix"
 export default class RouterUrl extends Component {
     render() {
         return (
@@ -28,6 +31,10 @@ export default class RouterUrl extends Component {
                         <Route exact path="/crm/adduser" component = {Adduser1}></Route>
                         <Route exact path="/crm/addUserBase" component = {AddUserBase}></Route>
                         <Route exact path="/crm/user/edit/:id" component = {AddUserBase}></Route>
+
+                        <Route exact path="/crm/usersix" component = {ContentUserSix}></Route>
+                        <Route exact path="/crm/addUserSix" component = {AddUserSix}></Route>
+                        <Route exact path="/crm/usersix/edit/:id" component = {AddUserSix}></Route>
                 </div>
                 </div>
             </div>

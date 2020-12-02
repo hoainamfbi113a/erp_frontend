@@ -52,7 +52,6 @@ class TableTest extends Component {
     });
   };
   showDrawerModify = (user) => {
-    // alert("123")
     const {userActionCreators} = this.props;
     const { editUser } = userActionCreators;
     editUser(user);

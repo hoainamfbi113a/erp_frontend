@@ -9,8 +9,13 @@ const deleteUserJournalistCard = (id) => {
 const addUserJournalistCard = (params) => {
     return axios.post("http://localhost:3000/journalist-cards", params)
 }
+const editUserJournalistCard = (params) => {
+    console.log(params);
+    return axios.put(`http://localhost:3000/journalist-cards/${params.id}`, params)
+}
 export {
     getListUserJournalistCard,
     deleteUserJournalistCard,
-    addUserJournalistCard
+    addUserJournalistCard,
+    editUserJournalistCard
 }

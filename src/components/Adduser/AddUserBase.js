@@ -96,8 +96,8 @@ class AddUserBase extends Component {
             formData.base36 = this.state.base36,
             formData.base37 = this.state.base37
             console.log(formData);
-            if(this.props.userBase){
-                formData.id = this.props.userBase.id
+            if(this.props.match.params.id){
+                formData.id = this.props.match.params.id
                 const { userBaseActionCreator } = this.props;
                 const { editUserBase } = userBaseActionCreator;
                 const { history } = this.props;
@@ -116,7 +116,7 @@ class AddUserBase extends Component {
     };
     onChangeSex = (e) => {
         this.setState({
-            valueSex: e.target.value,
+            base5: e.target.value,
         });
     };
     onChangeBirthDay = (e, dateString,name) =>{
@@ -188,7 +188,8 @@ class AddUserBase extends Component {
                                             <div className="tabs-user-infor-bottom">
                                                 <Radio.Group
                                                     onChange={this.onChangeSex}
-                                                    value={this.state.base5?this.state.base5:"1"}s
+                                                    // value={this.state.base5 == null ? this.state.base5: 1 }
+                                                    value={this.state.base5}
                                                 >
                                                     <Radio value={1}>Nam</Radio>
                                                     <Radio value={2}>Nữ</Radio>

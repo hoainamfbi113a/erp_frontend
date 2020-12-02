@@ -7,6 +7,8 @@ import userDepartmentReducer from "./userDepartmentReducer";
 import userJournalistCardReducer from "./userJournalistCardReducer";
 import userPersonalHistoryReducer from "./userPersonalHistoryReducer";
 import userWorkObjectReducer from "./userWorkObjectReducer";
+import userSixReducer from "./userSixReducer";
+import uiReducer from "./ui"
 const rootReducer = combineReducers({
     postReducer:postReducer,
     userReducer: userReducer,
@@ -15,6 +17,8 @@ const rootReducer = combineReducers({
     userDepartmentReducer: userDepartmentReducer,
     userJournalistCardReducer: userJournalistCardReducer,
     userPersonalHistoryReducer: userPersonalHistoryReducer,
-    userWorkObjectReducer: userWorkObjectReducer
+    userWorkObjectReducer: userWorkObjectReducer,
+    userSixReducer: userSixReducer,
+    ui:uiReducer,
 })
 export default rootReducer;

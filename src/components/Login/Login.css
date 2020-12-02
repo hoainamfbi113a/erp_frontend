@@ -193,7 +193,8 @@ img{
     /* padding: 10px; */
   }
 /*===== MEDIA QUERIS =====*/
-@media screen and (min-width: 968px){
+@media only screen and (min-width: 968px)
+{
     .shape1{
         width: 400px;
         height: 400px;

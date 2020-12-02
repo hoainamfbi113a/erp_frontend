@@ -9,8 +9,12 @@ const deleteUserDegree = (id) => {
 const addUserDegree = (params) => {
     return axios.post("http://localhost:3000/user-degrees", params)
 }
+const editUserDegree = (params) => {
+    return axios.put(`http://localhost:3000/user-degrees/${params.id}`, params)
+}
 export {
     getListUserDegree,
     deleteUserDegree,
-    addUserDegree
+    addUserDegree,
+    editUserDegree
 }
