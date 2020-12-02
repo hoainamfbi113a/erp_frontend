@@ -1,0 +1,144 @@
+.title-create {
+    font-weight: 500;
+    font-size: 36px;
+    line-height: 42px;
+    color: #181C32;
+    padding: 23px 0 0 23px
+}
+.tabs-title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 9px;
+}
+.tabs-main-left{
+    justify-content: space-between;
+}
+.tabs-main-right{
+    justify-content: space-between;
+}
+.tabs-title-left{
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    color:#3699FF;
+    padding:7px;
+    padding-right: 9px;
+    background-color:#D7EBFF ;
+    margin : 0px 13px;
+}
+.tabs-main-left-bottom-ul{
+    list-style-type: none;
+}
+/* .tabs-user-infor-left{
+    display: flex;
+    justify-content: center;
+} */
+.tabs-main-left-bottom-li, .tabs-main-left-li{
+    display: flex;
+    justify-content: left;
+    flex-direction: column;
+    margin-bottom:16px;
+}
+.left-user-address{
+    margin-bottom: 30px;
+}
+/* .tabs-main-left-bottom{
+    width: 30%;
+} */
+.tabs-main{
+    display: flex;
+    justify-content: space-between;
+}
+.tabs-title-right-top{
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    color: #000000;
+
+}
+.tabs-title-right-bottom{
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 15px;
+    color: #444;
+
+}
+.ant-tabs-tab{
+    background:#F3F6F9;
+    
+}
+.ant-tabs-tab-active{
+    background:#fff;
+}
+.ant-tabs-tab-active .tabs-title-left{
+    background:#3699FF;
+    color:#fff;
+}
+.left-user-name{
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+    color: #181C32;
+}
+.left-user-position{
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    color: #B5B5C3;
+}
+.left-user-address{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 15px;
+    color: #3F4254;
+}
+.tabs-user-infor-top{
+    font-style: normal;
+    font-weight: normal;
+    font-size: 15px;
+    line-height: 18px;
+    color: #3F4254;
+    margin-bottom: 13px;
+}
+.tabs-user-infor-bottom input{
+    font-weight: 300;
+    font-size: 16px;
+    width: 450px;
+    height: 34px;
+    border-radius: 3px;
+}
+.ant-picker{
+    background: #F0F5FA;
+    width: 450px !important;
+    height: 34px;
+}
+.tabs-user-infor-bottom-date{
+    display: flex;
+}
+.tabs-user-infor-bottom-date div:not(:last-child){
+    margin-right:21px;
+}
+.add-user-title-position{
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 21px;
+    color: #464E5F;
+    padding: 29px 0;
+    border-bottom: solid #eee 0.5px;
+}
+.add-user-title-user-base{
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 27px;
+    color: #181C32;
+    padding: 41px 0;
+}
+.ant-radio-group{
+    margin-top:11px;
+}
+.lines {
+    border-left: 1px solid #eee;
+    height: 100%;
+  }

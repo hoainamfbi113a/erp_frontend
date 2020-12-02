@@ -1,0 +1,15 @@
+.content-background1{
+    background-color: #E5E5E5;
+    height:100%
+
+}
+.content-background2{
+    width: 95%;
+    margin: 33px auto;
+    background-color: #fff;
+    border-radius:12px;
+}
+.content-main{
+    width: 95%;
+    margin: 0 auto;
+}

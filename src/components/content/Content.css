@@ -1,0 +1,29 @@
+
+.content-top{
+    display: flex;
+    justify-content: space-between;
+    padding-top: 33px;
+}
+.content-top-left{
+    display: flex;
+    justify-content: left;
+    align-items:center;
+}
+.content-top-left-sum-item{
+    font-weight: 600;
+    font-size:14px;
+    color:#80808f;
+}
+.table-btn-search{
+    margin: 0;
+}
+.content-top-left-sum-item{
+    margin-right:20px;
+}
+.btn-add-user{
+    background:#E1F0FF;
+    color:#3699FF
+}
+.ant-select-show-search{
+    width: 300px;
+}
