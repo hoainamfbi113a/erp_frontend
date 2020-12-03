@@ -25,7 +25,7 @@ export default class MenuLayout extends Component {
               <Link to="/crm/notification">Thông báo chung</Link>
               </Menu.Item>
               <Menu.Item key="2"><Link to="/crm/mynotification">Thông báo của tôi</Link></Menu.Item>
-              <Menu.Item key="3">Tạo</Menu.Item>
+              <Menu.Item key="3"><Link to="#">Tạo</Link></Menu.Item>
           </SubMenu>
           {/* <Menu.Item key="4" icon={<TeamOutlined />}>
          
@@ -36,7 +36,8 @@ export default class MenuLayout extends Component {
               </Menu.Item>
               <Menu.Item key="5">
                 {/* <Link to="/crm/user/department"> */}
-                Bình bầu
+                
+                <Link to="/crm/usersix">Bình bầu</Link>
                 {/* </Link> */}
               </Menu.Item>
               {/* <Menu.Item key="3">

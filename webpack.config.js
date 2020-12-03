@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const {
     CleanWebpackPlugin
@@ -22,7 +23,8 @@ module.exports = (env, agrv) => {
             }),
             new MiniCssExtractPlugin({
                 filename: 'style.min.css'
-            })
+            }),
+            new webpack.EnvironmentPlugin( { ...process.env } )
         ],
         module: {
             rules: [{
@@ -73,12 +75,21 @@ module.exports = (env, agrv) => {
         devServer: {
             port: 3001,
             open: true,
-            disableHostCheck: true,
-            historyApiFallback: true,
-            overlay: true,
-            stats: 'minimal',
-            inline: true,
-            compress: true,
+            // disableHostCheck: true,
+            // historyApiFallback: true,
+            // overlay: true,
+            // stats: 'minimal',
+            // inline: true,
+            // compress: true,
+            headers: { 
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
+            },
+            proxy: {
+                '/api': {
+                  target: 'http://192.168.61.116'
+                }
+              }
         },
     }
 };
