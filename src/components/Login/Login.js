@@ -13,11 +13,13 @@ export default class Login extends Component {
   constructor() {
     super();
     this.state = {
-      userLogin: "",
-      userPass: "",
-      errEmail: "",
-      errPassword: "",
+      email: "",
+      password: "",
+      errEmail: "err",
+      errPassword: "err",
+      activeErr:false,
       ishow: false,
+      isVibrate:false,
     };
   }
   onChange = (e) => {
@@ -28,48 +30,51 @@ export default class Login extends Component {
   onSubmit = async (e) => {
     e.preventDefault();
     let _this = this;
-    // _this.errEmail = ValidateEmail(_this.email, 8);
-    // _this.errPassword = ValidateField(_this.password, 6, 100, "Mật khẩu");
-    // const params = {
-    //   "username":this.state.userLogin,
-    //   "password": this.state.userPass,
-    //   "user_ip":"123",
-    //   "user_agent":"ad"
-    // }
-    console.log(process.env.apiUrl)
-    const params = {
-      "username":"dang",
-      "password":"12345@",
-      "user_ip":"123",
-      "user_agent":"ad"
-      }
-  // let  {data}  = await axios.post("http://192.168.61.116/api/login",params);
-    // console.log(data)
-    axios.get( `http://192.168.61.116/api/departments/profiles/3`)
-    .then(res => {
-      const persons = res.data;
-      console.log(persons)
-    })
-    // return axios
-    // .post("http://192.168.61.116/api/login", params)
-    // .then(res =>{
-    //   console.log(res.data)
-      if (this.state.userLogin === "admin" && this.state.userPass === "admin") {
-        localStorage.setItem("usertoken", "NguyeenxHoaifNam");
-        this.setState({ ishow: !this.state.ishow });
-        setTimeout(() => {
-          this.props.history.push("/crm/notification");
+    _this.errEmail = ValidateEmail(_this.state.email, 8);
+    _this.errPassword = ValidateField(_this.state.password, 6, 100, "Mật khẩu");
+    if (_this.errEmail == "" && _this.errPassword == "") {
+      const params = {
+        "username":this.state.email,
+        "password":this.state.password,
+        "user_ip":"123",
+        "user_agent":"ad"
+        }
+      return axios
+      .post("http://api-employee.tuoitre.vn/api/login", params)
+      .then(res =>{
+        if (res.data.message === "Successfully") {
+          localStorage.setItem("usertoken", res.data.access_token);
           this.setState({ ishow: !this.state.ishow });
-        }, 600);
-      } else {
-        alert("tai khoan hoac mat khau khong dung");
-      }
-    // })
-    //  .catch(err => {
-    //   console.log(err)
-    // })
-    // if (_this.errEmail == "" && _this.errPassword == "") {
-    // }
+          setTimeout(() => {
+            this.setState({
+              activeErr:false
+            })
+            this.props.history.push("/crm/notification");
+            this.setState({ ishow: !this.state.ishow });
+          }, 600);
+        } else {
+          this.setState({
+            activeErr:false
+          })
+          alert("tai khoan hoac mat khau khong dung");
+        }
+      })
+       .catch(err => {
+        console.log(err)
+      })
+    } else {
+      this.setState({
+        errEmail:_this.errEmail,
+        errPassword:_this.errPassword,
+        activeErr:true,
+        isVibrate:true
+      })
+     setTimeout(()=>{
+        this.setState({
+          isVibrate:false
+        })
+     },300)
+    } 
   };
   render() {
     return (
@@ -100,11 +105,15 @@ export default class Login extends Component {
                   <input
                     placeholder="Tên đăng nhập"
                     type="text"
-                    className="form__input error"
-                    name="userLogin"
+                    className={"form__input "+ (this.state.activeErr == true && this.state.isVibrate ==true ? 'error' : '')}
+                    name="email"
                     onChange={this.onChange}
                   />
+                  <i className={"login-error "+ (this.state.activeErr == true ? 'error-email' : '')}>{this.state.errEmail}</i>
                 </div>
+                <span>
+                  
+                </span>
               </div>
               <div className="form__div">
                 <div className="form__icon">
@@ -114,10 +123,11 @@ export default class Login extends Component {
                   <input
                     placeholder="Mật khẩu"
                     type="password"
-                    className="form__input error"
-                    name="userPass"
+                    className={"form__input "+ (this.state.activeErr == true && this.state.isVibrate ==true ? 'error' : '')}
+                    name="password"
                     onChange={this.onChange}
                   />
+                  <i className={"login-error "+ (this.state.activeErr == true ? 'error-email' : '')}>{this.state.errPassword}</i>
                 </div>
               </div>
               <a href="#" className="form__forgot">
