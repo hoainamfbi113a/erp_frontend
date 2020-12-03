@@ -5,7 +5,7 @@ const ValidateEmail = (value, length) => {
     if (value.length == 0) {
       msg = 'Email không được để trống!';
     } else if (value.length < length) {
-      msg = `Email không dc nho hon ${length} ki tu!`;
+      msg = `Email không được nhỏ ${length} kí tự!`;
     } else if (isEmail == false) {
       msg = 'Email không đúng định dạng!';
     } else {
