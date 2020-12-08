@@ -182,7 +182,7 @@ class TableSix extends Component {
               <Tag color="volcano" className="table-action">Ẩn</Tag>
             </Popconfirm>
             <Link to={`/crm/usersix/edit/${row.id}`}> 
-            <Tag color="geekblue" className="table-action">Sửa thông tin</Tag></Link>
+            <Tag color="geekblue" className="table-action">Sửa thông tin </Tag></Link>
           </Space>
         ),
       },
