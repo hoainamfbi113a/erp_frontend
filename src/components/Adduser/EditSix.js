@@ -3,6 +3,7 @@ import { Input, DatePicker } from "antd";
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Radio, Button } from "antd";
+import axios from "axios";
 import moment from 'moment';
 import "./Adduser1.css";
 import * as userSixActions from '../../actions/userSix';
@@ -79,11 +80,6 @@ class AddSix extends Component {
             departments.pro_name = this.state.dep_name,
             departments.dep_position = this.state.dep_position,
             departments.dep_appointment_date = this.state.dep_appointment_date,
-            personal_histories.pro_work_place = this.state.pro_work_place,
-            personal_histories.pro_work_from = this.state.pro_work_from,
-            personal_histories.pro_work_to = this.state.pro_work_to,
-            personal_histories.pro_working_process = this.state.pro_working_process,
-            personal_histories.pro_note = this.state.pro_note,
             degrees.deg_type = this.state.deg_type,
             degrees.deg_diploma = this.state.deg_diploma,
             degrees.deg_majors = this.state.deg_majors,
@@ -126,14 +122,52 @@ class AddSix extends Component {
     }
     async componentDidMount () {
         if(this.props.match.params.id) {
-            alert("vao")
-            const { userSixActionCreator } = this.props;
-            const { editUserSixGet } = userSixActionCreator;
-            await editUserSixGet(this.props.match.params.id);
-            // this.setState({
-            //     aaaa:this.props.userEditGet.profiles.pro_name
+            let id = this.props.match.params.id;
+            // axios
+            // .get(`hhttps://employee.tuoitre.vn/api/profiles/${id}`)
+            // .then(response => {
+            //     this.setState({ topic: response.data });
             // })
-            console.log(this.props.userEditGet)
+            // .catch(function(error) {
+            //     console.log(error);
+            // });
+            
+            axios
+            .get(`https://employee.tuoitre.vn/api/user-degrees/profiles/${id}`,)
+            .then(response => {
+                console.log(response.data);
+                // this.setState({ topic: response.data });
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+
+            axios
+            .get(`https://employee.tuoitre.vn/api/departments/profiles/${id}`,)
+            .then(response => {
+                // this.setState({ topic: response.data });
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+
+            axios
+            .get(`https://employee.tuoitre.vn/api/journalist-cards/profiles/${id}`,)
+            .then(response => {
+                // this.setState({ topic: response.data });
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+
+            axios
+            .get(`https://employee.tuoitre.vn/api/work-objects/profiles/${id}`)
+            .then(response => {
+                // this.setState({ topic: response.data });
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
         }
     }
     render() {
