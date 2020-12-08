@@ -13,6 +13,7 @@ export default class MenuLayout extends Component {
     return (
       <div className="bbbb">
         <Sider collapsed={this.props.collapsed}>
+        <Link to="/crm" className="logo">
           <div className="logo">
             <img 
               className="logo-img"
@@ -20,6 +21,7 @@ export default class MenuLayout extends Component {
               src={this.props.collapsed == true ? logomall : logo}
             ></img>
           </div>
+          </Link>
           <Menu mode="inline" className="menulayout-main" >
          <SubMenu  title="Thông tin cá nhân" icon={<UserOutlined />}>
               <Menu.Item key="1">
