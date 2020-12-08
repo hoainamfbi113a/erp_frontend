@@ -46,6 +46,12 @@ export default class MenuLayout extends Component {
                 <Link to="/crm/usersix">Bình bầu</Link>
                 {/* </Link> */}
               </Menu.Item>
+              <Menu.Item key="5">
+                {/* <Link to="/crm/user/department"> */}
+                
+                <Link to="/crm/usersix">Tạo user</Link>
+                {/* </Link> */}
+              </Menu.Item>
               {/* <Menu.Item key="3">
                 <Link to="/crm/user/personal-history">
                 Lịch sử cá nhân
