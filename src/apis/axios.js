@@ -6,7 +6,7 @@ const api = async (url, method, body) => {
    */
   const config = {
     method: 'get',
-    baseURL: 'http://192.168.61.116/api/',
+    baseURL: 'https://employee.tuoitre.vn/api/',
     url,
     headers: {
       'Content-type': 'application/json',

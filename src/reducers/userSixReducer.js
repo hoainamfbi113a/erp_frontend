@@ -3,7 +3,7 @@ import { message } from 'antd';
 const initialState = {
     listUserSix: [],
     userSixEditing: null,
-    userEdit:{
+    userEditGet:{
 
     }
 }
@@ -110,9 +110,10 @@ const userSixReducer = (state = initialState, action) => {
             }
         }
         case userSixConstants.EDIT_USER_SIX_GET_SUCCESS: {
+            console.log(action.payload.data);
             return {
                 ...state,
-                userEdit: action.payload.data,
+                userEditGet: action.payload.data,
             }
         }
         case userSixConstants.EDIT_USER_SIX_GET_FAILED: {

@@ -9,7 +9,7 @@ import { getListUserPersonalHistory,deleteUserPersonalHistory,addUserPersonalHis
 import { getListUserWorkObject,deleteUserWorkObject,addUserWorkObject,editUserWorkObject,editUserWorkObjectGet } from "../apis/userWorkObjectApi";
 import { fetchListUserSixSuccess, fetchListUserSixFailed,
     deleteUserSixSuccess,deleteUserSixFailed,
-    addUserSixSuccess, addUserSixFailed,editUserSixSuccess,editUserSixFailed } from "../actions/userSix";
+    addUserSixSuccess, addUserSixFailed,editUserSixSuccess,editUserSixFailed,editUserSixGetSuccess } from "../actions/userSix";
 import { showLoading, hideLoading } from "../actions/ui";
 export default function* userSixSaga() {
     yield all([
@@ -119,18 +119,32 @@ function* editUserSixSaga({ payload }) {
       yield put(editUserSixFailed);
     }
   }
-  function* editUserSixGet() {
-    yield put(showLoading())
-    const resp1 = yield call(editUserBaseGet);
-    const resp2 = yield call(editUserDegreeGet);
-    const resp3 = yield call(editUserDepartmentGet);
-    const resp4 = yield call(editUserJournalistCardGet);
-    const resp6 = yield call(editUserWorkObjectGet);
-    if (resp1.status){
+  function* editUserSixGet({payload}) {
+    const {params} = payload
+    // yield put(showLoading())
+    const resp1 = yield call(editUserBaseGet,"13")
+    const resp2 = yield call(editUserDegreeGet,params);
+    const resp3 = yield call(editUserDepartmentGet,params);
+    const resp4 = yield call(editUserJournalistCardGet,params);
+    const resp6 = yield call(editUserWorkObjectGet,params);
+    console.log(resp1)
+    console.log(resp2)
+    console.log(resp3)
+    console.log(resp4)
+    console.log(resp6)
+    // const resp = yield call(editUserBaseGet,params);
+    if (resp2.status === 200 && resp3.status === 200 && resp4.status === 200 && resp6.status === 200 ){
         yield delay(1000)
         yield put(hideLoading());
-        yield put(fetchListUserSixSuccess(resp1.data));
+        let data = {
+            profiles: resp1.data.data,
+            degree: resp2.data.data,
+            department:resp3.data.data,
+            journalistCard:resp4.data.data,
+            workObject:resp6.data.data,
+        }
+        yield put(editUserSixGetSuccess(data));
     } else {
-        yield put(fetchListUserSixFailed(resp1.data))
+        yield put(editUserSixGetFailed(data))
     }
 }

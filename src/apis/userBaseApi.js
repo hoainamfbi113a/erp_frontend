@@ -2,19 +2,19 @@
 import axios from "axios"
 import api from './axios';
 const getListUserBase = (params = {}) => {
-    return axios.get("http://192.168.61.116/api/profiles?page=13",params)
+    return axios.get("https://employee.tuoitre.vn/api/profiles?page=14",params)
 }
 const deleteUserBase = (id) => {
-    return axios.delete(`http://192.168.61.116/api/profiles/${id}`)
+    return axios.delete(`https://employee.tuoitre.vn/api/profiles/${id}`)
 }
 const addUserBase = (params) => {
-    return axios.post("http://192.168.61.116/api/profiles", params)
+    return axios.post("https://employee.tuoitre.vn/api/profiles", params)
 }
 const editUserBase = (params) => {
-    return axios.put(`http://192.168.61.116/api/profiles/${params.id}`, params)
+    return axios.put(`https://employee.tuoitre.vn/api/profiles/${params.id}`, params)
 }
 const editUserBaseGet = (id) => {
-    return axios.get(`http://192.168.61.116/api/profiles/${id}`)
+    return axios.get(`https://employee.tuoitre.vn/api/profiles/${id}`)
 }
 export {
     getListUserBase,

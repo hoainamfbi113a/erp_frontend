@@ -34,15 +34,16 @@ export default class Login extends Component {
     _this.errPassword = ValidateField(_this.state.password, 6, 100, "Mật khẩu");
     if (_this.errEmail == "" && _this.errPassword == "") {
       const params = {
-        "username":this.state.email,
+        "email":this.state.email,
         "password":this.state.password,
         "user_ip":"123",
         "user_agent":"ad"
         }
+      console.log(params);
       return axios
-      .post("http://192.168.61.116/api/login", params)
+      .post("https://employee.tuoitre.vn/api/login", params)
       .then(res =>{
-        if (res.data.message === "Successfully") {
+        if (res.data.message === "Đăng nhập thành công!") {
           localStorage.setItem("usertoken", res.data.access_token);
           this.setState({ ishow: !this.state.ishow });
           setTimeout(() => {

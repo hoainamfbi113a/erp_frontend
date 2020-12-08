@@ -174,14 +174,15 @@ class TableSix extends Component {
       {
         title: 'Hành động',
         key: 'operation',
+        dataIndex: 'id',
         fixed: 'right',
         // width: 300,
         render: (text, row) => (
           <Space size="middle" >
-            <Popconfirm title="Are you sure delete this task?" onConfirm={()=>this.confirm(row.id)} onCancel={this.cancel} okText="Yes" cancelText="No">
+            <Popconfirm title="Are you sure delete this task?" onConfirm={()=>this.confirm(text)} onCancel={this.cancel} okText="Yes" cancelText="No">
               <Tag color="volcano" className="table-action">Ẩn</Tag>
             </Popconfirm>
-            <Link to={`/crm/usersix/edit/${row.id}`}> 
+            <Link to={`/crm/usersix/edit/${text}`}> 
             <Tag color="geekblue" className="table-action">Sửa thông tin </Tag></Link>
           </Space>
         ),
