@@ -3,9 +3,6 @@ import { message } from 'antd';
 const initialState = {
     listUserSix: [],
     userSixEditing: null,
-    userEdit:{
-
-    }
 }
 const userSixReducer = (state = initialState, action) => {
     switch (action.type) {
@@ -74,7 +71,6 @@ const userSixReducer = (state = initialState, action) => {
                 userSixEditing: action.payload.userSix
             }
         }
-        
         case userSixConstants.EDIT_USER_SIX_SUCCESS: {
             let {profiles,departments,personal_histories,degrees,work_objects,journalist_cards,history} =action.payload
             let data = Object.assign({},{id: profiles.id}, {profiles:profiles}, { degree: degrees},
@@ -102,22 +98,6 @@ const userSixReducer = (state = initialState, action) => {
         case userSixConstants.EDIT_USER_SIX_FAILED: {
             return {
                 ...state
-            }
-        }
-        case userSixConstants.EDIT_USER_SIX_GET: {
-            return {
-                ...state,
-            }
-        }
-        case userSixConstants.EDIT_USER_SIX_GET_SUCCESS: {
-            return {
-                ...state,
-                userEdit: action.payload.data,
-            }
-        }
-        case userSixConstants.EDIT_USER_SIX_GET_FAILED: {
-            return {
-                ...state,
             }
         }
         default:

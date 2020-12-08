@@ -82,7 +82,7 @@ class TableSix extends Component {
 
   cancel = (e) => {
     console.log(e);
-    message.error('Không xoá');
+    message.error('Không ẩn');
   }
   onSelectChange = selectedRowKeys => {
     console.log('selectedRowKeys changed: ', selectedRowKeys);
@@ -107,58 +107,69 @@ class TableSix extends Component {
       },
       {
         title: 'Họ và tên',
-        dataIndex: 'profiles',
+        dataIndex: 'pro_name',
         key: '2',
         sorter: (a, b) => a.name.length - b.name.length,
-        render: (text,row) => (
-          <div >{row.profiles.name}
-            {/* <b className="user-infor-table-top">{text.name}</b>
-            <p className="user-infor-table-center">{row.profiles.name}</p>
-            <span className="user-infor-table-bottom">{row.mobile_phone}</span> */}
-            {/* <span style={{fontSize:"12px"}} className="user-infor-table-bottom user-infor-phone">{row.mobile_phone}</span> */}
-          </div>
-        )
+        // render: (text,row) => (
+        //   <div >{row.profiles.name}
+        //     {/* <b className="user-infor-table-top">{text.name}</b>
+        //     <p className="user-infor-table-center">{row.profiles.name}</p>
+        //     <span className="user-infor-table-bottom">{row.mobile_phone}</span> */}
+        //     {/* <span style={{fontSize:"12px"}} className="user-infor-table-bottom user-infor-phone">{row.mobile_phone}</span> */}
+        //   </div>
+        // )
       },
       {
-         title: 'Ngày sinh', dataIndex: 'diploma', key: '2',
-         render: (text,row) => (
-            <div >{row.profiles.birth_day}
-            {/* <b className="user-infor-table-top">{text}</b>
-            <p className="user-infor-table-center">{row.majors}</p>
-            <span className="user-infor-table-bottom">{row.school_name}</span> */}
-            {/* <span style={{fontSize:"12px"}} className="user-infor-table-bottom user-infor-phone">{row.phone}</span> */}
-          </div>
-        )
+         title: 'Ngày sinh', dataIndex: 'pro_birth_day', key: '2',
+        //  render: (text,row) => (
+        //     <div >{row.profiles.birth_day}
+        //     {/* <b className="user-infor-table-top">{text}</b>
+        //     <p className="user-infor-table-center">{row.majors}</p>
+        //     <span className="user-infor-table-bottom">{row.school_name}</span> */}
+        //     {/* <span style={{fontSize:"12px"}} className="user-infor-table-bottom user-infor-phone">{row.phone}</span> */}
+        //   </div>
+        // )
+      },
+      {
+         title: 'Tên đăng nhập', dataIndex: 'Tên đăng nhập', key: '11',
+        //  render: (text,row) => (
+        //     <div >{row.profiles.birth_day}
+        //     {/* <b className="user-infor-table-top">{text}</b>
+        //     <p className="user-infor-table-center">{row.majors}</p>
+        //     <span className="user-infor-table-bottom">{row.school_name}</span> */}
+        //     {/* <span style={{fontSize:"12px"}} className="user-infor-table-bottom user-infor-phone">{row.phone}</span> */}
+        //   </div>
+        // )
       },
       {
         title: 'Số điện thoại',
         // width: 330,
-        dataIndex: 'birth_day',
+        dataIndex: 'pro_local_phone',
         key: 'sex',
         sorter: (a, b) => a.age - b.age,
-        render: (text,row) => (
-            <div >{row.profiles.local_phone}
-            {/* <b className="user-infor-table-top">{text}</b>
-            <p className="user-infor-table-center">{row.gender}</p>
-            <span className="user-infor-table-bottom">{row.pen_name}</span> */}
-            {/* <span style={{fontSize:"12px"}} className="user-infor-table-bottom user-infor-phone">{row.phone}</span> */}
-          </div>
-        )
+        // render: (text,row) => (
+        //     <div >{row.profiles.local_phone}
+        //     {/* <b className="user-infor-table-top">{text}</b>
+        //     <p className="user-infor-table-center">{row.gender}</p>
+        //     <span className="user-infor-table-bottom">{row.pen_name}</span> */}
+        //     {/* <span style={{fontSize:"12px"}} className="user-infor-table-bottom user-infor-phone">{row.phone}</span> */}
+        //   </div>
+        // )
       },
       {
-        title: 'Phòng ban',
+        title: 'Nghề nghiệp',
         // width: 330,
-        dataIndex: 'birth_day',
+        dataIndex: 'pro_occupation',
         key: 'sex',
         sorter: (a, b) => a.age - b.age,
-        render: (text,row) => (
-            <div >{row.department.name}
-            {/* <b className="user-infor-table-top">{text}</b>
-            <p className="user-infor-table-center">{row.gender}</p>
-            <span className="user-infor-table-bottom">{row.pen_name}</span> */}
-            {/* <span style={{fontSize:"12px"}} className="user-infor-table-bottom user-infor-phone">{row.phone}</span> */}
-          </div>
-        )
+        // render: (text,row) => (
+        //     <div >{row.department.name}
+        //     {/* <b className="user-infor-table-top">{text}</b>
+        //     <p className="user-infor-table-center">{row.gender}</p>
+        //     <span className="user-infor-table-bottom">{row.pen_name}</span> */}
+        //     {/* <span style={{fontSize:"12px"}} className="user-infor-table-bottom user-infor-phone">{row.phone}</span> */}
+        //   </div>
+        // )
       },
       {
         title: 'Hành động',
@@ -168,7 +179,7 @@ class TableSix extends Component {
         render: (text, row) => (
           <Space size="middle" >
             <Popconfirm title="Are you sure delete this task?" onConfirm={()=>this.confirm(row.id)} onCancel={this.cancel} okText="Yes" cancelText="No">
-              <Tag color="volcano" className="table-action">Xoá</Tag>
+              <Tag color="volcano" className="table-action">Ẩn</Tag>
             </Popconfirm>
             <Link to={`/crm/usersix/edit/${row.id}`}> 
             <Tag color="geekblue" className="table-action">Sửa thông tin</Tag></Link>
@@ -202,14 +213,10 @@ class TableSix extends Component {
 }
 
 
-const mapStateToProps = (state,ownProps) => (
-  console.log("123"),
-  {
+const mapStateToProps = (state,ownProps) => ({
   listUserSix: state.userSixReducer
 })
-const mapDispatchToProps = dispatch => (
-  console.log("1234"),
-  {
+const mapDispatchToProps = dispatch => ({
   userSixActionCreators: bindActionCreators(userSixActions,dispatch)
 })
 export default connect(mapStateToProps, mapDispatchToProps)(TableSix)

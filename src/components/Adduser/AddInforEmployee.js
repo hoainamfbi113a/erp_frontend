@@ -8,7 +8,7 @@ import "./Adduser1.css";
 import * as userSixActions from '../../actions/userSix';
 import { isNull } from "lodash";
 const dateFormat = 'YYYY/MM/DD';
-class AddSix extends Component {
+class AddInforEmployee extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -499,10 +499,9 @@ class AddSix extends Component {
     }
 }
 const mapStateToProps = (state,props) =>({
-    userSix: state.userSixReducer.listUserSix.find(item => item.id == props.match.params.id) 
-    // userSix: state.userSixReducer
+    userSix: state.userSixReducer.listUserSix.find(item => item.id == props.match.params.id)
 })
 const mapDispatchToProps = (dispatch) => ({
     userSixActionCreator: bindActionCreators(userSixActions, dispatch)
 })
-export default connect(mapStateToProps, mapDispatchToProps)(AddSix)
+export default connect(mapStateToProps, mapDispatchToProps)(AddInforEmployee)

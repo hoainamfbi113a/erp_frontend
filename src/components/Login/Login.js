@@ -32,6 +32,7 @@ export default class Login extends Component {
     let _this = this;
     _this.errEmail = ValidateEmail(_this.state.email, 8);
     _this.errPassword = ValidateField(_this.state.password, 6, 100, "Mật khẩu");
+    alert(_this.state.password);
     if (_this.errEmail == "" && _this.errPassword == "") {
       const params = {
         "username":this.state.email,
@@ -40,7 +41,7 @@ export default class Login extends Component {
         "user_agent":"ad"
         }
       return axios
-      .post("http://api-employee.tuoitre.vn/api/login", params)
+      .post("http://192.168.61.116/api/login", params)
       .then(res =>{
         if (res.data.message === "Successfully") {
           localStorage.setItem("usertoken", res.data.access_token);
@@ -103,7 +104,7 @@ export default class Login extends Component {
                 </div>
                 <div className="form__div-input">
                   <input
-                    placeholder="Tên đăng nhập"
+                    placeholder="Email đăng nhập"
                     type="text"
                     className={"form__input "+ (this.state.activeErr == true && this.state.isVibrate ==true ? 'error' : '')}
                     name="email"
