@@ -32,7 +32,6 @@ export default class Login extends Component {
     let _this = this;
     _this.errEmail = ValidateEmail(_this.state.email, 8);
     _this.errPassword = ValidateField(_this.state.password, 6, 100, "Mật khẩu");
-    alert(_this.state.password);
     if (_this.errEmail == "" && _this.errPassword == "") {
       const params = {
         "username":this.state.email,
