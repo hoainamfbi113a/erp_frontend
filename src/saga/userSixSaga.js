@@ -1,12 +1,12 @@
 import { call, takeLatest, all, put, select,fork,delay,take } from 'redux-saga/effects';
 import * as userSixTypes from '../constants/userSixConstant';
 import { getListUserSix,deleteUserSix,addUserSix,editUserSix } from "../apis/userSixApi";
-import { getListUserBase,deleteUserBase,addUserBase,editUserBase } from "../apis/userBaseApi";
-import { getListUserDegree,deleteUserDegree,addUserDegree,editUserDegree } from "../apis/userDegreeApi";
-import { getListUserDepartment,deleteUserDepartment,addUserDepartment,editUserDepartment } from "../apis/userDepartmentApi";
-import { getListUserJournalistCard,deleteUserJournalistCard,addUserJournalistCard,editUserJournalistCard } from "../apis/userJournalistCardApi";
+import { getListUserBase,deleteUserBase,addUserBase,editUserBase,editUserBaseGet } from "../apis/userBaseApi";
+import { getListUserDegree,deleteUserDegree,addUserDegree,editUserDegree,editUserDegreeGet } from "../apis/userDegreeApi";
+import { getListUserDepartment,deleteUserDepartment,addUserDepartment,editUserDepartment,editUserDepartmentGet } from "../apis/userDepartmentApi";
+import { getListUserJournalistCard,deleteUserJournalistCard,addUserJournalistCard,editUserJournalistCard,editUserJournalistCardGet } from "../apis/userJournalistCardApi";
 import { getListUserPersonalHistory,deleteUserPersonalHistory,addUserPersonalHistory,editUserPersonalHistory } from "../apis/userPersonalHistoryApi";
-import { getListUserWorkObject,deleteUserWorkObject,addUserWorkObject,editUserWorkObject } from "../apis/userWorkObjectApi";
+import { getListUserWorkObject,deleteUserWorkObject,addUserWorkObject,editUserWorkObject,editUserWorkObjectGet } from "../apis/userWorkObjectApi";
 import { fetchListUserSixSuccess, fetchListUserSixFailed,
     deleteUserSixSuccess,deleteUserSixFailed,
     addUserSixSuccess, addUserSixFailed,editUserSixSuccess,editUserSixFailed } from "../actions/userSix";
@@ -16,41 +16,43 @@ export default function* userSixSaga() {
         yield takeLatest(userSixTypes.FETCH_LIST_USER_SIX, watchFetchListUserSixAction),
         yield takeLatest(userSixTypes.DELETE_USER_SIX, deleteUserSixSaga),
         yield takeLatest(userSixTypes.ADD_USER_SIX, addUserSixSaga),
-        yield takeLatest(userSixTypes.EDIT_USER_SIX, editUserSixSaga)
+        yield takeLatest(userSixTypes.EDIT_USER_SIX, editUserSixSaga),
+        yield takeLatest(userSixTypes.EDIT_USER_SIX_GET, editUserSixGet)
     ])
 }
 function* watchFetchListUserSixAction() {
     yield put(showLoading())
     const resp1 = yield call(getListUserBase);
-    const resp2 = yield call(getListUserDegree);
-    const resp3 = yield call(getListUserDepartment);
-    const resp4 = yield call(getListUserJournalistCard);
-    const resp5 = yield call(getListUserPersonalHistory);
-    const resp6 = yield call(getListUserWorkObject);
-    let resptemp = resp1.data.map((item, index) => {
-        let payedOrder1 = resp2.data.find(o => o.userId == item.id);
-        let payedOrder2= resp3.data.find(o => o.userId == item.id);
-        let payedOrder3 = resp4.data.find(o => o.userId == item.id);
-        let payedOrder4 = resp5.data.find(o => o.userId == item.id);
-        let payedOrder5 = resp6.data.find(o => o.userId == item.id);
-        return Object.assign({},{id:item.id}, {profiles:item},{degree: payedOrder1},{department: payedOrder2},{journalistCard:payedOrder3}
-            ,{personalHistory:payedOrder4},{workObject: payedOrder5}
-            )
-        });
-    console.log(resptemp);
-    if (resp1.status === 200 && resp2.status === 200 && 
-        resp3.status === 200 && resp4.status === 200 && 
-        resp5.status === 200 && resp6.status === 200) {
+    // const resp2 = yield call(getListUserDegree);
+    // const resp3 = yield call(getListUserDepartment);
+    // const resp4 = yield call(getListUserJournalistCard);
+    // const resp5 = yield call(getListUserPersonalHistory);
+    // const resp6 = yield call(getListUserWorkObject);
+    // let resptemp = resp1.data.map((item, index) => {
+    //     let payedOrder1 = resp2.data.find(o => o.userId == item.id);
+    //     let payedOrder2= resp3.data.find(o => o.userId == item.id);
+    //     let payedOrder3 = resp4.data.find(o => o.userId == item.id);
+    //     let payedOrder4 = resp5.data.find(o => o.userId == item.id);
+    //     let payedOrder5 = resp6.data.find(o => o.userId == item.id);
+    //     return Object.assign({},{id:item.id}, {profiles:item},{degree: payedOrder1},{department: payedOrder2},{journalistCard:payedOrder3}
+    //         ,{personalHistory:payedOrder4},{workObject: payedOrder5}
+    //         )
+    //     });
+    // console.log(resptemp);
+    if (resp1.status
+        //  === 200 && resp2.status === 200 && 
+        // resp3.status === 200 && resp4.status === 200 && 
+        // resp5.status === 200 && resp6.status === 200
+        ){
         yield delay(1000)
         yield put(hideLoading());
-        yield put(fetchListUserSixSuccess(resptemp));
+        yield put(fetchListUserSixSuccess(resp1.data));
     } else {
-        yield put(fetchListUserSixFailed(resptemp))
+        yield put(fetchListUserSixFailed(resp1.data))
     }
 }
 
 function* deleteUserSixSaga({payload}) {
-    // yield put(showLoading())
     alert(payload.id)
     const resp1 = yield call(deleteUserBase, payload.id);
     // const resp2 = yield call(deleteUserDegree, payload.id);
@@ -76,24 +78,28 @@ function* deleteUserSixSaga({payload}) {
 function* addUserSixSaga({payload}) {
     yield put(showLoading())
     const {profiles,departments,personal_histories,degrees,work_objects,journalist_cards,history} = payload
-    console.log(payload)
     const resp1 = yield call (addUserBase,payload.profiles);
-    const resp2 = yield call (addUserDepartment,payload.departments);
-    const resp3 = yield call (addUserPersonalHistory,payload.personal_histories);
-    yield delay(100);
-    const resp4 = yield call (addUserDegree,payload.degrees);
-    const resp5 = yield call (addUserWorkObject,payload.work_objects);
-    const resp6 = yield call (addUserJournalistCard,payload.journalist_cards);
-    if (resp1.status === 201 && resp2.status === 201 && 
-        resp3.status === 201 && resp4.status === 201 && 
-        resp5.status === 201 && resp6.status === 201) {
-        yield delay(1000)
-        yield put(hideLoading());
-        yield put (addUserSixSuccess(profiles,departments,personal_histories,degrees,work_objects,journalist_cards));
-        history.push('/crm/usersix');
+    console.log(resp1);
+    if(resp1.status===200){
+        departments.pro_id = personal_histories.pro_id = degrees.pro_id = work_objects.pro_id = journalist_cards.pro_id = resp1.data.id
+        const resp2 = yield call (addUserDepartment,departments);
+        const resp4 = yield call (addUserDegree,degrees);
+        const resp5 = yield call (addUserWorkObject,work_objects);
+        const resp6 = yield call (addUserJournalistCard,journalist_cards);
+        if (resp1.status === 200 && resp2.status === 200 && 
+            resp4.status === 200 && 
+            resp5.status === 200 && resp6.status === 200) {
+            yield delay(1000)
+            yield put(hideLoading());
+            yield put (addUserSixSuccess(profiles,departments,personal_histories,degrees,work_objects,journalist_cards));
+            history.push('/crm/usersix');
+        } else {
+            yield put(addUserSixFailed);
+        }
     } else {
         yield put(addUserSixFailed);
     }
+    
 }
 function* editUserSixSaga({ payload }) {
     yield put(showLoading())
@@ -113,3 +119,18 @@ function* editUserSixSaga({ payload }) {
       yield put(editUserSixFailed);
     }
   }
+  function* editUserSixGet() {
+    yield put(showLoading())
+    const resp1 = yield call(editUserBaseGet);
+    const resp2 = yield call(editUserDegreeGet);
+    const resp3 = yield call(editUserDepartmentGet);
+    const resp4 = yield call(editUserJournalistCardGet);
+    const resp6 = yield call(editUserWorkObjectGet);
+    if (resp1.status){
+        yield delay(1000)
+        yield put(hideLoading());
+        yield put(fetchListUserSixSuccess(resp1.data));
+    } else {
+        yield put(fetchListUserSixFailed(resp1.data))
+    }
+}

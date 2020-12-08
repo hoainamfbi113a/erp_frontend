@@ -25,7 +25,8 @@ export default class App extends Component {
         <Globading/>
        <Router>
             <Route exact path="/" component={Login} />
-            <PrivateRoute path="/crm" component={Crm} />
+            <Route exact path="/crm" component={Crm} />
+            {/* <PrivateRoute path="/crm" component={Crm} /> */}
        </Router>
       </Provider>
     )

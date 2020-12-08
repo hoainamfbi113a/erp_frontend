@@ -47,7 +47,7 @@ module.exports = (env, agrv) => {
                 use: ['style-loader', 'css-loader', "less-loader"]
             },
             {
-                test: /\.(png|svg|jpg|gif)$/,
+                test: /\.(png|svg|jpg|gif|jpeg)$/,
                 use: [
                   {
                     loader: 'file-loader',
@@ -81,10 +81,6 @@ module.exports = (env, agrv) => {
             stats: 'minimal',
             inline: true,
             compress: true,
-            headers: { 
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Headers": "Origin, X-Requested-With, Content-Type, Accept"
-            }
         },
     }
 };

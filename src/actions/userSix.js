@@ -100,6 +100,33 @@ const editUserSixFailed = error => {
         }
     }
 }
+
+const editUserSixGet = (params = {}) =>{
+    return {
+        type: userSixConstants.EDIT_USER_SIX_GET,
+        payload: {
+            params
+        }
+    }
+}
+
+const editUserSixGetSuccess = data => {
+    return {
+        type: userSixConstants.EDIT_USER_SIX_GET_SUCCESS,
+        payload : {
+            data,
+        }
+    }
+}
+
+const editUserSixGetFailed = error => {
+    return {
+        type: userSixConstants.EDIT_USER_SIX_GET_FAILED,
+        payload: {
+            error
+        }
+    }
+}
 export {
     fetchListUserSix,
     fetchListUserSixSuccess,
@@ -112,5 +139,8 @@ export {
     addUserSixFailed,
     editUserSix,
     editUserSixSuccess,
-    editUserSixFailed
+    editUserSixFailed,
+    editUserSixGet,
+    editUserSixGetSuccess,
+    editUserSixGetFailed
 }

@@ -14,6 +14,7 @@ import ContentUserWorkObject from "../content/ContentUserWorkObject";
 
 import ContentUserSix from "../content/ContentSix";
 import AddUserSix from "../Adduser/AddSix"
+import AddInforEmployee from "../Adduser/AddInforEmployee"
 
 import ContentNotification from "../content/ContentNotification";
 import ContentMyNotification from "../content/ContentMyNotification";
@@ -41,6 +42,9 @@ export default class RouterUrl extends Component {
 
                         <Route exact path="/crm/notification" component = {ContentNotification}></Route>
                         <Route exact path="/crm/mynotification" component = {ContentMyNotification}></Route>
+
+                        <Route exact path="/crm/employee/add" component = {AddInforEmployee}></Route>
+                        
                 </div>
                 </div>
             </div>
