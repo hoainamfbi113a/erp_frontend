@@ -46,7 +46,11 @@ export default class Login extends Component {
           if(this.state.email!=="manager@gmail.com"){
             localStorage.setItem("per","employee");
           }
+          else{
+            localStorage.setItem("per","hr");
+          }
           localStorage.setItem("usertoken", res.data.access_token);
+          localStorage.setItem("current_user_id", res.data.detail.id);
           this.setState({ ishow: !this.state.ishow });
           setTimeout(() => {
             this.setState({
@@ -79,6 +83,12 @@ export default class Login extends Component {
      },300)
     } 
   };
+  componentWillUnmount() {
+    // fix Warning: Can't perform a React state update on an unmounted component
+    this.setState = (state,callback)=>{
+        return;
+    };
+}
   render() {
     return (
       <div>

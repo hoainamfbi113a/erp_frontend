@@ -7,6 +7,7 @@ const deleteUserPersonalHistory = (id) => {
     return axios.delete(`https://employee.tuoitre.vn/api/personalhistories/${id}`,)
 }
 const addUserPersonalHistory = (params) => {
+    params.current_user_id = localStorage.getItem("current_user_id");
     return axios.post("https://employee.tuoitre.vn/api/personalhistories", params)
 }
 const editUserPersonalHistory = (params) => {

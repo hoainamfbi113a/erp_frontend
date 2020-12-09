@@ -19,6 +19,7 @@ export default class ContentNotification extends Component {
           </div>
         </div>
         <table className="content-notification-table">
+        <tbody>
           <tr>
             <th>Tin</th>
             <th>Nội dung</th>
@@ -44,6 +45,7 @@ export default class ContentNotification extends Component {
             <td>Kính gửi Cán bộ nhân viên và người lao động, Cơ quan tổ chức khám sức khỏe tổng quát cho cán bộ nhân viên và người lao động (CBNV) trong 2 ngày...</td>
             <td>09:15</td>
           </tr>
+          </tbody>
         </table>
         <div className="content-bottom">
             <Pagination defaultCurrent={1} total={150} />
@@ -57,6 +59,7 @@ export default class ContentNotification extends Component {
           </div>
         </div>
         <table className="content-notification-table">
+        <tbody>
           <tr>
             <th>Tin</th>
             <th>Nội dung</th>
@@ -82,6 +85,7 @@ export default class ContentNotification extends Component {
             <td>Kính gửi Cán bộ nhân viên và người lao động, Cơ quan tổ chức khám sức khỏe tổng quát cho cán bộ nhân viên và người lao động (CBNV) trong 2 ngày...</td>
             <td>09:15</td>
           </tr>
+          </tbody>
         </table>
         <div className="content-bottom">
             <Pagination defaultCurrent={1} total={150} />
@@ -95,6 +99,7 @@ export default class ContentNotification extends Component {
           </div>
         </div>
         <table className="content-notification-table">
+        <tbody>
           <tr>
             <th>Tin</th>
             <th>Nội dung</th>
@@ -120,6 +125,7 @@ export default class ContentNotification extends Component {
             <td>Kính gửi Cán bộ nhân viên và người lao động, Cơ quan tổ chức khám sức khỏe tổng quát cho cán bộ nhân viên và người lao động (CBNV) trong 2 ngày...</td>
             <td>09:15</td>
           </tr>
+          </tbody>
         </table>
         <div className="content-bottom">
             <Pagination defaultCurrent={1} total={150} />
@@ -133,6 +139,7 @@ export default class ContentNotification extends Component {
           </div>
         </div>
         <table className="content-notification-table">
+        <tbody>
           <tr>
             <th>Tin</th>
             <th>Nội dung</th>
@@ -158,6 +165,7 @@ export default class ContentNotification extends Component {
             <td>Kính gửi Cán bộ nhân viên và người lao động, Cơ quan tổ chức khám sức khỏe tổng quát cho cán bộ nhân viên và người lao động (CBNV) trong 2 ngày...</td>
             <td>09:15</td>
           </tr>
+          </tbody>
         </table>
         <div className="content-bottom">
             <Pagination defaultCurrent={1} total={150} />

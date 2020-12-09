@@ -43,12 +43,12 @@ function* watchFetchListUserSixAction() {
     //         )
     //     });
     // console.log(resptemp);
+    localStorage.setItem("countUser",resp1.data.meta.pagination.total)
     if (resp1.status
         //  === 200 && resp2.status === 200 && 
         // resp3.status === 200 && resp4.status === 200 && 
         // resp5.status === 200 && resp6.status === 200
         ){
-        yield delay(1000)
         yield put(hideLoading());
         yield put(fetchListUserSixSuccess(resp1.data.data));
     } else {
@@ -57,7 +57,6 @@ function* watchFetchListUserSixAction() {
 }
 
 function* deleteUserSixSaga({payload}) {
-    alert(payload.id)
     const resp1 = yield call(deleteUserBase, payload.id);
     // const resp2 = yield call(deleteUserDegree, payload.id);
     // const resp3 = yield call(deleteUserDepartment, payload.id);
@@ -71,7 +70,6 @@ function* deleteUserSixSaga({payload}) {
         if(resp1.status == 200){
         
         yield put(deleteUserSixSuccess(payload.id));
-        yield delay(1000)
         
     }
     else {
@@ -93,7 +91,7 @@ function* addUserSixSaga({payload}) {
         if (resp1.status === 200 && resp2.status === 200 && 
             resp4.status === 200 && 
             resp5.status === 200 && resp6.status === 200) {
-            yield delay(1000)
+
             yield put(hideLoading());
             yield put (addUserSixSuccess(profiles,departments,personal_histories,degrees,work_objects,journalist_cards));
             history.push('/crm/usersix');
@@ -103,7 +101,6 @@ function* addUserSixSaga({payload}) {
     } else {
         yield put(addUserSixFailed);
     }
-    
 }
 function* editUserSixSaga({ payload }) {
     yield put(showLoading())
@@ -137,7 +134,6 @@ function* editUserSixSaga({ payload }) {
     console.log(resp6)
     // const resp = yield call(editUserBaseGet,params);
     if (resp2.status === 200 && resp3.status === 200 && resp4.status === 200 && resp6.status === 200 ){
-        yield delay(1000)
         yield put(hideLoading());
         let data = {
             profiles: resp1.data.data,

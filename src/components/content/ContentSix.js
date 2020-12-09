@@ -13,7 +13,8 @@ export default class ContentSix extends Component {
                         <div className="content-top">
                             <div className="content-top-left">
                                 <div className="content-top-left-sum-item">
-                                    600 nhân viên
+                                    {localStorage.getItem("countUser")}
+                                    {' '}  nhân viên
                                 </div>
                                 <Search
                                     placeholder="Tìm kiếm"
@@ -21,6 +22,7 @@ export default class ContentSix extends Component {
                                     onSearch={this.onSearch}
                                     style={{ width: 200 }}
                                     className="table-btn-search"
+                                    
                                 />
                             </div>
                             <div className="content-top-right">

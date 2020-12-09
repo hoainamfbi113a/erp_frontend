@@ -48,7 +48,6 @@ class TableSix extends Component {
     });
   };
   showDrawerModify = (user) => {
-    // alert("123")
     const {userSixActionCreators} = this.props;
     const { editUserSix } = userSixActionCreators;
     editUserSix(user);
@@ -81,17 +80,14 @@ class TableSix extends Component {
   }
 
   cancel = (e) => {
-    console.log(e);
     message.error('Không ẩn');
   }
   onSelectChange = selectedRowKeys => {
-    console.log('selectedRowKeys changed: ', selectedRowKeys);
     this.setState({ selectedRowKeys });
   };
   
   render() {
     const data = this.props.listUserSix.listUserSix;
-    console.log(data)
     const columns = [
       {
         title:"Ảnh đại diện",
@@ -109,7 +105,7 @@ class TableSix extends Component {
         title: 'Họ và tên',
         dataIndex: 'pro_name',
         key: '2',
-        sorter: (a, b) => a.name.length - b.name.length,
+        sorter: (a, b) => a.pro_name.length - b.pro_name.length,
         // render: (text,row) => (
         //   <div >{row.profiles.name}
         //     {/* <b className="user-infor-table-top">{text.name}</b>
@@ -146,7 +142,7 @@ class TableSix extends Component {
         // width: 330,
         dataIndex: 'pro_local_phone',
         key: 'sex',
-        sorter: (a, b) => a.age - b.age,
+        sorter: (a, b) => a.pro_local_phone - b.pro_local_phone,
         // render: (text,row) => (
         //     <div >{row.profiles.local_phone}
         //     {/* <b className="user-infor-table-top">{text}</b>
@@ -179,7 +175,7 @@ class TableSix extends Component {
         // width: 300,
         render: (text, row) => (
           <Space size="middle" >
-            <Popconfirm title="Are you sure delete this task?" onConfirm={()=>this.confirm(text)} onCancel={this.cancel} okText="Yes" cancelText="No">
+            <Popconfirm title="Are you sure hide this user?" onConfirm={()=>this.confirm(text)} onCancel={this.cancel} okText="Yes" cancelText="No">
               <Tag color="volcano" className="table-action">Ẩn</Tag>
             </Popconfirm>
             <Link to={`/crm/usersix/edit/${text}`}> 
