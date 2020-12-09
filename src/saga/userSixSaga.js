@@ -22,7 +22,11 @@ export default function* userSixSaga() {
 }
 function* watchFetchListUserSixAction() {
     yield put(showLoading())
-    const resp1 = yield call(getListUserBase);
+    const resp1 = yield call(getListUserBase,1);
+    for(let i = 2 ; i<= resp1.data.meta.pagination.total_pages ; i++){
+        let resp2 = yield call(getListUserBase,i);
+        resp1.data.data = resp1.data.data.concat(resp2.data.data);
+    }
     // const resp2 = yield call(getListUserDegree);
     // const resp3 = yield call(getListUserDepartment);
     // const resp4 = yield call(getListUserJournalistCard);
@@ -46,7 +50,7 @@ function* watchFetchListUserSixAction() {
         ){
         yield delay(1000)
         yield put(hideLoading());
-        yield put(fetchListUserSixSuccess(resp1.data));
+        yield put(fetchListUserSixSuccess(resp1.data.data));
     } else {
         yield put(fetchListUserSixFailed(resp1.data))
     }
@@ -104,7 +108,6 @@ function* addUserSixSaga({payload}) {
 function* editUserSixSaga({ payload }) {
     yield put(showLoading())
     let {profiles,departments,personal_histories,degrees,work_objects,journalist_cards,history} =payload;
-    console.log(payload);
     const resp1 = yield call (editUserBase,profiles);
     const resp2 = yield call (editUserDepartment,departments);
     const resp3 = yield call (editUserPersonalHistory,personal_histories);
@@ -122,12 +125,12 @@ function* editUserSixSaga({ payload }) {
   function* editUserSixGet({payload}) {
     const {params} = payload
     // yield put(showLoading())
-    const resp1 = yield call(editUserBaseGet,"13")
+    // const resp1 = yield call(editUserBaseGet,"13")
     const resp2 = yield call(editUserDegreeGet,params);
     const resp3 = yield call(editUserDepartmentGet,params);
     const resp4 = yield call(editUserJournalistCardGet,params);
     const resp6 = yield call(editUserWorkObjectGet,params);
-    console.log(resp1)
+    // console.log(resp1)
     console.log(resp2)
     console.log(resp3)
     console.log(resp4)

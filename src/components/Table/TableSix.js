@@ -130,17 +130,17 @@ class TableSix extends Component {
         //   </div>
         // )
       },
-      {
-         title: 'Tên đăng nhập', dataIndex: 'Tên đăng nhập', key: '11',
-        //  render: (text,row) => (
-        //     <div >{row.profiles.birth_day}
-        //     {/* <b className="user-infor-table-top">{text}</b>
-        //     <p className="user-infor-table-center">{row.majors}</p>
-        //     <span className="user-infor-table-bottom">{row.school_name}</span> */}
-        //     {/* <span style={{fontSize:"12px"}} className="user-infor-table-bottom user-infor-phone">{row.phone}</span> */}
-        //   </div>
-        // )
-      },
+      // {
+      //    title: 'Tên đăng nhập', dataIndex: 'Tên đăng nhập', key: '11',
+      //   //  render: (text,row) => (
+      //   //     <div >{row.profiles.birth_day}
+      //   //     {/* <b className="user-infor-table-top">{text}</b>
+      //   //     <p className="user-infor-table-center">{row.majors}</p>
+      //   //     <span className="user-infor-table-bottom">{row.school_name}</span> */}
+      //   //     {/* <span style={{fontSize:"12px"}} className="user-infor-table-bottom user-infor-phone">{row.phone}</span> */}
+      //   //   </div>
+      //   // )
+      // },
       {
         title: 'Số điện thoại',
         // width: 330,

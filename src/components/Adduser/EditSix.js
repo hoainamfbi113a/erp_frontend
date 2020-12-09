@@ -14,9 +14,9 @@ class AddSix extends Component {
         super(props);
         this.state = {
             id: "",
-            pro_name: this.props.userEditGet && this.props.userEditGet.profiles ? this.props.userEditGet.profiles.pro_name: null,
-            pro_pen_name: this.props.userEditGet && this.props.userEditGet.profiles ? this.props.userEditGet.profiles.pro_pen_name: null,
-            pro_birth_day: this.props.userEditGet && this.props.userEditGet.profiles ? this.props.userEditGet.profiles.pro_birth_day: null,
+            // pro_name: this.props.userEditGet && this.props.userEditGet.profiles ? this.props.userEditGet.profiles.pro_name: null,
+            // pro_pen_name: this.props.userEditGet && this.props.userEditGet.profiles ? this.props.userEditGet.profiles.pro_pen_name: null,
+            // pro_birth_day: this.props.userEditGet && this.props.userEditGet.profiles ? this.props.userEditGet.profiles.pro_birth_day: null,
             // pro_gender: this.props.userEditGet? this.props.userEditGet.profiles.pro_gender: 2,
             // pro_birth_place: this.props.userEditGet? this.props.userEditGet.profiles.pro_birth_place: null,
             // pro_home_town: this.props.userEditGet? this.props.userEditGet.profiles.pro_home_town: null,
@@ -49,9 +49,44 @@ class AddSix extends Component {
             // car_number_day: this.props.userEditGet ? this.props.userEditGet.journalistCard.car_number_day: null,
             // car_begin: this.props.userEditGet ? this.props.userEditGet.journalistCard.car_begin: null,
             // car_end: this.props.userEditGet ? this.props.userEditGet.journalistCard.car_end: null,
+            pro_name: null,
+            pro_pen_name: null,
+            pro_birth_day: null,
+            pro_gender: 2,
+            pro_birth_place: null,
+            pro_home_town: null,
+            pro_mobile_phone: null,
+            pro_resident: null,
+            pro_ethnic: null,
+            pro_religion: null,
+            pro_background_origin: null,
+            pro_occupation: null,
+            pro_identity_card: null,
+            pro_identity_card_when: null,
+            pro_identity_card_where: null,
+            dep_name: null,
+            dep_position: null,
+            dep_appointment_date: null,
+            pro_work_place: null,
+            pro_work_from: null,
+            pro_work_to: null,
+            pro_working_process: null,
+            pro_note: null,
+            deg_type: null,
+            deg_diploma: null,
+            deg_majors: null,
+            deg_school_name: null,
+            deg_begin_study: null,
+            deg_end_study: null,
+            pro_graduation_time: null,
+            work_formality: null,
+            car_number: null,
+            car_number_day: null,
+            car_begin:null,
+            car_end: null,
             errors: {},
             pro_valueSex: 1,
-            aaaa:""
+            aaaa:"",
         };
     }
     onSubmit = (e) => {
@@ -99,12 +134,7 @@ class AddSix extends Component {
                 editUserSix(profiles,departments,personal_histories,degrees,work_objects,journalist_cards,history);
             }
             else{
-                profiles.user_id = departments.user_id = personal_histories.user_id = degrees.user_id =
-                work_objects.user_id = journalist_cards.user_id= "1";
-                const { userSixActionCreator } = this.props;
-                const { addUserSix } = userSixActionCreator;
-                const { history } = this.props;
-                addUserSix(profiles,departments,personal_histories,degrees,work_objects,journalist_cards,history);
+               return;
             }
     }
     onChange = (e) => {
@@ -123,20 +153,44 @@ class AddSix extends Component {
     async componentDidMount () {
         if(this.props.match.params.id) {
             let id = this.props.match.params.id;
-            // axios
-            // .get(`hhttps://employee.tuoitre.vn/api/profiles/${id}`)
-            // .then(response => {
-            //     this.setState({ topic: response.data });
-            // })
-            // .catch(function(error) {
-            //     console.log(error);
-            // });
-            
+            axios
+            .get(`https://employee.tuoitre.vn/api/profiles/${id}`)
+            .then(response => {
+                const data = response.data
+                this.setState({ 
+                    pro_name: data.pro_name,
+                    pro_pen_name: data.pro_pen_name,
+                    pro_birth_day: data.pro_birth_day,
+                    pro_gender: data.pro_gender,
+                    pro_birth_place: data.pro_birth_day,
+                    pro_home_town: data.pro_home_town,
+                    pro_mobile_phone: data.pro_mobile_phone,
+                    pro_resident: data.pro_resident,
+                    pro_ethnic: data.pro_ethnic,
+                    pro_religion: data.pro_resident,
+                    pro_background_origin: data.pro_background_origin,
+                    pro_occupation: data.pro_occupation,
+                    pro_identity_card: data.pro_identity_card,
+                    pro_identity_card_when: data.pro_identity_card_when,
+                    pro_identity_card_where: data.pro_identity_card_where,
+                 });
+            })
+            .catch(function(error) {
+                console.log(error);
+            });
+
             axios
             .get(`https://employee.tuoitre.vn/api/user-degrees/profiles/${id}`,)
             .then(response => {
-                console.log(response.data);
-                // this.setState({ topic: response.data });
+                const data = response.data;
+                this.setState({ 
+                    deg_type: data.deg_type,
+                    deg_diploma: data.deg_diploma,
+                    deg_majors: data.deg_majors,
+                    deg_school_name: data.deg_school_name,
+                    deg_begin_study: data.deg_begin_study,
+                    deg_end_study: data.deg_end_study,
+                 });
             })
             .catch(function(error) {
                 console.log(error);
@@ -145,7 +199,12 @@ class AddSix extends Component {
             axios
             .get(`https://employee.tuoitre.vn/api/departments/profiles/${id}`,)
             .then(response => {
-                // this.setState({ topic: response.data });
+               const data = response.data;
+               this.setState({
+                dep_name: data.dep_name,
+                dep_position: data.dep_position,
+                dep_appointment_date: data.dep_appointment_date,
+               })
             })
             .catch(function(error) {
                 console.log(error);
@@ -154,7 +213,13 @@ class AddSix extends Component {
             axios
             .get(`https://employee.tuoitre.vn/api/journalist-cards/profiles/${id}`,)
             .then(response => {
-                // this.setState({ topic: response.data });
+                const data = response.data;
+                this.setState({
+                    car_number: data.car_number,
+                    car_number_day: data.car_number_day,
+                    car_begin: data.car_begin,
+                    car_end: data.car_end
+                })
             })
             .catch(function(error) {
                 console.log(error);
@@ -163,7 +228,10 @@ class AddSix extends Component {
             axios
             .get(`https://employee.tuoitre.vn/api/work-objects/profiles/${id}`)
             .then(response => {
-                // this.setState({ topic: response.data });
+                const data = response.data;
+                this.setState({
+                    work_formality: data.work_formality
+                })
             })
             .catch(function(error) {
                 console.log(error);

@@ -39,11 +39,13 @@ export default class Login extends Component {
         "user_ip":"123",
         "user_agent":"ad"
         }
-      console.log(params);
       return axios
       .post("https://employee.tuoitre.vn/api/login", params)
       .then(res =>{
         if (res.data.message === "Đăng nhập thành công!") {
+          if(this.state.email!=="manager@gmail.com"){
+            localStorage.setItem("per","employee");
+          }
           localStorage.setItem("usertoken", res.data.access_token);
           this.setState({ ishow: !this.state.ishow });
           setTimeout(() => {

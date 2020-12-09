@@ -34,7 +34,8 @@ class HeaderLayout extends Component {
     this.setState({ ishow: !this.state.ishow });
     setTimeout(() => {
       this.props.history.push('/')
-      localStorage.removeItem('usertoken')
+      localStorage.removeItem('usertoken');
+      localStorage.removeItem("per")
       this.setState({ ishow: !this.state.ishow });
     }, 700);
   }
