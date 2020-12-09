@@ -98,7 +98,7 @@ class AddSix extends Component {
             journalist_cards.car_number_day = this.state.car_number_day,
             journalist_cards.car_begin = this.state.car_begin,
             journalist_cards.car_end = this.state.car_end
-            alert(this.state.pro_name);
+
 
             let fakeUser = {
                 pro_name:this.state.pro_name,

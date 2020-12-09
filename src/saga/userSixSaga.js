@@ -85,6 +85,7 @@ function* addUserSixSaga({payload}) {
     if(resp1.status===200){
         departments.pro_id = personal_histories.pro_id = degrees.pro_id = work_objects.pro_id = journalist_cards.pro_id = resp1.data.id
         const resp2 = yield call (addUserDepartment,departments);
+        console.log(resp2)
         const resp4 = yield call (addUserDegree,degrees);
         const resp5 = yield call (addUserWorkObject,work_objects);
         const resp6 = yield call (addUserJournalistCard,journalist_cards);
