@@ -131,8 +131,8 @@ class AddSix extends Component {
             journalist_cards.car_number_day = (new Date(this.state.car_number_day)).getTime(),
             journalist_cards.car_begin =  (new Date(this.state.car_begin)).getTime(),
             journalist_cards.car_end = (new Date(this.state.car_end)).getTime();
-                profiles.user_id = departments.user_id = personal_histories.user_id = degrees.user_id =
-                work_objects.user_id = journalist_cards.user_id= "1";
+                // profiles.user_id = departments.user_id = personal_histories.user_id = degrees.user_id =
+                // work_objects.user_id = journalist_cards.user_id= "1";
                 const { userSixActionCreator } = this.props;
                 const { addUserSix } = userSixActionCreator;
                 const { history } = this.props;

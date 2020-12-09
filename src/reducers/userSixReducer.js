@@ -36,7 +36,7 @@ const userSixReducer = (state = initialState, action) => {
             message.success('Bạn đã ẩn thành công');
             return {
                 ...state,
-                listUserSix: state.listUserSix.filter(item => item.user_id !== action.payload.data),
+                listUserSix: state.listUserSix.filter(item => item.id !== action.payload.data),
             }
         }
         case userSixConstants.DELETE_USER_SIX_FAILED: {

@@ -170,7 +170,7 @@ class TableSix extends Component {
       {
         title: 'Hành động',
         key: 'operation',
-        dataIndex: 'user_id',
+        dataIndex: 'id',
         fixed: 'right',
         // width: 300,
         render: (text, row) => (
