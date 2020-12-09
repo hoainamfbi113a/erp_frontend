@@ -153,9 +153,9 @@ class AddSix extends Component {
     async componentDidMount () {
         // if(this.props.match.params.id) {
             let id = this.props.match.params.id;
-            id=138;
+            
             axios
-            .get(`https://employee.tuoitre.vn/api/profiles/${id}`)
+            .get(`https://employee.tuoitre.vn/api/profiles/${id}?current_user_id=4`)
             .then(response => {
                 const data = response.data
                 this.setState({ 
@@ -181,7 +181,7 @@ class AddSix extends Component {
             });
 
             axios
-            .get(`https://employee.tuoitre.vn/api/user-degrees/profiles/${id}`,)
+            .get(`https://employee.tuoitre.vn/api/user-degrees/profiles/${id}?current_user_id=4`,)
             .then(response => {
                 const data = response.data;
                 this.setState({ 
@@ -198,7 +198,7 @@ class AddSix extends Component {
             });
 
             axios
-            .get(`https://employee.tuoitre.vn/api/departments/profiles/${id}`,)
+            .get(`https://employee.tuoitre.vn/api/departments/profiles/${id}?current_user_id=4`,)
             .then(response => {
                const data = response.data;
                this.setState({
@@ -212,7 +212,7 @@ class AddSix extends Component {
             });
 
             axios
-            .get(`https://employee.tuoitre.vn/api/journalist-cards/profiles/${id}`,)
+            .get(`https://employee.tuoitre.vn/api/journalist-cards/profiles/${id}?current_user_id=4`,)
             .then(response => {
                 const data = response.data;
                 this.setState({
@@ -227,7 +227,7 @@ class AddSix extends Component {
             });
 
             axios
-            .get(`https://employee.tuoitre.vn/api/work-objects/profiles/${id}`)
+            .get(`https://employee.tuoitre.vn/api/work-objects/profiles/${id}?current_user_id=4`)
             .then(response => {
                 const data = response.data;
                 this.setState({
