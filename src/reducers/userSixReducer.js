@@ -18,7 +18,7 @@ const userSixReducer = (state = initialState, action) => {
         case userSixConstants.FETCH_LIST_USER_SIX_SUCCESS: {
             return {
                 ...state,
-                listUserSix: action.payload.data.data,
+                listUserSix: action.payload.data,
             }
         }
         case userSixConstants.FETCH_LIST_USER_SIX_FAILED: {

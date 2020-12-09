@@ -1,8 +1,8 @@
 // import axiosUser from "./axios";
 import axios from "axios"
 import api from './axios';
-const getListUserBase = (params = {}) => {
-    return axios.get("https://employee.tuoitre.vn/api/profiles?page=14",params)
+const getListUserBase = (i) => {
+    return axios.get(`https://employee.tuoitre.vn/api/profiles?page=${i}`)
 }
 const deleteUserBase = (id) => {
     return axios.delete(`https://employee.tuoitre.vn/api/profiles/${id}`)

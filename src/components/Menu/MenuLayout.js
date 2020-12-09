@@ -37,21 +37,29 @@ export default class MenuLayout extends Component {
               <Menu.Item key="4">
               <Link to="/crm/usersix"> Nhân sự </Link>
               </Menu.Item>
-              <Menu.Item key="9">
-              <Link to="/crm/employee/add">Cập nhật thông tin </Link>
-              </Menu.Item>
+            {
+            localStorage.getItem("per") ?
+            <Menu.Item key="6">
+                {/* <Link to="/crm/user/department"> */}
+                
+                <Link to="/crm/addUserSix">Tạo user</Link>
+                {/* </Link> */}
+              </Menu.Item>: null
+            }
+            { localStorage.getItem("per") ?
+               <Menu.Item key="9">
+               <Link to="/crm/employee/add">Cập nhật thông tin </Link>
+               </Menu.Item>
+               :null
+            }    
+           
               <Menu.Item key="5">
                 {/* <Link to="/crm/user/department"> */}
                 
                 <Link to="/crm/usersix">Bình bầu</Link>
                 {/* </Link> */}
               </Menu.Item>
-              <Menu.Item key="5">
-                {/* <Link to="/crm/user/department"> */}
-                
-                <Link to="/crm/usersix">Tạo user</Link>
-                {/* </Link> */}
-              </Menu.Item>
+         
               {/* <Menu.Item key="3">
                 <Link to="/crm/user/personal-history">
                 Lịch sử cá nhân
