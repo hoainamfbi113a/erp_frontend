@@ -83,7 +83,7 @@ function* addUserSixSaga({payload}) {
     const resp1 = yield call (addUserBase,payload.profiles);
     console.log(resp1);
     if(resp1.status===200){
-        departments.pro_id = personal_histories.pro_id = degrees.pro_id = work_objects.pro_id = journalist_cards.pro_id = resp1.data.id
+        departments.user_id = personal_histories.user_id = degrees.user_id = work_objects.user_id = journalist_cards.user_id = resp1.data.id
         const resp2 = yield call (addUserDepartment,departments);
         console.log(resp2)
         const resp4 = yield call (addUserDegree,degrees);

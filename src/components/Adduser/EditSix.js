@@ -49,16 +49,16 @@ class AddSix extends Component {
             // car_number_day: this.props.userEditGet ? this.props.userEditGet.journalistCard.car_number_day: null,
             // car_begin: this.props.userEditGet ? this.props.userEditGet.journalistCard.car_begin: null,
             // car_end: this.props.userEditGet ? this.props.userEditGet.journalistCard.car_end: null,
-            pro_name: "Nguyễn Hoàng Dạ Tú",
-            pro_pen_name: "Dạ Tú",
-            pro_birth_day: "2001-06-06",
+            pro_name: "",
+            pro_pen_name: "",
+            pro_birth_day: "",
             pro_gender: 2,
-            pro_birth_place: "Phú Nhuận HCM",
-            pro_home_town: "Phú Nhuận HCM",
-            pro_mobile_phone: "099999999",
-            pro_resident: "Phú Nhuận HCM" ,
-            pro_ethnic: "Kinh",
-            pro_religion: "Không",
+            pro_birth_place: "",
+            pro_home_town: "",
+            pro_mobile_phone: "",
+            pro_resident: "" ,
+            pro_ethnic: "",
+            pro_religion: "",
             pro_background_origin: null,
             pro_occupation: null,
             pro_identity_card: null,
@@ -150,94 +150,95 @@ class AddSix extends Component {
             [name]: dateString,
           });
     }
-    async componentDidMount () {
-        // if(this.props.match.params.id) {
-            let id = this.props.match.params.id;
+    componentWillMount(){
+        let id = this.props.match.params.id;
             
-            axios
-            .get(`https://employee.tuoitre.vn/api/profiles/${id}?current_user_id=4`)
-            .then(response => {
-                const data = response.data
-                this.setState({ 
-                    pro_name: data.pro_name,
-                    pro_pen_name: data.pro_pen_name,
-                    pro_birth_day: data.pro_birth_day,
-                    pro_gender: data.pro_gender,
-                    pro_birth_place: data.pro_birth_day,
-                    pro_home_town: data.pro_home_town,
-                    pro_mobile_phone: data.pro_mobile_phone,
-                    pro_resident: data.pro_resident,
-                    pro_ethnic: data.pro_ethnic,
-                    pro_religion: data.pro_resident,
-                    pro_background_origin: data.pro_background_origin,
-                    pro_occupation: data.pro_occupation,
-                    pro_identity_card: data.pro_identity_card,
-                    pro_identity_card_when: data.pro_identity_card_when,
-                    pro_identity_card_where: data.pro_identity_card_where,
-                 });
-            })
-            .catch(function(error) {
-                console.log(error);
-            });
+        axios
+        .get(`https://employee.tuoitre.vn/api/profiles/${id}?current_user_id=4`)
+        .then(response => {
+            const data = response.data
+            this.setState({ 
+                pro_name: data.pro_name,
+                pro_pen_name: data.pro_pen_name,
+                pro_birth_day: data.pro_birth_day,
+                pro_gender: data.pro_gender,
+                pro_birth_place: data.pro_birth_day,
+                pro_home_town: data.pro_home_town,
+                pro_mobile_phone: data.pro_mobile_phone,
+                pro_resident: data.pro_resident,
+                pro_ethnic: data.pro_ethnic,
+                pro_religion: data.pro_resident,
+                pro_background_origin: data.pro_background_origin,
+                pro_occupation: data.pro_occupation,
+                pro_identity_card: data.pro_identity_card,
+                pro_identity_card_when: data.pro_identity_card_when,
+                pro_identity_card_where: data.pro_identity_card_where,
+             });
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
 
-            axios
-            .get(`https://employee.tuoitre.vn/api/user-degrees/profiles/${id}?current_user_id=4`,)
-            .then(response => {
-                const data = response.data;
-                this.setState({ 
-                    deg_type: data.deg_type,
-                    deg_diploma: data.deg_diploma,
-                    deg_majors: data.deg_majors,
-                    deg_school_name: data.deg_school_name ,
-                    deg_begin_study:  new Date(data.deg_begin_study).toLocaleDateString("en-US"),
-                    deg_end_study: new Date(data.deg_end_study).toLocaleDateString("en-US")
-                 });
-            })
-            .catch(function(error) {
-                console.log(error);
-            });
+        axios
+        .get(`https://employee.tuoitre.vn/api/user-degrees/profiles/${id}?current_user_id=4`,)
+        .then(response => {
+            const data = response.data;
+            this.setState({ 
+                deg_type: data.deg_type,
+                deg_diploma: data.deg_diploma,
+                deg_majors: data.deg_majors,
+                deg_school_name: data.deg_school_name ,
+                deg_begin_study:  new Date(data.deg_begin_study).toLocaleDateString("en-US"),
+                deg_end_study: new Date(data.deg_end_study).toLocaleDateString("en-US")
+             });
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
 
-            axios
-            .get(`https://employee.tuoitre.vn/api/departments/profiles/${id}?current_user_id=4`,)
-            .then(response => {
-               const data = response.data;
-               this.setState({
-                dep_name: data.dep_name,
-                dep_position: data.dep_position,
-                dep_appointment_date: new Date(data.dep_appointment_date).toLocaleDateString("en-US")
-               })
-            })
-            .catch(function(error) {
-                console.log(error);
-            });
+        axios
+        .get(`https://employee.tuoitre.vn/api/departments/profiles/${id}?current_user_id=4`,)
+        .then(response => {
+           const data = response.data;
+           this.setState({
+            dep_name: data.dep_name,
+            dep_position: data.dep_position,
+            dep_appointment_date: new Date(data.dep_appointment_date).toLocaleDateString("en-US")
+           })
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
 
-            axios
-            .get(`https://employee.tuoitre.vn/api/journalist-cards/profiles/${id}?current_user_id=4`,)
-            .then(response => {
-                const data = response.data;
-                this.setState({
-                    car_number: data.car_number,
-                    car_number_day: new Date(data.car_number_day).toLocaleDateString("en-US"),
-                    car_begin: new Date( data.car_begin).toLocaleDateString("en-US"),
-                    car_end: new Date(data.car_end).toLocaleDateString("en-US")
-                })
+        axios
+        .get(`https://employee.tuoitre.vn/api/journalist-cards/profiles/${id}?current_user_id=4`,)
+        .then(response => {
+            const data = response.data;
+            this.setState({
+                car_number: data.car_number,
+                car_number_day: new Date(data.car_number_day).toLocaleDateString("en-US"),
+                car_begin: new Date( data.car_begin).toLocaleDateString("en-US"),
+                car_end: new Date(data.car_end).toLocaleDateString("en-US")
             })
-            .catch(function(error) {
-                console.log(error);
-            });
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
 
-            axios
-            .get(`https://employee.tuoitre.vn/api/work-objects/profiles/${id}?current_user_id=4`)
-            .then(response => {
-                const data = response.data;
-                this.setState({
-                    work_formality: data.work_formality
-                })
+        axios
+        .get(`https://employee.tuoitre.vn/api/work-objects/profiles/${id}?current_user_id=4`)
+        .then(response => {
+            const data = response.data;
+            this.setState({
+                work_formality: data.work_formality
             })
-            .catch(function(error) {
-                console.log(error);
-            });
-        // }
+        })
+        .catch(function(error) {
+            console.log(error);
+        });
+    }
+    async componentDidMount () {
+
     }
     render() {
         
