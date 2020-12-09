@@ -74,7 +74,6 @@ const userSixReducer = (state = initialState, action) => {
                 userSixEditing: action.payload.userSix
             }
         }
-        
         case userSixConstants.EDIT_USER_SIX_SUCCESS: {
             let {profiles,departments,personal_histories,degrees,work_objects,journalist_cards,history} =action.payload
             let data = Object.assign({},{id: profiles.id}, {profiles:profiles}, { degree: degrees},

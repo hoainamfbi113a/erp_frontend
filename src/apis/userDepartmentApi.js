@@ -7,6 +7,7 @@ const deleteUserDepartment = (id) => {
     return axios.delete(`hhttps://employee.tuoitre.vn/api/departments/${id}`,)
 }
 const addUserDepartment = (params) => {
+    params.current_user_id = localStorage.getItem("current_user_id");
     return axios.post("hhttps://employee.tuoitre.vn/api/departments", params)
 }
 const editUserDepartment = (params) => {

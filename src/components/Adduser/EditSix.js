@@ -49,16 +49,16 @@ class AddSix extends Component {
             // car_number_day: this.props.userEditGet ? this.props.userEditGet.journalistCard.car_number_day: null,
             // car_begin: this.props.userEditGet ? this.props.userEditGet.journalistCard.car_begin: null,
             // car_end: this.props.userEditGet ? this.props.userEditGet.journalistCard.car_end: null,
-            pro_name: null,
-            pro_pen_name: null,
-            pro_birth_day: null,
+            pro_name: "Nguyễn Hoàng Dạ Tú",
+            pro_pen_name: "Dạ Tú",
+            pro_birth_day: "2001-06-06",
             pro_gender: 2,
-            pro_birth_place: null,
-            pro_home_town: null,
-            pro_mobile_phone: null,
-            pro_resident: null,
-            pro_ethnic: null,
-            pro_religion: null,
+            pro_birth_place: "Phú Nhuận HCM",
+            pro_home_town: "Phú Nhuận HCM",
+            pro_mobile_phone: "099999999",
+            pro_resident: "Phú Nhuận HCM" ,
+            pro_ethnic: "Kinh",
+            pro_religion: "Không",
             pro_background_origin: null,
             pro_occupation: null,
             pro_identity_card: null,
@@ -151,8 +151,9 @@ class AddSix extends Component {
           });
     }
     async componentDidMount () {
-        if(this.props.match.params.id) {
+        // if(this.props.match.params.id) {
             let id = this.props.match.params.id;
+            id=138;
             axios
             .get(`https://employee.tuoitre.vn/api/profiles/${id}`)
             .then(response => {
@@ -187,9 +188,9 @@ class AddSix extends Component {
                     deg_type: data.deg_type,
                     deg_diploma: data.deg_diploma,
                     deg_majors: data.deg_majors,
-                    deg_school_name: data.deg_school_name,
-                    deg_begin_study: data.deg_begin_study,
-                    deg_end_study: data.deg_end_study,
+                    deg_school_name: data.deg_school_name ,
+                    deg_begin_study:  new Date(data.deg_begin_study).toLocaleDateString("en-US"),
+                    deg_end_study: new Date(data.deg_end_study).toLocaleDateString("en-US")
                  });
             })
             .catch(function(error) {
@@ -203,7 +204,7 @@ class AddSix extends Component {
                this.setState({
                 dep_name: data.dep_name,
                 dep_position: data.dep_position,
-                dep_appointment_date: data.dep_appointment_date,
+                dep_appointment_date: new Date(data.dep_appointment_date).toLocaleDateString("en-US")
                })
             })
             .catch(function(error) {
@@ -216,9 +217,9 @@ class AddSix extends Component {
                 const data = response.data;
                 this.setState({
                     car_number: data.car_number,
-                    car_number_day: data.car_number_day,
-                    car_begin: data.car_begin,
-                    car_end: data.car_end
+                    car_number_day: new Date(data.car_number_day).toLocaleDateString("en-US"),
+                    car_begin: new Date( data.car_begin).toLocaleDateString("en-US"),
+                    car_end: new Date(data.car_end).toLocaleDateString("en-US")
                 })
             })
             .catch(function(error) {
@@ -236,13 +237,14 @@ class AddSix extends Component {
             .catch(function(error) {
                 console.log(error);
             });
-        }
+        // }
     }
     render() {
+        
         return (
             <div>
                 <div className="add-user-title-position">Nhân sự</div>
-                <div className="add-user-title-user-base">Thông tin cơ bản</div>
+                <div className="add-user-title-user-base">Thông tin cơ bảns</div>
                 <div className="tabs-main">
                     <form style={{ width: "100%" }}
                         className="tabs-main"

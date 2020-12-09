@@ -7,7 +7,7 @@ const deleteUserJournalistCard = (id) => {
     return axios.delete(`hhttps://employee.tuoitre.vn/api/journalist-cards/${id}`,)
 }
 const addUserJournalistCard = (params) => {
-    console.log(params)
+    params.current_user_id = localStorage.getItem("current_user_id");
     return axios.post("hhttps://employee.tuoitre.vn/api/journalist-cards", params)
 }
 const editUserJournalistCard = (params) => {

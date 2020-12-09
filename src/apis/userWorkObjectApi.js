@@ -7,6 +7,7 @@ const deleteUserWorkObject = (id) => {
     return axios.delete(`https://employee.tuoitre.vn/api/work-objects/${id}`,)
 }
 const addUserWorkObject = (params) => {
+    params.current_user_id = localStorage.getItem("current_user_id");
     return axios.post("https://employee.tuoitre.vn/api/work-objects", params)
 }
 const editUserWorkObject = (params) => {

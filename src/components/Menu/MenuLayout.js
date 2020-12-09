@@ -3,12 +3,16 @@ import {Link}  from 'react-router-dom'
 import logo from "../../assets/images/logo.png";
 import logomall from "../../assets/images/logomall.jpeg";
 import { Menu,Layout } from "antd"
+import { withRouter } from 'react-router'
 import { UserOutlined,PieChartOutlined,TeamOutlined,DesktopOutlined,FileOutlined } from '@ant-design/icons';
 
 import "./Menu.css"
 const { SubMenu } = Menu;
 const { Sider } = Layout;
-export default class MenuLayout extends Component {
+class MenuLayout extends Component {
+  handleOnclick = () => {
+    this.props.history.push('/crm/usersix');
+  }
   render() {
     return (
       <div className="bbbb">
@@ -34,11 +38,12 @@ export default class MenuLayout extends Component {
          
           </Menu.Item> */}
           <SubMenu key="sub2" icon={<UserOutlined />} title="Nghiệp vụ" icon={<TeamOutlined />}>
-              <Menu.Item key="4">
+            { localStorage.getItem("per") ==="hr" ?
+              <Menu.Item key="4" onClick ={this.handleOnclick} >
               <Link to="/crm/usersix"> Nhân sự </Link>
-              </Menu.Item>
-            {
-            localStorage.getItem("per") ?
+              </Menu.Item>:null
+            }
+            { localStorage.getItem("per")  == "hr" ?
             <Menu.Item key="6">
                 {/* <Link to="/crm/user/department"> */}
                 
@@ -46,12 +51,10 @@ export default class MenuLayout extends Component {
                 {/* </Link> */}
               </Menu.Item>: null
             }
-            { localStorage.getItem("per") ?
                <Menu.Item key="9">
-               <Link to="/crm/employee/add">Cập nhật thông tin </Link>
+               <Link to="/crm/employee/edit">Cập nhật thông tin</Link>
                </Menu.Item>
-               :null
-            }    
+              
            
               <Menu.Item key="5">
                 {/* <Link to="/crm/user/department"> */}
@@ -87,3 +90,4 @@ export default class MenuLayout extends Component {
     );
   }
 }
+export default withRouter(MenuLayout);
