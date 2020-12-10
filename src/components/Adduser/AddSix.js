@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Input, DatePicker } from "antd";
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Radio, Button } from "antd";
+import { Radio,Button } from "antd";
 import moment from 'moment';
 import "./Adduser1.css";
 import * as userSixActions from '../../actions/userSix';
