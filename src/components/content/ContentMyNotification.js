@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import { Input } from "antd";
 import { Button, Pagination } from "antd";
-import { Link } from "react-router-dom";
-const { Search } = Input;
-import TableSix from "../Table/TableSix";
+
 import "./Content.css";
 
 export default class ContentMyNotification extends Component {

@@ -3,7 +3,7 @@ import { Input } from 'antd';
 import { Button, } from 'antd';
 import {Link}  from 'react-router-dom'
 const { Search } = Input;
-import TableSix from "../Table/TableSix"
+
 import "./Content.css"
  
 export default class ContentSix extends Component {
@@ -29,7 +29,7 @@ export default class ContentSix extends Component {
                             <Link to="/crm/addUserSix"> <Button className="btn-add-user">Thêm nhân viên</Button></Link>
                             </div>
                         </div>
-                        <TableSix/>
+                        {/* <TableSix/> */}
                
          </div>
         // <div>aaaa</div>

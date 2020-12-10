@@ -17,7 +17,7 @@ class MenuLayout extends Component {
     return (
       <div className="bbbb">
         <Sider collapsed={this.props.collapsed}>
-        <Link to="/crm" className="logo">
+        <Link to="/crm/employee/notification" className="logo">
           <div className="logo">
             <img 
               className="logo-img"
@@ -29,10 +29,21 @@ class MenuLayout extends Component {
           <Menu mode="inline" className="menulayout-main" >
          <SubMenu  title="Thông tin cá nhân" icon={<UserOutlined />}>
               <Menu.Item key="1">
-              <Link to="/crm/notification">Thông báo chungs</Link>
+              <Link to="/crm/employee/notification/general">Thông báo chung</Link>
               </Menu.Item>
-              <Menu.Item key="2"><Link to="/crm/mynotification">Thông báo của tôi</Link></Menu.Item>
-              <Menu.Item key="3"><Link to="#">Tạo</Link></Menu.Item>
+              <Menu.Item key="2">
+              <Link to="/crm/employee/notification/my">Thông báo của tôi</Link>
+              </Menu.Item>
+              <Menu.Item key="3">
+              <Link to="/crm/employee/notification/department">Thông tin phòng ban</Link>
+              </Menu.Item>
+              <Menu.Item key="4">
+              <Link to="/crm/employee/notification/myword">Việc của tôi</Link>
+              </Menu.Item>
+              <Menu.Item key="5">
+              <Link to="/crm/employee/notification/create">Tạo</Link>
+              </Menu.Item>
+              
           </SubMenu>
           {/* <Menu.Item key="4" icon={<TeamOutlined />}>
          

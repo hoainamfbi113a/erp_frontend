@@ -56,7 +56,7 @@ export default class Login extends Component {
             this.setState({
               activeErr:false
             })
-            this.props.history.push("/crm/notification");
+            this.props.history.push("/crm/employee/notification");
             this.setState({ ishow: !this.state.ishow });
           }, 600);
         } else {

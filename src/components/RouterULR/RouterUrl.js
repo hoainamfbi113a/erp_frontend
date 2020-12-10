@@ -18,7 +18,7 @@ import EditSix from "../Adduser/EditSix"
 import EditInfor from "../Adduser/EditSix"
 import EditInforEmployee from "../Adduser/EditSixUser"
 
-import ContentNotification from "../content/ContentNotification";
+import ContentNotification from "../content/Notification/ContentNotification";
 import ContentMyNotification from "../content/ContentMyNotification";
 export default class RouterUrl extends Component {
     render() {
@@ -26,26 +26,26 @@ export default class RouterUrl extends Component {
             <div style={{background:"#E5E5E5"}}>
                 <div className="content-background2">
                     <div className="content-main">
-                        <Route exact path="/crm" component = {ContentUserBase}></Route>
-                        <Route exact path="/crm/user/base" component = {ContentUserBase}></Route>
-                        <Route exact path="/crm/user/degree" component = {ContentUserDegree}></Route>
-                        <Route exact path="/crm/user/department" component = {ContentUserDepartment}></Route>
-                        <Route exact path="/crm/user/journalist-card" component = {ContentUserJournalistCard}></Route>
-                        <Route exact path="/crm/user/personal-history" component = {ContentUserPersonalHistory}></Route>
-                        <Route exact path="/crm/user/work-object" component = {ContentUserWorkObject}></Route>
-                        <Route exact path="/crm/profileone" component = {ProfileOne}></Route> 
-                        <Route exact path="/crm/adduser" component = {Adduser1}></Route>
-                        <Route exact path="/crm/addUserBase" component = {AddUserBase}></Route>
-                        <Route exact path="/crm/user/edit/:id" component = {AddUserBase}></Route>
+                        <Route exact path="/crm/admin" component = {ContentUserBase}></Route>
+                        <Route exact path="/crm/admin/user/base" component = {ContentUserBase}></Route>
+                        <Route exact path="/crm/admin/user/degree" component = {ContentUserDegree}></Route>
+                        <Route exact path="/crm/admin/user/department" component = {ContentUserDepartment}></Route>
+                        <Route exact path="/crm/admin/user/journalist-card" component = {ContentUserJournalistCard}></Route>
+                        <Route exact path="/crm/admin/user/personal-history" component = {ContentUserPersonalHistory}></Route>
+                        <Route exact path="/crm/admin/user/work-object" component = {ContentUserWorkObject}></Route>
+                        <Route exact path="/crm/admin/profileone" component = {ProfileOne}></Route> 
+                        <Route exact path="/crm/admin/adduser" component = {Adduser1}></Route>
+                        <Route exact path="/crm/admin/addUserBase" component = {AddUserBase}></Route>
+                        <Route exact path="/crm/admin/user/edit/:id" component = {AddUserBase}></Route>
 
-                        <Route exact path="/crm/usersix" component = {ContentUserSix}></Route>
-                        <Route exact path="/crm/addUserSix" component = {AddUserSix}></Route>
-                        <Route exact path="/crm/usersix/edit/:id" component = {EditInfor}></Route>
+                        <Route exact path="/crm/admin/usersix" component = {ContentUserSix}></Route>
+                        <Route exact path="/crm/admin/addUserSix" component = {AddUserSix}></Route>
+                        <Route exact path="/crm/admin/usersix/edit/:id" component = {EditInfor}></Route>
 
-                        <Route exact path="/crm/notification" component = {ContentNotification}></Route>
-                        <Route exact path="/crm/mynotification" component = {ContentMyNotification}></Route>
+                        <Route exact path="/crm/admin/notification" component = {ContentNotification}></Route>
+                        <Route exact path="/crm/admin/mynotification" component = {ContentMyNotification}></Route>
 
-                        <Route exact path="/crm/employee/edit" component = {EditInforEmployee}></Route>
+                        {/* <Route exact path="/crm/employee/edit" component = {EditInforEmployee}></Route> */}
                         
                 </div>
                 </div>

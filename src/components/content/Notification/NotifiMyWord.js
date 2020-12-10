@@ -2,14 +2,15 @@ import React, { Component } from "react";
 import { Input } from "antd";
 import { Button, Pagination } from "antd";
 import "./notification.css"
-export default class NotifiDepartment extends Component {
+
+export default class NotifiWord extends Component {
     render() {
         return (
           <div className="content-background2">
           <div style={{minHeight:'70vh'}} className="content-main">
             <div className="content-top">
               <div className="content-top-left content-notification">
-                <div className="content-top-left-sum-item">Thông tin phòng ban</div>
+                <div className="content-top-left-sum-item">Việc của tôi</div>
                 <Button className="btn-notification" type="primary">
                   ...
                 </Button>
@@ -25,55 +26,33 @@ export default class NotifiDepartment extends Component {
                 <tr>
                   <td>
                     <div className="content-notification-table-btn content-notification-table-btn__good">
-                    team building
+                    TTC
                     </div>
                   </td>
                   <td className="content-notification-unread">
-                  Team buiding tại Cần Giờ
+                  Thiết kế thiệp giáng sinh TTC
                   </td>
                   <td>09:15</td>
                 </tr>
                 <tr>
                   <td>
                     <div className="content-notification-table-btn">
-                    Quỹ phòng
+                    TTCT
                     </div>
                   </td>
-                  <td className="content-notification-unread">
-                  Nộp tiền quỹ phòng tháng 12/2020, Hạn cuối 10/12/2020
+                  <td >
+                  Canh trái text của title các trang 1 cột
                   </td>
                   <td>09:15</td>
                 </tr>
                 <tr>
                   <td>
                     <div className="content-notification-table-btn">
-                    Cấp SSD
+                    Thông tin nhân viên
                     </div>
                   </td>
                   <td className="content-notification-unread"> 
-                  Cấp SSD cho các bạn, A,B,C,D
-                  </td>
-                  <td>09:15</td>
-                </tr>
-                <tr>
-                  <td>
-                    <div className="content-notification-table-btn">
-                    Thông báo
-                    </div>
-                  </td>
-                  <td>
-                  Anh em vệ sinh chổ ngồi để chấm điểm cuối năm.
-                  </td>
-                  <td>09:15</td>
-                </tr>
-                <tr>
-                  <td>
-                    <div className="content-notification-table-btn">
-                    Hội ý
-                    </div>
-                  </td>
-                  <td>
-                  10h 
+                  Hoàn thành thông tin nhân viên
                   </td>
                   <td>09:15</td>
                 </tr>
