@@ -44,6 +44,8 @@
     width: 56px;
     height: 34px;
     background:#3699FF;
+    /* position: absolute;
+    right: 110px; */
 }
 .content-notification-table{
     width: 100%;
@@ -62,7 +64,8 @@
    
     background: #D7EAFF;
     border-radius: 10px;
-    width: 75px;
+    min-width: 75px;
+    max-width: 130px;
     height: 26px;
     line-height: 26px;
     text-align: center;
@@ -76,4 +79,47 @@
 }
 .ant-breadcrumb-separator{
     opacity: 0;
+}
+.create-notifi{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.create-notifi > div{
+    margin: 10px;
+    padding: 20px;
+}
+.content-top-create-notif{
+    padding-top:0;
+    padding-bottom: 24px;
+    border-bottom: solid #EBEDF3 1px;
+}
+.content-notification-table-create{
+    margin-top: 28px;
+}
+.content-notification-create-notif{
+    padding-bottom: 0px;
+}
+.create-notifi-content{
+    width: 100%;
+    height: 60vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.create-notifi-content > ul{
+    list-style-type: none;
+}
+.create-notifi-content > ul li{
+    margin-bottom: 35px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+}
+.create-notifi-content > ul li img{
+    padding-right:12px;
+}
+.create-notifi-content > ul li span{
+    font-size: 24px;
+    line-height: 21px;
 }

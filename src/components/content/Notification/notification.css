@@ -1,0 +1,30 @@
+.content-notification-table-btn__flag{
+    color: #FFA800;
+    background :#FFF4DE
+}
+.content-notification-table-btn__good{
+    color:#F64E60 ;
+    background:#FFE2E5
+}
+.content-notification-table-btn__sad{
+    color:#fff ;
+    background:#3F4254;
+}
+.content-notification-unread{
+    color:#464E5F;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 14px;
+}
+.content-notification-table-btn__paycheck{
+    color: #1BC5BD;
+    background:#C9F7F5;
+}
+.content-main{
+    position: relative;
+}
+.content-bottom{
+    /* margin-bottom: 33px; */
+    position: absolute;
+    bottom: 33px;
+}
