@@ -8,6 +8,7 @@ import NotifiMy from "../content//Notification/NotifiMy";
 import NotifiDepartment from "../content//Notification/NotifiDepartment";
 import NotifiMyWord from "../content//Notification/NotifiMyWord";
 import CreateNotifi from "../content//Notification/CreateNotifi";
+import EditInformationUser from "../employee/EditInformationUser";
 
 export default class RouterUrl extends Component {
     render() {
@@ -19,6 +20,8 @@ export default class RouterUrl extends Component {
                 <Route exact path="/crm/employee/notification/department" component = {NotifiDepartment}></Route>
                 <Route exact path="/crm/employee/notification/myword" component = {NotifiMyWord}></Route>
                 <Route exact path="/crm/employee/notification/create" component = {CreateNotifi}></Route>
+
+                <Route path="/crm/employee/edit-information" component = {EditInformationUser}></Route>
             </div>
         )
     }

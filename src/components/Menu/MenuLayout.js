@@ -63,7 +63,7 @@ class MenuLayout extends Component {
               </Menu.Item>: null
             }
                <Menu.Item key="9">
-               <Link to="/crm/employee/edit">Cập nhật thông tin</Link>
+               <Link to="/crm/employee/edit-information">Cập nhật thông tin</Link>
                </Menu.Item>
               
            
