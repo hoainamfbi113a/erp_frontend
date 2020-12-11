@@ -73,7 +73,7 @@ export default class NotifiDepartment extends Component {
                     </div>
                   </td>
                   <td>
-                  10h 
+                  Gửi các bạn phòng CNTT, 2:00 PM Phòng CNTT sẽ có cuộc hơp về dự án A với sự miêu tả của anh B. Mong các bạn đến đúng giờ....
                   </td>
                   <td>09:15</td>
                 </tr>

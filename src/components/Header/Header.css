@@ -56,6 +56,7 @@
 }
 .breadcrumb-main{
     /* padding-left:50px; */
+    height: 31px;
     padding:17px 0 18px 50px;
 }
 .ant-breadcrumb a {

@@ -109,7 +109,7 @@ export default class Login extends Component {
           <div className="form">
             <img src={authentication} alt="" className="form__img" />
             <form className="form__content" onSubmit={this.onSubmit}>
-              <h1 className="form__title">TUỔI TRẺ CỦA CHÚNG TA</h1>
+              <h1 className="form__title" style={{fontSize:"27px"}}>TUỔI TRẺ CỦA CHÚNG TA</h1>
               <div className="form__div form__div-one">
                 <div className="form__icon">
                   <i className="bx bx-user-circle" />

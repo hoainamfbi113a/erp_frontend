@@ -51,7 +51,7 @@ export default class Crm extends React.Component {
             <Route path="/crm/employee" component = {RouterUrlEmployee}></Route>
              {/* <Route path="crm/employee/edit" component = {EditInforEmployee}></Route> */}
             <Footer style={{ textAlign: "center" }} className="layout-footer">
-              Ant Design ©2020 Created by Hoai Nam
+              Ant Design ©2020 Created by TuoiTre
             </Footer>
           </Layout>
         </Layout>
