@@ -4,7 +4,7 @@ import logo from "../../assets/images/logo.png";
 import logomall from "../../assets/images/logomall.jpeg";
 import { Menu,Layout } from "antd"
 import { withRouter } from 'react-router'
-import { UserOutlined,PieChartOutlined,TeamOutlined,DesktopOutlined,FileOutlined } from '@ant-design/icons';
+import { UserOutlined,ShopOutlined } from '@ant-design/icons';
 
 import "./Menu.css"
 const { SubMenu } = Menu;
@@ -48,7 +48,7 @@ class MenuLayout extends Component {
           {/* <Menu.Item key="4" icon={<TeamOutlined />}>
          
           </Menu.Item> */}
-          <SubMenu key="sub2" icon={<UserOutlined />} title="Nghiệp vụ" icon={<TeamOutlined />}>
+          <SubMenu key="sub2" icon={<UserOutlined />} title="Nghiệp vụ" icon={<ShopOutlined/>}>
             { localStorage.getItem("per") ==="hr" ?
               <Menu.Item key="4" onClick ={this.handleOnclick} >
               <Link to="/crm/usersix"> Nhân sự </Link>
@@ -62,12 +62,12 @@ class MenuLayout extends Component {
                 {/* </Link> */}
               </Menu.Item>: null
             }
-               <Menu.Item key="9">
+               <Menu.Item key="10">
                <Link to="/crm/employee/edit-information">Cập nhật thông tin</Link>
                </Menu.Item>
               
            
-              <Menu.Item key="5">
+              <Menu.Item key="9">
                 {/* <Link to="/crm/user/department"> */}
                 
                 <Link to="/crm/usersix">Bình bầu</Link>

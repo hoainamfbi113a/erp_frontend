@@ -12,6 +12,20 @@
     display: flex;
     min-width: 0; min-height: 0;
 }
+.edit-infor-tabs li:hover span{
+    color: #3699FF;
+}
+.edit-infor-tabs li:hover div{
+    color: #3699FF;
+    background:#D7EAFF ;
+}
+.edit-infor-tabs li .active{
+    color: #3699FF;
+}
+.edit-infor-tabs li div .active{
+    color: #3699FF;
+    background:#D7EAFF ;
+}
 .edit-infor-form{
     flex-grow: 0;
     flex-shrink: 0;
@@ -32,7 +46,7 @@
     align-items: center;
 }
 .edit-infor-tabs ul li div {
-    background:#D7EAFF;
+    background:#F3F6F9;
     border-radius: 50%;
     width: 50px;
     height: 50px;
@@ -52,10 +66,11 @@
     width: 77%;
 }
 .edit-infr-vertical-line{
-      width: 1px; /* Line width */
-      background-color: #EBEDF3; /* Line color */
+      width: 3px; 
+      background-color: #EBEDF3; 
       height: 100%;
       right: 0px;
+      margin-right:-15px
 }
 
 .title-create {
@@ -161,6 +176,7 @@
     line-height: 18px;
     color: #3F4254;
     margin-bottom: 13px;
+    margin-right: 18px;
 }
 .tabs-user-infor-bottom input{
     font-weight: 300;
@@ -169,10 +185,18 @@
     height: 34px;
     border-radius: 3px;
 }
+.edit-infor-form-DCS .tabs-user-infor-bottom input{
+    width: 450px;
+}
 .ant-picker{
-    background: #F0F5FA;
+    background: #fff;
     height: 34px;
     width: 380px !important;
+}
+.edit-infor-form-DCS .ant-picker{
+    background: #fff;
+    height: 34px;
+    width: 450px !important;
 }
 .tabs-user-infor-bottom-date{
     display: flex;
@@ -209,20 +233,120 @@
     margin-top:190px
 }
 .ant-picker-range{
-    width: 190px !important;
+    width: 380px !important;
+}
+.modal-ranPicker {
+    width: 528px !important;
+}
+.ant-picker-range input{
+    width: 100%;
 }
 .personal-history{
     flex-direction: column;
     margin-left: 31px
 }
 .personal-history-title{
-font-size: 15px;
-line-height: 18px;
-color: #3F4254;
+    font-size: 15px;
+    line-height: 18px;
+    color: #3F4254;
+    margin-bottom: 10px;
+    margin-left: -31px;
 }
 .personal-history-time{
-    padding-left:20px
+    padding-left:20px;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 19px;
+/* or 136% */
+
+
+color: #3F4254;
 }
 .personal-history-content{
-    padding-left:20px
+    padding-left:20px;
+    /* display: inline-block; */
+    margin-right: 10px;
+    width: 20rem;
+    
+}
+.personal-history-list li{
+    position: relative;
+    list-style-type: none;
+}
+.personal-history-list li::before{
+    color: #3699FF;
+    float: left;
+    margin: 0 0 0 -1.2em;
+    transform: scale(3);
+    content: '\2022';
+    position: relative;
+    z-index: 100;
+}
+.personal-history-time:before{
+    content:'';
+    position:absolute;
+    border-left:1px solid #EBEDF3 ;
+    left:-14px;
+    bottom:-24px;
+    z-index:1;
+    height:131%
+  }
+.personal-history-list li:last-child .personal-history-time:before{
+    content:none;
+}
+.btn-add-detail{
+    /* background:; */
+    color: #3699FF;
+    border: 1px solid #3699FF;
+    margin-top:20px;
+    margin-bottom: 30px;
+}
+.tabs-main-left-li-row{
+    flex-direction: row;
+    align-items: center;
+}
+.tabs-main-left-li-row .tabs-user-infor-top{
+    margin-bottom: 0px;
+}
+/* .modal-selection{
+    margin-left: -10px;
+} */
+.personal-history-time{
+    display: inline-block;
+    width: 400px;
+}
+.edit-infor-form-DCS{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.tabs-main-left-li-row{
+    display: inline-block;
+}
+.tabs-main-left-li-row .tabs-user-infor-bottom input{
+    width: 220px;
+    margin-right:10px;
+    
+}
+.tabs-main-left-li-row-clear{
+    display: block !important;
+}
+ .tabs-main-left-li-row-three{
+    display: inline-block;
+} 
+.tabs-main-left-li-row-three .tabs-user-infor-bottom input{
+    width: 144px;
+    margin-right:10px;
+} 
+.tabs-main-left-li-row-three .ant-picker{
+    width: 143px !important;
+    margin-right:10px;
+}
+.join-DCS-three{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.btn-add-user-DCS{
+    margin-top:20px;
 }
