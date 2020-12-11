@@ -54,3 +54,17 @@ ant-menu-submenu-active, ant-menu-submenu-selected{
 .ant-menu-item-selected a{
     color: #111;
 }
+.ant-menu-submenu-arrow:before{
+    background:#fff !important;
+}
+.ant-menu-submenu-arrow:after{
+    background:#fff !important;
+}
+
+.ant-menu-submenu-title:hover .ant-menu-submenu-arrow:before{
+    background:#000 !important;
+}
+.ant-menu-submenu-title:hover .ant-menu-submenu-arrow:after{
+    background:#000 !important;
+}
+

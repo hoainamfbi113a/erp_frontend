@@ -64,7 +64,7 @@ class HeaderLayout extends Component {
       <div className="header-main">
         <Header className="site-layout-background header-main-top">
           <div className="header-left">
-          {React.createElement(
+          {/* {React.createElement(
             MenuFoldOutlined,
             {
               className: "trigger",
@@ -87,7 +87,7 @@ class HeaderLayout extends Component {
                 Menu 3
           </a>
             </Menu.Item>
-          </Menu>
+          </Menu> */}
           </div>
           <div className="header-right">
             <Badge className="header-notification"
