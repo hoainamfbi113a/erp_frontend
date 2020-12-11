@@ -199,7 +199,7 @@ export default class ContentNotification extends Component {
                     </div>
                   </td>
                   <td className="content-notification-unread">
-                  Nộp tiền quỹ phòng tháng 12/2020, Hạn cuối 10/12/2020
+                  Gửi các bạn phòng CNTT, 2:00 PM Phòng CNTT sẽ có cuộc hơp về dự án A với sự miêu tả của anh B. Mong các bạn đến đúng giờ....
                   </td>
                   <td>09:15</td>
                 </tr>
@@ -286,7 +286,7 @@ export default class ContentNotification extends Component {
                     </div>
                   </td>
                   <td className="content-notification-unread"> 
-                  Hoàn thành thông tin nhân viên
+                  Gửi các bạn phòng CNTT, 2:00 PM Phòng CNTT sẽ có cuộc hơp về dự án A với sự miêu tả của anh B. Mong các bạn đến đúng giờ....
                   </td>
                   <td>09:15</td>
                 </tr>
