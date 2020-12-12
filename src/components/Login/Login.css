@@ -389,10 +389,10 @@ img{
     width: 100%;
     display: block;
     text-align: left;
-    opacity: 0;
+    visibility: hidden
 }
 .error-email{
-    opacity: 1;
+    visibility: visible;
 }
 @keyframes shake {
     0% { left: -5px; }

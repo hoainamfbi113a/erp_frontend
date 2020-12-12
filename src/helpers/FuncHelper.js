@@ -9,7 +9,7 @@ const ValidateEmail = (value, length) => {
     } else if (isEmail == false) {
       msg = 'Email không đúng định dạng!';
     } else {
-      msg = '';
+      msg = 'pass';
     }
     return msg;
 }
@@ -22,7 +22,7 @@ const ValidateField = (value, min, max, field) => {
     } else if (value.length > max) {
       msg = `${field} không được lớn hơn ${max} ký tự!`;
     } else {
-      msg = '';
+      msg = 'pass';
     }
     return msg;
 }

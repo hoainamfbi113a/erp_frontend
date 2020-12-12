@@ -15,7 +15,7 @@ export default class NotifiDepartment extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeLink: null
+      activeLink: 1
     }
   }
   handleClick = id => {
