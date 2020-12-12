@@ -37,7 +37,7 @@ export default class RouterUrl extends Component {
                         <Route exact path="/crm/admin/adduser" component = {Adduser1}></Route>
                         <Route exact path="/crm/admin/addUserBase" component = {AddUserBase}></Route>
                         <Route exact path="/crm/admin/user/edit/:id" component = {AddUserBase}></Route>
-
+                        
                         <Route exact path="/crm/admin/usersix" component = {ContentUserSix}></Route>
                         <Route exact path="/crm/admin/addUserSix" component = {AddUserSix}></Route>
                         <Route exact path="/crm/admin/usersix/edit/:id" component = {EditInfor}></Route>

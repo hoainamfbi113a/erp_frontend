@@ -11,7 +11,7 @@ const { SubMenu } = Menu;
 const { Sider } = Layout;
 class MenuLayout extends Component {
   handleOnclick = () => {
-    this.props.history.push('/crm/usersix');
+    this.props.history.push('/crm/admin/usersix');
   }
   render() {
     return (
@@ -51,7 +51,7 @@ class MenuLayout extends Component {
           <SubMenu key="sub2" icon={<UserOutlined />} title="Nghiệp vụ" icon={<ShopOutlined/>}>
             { localStorage.getItem("per") ==="hr" ?
               <Menu.Item key="4" onClick ={this.handleOnclick} >
-              <Link to="/crm/usersix"> Nhân sự </Link>
+              <Link to="/crm/admin/usersix">Nhân sự </Link>
               </Menu.Item>:null
             }
             { localStorage.getItem("per")  == "hr" ?

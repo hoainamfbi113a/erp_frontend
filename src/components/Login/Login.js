@@ -2,11 +2,7 @@ import React, { Component } from "react";
 import axios from "axios"
 import { Spin } from "antd";
 import { ValidateEmail, ValidateField } from "../../helpers/FuncHelper";
-import {
-  FacebookOutlined,
-  GooglePlusOutlined,
-  InstagramFilled,
-} from "@ant-design/icons";
+import { message } from 'antd';
 import "./Login.css";
 import authentication from "../../assets/images/authentication.svg";
 export default class Login extends Component {
@@ -17,7 +13,8 @@ export default class Login extends Component {
       password: "",
       errEmail: "err",
       errPassword: "err",
-      activeErr:false,
+      activeErrEmail:false,
+      activeErrPassWord:false,
       ishow: false,
       isVibrate:false,
     };
@@ -32,7 +29,7 @@ export default class Login extends Component {
     let _this = this;
     _this.errEmail = ValidateEmail(_this.state.email, 8);
     _this.errPassword = ValidateField(_this.state.password, 6, 100, "Mật khẩu");
-    if (_this.errEmail == "" && _this.errPassword == "") {
+    if (_this.errEmail == "pass" && _this.errPassword == "pass") {
       const params = {
         "email":this.state.email,
         "password":this.state.password,
@@ -54,28 +51,55 @@ export default class Login extends Component {
           this.setState({ ishow: !this.state.ishow });
           setTimeout(() => {
             this.setState({
-              activeErr:false
+              activeErrEmail:false,
+              activeErrPassWord:false,
             })
             this.props.history.push("/crm/employee/notification");
             this.setState({ ishow: !this.state.ishow });
           }, 600);
         } else {
           this.setState({
-            activeErr:false
+            activeErrEmail:false,
+            activeErrPassWord:false
           })
-          alert("tai khoan hoac mat khau khong dung");
+          message.error('tài khoản hoặc mật khẩu không đúng');
         }
       })
        .catch(err => {
+        this.setState({
+          activeErrEmail:false,
+          activeErrPassWord:false
+        })
+         message.error('tài khoản hoặc mật khẩu không đúng hoặc lỗi server');
         console.log(err)
       })
     } else {
-      this.setState({
-        errEmail:_this.errEmail,
-        errPassword:_this.errPassword,
-        activeErr:true,
-        isVibrate:true
-      })
+      if(_this.errEmail !=="pass" && _this.errPassword !=="pass"){
+        this.setState({
+          errEmail:_this.errEmail,
+          errPassword:_this.errPassword,
+          activeErrEmail:true,
+          activeErrPassWord:true,
+          isVibrate:true
+        })
+      }
+      
+     else if(_this.errEmail != "pass"){
+        this.setState({
+          errEmail:_this.errEmail,
+          activeErrEmail:true,
+          activeErrPassWord:false,
+          isVibrate:true
+        })
+      }
+      else if(_this.errPassword != "pass"){
+        this.setState({
+          errPassword:_this.errPassword,
+          activeErrPassWord:true,
+          activeErrEmail:false,
+          isVibrate:true
+        })
+      }
      setTimeout(()=>{
         this.setState({
           isVibrate:false
@@ -118,11 +142,11 @@ export default class Login extends Component {
                   <input
                     placeholder="Email đăng nhập"
                     type="text"
-                    className={"form__input "+ (this.state.activeErr == true && this.state.isVibrate ==true ? 'error' : '')}
+                    className={"form__input "+ (this.state.activeErrEmail == true && this.state.isVibrate ==true ? 'error' : '')}
                     name="email"
                     onChange={this.onChange}
                   />
-                  <i className={"login-error "+ (this.state.activeErr == true ? 'error-email' : '')}>{this.state.errEmail}</i>
+                  <i className={"login-error "+ (this.state.activeErrEmail == true ? 'error-email' : '')}>{this.state.errEmail}</i>
                 </div>
                 <span>
                   
@@ -136,11 +160,11 @@ export default class Login extends Component {
                   <input
                     placeholder="Mật khẩu"
                     type="password"
-                    className={"form__input "+ (this.state.activeErr == true && this.state.isVibrate ==true ? 'error' : '')}
+                    className={"form__input "+ (this.state.activeErrPassWord == true && this.state.isVibrate ==true ? 'error' : '')}
                     name="password"
                     onChange={this.onChange}
                   />
-                  <i className={"login-error "+ (this.state.activeErr == true ? 'error-email' : '')}>{this.state.errPassword}</i>
+                  <i className={"login-error "+ (this.state.activeErrPassWord == true ? 'error-email' : '')}>{this.state.errPassword}</i>
                 </div>
               </div>
               <a href="#" className="form__forgot">
