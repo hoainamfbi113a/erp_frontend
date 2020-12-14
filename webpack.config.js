@@ -7,6 +7,7 @@ const {
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
+var dotenv = require('dotenv').config({path: __dirname + '/.env'});
 module.exports = (env, agrv) => {
     const isDev = agrv.mode === 'development'
     return {
@@ -24,7 +25,10 @@ module.exports = (env, agrv) => {
             new MiniCssExtractPlugin({
                 filename: 'style.min.css'
             }),
-            new webpack.EnvironmentPlugin( { ...process.env } )
+            new webpack.DefinePlugin({
+                "process.env": JSON.stringify(dotenv.parsed)
+            }),
+
         ],
         module: {
             rules: [{
