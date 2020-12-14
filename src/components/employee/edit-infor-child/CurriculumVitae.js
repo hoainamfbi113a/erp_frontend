@@ -3,7 +3,23 @@ import { Input } from "antd";
 import { Button, Pagination, DatePicker } from "antd";
 const { RangePicker } = DatePicker;
 import { Radio } from "antd";
+import Axios from 'axios';
 export default class CurriculumVitae extends Component {
+    constructor(props){
+      super(props)
+      this.state ={
+
+      }
+    }
+    componentDidMount = () =>{
+      Axios.get("https://employee.tuoitre.vn/api/fe/profiles/4?current_user_id=4")
+      .then((res)=>{
+        console.log(res.data);
+      })
+      .catch((err)=>{
+        console.log("Loi");
+      })
+    }
     render() {
         return (
             <div className="edit-infor-form">

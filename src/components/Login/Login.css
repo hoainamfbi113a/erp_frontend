@@ -216,6 +216,7 @@ img{
     }
     .form__img{
         display: block;
+        height:100%;
         width: 700px;
         justify-self: left;
         margin-left: -31px;

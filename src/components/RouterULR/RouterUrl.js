@@ -23,7 +23,7 @@ import ContentMyNotification from "../content/ContentMyNotification";
 export default class RouterUrl extends Component {
     render() {
         return (
-            <div style={{background:"#E5E5E5"}}>
+            <div style={{background:"#EEEFF3"}}>
                 <div className="content-background2">
                     <div className="content-main">
                         <Route exact path="/crm/admin" component = {ContentUserBase}></Route>
