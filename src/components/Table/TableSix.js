@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {Link}  from 'react-router-dom'
-import axios from "axios";
+import axios from "axios"
 import "../../App/App.css";
 import "../Crm/Crm.css"
 import "./Table.css"
@@ -92,28 +92,26 @@ class TableSix extends Component {
         )
       },
       {
+        title: 'Họ và tên',
+        // width: 330,
+        dataIndex: 'full_name',
+        key: 'sex',
+        sorter: (a, b) => a.full_name - b.full_name,
+      },
+      {
         title: 'Email',
         dataIndex: 'email',
         key: '2',
-        sorter: (a, b) => a.pro_name.length - b.pro_name.length,
-      },
-      {
-         title: 'Ngày sinh', dataIndex: 'pro_birth_day', key: '2',
+        // sorter: (a, b) => a.pro_name.length - b.pro_name.length,
       },
       {
         title: 'Số điện thoại',
         // width: 330,
         dataIndex: 'phone',
         key: 'sex',
-        sorter: (a, b) => a.pro_local_phone - b.pro_local_phone,
+        sorter: (a, b) => a.phone - b.phone,
       },
-      {
-        title: 'Nghề nghiệp',
-        // width: 330,
-        dataIndex: 'pro_occupation',
-        key: 'sex',
-        sorter: (a, b) => a.age - b.age,
-      },
+      
       {
         title: 'Hành động',
         key: 'operation',
@@ -125,8 +123,8 @@ class TableSix extends Component {
             <Popconfirm title="Are you sure hide this user?" onConfirm={()=>this.confirm(text)} onCancel={this.cancel} okText="Yes" cancelText="No">
               <Tag color="volcano" className="table-action">Ẩn</Tag>
             </Popconfirm>
-            <Link to={`/crm/usersix/edit/${text}`}> 
-            <Tag color="geekblue" className="table-action">Sửa thông tin </Tag></Link>
+            {/* <Link to={`/crm/employee/edit-information/base/${text}`}> 
+            <Tag color="geekblue" className="table-action">Sửa thông tin </Tag></Link> */}
           </Space>
         ),
       },

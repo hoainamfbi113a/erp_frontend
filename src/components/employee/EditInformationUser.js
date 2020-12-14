@@ -92,7 +92,7 @@ export default class NotifiDepartment extends Component {
 
           <Route
             exact
-            path="/crm/employee/edit-information"
+            path="/crm/employee/edit-information/base"
             component={CurriculumVitae}
           ></Route>
           <Route

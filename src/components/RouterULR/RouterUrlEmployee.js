@@ -22,6 +22,7 @@ export default class RouterUrl extends Component {
                 <Route exact path="/crm/employee/notification/create" component = {CreateNotifi}></Route>
 
                 <Route path="/crm/employee/edit-information" component = {EditInformationUser}></Route>
+                {/* <Route path="/crm/employee/edit-information/:id" component = {EditInformationUser}></Route> */}
             </div>
         )
     }
