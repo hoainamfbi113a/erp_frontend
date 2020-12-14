@@ -43,13 +43,9 @@ class HeaderLayout extends Component {
   render() {
     const menu = (
       <Menu>
-        <Menu.Item icon={<SettingOutlined />}>
-          <a target="_blank" rel="noopener noreferrer" href="http://www.alipay.com/">
-            Cập nhật profile
-                </a>
-        </Menu.Item>
+
         <Menu.Item icon={<RollbackOutlined />}>
-          <a target="_blank" rel="noopener noreferrer" href="http://www.taobao.com/">
+          <a target="_blank" rel="noopener noreferrer" >
             Đổi mật khẩu
                 </a>
         </Menu.Item>
