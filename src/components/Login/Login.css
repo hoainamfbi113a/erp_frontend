@@ -217,7 +217,8 @@ img{
     .form__img{
         display: block;
         width: 700px;
-        justify-self: center;
+        justify-self: left;
+        margin-left: -31px;
     }
 }
 .floating {

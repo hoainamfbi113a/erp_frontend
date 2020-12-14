@@ -4,7 +4,7 @@ import { Spin } from "antd";
 import { ValidateEmail, ValidateField } from "../../helpers/FuncHelper";
 import { message } from 'antd';
 import "./Login.css";
-import authentication from "../../assets/images/authentication.svg";
+import authentication from "../../assets/images/authentication.jpg";
 export default class Login extends Component {
   constructor() {
     super();

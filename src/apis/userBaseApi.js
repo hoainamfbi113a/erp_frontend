@@ -1,9 +1,8 @@
 // import axiosUser from "./axios";
 import axios from "axios"
 const getListUserBase = (i) => {
-    return axios.get(`https://employee.tuoitre.vn/api/profiles?page=${i}`)
-    // return axios.get(`https://employee.tuoitre.vn/api/current-user`)
-
+    // return axios.get(`https://employee.tuoitre.vn/api/profiles?page=${i}`)
+    return axios.get(`http://employee.tuoitre.vn/api/user`)
 }
 const deleteUserBase = (id) => {
     return axios.delete(`https://employee.tuoitre.vn/api/profiles/${id}?current_user_id=4`)
