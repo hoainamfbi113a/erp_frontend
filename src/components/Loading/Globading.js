@@ -17,6 +17,7 @@ class Globading extends Component {
             )
         }
         return htmlLoading;
+        // return ""
     }
 }
 const mapStateToProps = (state) =>{

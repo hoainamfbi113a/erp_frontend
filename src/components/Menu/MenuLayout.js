@@ -66,16 +66,15 @@ class MenuLayout extends Component {
               <Link to="/crm/admin/usersix">Nhân sự </Link>
               </Menu.Item>:null
             }
-            { localStorage.getItem("per")  == "hr" ?
+            {/* { localStorage.getItem("per")  == "hr" ?
             <Menu.Item key="6"  onClick={this.showModal}>
-                {/* <Link to="/crm/user/department"> */}
                 
                 <Link to="#">
                   Tạo user
                   </Link>
-                {/* </Link> */}
+     
               </Menu.Item>: null
-            }
+            } */}
                <Menu.Item key="10">
                <Link to="/crm/employee/edit-information">Cập nhật thông tin</Link>
                </Menu.Item>

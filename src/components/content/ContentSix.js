@@ -1,13 +1,31 @@
 import React, { Component } from "react";
 import { Input } from "antd";
-import { Button } from "antd";
-import { Link } from "react-router-dom";
+import { Button, Modal, DatePicker } from "antd";
+
+import { message } from "antd";
 import TableSix from "../Table/TableSix";
 const { Search } = Input;
 
 import "./Content.css";
 
 export default class ContentSix extends Component {
+  constructor() {
+    super();
+    this.state = {
+      visible: false,
+      registerUserSuccess: false
+    };
+  }
+  showModal = () => {
+    this.setState({
+      visible:true
+    })
+  }
+  hideModal =() => {
+    this.setState({
+      visible:false
+    })
+  }
   render() {
     return (
       <div>
@@ -25,15 +43,13 @@ export default class ContentSix extends Component {
             />
           </div>
           <div className="content-top-right">
-            <Link to="/crm/addUserSix">
-              {" "}
-              <Button className="btn-add-user">Thêm nhân viên</Button>
-            </Link>
+            <Button onClick={this.showModal} className="btn-add-user-six">
+              Thêm nhân viên
+            </Button>
           </div>
         </div>
-        <TableSix />
+        <TableSix showModalAddUser={this.state.visible} hideModal={this.hideModal} />
       </div>
-      // <div>aaaa</div>
     );
   }
 }

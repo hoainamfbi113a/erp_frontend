@@ -22,38 +22,43 @@ export default function* userSixSaga() {
 }
 function* watchFetchListUserSixAction() {
     yield put(showLoading())
-    const resp1 = yield call(getListUserBase,1);
-    for(let i = 2 ; i<= resp1.data.meta.pagination.total_pages ; i++){
-        let resp2 = yield call(getListUserBase,i);
-        resp1.data.data = resp1.data.data.concat(resp2.data.data);
-    }
-    // const resp2 = yield call(getListUserDegree);
-    // const resp3 = yield call(getListUserDepartment);
-    // const resp4 = yield call(getListUserJournalistCard);
-    // const resp5 = yield call(getListUserPersonalHistory);
-    // const resp6 = yield call(getListUserWorkObject);
-    // let resptemp = resp1.data.map((item, index) => {
-    //     let payedOrder1 = resp2.data.find(o => o.userId == item.id);
-    //     let payedOrder2= resp3.data.find(o => o.userId == item.id);
-    //     let payedOrder3 = resp4.data.find(o => o.userId == item.id);
-    //     let payedOrder4 = resp5.data.find(o => o.userId == item.id);
-    //     let payedOrder5 = resp6.data.find(o => o.userId == item.id);
-    //     return Object.assign({},{id:item.id}, {profiles:item},{degree: payedOrder1},{department: payedOrder2},{journalistCard:payedOrder3}
-    //         ,{personalHistory:payedOrder4},{workObject: payedOrder5}
-    //         )
-    //     });
-    // console.log(resptemp);
-    localStorage.setItem("countUser",resp1.data.meta.pagination.total)
-    if (resp1.status
-        //  === 200 && resp2.status === 200 && 
-        // resp3.status === 200 && resp4.status === 200 && 
-        // resp5.status === 200 && resp6.status === 200
-        ){
+    const resp = yield call(getListUserBase,1);
+    if(resp.status === 200) {
         yield put(hideLoading());
-        yield put(fetchListUserSixSuccess(resp1.data.data));
-    } else {
-        yield put(fetchListUserSixFailed(resp1.data))
+        yield put(fetchListUserSixSuccess(resp.data.data));
     }
+    // const resp1 = yield call(getListUserBase,1);
+    // for(let i = 2 ; i<= resp1.data.meta.pagination.total_pages ; i++){
+    //     let resp2 = yield call(getListUserBase,i);
+    //     resp1.data.data = resp1.data.data.concat(resp2.data.data);
+    // }
+    // // const resp2 = yield call(getListUserDegree);
+    // // const resp3 = yield call(getListUserDepartment);
+    // // const resp4 = yield call(getListUserJournalistCard);
+    // // const resp5 = yield call(getListUserPersonalHistory);
+    // // const resp6 = yield call(getListUserWorkObject);
+    // // let resptemp = resp1.data.map((item, index) => {
+    // //     let payedOrder1 = resp2.data.find(o => o.userId == item.id);
+    // //     let payedOrder2= resp3.data.find(o => o.userId == item.id);
+    // //     let payedOrder3 = resp4.data.find(o => o.userId == item.id);
+    // //     let payedOrder4 = resp5.data.find(o => o.userId == item.id);
+    // //     let payedOrder5 = resp6.data.find(o => o.userId == item.id);
+    // //     return Object.assign({},{id:item.id}, {profiles:item},{degree: payedOrder1},{department: payedOrder2},{journalistCard:payedOrder3}
+    // //         ,{personalHistory:payedOrder4},{workObject: payedOrder5}
+    // //         )
+    // //     });
+    // // console.log(resptemp);
+    // localStorage.setItem("countUser",resp1.data.meta.pagination.total)
+    // if (resp1.status
+    //     //  === 200 && resp2.status === 200 && 
+    //     // resp3.status === 200 && resp4.status === 200 && 
+    //     // resp5.status === 200 && resp6.status === 200
+    //     ){
+    //     yield put(hideLoading());
+    //     yield put(fetchListUserSixSuccess(resp1.data.data));
+    // } else {
+    //     yield put(fetchListUserSixFailed(resp1.data))
+    // }
 }
 
 function* deleteUserSixSaga({payload}) {

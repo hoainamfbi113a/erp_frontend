@@ -2,76 +2,67 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {Link}  from 'react-router-dom'
+import axios from "axios";
 import "../../App/App.css";
 import "../Crm/Crm.css"
 import "./Table.css"
-import Profile from "../Profile/Profile"
-import Modify from "../Modify/Modify";
-import Adduser from "../Adduser/Adduser";
 import * as userSixActions from '../../actions/userSix';
-import { Button, Layout, Upload } from "antd";
+import {  Layout, Upload } from "antd";
 import { Table, Space, Tag, Avatar } from 'antd';
 import { Popconfirm, message } from 'antd';
+import { Input, Modal, DatePicker } from "antd";
 import imgUser from "../../assets/images/imguser.png";
 
 const { Content } = Layout;
 class TableSix extends Component {
+  state = {
+    collapsed: false,
+    visibleModify: false,
+    visibleAdduser: false,
+    selectedRowKeys: [], // Check here to configure the default column
+    loading: false,
+    current_user_id: "4",
+    app_id: "99",
+    full_name: "Nguyễn Văn A",
+    email: "",
+    phone: "",
+  };
+  hideModal = () => {
+    this.props.hideModal()
+  };
+  onChange = (e) =>{
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+  onSubmit = () => {
+    let params = {
+      current_user_id: process.env.current_user_id,
+      app_id: process.env.app_id,
+      email: this.state.email,
+      phone: this.state.phone,
+    };
+    this.hideModal();
+    axios
+      .post(process.env.apiEmployee + "/api/register", params)
+      .then((res) => {
+        if (res.data.message === "Success!. Stored") {
+          message.success("Đăng ký user thành công");
+          const { userSixActionCreators } = this.props;
+          const { fetchListUserSix } = userSixActionCreators;
+          fetchListUserSix();
+        }
+      })
+      .catch((err) => {
+        message.error("đăng ký user thất bại");
+        console.log(err);
+      });
+  };
   componentDidMount() {
     const { userSixActionCreators } = this.props;
     const { fetchListUserSix } = userSixActionCreators;
     fetchListUserSix();
   }
-
-  state = {
-    collapsed: false,
-    visible: false,
-    visibleModify: false,
-    visibleAdduser: false,
-    selectedRowKeys: [], // Check here to configure the default column
-    loading: false,
-  };
-  onSearch = value => console.log(value);
-  collapsed = () => {
-    this.setState({
-      collapsed: !this.state.collapsed,
-    });
-  };
-  showDrawer = () => {
-    this.setState({
-      visible: true,
-    });
-  };
-
-  onClose = () => {
-    this.setState({
-      visible: false,
-    });
-  };
-  showDrawerModify = (user) => {
-    const {userSixActionCreators} = this.props;
-    const { editUserSix } = userSixActionCreators;
-    editUserSix(user);
-    this.setState({
-      visibleAdduser: true,
-    });
-  };
-
-  onCloseModify = () => {
-    this.setState({
-      visibleModify: false,
-    });
-  };
-  showDrawerAdduser = () => {
-    this.setState({
-      visibleAdduser: true,
-    });
-  };
-
-  onCloseAdduser = () => {
-    this.setState({
-      visibleAdduser: false,
-    });
-  };
   confirm = (e) => {
     const { userSixActionCreators } = this.props;
     const { deleteUserSix } = userSixActionCreators;
@@ -85,7 +76,6 @@ class TableSix extends Component {
   onSelectChange = selectedRowKeys => {
     this.setState({ selectedRowKeys });
   };
-  
   render() {
     const data = this.props.listUserSix.listUserSix;
     const columns = [
@@ -102,55 +92,20 @@ class TableSix extends Component {
         )
       },
       {
-        title: 'Họ và tên',
-        dataIndex: 'pro_name',
+        title: 'Email',
+        dataIndex: 'email',
         key: '2',
         sorter: (a, b) => a.pro_name.length - b.pro_name.length,
-        // render: (text,row) => (
-        //   <div >{row.profiles.name}
-        //     {/* <b className="user-infor-table-top">{text.name}</b>
-        //     <p className="user-infor-table-center">{row.profiles.name}</p>
-        //     <span className="user-infor-table-bottom">{row.mobile_phone}</span> */}
-        //     {/* <span style={{fontSize:"12px"}} className="user-infor-table-bottom user-infor-phone">{row.mobile_phone}</span> */}
-        //   </div>
-        // )
       },
       {
          title: 'Ngày sinh', dataIndex: 'pro_birth_day', key: '2',
-        //  render: (text,row) => (
-        //     <div >{row.profiles.birth_day}
-        //     {/* <b className="user-infor-table-top">{text}</b>
-        //     <p className="user-infor-table-center">{row.majors}</p>
-        //     <span className="user-infor-table-bottom">{row.school_name}</span> */}
-        //     {/* <span style={{fontSize:"12px"}} className="user-infor-table-bottom user-infor-phone">{row.phone}</span> */}
-        //   </div>
-        // )
       },
-      // {
-      //    title: 'Tên đăng nhập', dataIndex: 'Tên đăng nhập', key: '11',
-      //   //  render: (text,row) => (
-      //   //     <div >{row.profiles.birth_day}
-      //   //     {/* <b className="user-infor-table-top">{text}</b>
-      //   //     <p className="user-infor-table-center">{row.majors}</p>
-      //   //     <span className="user-infor-table-bottom">{row.school_name}</span> */}
-      //   //     {/* <span style={{fontSize:"12px"}} className="user-infor-table-bottom user-infor-phone">{row.phone}</span> */}
-      //   //   </div>
-      //   // )
-      // },
       {
         title: 'Số điện thoại',
         // width: 330,
-        dataIndex: 'pro_local_phone',
+        dataIndex: 'phone',
         key: 'sex',
         sorter: (a, b) => a.pro_local_phone - b.pro_local_phone,
-        // render: (text,row) => (
-        //     <div >{row.profiles.local_phone}
-        //     {/* <b className="user-infor-table-top">{text}</b>
-        //     <p className="user-infor-table-center">{row.gender}</p>
-        //     <span className="user-infor-table-bottom">{row.pen_name}</span> */}
-        //     {/* <span style={{fontSize:"12px"}} className="user-infor-table-bottom user-infor-phone">{row.phone}</span> */}
-        //   </div>
-        // )
       },
       {
         title: 'Nghề nghiệp',
@@ -158,14 +113,6 @@ class TableSix extends Component {
         dataIndex: 'pro_occupation',
         key: 'sex',
         sorter: (a, b) => a.age - b.age,
-        // render: (text,row) => (
-        //     <div >{row.department.name}
-        //     {/* <b className="user-infor-table-top">{text}</b>
-        //     <p className="user-infor-table-center">{row.gender}</p>
-        //     <span className="user-infor-table-bottom">{row.pen_name}</span> */}
-        //     {/* <span style={{fontSize:"12px"}} className="user-infor-table-bottom user-infor-phone">{row.phone}</span> */}
-        //   </div>
-        // )
       },
       {
         title: 'Hành động',
@@ -184,11 +131,6 @@ class TableSix extends Component {
         ),
       },
     ];
-    const { selectedRowKeys } = this.state;
-    const rowSelection = {
-      selectedRowKeys,
-      onChange: this.onSelectChange,
-    };
     return (
       <div>
         <Content >
@@ -201,9 +143,91 @@ class TableSix extends Component {
             </div>
           </div>
         </Content>
-        <Profile visible={this.state.visible} onCloseProfile={this.onClose} />
-        <Modify visibleModify={this.state.visibleModify} onCloseModify={this.onCloseModify} />
-        <Adduser visibleAdduser={this.state.visibleAdduser} onCloseAdduser={this.onCloseAdduser} />
+        <Modal
+          title="Tạo nhân viên mới"
+          visible={this.props.showModalAddUser}
+          onOk={this.onSubmit}
+          onCancel={this.hideModal}
+          okText="OK"
+          cancelText="Cancel"
+          width={477}
+        >
+          <form
+            style={{ width: "100%" }}
+            className="tabs-main"
+            noValidate
+            onSubmit={this.onSubmit}
+            method="post"
+          >
+            <ul style={{ marginLeft: "23px" }}>
+              <li className="tabs-main-left-li">
+                <span className="tabs-user-infor-top">Họ và tên</span>
+                <div className="tabs-user-infor-bottom">
+                  <Input
+                    name="pro_resident"
+                    onChange={this.onChange}
+                  />
+                </div>
+              </li>
+              <li className="tabs-main-left-li tabs-main-left-li-row">
+                <span className="tabs-user-infor-top">Ngày tháng năm sinh</span>
+                <div className="tabs-user-infor-bottom">
+                  <DatePicker
+                    style={{ width: 150 }}
+                    onChange={(date, dateString) =>
+                      this.onChangeBirthDay(
+                        date,
+                        dateString,
+                        "pro_identity_card_when"
+                      )
+                    }
+                  />
+                </div>
+              </li>
+              <li className="tabs-main-left-li">
+                <span className="tabs-user-infor-top">Tên đăng nhập</span>
+                <div className="tabs-user-infor-bottom">
+                  <Input
+                    name="pro_resident"
+                    onChange={this.onChange}
+                  />
+                </div>
+              </li>
+              <li className="tabs-main-left-li">
+                <span className="tabs-user-infor-top">Mật khẩu</span>
+                <div className="tabs-user-infor-bottom">
+                  <Input
+                    name="pro_resident"
+                    onChange={this.onChange}
+                    // placeholder="Thuộc đảng bộ"
+                  />
+                </div>
+              </li>
+              <li className="tabs-main-left-li">
+                <span className="tabs-user-infor-top">Số điện thoại</span>
+                <div className="tabs-user-infor-bottom">
+                  <Input
+                    name="phone"
+                    // defaultValue={ this.state.pro_resident }
+                    onChange={this.onChange}
+                    // placeholder="Thuộc đảng bộ"
+                  />
+                </div>
+              </li>
+              <li className="tabs-main-left-li">
+                <span className="tabs-user-infor-top">Email</span>
+                <div className="tabs-user-infor-bottom">
+                  <Input
+                    name="email"
+                    // defaultValue={ this.state.pro_resident }
+                    onChange={this.onChange}
+                    // placeholder="Thuộc đảng bộ"
+                  />
+                </div>
+              </li>
+            </ul>
+          </form>
+        </Modal>
       </div>
     );
   }
