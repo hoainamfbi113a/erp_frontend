@@ -74,8 +74,8 @@ export default class CurriculumVitae extends Component {
         console.log(data)
         this.setState({
           dep_name: data.dep_name,
-          dep_position: data.dep_name,
-          dep_appointment_date: data.dep_appointment_date,
+          dep_position: data.dep_position,
+          dep_appointment_date: new Date(data.dep_appointment_date),
         })
       })
       .catch((err)=>{
@@ -91,8 +91,8 @@ export default class CurriculumVitae extends Component {
           deg_diploma: data.deg_diploma,
           deg_majors: data.deg_majors,
           deg_school_name: data.deg_school_name,
-          deg_begin_study: data.deg_begin_study,
-          deg_end_study: data.deg_end_study,
+          deg_begin_study: new Date(data.deg_begin_study),
+          deg_end_study: new Date(data.deg_end_study),
         })
       })
       .catch((err)=>{
@@ -103,27 +103,26 @@ export default class CurriculumVitae extends Component {
         const data = res.data.data
         console.log(data)
         this.setState({
-          work_formality: data.work_formality,
+          work_formality: data.formality,
         })
       })
       .catch((err)=>{
         console.log(err);
       })
-      Axios.get(`${process.env.apiEmployee}/api/journalist-cards/profiles/4?current_user_id=4`)
-      .then((res)=>{
-        const data = res.data.data
-        console.log(data)
-        this.setState({
-          car_number: data.car_number,
-          car_number_day: data.car_number_day,
-          car_begin:data.car_begin,
-          car_end: data.car_end,
-
-        })
-      })
-      .catch((err)=>{
-        console.log(err);
-      })
+      // Axios.get(`${process.env.apiEmployee}/api/journalist-cards/profiles/4?current_user_id=4`)
+      // .then((res)=>{
+      //   const data = res.data.data
+      //   console.log(data)
+      //   this.setState({
+      //     car_number: data.car_number,
+      //     car_number_day: new Date(data.car_number_day),
+      //     car_begin:data.car_begin,
+      //     car_end: data.car_end,
+      //   })
+      // })
+      // .catch((err)=>{
+      //   console.log(err);
+      // })
     }
     onSubmit = async(e)  =>{
       e.preventDefault();
@@ -144,10 +143,10 @@ export default class CurriculumVitae extends Component {
           }
         }
       }
-      const params ={
+      let params ={
         pro_name: this.state.pro_name,
         pro_pen_name: this.state.pro_pen_name,
-        pro_birth_day:Date.parse(this.state.pro_birth_day)/10000,
+        pro_birth_day:Date.parse(this.state.pro_birth_day)/1000,
         pro_gender: this.state.pro_gender,
         pro_birth_place: this.state.pro_birth_place,
         pro_home_town: this.state.pro_home_town,
@@ -158,14 +157,69 @@ export default class CurriculumVitae extends Component {
         pro_background_origin: this.state.pro_background_origin,
         pro_occupation: this.state.pro_occupation,
         pro_identity_card: this.state.pro_identity_card,
-        pro_identity_card_when: Date.parse(this.state.pro_identity_card_when)/10000,
+        pro_identity_card_when: Date.parse(this.state.pro_identity_card_when)/1000,
         pro_identity_card_where: this.state.pro_identity_card_where,
         current_user_id:"3",
         user_id:"4",
       }
-      console.log(params);
-      console.log(to_item_id)
       Axios.put(`${process.env.apiEmployee}/api/profiles/165?current_user_id=3`,params)
+      .then((res)=>{
+        if(res.data.message=="Success!. Updated"){
+          alert("update thanh cong")
+        } else {
+          alert("update that bai")
+        }
+      })
+      .catch(()=>{
+        alert("update that bai")
+      })
+      let paramsDepartment = {
+        dep_name: this.state.dep_name,
+        dep_position: this.state.dep_position,
+        dep_appointment_date: Date.parse(this.state.dep_appointment_date),
+        user_id:"4",
+        pro_id:"178",
+        dep_note:"asd"
+      }
+      Axios.put(`${process.env.apiEmployee}/api/departments/130?current_user_id=4`,paramsDepartment)
+      .then((res)=>{
+        if(res.data.message=="Success!. Updated"){
+          alert("update thanh cong")
+        } else {
+          alert("update that bai")
+        }
+      })
+      .catch(()=>{
+        alert("update that bai")
+      })
+      let paramsUserDegrees = {
+        user_id:"4",
+        pro_id:"178",
+        deg_type: this.state.deg_type,
+        deg_diploma: this.state.deg_diploma,
+        deg_majors: this.state.deg_majors,
+        deg_school_name: this.state.deg_school_name,
+        deg_begin_study: Date.parse(this.state.deg_begin_study),
+        deg_end_study: Date.parse(this.state.deg_end_study),
+      }
+      Axios.put(`${process.env.apiEmployee}/api/user-degrees/110?current_user_id=4`,paramsUserDegrees)
+      .then((res)=>{
+        if(res.data.message=="Success!. Updated"){
+          alert("update thanh cong")
+        } else {
+          alert("update that bai")
+        }
+      })
+      .catch(()=>{
+        alert("update that bai")
+      })
+      let paramsWorkObjects = {
+        user_id:"4",
+        pro_id:"178",
+        work_formality:this.state.work_formality,
+        work_note:"asd"
+      }
+      Axios.put(`${process.env.apiEmployee}/api/work-objects/116?current_user_id=4`,paramsWorkObjects)
       .then((res)=>{
         if(res.data.message=="Success!. Updated"){
           alert("update thanh cong")
@@ -182,7 +236,7 @@ export default class CurriculumVitae extends Component {
     };
     onChangeSex = (e) => {
         this.setState({
-            gender: e.target.value,
+            pro_gender: e.target.value,
         });
     };
     onChangeBirthDay = (e, dateString,name) =>{
@@ -207,7 +261,7 @@ export default class CurriculumVitae extends Component {
                       <ul className="tabs-main-left-ul">
                         <li className="tabs-main-left-li">
                           <span className="tabs-user-infor-top">
-                            Họ và tên khai sinh: :
+                            Họ và tên khai sinh:
                           </span>
                           <div className="tabs-user-infor-bottom">
                             <Input
@@ -317,8 +371,8 @@ export default class CurriculumVitae extends Component {
                           <span className="tabs-user-infor-top">Dân tộc:</span>
                           <div className="tabs-user-infor-bottom">
                             <Input
-                              name="pro_resident"
-                              value={ this.state.pro_resident }
+                              name="pro_ethnic"
+                              value={ this.state.pro_ethnic }
                               onChange={this.onChange}
                               placeholder="Dân tộc"
                             />
@@ -514,7 +568,7 @@ export default class CurriculumVitae extends Component {
                           <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                             <RangePicker
                             placeholder="Chọn ngày"
-                              value={this.state.deg_begin_study == null ? null: moment(this.state.deg_begin_study, dateFormat)}
+                              value={this.state.deg_begin_study == null ? null: [moment(this.state.deg_begin_study, dateFormat),moment(this.state.deg_end_study, dateFormat)]}
                               onChange={(date, dateString) =>
                                 this.onChangeBirthDay(
                                   date,
