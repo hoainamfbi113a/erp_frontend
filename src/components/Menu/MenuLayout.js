@@ -23,7 +23,7 @@ class MenuLayout extends Component {
     });
   };
   handleOnclick = () => {
-    this.props.history.push('/crm/admin/usersix');
+    this.props.history.push('/crm/admin/user');
   }
   render() {
     return (
@@ -62,7 +62,7 @@ class MenuLayout extends Component {
           </Menu.Item> */}
           <SubMenu key="sub2" icon={<UserOutlined />} title="Nghiệp vụ" icon={<ShopOutlined/>}>
             { localStorage.getItem("per") ==="hr" ?
-              <Menu.Item key="4" onClick ={this.handleOnclick} >
+              <Menu.Item key="6" onClick ={this.handleOnclick} >
               <Link to="/crm/admin/usersix">Nhân sự </Link>
               </Menu.Item>:null
             }
@@ -75,38 +75,17 @@ class MenuLayout extends Component {
      
               </Menu.Item>: null
             } */}
-               <Menu.Item key="10">
+               <Menu.Item key="7">
                <Link to="/crm/employee/edit-information">Cập nhật thông tin</Link>
                </Menu.Item>
               
            
-              <Menu.Item key="9">
+              <Menu.Item key="8">
                 {/* <Link to="/crm/user/department"> */}
                 
                 <Link to="/crm/usersix">Bình bầu</Link>
                 {/* </Link> */}
               </Menu.Item>
-         
-              {/* <Menu.Item key="3">
-                <Link to="/crm/user/personal-history">
-                Lịch sử cá nhân
-                </Link>
-              </Menu.Item>
-              <Menu.Item key="4">
-                <Link to="/crm/user/degree">
-                Trình độ nhân viên
-                </Link>
-              </Menu.Item>
-              <Menu.Item key="5">
-                <Link to="/crm/user/work-object">
-                Hình thứ làm việc
-                </Link>
-              </Menu.Item>
-              <Menu.Item key="6">
-                <Link to="/crm/user/journalist-card">
-                 Thẻ Nhà báo
-                </Link>
-              </Menu.Item> */}
           </SubMenu>
           </Menu>
         </Sider>

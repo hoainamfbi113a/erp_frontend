@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Input } from "antd";
+import { Input, message } from "antd";
 import { Button, Pagination, DatePicker } from "antd";
 import moment from "moment"
 const { RangePicker } = DatePicker;
@@ -43,7 +43,7 @@ export default class CurriculumVitae extends Component {
       }
     }
     componentDidMount = () =>{
-      Axios.get("https://employee.tuoitre.vn/api/fe/profiles/4?current_user_id=4")
+      Axios.get(`${process.env.apiEmployee}/api/fe/profiles/4?current_user_id=4`)
       .then((res)=>{
         const data = res.data.data
         console.log(data)
@@ -68,7 +68,7 @@ export default class CurriculumVitae extends Component {
       .catch((err)=>{
         console.log(err);
       })
-      Axios.get("https://employee.tuoitre.vn/api/departments/profiles/4?current_user_id=4")
+      Axios.get(`${process.env.apiEmployee}/api/departments/profiles/4?current_user_id=4`)
       .then((res)=>{
         const data = res.data.data
         console.log(data)
@@ -82,7 +82,7 @@ export default class CurriculumVitae extends Component {
         console.log(err);
       })
 
-      Axios.get("https://employee.tuoitre.vn/api/user-degrees/profiles/4?current_user_id=4")
+      Axios.get(`${process.env.apiEmployee}/api/user-degrees/profiles/4?current_user_id=4`)
       .then((res)=>{
         const data = res.data.data
         console.log(data)
@@ -98,7 +98,7 @@ export default class CurriculumVitae extends Component {
       .catch((err)=>{
         console.log(err);
       })
-      Axios.get("https://employee.tuoitre.vn/api/work-objects/profiles/4?current_user_id=4")
+      Axios.get(`${process.env.apiEmployee}/api/work-objects/profiles/4?current_user_id=4`)
       .then((res)=>{
         const data = res.data.data
         console.log(data)
@@ -109,7 +109,7 @@ export default class CurriculumVitae extends Component {
       .catch((err)=>{
         console.log(err);
       })
-      Axios.get("https://employee.tuoitre.vn/api/journalist-cards/profiles/4?current_user_id=4")
+      Axios.get(`${process.env.apiEmployee}/api/journalist-cards/profiles/4?current_user_id=4`)
       .then((res)=>{
         const data = res.data.data
         console.log(data)
@@ -125,12 +125,29 @@ export default class CurriculumVitae extends Component {
         console.log(err);
       })
     }
-    onSubmit =(e) =>{
+    onSubmit = async(e)  =>{
       e.preventDefault();
+      const from_item_id = 165;
+      let to_item_id = 0;
+      let arrLog = [];
+     await Axios.get(`${process.env.apiEmployee}/api/transfers`)
+      .then((res)=>{
+        arrLog = res.data.data
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+      for(const item of arrLog){
+        if(item.from_item_id == from_item_id){
+          if(item.to_item_id>to_item_id){
+            to_item_id = item.to_item_id
+          }
+        }
+      }
       const params ={
         pro_name: this.state.pro_name,
         pro_pen_name: this.state.pro_pen_name,
-        pro_birth_day: this.state.pro_birth_day,
+        pro_birth_day:Date.parse(this.state.pro_birth_day),
         pro_gender: this.state.pro_gender,
         pro_birth_place: this.state.pro_birth_place,
         pro_home_town: this.state.pro_home_town,
@@ -141,9 +158,24 @@ export default class CurriculumVitae extends Component {
         pro_background_origin: this.state.pro_background_origin,
         pro_occupation: this.state.pro_occupation,
         pro_identity_card: this.state.pro_identity_card,
-        pro_identity_card_when: this.state.pro_identity_card_when,
+        pro_identity_card_when: Date.parse(this.state.pro_identity_card_when),
         pro_identity_card_where: this.state.pro_identity_card_where,
+        current_user_id:"3",
+        user_id:"4",
       }
+      console.log(process.env.apiEmployee);
+      console.log(to_item_id)
+      Axios.put(`${process.env.apiEmployee}/api/profiles/165?current_user_id=3`,params)
+      .then((res)=>{
+        if(res.data.message=="Success!. Updated"){
+          alert("update thanh cong")
+        } else {
+          alert("update that bai")
+        }
+      })
+      .catch(()=>{
+        alert("update that bai")
+      })
     }
     onChange = (e) => {
       this.setState({ [e.target.name]: e.target.value });
