@@ -7,13 +7,14 @@ import "../../App/App.css";
 import "../Crm/Crm.css"
 import "./Table.css"
 import * as userSixActions from '../../actions/userSix';
-import {  Layout, Upload } from "antd";
+import {  Layout, Steps } from "antd";
 import { Table, Space, Tag, Avatar } from 'antd';
 import { Popconfirm, message } from 'antd';
 import { Input, Modal, DatePicker } from "antd";
 import imgUser from "../../assets/images/imguser.png";
 
 const { Content } = Layout;
+const { Step } = Steps;
 class TableSix extends Component {
   state = {
     collapsed: false,
@@ -23,7 +24,7 @@ class TableSix extends Component {
     loading: false,
     current_user_id: "4",
     app_id: "99",
-    full_name: "Nguyễn Văn A",
+    full_name: "",
     email: "",
     phone: "",
   };
@@ -41,6 +42,7 @@ class TableSix extends Component {
       app_id: process.env.app_id,
       email: this.state.email,
       phone: this.state.phone,
+      full_name: this.state.full_name
     };
     this.hideModal();
     axios
@@ -131,6 +133,12 @@ class TableSix extends Component {
     ];
     return (
       <div>
+        <Steps size="small" className="process-work-flow">
+          <Step title="Nhân sự tạo nhân viên mới" />
+          <Step title="Nhân sự thêm thông tin căn bản" />
+          <Step title="Nhân viên vào chỉnh sửa thông tin của mình" />
+          <Step title="Nhân sự duyệt" />
+        </Steps>
         <Content >
           {/* <div style={{ height: "calc(100vh - 139px)" }} className="layout-content"> */}
           <div className="layout-content">
@@ -162,7 +170,7 @@ class TableSix extends Component {
                 <span className="tabs-user-infor-top">Họ và tên</span>
                 <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal ">
                   <Input
-                    name="pro_resident"
+                    name="full_name"
                     onChange={this.onChange}
                   />
                 </div>
