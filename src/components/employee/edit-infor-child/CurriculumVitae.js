@@ -147,7 +147,7 @@ export default class CurriculumVitae extends Component {
       const params ={
         pro_name: this.state.pro_name,
         pro_pen_name: this.state.pro_pen_name,
-        pro_birth_day:Date.parse(this.state.pro_birth_day),
+        pro_birth_day:Date.parse(this.state.pro_birth_day)/10000,
         pro_gender: this.state.pro_gender,
         pro_birth_place: this.state.pro_birth_place,
         pro_home_town: this.state.pro_home_town,
@@ -158,12 +158,12 @@ export default class CurriculumVitae extends Component {
         pro_background_origin: this.state.pro_background_origin,
         pro_occupation: this.state.pro_occupation,
         pro_identity_card: this.state.pro_identity_card,
-        pro_identity_card_when: Date.parse(this.state.pro_identity_card_when),
+        pro_identity_card_when: Date.parse(this.state.pro_identity_card_when)/10000,
         pro_identity_card_where: this.state.pro_identity_card_where,
         current_user_id:"3",
         user_id:"4",
       }
-      console.log(process.env.apiEmployee);
+      console.log(params);
       console.log(to_item_id)
       Axios.put(`${process.env.apiEmployee}/api/profiles/165?current_user_id=3`,params)
       .then((res)=>{
