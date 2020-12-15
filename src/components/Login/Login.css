@@ -217,7 +217,8 @@ img{
     .form__img{
         display: block;
         height:100%;
-        width: 700px;
+        width: 100%;
+        object-fit: cover;
         justify-self: left;
         margin-left: -31px;
     }

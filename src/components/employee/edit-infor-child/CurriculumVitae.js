@@ -1,24 +1,162 @@
 import React, { Component } from 'react'
 import { Input } from "antd";
 import { Button, Pagination, DatePicker } from "antd";
+import moment from "moment"
 const { RangePicker } = DatePicker;
 import { Radio } from "antd";
 import Axios from 'axios';
+const dateFormat = 'YYYY/MM/DD';
 export default class CurriculumVitae extends Component {
     constructor(props){
       super(props)
       this.state ={
+        pro_name: null,
+        pro_pen_name: null,
+        pro_birth_day: null,
+        pro_gender: 2,
+        pro_birth_place: null,
+        pro_home_town: null,
+        pro_local_phone: null,
+        pro_resident: null,
+        pro_ethnic: null,
+        pro_religion: null,
+        pro_background_origin: null,
+        pro_occupation: null,
+        pro_identity_card: null,
+        pro_identity_card_when: null,
+        pro_identity_card_where: null,
+        dep_name: null,
+        dep_position: null,
+        dep_appointment_date: null,
+        deg_type: null,
+        deg_diploma: null,
+        deg_majors: null,
+        deg_school_name: null,
+        deg_begin_study: null,
+        deg_end_study: null,
+        work_formality: null,
+        car_number: null,
+        car_number_day: null,
+        car_begin:null,
+        car_end: null,
 
       }
     }
     componentDidMount = () =>{
       Axios.get("https://employee.tuoitre.vn/api/fe/profiles/4?current_user_id=4")
       .then((res)=>{
-        console.log(res.data);
+        const data = res.data.data
+        console.log(data)
+        this.setState({
+        pro_name: data.pro_name,
+        pro_pen_name: data.pro_pen_name,
+        pro_birth_day: data.pro_birth_day,
+        pro_gender: data.pro_gender,
+        pro_birth_place: data.pro_birth_place,
+        pro_home_town: data.pro_home_town,
+        pro_local_phone: data.pro_local_phone,
+        pro_resident: data.pro_resident,
+        pro_ethnic: data.pro_ethnic,
+        pro_religion: data.pro_religion,
+        pro_background_origin: data.pro_background_origin,
+        pro_occupation: data.pro_occupation,
+        pro_identity_card: data.pro_identity_card,
+        pro_identity_card_when: data.pro_identity_card_when,
+        pro_identity_card_where: data.pro_identity_card_where,
+        })
       })
       .catch((err)=>{
-        console.log("Loi");
+        console.log(err);
       })
+      Axios.get("https://employee.tuoitre.vn/api/departments/profiles/4?current_user_id=4")
+      .then((res)=>{
+        const data = res.data.data
+        console.log(data)
+        this.setState({
+          dep_name: data.dep_name,
+          dep_position: data.dep_name,
+          dep_appointment_date: data.dep_appointment_date,
+        })
+      })
+      .catch((err)=>{
+        console.log(err);
+      })
+
+      Axios.get("https://employee.tuoitre.vn/api/user-degrees/profiles/4?current_user_id=4")
+      .then((res)=>{
+        const data = res.data.data
+        console.log(data)
+        this.setState({
+          deg_type: data.deg_type,
+          deg_diploma: data.deg_diploma,
+          deg_majors: data.deg_majors,
+          deg_school_name: data.deg_school_name,
+          deg_begin_study: data.deg_begin_study,
+          deg_end_study: data.deg_end_study,
+        })
+      })
+      .catch((err)=>{
+        console.log(err);
+      })
+      Axios.get("https://employee.tuoitre.vn/api/work-objects/profiles/4?current_user_id=4")
+      .then((res)=>{
+        const data = res.data.data
+        console.log(data)
+        this.setState({
+          work_formality: data.work_formality,
+        })
+      })
+      .catch((err)=>{
+        console.log(err);
+      })
+      Axios.get("https://employee.tuoitre.vn/api/journalist-cards/profiles/4?current_user_id=4")
+      .then((res)=>{
+        const data = res.data.data
+        console.log(data)
+        this.setState({
+          car_number: data.car_number,
+          car_number_day: data.car_number_day,
+          car_begin:data.car_begin,
+          car_end: data.car_end,
+
+        })
+      })
+      .catch((err)=>{
+        console.log(err);
+      })
+    }
+    onSubmit =(e) =>{
+      e.preventDefault();
+      const params ={
+        pro_name: this.state.pro_name,
+        pro_pen_name: this.state.pro_pen_name,
+        pro_birth_day: this.state.pro_birth_day,
+        pro_gender: this.state.pro_gender,
+        pro_birth_place: this.state.pro_birth_place,
+        pro_home_town: this.state.pro_home_town,
+        pro_local_phone: this.state.pro_local_phone,
+        pro_resident: this.state.pro_resident,
+        pro_ethnic: this.state.pro_ethnic,
+        pro_religion: this.state.pro_religion,
+        pro_background_origin: this.state.pro_background_origin,
+        pro_occupation: this.state.pro_occupation,
+        pro_identity_card: this.state.pro_identity_card,
+        pro_identity_card_when: this.state.pro_identity_card_when,
+        pro_identity_card_where: this.state.pro_identity_card_where,
+      }
+    }
+    onChange = (e) => {
+      this.setState({ [e.target.name]: e.target.value });
+    };
+    onChangeSex = (e) => {
+        this.setState({
+            gender: e.target.value,
+        });
+    };
+    onChangeBirthDay = (e, dateString,name) =>{
+        this.setState({
+            [name]: dateString,
+          });
     }
     render() {
         return (
@@ -41,7 +179,7 @@ export default class CurriculumVitae extends Component {
                           </span>
                           <div className="tabs-user-infor-bottom">
                             <Input
-                              // defaultValue={ this.state.pro_name }
+                              value={ this.state.pro_name }
                               name="pro_name"
                               onChange={this.onChange}
                               placeholder="Nhập họ và tên khai sinh"
@@ -53,7 +191,7 @@ export default class CurriculumVitae extends Component {
                           <div className="tabs-user-infor-bottom">
                             <Input
                               name="pro_pen_name"
-                              // defaultValue={ this.state.pro_pen_name }
+                              value={ this.state.pro_pen_name }
                               onChange={this.onChange}
                               placeholder="Nhập Bút danh"
                             />
@@ -65,8 +203,9 @@ export default class CurriculumVitae extends Component {
                           </span>
                           <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                             <DatePicker
+                              placeholder="Chọn ngày"
                               style={{ width: 150 }}
-                              // defaultValue={this.state.pro_birth_day == null ? null: moment(this.state.pro_birth_day, dateFormat)}
+                              value={this.state.pro_birth_day == null ? null: moment(this.state.pro_birth_day, dateFormat)}
                               onChange={(date, dateString) =>
                                 this.onChangeBirthDay(
                                   date,
@@ -84,7 +223,7 @@ export default class CurriculumVitae extends Component {
                           <div className="tabs-user-infor-bottom">
                             <Radio.Group
                               onChange={this.onChangeSex}
-                              // value={this.state.pro_gender}
+                              value={this.state.pro_gender}
                             >
                               <Radio value={1}>Nam</Radio>
                               <Radio value={2}>Nữ</Radio>
@@ -97,7 +236,7 @@ export default class CurriculumVitae extends Component {
                           <div className="tabs-user-infor-bottom">
                             <Input
                               name="pro_birth_place"
-                              // defaultValue={ this.state.pro_birth_place }
+                              value={ this.state.pro_birth_place }
                               onChange={this.onChange}
                               placeholder="Nơi sinh của"
                             />
@@ -110,7 +249,7 @@ export default class CurriculumVitae extends Component {
                           <div className="tabs-user-infor-bottom">
                             <Input
                               name="pro_home_town"
-                              // defaultValue={ this.state.pro_home_town }
+                              value={ this.state.pro_home_town }
                               onChange={this.onChange}
                               placeholder="Nơi sinh của"
                             />
@@ -122,10 +261,10 @@ export default class CurriculumVitae extends Component {
                           </span>
                           <div className="tabs-user-infor-bottom">
                             <Input
-                              name="pro_mobile_phone"
-                              // defaultValue={ this.state.pro_mobile_phone }
+                              name="pro_local_phone"
+                              value={ this.state.pro_local_phone }
                               onChange={this.onChange}
-                              placeholder="Quê quán của"
+                              placeholder="Số điện thoại nội bộ"
                             />
                           </div>
                         </li>
@@ -136,7 +275,7 @@ export default class CurriculumVitae extends Component {
                           <div className="tabs-user-infor-bottom">
                             <Input
                               name="pro_resident"
-                              // defaultValue={ this.state.pro_resident }
+                              value={ this.state.pro_resident }
                               onChange={this.onChange}
                               placeholder="Nơi ở hiện tại"
                             />
@@ -147,7 +286,7 @@ export default class CurriculumVitae extends Component {
                           <div className="tabs-user-infor-bottom">
                             <Input
                               name="pro_resident"
-                              // defaultValue={ this.state.pro_resident }
+                              value={ this.state.pro_resident }
                               onChange={this.onChange}
                               placeholder="Dân tộc"
                             />
@@ -158,7 +297,7 @@ export default class CurriculumVitae extends Component {
                           <div className="tabs-user-infor-bottom">
                             <Input
                               name="pro_religion"
-                              // defaultValue={ this.state.pro_religion }
+                              value={ this.state.pro_religion }
                               onChange={this.onChange}
                               placeholder="Tôn giáo"
                             />
@@ -171,7 +310,7 @@ export default class CurriculumVitae extends Component {
                           <div className="tabs-user-infor-bottom">
                             <Input
                               name="pro_background_origin"
-                              // defaultValue={ this.state.pro_background_origin }
+                              value={ this.state.pro_background_origin }
                               onChange={this.onChange}
                               placeholder="Thành phần xuất thân của"
                             />
@@ -184,7 +323,7 @@ export default class CurriculumVitae extends Component {
                           <div className="tabs-user-infor-bottom">
                             <Input
                               name="pro_occupation"
-                              // defaultValue={ this.state.pro_occupation }
+                              value={ this.state.pro_occupation }
                               onChange={this.onChange}
                               placeholder="Nhập nghề nghiệp khi được tuyển dụng"
                             />
@@ -197,7 +336,7 @@ export default class CurriculumVitae extends Component {
                           <div className="tabs-user-infor-bottom">
                             <Input
                               name="pro_identity_card"
-                              // defaultValue={ this.state.pro_identity_card }
+                              value={ this.state.pro_identity_card }
                               onChange={this.onChange}
                               placeholder="Số CMND/Thẻ CCCD"
                             />
@@ -209,8 +348,9 @@ export default class CurriculumVitae extends Component {
                           </span>
                           <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                             <DatePicker
+                              placeholder="Chọn ngày"
                               style={{ width: 150 }}
-                              // defaultValue={this.state.pro_identity_card_when == null ? null: moment(this.state.pro_identity_card_when, dateFormat)}
+                              value={this.state.pro_identity_card_when == null ? null: moment(this.state.pro_identity_card_when, dateFormat)}
                               onChange={(date, dateString) =>
                                 this.onChangeBirthDay(
                                   date,
@@ -228,7 +368,7 @@ export default class CurriculumVitae extends Component {
                           <div className="tabs-user-infor-bottom">
                             <Input
                               name="pro_identity_card_where"
-                              // defaultValue={ this.state.pro_identity_card_where }
+                              value={ this.state.pro_identity_card_where }
                               onChange={this.onChange}
                               placeholder="Nơi cấp CMND,CCCD"
                             />
@@ -249,7 +389,7 @@ export default class CurriculumVitae extends Component {
                           <div className="tabs-user-infor-bottom">
                             <Input
                               name="dep_name"
-                              // defaultValue={ this.state.dep_name }
+                              value={ this.state.dep_name }
                               onChange={this.onChange}
                               placeholder="Nhập Tên phòng ban"
                             />
@@ -260,7 +400,7 @@ export default class CurriculumVitae extends Component {
                           <div className="tabs-user-infor-bottom">
                             <Input
                               name="dep_position"
-                              // defaultValue={ this.state.dep_position }
+                              value={ this.state.dep_position }
                               onChange={this.onChange}
                               placeholder="Chức vụ phòng ban"
                             />
@@ -272,8 +412,9 @@ export default class CurriculumVitae extends Component {
                           </span>
                           <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                             <DatePicker
+                              placeholder="Chọn ngày"
                               style={{ width: 150 }}
-                              // defaultValue={this.state.dep_appointment_date == null ? null: moment(this.state.dep_appointment_date, dateFormat)}
+                              value={this.state.dep_appointment_date == null ? null: moment(this.state.dep_appointment_date, dateFormat)}
                               onChange={(date, dateString) =>
                                 this.onChangeBirthDay(
                                   date,
@@ -291,7 +432,7 @@ export default class CurriculumVitae extends Component {
                           <div className="tabs-user-infor-bottom">
                             <Input
                               name="deg_type"
-                              // defaultValue={ this.state.deg_type }
+                              value={ this.state.deg_type }
                               onChange={this.onChange}
                               placeholder="Loại bằng cấp"
                             />
@@ -302,7 +443,7 @@ export default class CurriculumVitae extends Component {
                           <div className="tabs-user-infor-bottom">
                             <Input
                               name="deg_diploma"
-                              // defaultValue={ this.state.deg_diploma }
+                              value={ this.state.deg_diploma }
                               onChange={this.onChange}
                               placeholder="Bằng cấp"
                             />
@@ -315,7 +456,7 @@ export default class CurriculumVitae extends Component {
                           <div className="tabs-user-infor-bottom">
                             <Input
                               name="deg_majors"
-                              // defaultValue={ this.state.deg_majors }
+                              value={ this.state.deg_majors }
                               onChange={this.onChange}
                               placeholder="Chuyên ngành học"
                             />
@@ -328,7 +469,7 @@ export default class CurriculumVitae extends Component {
                           <div className="tabs-user-infor-bottom">
                             <Input
                               name="deg_school_name"
-                              // defaultValue={ this.state.deg_school_name }
+                              value={ this.state.deg_school_name }
                               onChange={this.onChange}
                               placeholder="Tên trường đào tạo"
                             />
@@ -340,7 +481,8 @@ export default class CurriculumVitae extends Component {
                           </span>
                           <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                             <RangePicker
-                              // defaultValue={this.state.deg_begin_study == null ? null: moment(this.state.deg_begin_study, dateFormat)}
+                            placeholder="Chọn ngày"
+                              value={this.state.deg_begin_study == null ? null: moment(this.state.deg_begin_study, dateFormat)}
                               onChange={(date, dateString) =>
                                 this.onChangeBirthDay(
                                   date,
@@ -351,16 +493,6 @@ export default class CurriculumVitae extends Component {
                             />
                           </div>
                         </li>
-                        {/* <li className="tabs-main-left-li">
-                                            <span className="tabs-user-infor-top">Thời gian kết thúc học, thời gian tốt nghiệp:</span>
-                                            <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
-                                                <DatePicker
-                                                    style={{ width: 150 }}
-                                                    // defaultValue={this.state.deg_end_study == null ? null: moment(this.state.deg_end_study, dateFormat)}
-                                                    onChange={(date,dateString)=>this.onChangeBirthDay(date,dateString,"deg_end_study")}
-                                                />
-                                            </div>
-                                        </li> */}
                         <li className="tabs-main-left-li">
                           <span className="tabs-user-infor-top">
                             Hình thức lao động:
@@ -368,7 +500,7 @@ export default class CurriculumVitae extends Component {
                           <div className="tabs-user-infor-bottom">
                             <Input
                               name="work_formality"
-                              // defaultValue={ this.state.work_formality }
+                              value={ this.state.work_formality }
                               onChange={this.onChange}
                               placeholder="Hình thức lao động"
                             />
@@ -379,7 +511,7 @@ export default class CurriculumVitae extends Component {
                           <div className="tabs-user-infor-bottom">
                             <Input
                               name="car_number"
-                              // defaultValue={ this.state.car_number }
+                              value={ this.state.car_number }
                               onChange={this.onChange}
                               placeholder="Số thẻ"
                             />
@@ -391,8 +523,10 @@ export default class CurriculumVitae extends Component {
                           </span>
                           <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                             <DatePicker
+                              placeholder="Chọn ngày"
                               style={{ width: 150 }}
-                              // defaultValue={this.state.car_number_day == null ? null: moment(this.state.car_number_day, dateFormat)}
+                              placeholder="Chọn ngày"
+                              value={this.state.car_number_day == null ? null: moment(this.state.car_number_day, dateFormat)}
                               onChange={(date, dateString) =>
                                 this.onChangeBirthDay(
                                   date,
@@ -409,7 +543,8 @@ export default class CurriculumVitae extends Component {
                           </span>
                           <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                             <RangePicker
-                              // defaultValue={this.state.car_begin == null ? null: moment(this.state.car_begin, dateFormat)}
+                            placeholder="Chọn ngày"
+                              value={this.state.car_begin == null ? null: moment(this.state.car_begin, dateFormat)}
                               onChange={(date, dateString) =>
                                 this.onChangeBirthDay(
                                   date,

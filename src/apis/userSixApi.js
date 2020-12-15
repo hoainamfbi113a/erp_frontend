@@ -1,17 +1,17 @@
 // import axiosUser from "./axios";
 import axios from "axios"
 const getListUserBase = (params = {}) => {
-    return axios.get("https://employee.tuoitre.vn/profiles",params)
+    return axios.get(`${process.env.apiEmployee}/profiles`,params)
 }
 const deleteUserBase = (id) => {
-    return axios.delete(`https://employee.tuoitre.vn/profiles/${id}`,)
+    return axios.delete(`${process.env.apiEmployee}/profiles/${id}`,)
 }
 const addUserBase = (params) => {
     params.current_user_id = localStorage.getItem("current_user_id");
-    return axios.post("https://employee.tuoitre.vn/profiles", params)
+    return axios.post(`${process.env.apiEmployee}/profiles`, params)
 }
 const editUserBase = (params) => {
-    return axios.put(`https://employee.tuoitre.vn/profiles/${params.id}`, params)
+    return axios.put(`${process.env.apiEmployee}/profiles/${params.id}`, params)
 }
 export {
     getListUserBase,

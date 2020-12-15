@@ -148,11 +148,11 @@ class TableSix extends Component {
           onCancel={this.hideModal}
           okText="OK"
           cancelText="Cancel"
-          width={477}
+          width={600}
         >
           <form
             style={{ width: "100%" }}
-            className="tabs-main"
+            className="tabs-main tabs-main-modal"
             noValidate
             onSubmit={this.onSubmit}
             method="post"
@@ -160,17 +160,18 @@ class TableSix extends Component {
             <ul style={{ marginLeft: "23px" }}>
               <li className="tabs-main-left-li">
                 <span className="tabs-user-infor-top">Họ và tên</span>
-                <div className="tabs-user-infor-bottom">
+                <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal ">
                   <Input
                     name="pro_resident"
                     onChange={this.onChange}
                   />
                 </div>
               </li>
-              <li className="tabs-main-left-li tabs-main-left-li-row">
+              {/* <li className="tabs-main-left-li tabs-main-left-li-row">
                 <span className="tabs-user-infor-top">Ngày tháng năm sinh</span>
-                <div className="tabs-user-infor-bottom">
+                <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
                   <DatePicker
+                  placeholder="Chọn ngày"
                     style={{ width: 150 }}
                     onChange={(date, dateString) =>
                       this.onChangeBirthDay(
@@ -181,10 +182,10 @@ class TableSix extends Component {
                     }
                   />
                 </div>
-              </li>
+              </li> */}
               <li className="tabs-main-left-li">
                 <span className="tabs-user-infor-top">Tên đăng nhập</span>
-                <div className="tabs-user-infor-bottom">
+                <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
                   <Input
                     name="pro_resident"
                     onChange={this.onChange}
@@ -193,7 +194,7 @@ class TableSix extends Component {
               </li>
               <li className="tabs-main-left-li">
                 <span className="tabs-user-infor-top">Mật khẩu</span>
-                <div className="tabs-user-infor-bottom">
+                <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
                   <Input
                     name="pro_resident"
                     onChange={this.onChange}
@@ -203,7 +204,7 @@ class TableSix extends Component {
               </li>
               <li className="tabs-main-left-li">
                 <span className="tabs-user-infor-top">Số điện thoại</span>
-                <div className="tabs-user-infor-bottom">
+                <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
                   <Input
                     name="phone"
                     // defaultValue={ this.state.pro_resident }
@@ -214,7 +215,7 @@ class TableSix extends Component {
               </li>
               <li className="tabs-main-left-li">
                 <span className="tabs-user-infor-top">Email</span>
-                <div className="tabs-user-infor-bottom">
+                <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
                   <Input
                     name="email"
                     // defaultValue={ this.state.pro_resident }
