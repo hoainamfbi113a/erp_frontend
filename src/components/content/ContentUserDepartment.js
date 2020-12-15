@@ -181,6 +181,7 @@ class ContentUserDepartment extends Component {
                           </span>
                           <div className="tabs-user-infor-right tabs-user-infor-right-date">
                             <DatePicker
+                            placeholder="Chọn ngày"
                               style={{ width: 350 }}
                               onChange={this.onChangeAppointmentDate}
                             />

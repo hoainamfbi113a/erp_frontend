@@ -25,6 +25,7 @@ export default class JoinDCS extends Component {
                           </span>
                           <div className="tabs-user-infor-bottom">
                           <DatePicker
+                          placeholder="Chọn ngày"
                               style={{ width: 150 }}
                               // defaultValue={this.state.pro_identity_card_when == null ? null: moment(this.state.pro_identity_card_when, dateFormat)}
                               onChange={(date, dateString) =>
@@ -213,6 +214,7 @@ export default class JoinDCS extends Component {
                           </span>
                           <div className="tabs-user-infor-bottom">
                           <DatePicker
+                          placeholder="Chọn ngày"
                               style={{ width: 150 }}
                               // defaultValue={this.state.pro_identity_card_when == null ? null: moment(this.state.pro_identity_card_when, dateFormat)}
                               onChange={(date, dateString) =>

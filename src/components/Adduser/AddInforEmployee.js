@@ -69,6 +69,7 @@ class AddInforEmployee extends Component {
             profiles.pro_home_town = this.state.pro_home_town,
             profiles.pro_mobile_phone = this.state.pro_mobile_phone,
             profiles.pro_resident = this.state.pro_resident,
+            profiles.pro_ethnic = this.state.pro_ethnic,
             profiles.pro_religion = this.state.pro_religion,
             profiles.pro_background_origin = this.state.pro_background_origin,
             profiles.pro_occupation = this.state.pro_occupation,
@@ -177,6 +178,7 @@ class AddInforEmployee extends Component {
                                             <span className="tabs-user-infor-top">Ngày sinh của user:</span>
                                             <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                 <DatePicker
+                                                placeholder="Chọn ngày"
                                                     style={{ width: 350 }}
                                                     defaultValue={this.state.pro_birth_day == null ? null: moment(this.state.pro_birth_day, dateFormat)}
                                                     onChange={(date,dateString)=>this.onChangeBirthDay(date,dateString,"pro_birth_day")}
@@ -244,8 +246,8 @@ class AddInforEmployee extends Component {
                                             <span className="tabs-user-infor-top">Dân tộc:</span>
                                             <div className="tabs-user-infor-bottom">
                                                 <Input
-                                                    name="pro_resident"
-                                                    defaultValue={ this.state.pro_resident }
+                                                    name="pro_ethnic"
+                                                    defaultValue={ this.state.pro_ethnic }
                                                     onChange={this.onChange}
                                                     placeholder="Dân tộc"
                                                 />
@@ -299,6 +301,7 @@ class AddInforEmployee extends Component {
                                             <span className="tabs-user-infor-top">Ngày cấp CMND, CCCD :</span>
                                             <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                 <DatePicker
+                                                placeholder="Chọn ngày"
                                                     style={{ width: 350 }}
                                                     defaultValue={this.state.pro_identity_card_when == null ? null: moment(this.state.pro_identity_card_when, dateFormat)}
                                                     onChange={(date,dateString)=>this.onChangeBirthDay(date,dateString,"pro_identity_card_when")}
@@ -353,6 +356,7 @@ class AddInforEmployee extends Component {
                                             <span className="tabs-user-infor-top">Ngày bổ nhiệm chức vụ :</span>
                                             <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                 <DatePicker
+                                                placeholder="Chọn ngày"
                                                     style={{ width: 350 }}
                                                     defaultValue={this.state.dep_appointment_date == null ? null: moment(this.state.dep_appointment_date, dateFormat)}
                                                     onChange={(date,dateString)=>this.onChangeBirthDay(date,dateString,"dep_appointment_date")}
@@ -410,6 +414,7 @@ class AddInforEmployee extends Component {
                                             <span className="tabs-user-infor-top">Thời gian bắt đầu học:</span>
                                             <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                 <DatePicker
+                                                placeholder="Chọn ngày"
                                                     style={{ width: 350 }}
                                                     defaultValue={this.state.deg_begin_study == null ? null: moment(this.state.deg_begin_study, dateFormat)}
                                                     onChange={(date,dateString)=>this.onChangeBirthDay(date,dateString,"deg_begin_study")}
@@ -420,6 +425,7 @@ class AddInforEmployee extends Component {
                                             <span className="tabs-user-infor-top">Thời gian kết thúc học, thời gian tốt nghiệp:</span>
                                             <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                 <DatePicker
+                                                placeholder="Chọn ngày"
                                                     style={{ width: 350 }}
                                                     defaultValue={this.state.deg_end_study == null ? null: moment(this.state.deg_end_study, dateFormat)}
                                                     onChange={(date,dateString)=>this.onChangeBirthDay(date,dateString,"deg_end_study")}
@@ -458,6 +464,7 @@ class AddInforEmployee extends Component {
                                             <span className="tabs-user-infor-top">Ngày cấp thẻ:</span>
                                             <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                 <DatePicker
+                                                placeholder="Chọn ngày"
                                                     style={{ width: 350 }}
                                                     defaultValue={this.state.car_number_day == null ? null: moment(this.state.car_number_day, dateFormat)}
                                                     onChange={(date,dateString)=>this.onChangeBirthDay(date,dateString,"car_number_day")}
@@ -468,6 +475,7 @@ class AddInforEmployee extends Component {
                                             <span className="tabs-user-infor-top">Thời gian thẻ có hiệu lực:</span>
                                             <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                 <DatePicker
+                                                placeholder="Chọn ngày"
                                                     style={{ width: 350 }}
                                                     defaultValue={this.state.car_begin == null ? null: moment(this.state.car_begin, dateFormat)}
                                                     onChange={(date,dateString)=>this.onChangeBirthDay(date,dateString,"car_begin")}
@@ -477,6 +485,7 @@ class AddInforEmployee extends Component {
                                             <span className="tabs-user-infor-top">Thời gian thẻ hết hiệu lực:</span>
                                             <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                 <DatePicker
+                                                placeholder="Chọn ngày"
                                                     style={{ width: 350 }}
                                                     defaultValue={this.state.car_end == null ? null: moment(this.state.car_end, dateFormat)}
                                                     onChange={(date,dateString)=>this.onChangeBirthDay(date,dateString,"car_end")}

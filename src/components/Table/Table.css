@@ -62,3 +62,11 @@
 .ant-table-pagination.ant-pagination {
     margin: 11px 34px;
 }
+.tabs-main-modal{
+    /* display: flex; */
+    justify-content: center !important;
+    align-items: center !important;
+}
+.tabs-user-infor-bottom-modal input{
+    width: 450px !important;
+}

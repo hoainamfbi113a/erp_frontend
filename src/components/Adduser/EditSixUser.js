@@ -295,6 +295,7 @@ class AddSix extends Component {
                                             <span className="tabs-user-infor-top">Ngày sinh của user:</span>
                                             <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                 <DatePicker
+                                                placeholder="Chọn ngày"
                                                 disabled = {this.state.disabledInput}
                                                     style={{ width: 350 }}
                                                     defaultValue={this.state.pro_birth_day == null ? null: moment(this.state.pro_birth_day, dateFormat)}
@@ -427,6 +428,7 @@ class AddSix extends Component {
                                             <span className="tabs-user-infor-top">Ngày cấp CMND, CCCD :</span>
                                             <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                 <DatePicker
+                                                placeholder="Chọn ngày"
                                                 disabled = {this.state.disabledInput}
                                                     style={{ width: 350 }}
                                                     defaultValue={this.state.pro_identity_card_when == null ? null: moment(this.state.pro_identity_card_when, dateFormat)}
@@ -485,6 +487,7 @@ class AddSix extends Component {
                                             <span className="tabs-user-infor-top">Ngày bổ nhiệm chức vụ :</span>
                                             <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                 <DatePicker
+                                                placeholder="Chọn ngày"
                                                 disabled = {this.state.disabledInput}
                                                     style={{ width: 350 }}
                                                     defaultValue={this.state.dep_appointment_date == null ? null: moment(this.state.dep_appointment_date, dateFormat)}
@@ -547,6 +550,7 @@ class AddSix extends Component {
                                             <span className="tabs-user-infor-top">Thời gian bắt đầu học:</span>
                                             <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                 <DatePicker
+                                                placeholder="Chọn ngày"
                                                 disabled = {this.state.disabledInput}
                                                     style={{ width: 350 }}
                                                     defaultValue={this.state.deg_begin_study == null ? null: moment(this.state.deg_begin_study, dateFormat)}
@@ -558,6 +562,7 @@ class AddSix extends Component {
                                             <span className="tabs-user-infor-top">Thời gian kết thúc học, thời gian tốt nghiệp:</span>
                                             <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                 <DatePicker
+                                                placeholder="Chọn ngày"
                                                 disabled = {this.state.disabledInput}
                                                     style={{ width: 350 }}
                                                     defaultValue={this.state.deg_end_study == null ? null: moment(this.state.deg_end_study, dateFormat)}
@@ -599,6 +604,7 @@ class AddSix extends Component {
                                             <span className="tabs-user-infor-top">Ngày cấp thẻ:</span>
                                             <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                 <DatePicker
+                                                placeholder="Chọn ngày"
                                                 disabled = {this.state.disabledInput}
                                                     style={{ width: 350 }}
                                                     defaultValue={this.state.car_number_day == null ? null: moment(this.state.car_number_day, dateFormat)}
@@ -610,6 +616,7 @@ class AddSix extends Component {
                                             <span className="tabs-user-infor-top">Thời gian thẻ có hiệu lực:</span>
                                             <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                 <DatePicker
+                                                placeholder="Chọn ngày"
                                                 disabled = {this.state.disabledInput}
                                                     style={{ width: 350 }}
                                                     defaultValue={this.state.car_begin == null ? null: moment(this.state.car_begin, dateFormat)}
@@ -620,6 +627,7 @@ class AddSix extends Component {
                                             <span className="tabs-user-infor-top">Thời gian thẻ hết hiệu lực:</span>
                                             <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                 <DatePicker
+                                                placeholder="Chọn ngày"
                                                 disabled = {this.state.disabledInput}
                                                     style={{ width: 350 }}
                                                     defaultValue={this.state.car_end == null ? null: moment(this.state.car_end, dateFormat)}

@@ -177,6 +177,7 @@ class AddUserBase extends Component {
                                             <span className="tabs-user-infor-top">Ngày tháng năm sinh:</span>
                                             <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                 <DatePicker
+                                                placeholder="Chọn ngày"
                                                     style={{ width: 350 }}
                                                     defaultValue={this.state.base4 == null ? null: moment(this.state.base4, dateFormat)}
                                                     onChange={(date,dateString)=>this.onChangeBirthDay(date,dateString,"base4")}
@@ -341,6 +342,7 @@ class AddUserBase extends Component {
                                             <span className="tabs-user-infor-top">Ngày tham gia cách mạng:</span>
                                             <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                 <DatePicker
+                                                placeholder="Chọn ngày"
                                                     style={{ width: 350 }}
                                                     onChange={(date,dateString)=>this.onChangeBirthDay(date,dateString,"base18")}
                                                 />
@@ -361,6 +363,7 @@ class AddUserBase extends Component {
                                             <span className="tabs-user-infor-top">Ngày nhập ngủ:</span>
                                             <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                 <DatePicker
+                                                placeholder="Chọn ngày"
                                                     style={{ width: 350 }}
                                                     onChange={(date,dateString)=>this.onChangeBirthDay(date,dateString,"base20")}
                                                 />
@@ -370,6 +373,7 @@ class AddUserBase extends Component {
                                             <span className="tabs-user-infor-top">Ngày xuất ngủ:</span>
                                             <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                 <DatePicker
+                                                placeholder="Chọn ngày"
                                                     style={{ width: 350 }}
                                                     onChange={(date,dateString)=>this.onChangeBirthDay(date,dateString,"base21")}
                                                 />
@@ -390,6 +394,7 @@ class AddUserBase extends Component {
                                             <span className="tabs-user-infor-top">Ngày được tuyển dụng:</span>
                                             <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                 <DatePicker
+                                                placeholder="Chọn ngày"
                                                     style={{ width: 350 }}
                                                     onChange={(date,dateString)=>this.onChangeBirthDay(date,dateString,"base23")}
                                                 />
@@ -410,6 +415,7 @@ class AddUserBase extends Component {
                                             <span className="tabs-user-infor-top">Ngày vào đảng cộng sản:</span>
                                             <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                 <DatePicker
+                                                placeholder="Chọn ngày"
                                                     style={{ width: 350 }}
                                                     onChange={(date,dateString)=>this.onChangeBirthDay(date,dateString,"base24")}
                                                 />
@@ -419,6 +425,7 @@ class AddUserBase extends Component {
                                             <span className="tabs-user-infor-top">Ngày chính thức:</span>
                                             <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                 <DatePicker
+                                                placeholder="Chọn ngày"
                                                     style={{ width: 350 }}
                                                     onChange={(date,dateString)=>this.onChangeBirthDay(date,dateString,"base25")}
                                                 />
@@ -472,6 +479,7 @@ class AddUserBase extends Component {
                                             <span className="tabs-user-infor-top">Từ ngày tháng năm:</span>
                                             <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                 <DatePicker
+                                                placeholder="Chọn ngày"
                                                     style={{ width: 350 }}
                                                     onChange={(date,dateString)=>this.onChangeBirthDay(date,dateString,"base31")}
                                                 />

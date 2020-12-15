@@ -253,7 +253,8 @@ export default class ProfessionalCompensation extends Component {
                   <li className="tabs-main-left-li tabs-main-left-li-row">
                     <span className="tabs-user-infor-top">Từ ngày</span>
                     <div className="tabs-user-infor-bottom">
-                      <RangePicker className="modal-ranPicker" />
+                      <RangePicker className="modal-ranPicker"
+                      placeholder="Chọn ngày" />
                     </div>
                   </li>
                   <li className="tabs-main-left-li">
