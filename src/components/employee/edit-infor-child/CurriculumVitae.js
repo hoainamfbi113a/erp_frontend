@@ -54,11 +54,13 @@ class CurriculumVitae extends Component {
       const from_item_id = 165;
       let to_item_id = 0;
       let arrLog = [];
+      let messageErr = 0;
      await Axios.get(`${process.env.apiEmployee}/api/transfers`)
       .then((res)=>{
         arrLog = res.data.data
       })
       .catch((err)=>{
+        messageErr = 1;
         console.log(err)
       })
       for(const item of arrLog){
@@ -90,13 +92,12 @@ class CurriculumVitae extends Component {
       await Axios.put(`${process.env.apiEmployee}/api/profiles/165?current_user_id=3`,params)
       .then((res)=>{
         if(res.data.message=="Success!. Updated"){
-
         } else {
-          alert("update that bai")
+          messageErr = 2;
         }
       })
       .catch(()=>{
-        alert("update that bai")
+        messageErr = 3;
       })
       let paramsDepartment = {
         dep_name: this.state.dep_name,
@@ -110,11 +111,11 @@ class CurriculumVitae extends Component {
       .then((res)=>{
         if(res.data.message=="Success!. Updated"){
         } else {
-          alert("update that bai")
+          messageErr = 4;
         }
       })
       .catch(()=>{
-        alert("update that bai")
+        messageErr = 5;
       })
       let paramsUserDegrees = {
         user_id:"4",
@@ -130,11 +131,11 @@ class CurriculumVitae extends Component {
       .then((res)=>{
         if(res.data.message=="Success!. Updated"){
         } else {
-          alert("update that bai")
+          messageErr = 6;
         }
       })
       .catch(()=>{
-        alert("update that bai")
+        messageErr = 7;
       })
       let paramsWorkObjects = {
         user_id:"4",
@@ -147,11 +148,11 @@ class CurriculumVitae extends Component {
         if(res.data.message=="Success!. Updated"){
           message
         } else {
-          alert("update that bai")
+          messageErr = 8;
         }
       })
       .catch(()=>{
-        alert("update that bai")
+        messageErr = 9;
       })
       let paramsJournalistCards = {
         user_id:"4",
@@ -163,18 +164,25 @@ class CurriculumVitae extends Component {
         car_note:"123"
       }
       await Axios.put(`${process.env.apiEmployee}/api/journalist-cards/110?current_user_id=4`,paramsJournalistCards)
-      .then( async (res)=>{
+      .then((res)=>{
         if(res.data.message=="Success!. Updated"){
-          await this.fetchData();
-          message.success("Cập nhât thông tin thành công")
-          this.props.uiActionCreators.hide()
+
         } else {
-          alert("update that bai")
+          messageErr = 10;
         }
       })
       .catch(()=>{
-        alert("update that bai")
+        messageErr = 11;
+        
       })
+      await this.fetchData();
+      console.log(messageErr)
+      if(messageErr == 0){
+      message.success("Cập nhât thông tin thành công")
+      } else{
+        message.error("Cập nhật thất bại");
+      }
+      this.props.uiActionCreators.hideLoading();
     }
     onChange = (e) => {
       this.setState({ [e.target.name]: e.target.value });
@@ -185,7 +193,6 @@ class CurriculumVitae extends Component {
         });
     };
     onChangeBirthDay = (e, dateString, name1, name2) =>{
-        console.log(dateString[1])
         this.setState({
             [name1]: dateString[0],
             [name2]:dateString[1]
@@ -196,7 +203,6 @@ class CurriculumVitae extends Component {
     await  Axios.get(`${process.env.apiEmployee}/api/fe/profiles/4?current_user_id=4`)
       .then((res)=>{
         const data = res.data.data
-        console.log(data)
         this.setState({
         pro_name: data.pro_name,
         pro_pen_name: data.pro_pen_name,
@@ -221,7 +227,6 @@ class CurriculumVitae extends Component {
      await Axios.get(`${process.env.apiEmployee}/api/departments/profiles/4?current_user_id=4`)
       .then((res)=>{
         const data = res.data.data
-        console.log(data)
         this.setState({
           dep_name: data.dep_name,
           dep_position: data.dep_position,
@@ -235,7 +240,6 @@ class CurriculumVitae extends Component {
      await Axios.get(`${process.env.apiEmployee}/api/user-degrees/profiles/4?current_user_id=4`)
       .then((res)=>{
         const data = res.data.data
-        console.log(data)
         this.setState({
           deg_type: data.deg_type,
           deg_diploma: data.deg_diploma,
@@ -251,7 +255,6 @@ class CurriculumVitae extends Component {
      await Axios.get(`${process.env.apiEmployee}/api/work-objects/profiles/4?current_user_id=4`)
       .then((res)=>{
         const data = res.data.data
-        console.log(data)
         this.setState({
           work_formality: data.formality,
         })
@@ -262,7 +265,6 @@ class CurriculumVitae extends Component {
      await Axios.get(`${process.env.apiEmployee}/api/journalist-cards/profiles/4?current_user_id=4`)
       .then((res)=>{
         const data = res.data.data
-        console.log(data)
         this.setState({
           car_number: data.car_number,
           car_number_day: new Date(data.car_number_day),
