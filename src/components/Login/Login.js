@@ -40,6 +40,7 @@ export default class Login extends Component {
       .post("https://employee.tuoitre.vn/api/login", params)
       .then(res =>{
         if (res.data.message === "Đăng nhập thành công!") {
+          localStorage.setItem("tokenID",res.data.detail.id)
           if(this.state.email!=="manager@gmail.com"){
             localStorage.setItem("per","employee");
           }
