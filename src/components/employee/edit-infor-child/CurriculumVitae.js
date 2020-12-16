@@ -13,6 +13,7 @@ class CurriculumVitae extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id:null,
       pro_name: null,
       pro_pen_name: null,
       pro_birth_day: null,
@@ -42,10 +43,10 @@ class CurriculumVitae extends Component {
       car_number_day: null,
       car_begin: null,
       car_end: null,
-      idDepartment:null,
-      idUserDegree:null,
-      idWorkObject:null,
-      idJou:null
+      idDepartment: null,
+      idUserDegree: null,
+      idWorkObject: null,
+      idJou: null,
     };
   }
   componentDidMount = () => {
@@ -54,7 +55,7 @@ class CurriculumVitae extends Component {
   onSubmit = async (e) => {
     e.preventDefault();
     this.props.uiActionCreators.showLoading();
-    const tokenID = localStorage.getItem("tokenID")
+    const tokenID = localStorage.getItem("tokenID");
     let from_item_id = 0;
     let to_item_id = 0;
     let arrLog = [];
@@ -68,17 +69,17 @@ class CurriculumVitae extends Component {
         console.log(err);
       });
     for (let item of arrLog) {
-      if(item.user_id === tokenID){
+      if (item.user_id === tokenID) {
         if (item.to_item_id > to_item_id) {
           to_item_id = item.to_item_id;
         }
       }
     }
     for (let item of arrLog) {
-        if (item.to_item_id == to_item_id) {
-          from_item_id = item.from_item_id;
-        }
+      if (item.to_item_id == to_item_id) {
+        from_item_id = item.from_item_id;
       }
+    }
     let params = {
       pro_name: this.state.pro_name,
       pro_pen_name: this.state.pro_pen_name,
@@ -93,13 +94,16 @@ class CurriculumVitae extends Component {
       pro_background_origin: this.state.pro_background_origin,
       pro_occupation: this.state.pro_occupation,
       pro_identity_card: this.state.pro_identity_card,
-      pro_identity_card_when:Date.parse(this.state.pro_identity_card_when) / 1000,
+      pro_identity_card_when:
+        Date.parse(this.state.pro_identity_card_when) / 1000,
       pro_identity_card_where: this.state.pro_identity_card_where,
       current_user_id: tokenID,
       user_id: tokenID,
     };
     await Axios.put(
-      `${process.env.apiEmployee}/api/profiles/${from_item_id}?current_user_id=${tokenID}`,params)
+      `${process.env.apiEmployee}/api/profiles/${this.state.id}?current_user_id=${tokenID}`,
+      params
+    )
       .then((res) => {
         if (res.data.message == "Success!. Updated") {
         } else {
@@ -212,7 +216,12 @@ class CurriculumVitae extends Component {
       pro_gender: e.target.value,
     });
   };
-  onChangeBirthDay = (e, dateString, name1, name2) => {
+  onChangeBirthDay = (e, dateString, name) => {
+    this.setState({
+      [name]: dateString,
+    });
+  };
+  onChangeRange = (e, dateString, name1, name2) => {
     this.setState({
       [name1]: dateString[0],
       [name2]: dateString[1],
@@ -221,123 +230,104 @@ class CurriculumVitae extends Component {
   async fetchData() {
     this.props.uiActionCreators.showLoading();
     let fetchDataFailed = 0;
-    let tokenID =localStorage.getItem("tokenID")
+    let tokenID = localStorage.getItem("tokenID");
+
     await Axios.get(
       `${process.env.apiEmployee}/api/fe/profiles/users/${tokenID}?current_user_id=${tokenID}`
     )
-      .then((res) => {
+      .then(async (res) => {
         const data = res.data.data;
-        this.setState({
-          pro_name: data.pro_name,
-          pro_pen_name: data.pro_pen_name,
-          pro_birth_day: data.pro_birth_day,
-          pro_gender: data.pro_gender,
-          pro_birth_place: data.pro_birth_place,
-          pro_home_town: data.pro_home_town,
-          pro_local_phone: data.pro_local_phone,
-          pro_resident: data.pro_resident,
-          pro_ethnic: data.pro_ethnic,
-          pro_religion: data.pro_religion,
-          pro_background_origin: data.pro_background_origin,
-          pro_occupation: data.pro_occupation,
-          pro_identity_card: data.pro_identity_card,
-          pro_identity_card_when: data.pro_identity_card_when,
-          pro_identity_card_where: data.pro_identity_card_where,
-          dep_name: data.department.data.dep_name,
-          dep_position: data.department.data.dep_position,
-          dep_appointment_date: new Date(data.department.data.dep_appointment_date),
-          deg_type: data.userDegree.data.deg_type,
-          deg_diploma: data.userDegree.data.deg_diploma,
-          deg_majors: data.userDegree.data.deg_majors,
-          deg_school_name: data.userDegree.data.deg_school_name,
-          deg_begin_study: new Date(data.userDegree.data.deg_begin_study * 1000),
-          deg_end_study: new Date(data.userDegree.data.deg_end_study * 1000),
-          work_formality: data.workObject.data.formality,
-          car_number: data.journalistCard.data.car_number,
-          car_number_day: new Date(data.journalistCard.data.car_number_day),
-          car_begin: new Date(data.journalistCard.data.car_begin * 1000),
-          car_end: new Date(data.journalistCard.data.car_end * 1000),
-          idDepartment:data.department.data.id,
-          idUserDegree:data.userDegree.data.id,
-          idWorkObject:data.workObject.data.id,
-          idJou:data.journalistCard.data.id
+        let pro_id = data.id;
+        if (data.department == "undefined" || !data.department) {
+          alert("123")
+          await Axios.post(
+            `https://employee.tuoitre.vn/api/departments/?current_user_id=${tokenID}`,
+            {
+              user_id: tokenID,
+              pro_id: pro_id,
+            }
+          );
+        }
+        if (data.userDegree == "undefined" || !data.userDegree) {
+          await Axios.post(
+            `https://employee.tuoitre.vn/api/user-degrees/?current_user_id=${tokenID}`,
+            {
+              user_id: tokenID,
+              pro_id: pro_id,
+            }
+          );
+        }
+        if (data.workObject == "undefined" || !data.workObject) {
+          await Axios.post(
+            `https://employee.tuoitre.vn/api/work-objects/?current_user_id=${tokenID}`,
+            {
+              user_id: tokenID,
+              pro_id: pro_id,
+            }
+          );
+        }
+        if (data.journalistCard == "undefined" || !data.journalistCard) {
+          await Axios.post(
+            `https://employee.tuoitre.vn/api/journalist-cards/?current_user_id=${tokenID}`,
+            {
+              user_id: tokenID,
+              pro_id: pro_id,
+            }
+          );
+        }
+        Axios.get(
+          `${process.env.apiEmployee}/api/fe/profiles/users/${tokenID}?current_user_id=${tokenID}`
+        ).then(async (res) => {
+          const data = res.data.data;
+          this.setState({
+            id:data.id,
+            pro_name: data.pro_name,
+            pro_pen_name: data.pro_pen_name,
+            pro_birth_day: data.pro_birth_day,
+            pro_gender: data.pro_gender,
+            pro_birth_place: data.pro_birth_place,
+            pro_home_town: data.pro_home_town,
+            pro_local_phone: data.pro_local_phone,
+            pro_resident: data.pro_resident,
+            pro_ethnic: data.pro_ethnic,
+            pro_religion: data.pro_religion,
+            pro_background_origin: data.pro_background_origin,
+            pro_occupation: data.pro_occupation,
+            pro_identity_card: data.pro_identity_card,
+            pro_identity_card_when: data.pro_identity_card_when,
+            pro_identity_card_where: data.pro_identity_card_where,
+            dep_name: data.department.data.dep_name,
+            dep_position: data.department.data.dep_position,
+            dep_appointment_date: new Date(
+              data.department.data.dep_appointment_date
+            ),
+            deg_type: data.userDegree.data.deg_type,
+            deg_diploma: data.userDegree.data.deg_diploma,
+            deg_majors: data.userDegree.data.deg_majors,
+            deg_school_name: data.userDegree.data.deg_school_name,
+            deg_begin_study: new Date(
+              data.userDegree.data.deg_begin_study * 1000
+            ),
+            deg_end_study: new Date(data.userDegree.data.deg_end_study * 1000),
+            work_formality: data.workObject.data.formality,
+            car_number: data.journalistCard.data.car_number,
+            car_number_day: new Date(data.journalistCard.data.car_number_day),
+            car_begin: new Date(data.journalistCard.data.car_begin * 1000),
+            car_end: new Date(data.journalistCard.data.car_end * 1000),
+            idDepartment: data.department.data.id,
+            idUserDegree: data.userDegree.data.id,
+            idWorkObject: data.workObject.data.id,
+            idJou: data.journalistCard.data.id,
+          });
         });
       })
       .catch((err) => {
         console.log(err);
         fetchDataFailed = 1;
       });
-    // await Axios.get(
-    //   `${process.env.apiEmployee}/api/departments/profiles/4?current_user_id=4`
-    // )
-    //   .then((res) => {
-    //     const data = res.data.data;
-    //     this.setState({
-    //       dep_name: data.dep_name,
-    //       dep_position: data.dep_position,
-    //       dep_appointment_date: new Date(data.dep_appointment_date),
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     fetchDataFailed = 2;
-    //     console.log(err);
-    //   });
-
-    // await Axios.get(
-    //   `${process.env.apiEmployee}/api/user-degrees/profiles/4?current_user_id=4`
-    // )
-    //   .then((res) => {
-    //     const data = res.data.data;
-    //     this.setState({
-    //       deg_type: data.deg_type,
-    //       deg_diploma: data.deg_diploma,
-    //       deg_majors: data.deg_majors,
-    //       deg_school_name: data.deg_school_name,
-    //       deg_begin_study: new Date(data.deg_begin_study * 1000),
-    //       deg_end_study: new Date(data.deg_end_study * 1000),
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     fetchDataFailed = 3;
-    //     console.log(err);
-    //   });
-    // await Axios.get(
-    //   `${process.env.apiEmployee}/api/work-objects/profiles/4?current_user_id=4`
-    // )
-    //   .then((res) => {
-    //     const data = res.data.data;
-    //     this.setState({
-    //       work_formality: data.formality,
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     fetchDataFailed = 4;
-    //     console.log(err);
-    //   });
-    // await Axios.get(
-    //   `${process.env.apiEmployee}/api/journalist-cards/profiles/4?current_user_id=4`
-    // )
-    //   .then((res) => {
-    //     const data = res.data.data;
-    //     this.setState({
-    //       car_number: data.car_number,
-    //       car_number_day: new Date(data.car_number_day),
-    //       car_begin: new Date(data.car_begin * 1000),
-    //       car_end: new Date(data.car_end * 1000),
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     fetchDataFailed = 5;
-    //     console.log(err);
-    //   });
-    if (fetchDataFailed !== 0) {
-      message.error("lỗi rồi không load được mạng");
-    }
     this.props.uiActionCreators.hideLoading();
   }
   render() {
-    // console.log(this.state.car_begin)
-    // console.log(this.state.car_end)
     return (
       <div className="edit-infor-form">
         <div className="tabs-main">
@@ -689,7 +679,7 @@ class CurriculumVitae extends Component {
                                 ]
                           }
                           onChange={(date, dateString) =>
-                            this.onChangeBirthDay(
+                            this.onChangeRange(
                               date,
                               dateString,
                               "deg_begin_study",
@@ -761,7 +751,7 @@ class CurriculumVitae extends Component {
                                 ]
                           }
                           onChange={(date, dateString) =>
-                            this.onChangeBirthDay(
+                            this.onChangeRange(
                               date,
                               dateString,
                               "car_begin",

@@ -1,16 +1,20 @@
 import React, { Component } from "react";
-import { Input, DatePicker, Radio, Button } from "antd";
+import { Input, DatePicker, Radio, Button,message } from "antd";
 import { Link } from "react-router-dom";
 import moment from "moment";
-const { RangePicker } = DatePicker;
+
 import Axios from "axios";
-// import * as uiActions from "../../../actions/ui";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import * as uiActions from "../../actions/ui";
+
+const { RangePicker } = DatePicker;
 const dateFormat = "YYYY/MM/DD";
-export default class NotifiDepartment extends Component {
+class NotifiDepartment extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeLink: 1,
+      id: null,
       pro_name: null,
       pro_pen_name: null,
       pro_birth_day: null,
@@ -40,169 +44,300 @@ export default class NotifiDepartment extends Component {
       car_number_day: null,
       car_begin: null,
       car_end: null,
+      idDepartment: null,
+      idUserDegree: null,
+      idWorkObject: null,
+      idJou: null,
     };
   }
+  componentDidMount = () => {
+    this.fetchData();
+  };
   onSubmit = async (e) => {
     e.preventDefault();
-    alert(this.props.match.params.id)
-    // this.props.uiActionCreators.showLoading();
-    // const from_item_id = 165;
-    // let to_item_id = 0;
-    // let arrLog = [];
-    // let messageErr = 0;
-    // await Axios.get(`${process.env.apiEmployee}/api/transfers`)
-    //   .then((res) => {
-    //     arrLog = res.data.data;
-    //   })
-    //   .catch((err) => {
-    //     messageErr = 1;
-    //     console.log(err);
-    //   });
-    // for (const item of arrLog) {
-    //   if (item.from_item_id == from_item_id) {
-    //     if (item.to_item_id > to_item_id) {
-    //       to_item_id = item.to_item_id;
-    //     }
-    //   }
-    // }
-    // let params = {
-    //   pro_name: this.state.pro_name,
-    //   pro_pen_name: this.state.pro_pen_name,
-    //   pro_birth_day: Date.parse(this.state.pro_birth_day) / 1000,
-    //   pro_gender: this.state.pro_gender,
-    //   pro_birth_place: this.state.pro_birth_place,
-    //   pro_home_town: this.state.pro_home_town,
-    //   pro_local_phone: this.state.pro_local_phone,
-    //   pro_resident: this.state.pro_resident,
-    //   pro_ethnic: this.state.pro_ethnic,
-    //   pro_religion: this.state.pro_religion,
-    //   pro_background_origin: this.state.pro_background_origin,
-    //   pro_occupation: this.state.pro_occupation,
-    //   pro_identity_card: this.state.pro_identity_card,
-    //   pro_identity_card_when:
-    //     Date.parse(this.state.pro_identity_card_when) / 1000,
-    //   pro_identity_card_where: this.state.pro_identity_card_where,
-    //   current_user_id: "3",
-    //   user_id: "4",
-    // };
-    // await Axios.put(
-    //   `${process.env.apiEmployee}/api/profiles/165?current_user_id=3`,
-    //   params
-    // )
-    //   .then((res) => {
-    //     if (res.data.message == "Success!. Updated") {
-    //     } else {
-    //       messageErr = 2;
-    //     }
-    //   })
-    //   .catch(() => {
-    //     messageErr = 3;
-    //   });
-    // let paramsDepartment = {
-    //   dep_name: this.state.dep_name,
-    //   dep_position: this.state.dep_position,
-    //   dep_appointment_date: Date.parse(this.state.dep_appointment_date),
-    //   user_id: "4",
-    //   pro_id: "178",
-    //   dep_note: "asd",
-    // };
-    // await Axios.put(
-    //   `${process.env.apiEmployee}/api/departments/130?current_user_id=4`,
-    //   paramsDepartment
-    // )
-    //   .then((res) => {
-    //     if (res.data.message == "Success!. Updated") {
-    //     } else {
-    //       messageErr = 4;
-    //     }
-    //   })
-    //   .catch(() => {
-    //     messageErr = 5;
-    //   });
-    // let paramsUserDegrees = {
-    //   user_id: "4",
-    //   pro_id: "178",
-    //   deg_type: this.state.deg_type,
-    //   deg_diploma: this.state.deg_diploma,
-    //   deg_majors: this.state.deg_majors,
-    //   deg_school_name: this.state.deg_school_name,
-    //   deg_begin_study: Date.parse(this.state.deg_begin_study) / 1000,
-    //   deg_end_study: Date.parse(this.state.deg_end_study) / 1000,
-    // };
-    // await Axios.put(
-    //   `${process.env.apiEmployee}/api/user-degrees/110?current_user_id=4`,
-    //   paramsUserDegrees
-    // )
-    //   .then((res) => {
-    //     if (res.data.message == "Success!. Updated") {
-    //     } else {
-    //       messageErr = 6;
-    //     }
-    //   })
-    //   .catch(() => {
-    //     messageErr = 7;
-    //   });
-    // let paramsWorkObjects = {
-    //   user_id: "4",
-    //   pro_id: "178",
-    //   work_formality: this.state.work_formality,
-    //   work_note: "asd",
-    // };
-    // await Axios.put(
-    //   `${process.env.apiEmployee}/api/work-objects/116?current_user_id=4`,
-    //   paramsWorkObjects
-    // )
-    //   .then((res) => {
-    //     if (res.data.message == "Success!. Updated") {
-    //       message;
-    //     } else {
-    //       messageErr = 8;
-    //     }
-    //   })
-    //   .catch(() => {
-    //     messageErr = 9;
-    //   });
-    // let paramsJournalistCards = {
-    //   user_id: "4",
-    //   pro_id: "178",
-    //   car_number: this.state.car_number,
-    //   car_number_day: Date.parse(this.state.car_number_day),
-    //   car_begin: Date.parse(this.state.car_begin) / 1000,
-    //   car_end: Date.parse(this.state.car_end) / 1000,
-    //   car_note: "123",
-    // };
-    // await Axios.put(
-    //   `${process.env.apiEmployee}/api/journalist-cards/110?current_user_id=4`,
-    //   paramsJournalistCards
-    // )
-    //   .then((res) => {
-    //     if (res.data.message == "Success!. Updated") {
-    //     } else {
-    //       messageErr = 10;
-    //     }
-    //   })
-    //   .catch(() => {
-    //     messageErr = 11;
-    //   });
-    // await this.fetchData();
-    // console.log(messageErr);
-    // if (messageErr == 0) {
-    //   message.success("Cập nhât thông tin thành công");
-    // } else {
-    //   message.error("Cập nhật thất bại");
-    // }
-    // this.props.uiActionCreators.hideLoading();
+    this.props.uiActionCreators.showLoading();
+    const tokenID = localStorage.getItem("tokenID");
+    let from_item_id = 0;
+    let to_item_id = 0;
+    let arrLog = [];
+    let messageErr = 0;
+    await Axios.get(`${process.env.apiEmployee}/api/transfers`)
+      .then((res) => {
+        arrLog = res.data.data;
+      })
+      .catch((err) => {
+        messageErr = 1;
+        console.log(err);
+      });
+    for (let item of arrLog) {
+      if (item.user_id === tokenID) {
+        if (item.to_item_id > to_item_id) {
+          to_item_id = item.to_item_id;
+        }
+      }
+    }
+    for (let item of arrLog) {
+      if (item.to_item_id == to_item_id) {
+        from_item_id = item.from_item_id;
+      }
+    }
+    let params = {
+      pro_name: this.state.pro_name,
+      pro_pen_name: this.state.pro_pen_name,
+      pro_birth_day: Date.parse(this.state.pro_birth_day) / 1000,
+      pro_gender: this.state.pro_gender,
+      pro_birth_place: this.state.pro_birth_place,
+      pro_home_town: this.state.pro_home_town,
+      pro_local_phone: this.state.pro_local_phone,
+      pro_resident: this.state.pro_resident,
+      pro_ethnic: this.state.pro_ethnic,
+      pro_religion: this.state.pro_religion,
+      pro_background_origin: this.state.pro_background_origin,
+      pro_occupation: this.state.pro_occupation,
+      pro_identity_card: this.state.pro_identity_card,
+      pro_identity_card_when:
+        Date.parse(this.state.pro_identity_card_when) / 1000,
+      pro_identity_card_where: this.state.pro_identity_card_where,
+      current_user_id: tokenID,
+      user_id: this.props.match.params.id,
+    };
+    await Axios.put(
+      `${process.env.apiEmployee}/api/profiles/${this.state.id}?current_user_id=${tokenID}`,
+      params
+    )
+      .then((res) => {
+        if (res.data.message == "Success!. Updated") {
+        } else {
+          messageErr = 2;
+        }
+      })
+      .catch(() => {
+        messageErr = 3;
+      });
+    let paramsDepartment = {
+      dep_name: this.state.dep_name,
+      dep_position: this.state.dep_position,
+      dep_appointment_date: Date.parse(this.state.dep_appointment_date),
+      user_id: this.props.match.params.id,
+      pro_id: to_item_id,
+      dep_note: "asd",
+    };
+    await Axios.put(
+      `${process.env.apiEmployee}/api/departments/${this.state.idDepartment}?current_user_id=${tokenID}`,
+      paramsDepartment
+    )
+      .then((res) => {
+        if (res.data.message == "Success!. Updated") {
+        } else {
+          messageErr = 4;
+        }
+      })
+      .catch(() => {
+        messageErr = 5;
+      });
+    let paramsUserDegrees = {
+      user_id: this.props.match.params.id,
+      pro_id: to_item_id,
+      deg_type: this.state.deg_type,
+      deg_diploma: this.state.deg_diploma,
+      deg_majors: this.state.deg_majors,
+      deg_school_name: this.state.deg_school_name,
+      deg_begin_study: Date.parse(this.state.deg_begin_study) / 1000,
+      deg_end_study: Date.parse(this.state.deg_end_study) / 1000,
+    };
+    await Axios.put(
+      `${process.env.apiEmployee}/api/user-degrees/${this.state.idUserDegree}?current_user_id=${tokenID}`,
+      paramsUserDegrees
+    )
+      .then((res) => {
+        if (res.data.message == "Success!. Updated") {
+        } else {
+          messageErr = 6;
+        }
+      })
+      .catch(() => {
+        messageErr = 7;
+      });
+    let paramsWorkObjects = {
+      user_id: this.props.match.params.id,
+      pro_id: to_item_id,
+      work_formality: this.state.work_formality,
+      work_note: "asd",
+    };
+    await Axios.put(
+      `${process.env.apiEmployee}/api/work-objects/${this.state.idWorkObject}?current_user_id=${tokenID}`,
+      paramsWorkObjects
+    )
+      .then((res) => {
+        if (res.data.message == "Success!. Updated") {
+          message;
+        } else {
+          messageErr = 8;
+        }
+      })
+      .catch(() => {
+        messageErr = 9;
+      });
+    let paramsJournalistCards = {
+      user_id: this.props.match.params.id,
+      pro_id: to_item_id,
+      car_number: this.state.car_number,
+      car_number_day: Date.parse(this.state.car_number_day),
+      car_begin: Date.parse(this.state.car_begin) / 1000,
+      car_end: Date.parse(this.state.car_end) / 1000,
+      car_note: "123",
+    };
+    await Axios.put(
+      `${process.env.apiEmployee}/api/journalist-cards/${this.state.idJou}?current_user_id=${tokenID}`,
+      paramsJournalistCards
+    )
+      .then((res) => {
+        if (res.data.message == "Success!. Updated") {
+        } else {
+          messageErr = 10;
+        }
+      })
+      .catch(() => {
+        messageErr = 11;
+      });
+    await this.fetchData();
+    console.log(messageErr);
+    if (messageErr == 0) {
+      message.success("Cập nhât thông tin thành công");
+    } else {
+      message.error("Cập nhật thất bại");
+    }
+    this.props.uiActionCreators.hideLoading();
   };
   handleClick = (id) => {
     this.setState({ activeLink: id });
   };
+  onChange = (e) => {
+    this.setState({ [e.target.name]: e.target.value });
+  };
+  onChangeSex = (e) => {
+    this.setState({
+      pro_gender: e.target.value,
+    });
+  };
+  onChangeBirthDay = (e, dateString, name) => {
+    this.setState({
+      [name]: dateString,
+    });
+  };
+  onChangeRange = (e, dateString, name1, name2) => {
+    this.setState({
+      [name1]: dateString[0],
+      [name2]: dateString[1],
+    });
+  };
+  async fetchData() {
+    this.props.uiActionCreators.showLoading();
+    let fetchDataFailed = 0;
+    let tokenID = localStorage.getItem("tokenID");
+    let idUser = this.props.match.params.id
+    await Axios.get(
+      `${process.env.apiEmployee}/api/fe/profiles/users/${idUser}?current_user_id=${tokenID}`
+    )
+      .then(async (res) => {
+        const data = res.data.data;
+        let pro_id = data.id;
+        if (data.department == "undefined" || !data.department) {
+          alert("123")
+          await Axios.post(
+            `https://employee.tuoitre.vn/api/departments/?current_user_id=${tokenID}`,
+            {
+              user_id: idUser,
+              pro_id: pro_id,
+            }
+          );
+        }
+        if (data.userDegree == "undefined" || !data.userDegree) {
+          await Axios.post(
+            `https://employee.tuoitre.vn/api/user-degrees/?current_user_id=${tokenID}`,
+            {
+              user_id: idUser,
+              pro_id: pro_id,
+            }
+          );
+        }
+        if (data.workObject == "undefined" || !data.workObject) {
+          await Axios.post(
+            `https://employee.tuoitre.vn/api/work-objects/?current_user_id=${tokenID}`,
+            {
+              user_id: idUser,
+              pro_id: pro_id,
+            }
+          );
+        }
+        if (data.journalistCard == "undefined" || !data.journalistCard) {
+          await Axios.post(
+            `https://employee.tuoitre.vn/api/journalist-cards/?current_user_id=${tokenID}`,
+            {
+              user_id: idUser,
+              pro_id: pro_id,
+            }
+          );
+        }
+        Axios.get(
+          `${process.env.apiEmployee}/api/fe/profiles/users/${idUser}?current_user_id=${tokenID}`
+        ).then(async (res) => {
+          const data = res.data.data;
+          this.setState({
+            id:data.id,
+            pro_name: data.pro_name,
+            pro_pen_name: data.pro_pen_name,
+            pro_birth_day: data.pro_birth_day,
+            pro_gender: data.pro_gender,
+            pro_birth_place: data.pro_birth_place,
+            pro_home_town: data.pro_home_town,
+            pro_local_phone: data.pro_local_phone,
+            pro_resident: data.pro_resident,
+            pro_ethnic: data.pro_ethnic,
+            pro_religion: data.pro_religion,
+            pro_background_origin: data.pro_background_origin,
+            pro_occupation: data.pro_occupation,
+            pro_identity_card: data.pro_identity_card,
+            pro_identity_card_when: data.pro_identity_card_when,
+            pro_identity_card_where: data.pro_identity_card_where,
+            dep_name: data.department.data.dep_name,
+            dep_position: data.department.data.dep_position,
+            dep_appointment_date: new Date(
+              data.department.data.dep_appointment_date
+            ),
+            deg_type: data.userDegree.data.deg_type,
+            deg_diploma: data.userDegree.data.deg_diploma,
+            deg_majors: data.userDegree.data.deg_majors,
+            deg_school_name: data.userDegree.data.deg_school_name,
+            deg_begin_study: new Date(
+              data.userDegree.data.deg_begin_study * 1000
+            ),
+            deg_end_study: new Date(data.userDegree.data.deg_end_study * 1000),
+            work_formality: data.workObject.data.formality,
+            car_number: data.journalistCard.data.car_number,
+            car_number_day: new Date(data.journalistCard.data.car_number_day),
+            car_begin: new Date(data.journalistCard.data.car_begin * 1000),
+            car_end: new Date(data.journalistCard.data.car_end * 1000),
+            idDepartment: data.department.data.id,
+            idUserDegree: data.userDegree.data.id,
+            idWorkObject: data.workObject.data.id,
+            idJou: data.journalistCard.data.id,
+          });
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        fetchDataFailed = 1;
+      });
+    this.props.uiActionCreators.hideLoading();
+  }
   render() {
     return (
       <div className="content-background2" style={{ width: "100%" }}>
         <div style={{ minHeight: "70vh" }} className="edit-infor">
           <div className="edit-infor-tabs">
             <ul>
-              <Link to="/crm/employee/edit-information">
+              {/* <Link to={`/crm/admin/edituser/${tokenID}`}> */}
                 <li onClick={() => this.handleClick(1)}>
                   <div className={this.state.activeLink === 1 ? "active" : ""}>
                     1
@@ -211,8 +346,8 @@ export default class NotifiDepartment extends Component {
                     Sơ yếu lý lịch
                   </span>
                 </li>
-              </Link>
-              <Link to="/crm/employee/edit-information/personal-history">
+              {/* </Link> */}
+              {/* <Link to="/crm/employee/edit-information/personal-history"> */}
                 <li onClick={() => this.handleClick(2)}>
                   <div className={this.state.activeLink === 2 ? "active" : ""}>
                     2
@@ -221,8 +356,8 @@ export default class NotifiDepartment extends Component {
                     Lịch sử bản thân
                   </span>
                 </li>
-              </Link>
-              <Link to="/crm/employee/edit-information/joinDCS">
+              {/* </Link> */}
+              {/* <Link to="/crm/employee/edit-information/joinDCS"> */}
                 <li onClick={() => this.handleClick(3)}>
                   <div className={this.state.activeLink === 3 ? "active" : ""}>
                     3
@@ -231,8 +366,8 @@ export default class NotifiDepartment extends Component {
                     Gia nhập Đảng Cộng Sản Việt Nam
                   </span>
                 </li>
-              </Link>
-              <Link to="/crm/employee/edit-information/join-TCTTXH">
+              {/* </Link>
+              <Link to="/crm/employee/edit-information/join-TCTTXH"> */}
                 <li onClick={() => this.handleClick(4)}>
                   <div className={this.state.activeLink === 4 ? "active" : ""}>
                     4
@@ -241,8 +376,8 @@ export default class NotifiDepartment extends Component {
                     Tham gia các tổ chức chính trị, xã hội, các nghề nghiệp
                   </span>
                 </li>
-              </Link>
-              <Link to="/crm/employee/edit-information/professional-compensation">
+              {/* </Link>
+              <Link to="/crm/employee/edit-information/professional-compensation"> */}
                 <li onClick={() => this.handleClick(5)}>
                   <div className={this.state.activeLink === 5 ? "active" : ""}>
                     5
@@ -252,8 +387,8 @@ export default class NotifiDepartment extends Component {
                     trị ngoại ngữ
                   </span>
                 </li>
-              </Link>
-              <Link to="/crm/employee/edit-information/bonus">
+              {/* </Link>
+              <Link to="/crm/employee/edit-information/bonus"> */}
                 <li onClick={() => this.handleClick(6)}>
                   <div className={this.state.activeLink === 6 ? "active" : ""}>
                     6
@@ -262,8 +397,8 @@ export default class NotifiDepartment extends Component {
                     Khen thưởng, kỷ luật
                   </span>
                 </li>
-              </Link>
-              <Link to="/crm/employee/edit-information/family">
+              {/* </Link>
+              <Link to="/crm/employee/edit-information/family"> */}
                 <li onClick={() => this.handleClick(7)}>
                   <div className={this.state.activeLink === 7 ? "active" : ""}>
                     7
@@ -272,8 +407,8 @@ export default class NotifiDepartment extends Component {
                     Hoàn cảnh kinh tế, quan hệ gia đình
                   </span>
                 </li>
-              </Link>
-              <Link to="/crm/employee/edit-information/kinship">
+              {/* </Link>
+              <Link to="/crm/employee/edit-information/kinship"> */}
                 <li onClick={() => this.handleClick(8)}>
                   <div className={this.state.activeLink === 8 ? "active" : ""}>
                     8
@@ -282,8 +417,8 @@ export default class NotifiDepartment extends Component {
                     Quan hệ gia đình, thân tộc
                   </span>
                 </li>
-              </Link>
-              <Link to="/crm/employee/edit-information/social">
+              {/* </Link>
+              <Link to="/crm/employee/edit-information/social"> */}
                 <li onClick={() => this.handleClick(9)}>
                   <div className={this.state.activeLink === 9 ? "active" : ""}>
                     9
@@ -292,7 +427,7 @@ export default class NotifiDepartment extends Component {
                     Quan hệ xã hội
                   </span>
                 </li>
-              </Link>
+              {/* </Link> */}
             </ul>
             <div className="edit-infr-vertical-line"></div>
           </div>
@@ -335,7 +470,7 @@ export default class NotifiDepartment extends Component {
                         </li>
                         <li className="tabs-main-left-li">
                           <span className="tabs-user-infor-top">
-                            Ngày sinh của nhân viên:
+                            Ngày sinh của user:
                           </span>
                           <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                             <DatePicker
@@ -651,7 +786,7 @@ export default class NotifiDepartment extends Component {
                                     ]
                               }
                               onChange={(date, dateString) =>
-                                this.onChangeBirthDay(
+                                this.onChangeRange(
                                   date,
                                   dateString,
                                   "deg_begin_study",
@@ -728,7 +863,7 @@ export default class NotifiDepartment extends Component {
                                     ]
                               }
                               onChange={(date, dateString) =>
-                                this.onChangeBirthDay(
+                                this.onChangeRange(
                                   date,
                                   dateString,
                                   "car_begin",
@@ -755,3 +890,8 @@ export default class NotifiDepartment extends Component {
     );
   }
 }
+const mapDispatchToProps = (dispatch) => ({
+    uiActionCreators: bindActionCreators(uiActions, dispatch),
+  });
+export default connect(null, mapDispatchToProps)(NotifiDepartment);
+
