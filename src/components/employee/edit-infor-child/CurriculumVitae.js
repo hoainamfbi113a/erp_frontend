@@ -91,8 +91,8 @@ export default class CurriculumVitae extends Component {
           deg_diploma: data.deg_diploma,
           deg_majors: data.deg_majors,
           deg_school_name: data.deg_school_name,
-          deg_begin_study: new Date(data.deg_begin_study),
-          deg_end_study: new Date(data.deg_end_study),
+          deg_begin_study: new Date(data.deg_begin_study*1000),
+          deg_end_study: new Date(data.deg_end_study*1000),
         })
       })
       .catch((err)=>{
@@ -109,20 +109,20 @@ export default class CurriculumVitae extends Component {
       .catch((err)=>{
         console.log(err);
       })
-      // Axios.get(`${process.env.apiEmployee}/api/journalist-cards/profiles/4?current_user_id=4`)
-      // .then((res)=>{
-      //   const data = res.data.data
-      //   console.log(data)
-      //   this.setState({
-      //     car_number: data.car_number,
-      //     car_number_day: new Date(data.car_number_day),
-      //     car_begin:data.car_begin,
-      //     car_end: data.car_end,
-      //   })
-      // })
-      // .catch((err)=>{
-      //   console.log(err);
-      // })
+      Axios.get(`${process.env.apiEmployee}/api/journalist-cards/profiles/4?current_user_id=4`)
+      .then((res)=>{
+        const data = res.data.data
+        console.log(data)
+        this.setState({
+          car_number: data.car_number,
+          car_number_day: new Date(data.car_number_day),
+          car_begin: new Date(data.car_begin*1000),
+          car_end: new Date(data.car_end*1000),
+        })
+      })
+      .catch((err)=>{
+        console.log(err);
+      })
     }
     onSubmit = async(e)  =>{
       e.preventDefault();
@@ -199,9 +199,10 @@ export default class CurriculumVitae extends Component {
         deg_diploma: this.state.deg_diploma,
         deg_majors: this.state.deg_majors,
         deg_school_name: this.state.deg_school_name,
-        deg_begin_study: Date.parse(this.state.deg_begin_study),
-        deg_end_study: Date.parse(this.state.deg_end_study),
+        deg_begin_study: Date.parse(this.state.deg_begin_study)/1000,
+        deg_end_study: Date.parse(this.state.deg_end_study)/1000,
       }
+      console.log(paramsUserDegrees)
       Axios.put(`${process.env.apiEmployee}/api/user-degrees/110?current_user_id=4`,paramsUserDegrees)
       .then((res)=>{
         if(res.data.message=="Success!. Updated"){
@@ -230,6 +231,27 @@ export default class CurriculumVitae extends Component {
       .catch(()=>{
         alert("update that bai")
       })
+      let paramsJournalistCards = {
+        user_id:"4",
+        pro_id:"178",
+        car_number:this.state.car_number,
+        car_number_day: Date.parse(this.state.car_number_day),
+        car_begin:Date.parse(this.state.car_begin)/1000,
+        car_end:Date.parse(this.state.car_end)/1000,
+        car_note:"123"
+      }
+      console.log(paramsJournalistCards)
+      Axios.put(`${process.env.apiEmployee}/api/journalist-cards/110?current_user_id=4`,paramsJournalistCards)
+      .then((res)=>{
+        if(res.data.message=="Success!. Updated"){
+          alert("update thanh cong")
+        } else {
+          alert("update that bai")
+        }
+      })
+      .catch(()=>{
+        alert("update that bai")
+      })
     }
     onChange = (e) => {
       this.setState({ [e.target.name]: e.target.value });
@@ -239,12 +261,16 @@ export default class CurriculumVitae extends Component {
             pro_gender: e.target.value,
         });
     };
-    onChangeBirthDay = (e, dateString,name) =>{
+    onChangeBirthDay = (e, dateString, name1, name2) =>{
+        console.log(dateString[1])
         this.setState({
-            [name]: dateString,
+            [name1]: dateString[0],
+            [name2]:dateString[1]
           });
     }
     render() {
+      // console.log(this.state.car_begin)
+      // console.log(this.state.car_end)
         return (
             <div className="edit-infor-form">
             <div className="tabs-main">
@@ -573,7 +599,8 @@ export default class CurriculumVitae extends Component {
                                 this.onChangeBirthDay(
                                   date,
                                   dateString,
-                                  "deg_begin_study"
+                                  "deg_begin_study",
+                                  "deg_end_study"
                                 )
                               }
                             />
@@ -629,13 +656,14 @@ export default class CurriculumVitae extends Component {
                           </span>
                           <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                             <RangePicker
-                            placeholder="Chọn ngày"
-                              value={this.state.car_begin == null ? null: moment(this.state.car_begin, dateFormat)}
+                              placeholder="Chọn ngày"
+                              value={this.state.car_begin == null ? null: [moment(this.state.car_begin, dateFormat),moment(this.state.car_end, dateFormat)]}
                               onChange={(date, dateString) =>
                                 this.onChangeBirthDay(
                                   date,
                                   dateString,
-                                  "car_begin"
+                                  "car_begin",
+                                  "car_end"
                                 )
                               }
                             />
