@@ -95,10 +95,9 @@ class TableSix extends Component {
       },
       {
         title: 'Họ và tên',
-        // width: 330,
         dataIndex: 'full_name',
-        key: 'sex',
-        sorter: (a, b) => a.full_name - b.full_name,
+        key: 'full_name',
+        // sorter: (a, b) => a.full_name.length - b.full_name.length,
       },
       {
         title: 'Email',
@@ -108,7 +107,6 @@ class TableSix extends Component {
       },
       {
         title: 'Số điện thoại',
-        // width: 330,
         dataIndex: 'phone',
         key: 'sex',
         sorter: (a, b) => a.phone - b.phone,
@@ -125,8 +123,8 @@ class TableSix extends Component {
             <Popconfirm title="Are you sure hide this user?" onConfirm={()=>this.confirm(text)} onCancel={this.cancel} okText="Yes" cancelText="No">
               <Tag color="volcano" className="table-action">Ẩn</Tag>
             </Popconfirm>
-            {/* <Link to={`/crm/employee/edit-information/base/${text}`}> 
-            <Tag color="geekblue" className="table-action">Sửa thông tin </Tag></Link> */}
+            <Link to={`/crm/admin/edituser/${text}`}> 
+            <Tag color="geekblue" className="table-action">Cập nhật</Tag></Link> 
           </Space>
         ),
       },

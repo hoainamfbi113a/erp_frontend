@@ -9,7 +9,6 @@ import { Provider } from "react-redux";
 
 import configStore from "../store/configStore";
 import Login from "../components/Login/Login";
-import ProfileOne from "../components/Profile/ProfileOne";
 import Crm from "../components/Crm/Crm";
 import NotFound from "../components/NotFound";
 import Globading from "../components/Loading/Globading";
