@@ -49,6 +49,7 @@ export default class Login extends Component {
           }
           localStorage.setItem("usertoken", res.data.access_token);
           localStorage.setItem("current_user_id", res.data.detail.id);
+          localStorage.setItem("email",res.data.detail.email)
           this.setState({ ishow: !this.state.ishow });
           setTimeout(() => {
             this.setState({
