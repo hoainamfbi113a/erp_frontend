@@ -1,12 +1,15 @@
 import React, { Component } from 'react'
 import { Input, message } from "antd";
 import { Button, Pagination, DatePicker } from "antd";
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import moment from "moment"
 const { RangePicker } = DatePicker;
 import { Radio } from "antd";
 import Axios from 'axios';
+import * as uiActions from "../../../actions/ui";
 const dateFormat = 'YYYY/MM/DD';
-export default class CurriculumVitae extends Component {
+class CurriculumVitae extends Component {
     constructor(props){
       super(props)
       this.state ={
@@ -43,89 +46,11 @@ export default class CurriculumVitae extends Component {
       }
     }
     componentDidMount = () =>{
-      Axios.get(`${process.env.apiEmployee}/api/fe/profiles/4?current_user_id=4`)
-      .then((res)=>{
-        const data = res.data.data
-        console.log(data)
-        this.setState({
-        pro_name: data.pro_name,
-        pro_pen_name: data.pro_pen_name,
-        pro_birth_day: data.pro_birth_day,
-        pro_gender: data.pro_gender,
-        pro_birth_place: data.pro_birth_place,
-        pro_home_town: data.pro_home_town,
-        pro_local_phone: data.pro_local_phone,
-        pro_resident: data.pro_resident,
-        pro_ethnic: data.pro_ethnic,
-        pro_religion: data.pro_religion,
-        pro_background_origin: data.pro_background_origin,
-        pro_occupation: data.pro_occupation,
-        pro_identity_card: data.pro_identity_card,
-        pro_identity_card_when: data.pro_identity_card_when,
-        pro_identity_card_where: data.pro_identity_card_where,
-        })
-      })
-      .catch((err)=>{
-        console.log(err);
-      })
-      Axios.get(`${process.env.apiEmployee}/api/departments/profiles/4?current_user_id=4`)
-      .then((res)=>{
-        const data = res.data.data
-        console.log(data)
-        this.setState({
-          dep_name: data.dep_name,
-          dep_position: data.dep_position,
-          dep_appointment_date: new Date(data.dep_appointment_date),
-        })
-      })
-      .catch((err)=>{
-        console.log(err);
-      })
-
-      Axios.get(`${process.env.apiEmployee}/api/user-degrees/profiles/4?current_user_id=4`)
-      .then((res)=>{
-        const data = res.data.data
-        console.log(data)
-        this.setState({
-          deg_type: data.deg_type,
-          deg_diploma: data.deg_diploma,
-          deg_majors: data.deg_majors,
-          deg_school_name: data.deg_school_name,
-          deg_begin_study: new Date(data.deg_begin_study*1000),
-          deg_end_study: new Date(data.deg_end_study*1000),
-        })
-      })
-      .catch((err)=>{
-        console.log(err);
-      })
-      Axios.get(`${process.env.apiEmployee}/api/work-objects/profiles/4?current_user_id=4`)
-      .then((res)=>{
-        const data = res.data.data
-        console.log(data)
-        this.setState({
-          work_formality: data.formality,
-        })
-      })
-      .catch((err)=>{
-        console.log(err);
-      })
-      Axios.get(`${process.env.apiEmployee}/api/journalist-cards/profiles/4?current_user_id=4`)
-      .then((res)=>{
-        const data = res.data.data
-        console.log(data)
-        this.setState({
-          car_number: data.car_number,
-          car_number_day: new Date(data.car_number_day),
-          car_begin: new Date(data.car_begin*1000),
-          car_end: new Date(data.car_end*1000),
-        })
-      })
-      .catch((err)=>{
-        console.log(err);
-      })
+        this.fetchData();
     }
     onSubmit = async(e)  =>{
       e.preventDefault();
+      this.props.uiActionCreators.showLoading()
       const from_item_id = 165;
       let to_item_id = 0;
       let arrLog = [];
@@ -162,10 +87,10 @@ export default class CurriculumVitae extends Component {
         current_user_id:"3",
         user_id:"4",
       }
-      Axios.put(`${process.env.apiEmployee}/api/profiles/165?current_user_id=3`,params)
+      await Axios.put(`${process.env.apiEmployee}/api/profiles/165?current_user_id=3`,params)
       .then((res)=>{
         if(res.data.message=="Success!. Updated"){
-          alert("update thanh cong")
+
         } else {
           alert("update that bai")
         }
@@ -181,10 +106,9 @@ export default class CurriculumVitae extends Component {
         pro_id:"178",
         dep_note:"asd"
       }
-      Axios.put(`${process.env.apiEmployee}/api/departments/130?current_user_id=4`,paramsDepartment)
+      await Axios.put(`${process.env.apiEmployee}/api/departments/130?current_user_id=4`,paramsDepartment)
       .then((res)=>{
         if(res.data.message=="Success!. Updated"){
-          alert("update thanh cong")
         } else {
           alert("update that bai")
         }
@@ -202,11 +126,9 @@ export default class CurriculumVitae extends Component {
         deg_begin_study: Date.parse(this.state.deg_begin_study)/1000,
         deg_end_study: Date.parse(this.state.deg_end_study)/1000,
       }
-      console.log(paramsUserDegrees)
-      Axios.put(`${process.env.apiEmployee}/api/user-degrees/110?current_user_id=4`,paramsUserDegrees)
+      await Axios.put(`${process.env.apiEmployee}/api/user-degrees/110?current_user_id=4`,paramsUserDegrees)
       .then((res)=>{
         if(res.data.message=="Success!. Updated"){
-          alert("update thanh cong")
         } else {
           alert("update that bai")
         }
@@ -220,10 +142,10 @@ export default class CurriculumVitae extends Component {
         work_formality:this.state.work_formality,
         work_note:"asd"
       }
-      Axios.put(`${process.env.apiEmployee}/api/work-objects/116?current_user_id=4`,paramsWorkObjects)
+      await Axios.put(`${process.env.apiEmployee}/api/work-objects/116?current_user_id=4`,paramsWorkObjects)
       .then((res)=>{
         if(res.data.message=="Success!. Updated"){
-          alert("update thanh cong")
+          message
         } else {
           alert("update that bai")
         }
@@ -240,11 +162,12 @@ export default class CurriculumVitae extends Component {
         car_end:Date.parse(this.state.car_end)/1000,
         car_note:"123"
       }
-      console.log(paramsJournalistCards)
-      Axios.put(`${process.env.apiEmployee}/api/journalist-cards/110?current_user_id=4`,paramsJournalistCards)
-      .then((res)=>{
+      await Axios.put(`${process.env.apiEmployee}/api/journalist-cards/110?current_user_id=4`,paramsJournalistCards)
+      .then( async (res)=>{
         if(res.data.message=="Success!. Updated"){
-          alert("update thanh cong")
+          await this.fetchData();
+          message.success("Cập nhât thông tin thành công")
+          this.props.uiActionCreators.hide()
         } else {
           alert("update that bai")
         }
@@ -267,6 +190,91 @@ export default class CurriculumVitae extends Component {
             [name1]: dateString[0],
             [name2]:dateString[1]
           });
+    }
+   async fetchData() {
+    this.props.uiActionCreators.showLoading()
+    await  Axios.get(`${process.env.apiEmployee}/api/fe/profiles/4?current_user_id=4`)
+      .then((res)=>{
+        const data = res.data.data
+        console.log(data)
+        this.setState({
+        pro_name: data.pro_name,
+        pro_pen_name: data.pro_pen_name,
+        pro_birth_day: data.pro_birth_day,
+        pro_gender: data.pro_gender,
+        pro_birth_place: data.pro_birth_place,
+        pro_home_town: data.pro_home_town,
+        pro_local_phone: data.pro_local_phone,
+        pro_resident: data.pro_resident,
+        pro_ethnic: data.pro_ethnic,
+        pro_religion: data.pro_religion,
+        pro_background_origin: data.pro_background_origin,
+        pro_occupation: data.pro_occupation,
+        pro_identity_card: data.pro_identity_card,
+        pro_identity_card_when: data.pro_identity_card_when,
+        pro_identity_card_where: data.pro_identity_card_where,
+        })
+      })
+      .catch((err)=>{
+        console.log(err);
+      })
+     await Axios.get(`${process.env.apiEmployee}/api/departments/profiles/4?current_user_id=4`)
+      .then((res)=>{
+        const data = res.data.data
+        console.log(data)
+        this.setState({
+          dep_name: data.dep_name,
+          dep_position: data.dep_position,
+          dep_appointment_date: new Date(data.dep_appointment_date),
+        })
+      })
+      .catch((err)=>{
+        console.log(err);
+      })
+
+     await Axios.get(`${process.env.apiEmployee}/api/user-degrees/profiles/4?current_user_id=4`)
+      .then((res)=>{
+        const data = res.data.data
+        console.log(data)
+        this.setState({
+          deg_type: data.deg_type,
+          deg_diploma: data.deg_diploma,
+          deg_majors: data.deg_majors,
+          deg_school_name: data.deg_school_name,
+          deg_begin_study: new Date(data.deg_begin_study*1000),
+          deg_end_study: new Date(data.deg_end_study*1000),
+        })
+      })
+      .catch((err)=>{
+        console.log(err);
+      })
+     await Axios.get(`${process.env.apiEmployee}/api/work-objects/profiles/4?current_user_id=4`)
+      .then((res)=>{
+        const data = res.data.data
+        console.log(data)
+        this.setState({
+          work_formality: data.formality,
+        })
+      })
+      .catch((err)=>{
+        console.log(err);
+      })
+     await Axios.get(`${process.env.apiEmployee}/api/journalist-cards/profiles/4?current_user_id=4`)
+      .then((res)=>{
+        const data = res.data.data
+        console.log(data)
+        this.setState({
+          car_number: data.car_number,
+          car_number_day: new Date(data.car_number_day),
+          car_begin: new Date(data.car_begin*1000),
+          car_end: new Date(data.car_end*1000),
+        })
+      })
+      .catch((err)=>{
+        message.error("lỗi không load được mạng")
+        console.log(err);
+      })
+       this.props.uiActionCreators.hideLoading();
     }
     render() {
       // console.log(this.state.car_begin)
@@ -684,3 +692,8 @@ export default class CurriculumVitae extends Component {
         )
     }
 }
+
+const mapDispatchToProps = dispatch => ({
+  uiActionCreators: bindActionCreators(uiActions,dispatch)
+})
+export default connect(null, mapDispatchToProps)(CurriculumVitae)

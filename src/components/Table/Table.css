@@ -73,3 +73,7 @@
 .process-work-flow{
     margin: 50px 0;
 }
+.modal-password input{
+    height: 25px !important;
+    width: 380px !important;
+}
