@@ -203,9 +203,10 @@ class TableSix extends Component {
               <li className="tabs-main-left-li">
                 <span className="tabs-user-infor-top">Mật khẩu</span>
                 <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
-                  <Input
+                  <Input.Password
                     name="pro_resident"
                     onChange={this.onChange}
+                    className="modal-password"
                     // placeholder="Thuộc đảng bộ"
                   />
                 </div>
@@ -239,7 +240,6 @@ class TableSix extends Component {
     );
   }
 }
-
 
 const mapStateToProps = (state,ownProps) => ({
   listUserSix: state.userSixReducer
