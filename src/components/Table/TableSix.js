@@ -7,14 +7,14 @@ import "../../App/App.css";
 import "../Crm/Crm.css"
 import "./Table.css"
 import * as userSixActions from '../../actions/userSix';
-import {  Layout, Steps } from "antd";
+import {  Layout } from "antd";
 import { Table, Space, Tag, Avatar } from 'antd';
 import { Popconfirm, message } from 'antd';
-import { Input, Modal, DatePicker } from "antd";
+import { Input, Modal } from "antd";
 import imgUser from "../../assets/images/imguser.png";
+import user from "../../assets/images/user2.png";
 
 const { Content } = Layout;
-const { Step } = Steps;
 class TableSix extends Component {
   state = {
     collapsed: false,
@@ -89,7 +89,7 @@ class TableSix extends Component {
         fixed:'left',
         render: () =>(
           <div>
-            <Avatar shape="square" size={64} style={{ marginRight: "3px" }} src={imgUser} />
+            <Avatar shape="square" size={64} style={{ marginRight: "3px" }} src={user} />
           </div>
         )
       },
