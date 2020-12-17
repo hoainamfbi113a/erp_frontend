@@ -26,7 +26,13 @@ const ValidateField = (value, min, max, field) => {
     }
     return msg;
 }
+function resetStatusProfile (value) {
+  if(value ==1)
+    return 4;
+  return value
+}
 export {
     ValidateEmail,
-    ValidateField
+    ValidateField,
+    resetStatusProfile
 }

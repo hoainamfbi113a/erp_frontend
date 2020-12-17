@@ -21,7 +21,7 @@ export default class Crm extends React.Component {
   };
   render() {
     return (
-      <div style={{height:"100vh"}}>
+      <div >
         <Layout>
           <MenuLayout collapsed={this.state.collapsed} />
           <Layout>
