@@ -7,13 +7,15 @@ import Axios from "axios";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import * as uiActions from "../../actions/ui";
-
+import { Steps } from "antd";
+const { Step } = Steps;
 const { RangePicker } = DatePicker;
 const dateFormat = "YYYY/MM/DD";
 class NotifiDepartment extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      STATUS_PROFILE:-1,
       id: null,
       pro_name: null,
       pro_pen_name: null,
@@ -232,8 +234,8 @@ class NotifiDepartment extends Component {
     });
   };
   async fetchData() {
+
     this.props.uiActionCreators.showLoading();
-    let fetchDataFailed = 0;
     let tokenID = localStorage.getItem("tokenID");
     let idUser = this.props.match.params.id
     await Axios.get(
@@ -242,8 +244,13 @@ class NotifiDepartment extends Component {
       .then(async (res) => {
         const data = res.data.data;
         let pro_id = data.id;
+        Axios.get(`https://employee.tuoitre.vn/api/transfers/profiles/${pro_id}`)
+        .then((res)=>{
+          this.setState({
+            STATUS_PROFILE:res.data.data.after_status
+          })
+        })
         if (data.department == "undefined" || !data.department) {
-          alert("123")
           await Axios.post(
             `https://employee.tuoitre.vn/api/departments/?current_user_id=${tokenID}`,
             {
@@ -327,13 +334,93 @@ class NotifiDepartment extends Component {
       })
       .catch((err) => {
         console.log(err);
-        fetchDataFailed = 1;
       });
     this.props.uiActionCreators.hideLoading();
   }
+  handleConfirm  = async () =>{
+    let idUser = this.props.match.params.id
+    const tokenID = localStorage.getItem("tokenID")
+    let pro_id = 0
+    await Axios.get(
+      `${process.env.apiEmployee}/api/fe/profiles/users/${idUser}?current_user_id=${tokenID}`
+    )
+      .then(async (res) => {
+        const data = res.data.data;
+        pro_id = data.id;
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+    Axios.put(`https://employee.tuoitre.vn/api/profiles/${pro_id}?current_user_id=${tokenID}`,{
+        current_user_id:tokenID,
+        user_id:idUser,
+        reject:"0"
+    })
+    .then((res)=>{
+      if(res.data.message){
+        alert("xac nhan thành công")
+        window.location.reload();
+      }
+    })
+    
+  }
+  handleReject = async () =>{
+    const tokenID = localStorage.getItem("tokenID")
+    let pro_id = 0;
+    await Axios.get(
+      `${process.env.apiEmployee}/api/fe/profiles/users/${idUser}?current_user_id=${tokenID}`
+    )
+      .then(async (res) => {
+        const data = res.data.data;
+        pro_id = data.id;
+      })
+      .catch((err)=>{
+        console.log(err)
+      })
+      Axios.put(`https://employee.tuoitre.vn/api/profiles/${pro_id}?current_user_id=${tokenID}`,{
+        current_user_id:tokenID,
+        user_id:idUser,
+        reject:"1"
+        })
+      .then((res)=>{
+        if(res.data.message){
+          window.location.reload();
+          alert("tu choi")
+        }
+      })
+  }
   render() {
+    let value = 1; 
+    if(this.state.STATUS_PROFILE == 1 || this.state.STATUS_PROFILE == 5){
+      value = 3
+    }
+    else if(this.state.STATUS_PROFILE == 2){
+      value = 1
+    }
+    else if(this.state.STATUS_PROFILE == 3){
+      value = 2;
+    }
+    else{
+      value = 0
+    }
     return (
       <div className="content-background2" style={{ width: "100%" }}>
+         <Steps current={value} size="small" className="process-work-flow">
+          <Step title="Nhân sự tạo nhân viên mới" />
+          <Step title="Nhân viên vào chỉnh sửa thông tin của mình" />
+          <Step title="Nhân sự duyệt" />
+          <Step title="Hoàn tất" />
+        </Steps>
+        { value == 2 ? 
+                        <li  className="tabs-main-left-li" >
+                          <Button onClick ={this.handleReject} className="btn-confirm" style ={{marginBottom:'10px',width:"140px"}}>
+                            Không duyệt
+                          </Button>
+                          <Button onClick ={this.handleConfirm} htmlType="submit" className="btn-no-confirm" style ={{marginBottom:'10px',width:"140px"}}>
+                            Duyệt
+                          </Button>
+                        </li>: ""
+                         }
         <div style={{ minHeight: "70vh" }} className="edit-infor">
           <div className="edit-infor-tabs">
             <ul>
@@ -432,7 +519,9 @@ class NotifiDepartment extends Component {
             <div className="edit-infr-vertical-line"></div>
           </div>
           <div className="edit-infor-form">
+          <fieldset disabled="disabled">  
             <div className="tabs-main">
+            
               <form
                 style={{ width: "100%" }}
                 className="tabs-main"
@@ -873,17 +962,14 @@ class NotifiDepartment extends Component {
                             />
                           </div>
                         </li>
-                        <li className="tabs-main-left-li">
-                          <Button htmlType="submit" className="btn-add-user">
-                            Gửi thông tin
-                          </Button>
-                        </li>
+                        
                       </ul>
                     </div>
                   </div>
                 </div>
               </form>
             </div>
+            </fieldset>
           </div>
         </div>
       </div>

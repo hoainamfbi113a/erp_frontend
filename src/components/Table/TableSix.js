@@ -124,19 +124,13 @@ class TableSix extends Component {
               <Tag color="volcano" className="table-action">Ẩn</Tag>
             </Popconfirm>
             <Link to={`/crm/admin/edituser/${text}`}> 
-            <Tag color="geekblue" className="table-action">Cập nhật</Tag></Link> 
+            <Tag color="geekblue" className="table-action">Xem và duyệt</Tag></Link> 
           </Space>
         ),
       },
     ];
     return (
       <div>
-        <Steps size="small" className="process-work-flow">
-          <Step title="Nhân sự tạo nhân viên mới" />
-          <Step title="Nhân sự thêm thông tin căn bản" />
-          <Step title="Nhân viên vào chỉnh sửa thông tin của mình" />
-          <Step title="Nhân sự duyệt" />
-        </Steps>
         <Content >
           {/* <div style={{ height: "calc(100vh - 139px)" }} className="layout-content"> */}
           <div className="layout-content">

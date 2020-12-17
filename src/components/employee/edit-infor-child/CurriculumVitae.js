@@ -203,6 +203,7 @@ class CurriculumVitae extends Component {
     console.log(messageErr);
     if (messageErr == 0) {
       message.success("Cập nhât thông tin thành công");
+      window.location.reload();
     } else {
       message.error("Cập nhật thất bại");
     }
