@@ -4,7 +4,8 @@ import { Spin } from "antd";
 import { ValidateEmail, ValidateField } from "../../helpers/FuncHelper";
 import { message } from 'antd';
 import "./Login.css";
-import authentication from "../../assets/images/authentication.jpg";
+import logologin from "../../assets/images/logologin.png";
+import background from "../../assets/images/background.jpg";
 export default class Login extends Component {
   constructor() {
     super();
@@ -133,9 +134,9 @@ export default class Login extends Component {
           <div className="shape2" />
           <div className="floating floatFoot" />
           <div className="form">
-            <img src={authentication} alt="" className="form__img" />
+            <img src={background} alt="" className="form__img" />
             <form className="form__content" onSubmit={this.onSubmit}>
-              <h1 className="form__title" style={{fontSize:"27px"}}>TUỔI TRẺ CỦA CHÚNG TA</h1>
+              <h1 className="form__title" style={{fontSize:"27px"}}> <img src={logologin} alt=""  /></h1>
               <div className="form__div form__div-one">
                 <div className="form__icon">
                   <i className="bx bx-user-circle" />
@@ -173,18 +174,8 @@ export default class Login extends Component {
                 Quên mật khẩu ?
               </a>
               <input type="submit" value="Đăng nhập" className="form__button" />
-              {/* <div className="form__social">
-                <span className="form__social-text">Đăng nhập với</span>
-                <a href="#" className="form__social-icon">
-                  <FacebookOutlined />
-                </a>
-                <a href="#" className="form__social-icon">
-                  <GooglePlusOutlined />
-                </a>
-                <a href="#" className="form__social-icon">
-                  <InstagramFilled />
-                </a>
-              </div> */}
+              <div class="rectangle"></div>
+              <div class="rectangle2"></div>
             </form>
           </div>
         </div>

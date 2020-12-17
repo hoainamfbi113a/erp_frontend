@@ -52,8 +52,13 @@ class NotifiDepartment extends Component {
       idJou: null,
     };
   }
-  componentDidMount = () => {
-    this.fetchData();
+  componentDidMount = async () => {
+    this.props.uiActionCreators.showLoading();
+    await this.fetchData();
+    setTimeout(()=>{
+      this.props.uiActionCreators.hideLoading();
+    },1000)
+    
   };
   onSubmit = async (e) => {
     e.preventDefault();
@@ -209,7 +214,6 @@ class NotifiDepartment extends Component {
     } else {
       message.error("Cập nhật thất bại");
     }
-    this.props.uiActionCreators.hideLoading();
   };
   handleClick = (id) => {
     this.setState({ activeLink: id });
@@ -234,108 +238,74 @@ class NotifiDepartment extends Component {
     });
   };
   async fetchData() {
-
-    this.props.uiActionCreators.showLoading();
+ 
     let tokenID = localStorage.getItem("tokenID");
     let idUser = this.props.match.params.id
-    await Axios.get(
-      `${process.env.apiEmployee}/api/fe/profiles/users/${idUser}?current_user_id=${tokenID}`
-    )
-      .then(async (res) => {
-        const data = res.data.data;
-        let pro_id = data.id;
-        Axios.get(`https://employee.tuoitre.vn/api/transfers/profiles/${pro_id}`)
-        .then((res)=>{
-          this.setState({
-            STATUS_PROFILE:res.data.data.after_status
-          })
-        })
-        if (data.department == "undefined" || !data.department) {
-          await Axios.post(
-            `https://employee.tuoitre.vn/api/departments/?current_user_id=${tokenID}`,
-            {
-              user_id: idUser,
-              pro_id: pro_id,
-            }
-          );
-        }
-        if (data.userDegree == "undefined" || !data.userDegree) {
-          await Axios.post(
-            `https://employee.tuoitre.vn/api/user-degrees/?current_user_id=${tokenID}`,
-            {
-              user_id: idUser,
-              pro_id: pro_id,
-            }
-          );
-        }
-        if (data.workObject == "undefined" || !data.workObject) {
-          await Axios.post(
-            `https://employee.tuoitre.vn/api/work-objects/?current_user_id=${tokenID}`,
-            {
-              user_id: idUser,
-              pro_id: pro_id,
-            }
-          );
-        }
-        if (data.journalistCard == "undefined" || !data.journalistCard) {
-          await Axios.post(
-            `https://employee.tuoitre.vn/api/journalist-cards/?current_user_id=${tokenID}`,
-            {
-              user_id: idUser,
-              pro_id: pro_id,
-            }
-          );
-        }
-        Axios.get(
-          `${process.env.apiEmployee}/api/fe/profiles/users/${idUser}?current_user_id=${tokenID}`
-        ).then(async (res) => {
+    // let pro_id = 0;
+      Axios.get(
+        `${process.env.apiEmployee}/api/fe/profiles/users/${idUser}?current_user_id=${tokenID}`
+      )
+        .then(async (res) => {
           const data = res.data.data;
-          this.setState({
-            id:data.id,
-            pro_name: data.pro_name,
-            pro_pen_name: data.pro_pen_name,
-            pro_birth_day: data.pro_birth_day,
-            pro_gender: data.pro_gender,
-            pro_birth_place: data.pro_birth_place,
-            pro_home_town: data.pro_home_town,
-            pro_local_phone: data.pro_local_phone,
-            pro_resident: data.pro_resident,
-            pro_ethnic: data.pro_ethnic,
-            pro_religion: data.pro_religion,
-            pro_background_origin: data.pro_background_origin,
-            pro_occupation: data.pro_occupation,
-            pro_identity_card: data.pro_identity_card,
-            pro_identity_card_when: data.pro_identity_card_when,
-            pro_identity_card_where: data.pro_identity_card_where,
-            dep_name: data.department.data.dep_name,
-            dep_position: data.department.data.dep_position,
-            dep_appointment_date: new Date(
-              data.department.data.dep_appointment_date
-            ),
-            deg_type: data.userDegree.data.deg_type,
-            deg_diploma: data.userDegree.data.deg_diploma,
-            deg_majors: data.userDegree.data.deg_majors,
-            deg_school_name: data.userDegree.data.deg_school_name,
-            deg_begin_study: new Date(
-              data.userDegree.data.deg_begin_study * 1000
-            ),
-            deg_end_study: new Date(data.userDegree.data.deg_end_study * 1000),
-            work_formality: data.workObject.data.formality,
-            car_number: data.journalistCard.data.car_number,
-            car_number_day: new Date(data.journalistCard.data.car_number_day),
-            car_begin: new Date(data.journalistCard.data.car_begin * 1000),
-            car_end: new Date(data.journalistCard.data.car_end * 1000),
-            idDepartment: data.department.data.id,
-            idUserDegree: data.userDegree.data.id,
-            idWorkObject: data.workObject.data.id,
-            idJou: data.journalistCard.data.id,
+          let pro_id = data.id;
+          Axios.get(`https://employee.tuoitre.vn/api/transfers/profiles/${pro_id}`)
+          .then((res)=>{
+            this.setState({
+              STATUS_PROFILE:res.data.data.after_status
+            })
+          })
+          Axios.get(
+            `${process.env.apiEmployee}/api/fe/profiles/users/${idUser}?current_user_id=${tokenID}`
+          ).then(async (res) => {
+            const data = res.data.data;
+            this.setState({
+              id:data.id,
+              pro_name: data.pro_name,
+              pro_pen_name: data.pro_pen_name,
+              pro_birth_day: data.pro_birth_day,
+              pro_gender: data.pro_gender,
+              pro_birth_place: data.pro_birth_place,
+              pro_home_town: data.pro_home_town,
+              pro_local_phone: data.pro_local_phone,
+              pro_resident: data.pro_resident,
+              pro_ethnic: data.pro_ethnic,
+              pro_religion: data.pro_religion,
+              pro_background_origin: data.pro_background_origin,
+              pro_occupation: data.pro_occupation,
+              pro_identity_card: data.pro_identity_card,
+              pro_identity_card_when: data.pro_identity_card_when,
+              pro_identity_card_where: data.pro_identity_card_where,
+              dep_name: data.department.data.dep_name,
+              dep_position: data.department.data.dep_position,
+              dep_appointment_date: new Date(
+                data.department.data.dep_appointment_date
+              ),
+              deg_type: data.userDegree.data.deg_type,
+              deg_diploma: data.userDegree.data.deg_diploma,
+              deg_majors: data.userDegree.data.deg_majors,
+              deg_school_name: data.userDegree.data.deg_school_name,
+              deg_begin_study: new Date(
+                data.userDegree.data.deg_begin_study * 1000
+              ),
+              deg_end_study: new Date(data.userDegree.data.deg_end_study * 1000),
+              work_formality: data.workObject.data.formality,
+              car_number: data.journalistCard.data.car_number,
+              car_number_day: new Date(data.journalistCard.data.car_number_day),
+              car_begin: new Date(data.journalistCard.data.car_begin * 1000),
+              car_end: new Date(data.journalistCard.data.car_end * 1000),
+              idDepartment: data.department.data.id,
+              idUserDegree: data.userDegree.data.id,
+              idWorkObject: data.workObject.data.id,
+              idJou: data.journalistCard.data.id,
+            });
           });
+        })
+        .catch((err) => {
+          // console.log(err);
+          setTimeout(()=>{
+            this.fetchData()
+          },200)
         });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    this.props.uiActionCreators.hideLoading();
   }
   handleConfirm  = async () =>{
     let idUser = this.props.match.params.id
