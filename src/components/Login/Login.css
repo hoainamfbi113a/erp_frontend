@@ -140,7 +140,7 @@ img{
     outline: none;
     border: none;
     margin-bottom: 3rem;
-    background-color: var(--first-color);
+    background-color:#29B171;
     color: #fff;
     border-radius: .5rem;
     cursor: pointer;
@@ -212,6 +212,7 @@ img{
         padding: 0 2rem;
     }
     .form__content{
+        margin-left: 231px;
         width: 320px;
     }
     .form__img{
@@ -253,6 +254,27 @@ img{
         position: absolute;
         left: 50%;
         top: 50%;
+  }
+.rectangle {
+    height: 645px;
+    width: 294px;
+    background-color: #29B171;
+    transform: rotate(-50deg);
+    position: absolute;
+    top: -477px;
+    right: 0;
+    opacity: .7;
+}
+.rectangle2 {
+    height: 300px;
+    width: 600px;
+    background-color: #555;
+    transform: rotate(31deg);
+    position: absolute;
+    bottom: -187px;
+    right: 507px;
+    background-color: #29B171;
+    z-index: -2;
   }
 @keyframes floating {
     0% {

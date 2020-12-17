@@ -167,22 +167,6 @@ class TableSix extends Component {
                   />
                 </div>
               </li>
-              {/* <li className="tabs-main-left-li tabs-main-left-li-row">
-                <span className="tabs-user-infor-top">Ngày tháng năm sinh</span>
-                <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
-                  <DatePicker
-                  placeholder="Chọn ngày"
-                    style={{ width: 150 }}
-                    onChange={(date, dateString) =>
-                      this.onChangeBirthDay(
-                        date,
-                        dateString,
-                        "pro_identity_card_when"
-                      )
-                    }
-                  />
-                </div>
-              </li> */}
               <li className="tabs-main-left-li">
                 <span className="tabs-user-infor-top">Tên đăng nhập</span>
                 <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
