@@ -174,8 +174,8 @@ export default class Login extends Component {
                 Quên mật khẩu ?
               </a>
               <input type="submit" value="Đăng nhập" className="form__button" />
-              <div class="rectangle"></div>
-              <div class="rectangle2"></div>
+              <div className="rectangle"></div>
+              <div className="rectangle2"></div>
             </form>
           </div>
         </div>
