@@ -835,14 +835,17 @@ class CurriculumVitae extends Component {
                         />
                       </div>
                     </li>
+                    <li className="tabs-main-left-li">
+                      <Button htmlType="submit" className="btn-add-user">
+                        Gửi thông tin
+                      </Button>
+                    </li>
                   </ul>
                 </div>
               </div>
             </div>
           </form>
-                      <Button htmlType="submit" className="btn-add-user">
-                        Gửi thông tins
-                      </Button>
+                    
         </div>
       </div>
     );
