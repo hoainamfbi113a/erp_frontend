@@ -29,20 +29,25 @@ class CurriculumVitae extends Component {
       pro_identity_card: null,
       pro_identity_card_when: null,
       pro_identity_card_where: null,
+      pro_note:null,
       dep_name: null,
       dep_position: null,
       dep_appointment_date: null,
+      dep_note:null,
       deg_type: null,
       deg_diploma: null,
       deg_majors: null,
       deg_school_name: null,
       deg_begin_study: null,
       deg_end_study: null,
+      deg_note:null,
       work_formality: null,
+      work_note:null,
       car_number: null,
       car_number_day: null,
       car_begin: null,
       car_end: null,
+      car_note:null,
       idDepartment: null,
       idUserDegree: null,
       idWorkObject: null,
@@ -97,6 +102,7 @@ class CurriculumVitae extends Component {
       pro_identity_card_when:
         Date.parse(this.state.pro_identity_card_when) / 1000,
       pro_identity_card_where: this.state.pro_identity_card_where,
+      pro_note:this.state.pro_note,
       current_user_id: tokenID,
       user_id: tokenID,
     };
@@ -117,6 +123,7 @@ class CurriculumVitae extends Component {
       dep_name: this.state.dep_name,
       dep_position: this.state.dep_position,
       dep_appointment_date: Date.parse(this.state.dep_appointment_date),
+      dep_note:this.state.dep_note,
       user_id: tokenID,
       pro_id: to_item_id,
       dep_note: "asd",
@@ -143,6 +150,7 @@ class CurriculumVitae extends Component {
       deg_school_name: this.state.deg_school_name,
       deg_begin_study: Date.parse(this.state.deg_begin_study) / 1000,
       deg_end_study: Date.parse(this.state.deg_end_study) / 1000,
+      deg_note:this.state.deg_note
     };
     await Axios.put(
       `${process.env.apiEmployee}/api/user-degrees/${this.state.idUserDegree}?current_user_id=${tokenID}`,
@@ -161,7 +169,7 @@ class CurriculumVitae extends Component {
       user_id: tokenID,
       pro_id: to_item_id,
       work_formality: this.state.work_formality,
-      work_note: "asd",
+      work_note: this.state.work_note,
     };
     await Axios.put(
       `${process.env.apiEmployee}/api/work-objects/${this.state.idWorkObject}?current_user_id=${tokenID}`,
@@ -184,7 +192,7 @@ class CurriculumVitae extends Component {
       car_number_day: Date.parse(this.state.car_number_day),
       car_begin: Date.parse(this.state.car_begin) / 1000,
       car_end: Date.parse(this.state.car_end) / 1000,
-      car_note: "123",
+      car_note: this.state.car_note,
     };
     await Axios.put(
       `${process.env.apiEmployee}/api/journalist-cards/${this.state.idJou}?current_user_id=${tokenID}`,
@@ -230,7 +238,6 @@ class CurriculumVitae extends Component {
   };
   async fetchData() {
     this.props.uiActionCreators.showLoading();
-    let fetchDataFailed = 0;
     let tokenID = localStorage.getItem("tokenID");
 
     await Axios.get(
@@ -297,11 +304,13 @@ class CurriculumVitae extends Component {
             pro_identity_card: data.pro_identity_card,
             pro_identity_card_when: data.pro_identity_card_when,
             pro_identity_card_where: data.pro_identity_card_where,
+            pro_note:data.pro_note,
             dep_name: data.department.data.dep_name,
             dep_position: data.department.data.dep_position,
             dep_appointment_date: new Date(
               data.department.data.dep_appointment_date
             ),
+            dep_note:data.department.data.dep_note,
             deg_type: data.userDegree.data.deg_type,
             deg_diploma: data.userDegree.data.deg_diploma,
             deg_majors: data.userDegree.data.deg_majors,
@@ -310,11 +319,14 @@ class CurriculumVitae extends Component {
               data.userDegree.data.deg_begin_study * 1000
             ),
             deg_end_study: new Date(data.userDegree.data.deg_end_study * 1000),
+            deg_note:data.userDegree.data.deg_note,
             work_formality: data.workObject.data.formality,
+            work_note:data.workObject.data.work_note,
             car_number: data.journalistCard.data.car_number,
             car_number_day: new Date(data.journalistCard.data.car_number_day),
             car_begin: new Date(data.journalistCard.data.car_begin * 1000),
             car_end: new Date(data.journalistCard.data.car_end * 1000),
+            car_note:data.journalistCard.data.car_note,
             idDepartment: data.department.data.id,
             idUserDegree: data.userDegree.data.id,
             idWorkObject: data.workObject.data.id,
@@ -553,6 +565,19 @@ class CurriculumVitae extends Component {
                         />
                       </div>
                     </li>
+                    <li className="tabs-main-left-li">
+                      <span className="tabs-user-infor-top">
+                        Ghi chú thông tin căn bản
+                      </span>
+                      <div className="tabs-user-infor-bottom">
+                        <Input
+                          name="pro_note"
+                          value={this.state.pro_note}
+                          onChange={this.onChange}
+                          placeholder="Ghi chú thông tin căn bản"
+                        />
+                      </div>
+                    </li>
                   </ul>
                 </div>
               </div>
@@ -608,6 +633,19 @@ class CurriculumVitae extends Component {
                               "dep_appointment_date"
                             )
                           }
+                        />
+                      </div>
+                    </li>
+                    <li className="tabs-main-left-li">
+                      <span className="tabs-user-infor-top">
+                        Ghi chú phòng ban:
+                      </span>
+                      <div className="tabs-user-infor-bottom">
+                        <Input
+                          name="dep_note"
+                          value={this.state.dep_note}
+                          onChange={this.onChange}
+                          placeholder="Ghi chú phòng ban"
                         />
                       </div>
                     </li>
@@ -692,6 +730,19 @@ class CurriculumVitae extends Component {
                     </li>
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
+                        Ghi chú về trình độ:
+                      </span>
+                      <div className="tabs-user-infor-bottom">
+                        <Input
+                          name="deg_note"
+                          value={this.state.deg_note}
+                          onChange={this.onChange}
+                          placeholder="Ghi chú về trình độ"
+                        />
+                      </div>
+                    </li>
+                    <li className="tabs-main-left-li">
+                      <span className="tabs-user-infor-top">
                         Hình thức lao động:
                       </span>
                       <div className="tabs-user-infor-bottom">
@@ -700,6 +751,17 @@ class CurriculumVitae extends Component {
                           value={this.state.work_formality}
                           onChange={this.onChange}
                           placeholder="Hình thức lao động"
+                        />
+                      </div>
+                    </li>
+                    <li className="tabs-main-left-li">
+                      <span className="tabs-user-infor-top">Ghi chú hình thức lao động:</span>
+                      <div className="tabs-user-infor-bottom">
+                        <Input
+                          name="work_note"
+                          value={this.state.work_note}
+                          onChange={this.onChange}
+                          placeholder="Ghi chú hình thức lao động"
                         />
                       </div>
                     </li>
@@ -763,15 +825,24 @@ class CurriculumVitae extends Component {
                       </div>
                     </li>
                     <li className="tabs-main-left-li">
-                      <Button htmlType="submit" className="btn-add-user">
-                        Gửi thông tin
-                      </Button>
+                      <span className="tabs-user-infor-top">Ghi chú số thẻ:</span>
+                      <div className="tabs-user-infor-bottom">
+                        <Input
+                          name="car_note"
+                          value={this.state.car_note}
+                          onChange={this.onChange}
+                          placeholder="Ghi chú số thẻ"
+                        />
+                      </div>
                     </li>
                   </ul>
                 </div>
               </div>
             </div>
           </form>
+                      <Button htmlType="submit" className="btn-add-user">
+                        Gửi thông tins
+                      </Button>
         </div>
       </div>
     );

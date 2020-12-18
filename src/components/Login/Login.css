@@ -184,7 +184,7 @@ img{
     padding: 5px;
     padding-top:10px;
     border: none;
-    box-shadow: 0px 0px 10px rgba(255,0,255,.3);
+    box-shadow: 0px 0px 10px rgba(0,0,255,.3);
     transition: all .2s linear;
     font-family: 'Quicksand', sans-serif;
 }
@@ -212,7 +212,7 @@ img{
         padding: 0 2rem;
     }
     .form__content{
-        margin-left: 231px;
+        margin: 0 auto;
         width: 320px;
     }
     .form__img{
