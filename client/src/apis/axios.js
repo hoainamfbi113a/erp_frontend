@@ -1,33 +1,30 @@
-import axios from 'axios';
+import axios from "axios";
+import queryString from "query-string";
 
-const api = async (url, method, body) => {
-  /**
-   * config object for fetch
-   */
-  const config = {
-    method: 'get',
-    baseURL: 'https://employee.tuoitre.vn/api/',
-    url,
-    headers: {
-      'Content-type': 'application/json',
-      authorization: localStorage.getItem('usertoken'),
-    },
-  };
-
-  if (method) {
-    config.method = method;
+const axiosConfig = axios.create({
+  baseURL: process.env.REACT_APP_API_URL,
+  headers: {
+    "content-type": "application/json",
+  },
+  paramsSerializer: (params) => queryString.stringify(params),
+});
+axiosConfig.interceptors.request.use(async (config) => {
+  const token = localStorage.getItem("usertoken");
+  if (token) {
+    config.headers['Authorization'] = 'Bearer ' + token;
   }
-  if (body) {
-    config.data = body;
+  return config;
+});
+axiosConfig.interceptors.response.use(
+  (response) => {
+    if (response && response.data) {
+      return response.data;
+    }
+    return response;
+  },
+  (error) => {
+    // Handle errors
+    throw error;
   }
-
-  let response;
-  try {
-    response = await axios(config);
-    return {...response.data};
-  } catch (e) {
-    throw new Error(e.message);
-  }
-};
-
-export default api;
+);
+export default axiosConfig;
