@@ -76,8 +76,11 @@ class MenuLayout extends Component {
                 <Menu.Item key="7" onClick={this.handleOnclick}>
                   <Link to="/crm/admin/usersix">Gán quyền </Link>
                 </Menu.Item>
-                <Menu.Item key="8" onClick={this.handleOnclick}>
-                  <Link to="/crm/admin/usersix"> Quyền </Link>
+                <Menu.Item key="8" >
+                  <Link to="/crm/admin/permission"> Quyền </Link>
+                </Menu.Item>
+                <Menu.Item key="9" >
+                  <Link to="/crm/admin/roles"> Roles </Link>
                 </Menu.Item>
             </SubMenu>
           </Menu>

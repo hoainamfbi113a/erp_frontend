@@ -19,7 +19,6 @@ const updateProfile = async (req, res) => {
   let { data } = await Axios.put(
     `${process.env.apiEmployee}/api/profiles/${id}`
   );
-  console.log(data)
   res.send(data);
 };
 export { profiles, getProfile, updateProfile };
