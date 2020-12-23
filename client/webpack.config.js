@@ -79,7 +79,7 @@ module.exports = (env, agrv) => {
         devServer: {
             proxy: {
                 '/api': {
-                    target: 'http://localhost:5001',
+                    target: 'https://localhost:5001',
                     pathRewrite: { '^/api': '' },
                 },
             },
