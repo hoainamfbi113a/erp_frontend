@@ -4,3 +4,4 @@ node_modules
 data.json
 data1.json
 yarn.lock
+.env
