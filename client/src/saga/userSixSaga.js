@@ -14,9 +14,9 @@ export default function* userSixSaga() {
 function* watchFetchListUserSixAction() {
     yield put(showLoading())
     const resp = yield call(getListUserBase,1);
-    if(resp.status === 200) {
+    if(resp.message === "Successfully") {
         yield put(hideLoading());
-        yield put(fetchListUserSixSuccess(resp.data.data));
+        yield put(fetchListUserSixSuccess(resp.data));
     }
 }
 

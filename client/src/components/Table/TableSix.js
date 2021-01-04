@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {Link}  from 'react-router-dom'
-import axios from "axios"
+import GrantRole from "../Modal/GrantRole";
 import "../../App/App.css";
 import "../Crm/Crm.css"
 import "./Table.css"
@@ -11,22 +11,24 @@ import {  Layout } from "antd";
 import { Table, Space, Tag, Avatar } from 'antd';
 import { Popconfirm, message } from 'antd';
 import { Input, Modal } from "antd";
-import imgUser from "../../assets/images/imguser.png";
 import user from "../../assets/images/user2.png";
-
+import axiosConfig from "../../apis/axios"
 const { Content } = Layout;
 class TableSix extends Component {
   state = {
     collapsed: false,
     visibleModify: false,
     visibleAdduser: false,
-    selectedRowKeys: [], // Check here to configure the default column
+    showModalGrantRole:false,
+    selectedRowKeys: [],
+    roleAndPermissionUser:null, 
     loading: false,
     current_user_id: "4",
     app_id: "99",
     full_name: "",
     email: "",
     phone: "",
+    idGrantRole:""
   };
   hideModal = () => {
     this.props.hideModal()
@@ -38,17 +40,16 @@ class TableSix extends Component {
   }
   onSubmit = () => {
     let params = {
-      current_user_id: process.env.current_user_id,
       app_id: process.env.app_id,
       email: this.state.email,
       phone: this.state.phone,
       full_name: this.state.full_name
     };
     this.hideModal();
-    axios
+    axiosConfig
       .post("/api/register", params)
       .then((res) => {
-        if (res.data.message === "Success!. Stored") {
+        if (res.message === "Đăng ký thành công!") {
           message.success("Đăng ký user thành công");
           const { userSixActionCreators } = this.props;
           const { fetchListUserSix } = userSixActionCreators;
@@ -78,6 +79,31 @@ class TableSix extends Component {
   onSelectChange = selectedRowKeys => {
     this.setState({ selectedRowKeys });
   };
+  handleGrantRole = (id) =>{
+    this.setState({
+      showModalGrantRole:true,
+      idGrantRole:id
+    })
+    axiosConfig.get(`/api/user/permission/${id}`)
+    .then((res)=>{
+      this.setState({
+        roleAndPermissionUser:res
+      })
+    })
+    .catch((err)=>{
+      console.log(err);
+    })
+  }
+  handleOkGrantRole = () =>{
+    this.setState({
+      showModalGrantRole:false
+    })
+  }
+  handleCancelGrantRole = () =>{
+    this.setState({
+      showModalGrantRole:false
+    })
+  }
   render() {
     const data = this.props.listUserSix.listUserSix;
     const columns = [
@@ -124,7 +150,11 @@ class TableSix extends Component {
               <Tag color="volcano" className="table-action">Ẩn</Tag>
             </Popconfirm>
             <Link to={`/crm/admin/edituser/${text}`}> 
-            <Tag color="geekblue" className="table-action">Xem và duyệt</Tag></Link> 
+              <Tag color="geekblue" className="table-action">Xem và duyệt</Tag>
+            </Link> 
+            <Tag color="volcano" onClick ={()=>{
+              this.handleGrantRole(text)
+            }}>Grant quyền</Tag>
           </Space>
         ),
       },
@@ -168,22 +198,12 @@ class TableSix extends Component {
                 </div>
               </li>
               <li className="tabs-main-left-li">
-                <span className="tabs-user-infor-top">Tên đăng nhập</span>
-                <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
-                  <Input
-                    name="pro_resident"
-                    onChange={this.onChange}
-                  />
-                </div>
-              </li>
-              <li className="tabs-main-left-li">
                 <span className="tabs-user-infor-top">Mật khẩu</span>
                 <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
                   <Input.Password
                     name="pro_resident"
                     onChange={this.onChange}
                     className="modal-password"
-                    // placeholder="Thuộc đảng bộ"
                   />
                 </div>
               </li>
@@ -192,9 +212,7 @@ class TableSix extends Component {
                 <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
                   <Input
                     name="phone"
-                    // defaultValue={ this.state.pro_resident }
                     onChange={this.onChange}
-                    // placeholder="Thuộc đảng bộ"
                   />
                 </div>
               </li>
@@ -203,15 +221,17 @@ class TableSix extends Component {
                 <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
                   <Input
                     name="email"
-                    // defaultValue={ this.state.pro_resident }
                     onChange={this.onChange}
-                    // placeholder="Thuộc đảng bộ"
                   />
                 </div>
               </li>
             </ul>
           </form>
         </Modal>
+        <GrantRole idGrant ={this.state.idGrantRole} handleOk ={this.handleOkGrantRole} 
+        handleCancel = {this.handleCancelGrantRole} visible ={this.state.showModalGrantRole}
+        roleAndPermissionUser = {this.state.roleAndPermissionUser}
+        ></GrantRole>
       </div>
     );
   }

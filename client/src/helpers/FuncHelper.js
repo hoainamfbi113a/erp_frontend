@@ -26,6 +26,12 @@ const ValidateField = (value, min, max, field) => {
     }
     return msg;
 }
+const getIdActionByName = (actionName,arrayId) => {
+  for(let item of arrayId){
+    if(item.name == actionName)
+      return arrayId.id
+  }
+}
 function resetStatusProfile (value) {
   if(value ==1)
     return 4;
@@ -34,5 +40,6 @@ function resetStatusProfile (value) {
 export {
     ValidateEmail,
     ValidateField,
-    resetStatusProfile
+    resetStatusProfile,
+    getIdActionByName
 }

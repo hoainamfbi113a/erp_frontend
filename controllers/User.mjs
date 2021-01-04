@@ -7,16 +7,43 @@ const listUser = async (req,res) => {
     res.send(data);
 }
 const login = async (req,res) => {
-    
     let  {data}  = await axios.post(`${process.env.apiEmployee}/api/login`, req.body);
     res.send(data);
 }
 const register = async (req,res) => {
-    let  {data}  = await axios.post(process.env.apiEmployee + "/api/register", req.body)
+    const config = {
+        headers: { Authorization: req.headers.authorization }
+    };
+    let  {data}  = await axios.post(process.env.apiEmployee + "/api/register", req.body,config)
+    console.log(req.body);
     res.send(data);
 }
+const grantRoleToUser = async (req,res) =>{
+    const config = {
+        headers: { Authorization: req.headers.authorization }
+    };
+    let {id} = req.params
+    let { data } = await axios.post(`${process.env.apiEmployee}/api/user/role/${id}`,req.body,config)
+    res.send(data);
+}
+const listRoleAndPermissionOfUser = async (req,res) =>{
+    const config = {
+        headers: { Authorization: req.headers.authorization }
+    };
+    let {id} = req.params
+    let { data } = await axios.get(`${process.env.apiEmployee}/api/user/permission/${id}`,config);
+    res.send(data);
+}
+const deleteRoleUser = async (req,res) =>{
+    let { id } = req.params
+    let { data } = await axios.delete(`${process.env.apiEmployee}/api/user/role/${id}`,{ data: req.body, headers: { "Authorization": req.headers.authorization} });
+    res.send(data);
+  }
 export {
     login,
     register,
-    listUser
+    listUser,
+    deleteRoleUser,
+    grantRoleToUser,
+    listRoleAndPermissionOfUser,
 }
