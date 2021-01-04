@@ -1,0 +1,118 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.personal-page-top{
+  display: flex;
+}
+.personal-page-top-cover{
+    width: 97%;
+    object-fit: cover;
+    margin: 0 auto;
+}
+.personal-page-content{
+    display: flex;
+    position: relative;
+    background: #fff;
+    width: 97%;
+    margin: 0 auto;
+}
+.personal-page-bottom{
+    background: #fff;
+    width: 97%;
+    margin: 0 auto;
+    margin-top: -31px;
+    z-index: 1;
+    position: relative;
+}
+.personal-page-bottom ul{
+    margin-left:59px;
+    list-style-type: none;
+}
+.personal-page-bottom > ul li{
+    display: flex;
+    margin-bottom: 15px;
+    
+}
+.personal-page-bottom-left{
+    width: 197px;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 23px;
+    color: #3F4254;
+}
+.personal-page-bottom-right{
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 23px;
+
+    color: #7E8299;
+}
+.personal-page-content-avatar{
+    top: -70px;
+    left: 60px;
+    position: relative;
+}
+.personal-page-content-infor-primary{
+    margin: 17px 0 0 92px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+.infor-primary-name{
+    font-size: 28px;
+    line-height: 33px;
+    color: #3F4254;
+}
+.infor-primary-department{
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 23px;
+    margin-top: 10px;
+    color: #7E8299;
+}
+.infor-primary-contact{
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 23px;
+    color: #B5B5C3;
+    display: flex;
+    
+    width: 70%;
+}
+.infor-primary-contact ul{
+    display: flex;
+    list-style-type: none;
+}
+.infor-primary-contact ul li{
+    margin-right:31px;
+    margin-top: 10px;
+}
+.personal-page-history-list li{
+    display: flex;
+    flex-direction: column;
+}
+.ant-timeline-item-tail{
+    height: calc(100% +3px);
+}
+.ant-timeline-item-content .personal-history-time:before{
+    border-left:0px;
+}
+.personal-history-time, .personal-history-content{
+    font-size: 18px;
+}
+.btn-edit-user{
+    margin-right: 30px;
+}
+.infor-primary-contact{
+    font-size: 18px;
+}
+.personal-page-hr{
+    z-index: 2;
+    position: relative;
+    top: -46px;
+    width: 90%;
+    margin: 0 auto;
+    opacity: .3;
+}

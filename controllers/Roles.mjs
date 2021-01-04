@@ -1,23 +1,68 @@
 import axios from "axios";
 const listRole = async (req, res) => {
-  let { data } = await axios.get(`${process.env.apiEmployee}/api/role`);
+  const config = {
+    headers: { Authorization: req.headers.authorization },
+  };
+  let { data } = await axios.get(`${process.env.apiEmployee}/api/role`, config);
   res.send(data);
 };
 
 const addRole = async (req, res) => {
-  let { data } = await axios.post(`${process.env.apiEmployee}/api/role`);
+  const config = {
+    headers: { Authorization: req.headers.authorization },
+  };
+  let { data } = await axios.post(
+    `${process.env.apiEmployee}/api/role`,req.body,
+    config
+  );
   res.send(data);
 };
 
 const updateRole = async (req, res) => {
-  let { id } = req.body;
-  let { data } = await axios.put(`${process.env.apiEmployee}/api/role/${id}`);
-  res.send(data);
+    const config = {
+      headers: { Authorization: req.headers.authorization },
+    };
+    let { id } = req.params;
+    let { data } = await axios.put(
+      `${process.env.apiEmployee}/api/role/${id}`,req.body,
+      config
+    );
+    res.send(data);
+
 };
 
 const deleteRole = async (req, res) => {
+  const config = {
+    headers: { Authorization: req.headers.authorization },
+  };
   let { id } = req.body;
-  let { data } = await axios.put(`${process.env.apiEmployee}/api/role/${id}`);
+  let { data } = await axios.put(
+    `${process.env.apiEmployee}/api/role/${id}`,
+    config
+  );
   res.send(data);
 };
-export { listRole, addRole, updateRole, deleteRole };
+const listPermissionOfRole = async (req,res) =>{
+  const config = {
+    headers: { Authorization: req.headers.authorization },
+  };
+  let { id } = req.params
+  let { data } = await axios.get(`${process.env.apiEmployee}/api/role/permission/${id}`, config);
+  res.send(data);
+}
+const permissionToRole = async (req,res)=>{
+  const config = {
+    headers: { Authorization: req.headers.authorization },
+  };
+  let { id } = req.params
+  console.log(req.body)
+  let { data } = await axios.post(`${process.env.apiEmployee}/api/role/permission/${id}`,req.body, config);
+  res.send(data);
+}
+const removePermissionFromRole = async (req,res) =>{
+  let { id } = req.params
+  let { data } = await axios.delete(`${process.env.apiEmployee}/api/role/permission/${id}`,{ data: req.body, headers: { "Authorization": req.headers.authorization} });
+  res.send(data);
+}
+
+export { removePermissionFromRole, permissionToRole,listPermissionOfRole, listRole, addRole, updateRole, deleteRole };

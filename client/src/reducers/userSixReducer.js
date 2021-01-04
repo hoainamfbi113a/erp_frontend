@@ -57,7 +57,6 @@ const userSixReducer = (state = initialState, action) => {
             data = Object.assign({}, data,{journalistCard:journalist_cards})
             data = Object.assign({}, data,{personalHistory:personal_histories})
             data = Object.assign({}, data,{workObject:work_objects})
-            console.log(data);
             message.success('Bạn đã thêm thành công');
             return {
                 ...state, listUserSix: [...state.listUserSix, data]
@@ -79,7 +78,6 @@ const userSixReducer = (state = initialState, action) => {
             let data = Object.assign({},{id: profiles.id}, {profiles:profiles}, { degree: degrees},
                 {department: departments},{journalistCard:journalist_cards},{personalHistory:personal_histories},
                 {workObject:work_objects} );
-            console.log(data);
             const { listUserSix } = state;
             const index = listUserSix.findIndex(item => item.id == profiles.id);
             message.success('Bạn đã update thành công');

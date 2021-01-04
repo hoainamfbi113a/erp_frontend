@@ -12,10 +12,23 @@ import { Popconfirm, message } from "antd";
 import { Input, Modal } from "antd";
 import axiosConfig from "../../apis/axios";
 import { Select, Tree } from "antd";
-import { Transfer, Checkbox } from "antd";
+import { Transfer } from "antd";
+import TransferCustom from "./TransferCustom"
 const { Option } = Select;
 const { Content } = Layout;
-import { Button } from 'antd';
+const treeData = [
+  { key: '0-0', title: '0-0' },
+  {
+    key: '0-1',
+    title: '0-1',
+    children: [
+      { key: '0-1-0', title: '0-1-0' },
+      { key: '0-1-1', title: '0-1-1' },
+    ],
+  },
+  { key: '0-2', title: '0-3' },
+];
+
 class TableRoles extends Component {
   state = {
     modalAssign: false,
@@ -153,14 +166,15 @@ class TableRoles extends Component {
     treeData.push(item);
     const customLabel = (
       <div>
-        <span className="custom-item" >
-          <Tree
+        <span className="custom-item">
+          {/* {item.title} */}
+          {/* <Tree
             className="tree-transfer"
             checkable
             onSelect={this.onSelect}
             onCheck={this.onCheck}
             treeData={treeData}
-          />
+          /> */}
           {/* <Checkbox>Checkbox</Checkbox>
           <Checkbox>Checkbox</Checkbox> */}
         </span>
@@ -294,12 +308,12 @@ class TableRoles extends Component {
   onSelectChange = (selectedRowKeys) => {
     this.setState({ selectedRowKeys });
   };
-  showModalAssign = (id) => {
+  showModalAssign = async (id) => {
+    await this.getMock(id);
     this.setState({
       modalAssign: true,
       idRole: id,
     });
-    this.getMock(id);
   };
   handleCancel = () => {
     this.setState({
@@ -311,7 +325,6 @@ class TableRoles extends Component {
       checkedValues: checkedValues,
     });
   };
-
   render() {
     const data = this.state.data;
     const columns = [
@@ -448,7 +461,7 @@ class TableRoles extends Component {
           onCancel={this.handleCancel}
           className="modal-transfer-grant-permission"
         >
-          <Transfer
+        <Transfer
             
             dataSource={this.state.mockData}
             listStyle={{
@@ -458,7 +471,31 @@ class TableRoles extends Component {
             targetKeys={this.state.targetKeys}
             onChange={this.handleChange}
             render={this.renderItem}
-          />
+          >
+            {
+              () =>{
+                return (
+                   <div>
+                     <div>HoaiNAm</div>
+                       {/* <Tree
+                          className="tree-transfer"
+                          checkable
+                          onSelect={this.onSelect}
+                          onCheck={this.onCheck}
+                          treeData={this.state.treeData}
+                        /> */}
+                   </div> 
+                )
+              }
+            }
+            {/* <Tree
+            className="tree-transfer"
+            checkable
+            onSelect={this.onSelect}
+            onCheck={this.onCheck}
+            treeData={this.state.treeData}
+          /> */}
+            </Transfer>
         </Modal>
       </div>
     );

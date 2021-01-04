@@ -56,30 +56,39 @@ class MenuLayout extends Component {
               </Menu.Item>
             </SubMenu>
             <SubMenu
-              key="sub2"
+              key="7"
               icon={<UserOutlined />}
               title="Nghiệp vụ"
               icon={<ShopOutlined />}
             >
               {localStorage.getItem("per") === "hr" ? (
-                <Menu.Item key="7" onClick={this.handleOnclick}>
+                <Menu.Item key="8" onClick={this.handleOnclick}>
                   <Link to="/crm/admin/usersix">Nhân sự </Link>
                 </Menu.Item>
               ) : null}
+               <Menu.Item key="9" >
+                  <Link to="/crm/admin/parts">Phòng ban </Link>
+                </Menu.Item>
+               <Menu.Item key="10">
+                  <Link to="/crm/admin/parts">Bộ phận</Link>
+                </Menu.Item>
+               <Menu.Item key="11" >
+                  <Link to="/crm/admin/position">Chức vụ</Link>
+                </Menu.Item>
             </SubMenu>
             <SubMenu
-              key="sub3"
+              key="12"
               icon={<UserOutlined />}
               title="Vai trò & Quyền"
               icon={<ShopOutlined />}
             >
-                <Menu.Item key="7" onClick={this.handleOnclick}>
+                <Menu.Item key="13" onClick={this.handleOnclick}>
                   <Link to="/crm/admin/usersix">Gán quyền </Link>
                 </Menu.Item>
-                <Menu.Item key="8" >
+                <Menu.Item key="14" >
                   <Link to="/crm/admin/permission"> Quyền </Link>
                 </Menu.Item>
-                <Menu.Item key="9" >
+                <Menu.Item key="15" >
                   <Link to="/crm/admin/roles"> Roles </Link>
                 </Menu.Item>
             </SubMenu>

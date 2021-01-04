@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import { Input } from "antd";
 import { Button } from "antd";
 
-import TableRoles from "../Table/TableRoles";
+import TableParts from "../Table/TableParts";
 const { Search } = Input;
 
 import "./Content.css";
 
-export default class ContentRoles extends Component {
+export default class ContentParts extends Component {
   constructor() {
     super();
     this.state = {
@@ -31,7 +31,7 @@ export default class ContentRoles extends Component {
         <div className="content-top">
           <div className="content-top-left">
             <div className="content-top-left-sum-item">
-              10 Roles
+              10 Parts
             </div>
             <Search
               placeholder="Tìm kiếm"
@@ -43,11 +43,11 @@ export default class ContentRoles extends Component {
           </div>
           <div className="content-top-right">
             <Button onClick={this.showModal} className="btn-add-user-six">
-              Thêm roles
+              Thêm Parts
             </Button>
           </div>
         </div>
-        <TableRoles showModalRoles={this.state.visible} hideModal={this.hideModal} showModal={this.showModal} />
+        <TableParts showModalParts={this.state.visible} hideModal={this.hideModal} showModal={this.showModal} />
       </div>
     );
   }

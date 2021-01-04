@@ -58,7 +58,7 @@ export default class Login extends Component {
               activeErrEmail:false,
               activeErrPassWord:false,
             })
-            this.props.history.push("/crm/employee/notification");
+            this.props.history.push("/crm/employee/personal-page");
             this.setState({ ishow: !this.state.ishow });
           }, 600);
         } else {

@@ -15,7 +15,7 @@ import axiosConfig from "../../apis/axios";
 import { Select } from "antd";
 const { Option } = Select;
 const { Content } = Layout;
-class TablePermission extends Component {
+class TableParts extends Component {
   state = {
     collapsed: false,
     data: null,
@@ -31,7 +31,7 @@ class TablePermission extends Component {
   };
   fetchData = () => {
     axiosConfig
-      .get("/api/permission")
+      .get("/api/parts")
       .then((res) => {
         this.setState({
           data: res.data,
@@ -136,21 +136,21 @@ class TablePermission extends Component {
     const data = this.state.data;
     const columns = [
       {
-        title: "id đặc tính",
+        title: "id phòng ban",
         width: 200,
-        dataIndex: "name",
-        key: "name",
+        dataIndex: "dep_id",
+        key: "dep_id",
         fixed: "left",
       },
       {
-        title: "Tên quyền",
-        dataIndex: "name",
-        key: "name",
+        title: "Tên bộ phận",
+        dataIndex: "part_name",
+        key: "part_name",
       },
       {
-        title: "Slug",
-        dataIndex: "slug",
-        key: "slug",
+        title: "Ghi chú",
+        dataIndex: "part_note",
+        key: "part_note",
       },
       {
         title: "Trạng thái",
@@ -227,7 +227,7 @@ class TablePermission extends Component {
         </Content>
         <Modal
           title="Tạo permission"
-          visible={this.props.showModalPermission}
+          visible={this.props.showModalParts}
           onOk={this.onSubmit}
           onCancel={this.hideModal}
           okText="OK"
@@ -260,21 +260,23 @@ class TablePermission extends Component {
                 </div>
               </li>
               <li className="tabs-main-left-li">
-                <span className="tabs-user-infor-top">Tên permission</span>
+                <span className="tabs-user-infor-top">Tên bộ phận</span>
                 <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
                   <Input
-                    value={this.state.name}
-                    name="name"
+                    value={this.state.part_name}
+                    name="part_name"
                     onChange={this.onChange}
                   />
                 </div>
               </li>
               <li className="tabs-main-left-li">
-                <span className="tabs-user-infor-top">Trạng thái</span>
+                <span className="tabs-user-infor-top">Ghi chú bộ phận</span>
                 <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
-                  <Select defaultValue="1" style={{ width: 120 }}>
-                    <Option value="1">Action</Option>
-                  </Select>
+                  <Input
+                    value={this.state.part_note}
+                    name="part_note"
+                    onChange={this.onChange}
+                  />
                 </div>
               </li>
             </ul>
@@ -291,4 +293,4 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch) => ({
   userSixActionCreators: bindActionCreators(userSixActions, dispatch),
 });
-export default connect(null, null)(TablePermission);
+export default connect(null, null)(TableParts);

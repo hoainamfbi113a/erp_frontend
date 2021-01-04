@@ -6,7 +6,8 @@ import { bindActionCreators } from "redux";
 import moment from "moment";
 const { RangePicker } = DatePicker;
 import { Radio } from "antd";
-import Axios from "axios";
+import axiosConfig from "../../../apis/axios"
+import Axios from "axios"
 import * as uiActions from "../../../actions/ui";
 const dateFormat = "YYYY/MM/DD";
 class CurriculumVitae extends Component {
@@ -59,7 +60,6 @@ class CurriculumVitae extends Component {
   };
   onUpdateData = async (value) =>  {
     this.props.uiActionCreators.showLoading();
-    const tokenID = localStorage.getItem("tokenID");
     let from_item_id = 0;
     let to_item_id = 0;
     let arrLog = [];
@@ -84,6 +84,7 @@ class CurriculumVitae extends Component {
         from_item_id = item.from_item_id;
       }
     }
+    const tokenID = localStorage.getItem("tokenID");
     let params = {
       pro_name: this.state.pro_name,
       pro_pen_name: this.state.pro_pen_name,
@@ -105,18 +106,14 @@ class CurriculumVitae extends Component {
       current_user_id: tokenID,
       user_id: tokenID,
       button:value,
-      id:this.state.id
     };
-    // await Axios.put(
-    //   `${process.env.apiEmployee}/api/profiles/${this.state.id}`,
-    //   params
-    // )
-    await Axios.put(
-      `/api/profiles`,
+    await axiosConfig.put(
+      `/api/profiles/${this.state.id}`,
       params
     )
       .then((res) => {
-        if (res.data.message == "Success!. Updated") {
+        if (res.message == "Success!. Updated") {
+          console.log(res)
         } else {
           messageErr = 2;
         }
@@ -132,18 +129,14 @@ class CurriculumVitae extends Component {
       user_id: tokenID,
       pro_id: to_item_id,
       dep_note: "asd",
-      id:this.state.idDepartment
     };
-    // await Axios.put(
-    //   `${process.env.apiEmployee}/api/departments/${this.state.idDepartment}?current_user_id=${tokenID}`,
-    //   paramsDepartment
-    // )
-    await Axios.put(
-      `/api/departments`,
+
+    await axiosConfig.put(
+      `/api/departments/${this.state.idDepartment}`,
       paramsDepartment
     )
       .then((res) => {
-        if (res.data.message == "Success!. Updated") {
+        if (res.message == "Success!. Updated") {
         } else {
           messageErr = 4;
         }
@@ -161,18 +154,13 @@ class CurriculumVitae extends Component {
       deg_begin_study: Date.parse(this.state.deg_begin_study) / 1000,
       deg_end_study: Date.parse(this.state.deg_end_study) / 1000,
       deg_note:this.state.deg_note,
-      id:this.state.idUserDegree
     };
-    // await Axios.put(
-    //   `${process.env.apiEmployee}/api/user-degrees/${this.state.idUserDegree}?current_user_id=${tokenID}`,
-    //   paramsUserDegrees
-    // )
-    await Axios.put(
-      `/api/user-degrees`,
+    await axiosConfig.put(
+      `/api/user-degrees/${this.state.idUserDegree}`,
       paramsUserDegrees
     )
       .then((res) => {
-        if (res.data.message == "Success!. Updated") {
+        if (res.message == "Success!. Updated") {
         } else {
           messageErr = 6;
         }
@@ -186,16 +174,13 @@ class CurriculumVitae extends Component {
       work_formality: this.state.work_formality,
       work_note: this.state.work_note,
     };
-    // await Axios.put(
-    //   `${process.env.apiEmployee}/api/work-objects/${this.state.idWorkObject}?current_user_id=${tokenID}`,
-    //   paramsWorkObjects
-    // )
-    await Axios.put(
-      `/api/work-objects`,
+
+    await axiosConfig.put(
+      `/api/work-objects/${this.state.idWorkObject}`,
       paramsWorkObjects
     )
       .then((res) => {
-        if (res.data.message == "Success!. Updated") {
+        if (res.message == "Success!. Updated") {
           message;
         } else {
           messageErr = 8;
@@ -213,16 +198,12 @@ class CurriculumVitae extends Component {
       car_end: Date.parse(this.state.car_end) / 1000,
       car_note: this.state.car_note,
     };
-    // await Axios.put(
-    //   `${process.env.apiEmployee}/api/journalist-cards/${this.state.idJou}?current_user_id=${tokenID}`,
-    //   paramsJournalistCards
-    // )
-    await Axios.put(
-      `/api/journalist-cards`,
+    await axiosConfig.put(
+      `/api/journalist-cards/${this.state.idJou}`,
       paramsJournalistCards
     )
       .then((res) => {
-        if (res.data.message == "Success!. Updated") {
+        if (res.message == "Success!. Updated") {
         } else {
           messageErr = 10;
         }
@@ -268,16 +249,16 @@ class CurriculumVitae extends Component {
   async fetchData() {
     this.props.uiActionCreators.showLoading();
     let tokenID = localStorage.getItem("tokenID");
-    await Axios.post(
+    await axiosConfig.post(
       `/api/fe/profiles/user`,{
         id:tokenID
       }
     )
       .then(async (res) => {
-        const data = res.data.data;
+        const data = res.data;
         let pro_id = data.id;
         if (data.department == "undefined" || !data.department) {
-          await Axios.post(
+          await axiosConfig.post(
             `/api/departments`,
             {
               user_id: tokenID,
@@ -286,7 +267,7 @@ class CurriculumVitae extends Component {
           );
         }
         if (data.userDegree == "undefined" || !data.userDegree) {
-          await Axios.post(
+          await axiosConfig.post(
             `/api/user-degrees`,
             {
               user_id: tokenID,
@@ -295,7 +276,7 @@ class CurriculumVitae extends Component {
           );
         }
         if (data.workObject == "undefined" || !data.workObject) {
-          await Axios.post(
+          await axiosConfig.post(
             `/api/work-objects`,
             {
               user_id: tokenID,
@@ -304,7 +285,7 @@ class CurriculumVitae extends Component {
           );
         }
         if (data.journalistCard == "undefined" || !data.journalistCard) {
-          await Axios.post(
+          await axiosConfig.post(
             `/api/journalist-cards`,
             {
               user_id: tokenID,
@@ -312,12 +293,12 @@ class CurriculumVitae extends Component {
             }
           );
         }
-        await Axios.post(
+        await axiosConfig.post(
           `/api/fe/profiles/user`,{
             id:tokenID
           }
         ).then(async (res) => {
-          const data = res.data.data;
+          const data = res.data;
           console.log(new Date(null))
           this.setState({
             id:data.id,

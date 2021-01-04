@@ -77,3 +77,22 @@
     height: 25px !important;
     width: 380px !important;
 }
+.modal-transfer-grant-permission .ant-modal-footer{
+    display: none;
+}
+.ant-transfer-list-content-item-checked{
+    background: #fff;
+}
+.ant-transfer-list-content-item-checked:hover{
+    background: #fff;
+}
+/* .ant-transfer-list-content-item * {
+    pointer-events: none;
+} */
+/* .tree-transfer{
+    position: absolute;
+    z-index: 3;
+}
+.ant-tree-list-holder-inner{
+    z-index: 4;
+} */

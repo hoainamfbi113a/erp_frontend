@@ -47,7 +47,7 @@ export default class ContentPermission extends Component {
             </Button>
           </div>
         </div>
-        <TablePermission showModalPermission={this.state.visible} hideModal={this.hideModal} />
+        <TablePermission showModalPermission={this.state.visible} hideModal={this.hideModal} showModal={this.showModal} />
       </div>
     );
   }

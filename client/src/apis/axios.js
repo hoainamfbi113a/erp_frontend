@@ -1,12 +1,9 @@
 import axios from "axios";
-import queryString from "query-string";
 
 const axiosConfig = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
   headers: {
     "content-type": "application/json",
   },
-  paramsSerializer: (params) => queryString.stringify(params),
 });
 axiosConfig.interceptors.request.use(async (config) => {
   const token = localStorage.getItem("usertoken");
@@ -23,7 +20,7 @@ axiosConfig.interceptors.response.use(
     return response;
   },
   (error) => {
-    // Handle errors
+    // window.location.href ="/404"
     throw error;
   }
 );
