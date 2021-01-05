@@ -78,4 +78,4 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-app.listen(port, () => console.log(` 🚀 Express listening on port  ${port}`));
+app.listen(port, () => console.log(` 🚀 Express listening on port ${port}`));
