@@ -5,3 +5,4 @@ data.json
 data1.json
 yarn.lock
 .env
+client/.env
