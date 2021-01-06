@@ -1,8 +1,12 @@
 import axios from "axios";
 const listRole = async (req, res) => {
+  console.log("list role")
+  console.log(req.headers.authorization)
   const config = {
     headers: { Authorization: req.headers.authorization },
   };
+  console.log(config)
+  console.log("config");
   let { data } = await axios.get(`${process.env.apiEmployee}/api/role`, config);
   res.send(data);
 };
@@ -60,6 +64,7 @@ const permissionToRole = async (req,res)=>{
   res.send(data);
 }
 const removePermissionFromRole = async (req,res) =>{
+  
   let { id } = req.params
   let { data } = await axios.delete(`${process.env.apiEmployee}/api/role/permission/${id}`,{ data: req.body, headers: { "Authorization": req.headers.authorization} });
   res.send(data);

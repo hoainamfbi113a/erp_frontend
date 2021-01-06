@@ -16,6 +16,7 @@ const listUserPagination = async (req,res) => {
     res.send(data);
 }
 const login = async (req,res) => {
+    console.log("loginding")
     let  {data}  = await axios.post(`${process.env.apiEmployee}/api/login`, req.body);
     res.send(data);
 }
