@@ -20,7 +20,7 @@ const port = process.env.PORT || 5001;
 const __dirname = path.resolve();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.post("/login", login);
+// app.post("/login", login);
 app.post("/register",register);
 app.get("/user",listUser);
 app.post("/user/role/:id",grantRoleToUser);
