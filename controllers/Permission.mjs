@@ -3,7 +3,7 @@ const listPermission = async (req, res) => {
   const config = {
     headers: { Authorization: req.headers.authorization }
   };
-  let { data } = await axios.get(`${process.env.apiEmployee}/api/permission`,config);
+  let { data } = await axios.get(`${process.env.apiEmployee}/api/permissionss`,config);
   res.send(data);
 };
 
