@@ -20,7 +20,7 @@ const port = process.env.PORT || 5001;
 const __dirname = path.resolve();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.post("/login", login);
+app.post("/login", login);
 app.post("/register",register);
 app.get("/user",listUser);
 app.post("/user/role/:id",grantRoleToUser);
@@ -76,7 +76,7 @@ app.post("/departments",addDepartment)
 app.put("/departments/:id",updateDepartment)
 app.post("/departmentsd",deleteDepartment)
 
-if (process.env.NODE_ENV === "production") {
+// if (process.env.NODE_ENV === "production") {
   // Serve any static files
   app.use(express.static(path.join(__dirname, "client/dist")));
 
@@ -84,6 +84,6 @@ if (process.env.NODE_ENV === "production") {
   app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "client/dist", "index.html"));
   });
-}
+// }
 
 app.listen(port, () => console.log(` 🚀 Express listening on ports la ${port}`));
