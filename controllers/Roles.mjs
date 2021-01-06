@@ -7,7 +7,7 @@ const listRole = async (req, res) => {
     headers: { Authorization: `Bearer ${req.headers.authorization}` }
 };
 
-  let { data } = await axios.get(`${process.env.apiEmployee}/api/role`, config);
+  let { data } = await axios.get(`${process.env.apiEmployee}/api/roles`, config);
   res.send(data);
 };
 
