@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Link } from "react-router-dom";
-import axios from "axios";
 import "../../App/App.css";
 import "../Crm/Crm.css";
 import "./Table.css";
@@ -15,23 +13,35 @@ import axiosConfig from "../../apis/axios";
 import { Select } from "antd";
 const { Option } = Select;
 const { Content } = Layout;
-class TablePermission extends Component {
+class TablePosition extends Component {
   state = {
     collapsed: false,
     data: null,
+    dataDepartment: null,
     loading: false,
     id: "",
-    app_id: "99",
-    feature_id: "1",
-    name: "",
-    status: 1,
+    pos_name:"",
+    pos_note:""
   };
   componentDidMount = () => {
     this.fetchData();
+    this.fetchDepartment();
+  };
+  fetchDepartment = () => {
+    axiosConfig
+      .get("/api/departments")
+      .then((res) => {
+        this.setState({
+          dataDepartment: res.data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   fetchData = () => {
     axiosConfig
-      .get("/api/permission")
+      .get("/api/positions")
       .then((res) => {
         this.setState({
           data: res.data,
@@ -44,51 +54,46 @@ class TablePermission extends Component {
   onSubmit = () => {
     if (this.state.id === "") {
       let params = {
-        app_id: this.state.app_id,
-        feature_id: this.state.feature_id,
-        name: this.state.name,
-        status: this.state.status,
+        pos_name:this.state.pos_name,
+        pos_note:this.state.pos_note
       };
       this.hideModal();
       axiosConfig
-        .post("/api/permission", params)
+        .post("/api/positions", params)
         .then((res) => {
-          console.log(res);
           if (res.message === "Success!. Stored") {
-            message.success("Thêm permission thành công");
+            message.success("Thêm chức vụ thành công");
             this.fetchData();
+          } else {
+            message.error("Thêm chức vụ thất bại");
           }
         })
         .catch((err) => {
-          message.error("đăng ký user thất bại");
+          message.error("Thêm chức vụ thất bại");
           console.log(err);
         });
-    }
-    else {
+    } else {
       let params = {
-        app_id: this.state.app_id,
-        feature_id: this.state.feature_id,
-        name: this.state.name,
-        status: this.state.status,
+        pos_name:this.state.pos_name,
+        pos_note:this.state.pos_note,
       };
       this.hideModal();
       axiosConfig
-        .put(`/api/permission/${this.state.id}`, params)
+        .put(`/api/positions/${this.state.id}`, params)
         .then((res) => {
-          console.log(res);
           if (res.message === "Success!. Updated") {
-            message.success("Update permission thành công");
+            message.success("Cập nhật chức vụ thành công");
             this.setState({
-              id:"",
-            })
+              id: "",
+            });
             this.fetchData();
           }
         })
         .catch((err) => {
           this.setState({
-            id:"",
-          })
-          message.error("Update permission thất bại");
+            id: "",
+          });
+          message.error("Cập nhật chức vụ thất bại");
           console.log(err);
         });
     }
@@ -97,14 +102,13 @@ class TablePermission extends Component {
     this.props.hideModal();
   };
   showModal = (id) => {
-    let permission = this.state.data.filter((item) => {
+    let position = this.state.data.filter((item) => {
       return item.id == id;
     });
     this.setState({
-      id: permission[0].id,
-      feature_id: permission[0].feature_id,
-      name: permission[0].name,
-      status: permission[0].status,
+      id: position[0].id,
+      pos_name: position[0].pos_name,
+      pos_note: position[0].pos_note,
     });
     this.props.showModal();
   };
@@ -114,10 +118,24 @@ class TablePermission extends Component {
     });
   };
 
-  confirm = (e) => {
-    const { userSixActionCreators } = this.props;
-    const { deleteUserSix } = userSixActionCreators;
-    deleteUserSix(e);
+  confirm = (id) => {
+    const params = {
+      id,
+    }
+    axiosConfig.post(`/api/positionsd`,params)
+    .then((res)=>{
+      if(res.message === "Success!. Deleted"){
+        this.fetchData()
+        message.success("Ẩn chức vụ thành công")
+      }
+      else{
+        message.error("Ẩn chức vụ thất bại")
+      }
+    })
+    .catch((err)=>{
+      message.error("Ẩn chức vụ thất bại")
+      console.log(err);
+    })
   };
 
   cancel = (e) => {
@@ -126,31 +144,23 @@ class TablePermission extends Component {
   onSelectChange = (selectedRowKeys) => {
     this.setState({ selectedRowKeys });
   };
-  handleChangeFeature = (value) => {
+  handleChangeDepartment = (value) => {
     this.setState({
-      feature_id:value
-    })
+      dep_id: value,
+    });
   };
   render() {
-    console.log(this.state.name)
-    const data = this.state.data;
+    let data = this.state.data;
     const columns = [
       {
-        title: "id đặc tính",
-        width: 200,
-        dataIndex: "name",
-        key: "name",
-        fixed: "left",
+        title: "Tên bộ phận",
+        dataIndex: "pos_name",
+        key: "pos_name",
       },
       {
-        title: "Tên quyền",
-        dataIndex: "name",
-        key: "name",
-      },
-      {
-        title: "Slug",
-        dataIndex: "slug",
-        key: "slug",
+        title: "Ghi chú",
+        dataIndex: "pos_note",
+        key: "pos_note",
       },
       {
         title: "Trạng thái",
@@ -172,7 +182,7 @@ class TablePermission extends Component {
       },
       {
         title: "Ngày tạo",
-        dataIndex: "created",
+        dataIndex: "created_at",
         key: "created",
       },
 
@@ -226,8 +236,8 @@ class TablePermission extends Component {
           </div>
         </Content>
         <Modal
-          title="Tạo permission"
-          visible={this.props.showModalPermission}
+          title="Tạo bộ phận"
+          visible={this.props.showModalPosition}
           onOk={this.onSubmit}
           onCancel={this.hideModal}
           okText="OK"
@@ -243,38 +253,23 @@ class TablePermission extends Component {
           >
             <ul style={{ marginLeft: "23px" }}>
               <li className="tabs-main-left-li">
-                <span className="tabs-user-infor-top">Chọn đặc tính</span>
-                <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal ">
-                  <Select
-                    value={this.state.feature_id.toString()}
-                    style={{ width: 120 }}
-                    onChange={this.handleChangeFeature}
-                  >
-                    <Option value="1">Profile</Option>
-                    <Option value="2">Department</Option>
-                    <Option value="3">Personal History</Option>
-                    <Option value="4">Work Object</Option>
-                    <Option value="5">Journalist Card</Option>
-                    <Option value="6">User Degree</Option>
-                  </Select>
-                </div>
-              </li>
-              <li className="tabs-main-left-li">
-                <span className="tabs-user-infor-top">Tên permission</span>
+                <span className="tabs-user-infor-top">Tên chức vụ</span>
                 <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
                   <Input
-                    value={this.state.name}
-                    name="name"
+                    value={this.state.pos_name}
+                    name="pos_name"
                     onChange={this.onChange}
                   />
                 </div>
               </li>
               <li className="tabs-main-left-li">
-                <span className="tabs-user-infor-top">Trạng thái</span>
+                <span className="tabs-user-infor-top">Ghi chú chức vụ</span>
                 <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
-                  <Select defaultValue="1" style={{ width: 120 }}>
-                    <Option value="1">Action</Option>
-                  </Select>
+                  <Input
+                    value={this.state.pos_note}
+                    name="pos_note"
+                    onChange={this.onChange}
+                  />
                 </div>
               </li>
             </ul>
@@ -291,4 +286,4 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch) => ({
   userSixActionCreators: bindActionCreators(userSixActions, dispatch),
 });
-export default connect(null, null)(TablePermission);
+export default connect(null, null)(TablePosition);

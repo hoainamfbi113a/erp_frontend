@@ -61,13 +61,17 @@ class MenuLayout extends Component {
               title="Nghiệp vụ"
               icon={<ShopOutlined />}
             >
-              {localStorage.getItem("per") === "hr" ? (
+              {/* {localStorage.getItem("per") === "hr" ? (
                 <Menu.Item key="8" onClick={this.handleOnclick}>
                   <Link to="/crm/admin/usersix">Nhân sự </Link>
                 </Menu.Item>
-              ) : null}
+              ) : null} */}
+
+                <Menu.Item key="8" onClick={this.handleOnclick}>
+                  <Link to="/crm/admin/usersix">Nhân sự </Link>
+                </Menu.Item>
                <Menu.Item key="9" >
-                  <Link to="/crm/admin/parts">Phòng ban </Link>
+                  <Link to="/crm/admin/department">Phòng ban </Link>
                 </Menu.Item>
                <Menu.Item key="10">
                   <Link to="/crm/admin/parts">Bộ phận</Link>

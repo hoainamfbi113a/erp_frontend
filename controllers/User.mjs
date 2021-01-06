@@ -6,6 +6,15 @@ const listUser = async (req,res) => {
     let  {data}  = await axios.get(`${process.env.apiEmployee}/api/user`,config);
     res.send(data);
 }
+const listUserPagination = async (req,res) => {
+    const {page} = req.query;
+    const config = {
+        headers: { Authorization: req.headers.authorization }
+    };
+    let  {data}  = await axios.get(`${process.env.apiEmployee}/api/user?page=${page}`,config);
+    console.log(data)
+    res.send(data);
+}
 const login = async (req,res) => {
     let  {data}  = await axios.post(`${process.env.apiEmployee}/api/login`, req.body);
     res.send(data);
@@ -15,7 +24,6 @@ const register = async (req,res) => {
         headers: { Authorization: req.headers.authorization }
     };
     let  {data}  = await axios.post(process.env.apiEmployee + "/api/register", req.body,config)
-    console.log(req.body);
     res.send(data);
 }
 const grantRoleToUser = async (req,res) =>{
@@ -45,5 +53,6 @@ export {
     listUser,
     deleteRoleUser,
     grantRoleToUser,
+    listUserPagination,
     listRoleAndPermissionOfUser,
 }
