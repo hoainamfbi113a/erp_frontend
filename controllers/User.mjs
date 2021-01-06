@@ -17,8 +17,14 @@ const listUserPagination = async (req,res) => {
 }
 const login = async (req,res) => {
     console.log("loginding")
-    let  {data}  = await axios.post(`${process.env.apiEmployee}/api/login`, req.body);
-    res.send(data);
+    await axios.post(`${process.env.apiEmployee}/api/login`, req.body)
+    .then(err=>{
+        res.send(err.data);
+    })
+    .catch(err=>{
+        console.log("err:",err);
+    })
+    
 }
 const register = async (req,res) => {
     const config = {
