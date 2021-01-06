@@ -3,7 +3,11 @@ const listRole = async (req, res) => {
   console.log("list role")
   console.log(req.headers.authorization)
   const config = {
-    headers: { Authorization: req.headers.authorization },
+    headers: {
+      'Content-Type' : 'application/json',
+      'Accept' : 'application/json',
+       Authorization: req.headers.authorization 
+      },
   };
   console.log(config)
   console.log("config");
