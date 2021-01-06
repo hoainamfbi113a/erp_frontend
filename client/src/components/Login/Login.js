@@ -117,7 +117,6 @@ export default class Login extends Component {
     };
 }
   render() {
-    const envVariables = process.env.apiUser;
     return (
       <div>
         <div className="example">

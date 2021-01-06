@@ -6,7 +6,7 @@ import GrantRole from "../Modal/GrantRole";
 import "../../App/App.css";
 import "../Crm/Crm.css"
 import "./Table.css"
-import * as userSixActions from '../../actions/userSix';
+import * as uiActions from "../../actions/ui";
 import {  Layout } from "antd";
 import { Table, Space, Tag, Avatar } from 'antd';
 import { Popconfirm, message } from 'antd';
@@ -28,7 +28,8 @@ class TableSix extends Component {
     full_name: "",
     email: "",
     phone: "",
-    idGrantRole:""
+    idGrantRole:"",
+    dataUser:null,
   };
   hideModal = () => {
     this.props.hideModal()
@@ -62,15 +63,29 @@ class TableSix extends Component {
       });
   };
   componentDidMount() {
-    const { userSixActionCreators } = this.props;
-    const { fetchListUserSix } = userSixActionCreators;
-    fetchListUserSix();
+    // const { userSixActionCreators } = this.props;
+    // const { fetchListUserSix } = userSixActionCreators;
+    // fetchListUserSix();
+    this.props.uiActionCreators.showLoading();
+    axiosConfig
+      .get(`/api/userpagin?page=1`)
+      .then((res) => {
+        this.setState({
+          dataUser:res,
+        })
+        this.props.uiActionCreators.hideLoading();
+      })
+      .catch((err) => {
+        message.error("get user failed");
+        console.log(err);
+        this.props.uiActionCreators.hideLoading();
+      });
+      
   }
   confirm = (e) => {
     const { userSixActionCreators } = this.props;
     const { deleteUserSix } = userSixActionCreators;
     deleteUserSix(e); 
-    // message.success('Bạn đã xoá thành công');
   }
 
   cancel = (e) => {
@@ -104,8 +119,29 @@ class TableSix extends Component {
       showModalGrantRole:false
     })
   }
+  handlePagination = async (pagination) =>{
+    this.props.uiActionCreators.showLoading();
+   await axiosConfig
+      .get(`/api/userpagin?page=${pagination}`)
+      .then((res) => {
+        this.setState({
+          dataUser:res
+        })
+      })
+      .catch((err) => {
+        message.error("get user failed");
+        console.log(err);
+      });
+      this.props.uiActionCreators.hideLoading();
+  }
   render() {
-    const data = this.props.listUserSix.listUserSix;
+    let data = [];
+    let total = 0;
+    if(this.state.dataUser){
+       data = this.state.dataUser.data
+       total = this.state.dataUser.meta.pagination.total;
+    }
+
     const columns = [
       {
         title:"Ảnh đại diện",
@@ -167,7 +203,13 @@ class TableSix extends Component {
             <div
               style={{ padding: 24, minHeight: 200 }}
             >
-              <Table  columns={columns} dataSource={data}  className="table-content" rowKey="id" />
+              <Table  columns={columns} dataSource={data}  className="table-content" rowKey="id" 
+              pagination={{
+                onChange: this.handlePagination,
+                pageSize: 15,
+                total: total
+            }}
+              />
             </div>
           </div>
         </Content>
@@ -240,7 +282,7 @@ class TableSix extends Component {
 const mapStateToProps = (state,ownProps) => ({
   listUserSix: state.userSixReducer
 })
-const mapDispatchToProps = dispatch => ({
-  userSixActionCreators: bindActionCreators(userSixActions,dispatch)
-})
-export default connect(mapStateToProps, mapDispatchToProps)(TableSix)
+const mapDispatchToProps = (dispatch) => ({
+  uiActionCreators: bindActionCreators(uiActions, dispatch),
+});
+export default connect(null, mapDispatchToProps)(TableSix);
