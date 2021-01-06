@@ -316,7 +316,7 @@ class TableRoles extends Component {
     const data = this.state.data;
     const columns = [
       {
-        title: "Tên Roles",
+        title: "Tên Role",
         width: 200,
         dataIndex: "name",
         key: "name",
