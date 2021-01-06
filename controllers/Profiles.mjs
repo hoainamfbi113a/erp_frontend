@@ -1,11 +1,5 @@
 import Axios from "axios";
-const profiles = async (req, res) => {
-  let { data } = await Axios.put(
-    `${process.env.apiEmployee}/api/profiles/${req.params.id}`,
-    params
-  );
-  res.send(data);
-};
+
 const getProfile = async (req, res) => {
   const config = {
     headers: { Authorization: req.headers.authorization }
@@ -28,4 +22,4 @@ const updateProfile = async (req, res) => {
   );
   res.send(data);
 };
-export { profiles, getProfile, updateProfile };
+export { getProfile, updateProfile };

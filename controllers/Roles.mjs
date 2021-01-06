@@ -7,10 +7,10 @@ const listRole = async (req, res) => {
   };
   console.log(config)
   console.log("config");
-  let { data } = await axios.get(`${process.env.apiEmployee}/api/role`, config)
-  .catch((err)=>{
-    console.log(err);
-  })
+  let { data } = await axios.get(`${process.env.apiEmployee}/api/roless`, config)
+  // .catch((err)=>{
+  //   console.log(err);
+  // })
   res.send(data);
 };
 
