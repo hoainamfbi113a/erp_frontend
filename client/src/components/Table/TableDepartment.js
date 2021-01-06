@@ -23,7 +23,10 @@ class TablePermission extends Component {
     id: "",
     app_id: "99",
     feature_id: "1",
-    name: "",
+    dep_name:"",
+    dep_address:"",
+    dep_phone:"",
+    dep_note:"",
     status: 1,
   };
   componentDidMount = () => {
@@ -31,7 +34,7 @@ class TablePermission extends Component {
   };
   fetchData = () => {
     axiosConfig
-      .get("/api/permission")
+      .get("/api/departments")
       .then((res) => {
         this.setState({
           data: res.data,
@@ -44,36 +47,37 @@ class TablePermission extends Component {
   onSubmit = () => {
     if (this.state.id === "") {
       let params = {
-        app_id: this.state.app_id,
-        feature_id: this.state.feature_id,
-        name: this.state.name,
-        status: this.state.status,
+        dep_name:this.state.dep_name,
+        dep_address:this.state.dep_address,
+        dep_phone:this.state.dep_phone,
+        dep_note:this.state.dep_note
       };
-      this.hideModal();
       axiosConfig
-        .post("/api/permission", params)
+        .post("/api/departments", params)
         .then((res) => {
-          console.log(res);
           if (res.message === "Success!. Stored") {
-            message.success("Thêm permission thành công");
+            message.success("Thêm phòng ban thành công");
             this.fetchData();
+          } else {
+            message.error("Thêm phòng ban thất bại")
           }
         })
         .catch((err) => {
-          message.error("đăng ký user thất bại");
+          message.error("Thêm phòng ban thất bại");
           console.log(err);
         });
+        this.hideModal();
     }
     else {
       let params = {
-        app_id: this.state.app_id,
-        feature_id: this.state.feature_id,
-        name: this.state.name,
-        status: this.state.status,
+        dep_name:this.state.dep_name,
+        dep_address:this.state.dep_address,
+        dep_phone:this.state.dep_phone,
+        dep_note:this.state.dep_note
       };
       this.hideModal();
       axiosConfig
-        .put(`/api/permission/${this.state.id}`, params)
+        .put(`/api/departments/${this.state.id}`, params)
         .then((res) => {
           console.log(res);
           if (res.message === "Success!. Updated") {
@@ -97,14 +101,15 @@ class TablePermission extends Component {
     this.props.hideModal();
   };
   showModal = (id) => {
-    let permission = this.state.data.filter((item) => {
+    let department = this.state.data.filter((item) => {
       return item.id == id;
     });
     this.setState({
-      id: permission[0].id,
-      feature_id: permission[0].feature_id,
-      name: permission[0].name,
-      status: permission[0].status,
+      id: department[0].id,
+      dep_name: department[0].dep_name,
+      dep_address: department[0].dep_address,
+      dep_phone: department[0].dep_phone,
+      dep_note: department[0].dep_note,
     });
     this.props.showModal();
   };
@@ -114,10 +119,24 @@ class TablePermission extends Component {
     });
   };
 
-  confirm = (e) => {
-    const { userSixActionCreators } = this.props;
-    const { deleteUserSix } = userSixActionCreators;
-    deleteUserSix(e);
+  confirm = (id) => {
+    const params = {
+      id,
+    }
+    axiosConfig.post(`/api/departmentsd`,params)
+    .then((res)=>{
+      if(res.message === "Success!. Deleted"){
+        this.fetchData()
+        message.success("Xoá phòng ban thành công")
+      }
+      else{
+        message.error("Xoá phòng ban thất bại")
+      }
+    })
+    .catch((err)=>{
+      message.error("Xoá phòng ban thất bại")
+      console.log(err);
+    })
   };
 
   cancel = (e) => {
@@ -136,44 +155,29 @@ class TablePermission extends Component {
     const data = this.state.data;
     const columns = [
       {
-        title: "id đặc tính",
-        width: 200,
-        dataIndex: "name",
-        key: "name",
-        fixed: "left",
+        title: "Tên phòng ban",
+        dataIndex: "dep_name",
+        key: "dep_name",
       },
       {
-        title: "Tên quyền",
-        dataIndex: "name",
-        key: "name",
+        title: "Ghi chú phòng ban",
+        dataIndex: "dep_note",
+        key: "dep_note",
       },
       {
-        title: "Slug",
-        dataIndex: "slug",
-        key: "slug",
+        title: "Địa chỉ",
+        dataIndex: "dep_address",
+        key: "dep_address",
       },
       {
-        title: "Trạng thái",
-        dataIndex: "status",
-        key: "status",
-        render: (text) => {
-          if (text == 1)
-            return (
-              <Tag color="geekblue" className="table-action">
-                ACTIVE
-              </Tag>
-            );
-          return (
-            <Tag color="geekblue" className="table-action">
-              HIDE
-            </Tag>
-          );
-        },
+        title: "Số điện thoại",
+        dataIndex: "dep_phone",
+        key: "dep_phone",
       },
       {
         title: "Ngày tạo",
-        dataIndex: "created",
-        key: "created",
+        dataIndex: "created_at",
+        key: "created_at",
       },
 
       {
@@ -226,8 +230,8 @@ class TablePermission extends Component {
           </div>
         </Content>
         <Modal
-          title="Tạo permission"
-          visible={this.props.showModalPermission}
+          title="Tạo phòng ban"
+          visible={this.props.showModalDepartment}
           onOk={this.onSubmit}
           onCancel={this.hideModal}
           okText="OK"
@@ -243,38 +247,43 @@ class TablePermission extends Component {
           >
             <ul style={{ marginLeft: "23px" }}>
               <li className="tabs-main-left-li">
-                <span className="tabs-user-infor-top">Chọn đặc tính</span>
-                <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal ">
-                  <Select
-                    value={this.state.feature_id.toString()}
-                    style={{ width: 120 }}
-                    onChange={this.handleChangeFeature}
-                  >
-                    <Option value="1">Profile</Option>
-                    <Option value="2">Department</Option>
-                    <Option value="3">Personal History</Option>
-                    <Option value="4">Work Object</Option>
-                    <Option value="5">Journalist Card</Option>
-                    <Option value="6">User Degree</Option>
-                  </Select>
-                </div>
-              </li>
-              <li className="tabs-main-left-li">
-                <span className="tabs-user-infor-top">Tên permission</span>
+                <span className="tabs-user-infor-top">Tên phòng ban</span>
                 <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
                   <Input
-                    value={this.state.name}
-                    name="name"
+                    value={this.state.dep_name}
+                    name="dep_name"
                     onChange={this.onChange}
                   />
                 </div>
               </li>
               <li className="tabs-main-left-li">
-                <span className="tabs-user-infor-top">Trạng thái</span>
+                <span className="tabs-user-infor-top">Địa chỉ phòng ban</span>
                 <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
-                  <Select defaultValue="1" style={{ width: 120 }}>
-                    <Option value="1">Action</Option>
-                  </Select>
+                  <Input
+                    value={this.state.dep_address}
+                    name="dep_address"
+                    onChange={this.onChange}
+                  />
+                </div>
+              </li>
+              <li className="tabs-main-left-li">
+                <span className="tabs-user-infor-top">Số điện thoại phòng ban</span>
+                <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
+                  <Input
+                    value={this.state.dep_phone}
+                    name="dep_phone"
+                    onChange={this.onChange}
+                  />
+                </div>
+              </li>
+              <li className="tabs-main-left-li">
+                <span className="tabs-user-infor-top">Ghi chú phòng ban</span>
+                <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
+                  <Input
+                    value={this.state.dep_note}
+                    name="dep_note"
+                    onChange={this.onChange}
+                  />
                 </div>
               </li>
             </ul>

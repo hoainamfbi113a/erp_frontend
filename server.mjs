@@ -1,10 +1,10 @@
 import express from "express";
 import path from "path";
 import dotenv from "dotenv";
-import { login, register, listUser,grantRoleToUser,listRoleAndPermissionOfUser, deleteRoleUser } from "./controllers/User.mjs";
+import { login, register, listUser,grantRoleToUser,listRoleAndPermissionOfUser, deleteRoleUser, listUserPagination } from "./controllers/User.mjs";
 import { transfers, profileTransfers } from "./controllers/Transfers.mjs";
 import { getProfile, updateProfile } from "./controllers/Profiles.mjs";
-import { addDepartment, updateDepartment } from "./controllers/Departments.mjs"
+import { addDepartments, updateDepartments } from "./controllers/Departments.mjs"
 import { addJournalistCards, updateJournalistCards } from "./controllers/JournalistCards.mjs"
 import { addUserDegrees, updateUserDegrees } from "./controllers/UserDegrees.mjs"
 import { addWorkObjects,updateWorkObjects } from "./controllers/WorkObjects.mjs"
@@ -12,6 +12,7 @@ import { listRole, addRole, updateRole, deleteRole, listPermissionOfRole, permis
 import { listPermission, addPermission, updatePermission, deletePermission } from "./controllers/Permission.mjs"
 import { listParts, addParts, updateParts, deleteParts } from "./controllers/Parts.mjs"
 import { listPosition, addPosition, updatePosition, deletePosition } from "./controllers/Position.mjs"
+import { listDepartment, addDepartment, updateDepartment, deleteDepartment } from "./controllers/Department.mjs"
 import { listAction, addAction, updateAction, deleteAction } from "./controllers/Action.mjs"
 dotenv.config();
 const app = express();
@@ -25,18 +26,20 @@ app.get("/api/user",listUser);
 app.post("/api/user/role/:id",grantRoleToUser);
 app.post("/api/user/role-user/:id",deleteRoleUser);
 app.get("/api/user/permission/:id",listRoleAndPermissionOfUser);
+app.get("/api/userpagin",listUserPagination);
+
 
 app.get("/api/transfers", transfers);
 app.get("/api/transfers/profiles/:id", profileTransfers);
 app.post("/api/fe/profiles/user", getProfile);
 
-app.post("/api/departments",addDepartment);
+// app.post("/api/departments",addDepartments);
 app.post("/api/journalist-cards",addJournalistCards);
 app.post("/api/user-degrees",addUserDegrees);
 app.post("/api/work-objects",addWorkObjects);
 
 app.put("/api/profiles/:id",updateProfile);
-app.put("/api/departments/:id",updateDepartment);
+// app.put("/api/departments/:id",updateDepartments);
 app.put("/api/journalist-cards/:id",updateJournalistCards);
 app.put("/api/user-degrees/:id",updateUserDegrees);
 app.put("/api/work-objects/:id",updateWorkObjects);
@@ -61,12 +64,17 @@ app.delete("/api/action",deleteAction)
 app.get("/api/parts",listParts)
 app.post("/api/parts",addParts)
 app.put("/api/parts/:id",updateParts)
-app.delete("/api/parts",deleteParts)
+app.post("/api/partsd",deleteParts)
 
-app.get("/api/position",listPosition)
-app.post("/api/position",addPosition)
-app.put("/api/position/:id",updatePosition)
-app.delete("/api/position",deletePosition)
+app.get("/api/positions",listPosition)
+app.post("/api/positions",addPosition)
+app.put("/api/positions/:id",updatePosition)
+app.post("/api/positionsd",deletePosition)
+
+app.get("/api/departments",listDepartment)
+app.post("/api/departments",addDepartment)
+app.put("/api/departments/:id",updateDepartment)
+app.post("/api/departmentsd",deleteDepartment)
 
 if (process.env.NODE_ENV === "production") {
   // Serve any static files
@@ -78,4 +86,4 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-app.listen(port, () => console.log(` 🚀 Express listening on port ${port}`));
+app.listen(port, () => console.log(` 🚀 Express listening on ports ${port}`));

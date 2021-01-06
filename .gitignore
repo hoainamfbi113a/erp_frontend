@@ -1,7 +1,9 @@
 # dependencies
 node_modules
+/node_modules
 # Nuxt generate
 data.json
 data1.json
 yarn.lock
 .env
+/client/.env

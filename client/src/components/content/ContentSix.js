@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Input } from "antd";
 import { Button, Modal, DatePicker } from "antd";
 
-import { message } from "antd";
+import {Link}  from 'react-router-dom'
 import TableSix from "../Table/TableSix";
 const { Search } = Input;
 
@@ -43,9 +43,11 @@ export default class ContentSix extends Component {
             />
           </div>
           <div className="content-top-right">
-            <Button onClick={this.showModal} className="btn-add-user-six">
-              Thêm nhân viên
+          <Link to={`/crm/admin/adduser`}> 
+            <Button className="btn-add-user-six">
+              Thêm hồ sơ nhân viên
             </Button>
+            </Link> 
           </div>
         </div>
         <TableSix showModalAddUser={this.state.visible} hideModal={this.hideModal} />
