@@ -1,10 +1,10 @@
 import express from "express";
 import path from "path";
 import dotenv from "dotenv";
-import { login, register, listUser,grantRoleToUser,listRoleAndPermissionOfUser, deleteRoleUser, listUserPagination } from "./controllers/User.mjs";
+import { updateUser, inforUserById, login, register, listUser,grantRoleToUser,listRoleAndPermissionOfUser, deleteRoleUser, listUserPagination } from "./controllers/User.mjs";
 import { transfers, profileTransfers } from "./controllers/Transfers.mjs";
-import { getProfile, updateProfile } from "./controllers/Profiles.mjs";
-import { addDepartments, updateDepartments } from "./controllers/Departments.mjs"
+import { getProfile, updateProfile, addProfile } from "./controllers/Profiles.mjs";
+import { addProfileDepartments, updateProfileDepartments } from "./controllers/profileDepartments.mjs"
 import { addJournalistCards, updateJournalistCards } from "./controllers/JournalistCards.mjs"
 import { addUserDegrees, updateUserDegrees } from "./controllers/UserDegrees.mjs"
 import { addWorkObjects,updateWorkObjects } from "./controllers/WorkObjects.mjs"
@@ -20,61 +20,64 @@ const port = process.env.PORT || 5001;
 const __dirname = path.resolve();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.post("/api/login", login);
-app.post("/api/register",register);
-app.get("/api/user",listUser);
-app.post("/api/user/role/:id",grantRoleToUser);
-app.post("/api/user/role-user/:id",deleteRoleUser);
-app.get("/api/user/permission/:id",listRoleAndPermissionOfUser);
-app.get("/api/userpagin",listUserPagination);
+app.post("/login", login);
+app.post("/register",register);
+app.get("/user",listUser);
+app.post("/user/role/:id",grantRoleToUser);
+app.post("/user/role-user/:id",deleteRoleUser);
+app.get("/user/permission/:id",listRoleAndPermissionOfUser);
+app.get("/userpagin",listUserPagination);
+app.get("/user/:id",inforUserById);
+app.put("/user/:id",updateUser);
 
 
-app.get("/api/transfers", transfers);
-app.get("/api/transfers/profiles/:id", profileTransfers);
-app.post("/api/fe/profiles/user", getProfile);
+app.get("/transfers", transfers);
+app.get("/transfers/profiles/:id", profileTransfers);
+app.post("/fe/profiles/user", getProfile);
 
-// app.post("/api/departments",addDepartments);
-app.post("/api/journalist-cards",addJournalistCards);
-app.post("/api/user-degrees",addUserDegrees);
-app.post("/api/work-objects",addWorkObjects);
+app.post("/profiles/departments",addProfileDepartments);
+app.post("/journalist-cards",addJournalistCards);
+app.post("/user-degrees",addUserDegrees);
+app.post("/work-objects",addWorkObjects);
 
-app.put("/api/profiles/:id",updateProfile);
-// app.put("/api/departments/:id",updateDepartments);
-app.put("/api/journalist-cards/:id",updateJournalistCards);
-app.put("/api/user-degrees/:id",updateUserDegrees);
-app.put("/api/work-objects/:id",updateWorkObjects);
+app.put("/profiles/:id",updateProfile);
+app.post("/profiles",addProfile);
+app.put("/profiles/departments/:id",updateProfileDepartments);
+app.put("/journalist-cards/:id",updateJournalistCards);
+app.put("/user-degrees/:id",updateUserDegrees);
+app.put("/work-objects/:id",updateWorkObjects);
 
-app.get("/api/role",listRole)
-app.post("/api/role",addRole)
-app.put("/api/role/:id",updateRole)
-app.delete("/api/role",deleteRole)
-app.get("/api/role/permission/:id",listPermissionOfRole)
-app.post("/api/role/permission/:id",permissionToRole)
+app.get("/role",listRole)
+app.post("/role",addRole)
+app.put("/role/:id",updateRole)
+app.delete("/role",deleteRole)
+app.get("/role/permission/:id",listPermissionOfRole)
+app.post("/role/permission/:id",permissionToRole)
 
-app.get("/api/permission",listPermission)
-app.post("/api/permission",addPermission)
-app.put("/api/permission/:id",updatePermission)
-app.delete("/api/permission",deletePermission)
+app.get("/permission",listPermission)
+app.post("/permission",addPermission)
+app.put("/permission/:id",updatePermission)
+app.delete("/permission",deletePermission)
 
-app.get("/api/action",listAction)
-app.post("/api/action",addAction)
-app.put("/api/action/:id",updateAction)
-app.delete("/api/action",deleteAction)
+app.get("/action",listAction)
+app.post("/action",addAction)
+app.put("/action/:id",updateAction)
+app.delete("/action",deleteAction)
 
-app.get("/api/parts",listParts)
-app.post("/api/parts",addParts)
-app.put("/api/parts/:id",updateParts)
-app.post("/api/partsd",deleteParts)
+app.get("/parts",listParts)
+app.post("/parts",addParts)
+app.put("/parts/:id",updateParts)
+app.post("/partsd",deleteParts)
 
-app.get("/api/positions",listPosition)
-app.post("/api/positions",addPosition)
-app.put("/api/positions/:id",updatePosition)
-app.post("/api/positionsd",deletePosition)
+app.get("/positions",listPosition)
+app.post("/positions",addPosition)
+app.put("/positions/:id",updatePosition)
+app.post("/positionsd",deletePosition)
 
-app.get("/api/departments",listDepartment)
-app.post("/api/departments",addDepartment)
-app.put("/api/departments/:id",updateDepartment)
-app.post("/api/departmentsd",deleteDepartment)
+app.get("/departments",listDepartment)
+app.post("/departments",addDepartment)
+app.put("/departments/:id",updateDepartment)
+app.post("/departmentsd",deleteDepartment)
 
 // if (process.env.NODE_ENV === "production") {
   // Serve any static files

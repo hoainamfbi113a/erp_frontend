@@ -70,7 +70,7 @@ export default class NotifiDepartment extends Component {
           <Step title="Nhân sự duyệt (từ chối quay lại bước 2)" />
           <Step title="Hoàn tất" />
         </Steps>
-        <fieldset disabled={value == 2 || value == 3 ? "disabled" : ""}>
+        {/* <fieldset disabled={value == 2 || value == 3 ? "disabled" : ""}> */}
           <div style={{ minHeight: "70vh" }} className="edit-infor" disabled>
             <div className="edit-infor-tabs">
               <ul>
@@ -251,7 +251,7 @@ export default class NotifiDepartment extends Component {
               component={Social}
             ></Route>
           </div>
-        </fieldset>
+        {/* </fieldset> */}
       </div>
     );
   }

@@ -66,14 +66,14 @@ class TableParts extends Component {
         .post("/api/parts", params)
         .then((res) => {
           if (res.message === "Success!. Stored") {
-            message.success("Thêm bộ phận thành công");
+            message.success("Thêm tổ thành công");
             this.fetchData();
           } else {
-            message.error("Thêm bộ phân thất bại");
+            message.error("Thêm tổ thất bại");
           }
         })
         .catch((err) => {
-          message.error("Thêm bộ phân thất bại");
+          message.error("Thêm tổ thất bại");
           console.log(err);
         });
     } else {
@@ -87,7 +87,7 @@ class TableParts extends Component {
         .put(`/api/parts/${this.state.id}`, params)
         .then((res) => {
           if (res.message === "Success!. Updated") {
-            message.success("Cập nhật bộ phận thành công");
+            message.success("Cập nhật tổ thành công");
             this.setState({
               id: "",
             });
@@ -132,14 +132,14 @@ class TableParts extends Component {
     .then((res)=>{
       if(res.message === "Success!. Deleted"){
         this.fetchData()
-        message.success("Xoá bộ phận thành công")
+        message.success("Xoá tổ thành công")
       }
       else{
-        message.error("Xoá bộ phận thất bại")
+        message.error("Xoá tổ thất bại")
       }
     })
     .catch((err)=>{
-      message.error("Xoá bộ phận thất bại")
+      message.error("Xoá tổ thất bại")
       console.log(err);
     })
   };
@@ -186,7 +186,7 @@ class TableParts extends Component {
         fixed: "left",
       },
       {
-        title: "Tên bộ phận",
+        title: "Tên tổ",
         dataIndex: "part_name",
         key: "part_name",
       },
@@ -269,7 +269,7 @@ class TableParts extends Component {
           </div>
         </Content>
         <Modal
-          title="Tạo bộ phận"
+          title="Tạo tổ"
           visible={this.props.showModalParts}
           onOk={this.onSubmit}
           onCancel={this.hideModal}
@@ -299,7 +299,7 @@ class TableParts extends Component {
                 </div>
               </li>
               <li className="tabs-main-left-li">
-                <span className="tabs-user-infor-top">Tên bộ phận</span>
+                <span className="tabs-user-infor-top">Tên tổ</span>
                 <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
                   <Input
                     value={this.state.part_name}
@@ -309,7 +309,7 @@ class TableParts extends Component {
                 </div>
               </li>
               <li className="tabs-main-left-li">
-                <span className="tabs-user-infor-top">Ghi chú bộ phận</span>
+                <span className="tabs-user-infor-top">Ghi chú tổ</span>
                 <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
                   <Input
                     value={this.state.part_note}

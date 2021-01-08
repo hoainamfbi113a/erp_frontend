@@ -178,13 +178,6 @@
     margin-bottom: 13px;
     margin-right: 18px;
 }
-.tabs-user-infor-bottom input{
-    font-weight: 300;
-    font-size: 16px;
-    width: 380px;
-    height: 34px;
-    border-radius: 3px;
-}
 .edit-infor-form-DCS .tabs-user-infor-bottom input{
     width: 450px;
 }
