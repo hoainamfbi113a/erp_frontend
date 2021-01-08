@@ -186,7 +186,7 @@ class TableSix extends Component {
               <Tag color="volcano" className="table-action">Ẩn</Tag>
             </Popconfirm>
             <Link to={`/crm/admin/edituser/${text}`}> 
-              <Tag color="geekblue" className="table-action">Xem và duyệt</Tag>
+              <Tag color="geekblue" className="table-action">Sửa và duyệt</Tag>
             </Link> 
             <Tag color="volcano" onClick ={()=>{
               this.handleGrantRole(text)

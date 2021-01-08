@@ -11,8 +11,6 @@ const addPermission = async (req, res) => {
   const config = {
     headers: { Authorization: req.headers.authorization }
   };
-  console.log(req.headers.authorization)
-  console.log(req.body)
   let { data } = await axios.post(`${process.env.apiEmployee}/api/permission`,req.body,config);
   res.send(data);
 };

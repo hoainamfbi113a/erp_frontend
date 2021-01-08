@@ -4,8 +4,7 @@ const transfers = async (req,res) => {
     res.send(data);
 }
 const profileTransfers = async (req,res) => {
-    console.log("1")
-    let  {data}  = await axios.get(`${process.env.apiEmployee}/api/transfers/profiles/${req.params.id}`);
+    let  {data}  = await axios.get(`${process.env.apiEmployee}/api/transfers/profiles/${req.params.id}?type=profile`);
     res.send(data);
 }
 export {

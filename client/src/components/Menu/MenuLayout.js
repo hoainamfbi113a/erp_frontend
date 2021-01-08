@@ -74,7 +74,7 @@ class MenuLayout extends Component {
                   <Link to="/crm/admin/department">Phòng ban </Link>
                 </Menu.Item>
                <Menu.Item key="10">
-                  <Link to="/crm/admin/parts">Bộ phận</Link>
+                  <Link to="/crm/admin/parts">Tổ</Link>
                 </Menu.Item>
                <Menu.Item key="11" >
                   <Link to="/crm/admin/position">Chức vụ</Link>

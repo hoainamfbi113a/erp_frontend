@@ -205,7 +205,7 @@ class AddInforEmployee extends Component {
                                                     name="pro_birth_place"
                                                     defaultValue={ this.state.pro_birth_place }
                                                     onChange={this.onChange}
-                                                    placeholder="Nơi sinh của"
+                                                    placeholder="Nơi sinh của nhân viên"
                                                 />
                                             </div>
                                         </li>
@@ -216,7 +216,7 @@ class AddInforEmployee extends Component {
                                                     name="pro_home_town"
                                                     defaultValue={ this.state.pro_home_town }
                                                     onChange={this.onChange}
-                                                    placeholder="Nơi sinh của"
+                                                    placeholder="Quê quán hộ khẩu thường trú"
                                                 />
                                             </div>
                                         </li>

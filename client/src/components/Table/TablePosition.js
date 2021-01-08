@@ -236,7 +236,7 @@ class TablePosition extends Component {
           </div>
         </Content>
         <Modal
-          title="Tạo bộ phận"
+          title="Tạo tổ"
           visible={this.props.showModalPosition}
           onOk={this.onSubmit}
           onCancel={this.hideModal}

@@ -68,26 +68,6 @@ class NotifiDepartment extends Component {
     let to_item_id = 0;
     let arrLog = [];
     let messageErr = 0;
-    await Axios.get(`/api/transfers`)
-      .then((res) => {
-        arrLog = res.data.data;
-      })
-      .catch((err) => {
-        messageErr = 1;
-        console.log(err);
-      });
-    for (let item of arrLog) {
-      if (item.user_id === tokenID) {
-        if (item.to_item_id > to_item_id) {
-          to_item_id = item.to_item_id;
-        }
-      }
-    }
-    for (let item of arrLog) {
-      if (item.to_item_id == to_item_id) {
-        from_item_id = item.from_item_id;
-      }
-    }
     let params = {
       pro_name: this.state.pro_name,
       pro_pen_name: this.state.pro_pen_name,
@@ -404,473 +384,577 @@ class NotifiDepartment extends Component {
             <div className="edit-infr-vertical-line"></div>
           </div>
           <div className="edit-infor-form">
-            <fieldset disabled="disabled">
-              <div className="tabs-main">
-                <form
-                  style={{ width: "100%" }}
-                  className="tabs-main"
-                  noValidate
-                  onSubmit={this.onSubmit}
-                  method="post"
-                >
-                  <div className="tabs-main-left">
-                    <div className="tabs-main-left-content">
-                      <div className="tabs-main-left">
-                        <ul className="tabs-main-left-ul">
-                          <li className="tabs-main-left-li">
-                            <span className="tabs-user-infor-top">
-                              Họ và tên khai sinh:
-                            </span>
-                            <div className="tabs-user-infor-bottom">
-                              <Input
-                                value={this.state.pro_name}
-                                name="pro_name"
-                                onChange={this.onChange}
-                                placeholder="Nhập họ và tên khai sinh"
-                              />
-                            </div>
-                          </li>
-                          <li className="tabs-main-left-li">
-                            <span className="tabs-user-infor-top">
-                              Bút danh:
-                            </span>
-                            <div className="tabs-user-infor-bottom">
-                              <Input
-                                name="pro_pen_name"
-                                value={this.state.pro_pen_name}
-                                onChange={this.onChange}
-                                placeholder="Nhập Bút danh"
-                              />
-                            </div>
-                          </li>
-                          <li className="tabs-main-left-li">
-                            <span className="tabs-user-infor-top">
-                              Ngày sinh của user:
-                            </span>
-                            <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
-                              <DatePicker
-                                placeholder="Chọn ngày"
-                                style={{ width: 150 }}
-                                value={
-                                  this.state.pro_birth_day == null
-                                    ? null
-                                    : moment(
-                                        this.state.pro_birth_day,
-                                        dateFormat
-                                      )
-                                }
-                                onChange={(date, dateString) =>
-                                  this.onChangeBirthDay(
-                                    date,
-                                    dateString,
-                                    "pro_birth_day"
-                                  )
-                                }
-                              />
-                            </div>
-                          </li>
-                          <li className="tabs-main-left-li">
-                            <span className="tabs-user-infor-top">
-                              Giới tính:
-                            </span>
-                            <div className="tabs-user-infor-bottom">
-                              <Radio.Group
-                                onChange={this.onChangeSex}
-                                value={this.state.pro_gender}
-                              >
-                                <Radio value={1}>Nam</Radio>
-                                <Radio value={2}>Nữ</Radio>
-                                <Radio value={3}>Khác</Radio>
-                              </Radio.Group>
-                            </div>
-                          </li>
-                          <li className="tabs-main-left-li">
-                            <span className="tabs-user-infor-top">
-                              Nơi sinh:
-                            </span>
-                            <div className="tabs-user-infor-bottom">
-                              <Input
-                                name="pro_birth_place"
-                                value={this.state.pro_birth_place}
-                                onChange={this.onChange}
-                                placeholder="Nơi sinh của"
-                              />
-                            </div>
-                          </li>
-                          <li className="tabs-main-left-li">
-                            <span className="tabs-user-infor-top">
-                              Quê quán hộ khẩu thường trú:
-                            </span>
-                            <div className="tabs-user-infor-bottom">
-                              <Input
-                                name="pro_home_town"
-                                value={this.state.pro_home_town}
-                                onChange={this.onChange}
-                                placeholder="Nơi sinh của"
-                              />
-                            </div>
-                          </li>
-                          <li className="tabs-main-left-li">
-                            <span className="tabs-user-infor-top">
-                              Số điện thoại nội bộ:
-                            </span>
-                            <div className="tabs-user-infor-bottom">
-                              <Input
-                                name="pro_local_phone"
-                                value={this.state.pro_local_phone}
-                                onChange={this.onChange}
-                                placeholder="Số điện thoại nội bộ"
-                              />
-                            </div>
-                          </li>
-                          <li className="tabs-main-left-li">
-                            <span className="tabs-user-infor-top">
-                              Nơi ở hiện tại:
-                            </span>
-                            <div className="tabs-user-infor-bottom">
-                              <Input
-                                name="pro_resident"
-                                value={this.state.pro_resident}
-                                onChange={this.onChange}
-                                placeholder="Nơi ở hiện tại"
-                              />
-                            </div>
-                          </li>
-                          <li className="tabs-main-left-li">
-                            <span className="tabs-user-infor-top">
-                              Dân tộc:
-                            </span>
-                            <div className="tabs-user-infor-bottom">
-                              <Input
-                                name="pro_ethnic"
-                                value={this.state.pro_ethnic}
-                                onChange={this.onChange}
-                                placeholder="Dân tộc"
-                              />
-                            </div>
-                          </li>
-                          <li className="tabs-main-left-li">
-                            <span className="tabs-user-infor-top">
-                              Tôn giáo:
-                            </span>
-                            <div className="tabs-user-infor-bottom">
-                              <Input
-                                name="pro_religion"
-                                value={this.state.pro_religion}
-                                onChange={this.onChange}
-                                placeholder="Tôn giáo"
-                              />
-                            </div>
-                          </li>
-                          <li className="tabs-main-left-li">
-                            <span className="tabs-user-infor-top">
-                              Thành phần xuất thân:
-                            </span>
-                            <div className="tabs-user-infor-bottom">
-                              <Input
-                                name="pro_background_origin"
-                                value={this.state.pro_background_origin}
-                                onChange={this.onChange}
-                                placeholder="Thành phần xuất thân của"
-                              />
-                            </div>
-                          </li>
-                          <li className="tabs-main-left-li">
-                            <span className="tabs-user-infor-top">
-                              Nghề nghiệp khi được tuyển dụng:
-                            </span>
-                            <div className="tabs-user-infor-bottom">
-                              <Input
-                                name="pro_occupation"
-                                value={this.state.pro_occupation}
-                                onChange={this.onChange}
-                                placeholder="Nhập nghề nghiệp khi được tuyển dụng"
-                              />
-                            </div>
-                          </li>
-                          <li className="tabs-main-left-li">
-                            <span className="tabs-user-infor-top">
-                              Số CMND/Thẻ CCCD:
-                            </span>
-                            <div className="tabs-user-infor-bottom">
-                              <Input
-                                name="pro_identity_card"
-                                value={this.state.pro_identity_card}
-                                onChange={this.onChange}
-                                placeholder="Số CMND/Thẻ CCCD"
-                              />
-                            </div>
-                          </li>
-                          <li className="tabs-main-left-li">
-                            <span className="tabs-user-infor-top">
-                              Ngày cấp CMND, CCCD :
-                            </span>
-                            <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
-                              <DatePicker
-                                placeholder="Chọn ngày"
-                                style={{ width: 150 }}
-                                value={
-                                  this.state.pro_identity_card_when == null
-                                    ? null
-                                    : moment(
-                                        this.state.pro_identity_card_when,
-                                        dateFormat
-                                      )
-                                }
-                                onChange={(date, dateString) =>
-                                  this.onChangeBirthDay(
-                                    date,
-                                    dateString,
-                                    "pro_identity_card_when"
-                                  )
-                                }
-                              />
-                            </div>
-                          </li>
-                          <li className="tabs-main-left-li">
-                            <span className="tabs-user-infor-top">
-                              Nơi cấp CMND,CCCD:
-                            </span>
-                            <div className="tabs-user-infor-bottom">
-                              <Input
-                                name="pro_identity_card_where"
-                                value={this.state.pro_identity_card_where}
-                                onChange={this.onChange}
-                                placeholder="Nơi cấp CMND,CCCD"
-                              />
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
+            <div className="tabs-main">
+              <form
+                style={{ width: "100%" }}
+                className="tabs-main"
+                noValidate
+                onSubmit={this.onSubmit}
+                method="post"
+              >
+                <div className="tabs-main-left">
+                  <div className="tabs-main-left-content">
+                    <div className="tabs-main-left">
+                      <ul className="tabs-main-left-ul">
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">
+                            Họ và tên khai sinh:
+                          </span>
+                          <div className="tabs-user-infor-bottom">
+                            <Input
+                              value={this.state.full_name}
+                              name="full_name"
+                              onChange={this.onChange}
+                              placeholder="Nhập họ và tên khai sinh"
+                            />
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">
+                            Email cá nhân
+                          </span>
+                          <div className="tabs-user-infor-bottom">
+                            <Input
+                              value={this.state.email}
+                              name="email"
+                              onChange={this.onChange}
+                              placeholder="Nhập email cá nhân"
+                            />
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">
+                            Mật khẩu đăng nhập
+                          </span>
+                          <div className="tabs-user-infor-bottom">
+                            <Input.Password
+                              value={this.state.password}
+                              name="password"
+                              onChange={this.onChange}
+                              placeholder="Mật khẩu đăng nhập"
+                            />
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">
+                            Số điện thoại
+                          </span>
+                          <div className="tabs-user-infor-bottom">
+                            <Input
+                              value={this.state.phone}
+                              name="phone"
+                              onChange={this.onChange}
+                              placeholder="Số điện thoại"
+                            />
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">
+                            Số điện thoại nội bộ:
+                          </span>
+                          <div className="tabs-user-infor-bottom">
+                            <Input
+                              name="pro_local_phone"
+                              value={this.state.pro_local_phone}
+                              onChange={this.onChange}
+                              placeholder="Số điện thoại nội bộ"
+                            />
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">Bút danh:</span>
+                          <div className="tabs-user-infor-bottom">
+                            <Input
+                              name="pro_pen_name"
+                              value={this.state.pro_pen_name}
+                              onChange={this.onChange}
+                              placeholder="Nhập Bút danh"
+                            />
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">
+                            Ngày sinh của user:
+                          </span>
+                          <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
+                            <DatePicker
+                              placeholder="Chọn ngày"
+                              style={{ width: 150 }}
+                              value={
+                                this.state.pro_birth_day == null
+                                  ? null
+                                  : moment(this.state.pro_birth_day, dateFormat)
+                              }
+                              onChange={(date, dateString) =>
+                                this.onChangeBirthDay(
+                                  date,
+                                  dateString,
+                                  "pro_birth_day"
+                                )
+                              }
+                            />
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">
+                            Giới tính:
+                          </span>
+                          <div className="tabs-user-infor-bottom">
+                            <Radio.Group
+                              onChange={this.onChangeSex}
+                              value={this.state.pro_gender}
+                            >
+                              <Radio value={1}>Nam</Radio>
+                              <Radio value={2}>Nữ</Radio>
+                              <Radio value={3}>Khác</Radio>
+                            </Radio.Group>
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">Nơi sinh:</span>
+                          <div className="tabs-user-infor-bottom">
+                            <Input
+                              name="pro_birth_place"
+                              value={this.state.pro_birth_place}
+                              onChange={this.onChange}
+                              placeholder="Nơi sinh của"
+                            />
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">
+                            Quê quán hộ khẩu thường trú:
+                          </span>
+                          <div className="tabs-user-infor-bottom">
+                            <Input
+                              name="pro_home_town"
+                              value={this.state.pro_home_town}
+                              onChange={this.onChange}
+                              placeholder="Nơi sinh của"
+                            />
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">
+                            Nơi ở hiện tại:
+                          </span>
+                          <div className="tabs-user-infor-bottom">
+                            <Input
+                              name="pro_resident"
+                              value={this.state.pro_resident}
+                              onChange={this.onChange}
+                              placeholder="Nơi ở hiện tại"
+                            />
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">Dân tộc:</span>
+                          <div className="tabs-user-infor-bottom">
+                            <Input
+                              name="pro_ethnic"
+                              value={this.state.pro_ethnic}
+                              onChange={this.onChange}
+                              placeholder="Dân tộc"
+                            />
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">Tôn giáo:</span>
+                          <div className="tabs-user-infor-bottom">
+                            <Input
+                              name="pro_religion"
+                              value={this.state.pro_religion}
+                              onChange={this.onChange}
+                              placeholder="Tôn giáo"
+                            />
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">
+                            Thành phần xuất thân:
+                          </span>
+                          <div className="tabs-user-infor-bottom">
+                            <Input
+                              name="pro_background_origin"
+                              value={this.state.pro_background_origin}
+                              onChange={this.onChange}
+                              placeholder="Thành phần xuất thân của"
+                            />
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">
+                            Nghề nghiệp khi được tuyển dụng:
+                          </span>
+                          <div className="tabs-user-infor-bottom">
+                            <Input
+                              name="pro_occupation"
+                              value={this.state.pro_occupation}
+                              onChange={this.onChange}
+                              placeholder="Nhập nghề nghiệp khi được tuyển dụng"
+                            />
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">
+                            Số CMND/Thẻ CCCD:
+                          </span>
+                          <div className="tabs-user-infor-bottom">
+                            <Input
+                              name="pro_identity_card"
+                              value={this.state.pro_identity_card}
+                              onChange={this.onChange}
+                              placeholder="Số CMND/Thẻ CCCD"
+                            />
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">
+                            Ngày cấp CMND, CCCD :
+                          </span>
+                          <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
+                            <DatePicker
+                              placeholder="Chọn ngày"
+                              style={{ width: 150 }}
+                              value={
+                                this.state.pro_identity_card_when == null
+                                  ? null
+                                  : moment(
+                                      this.state.pro_identity_card_when,
+                                      dateFormat
+                                    )
+                              }
+                              onChange={(date, dateString) =>
+                                this.onChangeBirthDay(
+                                  date,
+                                  dateString,
+                                  "pro_identity_card_when"
+                                )
+                              }
+                            />
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">
+                            Nơi cấp CMND,CCCD:
+                          </span>
+                          <div className="tabs-user-infor-bottom">
+                            <Input
+                              name="pro_identity_card_where"
+                              value={this.state.pro_identity_card_where}
+                              onChange={this.onChange}
+                              placeholder="Nơi cấp CMND,CCCD"
+                            />
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">
+                            Ghi chú thông tin căn bản
+                          </span>
+                          <div className="tabs-user-infor-bottom">
+                            <Input
+                              name="pro_note"
+                              value={this.state.pro_note}
+                              onChange={this.onChange}
+                              placeholder="Ghi chú thông tin căn bản"
+                            />
+                          </div>
+                        </li>
+                      </ul>
                     </div>
                   </div>
-                  <div className="tabs-main-right">
-                    <div className="tabs-main-left-content">
-                      <div className="tabs-main-left">
-                        <ul className="tabs-main-left-ul">
-                          <li className="tabs-main-left-li">
-                            <span className="tabs-user-infor-top">
-                              Tên phòng ban:
-                            </span>
-                            <div className="tabs-user-infor-bottom">
-                              <Input
-                                name="dep_name"
-                                value={this.state.dep_name}
-                                onChange={this.onChange}
-                                placeholder="Nhập Tên phòng ban"
-                              />
-                            </div>
-                          </li>
-                          <li className="tabs-main-left-li">
-                            <span className="tabs-user-infor-top">
-                              Chức vụ:
-                            </span>
-                            <div className="tabs-user-infor-bottom">
-                              <Input
-                                name="dep_position"
-                                value={this.state.dep_position}
-                                onChange={this.onChange}
-                                placeholder="Chức vụ phòng ban"
-                              />
-                            </div>
-                          </li>
-                          <li className="tabs-main-left-li">
-                            <span className="tabs-user-infor-top">
-                              Ngày bổ nhiệm chức vụ :
-                            </span>
-                            <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
-                              <DatePicker
-                                placeholder="Chọn ngày"
-                                style={{ width: 150 }}
-                                value={
-                                  this.state.dep_appointment_date == null
-                                    ? null
-                                    : moment(
-                                        this.state.dep_appointment_date,
+                </div>
+                <div className="tabs-main-right">
+                  <div className="tabs-main-left-content">
+                    <div className="tabs-main-left">
+                      <ul className="tabs-main-left-ul">
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">
+                            Chọn phòng ban:
+                          </span>
+                          <div className="tabs-user-infor-bottom">
+                            <Select
+                              value={this.state.dep_id}
+                              // value=406
+                              style={{ width: 450 }}
+                              onChange={this.handleChangeDepartment}
+                            >
+                              {this.renderDepartment()}
+                            </Select>
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">
+                            Tổ làm việc
+                          </span>
+                          <div className="tabs-user-infor-bottom">
+                            <Select
+                              value={this.state.par_id}
+                              // value=406
+                              style={{ width: 450 }}
+                              onChange={this.handleChangeParts}
+                            >
+                              {this.renderParts()}
+                            </Select>
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">Chức vụ:</span>
+                          <div className="tabs-user-infor-bottom">
+                            <Select
+                              value={this.state.pos_id}
+                              // value=406
+                              style={{ width: 450 }}
+                              onChange={this.handleChangePosition}
+                            >
+                              {this.renderPosition()}
+                            </Select>
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">
+                            Ngày bổ nhiệm chức vụ :
+                          </span>
+                          <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
+                            <DatePicker
+                              placeholder="Chọn ngày"
+                              style={{ width: 150 }}
+                              value={
+                                this.state.dep_appointment_date == null
+                                  ? null
+                                  : moment(
+                                      this.state.dep_appointment_date,
+                                      dateFormat
+                                    )
+                              }
+                              onChange={(date, dateString) =>
+                                this.onChangeBirthDay(
+                                  date,
+                                  dateString,
+                                  "dep_appointment_date"
+                                )
+                              }
+                            />
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">
+                            Loại bằng cấp:
+                          </span>
+                          <div className="tabs-user-infor-bottom">
+                            <Input
+                              name="deg_type"
+                              value={this.state.deg_type}
+                              onChange={this.onChange}
+                              placeholder="Loại bằng cấp"
+                            />
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">Bằng cấp:</span>
+                          <div className="tabs-user-infor-bottom">
+                            <Input
+                              name="deg_diploma"
+                              value={this.state.deg_diploma}
+                              onChange={this.onChange}
+                              placeholder="Bằng cấp"
+                            />
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">
+                            Chuyên ngành học:
+                          </span>
+                          <div className="tabs-user-infor-bottom">
+                            <Input
+                              name="deg_majors"
+                              value={this.state.deg_majors}
+                              onChange={this.onChange}
+                              placeholder="Chuyên ngành học"
+                            />
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">
+                            Tên trường đào tạo:
+                          </span>
+                          <div className="tabs-user-infor-bottom">
+                            <Input
+                              name="deg_school_name"
+                              value={this.state.deg_school_name}
+                              onChange={this.onChange}
+                              placeholder="Tên trường đào tạo"
+                            />
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">
+                            Thời gian bắt đầu học:
+                          </span>
+                          <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
+                            <RangePicker
+                              placeholder="Chọn ngày"
+                              value={
+                                this.state.deg_begin_study == null
+                                  ? null
+                                  : [
+                                      moment(
+                                        this.state.deg_begin_study,
                                         dateFormat
-                                      )
-                                }
-                                onChange={(date, dateString) =>
-                                  this.onChangeBirthDay(
-                                    date,
-                                    dateString,
-                                    "dep_appointment_date"
-                                  )
-                                }
-                              />
-                            </div>
-                          </li>
-                          <li className="tabs-main-left-li">
-                            <span className="tabs-user-infor-top">
-                              Loại bằng cấp:
-                            </span>
-                            <div className="tabs-user-infor-bottom">
-                              <Input
-                                name="deg_type"
-                                value={this.state.deg_type}
-                                onChange={this.onChange}
-                                placeholder="Loại bằng cấp"
-                              />
-                            </div>
-                          </li>
-                          <li className="tabs-main-left-li">
-                            <span className="tabs-user-infor-top">
-                              Bằng cấp:
-                            </span>
-                            <div className="tabs-user-infor-bottom">
-                              <Input
-                                name="deg_diploma"
-                                value={this.state.deg_diploma}
-                                onChange={this.onChange}
-                                placeholder="Bằng cấp"
-                              />
-                            </div>
-                          </li>
-                          <li className="tabs-main-left-li">
-                            <span className="tabs-user-infor-top">
-                              Chuyên ngành học:
-                            </span>
-                            <div className="tabs-user-infor-bottom">
-                              <Input
-                                name="deg_majors"
-                                value={this.state.deg_majors}
-                                onChange={this.onChange}
-                                placeholder="Chuyên ngành học"
-                              />
-                            </div>
-                          </li>
-                          <li className="tabs-main-left-li">
-                            <span className="tabs-user-infor-top">
-                              Tên trường đào tạo:
-                            </span>
-                            <div className="tabs-user-infor-bottom">
-                              <Input
-                                name="deg_school_name"
-                                value={this.state.deg_school_name}
-                                onChange={this.onChange}
-                                placeholder="Tên trường đào tạo"
-                              />
-                            </div>
-                          </li>
-                          <li className="tabs-main-left-li">
-                            <span className="tabs-user-infor-top">
-                              Thời gian bắt đầu học:
-                            </span>
-                            <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
-                              <RangePicker
-                                placeholder="Chọn ngày"
-                                value={
-                                  this.state.deg_begin_study == null
-                                    ? null
-                                    : [
-                                        moment(
-                                          this.state.deg_begin_study,
-                                          dateFormat
-                                        ),
-                                        moment(
-                                          this.state.deg_end_study,
-                                          dateFormat
-                                        ),
-                                      ]
-                                }
-                                onChange={(date, dateString) =>
-                                  this.onChangeRange(
-                                    date,
-                                    dateString,
-                                    "deg_begin_study",
-                                    "deg_end_study"
-                                  )
-                                }
-                              />
-                            </div>
-                          </li>
-                          <li className="tabs-main-left-li">
-                            <span className="tabs-user-infor-top">
-                              Hình thức lao động:
-                            </span>
-                            <div className="tabs-user-infor-bottom">
-                              <Input
-                                name="work_formality"
-                                value={this.state.work_formality}
-                                onChange={this.onChange}
-                                placeholder="Hình thức lao động"
-                              />
-                            </div>
-                          </li>
-                          <li className="tabs-main-left-li">
-                            <span className="tabs-user-infor-top">Số thẻ:</span>
-                            <div className="tabs-user-infor-bottom">
-                              <Input
-                                name="car_number"
-                                value={this.state.car_number}
-                                onChange={this.onChange}
-                                placeholder="Số thẻ"
-                              />
-                            </div>
-                          </li>
-                          <li className="tabs-main-left-li">
-                            <span className="tabs-user-infor-top">
-                              Ngày cấp thẻ:
-                            </span>
-                            <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
-                              <DatePicker
-                                placeholder="Chọn ngày"
-                                style={{ width: 150 }}
-                                placeholder="Chọn ngày"
-                                value={
-                                  this.state.car_number_day == null
-                                    ? null
-                                    : moment(
-                                        this.state.car_number_day,
+                                      ),
+                                      moment(
+                                        this.state.deg_end_study,
                                         dateFormat
-                                      )
-                                }
-                                onChange={(date, dateString) =>
-                                  this.onChangeBirthDay(
-                                    date,
-                                    dateString,
-                                    "car_number_day"
-                                  )
-                                }
-                              />
-                            </div>
-                          </li>
-                          <li className="tabs-main-left-li">
-                            <span className="tabs-user-infor-top">
-                              Thời gian thẻ có hiệu lực:
-                            </span>
-                            <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
-                              <RangePicker
-                                placeholder="Chọn ngày"
-                                value={
-                                  this.state.car_begin == null
-                                    ? null
-                                    : [
-                                        moment(
-                                          this.state.car_begin,
-                                          dateFormat
-                                        ),
-                                        moment(this.state.car_end, dateFormat),
-                                      ]
-                                }
-                                onChange={(date, dateString) =>
-                                  this.onChangeRange(
-                                    date,
-                                    dateString,
-                                    "car_begin",
-                                    "car_end"
-                                  )
-                                }
-                              />
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
+                                      ),
+                                    ]
+                              }
+                              onChange={(date, dateString) =>
+                                this.onChangeRange(
+                                  date,
+                                  dateString,
+                                  "deg_begin_study",
+                                  "deg_end_study"
+                                )
+                              }
+                            />
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">
+                            Ghi chú về trình độ:
+                          </span>
+                          <div className="tabs-user-infor-bottom">
+                            <Input
+                              name="deg_note"
+                              value={this.state.deg_note}
+                              onChange={this.onChange}
+                              placeholder="Ghi chú về trình độ"
+                            />
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">
+                            Hình thức lao động:
+                          </span>
+                          <div className="tabs-user-infor-bottom">
+                            <Input
+                              name="work_formality"
+                              value={this.state.work_formality}
+                              onChange={this.onChange}
+                              placeholder="Hình thức lao động"
+                            />
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">
+                            Ghi chú hình thức lao động:
+                          </span>
+                          <div className="tabs-user-infor-bottom">
+                            <Input
+                              name="work_note"
+                              value={this.state.work_note}
+                              onChange={this.onChange}
+                              placeholder="Ghi chú hình thức lao động"
+                            />
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">Số thẻ:</span>
+                          <div className="tabs-user-infor-bottom">
+                            <Input
+                              name="car_number"
+                              value={this.state.car_number}
+                              onChange={this.onChange}
+                              placeholder="Số thẻ"
+                            />
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">
+                            Ngày cấp thẻ:
+                          </span>
+                          <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
+                            <DatePicker
+                              placeholder="Chọn ngày"
+                              style={{ width: 150 }}
+                              placeholder="Chọn ngày"
+                              value={
+                                this.state.car_number_day == null
+                                  ? null
+                                  : moment(
+                                      this.state.car_number_day,
+                                      dateFormat
+                                    )
+                              }
+                              onChange={(date, dateString) =>
+                                this.onChangeBirthDay(
+                                  date,
+                                  dateString,
+                                  "car_number_day"
+                                )
+                              }
+                            />
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">
+                            Thời gian thẻ có hiệu lực:
+                          </span>
+                          <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
+                            <RangePicker
+                              placeholder="Chọn ngày"
+                              value={
+                                this.state.car_begin == null
+                                  ? null
+                                  : [
+                                      moment(this.state.car_begin, dateFormat),
+                                      moment(this.state.car_end, dateFormat),
+                                    ]
+                              }
+                              onChange={(date, dateString) =>
+                                this.onChangeRange(
+                                  date,
+                                  dateString,
+                                  "car_begin",
+                                  "car_end"
+                                )
+                              }
+                            />
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li">
+                          <span className="tabs-user-infor-top">
+                            Ghi chú số thẻ:
+                          </span>
+                          <div className="tabs-user-infor-bottom">
+                            <Input
+                              name="car_note"
+                              value={this.state.car_note}
+                              onChange={this.onChange}
+                              placeholder="Ghi chú số thẻ"
+                            />
+                          </div>
+                        </li>
+                        <li className="tabs-main-left-li tabs-main-left-li-submit">
+                          <Button
+                            className="btn-add-user"
+                            onClick={this.handleSave}
+                          >
+                            Lưu tạm thời
+                          </Button>
+                          <Button
+                            className="btn-add-user"
+                            onClick={this.handleSend}
+                          >
+                            Lưu thông tin
+                          </Button>
+                        </li>
+                      </ul>
                     </div>
                   </div>
-                </form>
-              </div>
-            </fieldset>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
