@@ -1,14 +1,14 @@
 import axios from "axios";
 import express from "express";
 const router = express.Router();
-router.get("/departments",async (req,res)=>{
+router.get("/",async (req,res)=>{
   const config = {
     headers: { Authorization: req.headers.authorization }
   };
   let { data } = await axios.get(`${process.env.apiEmployee}/api/departments`,config);
   res.send(data);
 })
-router.post("/departments", async(req,res)=>{
+router.post("/", async(req,res)=>{
   const config = {
     headers: { Authorization: req.headers.authorization }
   };
@@ -16,7 +16,7 @@ router.post("/departments", async(req,res)=>{
   res.send(data);
 })
 
-router.put("/departments/:id", async (req,res)=>{
+router.put("/:id", async (req,res)=>{
   const config = {
     headers: { Authorization: req.headers.authorization }
   };
