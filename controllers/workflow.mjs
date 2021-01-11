@@ -1,10 +1,14 @@
 import express from "express";
+import axios from "axios"
 const router = express.Router();
-router.get('/detail?type=update_profile',async (req,res)=>{
+router.get('/update-profile',async (req,res)=>{
+    console.log("123")
     const config = {
         headers: { Authorization: req.headers.authorization },
       };
-    let { data } = await axios.get(`${process.env.apiWorkflow}/api/user/workflow/detail?type=update_profile`, config);
+      console.log(`${process.env.apiWorkflow}/api/workflow/detail?type=update_profile`)
+    let { data } = await axios.get(`${process.env.apiWorkflow}/api/workflow/detail?type=update_profile`);
+    
     res.send(data);
 })
 export default router
