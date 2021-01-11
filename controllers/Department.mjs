@@ -1,36 +1,36 @@
 import axios from "axios";
-const listDepartment = async (req, res) => {
+import express from "express";
+const router = express.Router();
+router.get("/departments",async (req,res)=>{
   const config = {
     headers: { Authorization: req.headers.authorization }
   };
   let { data } = await axios.get(`${process.env.apiEmployee}/api/departments`,config);
   res.send(data);
-};
-
-const addDepartment = async (req, res) => {
+})
+router.post("/departments", async(req,res)=>{
   const config = {
     headers: { Authorization: req.headers.authorization }
   };
   let { data } = await axios.post(`${process.env.apiEmployee}/api/departments`,req.body,config);
   res.send(data);
-};
+})
 
-const updateDepartment = async (req, res) => {
+router.put("/departments/:id", async (req,res)=>{
   const config = {
     headers: { Authorization: req.headers.authorization }
   };
   let { id } = req.params;
   let { data } = await axios.put(`${process.env.apiEmployee}/api/departments/${id}`,req.body,config);
   res.send(data);
-};
+})
 
-const deleteDepartment = async (req, res) => {
+router.post("/departmentsd", async (req,res)=>{
   const {id} = req.body
   const config = {
     headers: { Authorization: req.headers.authorization }
   };
   let { data } = await axios.delete(`${process.env.apiEmployee}/api/departments/${id}`,config);
   res.send(data);
-};
-
-export { listDepartment, addDepartment, updateDepartment, deleteDepartment };
+})
+export default router;
