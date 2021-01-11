@@ -23,7 +23,7 @@ const port = process.env.PORT || 5001;
 const __dirname = path.resolve();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use('/',userController);
+app.use('/api',userController);
 // app.post("/api/login", login);
 // app.post("/api/register",register);
 // app.get("/api/user",listUser);
