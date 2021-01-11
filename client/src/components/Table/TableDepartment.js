@@ -123,7 +123,7 @@ class TablePermission extends Component {
     const params = {
       id,
     }
-    axiosConfig.post(`/api/departmentsd`,params)
+    axiosConfig.post(`/api/departments/delete`,params)
     .then((res)=>{
       if(res.message === "Success!. Deleted"){
         this.fetchData()
