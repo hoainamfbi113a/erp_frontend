@@ -87,6 +87,9 @@ class CurriculumVitae extends Component {
       })
     let params = {
       user_id:userId,
+      button: value,
+      action:"update",
+      // notify_content:"gui cho ns",
       pro_name: this.state.pro_name,
       pro_pen_name: this.state.pro_pen_name,
       pro_birth_day: Date.parse(this.state.pro_birth_day) / 1000,
@@ -104,9 +107,8 @@ class CurriculumVitae extends Component {
       Date.parse(this.state.pro_identity_card_when) / 1000,
       pro_identity_card_where: this.state.pro_identity_card_where,
       pro_note: this.state.pro_note,
-      button: value,
-      action:"update",
     };
+    // console.log(params)
     await axiosConfig
       .put(`/api/profiles/${this.state.pro_id}`, params)
       .then((res) => {
@@ -204,7 +206,7 @@ class CurriculumVitae extends Component {
     console.log(messageErr);
     if (messageErr == 0) {
       message.success("Cập nhât thông tin thành công");
-      // window.location.reload();
+      window.location.href = "http://localhost:3001/crm/employee/personal-page"
     } else {
       message.error("Cập nhật thất bại");
     }
