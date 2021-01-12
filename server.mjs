@@ -1,42 +1,22 @@
 import express from "express";
 import path from "path";
 import dotenv from "dotenv";
-import userController from "./controllers/User.mjs";
-import departmentsController from "./controllers/Department.mjs";
+import userController from "./controllers/User.mjs"
+import departmentsController from "./controllers/Department.mjs"
 // import { updateUser, inforUserById, register, listUser,grantRoleToUser,listRoleAndPermissionOfUser, deleteRoleUser, listUserPagination } from "./controllers/User.mjs";
 import { transfers, profileTransfers } from "./controllers/Transfers.mjs";
 import { getProfile, updateProfile, addProfile } from "./controllers/Profiles.mjs";
-import {
-    addProfileDepartments,
-    updateProfileDepartments,
-} from "./controllers/profileDepartments.mjs";
-import { addJournalistCards, updateJournalistCards } from "./controllers/JournalistCards.mjs";
-import { addUserDegrees, updateUserDegrees } from "./controllers/UserDegrees.mjs";
-import { addWorkObjects, updateWorkObjects } from "./controllers/WorkObjects.mjs";
-import {
-    listRole,
-    addRole,
-    updateRole,
-    deleteRole,
-    listPermissionOfRole,
-    permissionToRole,
-} from "./controllers/Roles.mjs";
-import {
-    listPermission,
-    addPermission,
-    updatePermission,
-    deletePermission,
-} from "./controllers/Permission.mjs";
-import { listParts, addParts, updateParts, deleteParts } from "./controllers/Parts.mjs";
-import {
-    listPosition,
-    addPosition,
-    updatePosition,
-    deletePosition,
-} from "./controllers/Position.mjs";
+import { addProfileDepartments, updateProfileDepartments } from "./controllers/profileDepartments.mjs"
+import { addJournalistCards, updateJournalistCards } from "./controllers/JournalistCards.mjs"
+import { addUserDegrees, updateUserDegrees } from "./controllers/UserDegrees.mjs"
+import { addWorkObjects,updateWorkObjects } from "./controllers/WorkObjects.mjs"
+import { listRole, addRole, updateRole, deleteRole, listPermissionOfRole, permissionToRole} from "./controllers/Roles.mjs"
+import { listPermission, addPermission, updatePermission, deletePermission } from "./controllers/Permission.mjs"
+import { listParts, addParts, updateParts, deleteParts } from "./controllers/Parts.mjs"
+import { listPosition, addPosition, updatePosition, deletePosition } from "./controllers/Position.mjs"
 // import { listDepartment, addDepartment, updateDepartment, deleteDepartment } from "./controllers/Department.mjs"
-import { listAction, addAction, updateAction, deleteAction } from "./controllers/Action.mjs";
-import workflowController from "./controllers/workflow.mjs";
+import { listAction, addAction, updateAction, deleteAction } from "./controllers/Action.mjs"
+import workflowController from "./controllers/workflow.mjs"
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 5001;
@@ -105,13 +85,13 @@ app.post("/positionsd",deletePosition)
 app.use("/departments",departmentsController)
 app.use("/workflow",workflowController)
 // if (process.env.NODE_ENV === "production") {
-// Serve any static files
-app.use(express.static(path.join(__dirname, "client/dist")));
+  // Serve any static files
+  app.use(express.static(path.join(__dirname, "client/dist")));
 
-// Handle React routing, return all requests to React app
-app.get("*", function (req, res) {
+  // Handle React routing, return all requests to React app
+  app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "client/dist", "index.html"));
-});
+  });
 // }
 
 app.listen(port, () => console.log(` 🚀 Express listening on ports la ${port}`));
