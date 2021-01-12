@@ -216,24 +216,24 @@ class NotifiDepartment extends Component {
     });
   };
   handleReject = async () => {
-    let idUser = this.props.match.params.id;
-    const tokenID = localStorage.getItem("tokenID");
-    let pro_id = 0;
-    await axiosConfig.post(`/api/fe/profiles/user`, {
-      id: idUser,
-    })
-      .then(async (res) => {
-        const data = res.data;
-        pro_id = data.id;
-        console.log(pro_id)
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // let idUser = this.props.match.params.id;
+    // const tokenID = localStorage.getItem("tokenID");
+    // let pro_id = 0;
+    // await axiosConfig.post(`/api/fe/profiles/user`, {
+    //   id: idUser,
+    // })
+    //   .then(async (res) => {
+    //     const data = res.data;
+    //     pro_id = data.id;
+    //     console.log(pro_id)
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
 
-    await axiosConfig.put(`/api/profiles/${pro_id}`, {
-      current_user_id: tokenID,
-      user_id: idUser,
+    await axiosConfig.put(`/api/profiles/${this.state.pro_id}`, {
+      user_id: this.state.user_id,
+      action:"confirm",
       reject: 1,
     }).then((res) => {
       console.log(res)
@@ -940,13 +940,13 @@ class NotifiDepartment extends Component {
                             className="btn-add-user"
                             onClick={this.handleSave}
                           >
-                            Lưu tạm thời
+                            Lưu
                           </Button>
                           <Button
                             className="btn-add-user"
                             onClick={this.handleSend}
                           >
-                            Lưu thông tin
+                            Xác nhận
                           </Button>
                         </li>
                       </ul>

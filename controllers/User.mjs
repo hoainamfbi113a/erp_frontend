@@ -97,7 +97,6 @@ router.put("/user/:id", async (req,res)=>{
         req.body,
         config
       );
-    //   console.log(data)
       res.send(data)
 })
 

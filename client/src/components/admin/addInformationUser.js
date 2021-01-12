@@ -18,10 +18,12 @@ class NotifiDepartment extends Component {
     super(props);
     this.state = {
       STATUS_PROFILE: -1,
+      step_id:-1,
       dataDepartment: null,
       dataPosition: null,
       dataWorkflow:null,
       dataParts: null,
+      dataWorkflow: null,
       user_id: null,
       pro_id:null,
       pro_name: null,
@@ -77,7 +79,6 @@ class NotifiDepartment extends Component {
   fetchWorkflowProfile = () =>{
     axiosConfig.get(`/api/workflow/update-profile`)
     .then(res=>{
-      console.log(res)
       this.setState({
         dataWorkflow:res
       })
@@ -125,7 +126,6 @@ class NotifiDepartment extends Component {
   };
   fetchDataUser = async () => {
     if (this.props.match.params.id) {
-      console.log("update");
       let idUser = this.props.match.params.id;
       let dataUser = null;
       let pro_id = 0;
@@ -168,8 +168,6 @@ class NotifiDepartment extends Component {
             pro_identity_card: data.pro_identity_card,
             pro_identity_card_when: data.pro_identity_card_when,
             pro_identity_card_where: data.pro_identity_card_where,
-            // dep_name: data.department.data.dep_name,
-            // dep_position: data.department.data.dep_position,
             dep_id: data.department.data.dep_id,
             pos_id: data.department.data.pos_id,
             par_id: data.department.data.part_id,
@@ -196,13 +194,20 @@ class NotifiDepartment extends Component {
           });
         })
         .catch((err) => {
+          if(err.message === "Unauthorized"){
+            message.error("Nhân sự không có quyền xem khi user đang chỉnh sửa")
+            window.location.href("http://localhost:3001/crm/admin/user");
+          }
           console.log(err);
         });
-      // Axios.get(`/api/transfers/profiles/${pro_id}`).then((res) => {
-      //   this.setState({
-      //     STATUS_PROFILE: res.data.data.after_status,
-      //   });
-      // });
+        Axios.get(
+          `/api/transfers/profiles/${pro_id}`
+        ).then((res) => {
+          this.setState({
+            STATUS_PROFILE: res.data.data.after_status,
+            step_id:res.data.data.next_step_id
+          });
+        });
     }
   };
   handleClick = (id) => {
@@ -229,60 +234,35 @@ class NotifiDepartment extends Component {
   };
   handleConfirm = async () => {
     let idUser = this.props.match.params.id;
-    const tokenID = localStorage.getItem("tokenID");
-    let pro_id = 0;
     await axiosConfig
-      .post(`/api/fe/profiles/user`, {
-        id: idUser,
-      })
-      .then(async (res) => {
-        const data = res.data;
-        pro_id = data.id;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    await axiosConfig
-      .put(`/api/profiles/${pro_id}`, {
-        current_user_id: tokenID,
+      .put(`/api/profiles/${this.state.pro_id}`, {
         user_id: idUser,
         reject: 0,
+        action:"confirm",
+        notify_content:"xac nhan ho so hoan tat",
       })
       .then((res) => {
-        if (res.data.message) {
+        if (res.message) {
           message.success("Duyệt thông tin nhân sự thành công");
           window.location.reload();
         }
       });
   };
+  // nhân sự từ chối
   handleReject = async () => {
     let idUser = this.props.match.params.id;
-    const tokenID = localStorage.getItem("tokenID");
-    let pro_id = 0;
     await axiosConfig
-      .post(`/api/fe/profiles/user`, {
-        id: idUser,
-      })
-      .then(async (res) => {
-        const data = res.data;
-        pro_id = data.id;
-        console.log(pro_id);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-
-    await axiosConfig
-      .put(`/api/profiles/${pro_id}`, {
-        current_user_id: tokenID,
+      .put(`/api/profiles/${this.state.pro_id}`, {
         user_id: idUser,
         reject: 1,
+        action:"confirm",
+        notify_content:"tu choi ban can sua lai ten"
       })
       .then((res) => {
         console.log(res);
         if (res.message) {
           message.success("Từ chối thông tin nhân sự thành công");
-          window.location.reload();
+          window.location.href("http://localhost:3001/crm/admin/user");
         }
       });
   };
@@ -380,7 +360,7 @@ class NotifiDepartment extends Component {
         pro_occupation: this.state.pro_occupation,
         pro_identity_card: this.state.pro_identity_card,
         pro_identity_card_when:
-          Date.parse(this.state.pro_identity_card_when) / 1000,
+        Date.parse(this.state.pro_identity_card_when) / 1000,
         pro_identity_card_where: this.state.pro_identity_card_where,
         pro_note: this.state.pro_note,
         button: value,
@@ -487,6 +467,7 @@ class NotifiDepartment extends Component {
     if (messageErr == 0) {
       message.success("Thêm thông tin nhân sự thành công");
       this.props.uiActionCreators.hideLoading();
+      window.location.href("http://localhost:3001/crm/admin/user");
     } else {
       message.error("Thêm thông tin nhân sự thất bại");
     }
@@ -512,6 +493,7 @@ class NotifiDepartment extends Component {
         console.log(err)
       })
     let params = {
+      user_id:this.state.user_id,
       pro_name: this.state.pro_name,
       pro_pen_name: this.state.pro_pen_name,
       pro_birth_day: Date.parse(this.state.pro_birth_day) / 1000,
@@ -629,7 +611,7 @@ class NotifiDepartment extends Component {
     console.log(messageErr);
     if (messageErr == 0) {
       message.success("Cập nhât thông tin thành công");
-      window.location.reload();
+      window.location.href("http://localhost:3001/crm/admin/user");
     } else {
       message.error("Cập nhật thất bại");
     }
@@ -641,40 +623,32 @@ class NotifiDepartment extends Component {
   handleSend = () => {
     this.onAddInforUser("send");
   };
-  renderWorkflow = () =>{
-    console.log(this.state.dataWorkflow)
-    // if(!!this.state.dataWorkflow === true){
-      
-    //   const workflowProfile = this.state.dataWorkflow;
-    //   return workflowProfile.steps.map((item)=>{
-    //     return  <Step key= {item.id} title={item.description} />
-    //   })
-    // }else{
-    //   return ""
-    // }
-  }
+  renderWorkflow = () => {
+    if (!!this.state.dataWorkflow === true) {
+      const workflowProfile = this.state.dataWorkflow;
+      return workflowProfile.steps.map((item) => {
+        return <Step key={item.id} title={item.description} />;
+      });
+    }
+    // return ""
+  };
   render() {
-    let value = 1;
-    if (this.state.STATUS_PROFILE == 1) {
-      value = 3;
-    } else if (
-      this.state.STATUS_PROFILE == 2 ||
-      this.state.STATUS_PROFILE == 5
-    ) {
-      value = 1;
-    } else if (this.state.STATUS_PROFILE == 3) {
-      value = 2;
-    } else {
+    let value = 0;
+    let step_id = this.state.step_id;
+    if(step_id === 1){
       value = 0;
+    } else if(step_id === 2){
+      value = 1;
+    } else if(step_id === 3){
+      value = 2
+    } else if(step_id === null){
+      value = 3;
     }
     return (
       <div className="content-background2" style={{ width: "100%" }}>
         <Steps current={value} size="small" className="process-work-flow">
           {this.renderWorkflow()}
-          {/* <Step title="Nhân sự tạo nhân viên mới" />
-          <Step title="Nhân viên vào chỉnh sửa thông tin của mình" />
-          <Step title="Nhân sự duyệt" />
-          <Step title="Hoàn tất" /> */}
+          <Step title="đống hs" />
         </Steps>
         {value == 2 ? (
           <li className="tabs-main-left-li">
@@ -1087,7 +1061,6 @@ class NotifiDepartment extends Component {
                           <div className="tabs-user-infor-bottom">
                             <Select
                               value={this.state.dep_id}
-                              // value=406
                               style={{ width: 450 }}
                               onChange={this.handleChangeDepartment}
                             >
@@ -1102,7 +1075,6 @@ class NotifiDepartment extends Component {
                           <div className="tabs-user-infor-bottom">
                             <Select
                               value={this.state.par_id}
-                              // value=406
                               style={{ width: 450 }}
                               onChange={this.handleChangeParts}
                             >
@@ -1115,7 +1087,6 @@ class NotifiDepartment extends Component {
                           <div className="tabs-user-infor-bottom">
                             <Select
                               value={this.state.pos_id}
-                              // value=406
                               style={{ width: 450 }}
                               onChange={this.handleChangePosition}
                             >
@@ -1347,20 +1318,22 @@ class NotifiDepartment extends Component {
                             />
                           </div>
                         </li>
-                        <li className="tabs-main-left-li tabs-main-left-li-submit">
+                        {value !==3 ?   <li className="tabs-main-left-li tabs-main-left-li-submit">
                           <Button
                             className="btn-add-user"
                             onClick={this.handleSave}
                           >
-                            Lưu tạm thời
+                            Lưu
                           </Button>
                           <Button
                             className="btn-add-user"
                             onClick={this.handleSend}
                           >
-                            Lưu thông tin
+                           Xác nhận
                           </Button>
-                        </li>
+                        </li>:
+                        ""}
+                      
                       </ul>
                     </div>
                   </div>

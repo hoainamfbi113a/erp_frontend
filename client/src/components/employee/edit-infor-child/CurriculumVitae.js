@@ -17,6 +17,8 @@ class CurriculumVitae extends Component {
     super(props);
     this.state = {
       id:null,
+      user_id:null,
+      pro_id:null,
       pro_name: null,
       pro_pen_name: null,
       pro_birth_day: "",
@@ -63,158 +65,8 @@ class CurriculumVitae extends Component {
   onAddInforUser = (value)=>{
     this.handleEdit(value)
   }
-  handleAdd = async (value) =>{
-    this.props.uiActionCreators.showLoading();
-    let messageErr = 0;
-    let userId = 0;
-    let proId = 0;
-    let paramUser = {
-      app_id: 99,
-      email: this.state.email,
-      phone: this.state.phone,
-      full_name: this.state.pro_name,
-    };
-    await axiosConfig
-      .post("/api/register", paramUser)
-      .then((res) => {
-        console.log(res);
-        if (res.message === "Đăng ký thành công!") {
-          userId = res.detail.id;
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    if (userId !== 0) {
-      let params = {
-        user_id: userId,
-        pro_name: this.state.pro_name,
-        pro_pen_name: this.state.pro_pen_name,
-        pro_birth_day: Date.parse(this.state.pro_birth_day) / 1000,
-        pro_gender: this.state.pro_gender,
-        pro_birth_place: this.state.pro_birth_place,
-        pro_home_town: this.state.pro_home_town,
-        pro_local_phone: this.state.pro_local_phone,
-        pro_resident: this.state.pro_resident,
-        pro_ethnic: this.state.pro_ethnic,
-        pro_religion: this.state.pro_religion,
-        pro_background_origin: this.state.pro_background_origin,
-        pro_occupation: this.state.pro_occupation,
-        pro_identity_card: this.state.pro_identity_card,
-        pro_identity_card_when:
-          Date.parse(this.state.pro_identity_card_when) / 1000,
-        pro_identity_card_where: this.state.pro_identity_card_where,
-        pro_note: this.state.pro_note,
-        button: value,
-      };
-      await axiosConfig
-        .post(`/api/profiles`, params)
-        .then((res) => {
-          if (res.message == "Success!. Stored") {
-            (proId = res.id), console.log(res);
-          } else {
-            messageErr = 2;
-          }
-        })
-        .catch(() => {
-          messageErr = 3;
-        });
-    }
-    if (userId !== 0 && proId !== 0) {
-      let paramsDepartment = {
-        pro_id: proId,
-        user_id: userId,
-        dep_id: this.state.dep_id,
-        pos_id: this.state.pos_id,
-        part_id: this.state.par_id,
-        appointment_date: Date.parse(this.state.dep_appointment_date) / 1000,
-      };
-
-      await axiosConfig
-        .post(`/api/profiles/departments`, paramsDepartment)
-        .then((res) => {
-          if (res.message == "Success!. Stored") {
-          } else {
-            messageErr = 4;
-          }
-        })
-        .catch(() => {
-          messageErr = 5;
-        });
-      let paramsUserDegrees = {
-        pro_id: proId,
-        user_id: userId,
-        deg_type: this.state.deg_type,
-        deg_diploma: this.state.deg_diploma,
-        deg_majors: this.state.deg_majors,
-        deg_school_name: this.state.deg_school_name,
-        deg_begin_study: Date.parse(this.state.deg_begin_study) / 1000,
-        deg_end_study: Date.parse(this.state.deg_end_study) / 1000,
-        deg_note: this.state.deg_note,
-      };
-      await axiosConfig
-        .post(`/api/user-degrees`, paramsUserDegrees)
-        .then((res) => {
-          if (res.message == "Success!. Stored") {
-          } else {
-            messageErr = 6;
-          }
-        })
-        .catch(() => {
-          messageErr = 7;
-        });
-      let paramsWorkObjects = {
-        pro_id: proId,
-        user_id: userId,
-        work_formality: this.state.work_formality,
-        work_note: this.state.work_note,
-      };
-
-      await axiosConfig
-        .post(`/api/work-objects`, paramsWorkObjects)
-        .then((res) => {
-          if (res.message == "Success!. Stored") {
-            message;
-          } else {
-            messageErr = 8;
-          }
-        })
-        .catch(() => {
-          messageErr = 9;
-        });
-      let paramsJournalistCards = {
-        pro_id: proId,
-        user_id: userId,
-        car_number: this.state.car_number,
-        car_number_day: Date.parse(this.state.car_number_day) / 1000,
-        car_begin: Date.parse(this.state.car_begin) / 1000,
-        car_end: Date.parse(this.state.car_end) / 1000,
-        car_note: this.state.car_note,
-      };
-      console.log("paramsJournalistCards", paramsJournalistCards);
-      console.log(paramsJournalistCards);
-      await axiosConfig
-        .post(`/api/journalist-cards`, paramsJournalistCards)
-        .then((res) => {
-          if (res.message == "Success!. Stored") {
-          } else {
-            messageErr = 10;
-          }
-        })
-        .catch(() => {
-          messageErr = 11;
-        });
-    }
-    console.log("messageErr: ", messageErr);
-    if (messageErr == 0) {
-      message.success("Thêm thông tin nhân sự thành công");
-      this.props.uiActionCreators.hideLoading();
-    } else {
-      message.error("Thêm thông tin nhân sự thất bại");
-    }
-  }
   handleEdit = async (value) =>{
-    let userId = this.props.match.params.id;
+    let userId = this.state.user_id;
     this.props.uiActionCreators.showLoading();
     let messageErr = 0;
     let paramsUser = {
@@ -234,6 +86,7 @@ class CurriculumVitae extends Component {
         console.log(err)
       })
     let params = {
+      user_id:userId,
       pro_name: this.state.pro_name,
       pro_pen_name: this.state.pro_pen_name,
       pro_birth_day: Date.parse(this.state.pro_birth_day) / 1000,
@@ -252,7 +105,7 @@ class CurriculumVitae extends Component {
       pro_identity_card_where: this.state.pro_identity_card_where,
       pro_note: this.state.pro_note,
       button: value,
-      action:"create",
+      action:"update",
     };
     await axiosConfig
       .put(`/api/profiles/${this.state.pro_id}`, params)
@@ -351,7 +204,7 @@ class CurriculumVitae extends Component {
     console.log(messageErr);
     if (messageErr == 0) {
       message.success("Cập nhât thông tin thành công");
-      window.location.reload();
+      // window.location.reload();
     } else {
       message.error("Cập nhật thất bại");
     }
@@ -428,14 +281,15 @@ class CurriculumVitae extends Component {
       });
   };
   fetchDataUser = async () => {
-      console.log("update");
       let idUser = localStorage.getItem("tokenID")
+      this.setState({
+        user_id:localStorage.getItem("tokenID")
+      })
       let dataUser = null;
       let pro_id = 0;
       await axiosConfig
         .get(`/api/user/${idUser}`)
         .then((res) => {
-          console.log("Use", res);
           this.setState({
             full_name: res.data.full_name,
             phone: res.data.phone,
@@ -471,8 +325,8 @@ class CurriculumVitae extends Component {
             pro_identity_card: data.pro_identity_card,
             pro_identity_card_when: data.pro_identity_card_when,
             pro_identity_card_where: data.pro_identity_card_where,
-            // dep_name: data.department.data.dep_name,
-            // dep_position: data.department.data.dep_position,
+            dep_name: data.department.data.dep_name,
+            dep_position: data.department.data.dep_position,
             dep_id: data.department.data.dep_id,
             pos_id: data.department.data.pos_id,
             par_id: data.department.data.part_id,
@@ -1114,13 +968,13 @@ class CurriculumVitae extends Component {
                       className="btn-add-user"
                       onClick={this.handleSave}
                     >
-                      Lưu tạm thời
+                      Lưu
                     </Button>
                     <Button
                       className="btn-add-user"
                       onClick={this.handleSend}
                     >
-                      Lưu thông tin
+                      Xác nhận
                     </Button>
                   </li>
                 </ul>
