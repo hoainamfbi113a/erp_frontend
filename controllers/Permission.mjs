@@ -4,7 +4,6 @@ const listPermission = async (req, res) => {
     headers: { Authorization: req.headers.authorization }
   };
   let { data } = await axios.get(`${process.env.apiEmployee}/api/permission`,config);
-  // console.log(data)
   res.send(data);
 };
 

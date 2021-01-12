@@ -9,7 +9,6 @@ const listRole = async (req, res) => {
 
   let { data } = await axios.get(`${process.env.apiEmployee}/api/role`, config);
   res.send(data);
-        // console.log("loginding")
         // let  {data}  = await axios.post(`${process.env.apiEmployee}/api/login`, req.body);
         // res.send(data);
 };
@@ -62,7 +61,6 @@ const permissionToRole = async (req,res)=>{
     headers: { Authorization: req.headers.authorization },
   };
   let { id } = req.params
-  console.log(req.body)
   let { data } = await axios.post(`${process.env.apiEmployee}/api/role/permission/${id}`,req.body, config);
   res.send(data);
 }
