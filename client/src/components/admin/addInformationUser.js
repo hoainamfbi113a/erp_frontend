@@ -20,8 +20,8 @@ class NotifiDepartment extends Component {
       STATUS_PROFILE: -1,
       dataDepartment: null,
       dataPosition: null,
-      dataParts: null,
       dataWorkflow:null,
+      dataParts: null,
       user_id: null,
       pro_id:null,
       pro_name: null,
@@ -72,17 +72,19 @@ class NotifiDepartment extends Component {
     this.fetchPosition();
     this.fetchParts();
     this.fetchDataUser();
-    this.fetchWorkflow();
+    this.fetchWorkflowProfile();
   };
-  fetchWorkflow = () =>{
-    axiosConfig.get("/api/workflow/update-profile")
+  fetchWorkflowProfile = () =>{
+    axiosConfig.get(`/api/workflow/update-profile`)
     .then(res=>{
+      console.log(res)
       this.setState({
         dataWorkflow:res
       })
+     
     })
     .catch(err=>{
-      console.log(err);
+      console.log("err",err)
     })
   }
   fetchPosition = () => {
@@ -283,6 +285,54 @@ class NotifiDepartment extends Component {
           window.location.reload();
         }
       });
+  };
+  renderDepartment = () => {
+    if (this.state.dataDepartment !== null) {
+      return this.state.dataDepartment.map((item) => {
+        return (
+          <Option key={item.id} value={item.id}>
+            {item.dep_name}
+          </Option>
+        );
+      });
+    } else return "";
+  };
+  handleChangeDepartment = (value) => {
+    this.setState({
+      dep_id: value,
+    });
+  };
+  renderPosition = () => {
+    if (this.state.dataPosition !== null) {
+      return this.state.dataPosition.map((item) => {
+        return (
+          <Option key={item.id} value={item.id}>
+            {item.pos_name}
+          </Option>
+        );
+      });
+    } else return "";
+  };
+  handleChangePosition = (value) => {
+    this.setState({
+      pos_id: value,
+    });
+  };
+  renderParts = () => {
+    if (this.state.dataParts !== null) {
+      return this.state.dataParts.map((item) => {
+        return (
+          <Option key={item.id} value={item.id}>
+            {item.part_name}
+          </Option>
+        );
+      });
+    } else return "";
+  };
+  handleChangeParts = (value) => {
+    this.setState({
+      par_id: value,
+    });
   };
   onAddInforUser = (value)=>{
     if (this.props.match.params.id) {
@@ -592,14 +642,16 @@ class NotifiDepartment extends Component {
     this.onAddInforUser("send");
   };
   renderWorkflow = () =>{
-    if(!!this.state.dataWorkflow){
-      const workflowProfile = this.state.dataWorkflow;
-      return workflowProfile.map((item)=>{
-        return  <Step key= {item.id} title="Nhân sự tạo nhân viên mới" />
-      })
-    }else{
-      return ""
-    }
+    console.log(this.state.dataWorkflow)
+    // if(!!this.state.dataWorkflow === true){
+      
+    //   const workflowProfile = this.state.dataWorkflow;
+    //   return workflowProfile.steps.map((item)=>{
+    //     return  <Step key= {item.id} title={item.description} />
+    //   })
+    // }else{
+    //   return ""
+    // }
   }
   render() {
     let value = 1;
@@ -618,10 +670,11 @@ class NotifiDepartment extends Component {
     return (
       <div className="content-background2" style={{ width: "100%" }}>
         <Steps current={value} size="small" className="process-work-flow">
-          <Step title="Nhân sự tạo nhân viên mới" />
+          {this.renderWorkflow()}
+          {/* <Step title="Nhân sự tạo nhân viên mới" />
           <Step title="Nhân viên vào chỉnh sửa thông tin của mình" />
           <Step title="Nhân sự duyệt" />
-          <Step title="Hoàn tất" />
+          <Step title="Hoàn tất" /> */}
         </Steps>
         {value == 2 ? (
           <li className="tabs-main-left-li">
