@@ -1,11 +1,10 @@
 {
   "scripts": {
-   
     "client": "cd client && yarn start",
-    "server": "node server.mjs",
+    "server": "nodemon server.mjs",
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\"",
     "dev:server": "cd client && yarn build && cd .. && yarn start",
-    "start": "nodemon server.mjs",
+    "start": "node server.mjs",
     "heroku-postbuild": "cd client && npm install && npm install --only=dev --no-shrinkwrap && npm run build"
   },
   "dependencies": {
