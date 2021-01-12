@@ -63,9 +63,6 @@ class TableSix extends Component {
       });
   };
   componentDidMount() {
-    // const { userSixActionCreators } = this.props;
-    // const { fetchListUserSix } = userSixActionCreators;
-    // fetchListUserSix();
     this.props.uiActionCreators.showLoading();
     axiosConfig
       .get(`/api/userpagin?page=1`)
@@ -134,6 +131,25 @@ class TableSix extends Component {
       });
       this.props.uiActionCreators.hideLoading();
   }
+  updateUser = async (id) =>{
+    await axiosConfig
+    .post(`/api/fe/profiles/user`, {
+      id: id,
+    })
+    .then(res=>{
+      console.log(res)
+      if(res=== "Unauthorized"){
+        alert("Nhân viên đang chỉnh sửa hồ sơ của mình")
+      } else {
+        alert("author")
+        window.location.href=`http://localhost:3001/crm/admin/edituser/${id}`
+      }
+    })
+    .catch(err=>{
+      console.log(err)
+    })
+
+  }
   render() {
     let data = [];
     let total = 0;
@@ -185,9 +201,9 @@ class TableSix extends Component {
             <Popconfirm title="Are you sure hide this user?" onConfirm={()=>this.confirm(text)} onCancel={this.cancel} okText="Yes" cancelText="No">
               <Tag color="volcano" className="table-action">Ẩn</Tag>
             </Popconfirm>
-            <Link to={`/crm/admin/edituser/${text}`}> 
-              <Tag color="geekblue" className="table-action">Sửa và duyệt</Tag>
-            </Link> 
+              <Tag onClick = {()=>{
+                this.updateUser(text)
+              }} color="geekblue" className="table-action">Sửa và duyệt</Tag>
             <Tag color="volcano" onClick ={()=>{
               this.handleGrantRole(text)
             }}>Grant quyền</Tag>

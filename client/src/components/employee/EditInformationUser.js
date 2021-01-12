@@ -21,7 +21,9 @@ export default class NotifiDepartment extends Component {
     this.state = {
       activeLink: 1,
       STATUS_PROFILE: 1,
+      dataWorkflow:null,
       dataUser:null,
+      step_id:null,
     };
   }
   handleClick = (id) => {
@@ -44,31 +46,48 @@ export default class NotifiDepartment extends Component {
         ).then((res) => {
           this.setState({
             STATUS_PROFILE: res.data.data.after_status,
+            step_id:res.data.data.next_step_id
           });
         });
       });
+      this.fetchWorkflowProfile();
   }
+  fetchWorkflowProfile = () =>{
+    axiosConfig.get(`/api/workflow/update-profile`)
+    .then(res=>{
+      this.setState({
+        dataWorkflow:res
+      })
+     
+    })
+    .catch(err=>{
+      console.log("err",err)
+    })
+  }
+  renderWorkflow = () => {
+    if (!!this.state.dataWorkflow === true) {
+      const workflowProfile = this.state.dataWorkflow;
+      return workflowProfile.steps.map((item) => {
+        return <Step key={item.id} title={item.description} />;
+      });
+    }
+    // return ""
+  };
   render() {
-    let value = 1;
-    if (this.state.STATUS_PROFILE == 1) {
-      value = 3;
-    } else if (
-      this.state.STATUS_PROFILE == 2 ||
-      this.state.STATUS_PROFILE == 5
-    ) {
-      value = 1;
-    } else if (this.state.STATUS_PROFILE == 3) {
-      value = 2;
-    } else {
+    let value = 3;
+    let step_id = this.state.step_id;
+    if(step_id === 1){
       value = 0;
+    } else if(step_id === 2){
+      value = 1;
+    } else if(step_id === 3){
+      value = 2
     }
     return (
       <div className="content-background2">
         <Steps current={value} size="small" className="process-work-flow">
-          <Step title="Nhân sự tạo nhân viên mới" />
-          <Step title="Nhân viên vào chỉnh sửa thông tin của mình" />
-          <Step title="Nhân sự duyệt (từ chối quay lại bước 2)" />
-          <Step title="Hoàn tất" />
+          {this.renderWorkflow()}
+          <Step title="đống hs" />
         </Steps>
         {/* <fieldset disabled={value == 2 || value == 3 ? "disabled" : ""}> */}
           <div style={{ minHeight: "70vh" }} className="edit-infor" disabled>

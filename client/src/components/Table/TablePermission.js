@@ -33,6 +33,7 @@ class TablePermission extends Component {
     axiosConfig
       .get("/api/permission")
       .then((res) => {
+        console.log(res.data)
         this.setState({
           data: res.data,
         });

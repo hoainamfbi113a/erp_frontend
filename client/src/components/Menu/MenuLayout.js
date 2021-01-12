@@ -2,16 +2,40 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import logomall from "../../assets/images/logomall.jpeg";
-import { Menu, Layout, Modal, Input, DatePicker } from "antd";
+import { Menu, Layout } from "antd";
+import { message } from "antd";
 import { withRouter } from "react-router";
 import { UserOutlined, ShopOutlined } from "@ant-design/icons";
-
+import axiosConfig from "../../apis/axios";
 import "./Menu.css";
 const { SubMenu } = Menu;
 const { Sider } = Layout;
 class MenuLayout extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeProfile: 0,
+    };
+  }
   handleOnclick = () => {
     this.props.history.push("/crm/admin/user");
+  };
+  componentDidMount = async () => {
+    await axiosConfig
+      .post(`/api/fe/profiles/user`, {
+        id: localStorage.getItem("tokenID"),
+      })
+      .then((res) => {
+        if (res === "Unauthorized") {
+        } else {
+          this.setState({
+            activeProfile: 1,
+          });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   render() {
     return (
@@ -46,11 +70,20 @@ class MenuLayout extends Component {
               <Menu.Item key="4">
                 <Link to="/crm/employee/notification/myword">Việc của tôi</Link>
               </Menu.Item>
-              <Menu.Item key="5">
-                <Link to="/crm/employee/edit-information">
-                  Cập nhật thông tin
-                </Link>
-              </Menu.Item>
+              {this.state.activeProfile == 0 ? (
+                <Menu.Item onClick = {()=>{message.error("Nhân sự đang duyệt hồ sơ")}} key="5">
+                  <Link to="#">
+                    Cập nhật thông tin
+                  </Link>
+                </Menu.Item>
+              ) : (
+                <Menu.Item key="5">
+                  <Link to="/crm/employee/edit-information">
+                    Cập nhật thông tin
+                  </Link>
+                </Menu.Item>
+              )}
+
               <Menu.Item key="6">
                 <Link to="/crm/employee/notification/create">Tạo</Link>
               </Menu.Item>
@@ -67,18 +100,18 @@ class MenuLayout extends Component {
                 </Menu.Item>
               ) : null} */}
 
-                <Menu.Item key="8" onClick={this.handleOnclick}>
-                  <Link to="/crm/admin/usersix">Nhân sự </Link>
-                </Menu.Item>
-               <Menu.Item key="9" >
-                  <Link to="/crm/admin/department">Phòng ban </Link>
-                </Menu.Item>
-               <Menu.Item key="10">
-                  <Link to="/crm/admin/parts">Tổ</Link>
-                </Menu.Item>
-               <Menu.Item key="11" >
-                  <Link to="/crm/admin/position">Chức vụ</Link>
-                </Menu.Item>
+              <Menu.Item key="8" onClick={this.handleOnclick}>
+                <Link to="/crm/admin/usersix">Nhân sự </Link>
+              </Menu.Item>
+              <Menu.Item key="9">
+                <Link to="/crm/admin/department">Phòng ban </Link>
+              </Menu.Item>
+              <Menu.Item key="10">
+                <Link to="/crm/admin/parts">Tổ</Link>
+              </Menu.Item>
+              <Menu.Item key="11">
+                <Link to="/crm/admin/position">Chức vụ</Link>
+              </Menu.Item>
             </SubMenu>
             <SubMenu
               key="12"
@@ -86,15 +119,15 @@ class MenuLayout extends Component {
               title="Vai trò & Quyền"
               icon={<ShopOutlined />}
             >
-                <Menu.Item key="13" onClick={this.handleOnclick}>
-                  <Link to="/crm/admin/usersix">Gán quyền </Link>
-                </Menu.Item>
-                <Menu.Item key="14" >
-                  <Link to="/crm/admin/permission"> Quyền </Link>
-                </Menu.Item>
-                <Menu.Item key="15" >
-                  <Link to="/crm/admin/roles"> Roles </Link>
-                </Menu.Item>
+              <Menu.Item key="13" onClick={this.handleOnclick}>
+                <Link to="/crm/admin/usersix">Gán quyền </Link>
+              </Menu.Item>
+              <Menu.Item key="14">
+                <Link to="/crm/admin/permission"> Quyền </Link>
+              </Menu.Item>
+              <Menu.Item key="15">
+                <Link to="/crm/admin/roles"> Roles </Link>
+              </Menu.Item>
             </SubMenu>
           </Menu>
         </Sider>
