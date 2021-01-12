@@ -7,6 +7,7 @@ import "../../App/App.css";
 import "../Crm/Crm.css";
 import "./Table.css";
 import * as userSixActions from "../../actions/userSix";
+import * as uiActions from "../../actions/ui";
 import { Layout } from "antd";
 import { Table, Space, Tag, Avatar } from "antd";
 import { Popconfirm, message } from "antd";
@@ -31,10 +32,10 @@ class TablePermission extends Component {
         this.fetchData();
     };
     fetchData = () => {
+        this.props.uiActionCreators.showLoading();
         axiosConfig
             .get(`/api/permission?page=1`)
             .then((res) => {
-                console.log(res);
                 this.setState({
                     data: res,
                 });
@@ -42,6 +43,7 @@ class TablePermission extends Component {
             .catch((err) => {
                 console.log(err);
             });
+        this.props.uiActionCreators.hideLoading();
     };
     onSubmit = () => {
         if (this.state.id === "") {
@@ -134,17 +136,19 @@ class TablePermission extends Component {
     };
     // handle when click pagination
     handlePagination = async (pagination) => {
+        this.props.uiActionCreators.showLoading();
         try {
-            const data = await axiosConfig.get(`/api/permission/page=${pagination}`);
+            const data = await axiosConfig.get(`/api/permission?page=${pagination}`);
             this.setState({
                 data: data,
             });
         } catch (error) {
             console.log("Get data false");
         }
+        this.props.uiActionCreators.hideLoading();
+        console.log(this.props.uiActionCreators);
     };
     render() {
-        console.log(this.state.name);
         let total = 0;
         let data = [];
 
@@ -153,7 +157,6 @@ class TablePermission extends Component {
             total = this.state.data.meta.pagination.total;
         }
 
-        // console.log(this.state.meta.pagination)
         const columns = [
             {
                 title: "id đặc tính",
@@ -244,7 +247,7 @@ class TablePermission extends Component {
                                 pagination={{
                                     onChange: this.handlePagination,
                                     total: total,
-                                    pageSize: 2,
+                                    pageSize: 15,
                                 }}
                             />
                         </div>
@@ -315,5 +318,6 @@ const mapStateToProps = (state, ownProps) => ({
 });
 const mapDispatchToProps = (dispatch) => ({
     userSixActionCreators: bindActionCreators(userSixActions, dispatch),
+    uiActionCreators: bindActionCreators(uiActions, dispatch),
 });
-export default connect(null, null)(TablePermission);
+export default connect(null, mapDispatchToProps)(TablePermission);
