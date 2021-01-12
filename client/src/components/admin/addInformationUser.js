@@ -196,7 +196,7 @@ class NotifiDepartment extends Component {
         .catch((err) => {
           if(err.message === "Unauthorized"){
             message.error("Nhân sự không có quyền xem khi user đang chỉnh sửa")
-            window.location.href="http://localhost:3001/crm/admin/user"
+            window.location.href="http://erp.tuoitre.vn/crm/admin/user"
           }
           console.log(err);
         });
@@ -262,7 +262,7 @@ class NotifiDepartment extends Component {
         console.log(res);
         if (res.message) {
           message.success("Từ chối thông tin nhân sự thành công");
-          window.location.href="http://localhost:3001/crm/admin/user"
+          window.location.href="hhttp://erp.tuoitre.vn/crm/admin/user"
         }
       });
   };
@@ -467,7 +467,7 @@ class NotifiDepartment extends Component {
     if (messageErr == 0) {
       message.success("Thêm thông tin nhân sự thành công");
       this.props.uiActionCreators.hideLoading();
-      window.location.href("http://localhost:3001/crm/admin/user");
+      window.location.href("http://erp.tuoitre.vn/crm/admin/user");
     } else {
       message.error("Thêm thông tin nhân sự thất bại");
     }
@@ -611,7 +611,7 @@ class NotifiDepartment extends Component {
     console.log(messageErr);
     if (messageErr == 0) {
       message.success("Cập nhât thông tin thành công");
-      window.location.href="http://localhost:3001/crm/admin/user"
+      window.location.href="http://erp.tuoitre.vn/crm/admin/user"
     } else {
       message.error("Cập nhật thất bại");
     }
