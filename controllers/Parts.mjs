@@ -1,9 +1,10 @@
 import axios from "axios";
 const listParts = async (req, res) => {
+  const { page } = req.query;
   const config = {
     headers: { Authorization: req.headers.authorization }
   };
-  let { data } = await axios.get(`${process.env.apiEmployee}/api/parts`,config);
+  let { data } = await axios.get(`${process.env.apiEmployee}/api/parts?page=${page}`,config);
   res.send(data);
 };
 
