@@ -9,7 +9,7 @@ import { bindActionCreators } from "redux";
 import * as uiActions from "../../actions/ui";
 import { Select } from "antd";
 const { Option } = Select;
-import { Steps } from "antd";
+import { Steps, Popconfirm } from "antd";
 const { Step } = Steps;
 const { RangePicker } = DatePicker;
 const dateFormat = "YYYY/MM/DD";
@@ -364,6 +364,7 @@ class NotifiDepartment extends Component {
         pro_identity_card_where: this.state.pro_identity_card_where,
         pro_note: this.state.pro_note,
         button: value,
+        action: "create"
       };
       await axiosConfig
         .post(`/api/profiles`, params)
@@ -377,6 +378,19 @@ class NotifiDepartment extends Component {
         .catch(() => {
           messageErr = 3;
         });
+        if(value === "send"){
+          await axiosConfig
+          .put(`/api/profiles/${proId}`, params)
+          .then((res) => {
+            if (res.message == "Success!. Updated") {
+            } else {
+              messageErr = 2;
+            }
+          })
+          .catch(() => {
+            messageErr = 3;
+          });
+        }
     }
     if (userId !== 0 && proId !== 0) {
       let paramsDepartment = {
@@ -518,7 +532,6 @@ class NotifiDepartment extends Component {
       .put(`/api/profiles/${this.state.pro_id}`, params)
       .then((res) => {
         if (res.message == "Success!. Updated") {
-          console.log(res);
         } else {
           messageErr = 2;
         }
@@ -632,6 +645,9 @@ class NotifiDepartment extends Component {
     }
     // return ""
   };
+  confirm = () => {
+    this.handleSend();
+  }
   render() {
     let value = 0;
     let step_id = this.state.step_id;
@@ -1325,12 +1341,15 @@ class NotifiDepartment extends Component {
                           >
                             Lưu
                           </Button>
-                          <Button
-                            className="btn-add-user"
-                            onClick={this.handleSend}
-                          >
-                           Xác nhận
-                          </Button>
+                          <Popconfirm title="Bạn có chắc chắn xác nhận hồ sơ" onConfirm={()=>this.confirm()} onCancel={this.cancel} okText="Yes" cancelText="No">
+                            <Button
+                              className="btn-add-user"
+                              // onClick={this.handleSend}
+                            >
+                            Xác nhận
+                            </Button>
+                          </Popconfirm>
+                         
                         </li>:
                         ""}
                       
