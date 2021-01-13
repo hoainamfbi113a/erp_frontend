@@ -10,6 +10,7 @@ import * as uiActions from "../../actions/ui";
 import { Select } from "antd";
 const { Option } = Select;
 import { Steps, Popconfirm } from "antd";
+import Notify from "../Modal/Notify"
 const { Step } = Steps;
 const { RangePicker } = DatePicker;
 const dateFormat = "YYYY/MM/DD";
@@ -64,6 +65,8 @@ class NotifiDepartment extends Component {
       idUserDegree: null,
       idWorkObject: null,
       idJou: null,
+      modalNotify:true,
+      reasonDeny:null,
     };
   }
   componentDidMount = async () => {
@@ -250,22 +253,13 @@ class NotifiDepartment extends Component {
   };
   // nhân sự từ chối
   handleReject = async () => {
-    let idUser = this.props.match.params.id;
-    await axiosConfig
-      .put(`/api/profiles/${this.state.pro_id}`, {
-        user_id: idUser,
-        reject: 1,
-        action:"confirm",
-        notify_content:"tu choi ban can sua lai ten"
-      })
-      .then((res) => {
-        console.log(res);
-        if (res.message) {
-          message.success("Từ chối thông tin nhân sự thành công");
-          window.location.href="hhttp://erp.tuoitre.vn/crm/admin/user"
-        }
-      });
+    
   };
+  valueReasonDeny = (value) =>{
+    this.setState({
+      reasonDeny:value
+    })
+  }
   renderDepartment = () => {
     if (this.state.dataDepartment !== null) {
       return this.state.dataDepartment.map((item) => {
@@ -648,6 +642,10 @@ class NotifiDepartment extends Component {
   confirm = () => {
     this.handleSend();
   }
+  onSubmit = ()=>{
+    alert("123")
+  }
+  // Modal Notify
   render() {
     let value = 0;
     let step_id = this.state.step_id;
@@ -1339,14 +1337,14 @@ class NotifiDepartment extends Component {
                             className="btn-add-user"
                             onClick={this.handleSave}
                           >
-                            Lưu
+                            Lưus
                           </Button>
                           <Popconfirm title="Bạn có chắc chắn xác nhận hồ sơ" onConfirm={()=>this.confirm()} onCancel={this.cancel} okText="Yes" cancelText="No">
                             <Button
                               className="btn-add-user"
                               // onClick={this.handleSend}
                             >
-                            Xác nhận
+                            Xác nhậns
                             </Button>
                           </Popconfirm>
                          
@@ -1361,6 +1359,8 @@ class NotifiDepartment extends Component {
             </div>
           </div>
         </div>
+        <Notify actionModal={this.state.modalNotify} pro_id = {this.state.pro_id} user_id = {this.props.match.params.id}
+         />
       </div>
     );
   }
