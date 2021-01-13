@@ -38,4 +38,11 @@ router.post("/departmentsd", async (req, res) => {
     let { data } = await axios.delete(`${process.env.apiEmployee}/api/departments/${id}`, config);
     res.send(data);
 });
+router.get("/map", async (req, res) => {
+    const config = {
+        headers: { Authorization: req.headers.authorization },
+    };
+    let { data } = await axios.get(`${process.env.apiEmployee}/api/departments?per_page=30`, config);
+    res.send(data);
+});
 export default router;
