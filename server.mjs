@@ -14,7 +14,7 @@ import { listRole, addRole, updateRole, deleteRole, listPermissionOfRole, permis
 import { listPermission, addPermission, updatePermission, deletePermission } from "./controllers/Permission.mjs"
 import { listParts, addParts, updateParts, deleteParts } from "./controllers/Parts.mjs"
 import { listPosition, addPosition, updatePosition, deletePosition } from "./controllers/Position.mjs"
-// import { listDepartment, addDepartment, updateDepartment, deleteDepartment } from "./controllers/Department.mjs"
+import notificationController from "./controllers/Notify.mjs"
 import { listAction, addAction, updateAction, deleteAction } from "./controllers/Action.mjs"
 import workflowController from "./controllers/workflow.mjs"
 dotenv.config();
@@ -84,6 +84,7 @@ app.post("/positionsd",deletePosition)
 // app.post("/departments/delete",deleteDepartment)
 app.use("/departments",departmentsController)
 app.use("/workflow",workflowController)
+app.use("/notifications",notificationController);
 // if (process.env.NODE_ENV === "production") {
   // Serve any static files
   app.use(express.static(path.join(__dirname, "client/dist")));
@@ -94,4 +95,4 @@ app.use("/workflow",workflowController)
   });
 // }
 
-app.listen(port, () => console.log(` 🚀 Express listening on ports la ${port}`));
+app.listen(port, () => console.log(` 🚀 Express listening on ports l ${port}`));

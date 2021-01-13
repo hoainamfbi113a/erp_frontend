@@ -28,13 +28,16 @@ export default class Notify extends Component {
     onChange = (e) => {
         this.setState({ [e.target.name]: e.target.value });
       };
+    hideModal = () =>{
+        this.props.closeDeny()
+    }
     render() {
         return (
             <div>
             <Modal
               title="Lý do từ chối"
-              // visible={props.actionModal}
-              visible="true"
+              visible={this.props.actionModal}
+            //   visible="true"
               onOk={this.onSubmitModal}
               onCancel={this.hideModal}
               okText=" "

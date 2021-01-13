@@ -65,7 +65,7 @@ class NotifiDepartment extends Component {
       idUserDegree: null,
       idWorkObject: null,
       idJou: null,
-      modalNotify:true,
+      modalNotify:false,
       reasonDeny:null,
     };
   }
@@ -253,7 +253,9 @@ class NotifiDepartment extends Component {
   };
   // nhân sự từ chối
   handleReject = async () => {
-    
+    this.setState({
+      modalNotify:true
+    })
   };
   valueReasonDeny = (value) =>{
     this.setState({
@@ -642,10 +644,12 @@ class NotifiDepartment extends Component {
   confirm = () => {
     this.handleSend();
   }
-  onSubmit = ()=>{
-    alert("123")
-  }
   // Modal Notify
+  closeDeny = () =>{
+    this.setState({
+      modalNotify:false
+    })
+  }
   render() {
     let value = 0;
     let step_id = this.state.step_id;
@@ -1360,7 +1364,8 @@ class NotifiDepartment extends Component {
           </div>
         </div>
         <Notify actionModal={this.state.modalNotify} pro_id = {this.state.pro_id} user_id = {this.props.match.params.id}
-         />
+        closeDeny = {this.closeDeny}
+        />
       </div>
     );
   }
