@@ -172,7 +172,7 @@ export default class Login extends Component {
                                 </div>
                                 <div className="form__div-input">
                                     <div className="form_label-input">
-                                        <label>Tên đăng nhập</label>
+                                        <label>Mật khẩu</label>
                                     </div>
                                     <input
                                         placeholder="Mật khẩu"

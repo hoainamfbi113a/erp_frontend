@@ -14,7 +14,7 @@ import { listRole, addRole, updateRole, deleteRole, listPermissionOfRole, permis
 import { listPermission, addPermission, updatePermission, deletePermission } from "./controllers/Permission.mjs"
 import { listParts, addParts, updateParts, deleteParts } from "./controllers/Parts.mjs"
 import { listPosition, addPosition, updatePosition, deletePosition } from "./controllers/Position.mjs"
-// import { listDepartment, addDepartment, updateDepartment, deleteDepartment } from "./controllers/Department.mjs"
+import notificationController from "./controllers/Notify.mjs"
 import { listAction, addAction, updateAction, deleteAction } from "./controllers/Action.mjs"
 import workflowController from "./controllers/workflow.mjs"
 dotenv.config();
@@ -22,7 +22,7 @@ const app = express();
 const port = process.env.PORT || 5001;
 const __dirname = path.resolve();
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: true }));          
 app.use('/api',userController);
 // app.post("/api/login", login);
 // app.post("/api/register",register);
@@ -84,6 +84,7 @@ app.post("/api/positionsd",deletePosition)
 // app.post("/api/departments/delete",deleteDepartment)
 app.use("/api/departments",departmentsController)
 app.use("/api/workflow",workflowController)
+app.use("/api/notifications",notificationController);
 // if (process.env.NODE_ENV === "production") {
   // Serve any static files
   app.use(express.static(path.join(__dirname, "client/dist")));
