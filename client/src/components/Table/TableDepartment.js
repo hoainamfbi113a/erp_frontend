@@ -7,6 +7,7 @@ import "../../App/App.css";
 import "../Crm/Crm.css";
 import "./Table.css";
 import * as userSixActions from "../../actions/userSix";
+import * as uiAction from "../../actions/ui";
 import { Layout } from "antd";
 import { Table, Space, Tag, Avatar } from "antd";
 import { Popconfirm, message } from "antd";
@@ -33,6 +34,7 @@ class TablePermission extends Component {
         this.fetchData();
     };
     fetchData = () => {
+        this.props.uiActionCreators.showLoading();
         axiosConfig
             .get("/api/departments?page=1")
             .then((res) => {
@@ -42,6 +44,9 @@ class TablePermission extends Component {
             })
             .catch((err) => {
                 console.log(err);
+            })
+            .finally(() => {
+                this.props.uiActionCreators.hideLoading();
             });
     };
     onSubmit = () => {
@@ -150,12 +155,17 @@ class TablePermission extends Component {
         });
     };
     handlePagination = async (pagination) => {
+        this.props.uiActionCreators.showLoading();
         try {
             const data = await axiosConfig.get(`/api/departments?page=${pagination}`);
             this.setState({
                 data: data,
             });
-        } catch (error) {}
+            this.props.uiActionCreators.hideLoading();
+        } catch (error) {
+            console.log("False to load Api",error)
+            this.props.uiActionCreators.hideLoading();
+        }
     };
     render() {
         let data = "";
@@ -315,5 +325,6 @@ const mapStateToProps = (state, ownProps) => ({
 });
 const mapDispatchToProps = (dispatch) => ({
     userSixActionCreators: bindActionCreators(userSixActions, dispatch),
+    uiActionCreators: bindActionCreators(uiAction, dispatch),
 });
-export default connect(null, null)(TablePermission);
+export default connect(null, mapDispatchToProps)(TablePermission);
