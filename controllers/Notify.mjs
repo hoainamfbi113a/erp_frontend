@@ -2,7 +2,6 @@ import axios from "axios";
 import express from "express";
 const router = express.Router();
 router.post("/", async (req, res) => {
-    console.log("1")
     const config = {
         headers: { Authorization: req.headers.authorization },
     };
