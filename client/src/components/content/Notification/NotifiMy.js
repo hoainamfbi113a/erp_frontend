@@ -17,7 +17,7 @@ export default class NotifiMy extends Component {
     this.fetchNotify(1);
   };
   fetchNotify = (value) =>{
-    const user_id = localStorage.getItem("tokenID");
+    const user_id = sessionStorage.getItem("tokenID");
     const params = {
       app_id,
       slug,

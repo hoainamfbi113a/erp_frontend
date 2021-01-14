@@ -32,7 +32,7 @@ export default class ContentSix extends Component {
         <div className="content-top">
           <div className="content-top-left">
             <div className="content-top-left-sum-item">
-              {localStorage.getItem("countUser")} nhân viên
+               nhân viên
             </div>
             <Search
               placeholder="Tìm kiếm"

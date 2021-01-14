@@ -30,7 +30,7 @@ export default class NotifiDepartment extends Component {
     this.setState({ activeLink: id });
   };
   async componentDidMount() {
-    let tokenID = localStorage.getItem("tokenID");
+    let tokenID = sessionStorage.getItem("tokenID");
     await axiosConfig
       .post(`/api/fe/profiles/user`, {
         id: tokenID,

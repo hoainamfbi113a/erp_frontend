@@ -97,7 +97,6 @@ module.exports = (env, agrv) => {
       proxy: {
         "/api": {
           target: "http://localhost:5001",
-          pathRewrite: { "^/api": "" },
         },
       },
       port: 3001,

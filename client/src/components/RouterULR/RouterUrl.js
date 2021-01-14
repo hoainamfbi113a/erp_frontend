@@ -6,7 +6,6 @@ import ContentUserSix from "../content/ContentSix";
 
 import ContentNotification from "../content/Notification/ContentNotification";
 import ContentMyNotification from "../content/ContentMyNotification";
-import EditInformationUser from "../admin/EditInformationUser";
 import addInformationUser from "../admin/addInformationUser";
 import ContentRoles from "../content/ContentRoles";
 import ContentPermission from "../content/ContentPermission"

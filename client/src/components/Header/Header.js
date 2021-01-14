@@ -3,19 +3,16 @@ import { withRouter } from 'react-router'
 import { Layout, Dropdown, Menu, Avatar, Badge } from 'antd';
 import { BellOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
-import { MailOutlined, AppstoreOutlined} from '@ant-design/icons';
+import docCookies from "doc-cookies"
 import { Breadcrumb } from 'antd';
 const { SubMenu } = Menu;
 
-// import "../Crm/Crm.css"
 import "./Header.css"
 const { Header } = Layout;
 
 import {
-  SettingOutlined,
   LogoutOutlined,
   RollbackOutlined,
-  MenuFoldOutlined
 } from "@ant-design/icons";
 class HeaderLayout extends Component {
   constructor() {
@@ -30,12 +27,10 @@ class HeaderLayout extends Component {
     this.props.collapsed();
   };
   logOut = (e) => {
-    e.preventDefault()
     this.setState({ ishow: !this.state.ishow });
     setTimeout(() => {
+      docCookies.removeItem("usertoken");
       this.props.history.push('/')
-      localStorage.removeItem('usertoken');
-      localStorage.removeItem("per")
       this.setState({ ishow: !this.state.ishow });
     }, 700);
   }
@@ -49,8 +44,8 @@ class HeaderLayout extends Component {
             Đổi mật khẩu
                 </a>
         </Menu.Item>
-        <Menu.Item icon={<LogoutOutlined />}>
-          <a onClick={this.logOut}>
+        <Menu.Item icon={<LogoutOutlined />} onClick={this.logOut}>
+          <a >
             Đăng xuất
                 </a>
         </Menu.Item>
@@ -100,7 +95,7 @@ class HeaderLayout extends Component {
                 onClick={(e) => e.preventDefault()}
               ><Avatar src="https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png" />
                 <span className="header-user-name" >&nbsp;
-                Xin chào:{localStorage.getItem("email")}
+                Xin chào:{sessionStorage.getItem("email")}
                   </span>
               </a>
             </Dropdown>

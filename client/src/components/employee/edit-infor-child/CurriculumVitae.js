@@ -283,9 +283,9 @@ class CurriculumVitae extends Component {
       });
   };
   fetchDataUser = async () => {
-      let idUser = localStorage.getItem("tokenID")
+      let idUser = sessionStorage.getItem("tokenID")
       this.setState({
-        user_id:localStorage.getItem("tokenID")
+        user_id:sessionStorage.getItem("tokenID")
       })
       let dataUser = null;
       let pro_id = 0;

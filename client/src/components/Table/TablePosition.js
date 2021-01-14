@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import "../../App/App.css";
-import "../Crm/Crm.css";
 import "./Table.css";
 import * as userSixActions from "../../actions/userSix";
 import * as uiAction from "../../actions/ui";

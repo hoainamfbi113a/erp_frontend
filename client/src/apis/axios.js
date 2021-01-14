@@ -1,12 +1,13 @@
 import axios from "axios";
-
+import docCookies from "doc-cookies"
 const axiosConfig = axios.create({
   headers: {
     "content-type": "application/json",
   },
 });
 axiosConfig.interceptors.request.use(async (config) => {
-  const token = localStorage.getItem("usertoken");
+  const token =  docCookies.getItem("usertoken");
+  console.log(token)
   if (token) {
     config.headers['Authorization'] = 'Bearer ' + token;
   }

@@ -1,12 +1,12 @@
 import React from "react";
 import "../../App/App.css";
-import "../Crm/Crm.css"
+import "./Erp.css"
 import HeaderLayout from "../Header/Header"
 import MenuLayout from "../Menu/MenuLayout";
 import RouterUrl from "../RouterULR/RouterUrl"
 import RouterUrlEmployee from "../RouterULR/RouterUrlEmployee"
-import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { Layout, Menu } from "antd";
+import { Route } from 'react-router-dom';
+import { Layout } from "antd";
 import "../RouterULR/RouterUrl.css"
 
 const { Footer } = Layout;

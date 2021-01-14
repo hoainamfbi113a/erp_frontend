@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import lodash from "lodash";
 import "../../App/App.css";
-import "../Crm/Crm.css";
 import "./Table.css";
 import * as uiActions from "../../actions/ui";
 import { Layout } from "antd";
