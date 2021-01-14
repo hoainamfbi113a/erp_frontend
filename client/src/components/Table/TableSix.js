@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import {Link}  from 'react-router-dom'
 import GrantRole from "../Modal/GrantRole";
 import "../../App/App.css";
-import "../Crm/Crm.css"
 import "./Table.css"
 import * as uiActions from "../../actions/ui";
 import {  Layout } from "antd";

@@ -3,10 +3,12 @@ import axios from "axios";
 import { Spin } from "antd";
 import { ValidateEmail, ValidateField } from "../../helpers/FuncHelper";
 import { message } from "antd";
+import docCookies from "doc-cookies"
+import { withRouter} from 'react-router-dom';
 import "./Login.css";
 import logologin from "../../assets/images/logoFix1.png";
 import background from "../../assets/images/bgd.jpg";
-export default class Login extends Component {
+class Login extends Component {
     constructor() {
         super();
         this.state = {
@@ -42,22 +44,16 @@ export default class Login extends Component {
                 .post("/api/login", params)
                 .then((res) => {
                     if (res.data.message === "Đăng nhập thành công!") {
-                        localStorage.setItem("tokenID", res.data.detail.id);
-                        if (this.state.email !== "manager@gmail.com") {
-                            localStorage.setItem("per", "employee");
-                        } else {
-                            localStorage.setItem("per", "hr");
-                        }
-                        localStorage.setItem("usertoken", res.data.access_token);
-                        localStorage.setItem("current_user_id", res.data.detail.id);
-                        localStorage.setItem("email", res.data.detail.email);
+                        docCookies.setItem("usertoken", res.data.access_token);
+                        sessionStorage.setItem("tokenID", res.data.detail.id);
+                        sessionStorage.setItem("email", res.data.detail.email);
                         this.setState({ ishow: !this.state.ishow });
                         setTimeout(() => {
                             this.setState({
                                 activeErrEmail: false,
                                 activeErrPassWord: false,
                             });
-                            this.props.history.push("/crm/employee/personal-page");
+                            this.props.history.push("/");
                             this.setState({ ishow: !this.state.ishow });
                         }, 600);
                     } else {
@@ -212,3 +208,4 @@ export default class Login extends Component {
         );
     }
 }
+export default withRouter(Login);

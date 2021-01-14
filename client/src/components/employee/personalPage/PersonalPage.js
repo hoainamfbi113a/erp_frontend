@@ -1,11 +1,20 @@
 import React from "react";
 import coverimg from "../../../assets/images/coverimg.png";
 import avatar from "../../../assets/images/avatar.png";
+import HeaderLayout from "../../Header/Header"
+import MenuLayout from "../../Menu/MenuLayout";
 import { Button } from "antd";
 import { Timeline } from "antd";
+import { Layout } from "antd";
+const { Footer } = Layout;
 import "./PersonalPage.css";
 const PersonalPage = () => {
   return (
+    <Layout>
+      <MenuLayout />
+      <Layout>
+      <HeaderLayout />
+    <div style={{ background: "#EEEFF3" }} >
     <div className="container">
       <div className="personal-page-top">
         <img src={coverimg} alt="" className="personal-page-top-cover" />
@@ -95,6 +104,12 @@ const PersonalPage = () => {
         </ul>
       </div>
     </div>
+    </div>
+    <Footer style={{ textAlign: "center" }} className="layout-footer">
+              Ant Design ©2020 Created by TuoiTre
+            </Footer>
+          </Layout>
+    </Layout>
   );
 };
 

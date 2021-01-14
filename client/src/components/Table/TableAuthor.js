@@ -4,7 +4,6 @@ import { bindActionCreators } from 'redux';
 import {Link}  from 'react-router-dom'
 import axios from "axios"
 import "../../App/App.css";
-import "../Crm/Crm.css"
 import "./Table.css"
 import * as userSixActions from '../../actions/userSix';
 import {  Layout } from "antd";

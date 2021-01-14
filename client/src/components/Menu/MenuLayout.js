@@ -23,7 +23,7 @@ class MenuLayout extends Component {
   componentDidMount = async () => {
     await axiosConfig
       .post(`/api/fe/profiles/user`, {
-        id: localStorage.getItem("tokenID"),
+        id: sessionStorage.getItem("tokenID"),
       })
       .then((res) => {
         if (res === "Unauthorized") {
@@ -41,7 +41,7 @@ class MenuLayout extends Component {
     return (
       <div className="bbbb">
         <Sider collapsed={this.props.collapsed}>
-          <Link to="/crm/employee/notification" className="logo">
+          <Link to="/" className="logo">
             <div className="logo">
               <img
                 className="logo-img"
