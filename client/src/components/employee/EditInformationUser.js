@@ -93,7 +93,7 @@ export default class NotifiDepartment extends Component {
           <div style={{ minHeight: "70vh" }} className="edit-infor" disabled>
             <div className="edit-infor-tabs">
               <ul>
-                <Link to="/crm/employee/edit-information">
+                <Link to="/erp/employee/edit-information">
                   <li onClick={() => this.handleClick(1)}>
                     <div
                       className={this.state.activeLink === 1 ? "active" : ""}
@@ -107,7 +107,7 @@ export default class NotifiDepartment extends Component {
                     </span>
                   </li>
                 </Link>
-                <Link to="/crm/employee/edit-information/personal-history">
+                <Link to="/erp/employee/edit-information/personal-history">
                   <li onClick={() => this.handleClick(2)}>
                     <div
                       className={this.state.activeLink === 2 ? "active" : ""}
@@ -121,7 +121,7 @@ export default class NotifiDepartment extends Component {
                     </span>
                   </li>
                 </Link>
-                <Link to="/crm/employee/edit-information/joinDCS">
+                <Link to="/erp/employee/edit-information/joinDCS">
                   <li onClick={() => this.handleClick(3)}>
                     <div
                       className={this.state.activeLink === 3 ? "active" : ""}
@@ -135,7 +135,7 @@ export default class NotifiDepartment extends Component {
                     </span>
                   </li>
                 </Link>
-                <Link to="/crm/employee/edit-information/join-TCTTXH">
+                <Link to="/erp/employee/edit-information/join-TCTTXH">
                   <li onClick={() => this.handleClick(4)}>
                     <div
                       className={this.state.activeLink === 4 ? "active" : ""}
@@ -149,7 +149,7 @@ export default class NotifiDepartment extends Component {
                     </span>
                   </li>
                 </Link>
-                <Link to="/crm/employee/edit-information/professional-compensation">
+                <Link to="/erp/employee/edit-information/professional-compensation">
                   <li onClick={() => this.handleClick(5)}>
                     <div
                       className={this.state.activeLink === 5 ? "active" : ""}
@@ -164,7 +164,7 @@ export default class NotifiDepartment extends Component {
                     </span>
                   </li>
                 </Link>
-                <Link to="/crm/employee/edit-information/bonus">
+                <Link to="/erp/employee/edit-information/bonus">
                   <li onClick={() => this.handleClick(6)}>
                     <div
                       className={this.state.activeLink === 6 ? "active" : ""}
@@ -178,7 +178,7 @@ export default class NotifiDepartment extends Component {
                     </span>
                   </li>
                 </Link>
-                <Link to="/crm/employee/edit-information/family">
+                <Link to="/erp/employee/edit-information/family">
                   <li onClick={() => this.handleClick(7)}>
                     <div
                       className={this.state.activeLink === 7 ? "active" : ""}
@@ -192,7 +192,7 @@ export default class NotifiDepartment extends Component {
                     </span>
                   </li>
                 </Link>
-                <Link to="/crm/employee/edit-information/kinship">
+                <Link to="/erp/employee/edit-information/kinship">
                   <li onClick={() => this.handleClick(8)}>
                     <div
                       className={this.state.activeLink === 8 ? "active" : ""}
@@ -206,7 +206,7 @@ export default class NotifiDepartment extends Component {
                     </span>
                   </li>
                 </Link>
-                <Link to="/crm/employee/edit-information/social">
+                <Link to="/erp/employee/edit-information/social">
                   <li onClick={() => this.handleClick(9)}>
                     <div
                       className={this.state.activeLink === 9 ? "active" : ""}
@@ -226,47 +226,47 @@ export default class NotifiDepartment extends Component {
 
             <Route
               exact
-              path="/crm/employee/edit-information"
+              path="/erp/employee/edit-information"
               component={CurriculumVitae}
             ></Route>
             <Route
               exact
-              path="/crm/employee/edit-information/personal-history"
+              path="/erp/employee/edit-information/personal-history"
               component={PersonalHistory}
             ></Route>
             <Route
               exact
-              path="/crm/employee/edit-information/joinDCS"
+              path="/erp/employee/edit-information/joinDCS"
               component={JoinDCS}
             ></Route>
             <Route
               exact
-              path="/crm/employee/edit-information/join-TCTTXH"
+              path="/erp/employee/edit-information/join-TCTTXH"
               component={JoinTCTTXH}
             ></Route>
             <Route
               exact
-              path="/crm/employee/edit-information/professional-compensation"
+              path="/erp/employee/edit-information/professional-compensation"
               component={ProfessionalCompensation}
             ></Route>
             <Route
               exact
-              path="/crm/employee/edit-information/bonus"
+              path="/erp/employee/edit-information/bonus"
               component={Bonus}
             ></Route>
             <Route
               exact
-              path="/crm/employee/edit-information/family"
+              path="/erp/employee/edit-information/family"
               component={Family}
             ></Route>
             <Route
               exact
-              path="/crm/employee/edit-information/kinship"
+              path="/erp/employee/edit-information/kinship"
               component={Kinship}
             ></Route>
             <Route
               exact
-              path="/crm/employee/edit-information/social"
+              path="/erp/employee/edit-information/social"
               component={Social}
             ></Route>
           </div>

@@ -1,4 +1,5 @@
 import React from "react";
+import LazyLoad from 'react-lazyload';
 import coverimg from "../../../assets/images/coverimg.png";
 import avatar from "../../../assets/images/avatar.png";
 import HeaderLayout from "../../Header/Header"
@@ -14,14 +15,20 @@ const PersonalPage = () => {
       <MenuLayout />
       <Layout>
       <HeaderLayout />
+      {/* <LazyLoad height={20000} offset={10000}> */}
     <div style={{ background: "#EEEFF3" }} >
     <div className="container">
       <div className="personal-page-top">
+      {/* <LazyLoad height={1000}> */}
         <img src={coverimg} alt="" className="personal-page-top-cover" />
+      {/* </LazyLoad> */}
       </div>
       <div className="personal-page-content">
         <div className="personal-page-content-avatar">
+        <LazyLoad height={200}>
           <img src={avatar} alt="" className="personal-page-top-img" />
+       </LazyLoad>
+       
         </div>
         <div className="personal-page-content-infor-primary">
           <div>
@@ -105,6 +112,7 @@ const PersonalPage = () => {
       </div>
     </div>
     </div>
+    {/* </LazyLoad> */}
     <Footer style={{ textAlign: "center" }} className="layout-footer">
               Ant Design ©2020 Created by TuoiTre
             </Footer>

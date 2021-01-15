@@ -14,16 +14,16 @@ export default class RouterUrl extends Component {
     render() {
         return (
             <div style={{ background: "#EEEFF3" }} >
-                <Route exact path="/crm/employee/notification" component = {ContentNotification}></Route>
-                {/* <Route exact path="/crm/employee/personal-page" component = {PersonalPage}></Route> */}
-                <Route exact path="/crm/employee/notification/general" component = {NotifiGenaral}></Route>
-                <Route exact path="/crm/employee/notification/my" component = {NotifiMy}></Route>
-                <Route exact path="/crm/employee/notification/department" component = {NotifiDepartment}></Route>
-                <Route exact path="/crm/employee/notification/myword" component = {NotifiMyWord}></Route>
-                <Route exact path="/crm/employee/notification/create" component = {CreateNotifi}></Route>
+                <Route exact path="/erp/employee/notification" component = {ContentNotification}></Route>
+                {/* <Route exact path="/erp/employee/personal-page" component = {PersonalPage}></Route> */}
+                <Route exact path="/erp/employee/notification/general" component = {NotifiGenaral}></Route>
+                <Route exact path="/erp/employee/notification/my" component = {NotifiMy}></Route>
+                <Route exact path="/erp/employee/notification/department" component = {NotifiDepartment}></Route>
+                <Route exact path="/erp/employee/notification/myword" component = {NotifiMyWord}></Route>
+                <Route exact path="/erp/employee/notification/create" component = {CreateNotifi}></Route>
 
-                <Route path="/crm/employee/edit-information" component = {EditInformationUser}></Route>
-                {/* <Route path="/crm/employee/edit-information/:id" component = {EditInformationUser}></Route> */}
+                <Route path="/erp/employee/edit-information" component = {EditInformationUser}></Route>
+                {/* <Route path="/erp/employee/edit-information/:id" component = {EditInformationUser}></Route> */}
             </div>
         )
     }

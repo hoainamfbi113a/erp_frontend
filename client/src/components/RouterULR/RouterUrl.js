@@ -18,17 +18,17 @@ export default class RouterUrl extends Component {
             <div style={{background:"#EEEFF3"}}>
                 <div className="content-background2">
                     <div className="content-main">
-                        <Route exact path="/crm/admin/user" component = {ContentUserSix}></Route>
-                        <Route exact path="/crm/admin/notification" component = {ContentNotification}></Route>
-                        <Route exact path="/crm/admin/mynotification" component = {ContentMyNotification}></Route>
-                        <Route exact path="/crm/admin/edituser/:id" component = {addInformationUser}></Route>
-                        <Route exact path="/crm/admin/adduser" component = {addInformationUser}></Route>
+                        <Route exact path="/erp/admin/user" component = {ContentUserSix}></Route>
+                        <Route exact path="/erp/admin/notification" component = {ContentNotification}></Route>
+                        <Route exact path="/erp/admin/mynotification" component = {ContentMyNotification}></Route>
+                        <Route exact path="/erp/admin/edituser/:id" component = {addInformationUser}></Route>
+                        <Route exact path="/erp/admin/adduser" component = {addInformationUser}></Route>
 
-                        <Route exact path="/crm/admin/roles" component = {ContentRoles}></Route>
-                        <Route exact path="/crm/admin/permission" component = {ContentPermission}></Route>
-                        <Route exact path="/crm/admin/parts" component = {ContentParts}></Route>
-                        <Route exact path="/crm/admin/position" component = {ContentPosition}></Route>
-                        <Route exact path="/crm/admin/department" component = {ContentDepartment}></Route>
+                        <Route exact path="/erp/admin/roles" component = {ContentRoles}></Route>
+                        <Route exact path="/erp/admin/permission" component = {ContentPermission}></Route>
+                        <Route exact path="/erp/admin/parts" component = {ContentParts}></Route>
+                        <Route exact path="/erp/admin/position" component = {ContentPosition}></Route>
+                        <Route exact path="/erp/admin/department" component = {ContentDepartment}></Route>
                 </div>
                 </div>
             </div>

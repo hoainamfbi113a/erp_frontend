@@ -9,7 +9,7 @@ export default class NotFound extends Component {
         title="404"
         subTitle="Sorry, trang bạn yêu cầu không tồn tại"
         extra={
-            <Link to="/crm"> <Button type="primary">Quay về trang chủ</Button>
+            <Link to="/erp"> <Button type="primary">Quay về trang chủ</Button>
             </Link>
         }
       />

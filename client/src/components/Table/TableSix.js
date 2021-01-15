@@ -140,7 +140,7 @@ class TableSix extends Component {
       if(res=== "Unauthorized"){
         alert("Nhân viên đang chỉnh sửa hồ sơ của mình")
       } else {
-        window.location.href=`http://erp.tuoitre.vn/crm/admin/edituser/${id}`
+        window.location.href=`http://erp.tuoitre.vn/erp/admin/edituser/${id}`
       }
     })
     .catch(err=>{

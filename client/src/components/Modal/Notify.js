@@ -21,7 +21,7 @@ export default class Notify extends Component {
             console.log(res);
             if (res.message) {
               message.success("Từ chối thông tin nhân sự thành công");
-              window.location.href="hhttp://erp.tuoitre.vn/crm/admin/user"
+              window.location.href="hhttp://erp.tuoitre.vn/erp/admin/user"
             }
           });
       };
