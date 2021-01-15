@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import lodash from "lodash";
+import $ from 'jquery';
 import "../../App/App.css";
 import "./Table.css";
 import * as uiActions from "../../actions/ui";
@@ -33,6 +34,7 @@ class TableRoles extends Component {
     };
     componentDidMount = () => {
         this.fetchData();
+        
     };
     fetchData = async () => {
         this.props.uiActionCreators.showLoading();
@@ -72,21 +74,20 @@ class TableRoles extends Component {
             dataRight = res;
         });
         var arrAll = this.state.dataAction.map((obj) => ({
-            key: Math.random(),
+            key: obj.id+ Math.random(),
+            // key: obj.id*2,
             id: obj.id,
             title: obj.name,
         }));
         var arrRight = dataRight.map((obj) => ({
-            key: Math.random(),
+            key: obj.id,
             id: obj.id,
             title: obj.actions.map((objChild) => ({
                 title: objChild,
-                key: Math.random(),
+                key: obj.id,
                 parentId: obj.id,
             })),
         }));
-        console.log(arrAll);
-        console.log(arrRight);
         for (let i = 0; i < this.state.dataPermission.length; i++) {
             const data = {
                 key: `${this.state.dataPermission[i].id}`,
@@ -107,7 +108,6 @@ class TableRoles extends Component {
                             );
                         }
                     }
-                    console.log(arrRightAction);
                     let dataClone = {
                         key: `${this.state.dataPermission[i].id} clone`,
                         title: `${this.state.dataPermission[i].name}`,
@@ -135,17 +135,17 @@ class TableRoles extends Component {
             }
             mockData.push(data);
         }
-        console.log(mockData);
-        console.log(targetKeys);
+        // console.log(mockData);
+        // console.log(targetKeys);
         this.setState({ mockData, targetKeys });
         this.props.uiActionCreators.hideLoading();
     };
     onSelect = (selectedKeys, info) => {
-        console.log("selected", selectedKeys, info);
+        // console.log("selected", selectedKeys, info);
     };
 
     onCheck = (checkedKeys, info) => {
-        console.log("onCheck", checkedKeys, info);
+        // console.log("onCheck", checkedKeys, info);
         let arrCheckedById = [];
         for (let value of info.checkedNodes) {
             if (typeof value.id === "number") arrCheckedById.push(value.id);
@@ -159,7 +159,9 @@ class TableRoles extends Component {
         treeData.push(item);
         const customLabel = (
             <div>
-                <span className="custom-item">
+                <span className="custom-item" onClick = {
+                    this.handleStop
+                }>
                     <Tree
                         className="tree-transfer"
                         checkable
@@ -167,8 +169,6 @@ class TableRoles extends Component {
                         onCheck={this.onCheck}
                         treeData={treeData}
                     />
-                    {/* <Checkbox>Checkbox</Checkbox>
-          <Checkbox>Checkbox</Checkbox> */}
                 </span>
             </div>
         );
@@ -178,6 +178,9 @@ class TableRoles extends Component {
             // value: item.title, // for title and filter matching
         };
     };
+    handleStop = (e) => {
+        e.stopPropagation();
+      }
     hideModal = () => {
         this.props.hideModal();
     };
@@ -245,7 +248,6 @@ class TableRoles extends Component {
         }
     };
     handleChange = (targetKeys, direction, moveKeys) => {
-        console.log(moveKeys);
         let res = moveKeys[0].replace(" clone", "");
         if (direction === "right") {
             const params = {
@@ -270,7 +272,6 @@ class TableRoles extends Component {
                 permission_id: res,
                 actions: this.state.arrCheckedAction,
             };
-            console.log(params);
             axiosConfig
                 .post(`/api/role/permissiond/${this.state.idRole}`, params)
                 .then((res) => {

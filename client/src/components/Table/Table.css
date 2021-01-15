@@ -89,6 +89,12 @@
 /* .ant-transfer-list-content-item * {
     pointer-events: none;
 } */
+/* .ant-transfer-list-content-item-text {
+    pointer-events: auto;
+} */
+/* .custom-item {
+    pointer-events: auto;
+} */
 /* .tree-transfer{
     position: absolute;
     z-index: 3;
@@ -96,3 +102,8 @@
 .ant-tree-list-holder-inner{
     z-index: 4;
 } */
+/* custom transfer */
+.ant-transfer-list-header{
+    display: none;
+    
+}

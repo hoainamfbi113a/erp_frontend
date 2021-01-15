@@ -18,7 +18,7 @@ class MenuLayout extends Component {
     };
   }
   handleOnclick = () => {
-    this.props.history.push("/crm/admin/user");
+    this.props.history.push("/erp/admin/user");
   };
   componentDidMount = async () => {
     await axiosConfig
@@ -53,22 +53,22 @@ class MenuLayout extends Component {
           <Menu mode="inline" className="menulayout-main">
             <SubMenu title="Thông tin cá nhân" icon={<UserOutlined />}>
               <Menu.Item key="1">
-                <Link to="/crm/employee/notification/general">
+                <Link to="/erp/employee/notification/general">
                   Thông báo chung
                 </Link>
               </Menu.Item>
               <Menu.Item key="2">
-                <Link to="/crm/employee/notification/my">
+                <Link to="/erp/employee/notification/my">
                   Thông báo của tôi
                 </Link>
               </Menu.Item>
               <Menu.Item key="3">
-                <Link to="/crm/employee/notification/department">
+                <Link to="/erp/employee/notification/department">
                   Thông tin phòng ban
                 </Link>
               </Menu.Item>
               <Menu.Item key="4">
-                <Link to="/crm/employee/notification/myword">Việc của tôi</Link>
+                <Link to="/erp/employee/notification/myword">Việc của tôi</Link>
               </Menu.Item>
               {this.state.activeProfile == 0 ? (
                 <Menu.Item onClick = {()=>{message.error("Nhân sự đang duyệt hồ sơ")}} key="5">
@@ -78,14 +78,14 @@ class MenuLayout extends Component {
                 </Menu.Item>
               ) : (
                 <Menu.Item key="5">
-                  <Link to="/crm/employee/edit-information">
+                  <Link to="/erp/employee/edit-information">
                     Cập nhật thông tin
                   </Link>
                 </Menu.Item>
               )}
 
               <Menu.Item key="6">
-                <Link to="/crm/employee/notification/create">Tạo</Link>
+                <Link to="/erp/employee/notification/create">Tạo</Link>
               </Menu.Item>
             </SubMenu>
             <SubMenu
@@ -96,21 +96,21 @@ class MenuLayout extends Component {
             >
               {/* {localStorage.getItem("per") === "hr" ? (
                 <Menu.Item key="8" onClick={this.handleOnclick}>
-                  <Link to="/crm/admin/usersix">Nhân sự </Link>
+                  <Link to="/erp/admin/usersix">Nhân sự </Link>
                 </Menu.Item>
               ) : null} */}
 
               <Menu.Item key="8" onClick={this.handleOnclick}>
-                <Link to="/crm/admin/usersix">Nhân sự </Link>
+                <Link to="/erp/admin/usersix">Nhân sự </Link>
               </Menu.Item>
               <Menu.Item key="9">
-                <Link to="/crm/admin/department">Phòng ban </Link>
+                <Link to="/erp/admin/department">Phòng ban </Link>
               </Menu.Item>
               <Menu.Item key="10">
-                <Link to="/crm/admin/parts">Tổ</Link>
+                <Link to="/erp/admin/parts">Tổ</Link>
               </Menu.Item>
               <Menu.Item key="11">
-                <Link to="/crm/admin/position">Chức vụ</Link>
+                <Link to="/erp/admin/position">Chức vụ</Link>
               </Menu.Item>
             </SubMenu>
             <SubMenu
@@ -120,13 +120,13 @@ class MenuLayout extends Component {
               icon={<ShopOutlined />}
             >
               <Menu.Item key="13" onClick={this.handleOnclick}>
-                <Link to="/crm/admin/usersix">Gán quyền </Link>
+                <Link to="/erp/admin/usersix">Gán quyền </Link>
               </Menu.Item>
               <Menu.Item key="14">
-                <Link to="/crm/admin/permission"> Quyền </Link>
+                <Link to="/erp/admin/permission"> Quyền </Link>
               </Menu.Item>
               <Menu.Item key="15">
-                <Link to="/crm/admin/roles"> Roles </Link>
+                <Link to="/erp/admin/roles"> Roles </Link>
               </Menu.Item>
             </SubMenu>
           </Menu>

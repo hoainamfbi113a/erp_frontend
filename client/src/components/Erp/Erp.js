@@ -10,7 +10,7 @@ import { Layout } from "antd";
 import "../RouterULR/RouterUrl.css"
 
 const { Footer } = Layout;
-export default class Crm extends React.Component {
+export default class Erp extends React.Component {
   state = {
     collapsed: false,
   };
@@ -26,9 +26,9 @@ export default class Crm extends React.Component {
           <MenuLayout collapsed={this.state.collapsed} />
           <Layout>
             <HeaderLayout collapsed={this.collapsed} />
-            <Route  path="/crm/admin" component = {RouterUrl}></Route>
-            <Route path="/crm/employee" component = {RouterUrlEmployee}></Route>
-             {/* <Route path="crm/employee/edit" component = {EditInforEmployee}></Route> */}
+            <Route  path="/erp/admin" component = {RouterUrl}></Route>
+            <Route path="/erp/employee" component = {RouterUrlEmployee}></Route>
+             {/* <Route path="erp/employee/edit" component = {EditInforEmployee}></Route> */}
             <Footer style={{ textAlign: "center" }} className="layout-footer">
               Ant Design ©2020 Created by TuoiTre
             </Footer>

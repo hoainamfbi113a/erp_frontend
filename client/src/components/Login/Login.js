@@ -31,7 +31,7 @@ class Login extends Component {
         e.preventDefault();
         let _this = this;
         _this.errEmail = ValidateEmail(_this.state.email, 8);
-        _this.errPassword = ValidateField(_this.state.password, 6, 100, "Mật khẩu");
+        _this.errPassword = ValidateField(_this.state.password, 6, 18, "Mật khẩu");
         if (_this.errEmail == "pass" && _this.errPassword == "pass") {
             const params = {
                 email: this.state.email,

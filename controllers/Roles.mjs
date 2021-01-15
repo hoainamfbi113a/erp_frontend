@@ -4,15 +4,8 @@ const listRole = async (req, res) => {
     const config = {
         headers: { Authorization: req.headers.authorization },
     };
-    //   const config = {
-    //     headers: { Authorization: `Bearer ${req.headers.authorization}` }
-    // };
-
     let { data } = await axios.get(`${process.env.apiEmployee}/api/role?page=${page}`, config);
     res.send(data);
-    // console.log("loginding")
-    // let  {data}  = await axios.post(`${process.env.apiEmployee}/api/login`, req.body);
-    // res.send(data);
 };
 
 const addRole = async (req, res) => {

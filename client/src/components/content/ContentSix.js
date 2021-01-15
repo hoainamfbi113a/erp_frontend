@@ -43,7 +43,7 @@ export default class ContentSix extends Component {
             />
           </div>
           <div className="content-top-right">
-          <Link to={`/crm/admin/adduser`}> 
+          <Link to={`/erp/admin/adduser`}> 
             <Button className="btn-add-user-six">
               Thêm hồ sơ nhân viên
             </Button>

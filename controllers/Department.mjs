@@ -30,7 +30,7 @@ router.put("/:id", async (req, res) => {
     res.send(data);
 });
 
-router.post("/departmentsd", async (req, res) => {
+router.post("/departments/delete", async (req, res) => {
     const { id } = req.body;
     const config = {
         headers: { Authorization: req.headers.authorization },

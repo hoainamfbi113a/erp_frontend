@@ -267,11 +267,6 @@ class TableParts extends Component {
                         >
                             Cập nhật
                         </Tag>
-                        {/* <Link to={`/crm/admin/edituser/${text}`}>
-              <Tag color="geekblue" className="table-action">
-                Phân quyền
-              </Tag>
-            </Link> */}
                     </Space>
                 ),
             },

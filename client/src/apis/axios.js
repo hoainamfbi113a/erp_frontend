@@ -7,7 +7,6 @@ const axiosConfig = axios.create({
 });
 axiosConfig.interceptors.request.use(async (config) => {
   const token =  docCookies.getItem("usertoken");
-  console.log(token)
   if (token) {
     config.headers['Authorization'] = 'Bearer ' + token;
   }

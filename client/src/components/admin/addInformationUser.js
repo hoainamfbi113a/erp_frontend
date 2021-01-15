@@ -199,7 +199,7 @@ class NotifiDepartment extends Component {
         .catch((err) => {
           if(err.message === "Unauthorized"){
             message.error("Nhân sự không có quyền xem khi user đang chỉnh sửa")
-            window.location.href="http://erp.tuoitre.vn/crm/admin/user"
+            window.location.href="http://erp.tuoitre.vn/erp/admin/user"
           }
           console.log(err);
         });
@@ -477,7 +477,7 @@ class NotifiDepartment extends Component {
     if (messageErr == 0) {
       message.success("Thêm thông tin nhân sự thành công");
       this.props.uiActionCreators.hideLoading();
-      window.location.href("http://erp.tuoitre.vn/crm/admin/user");
+      window.location.href("http://erp.tuoitre.vn/erp/admin/user");
     } else {
       message.error("Thêm thông tin nhân sự thất bại");
     }
@@ -620,7 +620,7 @@ class NotifiDepartment extends Component {
     console.log(messageErr);
     if (messageErr == 0) {
       message.success("Cập nhât thông tin thành công");
-      window.location.href="http://erp.tuoitre.vn/crm/admin/user"
+      window.location.href="http://erp.tuoitre.vn/erp/admin/user"
     } else {
       message.error("Cập nhật thất bại");
     }
@@ -692,7 +692,7 @@ class NotifiDepartment extends Component {
         <div style={{ minHeight: "70vh" }} className="edit-infor">
           <div className="edit-infor-tabs">
             <ul>
-              {/* <Link to={`/crm/admin/edituser/${tokenID}`}> */}
+              {/* <Link to={`/erp/admin/edituser/${tokenID}`}> */}
               <li onClick={() => this.handleClick(1)}>
                 <div className={this.state.activeLink === 1 ? "active" : ""}>
                   1
@@ -702,7 +702,7 @@ class NotifiDepartment extends Component {
                 </span>
               </li>
               {/* </Link> */}
-              {/* <Link to="/crm/employee/edit-information/personal-history"> */}
+              {/* <Link to="/erp/employee/edit-information/personal-history"> */}
               <li onClick={() => this.handleClick(2)}>
                 <div className={this.state.activeLink === 2 ? "active" : ""}>
                   2
@@ -712,7 +712,7 @@ class NotifiDepartment extends Component {
                 </span>
               </li>
               {/* </Link> */}
-              {/* <Link to="/crm/employee/edit-information/joinDCS"> */}
+              {/* <Link to="/erp/employee/edit-information/joinDCS"> */}
               <li onClick={() => this.handleClick(3)}>
                 <div className={this.state.activeLink === 3 ? "active" : ""}>
                   3
@@ -722,7 +722,7 @@ class NotifiDepartment extends Component {
                 </span>
               </li>
               {/* </Link>
-              <Link to="/crm/employee/edit-information/join-TCTTXH"> */}
+              <Link to="/erp/employee/edit-information/join-TCTTXH"> */}
               <li onClick={() => this.handleClick(4)}>
                 <div className={this.state.activeLink === 4 ? "active" : ""}>
                   4
@@ -732,7 +732,7 @@ class NotifiDepartment extends Component {
                 </span>
               </li>
               {/* </Link>
-              <Link to="/crm/employee/edit-information/professional-compensation"> */}
+              <Link to="/erp/employee/edit-information/professional-compensation"> */}
               <li onClick={() => this.handleClick(5)}>
                 <div className={this.state.activeLink === 5 ? "active" : ""}>
                   5
@@ -743,7 +743,7 @@ class NotifiDepartment extends Component {
                 </span>
               </li>
               {/* </Link>
-              <Link to="/crm/employee/edit-information/bonus"> */}
+              <Link to="/erp/employee/edit-information/bonus"> */}
               <li onClick={() => this.handleClick(6)}>
                 <div className={this.state.activeLink === 6 ? "active" : ""}>
                   6
@@ -753,7 +753,7 @@ class NotifiDepartment extends Component {
                 </span>
               </li>
               {/* </Link>
-              <Link to="/crm/employee/edit-information/family"> */}
+              <Link to="/erp/employee/edit-information/family"> */}
               <li onClick={() => this.handleClick(7)}>
                 <div className={this.state.activeLink === 7 ? "active" : ""}>
                   7
@@ -763,7 +763,7 @@ class NotifiDepartment extends Component {
                 </span>
               </li>
               {/* </Link>
-              <Link to="/crm/employee/edit-information/kinship"> */}
+              <Link to="/erp/employee/edit-information/kinship"> */}
               <li onClick={() => this.handleClick(8)}>
                 <div className={this.state.activeLink === 8 ? "active" : ""}>
                   8
@@ -773,7 +773,7 @@ class NotifiDepartment extends Component {
                 </span>
               </li>
               {/* </Link>
-              <Link to="/crm/employee/edit-information/social"> */}
+              <Link to="/erp/employee/edit-information/social"> */}
               <li onClick={() => this.handleClick(9)}>
                 <div className={this.state.activeLink === 9 ? "active" : ""}>
                   9
