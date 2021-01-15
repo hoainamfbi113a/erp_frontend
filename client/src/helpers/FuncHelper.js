@@ -86,6 +86,7 @@ const validateInputFormUser = (type, checkingText) => {
                     errorMessage = "";
                 }
             }
+            break;
         case "department":
             if (!checkingText) {
                 isValid = true;
