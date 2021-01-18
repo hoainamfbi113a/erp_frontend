@@ -88,9 +88,11 @@
 }
 .tabs-main-left{
     justify-content: space-between;
+    /* width: 40%; */
 }
 .tabs-main-right{
     justify-content: space-between;
+    /* width: 40%; */
 }
 .tabs-title-left{
     font-weight: 500;
@@ -179,12 +181,22 @@
     margin-right: 18px;
 }
 .edit-infor-form-DCS .tabs-user-infor-bottom input{
-    width: 450px;
+    width: 100%;
+}
+.tabs-user-infor-bottom input{
+    width: 100%;
+}
+.tabs-user-infor-bottom .ant-select{
+    width: 100%;
+}
+.tabs-user-infor-bottom-date .ant-picker{
+    width: 100%;
 }
 .ant-picker{
     background: #fff;
     height: 34px;
-    width: 380px !important;
+    /* width: 380px !important; */
+    /* width: 100%; */
 }
 .edit-infor-form-DCS .ant-picker{
     background: #fff;
@@ -226,7 +238,8 @@
     width: 140px;
 }
 .ant-picker-range{
-    width: 380px !important;
+    /* width: 380px !important; */
+    width: 100%;
 }
 .modal-ranPicker {
     width: 528px !important;
