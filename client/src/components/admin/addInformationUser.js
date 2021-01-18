@@ -695,6 +695,9 @@ class NotifiDepartment extends Component {
             [`valid_${name}`]: newState,
         });
     };
+    handleSearch = (value) => {
+        console.log(value);
+    };
     render() {
         let value = 0;
         let step_id = this.state.step_id;
@@ -1148,9 +1151,11 @@ class NotifiDepartment extends Component {
                                                     </span>
                                                     <div className="tabs-user-infor-bottom">
                                                         <Select
+                                                            showSearch
                                                             value={this.state.dep_id}
                                                             style={{ width: "100%" }}
                                                             onChange={this.handleChangeDepartment}
+                                                            onSearch={this.handleSearch}
                                                         >
                                                             {this.renderDepartment()}
                                                         </Select>
@@ -1301,7 +1306,6 @@ class NotifiDepartment extends Component {
                                                     </span>
                                                     <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                         <RangePicker
-                                                            placeholder="Chọn ngày"
                                                             value={
                                                                 this.state.deg_begin_study == null
                                                                     ? null
@@ -1414,7 +1418,6 @@ class NotifiDepartment extends Component {
                                                     </span>
                                                     <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                         <RangePicker
-                                                            placeholder="Chọn ngày"
                                                             value={
                                                                 this.state.car_begin == null
                                                                     ? null
