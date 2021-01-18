@@ -823,7 +823,7 @@ class NotifiDepartment extends Component {
                                 onSubmit={this.onSubmit}
                                 method="post"
                             >
-                                <div className="tabs-main-left">
+                                <div className="tabs-main-left" style={{ width: "41%" }}>
                                     <div className="tabs-main-left-content">
                                         <div className="tabs-main-left">
                                             <ul className="tabs-main-left-ul">
@@ -942,7 +942,6 @@ class NotifiDepartment extends Component {
                                                     <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                         <DatePicker
                                                             placeholder="Chọn ngày"
-                                                            style={{ width: 150 }}
                                                             value={
                                                                 this.state.pro_birth_day == null
                                                                     ? null
@@ -1087,7 +1086,6 @@ class NotifiDepartment extends Component {
                                                     <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                         <DatePicker
                                                             placeholder="Chọn ngày"
-                                                            style={{ width: 150 }}
                                                             value={
                                                                 this.state.pro_identity_card_when ==
                                                                 null
@@ -1140,7 +1138,7 @@ class NotifiDepartment extends Component {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="tabs-main-right">
+                                <div className="tabs-main-right" style={{ width: "41%" }}>
                                     <div className="tabs-main-left-content">
                                         <div className="tabs-main-left">
                                             <ul className="tabs-main-left-ul">
@@ -1151,7 +1149,7 @@ class NotifiDepartment extends Component {
                                                     <div className="tabs-user-infor-bottom">
                                                         <Select
                                                             value={this.state.dep_id}
-                                                            style={{ width: 450 }}
+                                                            style={{ width: "100%" }}
                                                             onChange={this.handleChangeDepartment}
                                                         >
                                                             {this.renderDepartment()}
@@ -1178,7 +1176,6 @@ class NotifiDepartment extends Component {
                                                     <div className="tabs-user-infor-bottom">
                                                         <Select
                                                             value={this.state.par_id}
-                                                            style={{ width: 450 }}
                                                             onChange={this.handleChangeParts}
                                                         >
                                                             {this.renderParts()}
@@ -1202,7 +1199,6 @@ class NotifiDepartment extends Component {
                                                     <div className="tabs-user-infor-bottom">
                                                         <Select
                                                             value={this.state.pos_id}
-                                                            style={{ width: 450 }}
                                                             onChange={this.handleChangePosition}
                                                         >
                                                             {this.renderPosition()}
@@ -1226,7 +1222,7 @@ class NotifiDepartment extends Component {
                                                     <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                         <DatePicker
                                                             placeholder="Chọn ngày"
-                                                            style={{ width: 150 }}
+                                                            style={{ width: "100%" }}
                                                             value={
                                                                 this.state.dep_appointment_date ==
                                                                 null
@@ -1392,7 +1388,7 @@ class NotifiDepartment extends Component {
                                                     <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                         <DatePicker
                                                             placeholder="Chọn ngày"
-                                                            style={{ width: 150 }}
+                                                            style={{ width: "100%" }}
                                                             placeholder="Chọn ngày"
                                                             value={
                                                                 this.state.car_number_day == null
