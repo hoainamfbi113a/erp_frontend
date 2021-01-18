@@ -817,7 +817,7 @@ class CurriculumVitae extends Component {
                                             </span>
                                             <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                 <RangePicker
-                                                    placeholder="Chọn ngày"
+                                                    // placeholder="Chọn ngày"
                                                     value={
                                                         this.state.deg_begin_study == null
                                                             ? null
@@ -925,7 +925,7 @@ class CurriculumVitae extends Component {
                                             </span>
                                             <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                 <RangePicker
-                                                    placeholder="Chọn ngày"
+                                                    // placeholder="Chọn ngày"
                                                     value={
                                                         this.state.car_begin == null
                                                             ? null
