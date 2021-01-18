@@ -41,7 +41,7 @@ const validateInputFormUser = (type, checkingText) => {
     // let regex = "";
     switch (type) {
         case "pro_name":
-            const regexName = /^[a-zA-Z]+$/;
+            const regexName = /(?=^.{0,40}$)^[a-zA-Z-]+\s[a-zA-Z-]+$/;
             if (!checkingText) {
                 isValid = true;
                 errorMessage = "Tên không được để trống";
