@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import docCookies from "doc-cookies"
 import { Input, message } from "antd";
 import { Button, Pagination, DatePicker } from "antd";
 import { connect } from "react-redux";
@@ -283,9 +284,9 @@ class CurriculumVitae extends Component {
       });
   };
   fetchDataUser = async () => {
-      let idUser = sessionStorage.getItem("tokenID")
+      let idUser = docCookies.getItem("user_id")
       this.setState({
-        user_id:sessionStorage.getItem("tokenID")
+        user_id:idUser
       })
       let dataUser = null;
       let pro_id = 0;

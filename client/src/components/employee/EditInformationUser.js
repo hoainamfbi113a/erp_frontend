@@ -14,6 +14,7 @@ import Social from "./edit-infor-child/Social";
 import axiosConfig from "../../apis/axios";
 import { Link } from "react-router-dom";
 import { Steps } from "antd";
+import docCookies from "doc-cookies"
 const { Step } = Steps;
 export default class NotifiDepartment extends Component {
   constructor(props) {
@@ -30,7 +31,7 @@ export default class NotifiDepartment extends Component {
     this.setState({ activeLink: id });
   };
   async componentDidMount() {
-    let tokenID = sessionStorage.getItem("tokenID");
+    let tokenID = docCookies.getItem("user_id");
     await axiosConfig
       .post(`/api/fe/profiles/user`, {
         id: tokenID,
