@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Button, Pagination } from "antd";
+import docCookies from "doc-cookies"
 import axiosConfig from "../../../apis/axios";
 import "./notification.css";
 const app_id = 99;
@@ -17,7 +18,7 @@ export default class NotifiMy extends Component {
     this.fetchNotify(1);
   };
   fetchNotify = (value) =>{
-    const user_id = sessionStorage.getItem("tokenID");
+    const user_id = docCookies.getItem("user_id")
     const params = {
       app_id,
       slug,

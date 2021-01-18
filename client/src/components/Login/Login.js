@@ -44,9 +44,9 @@ class Login extends Component {
                 .post("/api/login", params)
                 .then((res) => {
                     if (res.data.message === "Đăng nhập thành công!") {
-                        docCookies.setItem("usertoken", res.data.access_token);
-                        sessionStorage.setItem("tokenID", res.data.detail.id);
-                        sessionStorage.setItem("email", res.data.detail.email);
+                        docCookies.setItem("usertoken", res.data.access_token,1000);
+                        docCookies.setItem("user_id", res.data.detail.id,1000)
+                        docCookies.setItem("email",res.data.detail.email,1000)
                         this.setState({ ishow: !this.state.ishow });
                         setTimeout(() => {
                             this.setState({

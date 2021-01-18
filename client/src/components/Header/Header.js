@@ -95,7 +95,7 @@ class HeaderLayout extends Component {
                 onClick={(e) => e.preventDefault()}
               ><Avatar src="https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png" />
                 <span className="header-user-name" >&nbsp;
-                Xin chào:{sessionStorage.getItem("email")}
+                Xin chào: { docCookies.getItem("email")}
                   </span>
               </a>
             </Dropdown>

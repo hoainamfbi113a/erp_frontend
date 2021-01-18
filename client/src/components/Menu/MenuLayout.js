@@ -6,6 +6,7 @@ import { Menu, Layout } from "antd";
 import { message } from "antd";
 import { withRouter } from "react-router";
 import { UserOutlined, ShopOutlined } from "@ant-design/icons";
+import docCookies from "doc-cookies"
 import axiosConfig from "../../apis/axios";
 import "./Menu.css";
 const { SubMenu } = Menu;
@@ -23,7 +24,7 @@ class MenuLayout extends Component {
   componentDidMount = async () => {
     await axiosConfig
       .post(`/api/fe/profiles/user`, {
-        id: sessionStorage.getItem("tokenID"),
+        id: docCookies.getItem("user_id"),
       })
       .then((res) => {
         if (res === "Unauthorized") {
