@@ -93,7 +93,9 @@ class NotifiDepartment extends Component {
                 isValid: true,
                 errorMessage: "",
             },
+            search: "",
         };
+        this.typingRef = React.createRef(null);
     }
     componentDidMount = async () => {
         this.fetchData();
@@ -696,7 +698,9 @@ class NotifiDepartment extends Component {
         });
     };
     handleSearch = (value) => {
-        console.log(value);
+        this.typingRef.current = setTimeout(() => {
+            console.log(value);
+        }, 800);
     };
     render() {
         let value = 0;
@@ -714,7 +718,7 @@ class NotifiDepartment extends Component {
             <div className="content-background2" style={{ width: "100%" }}>
                 <Steps current={value} size="small" className="process-work-flow">
                     {this.renderWorkflow()}
-                    <Step title="đống hs" />
+                    <Step title="Đóng hồ sơ" />
                 </Steps>
                 {value == 2 ? (
                     <li className="tabs-main-left-li">
@@ -1462,7 +1466,7 @@ class NotifiDepartment extends Component {
                                                             className="btn-add-user"
                                                             onClick={this.handleSave}
                                                         >
-                                                            Lưus
+                                                            Lưu
                                                         </Button>
                                                         <Popconfirm
                                                             title="Bạn có chắc chắn xác nhận hồ sơ"
@@ -1475,7 +1479,7 @@ class NotifiDepartment extends Component {
                                                                 className="btn-add-user"
                                                                 // onClick={this.handleSend}
                                                             >
-                                                                Xác nhậns
+                                                                Xác nhận
                                                             </Button>
                                                         </Popconfirm>
                                                     </li>
