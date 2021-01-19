@@ -5,7 +5,8 @@ import { BellOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
 import docCookies from "doc-cookies"
 import { Breadcrumb } from 'antd';
-const { SubMenu } = Menu;
+
+import { logout } from "../../apis/authenticationApi";
 
 import "./Header.css"
 const { Header } = Layout;
@@ -29,7 +30,7 @@ class HeaderLayout extends Component {
   logOut = (e) => {
     this.setState({ ishow: !this.state.ishow });
     setTimeout(() => {
-      docCookies.removeItem("usertoken");
+      logout()
       this.props.history.push('/')
       this.setState({ ishow: !this.state.ishow });
     }, 700);
@@ -55,30 +56,6 @@ class HeaderLayout extends Component {
       <div className="header-main">
         <Header className="site-layout-background header-main-top">
           <div className="header-left">
-          {/* {React.createElement(
-            MenuFoldOutlined,
-            {
-              className: "trigger",
-              onClick: this.toggle,
-            }
-          )}
-          <Menu  mode="horizontal" className="header-left-menu">
-            <Menu.Item key="alipay" className="header-left-menu-active">
-              <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
-                Menu 1
-          </a>
-            </Menu.Item>
-            <Menu.Item key="alipay2">
-              <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
-                Menu 2
-          </a>
-            </Menu.Item>
-            <Menu.Item key="alipay3">
-              <a href="https://ant.design" target="_blank" rel="noopener noreferrer">
-                Menu 3
-          </a>
-            </Menu.Item>
-          </Menu> */}
           </div>
           <div className="header-right">
             <Badge className="header-notification"

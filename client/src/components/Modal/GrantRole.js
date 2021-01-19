@@ -74,30 +74,35 @@ class GrantRole extends Component {
     });
   };
   renderRole = () =>{
-    if(this.props.roleAndPermissionUser)
-    return this.props.roleAndPermissionUser.roles.map((item)=>{
-      return (
-        <li key={item.id} style ={{display:'flex', justifyContent:'center'}}>
-        <div className="personal-history-time" style={{padding:'10px', paddingTop:'0px', width:'200px'}}>
-          {item.name}
-        </div>
-        <Space size="middle">
-          <Popconfirm
-            title="Are you sure hide this user?"
-            onConfirm={()=>this.handleDeleteRoleUser(this.props.idGrant, item.id)}
-            // onCancel={this.cancel}
-            okText="Yes"
-            cancelText="No"
-          >
-            <Tag color="volcano" className="table-action">
-              Xoá
-            </Tag>
-          </Popconfirm>
-        </Space>
-
-      </li>
-      )
-    })
+    console.log("1")
+    if(this.props.roleAndPermissionUser && this.props.roleAndPermissionUser.role){
+      console.log("2")
+      console.log(this.props.roleAndPermissionUser.role)
+      // return this.props.roleAndPermissionUser.permissions.map((item)=>{
+      //   return (
+      //     <li key={item.id} style ={{display:'flex', justifyContent:'center'}}>
+      //     <div className="personal-history-time" style={{padding:'10px', paddingTop:'0px', width:'200px'}}>
+      //       {item.name}
+      //     </div>
+      //     <Space size="middle">
+      //       <Popconfirm
+      //         title="Are you sure hide this user?"
+      //         onConfirm={()=>this.handleDeleteRoleUser(this.props.idGrant, item.id)}
+      //         // onCancel={this.cancel}
+      //         okText="Yes"
+      //         cancelText="No"
+      //       >
+      //         <Tag color="volcano" className="table-action">
+      //           Xoá
+      //         </Tag>
+      //       </Popconfirm>
+      //     </Space>
+  
+      //   </li>
+      //   )
+      // })
+    }
+  
   }
   handleDeleteRoleUser = (idUser,idRole) =>{
     const params = {
