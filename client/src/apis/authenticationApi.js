@@ -10,7 +10,7 @@ export const login = (params) => {
         docCookies.setItem("user_id", res.data.detail.id, 1000);
         docCookies.setItem("email", res.data.detail.email, 1000);
       }
-      return data;
+      return res.data;
     })
     .catch((err) => {
       console.log(err)
