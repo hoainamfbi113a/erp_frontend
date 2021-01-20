@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import "./RouterUrl.css"
 
 import ContentNotification from "../content//Notification/ContentNotification";
@@ -15,6 +15,7 @@ export default class RouterUrl extends Component {
     render() {
         return (
             <div style={{ background: "#EEEFF3" }} >
+                 <Switch>
                 <Route exact path="/erp/employee/notification" component = {ContentNotification}></Route>
                 {/* <Route exact path="/erp/employee/personal-page" component = {PersonalPage}></Route> */}
                 <Route exact path="/erp/employee/notification/general" component = {NotifiGenaral}></Route>
@@ -26,6 +27,7 @@ export default class RouterUrl extends Component {
                 <Route path="/erp/employee/edit-information" component = {EditInformationUser}></Route>
                 {/* <Route path="/erp/employee/edit-information/:id" component = {EditInformationUser}></Route> */}
                 <Route component={NotFound}/>
+                </Switch>
             </div>
         )
     }
