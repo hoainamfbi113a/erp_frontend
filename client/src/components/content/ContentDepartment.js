@@ -12,7 +12,8 @@ export default class ContentDepartment extends Component {
     super();
     this.state = {
       visible: false,
-      registerUserSuccess: false
+      registerUserSuccess: false,
+      totalDepartment:0,
     };
   }
   showModal = () => {
@@ -25,13 +26,18 @@ export default class ContentDepartment extends Component {
       visible:false
     })
   }
+  totalDepartment = (value) =>{
+    this.setState({
+      totalDepartment: value
+    })
+  }
   render() {
     return (
       <div>
         <div className="content-top">
           <div className="content-top-left">
             <div className="content-top-left-sum-item">
-              10 Department
+              {this.state.totalDepartment} Department
             </div>
             <Search
               placeholder="Tìm kiếm"
@@ -47,7 +53,9 @@ export default class ContentDepartment extends Component {
             </Button>
           </div>
         </div>
-        <TableDepartment showModalDepartment={this.state.visible} hideModal={this.hideModal} showModal={this.showModal} />
+        <TableDepartment showModalDepartment={this.state.visible} hideModal={this.hideModal} showModal={this.showModal}
+                         totalDepartment = {this.totalDepartment}
+        />
       </div>
     );
   }

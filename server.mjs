@@ -10,7 +10,8 @@ import { addJournalistCards, updateJournalistCards } from "./controllers/Journal
 import { addUserDegrees, updateUserDegrees } from "./controllers/UserDegrees.mjs"
 import { addWorkObjects,updateWorkObjects } from "./controllers/WorkObjects.mjs"
 import { removePermissionFromRole, listRole, addRole, updateRole, deleteRole, listPermissionOfRole, permissionToRole} from "./controllers/Roles.mjs"
-import { listPermission, addPermission, updatePermission, deletePermission } from "./controllers/Permission.mjs"
+// import { listPermission, addPermission, updatePermission, deletePermission } from "./controllers/Permission.mjs"
+import permissionController from "./controllers/permissionController.mjs";
 import { listParts, addParts, updateParts, deleteParts } from "./controllers/Parts.mjs"
 import { listPosition, addPosition, updatePosition, deletePosition } from "./controllers/Position.mjs"
 import notificationController from "./controllers/Notify.mjs"
@@ -48,10 +49,7 @@ app.get("/api/role/permission/:id",listPermissionOfRole)
 app.post("/api/role/permission/:id",permissionToRole)
 app.post("/api/role/permissiond/:id",removePermissionFromRole)
 
-app.get("/api/permission",listPermission)
-app.post("/api/permission",addPermission)
-app.put("/api/permission/:id",updatePermission)
-app.delete("/api/permission",deletePermission)
+app.use("/api/permission",permissionController)
 
 app.get("/api/action",listAction)
 app.post("/api/action",addAction)
