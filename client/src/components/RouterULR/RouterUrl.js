@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route,Switch } from 'react-router-dom';
 import "./RouterUrl.css"
 
 import ContentUserSix from "../content/ContentSix";
@@ -19,6 +19,8 @@ export default class RouterUrl extends Component {
             <div style={{background:"#EEEFF3"}}>
                 <div className="content-background2">
                     <div className="content-main">
+                    <Switch>
+
                         <Route exact path="/erp/admin/user" component = {ContentUserSix}></Route>
                         <Route exact path="/erp/admin/notification" component = {ContentNotification}></Route>
                         <Route exact path="/erp/admin/mynotification" component = {ContentMyNotification}></Route>
@@ -30,7 +32,8 @@ export default class RouterUrl extends Component {
                         <Route exact path="/erp/admin/parts" component = {ContentParts}></Route>
                         <Route exact path="/erp/admin/position" component = {ContentPosition}></Route>
                         <Route exact path="/erp/admin/department" component = {ContentDepartment}></Route>
-                        <Route component={NotFound}/>
+                        <Route  component={NotFound}/>
+                        </Switch>
                 </div>
                 </div>
             </div>

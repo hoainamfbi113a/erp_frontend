@@ -10,6 +10,7 @@ export const login = (params) => {
         docCookies.setItem("usertoken", res.data.access_token, 1000);
         docCookies.setItem("user_id", res.data.detail.id, 1000);
         docCookies.setItem("email", res.data.detail.email, 1000);
+        console.log("login")
       }
       return res.data;
     })
@@ -35,7 +36,7 @@ export const getPermissionUser = (id) => {
 };
 
 export const logout = () => {
-  docCookies.removeItem("usertoken");
-  docCookies.removeItem("user_id");
-  docCookies.removeItem("email");
+  document.cookie = "usertoken" +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+  document.cookie = "user_id" +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+  document.cookie = "email" +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 };
