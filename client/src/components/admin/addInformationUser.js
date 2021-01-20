@@ -12,6 +12,7 @@ import { Select } from "antd";
 const { Option } = Select;
 import { Steps, Popconfirm } from "antd";
 import Notify from "../Modal/Notify";
+import { element } from "prop-types";
 const { Step } = Steps;
 const { RangePicker } = DatePicker;
 const dateFormat = "YYYY/MM/DD";
@@ -96,17 +97,72 @@ class addInformationUser extends Component {
                 isValid: true,
                 errorMessage: "",
             },
-            search: "",
+            searchDepartment: "",
+            searchPosition: "",
+            searchPart: "",
         };
         this.typingRef = React.createRef(null);
+        this.handleSearchDepartment = this.handleSearchDepartment.bind(this);
+        this.handleSearchPosition = this.handleSearchPosition.bind(this);
+        this.handleSearchPart = this.handleSearchPart.bind(this);
     }
     componentDidMount = async () => {
         this.fetchData();
     };
+    componentDidUpdate = (prevProps, prevState) => {
+        if (prevState.searchDepartment !== this.state.searchDepartment) {
+            const value = this.state.searchDepartment;
+            axiosConfig
+                .get(`/api/search/departments?name=${value}&per_page=10`)
+                .then((res) => {
+                    this.setState({
+                        dataDepartment: res.data,
+                    });
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+
+        if (prevState.searchPosition !== this.state.searchPosition) {
+            const value = this.state.searchPosition;
+            axiosConfig
+                .get(`/api/search/positions?name=${value}&per_page=10`)
+                .then((res) => {
+                    this.setState({
+                        dataPosition: res.data,
+                    });
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+        if (prevState.dep_id !== this.state.dep_id) {
+            this.setState({
+                dataParts: [],
+            });
+        }
+        if (prevState.searchPart !== this.state.searchPart) {
+            const value = this.state.searchPart;
+            const { dep_id } = this.state;
+            console.log(dep_id);
+            axiosConfig
+                .get(`/api/search/parts/departments?name=${value}&per_page=10&dep_id=${dep_id}`)
+                .then((res) => {
+                    console.log(res.data);
+                    this.setState({
+                        dataParts: res.data,
+                    });
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
+    };
+
     fetchData = () => {
         this.fetchDepartment();
         this.fetchPosition();
-        this.fetchParts();
         this.fetchDataUser();
         this.fetchWorkflowProfile();
     };
@@ -134,18 +190,7 @@ class addInformationUser extends Component {
                 console.log(err);
             });
     };
-    fetchParts = () => {
-        axiosConfig
-            .get("/api/parts")
-            .then((res) => {
-                this.setState({
-                    dataParts: res.data,
-                });
-            })
-            .catch((err) => {
-                console.log(err);
-            });
-    };
+
     fetchDepartment = () => {
         axiosConfig
             .get("/api/departments")
@@ -293,7 +338,7 @@ class addInformationUser extends Component {
         });
     };
     renderDepartment = () => {
-        if (this.state.dataDepartment !== null) {
+        if (this.state.dataDepartment) {
             return this.state.dataDepartment.map((item) => {
                 return (
                     <Option key={item.id} value={item.id}>
@@ -301,7 +346,9 @@ class addInformationUser extends Component {
                     </Option>
                 );
             });
-        } else return "";
+        } else {
+            return "";
+        }
     };
     handleChangeDepartment = (value) => {
         this.setState({
@@ -703,10 +750,51 @@ class addInformationUser extends Component {
             [`valid_${name}`]: newState,
         });
     };
-    handleSearch = (value) => {
+    handleSearchDepartment(value) {
+        if (this.typingRef.current) {
+            clearTimeout(this.typingRef.current);
+        }
         this.typingRef.current = setTimeout(() => {
-            console.log(value);
-        }, 800);
+            this.setState({
+                searchDepartment: value,
+            });
+        }, 500);
+    }
+    handleSearchPosition(value) {
+        if (this.typingRef.current) {
+            clearTimeout(this.typingRef.current);
+        }
+        this.typingRef.current = setTimeout(() => {
+            this.setState({
+                searchPosition: value,
+            });
+        }, 500);
+    }
+    handleSearchPart(value) {
+        if (this.typingRef.current) {
+            clearTimeout(this.typingRef.current);
+        }
+        this.typingRef.current = setTimeout(() => {
+            this.setState({
+                searchPart: value,
+            });
+        }, 500);
+    }
+    handFocusDepartment = () => {
+        this.setState({
+            dep_id: null,
+            par_id: null,
+        });
+    };
+    handFocusPart = () => {
+        this.setState({
+            par_id: null,
+        });
+    };
+    handFocusPosition = () => {
+        this.setState({
+            pos_id: null,
+        });
     };
     render() {
         let value = 0;
@@ -1162,11 +1250,23 @@ class addInformationUser extends Component {
                                                     </span>
                                                     <div className="tabs-user-infor-bottom">
                                                         <Select
+                                                            defaultValue={0}
                                                             showSearch
+                                                            // optionFilterProp="children"
                                                             value={this.state.dep_id}
+                                                            name="depart"
                                                             style={{ width: "100%" }}
                                                             onChange={this.handleChangeDepartment}
-                                                            onSearch={this.handleSearch}
+                                                            onSearch={this.handleSearchDepartment}
+                                                            onFocus={this.handFocusDepartment}
+                                                            filterOption={(input, option) =>
+                                                                option.children
+                                                                    .toString()
+                                                                    .toLowerCase()
+                                                                    .indexOf(input.toLowerCase()) >=
+                                                                0
+                                                            }
+                                                            ref={this.typingRef}
                                                         >
                                                             {this.renderDepartment()}
                                                         </Select>
@@ -1191,8 +1291,20 @@ class addInformationUser extends Component {
                                                     </span>
                                                     <div className="tabs-user-infor-bottom">
                                                         <Select
+                                                            defaultValue={0}
+                                                            showSearch
                                                             value={this.state.par_id}
                                                             onChange={this.handleChangeParts}
+                                                            onSearch={this.handleSearchPart}
+                                                            onFocus={this.handFocusPart}
+                                                            filterOption={(input, option) =>
+                                                                option.children
+                                                                    .toString()
+                                                                    .toLowerCase()
+                                                                    .indexOf(input.toLowerCase()) >=
+                                                                0
+                                                            }
+                                                            ref={this.typingRef}
                                                         >
                                                             {this.renderParts()}
                                                         </Select>
@@ -1214,8 +1326,20 @@ class addInformationUser extends Component {
                                                     </span>
                                                     <div className="tabs-user-infor-bottom">
                                                         <Select
+                                                            defaultValue={0}
+                                                            showSearch
                                                             value={this.state.pos_id}
                                                             onChange={this.handleChangePosition}
+                                                            onSearch={this.handleSearchPosition}
+                                                            onFocus={this.handFocusPosition}
+                                                            filterOption={(input, option) =>
+                                                                option.children
+                                                                    .toString()
+                                                                    .toLowerCase()
+                                                                    .indexOf(input.toLowerCase()) >=
+                                                                0
+                                                            }
+                                                            ref={this.typingRef}
                                                         >
                                                             {this.renderPosition()}
                                                         </Select>
