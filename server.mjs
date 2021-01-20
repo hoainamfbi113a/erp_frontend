@@ -16,38 +16,6 @@ import permissionController from "./controllers/permissionController.mjs";
 import { listParts, addParts, updateParts, deleteParts } from "./controllers/Parts.mjs"
 import { listPosition, addPosition, updatePosition, deletePosition } from "./controllers/Position.mjs"
 import notificationController from "./controllers/Notify.mjs"
-import { listAction, addAction, updateAction, deleteAction } from "./controllers/Action.mjs"
-import workflowController from "./controllers/workflow.mjs"
-import {
-    addProfileDepartments,
-    updateProfileDepartments,
-} from "./controllers/profileDepartments.mjs";
-import { addJournalistCards, updateJournalistCards } from "./controllers/JournalistCards.mjs";
-import { addUserDegrees, updateUserDegrees } from "./controllers/UserDegrees.mjs";
-import { addWorkObjects, updateWorkObjects } from "./controllers/WorkObjects.mjs";
-import {
-    removePermissionFromRole,
-    listRole,
-    addRole,
-    updateRole,
-    deleteRole,
-    listPermissionOfRole,
-    permissionToRole,
-} from "./controllers/Roles.mjs";
-import {
-    listPermission,
-    addPermission,
-    updatePermission,
-    deletePermission,
-} from "./controllers/Permission.mjs";
-import { listParts, addParts, updateParts, deleteParts } from "./controllers/Parts.mjs";
-import {
-    listPosition,
-    addPosition,
-    updatePosition,
-    deletePosition,
-} from "./controllers/Position.mjs";
-import notificationController from "./controllers/Notify.mjs";
 import { listAction, addAction, updateAction, deleteAction } from "./controllers/Action.mjs";
 import workflowController from "./controllers/workflow.mjs";
 dotenv.config();
