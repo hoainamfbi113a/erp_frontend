@@ -27,13 +27,12 @@ class HeaderLayout extends Component {
   toggle = () => {
     this.props.collapsed();
   };
+  sleep = m => new Promise(r => setTimeout(r, m))
   logOut = async (e) => {
     this.setState({ ishow: !this.state.ishow });
-    setTimeout(async () => {
-      await logout()
-      this.props.history.push('/')
-      this.setState({ ishow: !this.state.ishow });
-    }, 700);
+    await this.sleep(800);
+    await logout()
+    this.props.history.push('/')
   }
 
   render() {
