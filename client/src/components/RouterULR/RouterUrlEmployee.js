@@ -9,6 +9,7 @@ import NotifiDepartment from "../content//Notification/NotifiDepartment";
 import NotifiMyWord from "../content//Notification/NotifiMyWord";
 import CreateNotifi from "../content//Notification/CreateNotifi";
 import EditInformationUser from "../employee/EditInformationUser";
+import NotFound from "../../components/NotFound";
 // import PersonalPage from "../employee/personalPage/PersonalPage"
 export default class RouterUrl extends Component {
     render() {
@@ -24,6 +25,7 @@ export default class RouterUrl extends Component {
 
                 <Route path="/erp/employee/edit-information" component = {EditInformationUser}></Route>
                 {/* <Route path="/erp/employee/edit-information/:id" component = {EditInformationUser}></Route> */}
+                <Route component={NotFound}/>
             </div>
         )
     }

@@ -1,8 +1,8 @@
 import axiosConfig from "./axios";
 import { handleResponse } from "./handleResponse";
-export const getListPosition = (page) => {
+export const getListDepartment = (page) => {
   return axiosConfig
-    .get(`/api/positions?page=${page}`)
+    .get(`/api/departments?page=${page}`)
     .then(handleResponse)
     .then((data) => {
       return data;
@@ -14,9 +14,9 @@ export const getListPosition = (page) => {
     });
 };
 
-export const addPosition = (params) =>{
+export const addDepartment = (params) =>{
     return axiosConfig
-    .post(`/api/positions`,params)
+    .post(`/api/departments`,params)
     .then(handleResponse)
     .then((data) =>{
         return data
@@ -26,9 +26,10 @@ export const addPosition = (params) =>{
     })
 }
 
-export const updatePosition = (params, id) =>{
+export const updateDepartment = (params, id) =>{
     return axiosConfig
-    .put(`/api/positions/${id}`,params)
+    .put(`/api/departments/${id}`,params)
+    .then(handleResponse)
     .then(data=>{
         return data
     })
@@ -37,9 +38,10 @@ export const updatePosition = (params, id) =>{
     })
 }
 
-export const deletePosition = (params) =>{
+export const deleteDepartment = (params) =>{
     return axiosConfig
-    .post(`/api/positionsd`,params)
+    .post(`/api/departments/delete`,params)
+    .then(handleResponse)
     .then(data=>{
         return data
     })

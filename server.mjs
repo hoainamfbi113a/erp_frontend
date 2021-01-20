@@ -6,6 +6,18 @@ import departmentsController from "./controllers/Department.mjs";
 import searchController from "./controllers/Search.mjs";
 import { transfers, profileTransfers } from "./controllers/Transfers.mjs";
 import { getProfile, updateProfile, addProfile } from "./controllers/Profiles.mjs";
+import { addProfileDepartments, updateProfileDepartments } from "./controllers/profileDepartments.mjs"
+import { addJournalistCards, updateJournalistCards } from "./controllers/JournalistCards.mjs"
+import { addUserDegrees, updateUserDegrees } from "./controllers/UserDegrees.mjs"
+import { addWorkObjects,updateWorkObjects } from "./controllers/WorkObjects.mjs"
+import { removePermissionFromRole, listRole, addRole, updateRole, deleteRole, listPermissionOfRole, permissionToRole} from "./controllers/Roles.mjs"
+// import { listPermission, addPermission, updatePermission, deletePermission } from "./controllers/Permission.mjs"
+import permissionController from "./controllers/permissionController.mjs";
+import { listParts, addParts, updateParts, deleteParts } from "./controllers/Parts.mjs"
+import { listPosition, addPosition, updatePosition, deletePosition } from "./controllers/Position.mjs"
+import notificationController from "./controllers/Notify.mjs"
+import { listAction, addAction, updateAction, deleteAction } from "./controllers/Action.mjs"
+import workflowController from "./controllers/workflow.mjs"
 import {
     addProfileDepartments,
     updateProfileDepartments,
@@ -70,10 +82,7 @@ app.get("/api/role/permission/:id", listPermissionOfRole);
 app.post("/api/role/permission/:id", permissionToRole);
 app.post("/api/role/permissiond/:id", removePermissionFromRole);
 
-app.get("/api/permission", listPermission);
-app.post("/api/permission", addPermission);
-app.put("/api/permission/:id", updatePermission);
-app.delete("/api/permission", deletePermission);
+app.use("/api/permission",permissionController)
 
 app.get("/api/action", listAction);
 app.post("/api/action", addAction);

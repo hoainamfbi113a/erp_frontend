@@ -6,14 +6,15 @@ router.get("/", async (req, res) => {
     const config = {
         headers: { Authorization: req.headers.authorization },
     };
-    let { data } = await axios.get(`${process.env.apiEmployee}/api/departments?page=${page}`, config);
+    let { data } = await axios.get(`${process.env.apiEmployee}/api/permission?page=${page}`, config);
     res.send(data);
 });
 router.post("/", async (req, res) => {
+    console.log(req.body)
     const config = {
         headers: { Authorization: req.headers.authorization },
     };
-    let { data } = await axios.post(`${process.env.apiEmployee}/api/departments`, req.body, config);
+    let { data } = await axios.post(`${process.env.apiEmployee}/api/permission`, req.body, config);
     res.send(data);
 });
 
@@ -23,7 +24,7 @@ router.put("/:id", async (req, res) => {
     };
     let { id } = req.params;
     let { data } = await axios.put(
-        `${process.env.apiEmployee}/api/departments/${id}`,
+        `${process.env.apiEmployee}/api/permission/${id}`,
         req.body,
         config,
     );
@@ -35,14 +36,7 @@ router.post("/delete", async (req, res) => {
     const config = {
         headers: { Authorization: req.headers.authorization },
     };
-    let { data } = await axios.delete(`${process.env.apiEmployee}/api/departments/${id}`, config);
-    res.send(data);
-});
-router.get("/map", async (req, res) => {
-    const config = {
-        headers: { Authorization: req.headers.authorization },
-    };
-    let { data } = await axios.get(`${process.env.apiEmployee}/api/departments?per_page=30`, config);
+    let { data } = await axios.delete(`${process.env.apiEmployee}/api/permission/${id}`, config);
     res.send(data);
 });
 export default router;

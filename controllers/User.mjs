@@ -99,5 +99,4 @@ router.put("/user/:id", async (req,res)=>{
       );
       res.send(data)
 })
-
 export default router;

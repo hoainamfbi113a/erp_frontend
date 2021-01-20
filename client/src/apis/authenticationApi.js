@@ -1,5 +1,6 @@
 import axios from "axios";
 import docCookies from "doc-cookies";
+import axiosConfig from "./axios";
 import { handleResponse } from './handleResponse';
 export const login = (params) => {
   return axios
@@ -14,6 +15,19 @@ export const login = (params) => {
     })
     .catch((err) => {
       console.log(err)
+      return {
+        error: "error",
+      };
+    });
+};
+export const getPermissionUser = (id) => {
+  console.log("123")
+  return axiosConfig
+    .get(`/api/user/permission/${id}`)
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
       return {
         error: "error",
       };

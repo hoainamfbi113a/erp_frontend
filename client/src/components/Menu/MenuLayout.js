@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import logo from "../../assets/images/logo.png";
+import { getPermissionUser } from "../../apis/authenticationApi"
 import logomall from "../../assets/images/logoPage.png";
 import { Menu, Layout } from "antd";
 import { message } from "antd";
@@ -16,6 +16,7 @@ class MenuLayout extends Component {
         super(props);
         this.state = {
             activeProfile: 0,
+            dataPermission:null,
         };
     }
     handleOnclick = () => {
@@ -37,7 +38,18 @@ class MenuLayout extends Component {
             .catch((err) => {
                 console.log(err);
             });
+            this.fetchPermission();
     };
+    fetchPermission = async () =>{
+        const user_id = docCookies.getItem("user_id")
+        const data = await getPermissionUser(user_id);
+        this.setState({
+            dataPermission:data,
+        })
+    }
+    // renderMenu = () =>{
+    //     if(this.dataPermission != )
+    // }
     render() {
         return (
             <div className="bbbb">

@@ -12,6 +12,7 @@ import ContentPermission from "../content/ContentPermission"
 import ContentParts from "../content/ContentParts"
 import ContentPosition from "../content/ContentPosition"
 import ContentDepartment from "../content/ContentDepartment"
+import NotFound from "../../components/NotFound";
 export default class RouterUrl extends Component {
     render() {
         return (
@@ -29,6 +30,7 @@ export default class RouterUrl extends Component {
                         <Route exact path="/erp/admin/parts" component = {ContentParts}></Route>
                         <Route exact path="/erp/admin/position" component = {ContentPosition}></Route>
                         <Route exact path="/erp/admin/department" component = {ContentDepartment}></Route>
+                        <Route component={NotFound}/>
                 </div>
                 </div>
             </div>

@@ -16,10 +16,13 @@ import { element } from "prop-types";
 const { Step } = Steps;
 const { RangePicker } = DatePicker;
 const dateFormat = "YYYY/MM/DD";
-class NotifiDepartment extends Component {
+class addInformationUser extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            dataUser :{
+
+            },
             STATUS_PROFILE: -1,
             step_id: -1,
             dataDepartment: null,
@@ -226,6 +229,9 @@ class NotifiDepartment extends Component {
                     dataUser = res.data;
                     pro_id = res.data.id;
                     const data = dataUser;
+                    this.setState({
+                        dataUser,
+                    })
                     this.setState({
                         pro_id: data.id,
                         user_id: data.user_id,
@@ -802,6 +808,7 @@ class NotifiDepartment extends Component {
         } else if (step_id === null) {
             value = 3;
         }
+        let dataUser = this.state.dataUser;
         return (
             <div className="content-background2" style={{ width: "100%" }}>
                 <Steps current={value} size="small" className="process-work-flow">
@@ -1631,4 +1638,4 @@ class NotifiDepartment extends Component {
 const mapDispatchToProps = (dispatch) => ({
     uiActionCreators: bindActionCreators(uiActions, dispatch),
 });
-export default connect(null, mapDispatchToProps)(NotifiDepartment);
+export default connect(null, mapDispatchToProps)(addInformationUser);
