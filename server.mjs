@@ -65,7 +65,7 @@ app.post("/api/partsd", deleteParts);
 
 app.get("/api/positions", listPosition);
 app.post("/api/positions", addPosition);
-app.put("/api/positions/:id", updatePosition);c
+app.put("/api/positions/:id", updatePosition);
 app.post("/api/positionsd", deletePosition);
 
 app.use("/api/departments", departmentsController);
