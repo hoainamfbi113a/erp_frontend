@@ -502,7 +502,7 @@ class CurriculumVitae extends Component {
                                         </li>
                                         <li className="tabs-main-left-li">
                                             <span className="tabs-user-infor-top">
-                                                Ngày sinh của user:
+                                                Ngày sinh 
                                             </span>
                                             <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                                                 <DatePicker
