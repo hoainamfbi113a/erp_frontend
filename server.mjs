@@ -18,6 +18,7 @@ import { listPosition, addPosition, updatePosition, deletePosition } from "./con
 import notificationController from "./controllers/Notify.mjs"
 import { listAction, addAction, updateAction, deleteAction } from "./controllers/Action.mjs";
 import workflowController from "./controllers/workflow.mjs";
+import servicemanagerController from "./controllers/servicemanagerController.mjs"
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 5001;
@@ -64,7 +65,7 @@ app.post("/api/partsd", deleteParts);
 
 app.get("/api/positions", listPosition);
 app.post("/api/positions", addPosition);
-app.put("/api/positions/:id", updatePosition);
+app.put("/api/positions/:id", updatePosition);c
 app.post("/api/positionsd", deletePosition);
 
 app.use("/api/departments", departmentsController);
@@ -72,6 +73,7 @@ app.use("/api/workflow", workflowController);
 app.use("/api/notifications", notificationController);
 app.use("/api/search", searchController);
 
+app.use("/api/service-management",servicemanagerController)
 // if (process.env.NODE_ENV === "production") {
 // Serve any static files
 app.use(express.static(path.join(__dirname, "client/dist")));
