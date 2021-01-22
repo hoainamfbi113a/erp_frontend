@@ -54,7 +54,7 @@ class addInformationUser extends Component {
       par_id: null,
       dep_name: null,
       dep_position: null,
-      dep_appointment_date: null,
+      appointment_date: null,
       deg_type: null,
       deg_diploma: null,
       deg_majors: null,
@@ -145,13 +145,11 @@ class addInformationUser extends Component {
     if (prevState.searchPart !== this.state.searchPart) {
       const value = this.state.searchPart;
       const { dep_id } = this.state;
-      console.log(dep_id);
       axiosConfig
         .get(
           `/api/search/parts/departments?name=${value}&per_page=10&dep_id=${dep_id}`
         )
         .then((res) => {
-          console.log(res.data);
           this.setState({
             dataParts: res.data,
           });
@@ -213,7 +211,6 @@ class addInformationUser extends Component {
       await axiosConfig
         .get(`/api/user/${idUser}`)
         .then((res) => {
-          console.log("Use", res);
           this.setState({
             full_name: res.data.full_name,
             phone: res.data.phone,
@@ -252,12 +249,15 @@ class addInformationUser extends Component {
             pro_identity_card: data.pro_identity_card,
             pro_identity_card_when: data.pro_identity_card_when,
             pro_identity_card_where: data.pro_identity_card_where,
+            pro_note: data.pro_note,
             dep_id: data.department.data.dep_id,
             pos_id: data.department.data.pos_id,
             par_id: data.department.data.part_id,
-            dep_appointment_date: new Date(
-              data.department.data.dep_appointment_date * 1000
-            ),
+            appointment_date: 
+            // new Date(
+              data.department.data.appointment_date 
+              // * 1000)
+              ,
             deg_type: data.userDegree.data.deg_type,
             deg_diploma: data.userDegree.data.deg_diploma,
             deg_majors: data.userDegree.data.deg_majors,
@@ -266,11 +266,14 @@ class addInformationUser extends Component {
               data.userDegree.data.deg_begin_study * 1000
             ),
             deg_end_study: new Date(data.userDegree.data.deg_end_study * 1000),
+            deg_note:data.userDegree.data.deg_note,
             work_formality: data.workObject.data.formality,
+            work_note:data.workObject.data.work_note,
             car_number: data.journalistCard.data.car_number,
             car_number_day: new Date(data.journalistCard.data.car_number_day),
             car_begin: new Date(data.journalistCard.data.car_begin * 1000),
             car_end: new Date(data.journalistCard.data.car_end * 1000),
+            car_note:data.journalistCard.data.car_note,
             idDepartment: data.department.data.id,
             idUserDegree: data.userDegree.data.id,
             idWorkObject: data.workObject.data.id,
@@ -399,7 +402,7 @@ class addInformationUser extends Component {
     }
   };
   handleAdd = async (value) => {
-    this.props.uiActionCreators.showLoading();
+    
     let messageErr = 0;
     let userId = 0;
     let proId = 0;
@@ -409,19 +412,22 @@ class addInformationUser extends Component {
     this.handleInputValid("department", this.state.dep_id);
     this.handleInputValid("position", this.state.pos_id);
     this.handleInputValid("part", this.state.par_id);
-    if (
-      !this.state.valid_pro_name.isValid &&
-      !this.state.valid_email.isValid &&
-      !this.state.valid_phone.isValid &&
-      !this.state.valid_part.isValid &&
-      !this.state.valid_department.isValid &&
-      !this.state.valid_position.isValid
-    ) {
+    // if (
+    //   !this.state.valid_pro_name.isValid &&
+    //   !this.state.valid_email.isValid &&
+    //   !this.state.valid_phone.isValid &&
+    //   !this.state.valid_part.isValid &&
+    //   !this.state.valid_department.isValid &&
+    //   !this.state.valid_position.isValid
+    // ) 
+    {
+      this.props.uiActionCreators.showLoading();
       let paramUser = {
         app_id: 99,
         email: this.state.email,
         phone: this.state.phone,
         full_name: this.state.pro_name,
+        service_management_id: "1",
       };
 
       await axiosConfig
@@ -458,11 +464,12 @@ class addInformationUser extends Component {
           button: value,
           action: "create",
         };
+        console.log(params)
         await axiosConfig
           .post(`/api/profiles`, params)
           .then((res) => {
             if (res.message == "Success!. Stored") {
-              (proId = res.id), console.log(res);
+              (proId = res.id);
             } else {
               messageErr = 2;
             }
@@ -491,7 +498,7 @@ class addInformationUser extends Component {
           dep_id: this.state.dep_id,
           pos_id: this.state.pos_id,
           part_id: this.state.par_id,
-          appointment_date: Date.parse(this.state.dep_appointment_date) / 1000,
+          appointment_date: Date.parse(this.state.appointment_date) / 1000 ,
         };
 
         await axiosConfig
@@ -646,7 +653,7 @@ class addInformationUser extends Component {
       dep_id: this.state.dep_id,
       pos_id: this.state.pos_id,
       part_id: this.state.par_id,
-      appointment_date: this.state.appointment_date,
+      appointment_date: Date.parse(this.state.appointment_date) / 1000 ,
     };
 
     await axiosConfig
@@ -809,6 +816,9 @@ class addInformationUser extends Component {
       pos_id: null,
     });
   };
+  handleReloadComponent = () =>{
+    this.componentDidMount();
+  }
   render() {
     let value = 0;
     let step_id = this.state.step_id;
@@ -1372,10 +1382,10 @@ class addInformationUser extends Component {
                               placeholder="Chọn ngày"
                               style={{ width: "100%" }}
                               value={
-                                this.state.dep_appointment_date == null
+                                this.state.appointment_date == null
                                   ? null
                                   : moment(
-                                      this.state.dep_appointment_date,
+                                      this.state.appointment_date,
                                       dateFormat
                                     )
                               }
@@ -1383,7 +1393,7 @@ class addInformationUser extends Component {
                                 this.onChangeBirthDay(
                                   date,
                                   dateString,
-                                  "dep_appointment_date"
+                                  "appointment_date"
                                 )
                               }
                             />
@@ -1624,6 +1634,7 @@ class addInformationUser extends Component {
           pro_id={this.state.pro_id}
           user_id={this.props.match.params.id}
           closeDeny={this.closeDeny}
+          handleReloadComponent = {this.handleReloadComponent}
         />
       </div>
     );

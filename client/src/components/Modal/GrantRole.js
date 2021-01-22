@@ -36,7 +36,6 @@ class GrantRole extends Component {
     this.props.handleCancel();
   };
   onChange = (value) => {
-    console.log(`selected ${value}`);
     this.setState({
       roleOfUser: value,
     });
@@ -49,7 +48,6 @@ class GrantRole extends Component {
       const params = {
         role_id: this.state.roleOfUser,
       };
-      console.log(params);
       axiosConfig
         .post(`/api/user/role/${this.props.idGrant}`, params)
         .then((res) => {
@@ -74,10 +72,7 @@ class GrantRole extends Component {
     });
   };
   renderRole = () =>{
-    console.log("1")
     if(this.props.roleAndPermissionUser && this.props.roleAndPermissionUser.role){
-      console.log("2")
-      console.log(this.props.roleAndPermissionUser.role)
       // return this.props.roleAndPermissionUser.permissions.map((item)=>{
       //   return (
       //     <li key={item.id} style ={{display:'flex', justifyContent:'center'}}>

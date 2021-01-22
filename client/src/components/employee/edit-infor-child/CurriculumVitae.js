@@ -127,7 +127,7 @@ class CurriculumVitae extends Component {
             dep_id: this.state.dep_id,
             pos_id: this.state.pos_id,
             part_id: this.state.par_id,
-            appointment_date: this.state.appointment_date,
+            appointment_date: Date.parse(this.state.appointment_date) / 1000
         };
 
         await axiosConfig
@@ -206,7 +206,8 @@ class CurriculumVitae extends Component {
         console.log(messageErr);
         if (messageErr == 0) {
             message.success("Cập nhât thông tin thành công");
-            window.location.href = "http://erp.tuoitre.vn/erp/employee/personal-page";
+            this.props.handleReloadComponent();
+            // window.location.href = "http://erp.tuoitre.vn/erp/employee/personal-page";
         } else {
             message.error("Cập nhật thất bại");
         }
@@ -327,25 +328,31 @@ class CurriculumVitae extends Component {
                     pro_identity_card: data.pro_identity_card,
                     pro_identity_card_when: data.pro_identity_card_when,
                     pro_identity_card_where: data.pro_identity_card_where,
-                    dep_name: data.department.data.dep_name,
-                    dep_position: data.department.data.dep_position,
+                    pro_note: data.pro_note,
                     dep_id: data.department.data.dep_id,
                     pos_id: data.department.data.pos_id,
                     par_id: data.department.data.part_id,
-                    dep_appointment_date: new Date(
-                        data.department.data.dep_appointment_date * 1000,
-                    ),
+                    appointment_date: 
+                    // new Date(
+                      data.department.data.appointment_date 
+                      // * 1000)
+                      ,
                     deg_type: data.userDegree.data.deg_type,
                     deg_diploma: data.userDegree.data.deg_diploma,
                     deg_majors: data.userDegree.data.deg_majors,
                     deg_school_name: data.userDegree.data.deg_school_name,
-                    deg_begin_study: new Date(data.userDegree.data.deg_begin_study * 1000),
+                    deg_begin_study: new Date(
+                      data.userDegree.data.deg_begin_study * 1000
+                    ),
                     deg_end_study: new Date(data.userDegree.data.deg_end_study * 1000),
+                    deg_note:data.userDegree.data.deg_note,
                     work_formality: data.workObject.data.formality,
+                    work_note:data.workObject.data.work_note,
                     car_number: data.journalistCard.data.car_number,
                     car_number_day: new Date(data.journalistCard.data.car_number_day),
                     car_begin: new Date(data.journalistCard.data.car_begin * 1000),
                     car_end: new Date(data.journalistCard.data.car_end * 1000),
+                    car_note:data.journalistCard.data.car_note,
                     idDepartment: data.department.data.id,
                     idUserDegree: data.userDegree.data.id,
                     idWorkObject: data.workObject.data.id,
@@ -744,10 +751,10 @@ class CurriculumVitae extends Component {
                                                 <DatePicker
                                                     placeholder="Chọn ngày"
                                                     value={
-                                                        this.state.dep_appointment_date == null
+                                                        this.state.appointment_date == null
                                                             ? null
                                                             : moment(
-                                                                  this.state.dep_appointment_date,
+                                                                  this.state.appointment_date,
                                                                   dateFormat,
                                                               )
                                                     }
@@ -755,7 +762,7 @@ class CurriculumVitae extends Component {
                                                         this.onChangeBirthDay(
                                                             date,
                                                             dateString,
-                                                            "dep_appointment_date",
+                                                            "appointment_date",
                                                         )
                                                     }
                                                 />
