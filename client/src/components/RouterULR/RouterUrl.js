@@ -48,11 +48,17 @@ export default class RouterUrl extends Component {
             isTrue:true
           })
         }
-        if(dataPermission.permissions>8){
+       else if(dataPermission.permissions>8){
           this.setState({
             major:1,
           })
         }
+      else {
+          this.setState({
+              major:-1
+          })
+      }
+
       };
     renderUrl = () =>{
         if(this.state.major == 8 && this.state.isTrue === true ){
@@ -69,10 +75,10 @@ export default class RouterUrl extends Component {
                         <Route exact path="/erp/admin/position" component = {ContentPosition}></Route>
                         <Route exact path="/erp/admin/department" component = {ContentDepartment}></Route>
                         <Route  component={NotFound}/>
-                        </Switch>
+                </Switch>
             )
         }
-        if(this.state.major == 8 && this.state.isTrue === false){
+        else if(this.state.major == 8 && this.state.isTrue === false){
             <Switch>
             <Route exact path="/erp/admin/user" component = {ContentUserSix}></Route>
             <Route exact path="/erp/admin/notification" component = {ContentNotification}></Route>
@@ -82,11 +88,13 @@ export default class RouterUrl extends Component {
             <Route  component={NotFound}/>
             </Switch>
         }
-        return (
+        else if(this.state.major == -1)
+         return (
             <Switch>
             <Route  component={NotFound}/>
             </Switch>
         )
+        return "";
     }
     render() {
         return (

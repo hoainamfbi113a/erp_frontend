@@ -30,6 +30,53 @@ export default class NotifiDepartment extends Component {
     handleClick = (id) => {
         this.setState({ activeLink: id });
     };
+    renderComponents = () =>{
+        if(this.state.activeLink === 1){
+            return (
+                <CurriculumVitae handleReloadComponent={this.handleReloadComponent} />
+            )
+        }
+        if(this.state.activeLink === 2){
+            return (
+                <PersonalHistory/>
+            )
+        }
+        if(this.state.activeLink === 3){
+            return (
+                <Bonus/>
+            )
+        }
+        if(this.state.activeLink === 4){
+            return (
+                <JoinDCS/>
+            )
+        }
+        if(this.state.activeLink === 5){
+            return (
+                <Bonus/>
+            )
+        }
+        if(this.state.activeLink === 6){
+            return (
+                <Family/>
+            )
+        }
+        if(this.state.activeLink === 7){
+            return (
+                <Family/>
+            )
+        }
+        if(this.state.activeLink === 8){
+            return (
+                <Kinship/>
+            )
+        }
+        if(this.state.activeLink === 9){
+            return (
+                <Social/>
+            )
+        }
+    }
     async componentDidMount() {
         let tokenID = docCookies.getItem("user_id");
         await axiosConfig
@@ -72,6 +119,9 @@ export default class NotifiDepartment extends Component {
         }
         // return ""
     };
+    handleReloadComponent = ()=>{
+        this.componentDidMount();
+    }
     render() {
         let value = 3;
         let step_id = this.state.step_id;
@@ -92,7 +142,7 @@ export default class NotifiDepartment extends Component {
                 <div style={{ minHeight: "70vh" }} className="edit-infor" disabled>
                     <div className="edit-infor-tabs">
                         <ul>
-                            <Link to="/erp/employee/edit-information">
+                            {/* <Link to="/erp/employee/edit-information"> */}
                                 <li onClick={() => this.handleClick(1)}>
                                     <div className={this.state.activeLink === 1 ? "active" : ""}>
                                         1
@@ -101,8 +151,8 @@ export default class NotifiDepartment extends Component {
                                         Sơ yếu lý lịch
                                     </span>
                                 </li>
-                            </Link>
-                            <Link to="/erp/employee/edit-information/personal-history">
+                            {/* </Link> */}
+                            {/* <Link to="/erp/employee/edit-information/personal-history"> */}
                                 <li onClick={() => this.handleClick(2)}>
                                     <div className={this.state.activeLink === 2 ? "active" : ""}>
                                         2
@@ -111,8 +161,8 @@ export default class NotifiDepartment extends Component {
                                         Lịch sử bản thân
                                     </span>
                                 </li>
-                            </Link>
-                            <Link to="/erp/employee/edit-information/joinDCS">
+                            {/* </Link> */}
+                            {/* <Link to="/erp/employee/edit-information/joinDCS"> */}
                                 <li onClick={() => this.handleClick(3)}>
                                     <div className={this.state.activeLink === 3 ? "active" : ""}>
                                         3
@@ -121,8 +171,8 @@ export default class NotifiDepartment extends Component {
                                         Gia nhập Đảng Cộng Sản Việt Nam
                                     </span>
                                 </li>
-                            </Link>
-                            <Link to="/erp/employee/edit-information/join-TCTTXH">
+                            {/* </Link> */}
+                            {/* <Link to="/erp/employee/edit-information/join-TCTTXH"> */}
                                 <li onClick={() => this.handleClick(4)}>
                                     <div className={this.state.activeLink === 4 ? "active" : ""}>
                                         4
@@ -131,8 +181,8 @@ export default class NotifiDepartment extends Component {
                                         Tham gia các tổ chức chính trị, xã hội, các nghề nghiệp
                                     </span>
                                 </li>
-                            </Link>
-                            <Link to="/erp/employee/edit-information/professional-compensation">
+                            {/* </Link> */}
+                            {/* <Link to="/erp/employee/edit-information/professional-compensation"> */}
                                 <li onClick={() => this.handleClick(5)}>
                                     <div className={this.state.activeLink === 5 ? "active" : ""}>
                                         5
@@ -142,8 +192,8 @@ export default class NotifiDepartment extends Component {
                                         trị ngoại ngữ
                                     </span>
                                 </li>
-                            </Link>
-                            <Link to="/erp/employee/edit-information/bonus">
+                            {/* </Link> */}
+                            {/* <Link to="/erp/employee/edit-information/bonus"> */}
                                 <li onClick={() => this.handleClick(6)}>
                                     <div className={this.state.activeLink === 6 ? "active" : ""}>
                                         6
@@ -152,8 +202,8 @@ export default class NotifiDepartment extends Component {
                                         Khen thưởng, kỷ luật
                                     </span>
                                 </li>
-                            </Link>
-                            <Link to="/erp/employee/edit-information/family">
+                            {/* </Link> */}
+                            {/* <Link to="/erp/employee/edit-information/family"> */}
                                 <li onClick={() => this.handleClick(7)}>
                                     <div className={this.state.activeLink === 7 ? "active" : ""}>
                                         7
@@ -162,8 +212,8 @@ export default class NotifiDepartment extends Component {
                                         Hoàn cảnh kinh tế, quan hệ gia đình
                                     </span>
                                 </li>
-                            </Link>
-                            <Link to="/erp/employee/edit-information/kinship">
+                            {/* </Link> */}
+                            {/* <Link to="/erp/employee/edit-information/kinship"> */}
                                 <li onClick={() => this.handleClick(8)}>
                                     <div className={this.state.activeLink === 8 ? "active" : ""}>
                                         8
@@ -172,8 +222,8 @@ export default class NotifiDepartment extends Component {
                                         Quan hệ gia đình, thân tộc
                                     </span>
                                 </li>
-                            </Link>
-                            <Link to="/erp/employee/edit-information/social">
+                            {/* </Link> */}
+                            {/* <Link to="/erp/employee/edit-information/social"> */}
                                 <li onClick={() => this.handleClick(9)}>
                                     <div className={this.state.activeLink === 9 ? "active" : ""}>
                                         9
@@ -182,56 +232,11 @@ export default class NotifiDepartment extends Component {
                                         Quan hệ xã hội
                                     </span>
                                 </li>
-                            </Link>
+                            {/* </Link> */}
                         </ul>
                         <div className="edit-infr-vertical-line"></div>
                     </div>
-
-                    <Route
-                        exact
-                        path="/erp/employee/edit-information"
-                        component={CurriculumVitae}
-                    ></Route>
-                    <Route
-                        exact
-                        path="/erp/employee/edit-information/personal-history"
-                        component={PersonalHistory}
-                    ></Route>
-                    <Route
-                        exact
-                        path="/erp/employee/edit-information/joinDCS"
-                        component={JoinDCS}
-                    ></Route>
-                    <Route
-                        exact
-                        path="/erp/employee/edit-information/join-TCTTXH"
-                        component={JoinTCTTXH}
-                    ></Route>
-                    <Route
-                        exact
-                        path="/erp/employee/edit-information/professional-compensation"
-                        component={ProfessionalCompensation}
-                    ></Route>
-                    <Route
-                        exact
-                        path="/erp/employee/edit-information/bonus"
-                        component={Bonus}
-                    ></Route>
-                    <Route
-                        exact
-                        path="/erp/employee/edit-information/family"
-                        component={Family}
-                    ></Route>
-                    <Route
-                        exact
-                        path="/erp/employee/edit-information/kinship"
-                        component={Kinship}
-                    ></Route>
-                    <Route
-                        exact
-                        path="/erp/employee/edit-information/social"
-                        component={Social}
-                    ></Route>
+                    {this.renderComponents()}
                 </div>
                 {/* </fieldset> */}
             </div>

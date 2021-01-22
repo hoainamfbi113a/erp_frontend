@@ -12,16 +12,16 @@ export default class Notify extends Component {
     onFinish = async (values) => {
         await axiosConfig
           .put(`/api/profiles/${this.props.pro_id}`, {
-            user_id: idUser,
+            user_id: this.props.user_id,
             reject: 1,
             action:"confirm",
             notify_content:values.reasonDeny
           })
           .then((res) => {
-            console.log(res);
             if (res.message) {
               message.success("Từ chối thông tin nhân sự thành công");
-              window.location.href="hhttp://erp.tuoitre.vn/erp/admin/user"
+              this.hideModal();
+              this.props.handleReloadComponent();
             }
           });
       };

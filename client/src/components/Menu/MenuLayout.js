@@ -65,7 +65,7 @@ class MenuLayout extends Component {
     // let dataSlug = this.state.slugPermission;
     let dem = 0;
     let dataPermission = this.state.dataPermission;
-    if(dataPermission.permissions.length >7 && dataPermission.permissions[8].actions[4]=="Confirm"){
+    if(dataPermission.permissions.length >7 && dataPermission.permissions[8]&& dataPermission.permissions[8].actions[4]=="Confirm"){
       this.setState({
         major:8,
         isTrue:true
