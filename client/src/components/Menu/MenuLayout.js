@@ -201,6 +201,9 @@ class MenuLayout extends Component {
         <Menu.Item key="11">
           <Link to="/erp/admin/position">Chức vụ</Link>
         </Menu.Item>
+        <Menu.Item key="12">
+          <Link to="/erp/admin/workflow">Workflow</Link>
+        </Menu.Item>
         ;
 
       </SubMenu>
