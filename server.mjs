@@ -18,6 +18,7 @@ import { listPosition, addPosition, updatePosition, deletePosition } from "./con
 import notificationController from "./controllers/Notify.mjs"
 import { listAction, addAction, updateAction, deleteAction } from "./controllers/Action.mjs";
 import workflowController from "./controllers/workflow.mjs";
+import { addPermissionForPos ,deletePermissionForPos} from "./controllers/Position.mjs";
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 5001;
@@ -66,6 +67,8 @@ app.get("/api/positions", listPosition);
 app.post("/api/positions", addPosition);
 app.put("/api/positions/:id", updatePosition);
 app.post("/api/positionsd", deletePosition);
+app.post("/api/position/permission/:id", addPermissionForPos);
+app.delete("/api/position/permission/:id", deletePermissionForPos);
 
 app.use("/api/departments", departmentsController);
 app.use("/api/workflow", workflowController);

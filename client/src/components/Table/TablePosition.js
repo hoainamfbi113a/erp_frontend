@@ -9,6 +9,8 @@ import { Layout } from "antd";
 import { Table, Space, Tag, Avatar } from "antd";
 import { Popconfirm, message } from "antd";
 import { Input, Modal } from "antd";
+const { Option } = Select;
+
 import {
   getListPosition,
   addPosition,
@@ -26,10 +28,86 @@ class TablePosition extends Component {
     id: "",
     pos_name: "",
     pos_note: "",
+        visible: false,
+        dep_id: "",
+        action: [],
+        dataPermission: null,
+        pos_id: "",
+        dataAction: [],
+        crud: "",
+        option: [],
   };
+
   componentDidMount = () => {
     this.fetchData();
   };
+    componentDidUpdate = async (prevProps, prevState) => {
+        if (prevState.dep_id !== this.state.dep_id) {
+            const { dep_id } = this.state;
+            const { pos_id } = this.state;
+
+            if (this.state.crud == 1) {
+                const data = await this.getListPermissionNotYet(dep_id, pos_id);
+                this.setState({
+                    dataPermission: data,
+                });
+            }
+            if (this.state.crud == 2) {
+                axiosConfig
+                    .get(`/api/permission/departments/positions?dep_id=${dep_id}&pos_id=${pos_id}`)
+                    .then((res) => {
+                        this.setState({
+                            dataPermission: res,
+                        });
+                    });
+            }
+        }
+        if (prevState.per_id !== this.state.per_id) {
+            const { dep_id } = this.state;
+            const { pos_id } = this.state;
+
+            if (this.state.crud == 1) {
+                const data = await this.getListPermissionNotYet(dep_id, pos_id);
+                let arrayAction;
+                // Lấy action theo quyền
+                data.map((item) => {
+                    if (item.id == this.state.per_id) {
+                        return (arrayAction = item.actions);
+                    }
+                });
+                const listAllAction = await axiosConfig.get(`/api/action`);
+
+                if (listAllAction) {
+                    let res = listAllAction.data.filter((item) => !arrayAction.includes(item.name));
+
+                    this.setState({
+                        option: res,
+                    });
+                }
+            }
+            if (this.state.crud == 2) {
+                // const listAllAction = await axiosConfig.get(`/api/action`);
+                const listPerByPosDep = await axiosConfig.get(
+                    `/api/permission/departments/positions?dep_id=${dep_id}&pos_id=${pos_id}`,
+                );
+                let arrayAction;
+                listPerByPosDep.map((item) => {
+                    if (item.id == this.state.per_id) {
+                        return (arrayAction = item.actions);
+                    }
+                });
+                console.log(arrayAction);
+                const listAllAction = await axiosConfig.get(`/api/action`);
+                console.log(listAllAction);
+                if (listAllAction) {
+                    let res = listAllAction.data.filter((item) => arrayAction.includes(item.name));
+                    this.setState({
+                        option: res,
+                    });
+                }
+            }
+        }
+    };
   fetchData = async () => {
     let data = await getListPosition(1);
     this.setState({
@@ -64,7 +142,67 @@ class TablePosition extends Component {
       }
     }
   };
+    submitAddModelPermission = async () => {
+        const posId = this.state.pos_id;
+        const params = {
+            dep_id: this.state.dep_id.toString(),
+            permission_id: this.state.per_id.toString(),
+            actions: this.state.action,
+        };
+        const data = await axiosConfig.post(`/api/position/permission/${posId}`, params);
+        if (data.message === "Success!. Stored") {
+            message.success("Thêm quyền thành công");
+        } else {
+            message.error("Thêm quyền thất bại");
+        }
+    };
+    submitDeleteModelPermission = async () => {
+        try {
+            const posId = this.state.pos_id;
+            const params = {
+                dep_id: this.state.dep_id.toString(),
+                permission_id: this.state.per_id.toString(),
+                actions: this.state.action,
+            };
+            console.log(params);
+            const data = await axiosConfig.delete(`/api/position/permission/${posId}`, params);
+            if (data.message === "Success!. Stored") {
+                message.success("Xóa quyền thành công");
+            } else {
+                message.error("Xóa quyền thất bại");
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    handleSubmitPermission = () => {
+        switch (true) {
+            case !this.state.crud:
+                message.error("Bạn chưa chọn thao tác");
+                break;
+            case !this.state.dep_id:
+                message.error("Bạn chưa chọn phòng ban");
+                break;
+            case !this.state.per_id:
+                message.error("Bạn chưa chọn quyền");
+                break;
+            case this.state.action.length == 0:
+                message.error("Bạn chưa chọn action");
+                break;
+            case this.state.crud == 1:
+                this.submitAddModelPermission();
+                break;
+            case this.state.crud == 2:
+                this.submitDeleteModelPermission();
+                break;
+            default:
+                break;
+        }
+    };
   hideModal = () => {
+        this.setState({
+            visible: false,
+        });
     this.props.hideModal();
   };
   showModal = (id) => {
@@ -78,6 +216,80 @@ class TablePosition extends Component {
     });
     this.props.showModal();
   };
+    showModalPosition = async (id) => {
+        // const b = await this.getListPermissionNotYet();
+        this.setState({
+            pos_id: id,
+        });
+        axiosConfig
+            .get(`/api/departments?per_page=10`)
+            .then((res) => {
+                this.setState({
+                    dataDepartment: res,
+                });
+            })
+            .catch((error) => {
+                console.log("False to load API", error);
+            });
+
+        this.setState({
+            visible: true,
+        });
+    };
+
+    compareArray = (ar1, ar2) => {
+        if (ar1.length !== ar2.length) {
+            return false;
+        } else {
+            const a = ar1.filter((item) => !ar2.includes(item));
+            if (a) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+    };
+
+    getListPermissionNotYet = async (dep_id, pos_id) => {
+        let res = [];
+        try {
+            const data = await axiosConfig.get(`/api/permission`);
+            const dataAction = await axiosConfig.get(`/api/action`);
+            const dataByPosDep = await axiosConfig.get(
+                `/api/permission/departments/positions?dep_id=${dep_id}&pos_id=${pos_id}`,
+            );
+            //compare 2 array
+            const compareArray = (ar1, ar2) => {
+                const a = ar1.filter((item) => !ar2.includes(item));
+                if (a.length > 0) {
+                    return false;
+                } else {
+                    return true;
+                }
+            };
+            // Lấy id của quyền theo chức vụ và phòng ban
+            let filterDataPosDep = dataByPosDep.map((item) => {
+                return item.id;
+            });
+            // Lấy ra mảng các action  (all)
+            let filterAction = dataAction.data.map((item) => {
+                return item.name;
+            });
+            // Lấy ra những item không có trong mảng posDEP so với all quyền
+            res = data.data.filter((item) => !filterDataPosDep.includes(item.id));
+            res.map((items) => {
+                items.actions = [];
+            });
+            // Lấy ra những quyền thiếu actions
+            let resAction = dataByPosDep.filter(
+                (item) => !compareArray(filterAction, item.actions),
+            );
+            const dataArrayLast = res.concat(resAction);
+            return [...dataArrayLast];
+        } catch (error) {
+            return (res = []);
+        }
+    };
   onChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
@@ -103,11 +315,26 @@ class TablePosition extends Component {
   onSelectChange = (selectedRowKeys) => {
     this.setState({ selectedRowKeys });
   };
+    handleChangeCrud = (value) => {
+        this.setState({
+            crud: value,
+        });
+    };
   handleChangeDepartment = (value) => {
     this.setState({
       dep_id: value,
     });
   };
+    handleChangePermission = (value) => {
+        this.setState({
+            per_id: value,
+        });
+    };
+    handleChangeAction = (value) => {
+        this.setState({
+            action: value,
+        });
+    };
   handlePagination = async (pagination) => {
     this.props.uiActionCreators.showLoading();
     let data = await getListPosition(pagination);
@@ -116,7 +343,65 @@ class TablePosition extends Component {
     });
       this.props.uiActionCreators.hideLoading();
   };
+    showDepartment = () => {
+        if (this.state.dataDepartment) {
+            return this.state.dataDepartment.data.map((element) => {
+                return (
+                    <Option key={element.id} value={element.id}>
+                        {element.dep_name}
+                    </Option>
+                );
+            });
+        }
+    };
+    showPermission = () => {
+        if (this.state.dataPermission) {
+            return this.state.dataPermission.map((element) => {
+                return (
+                    <Option key={element.id} value={element.id}>
+                        {element.name}
+                    </Option>
+                );
+            });
+        }
+    };
+    showAction = () => {
+        const { action } = this.state;
+        let OPTIONS = this.state.option;
+        if (this.state.dataAction) {
+            this.state.dataAction.map((item) => {
+                OPTIONS.push(item.name);
+            });
+            const filteredOptions = OPTIONS.filter((o) => !action.includes(o));
+            return filteredOptions.map((item) => (
+                <Option key={item.id} value={item.id}>
+                    {item.name}
+                </Option>
+            ));
+        }
+    };
+
+    handleFocusCrud = () => {
+        this.setState({
+            dep_id: null,
+            per_id: null,
+            action: [],
+            crud: null,
+        });
+    };
+    handleFocusDepartment = () => {
+        this.setState({
+            dep_id: null,
+            per_id: null,
+        });
+    };
+    handleFocusPermission = () => {
+        this.setState({
+            per_id: null,
+        });
+    };
   render() {
+        const { action } = this.state;
     let data = "";
     let total = 0;
     if (this.state.data) {
@@ -183,6 +468,9 @@ class TablePosition extends Component {
             >
               Cập nhật
             </Tag>
+                        <Tag className="table-action" onClick={() => this.showModalPosition(text)}>
+                            Gán quyền
+                        </Tag>
           </Space>
         ),
       },
@@ -247,6 +535,60 @@ class TablePosition extends Component {
             </ul>
           </form>
         </Modal>
+                <Modal
+                    title="Gán quyền"
+                    visible={this.state.visible}
+                    onOk={this.handleSubmitPermission}
+                    onCancel={this.hideModal}
+                    style={{ width: "200px" }}
+                >
+                    <form method="POST">
+                        <div className="select-span-table">
+                            <span>Chọn thao tác</span>
+                            <Select
+                                value={this.state.crud}
+                                onChange={this.handleChangeCrud}
+                                onFocus={this.handleFocusCrud}
+                            >
+                                <Option value="1">Thêm quyền</Option>
+                                <Option value="2">Xóa quyền</Option>
+                            </Select>
+                        </div>
+                        <div className="select-span-table">
+                            <span>Chọn phòng ban :</span>
+                            <Select
+                                showSearch
+                                value={this.state.dep_id}
+                                placeholder="Chọn phòng ban"
+                                onChange={this.handleChangeDepartment}
+                                onFocus={this.handleFocusDepartment}
+                            >
+                                {this.showDepartment()}
+                            </Select>
+                        </div>
+                        <div className="select-span-table">
+                            <span>Chọn quyền :</span>
+                            <Select
+                                value={this.state.per_id}
+                                onChange={this.handleChangePermission}
+                                onFocus={this.handleFocusPermission}
+                            >
+                                {this.showPermission()}
+                            </Select>
+                        </div>
+                        <div className="select-span-table">
+                            <span>Chọn Action :</span>
+                            <Select
+                                mode="multiple"
+                                value={this.state.action}
+                                onFocus={this.handleFocusAction}
+                                onChange={this.handleChangeAction}
+                            >
+                                {this.showAction()}
+                            </Select>
+                        </div>
+                    </form>
+                </Modal>
       </div>
     );
   }

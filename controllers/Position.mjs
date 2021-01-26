@@ -38,4 +38,46 @@ const deletePosition = async (req, res) => {
     res.send(data);
 };
 
-export { listPosition, addPosition, updatePosition, deletePosition };
+const addPermissionForPos = async (req, res) => {
+    const { id } = req.params;
+    const config = {
+        headers: { Authorization: req.headers.authorization },
+    };
+
+    try {
+        const data = await axios.post(
+            `${process.env.apiEmployee}/api/position/permission/${id}`,
+            req.body,
+            config,
+        );
+        res.send(data.data);
+    } catch (error) {
+        res.send(error);
+    }
+};
+const deletePermissionForPos = async (req, res) => {
+    const { id } = req.params;
+    const config = {
+        headers: { Authorization: req.headers.authorization },
+    };
+
+    try {
+        const data = await axios.delete(
+            `${process.env.apiEmployee}/api/position/permission/${id}`,
+            req.body,
+            config,
+        );
+        res.send(data.data);
+    } catch (error) {
+        res.send(error);
+    }
+};
+
+export {
+    listPosition,
+    addPosition,
+    updatePosition,
+    deletePosition,
+    addPermissionForPos,
+    deletePermissionForPos,
+};

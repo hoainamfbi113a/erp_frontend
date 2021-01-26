@@ -6,11 +6,14 @@ router.get("/", async (req, res) => {
     const config = {
         headers: { Authorization: req.headers.authorization },
     };
-    let { data } = await axios.get(`${process.env.apiEmployee}/api/permission?page=${page}`, config);
+    let { data } = await axios.get(
+        `${process.env.apiEmployee}/api/permission?page=${page}`,
+        config,
+    );
     res.send(data);
 });
 router.post("/", async (req, res) => {
-    console.log(req.body)
+    console.log(req.body);
     const config = {
         headers: { Authorization: req.headers.authorization },
     };
@@ -39,4 +42,17 @@ router.post("/delete", async (req, res) => {
     let { data } = await axios.delete(`${process.env.apiEmployee}/api/permission/${id}`, config);
     res.send(data);
 });
+router.get("/departments/positions", async (req, res) => {
+    const { dep_id, pos_id } = req.query;
+
+    const config = {
+        headers: { Authorization: req.headers.authorization },
+    };
+    let { data } = await axios.get(
+        `${process.env.apiEmployee}/api/permission/departments/positions?dep_id=${dep_id}&pos_id=${pos_id}`,
+        config,
+    );
+    res.send(data);
+});
+
 export default router;
