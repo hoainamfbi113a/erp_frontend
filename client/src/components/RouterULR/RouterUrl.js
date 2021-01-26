@@ -17,6 +17,7 @@ import ContentParts from "../content/ContentParts"
 import ContentPosition from "../content/ContentPosition"
 import ContentDepartment from "../content/ContentDepartment"
 import NotFound from "../../components/NotFound";
+import Workflow from '../admin/workflow/Workflow';
 export default class RouterUrl extends Component {
     constructor(props) {
         super(props);
@@ -74,6 +75,7 @@ export default class RouterUrl extends Component {
                         <Route exact path="/erp/admin/parts" component = {ContentParts}></Route>
                         <Route exact path="/erp/admin/position" component = {ContentPosition}></Route>
                         <Route exact path="/erp/admin/department" component = {ContentDepartment}></Route>
+                        <Route exact path="/erp/admin/workflow" component = {Workflow}></Route>
                         <Route  component={NotFound}/>
                 </Switch>
             )

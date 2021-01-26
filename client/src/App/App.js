@@ -13,7 +13,6 @@ import Erp from "../components/Erp/Erp";
 import NotFound from "../components/NotFound";
 import Globading from "../components/Loading/Globading";
 import PersonalPage from "../components/employee/personalPage/PersonalPage"
-
 const store = configStore();
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
