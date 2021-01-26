@@ -1,12 +1,10 @@
 import Axios from "axios";
 
 const getProfile = async (req, res) => {
-  // console.log("1")
   const config = {
     headers: { Authorization: req.headers.authorization }
   };
   let { id } = req.body;
-  // console.log(`${process.env.apiEmployee}/api/fe/profiles/users/${id}`)
    Axios.get(
     `${process.env.apiEmployee}/api/fe/profiles/users/${id}`,config )
     .then(response=>{
@@ -17,7 +15,6 @@ const getProfile = async (req, res) => {
   })
 };
 const updateProfile = async (req, res) => {
-  console.log(req.body)
   const config = {
     headers: { Authorization: req.headers.authorization }
   };

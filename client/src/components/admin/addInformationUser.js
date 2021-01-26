@@ -1,18 +1,40 @@
 import React, { Component } from "react";
-import { Input, DatePicker, Radio, Button, message } from "antd";
-import axiosConfig from "../../apis/axios";
+import {
+  Input,
+  DatePicker,
+  Radio,
+  Button,
+  message,
+  Steps,
+  Popconfirm,
+  Select,
+} from "antd";
+import { bindActionCreators } from "redux";
 import moment from "moment";
 
-import Axios from "axios";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
+import axiosConfig from "../../apis/axios";
 import { validateInputFormUser } from "../../helpers/FuncHelper";
 import * as uiActions from "../../actions/ui";
-import { Select } from "antd";
-const { Option } = Select;
-import { Steps, Popconfirm } from "antd";
 import Notify from "../Modal/Notify";
-import { element } from "prop-types";
+import {
+  getListDepartment,
+  addDepartmentProfile,
+  updateDepartmentProfile,
+} from "../../apis/departmentApi";
+import { getListPosition } from "../../apis/positionApi";
+import { getListParts } from "../../apis/partsApi";
+import { getProfile, addProfile, updateProfile } from "../../apis/profileApi";
+import { workflowProfile } from "../../apis/workflowApi";
+import { transfersProfile } from "../../apis/transfersApi";
+import { register, updateUser, getUser } from "../../apis/authenticationApi";
+import { addUserDegrees, updateUserDegree } from "../../apis/userDegreesApi";
+import { addWorkObject, updateWorkObject } from "../../apis/workObjectsApi";
+import {
+  addJournalistCards,
+  updateJournalistCards,
+} from "../../apis/journalistCardsApi";
+const { Option } = Select;
 const { Step } = Steps;
 const { RangePicker } = DatePicker;
 const dateFormat = "YYYY/MM/DD";
@@ -20,16 +42,16 @@ class addInformationUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pro_id_saved:null,
+      pro_id_saved: null,
       idSaved: null,
       dataUser: {},
       STATUS_PROFILE: -1,
       step_id: -1,
       dataDepartment: null,
       dataPosition: null,
-      dataWorkflow: null,
+      dataWorkflowProfile: null,
       dataParts: null,
-      dataWorkflow: null,
+      dataWorkflowProfile: null,
       user_id: null,
       pro_id: null,
       pro_name: null,
@@ -160,138 +182,97 @@ class addInformationUser extends Component {
     }
   };
 
-  fetchData = () => {
-    this.fetchDepartment();
-    this.fetchPosition();
+  fetchData = async () => {
     this.fetchDataUser();
-    this.fetchWorkflowProfile();
-  };
-  fetchWorkflowProfile = () => {
-    axiosConfig
-      .get(`/api/workflow/update-profile`)
-      .then((res) => {
-        this.setState({
-          dataWorkflow: res,
-        });
-      })
-      .catch((err) => {
-        console.log("err", err);
-      });
-  };
-  fetchPosition = () => {
-    axiosConfig
-      .get("/api/positions")
-      .then((res) => {
-        this.setState({
-          dataPosition: res.data,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    let dataDepartment = await getListDepartment();
+    let dataPosition = await getListPosition();
+    let dataParts = await getListParts(1);
+    let dataWorkflowProfile = await workflowProfile();
+    this.setState({
+      dataDepartment: dataDepartment.data,
+      dataPosition: dataPosition.data,
+      dataParts: dataParts.data,
+      dataWorkflowProfile,
+    });
   };
 
-  fetchDepartment = () => {
-    axiosConfig
-      .get("/api/departments")
-      .then((res) => {
-        this.setState({
-          dataDepartment: res.data,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
   fetchDataUser = async () => {
     if (this.props.match.params.id) {
       let idUser = this.props.match.params.id;
       let dataUser = null;
       let pro_id = 0;
-      await axiosConfig
-        .get(`/api/user/${idUser}`)
-        .then((res) => {
-          this.setState({
-            full_name: res.data.full_name,
-            phone: res.data.phone,
-            email: res.data.email,
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-      await axiosConfig
-        .post(`/api/fe/profiles/user`, {
-          id: idUser,
-        })
-        .then(async (res) => {
-          dataUser = res.data;
-          pro_id = res.data.id;
-          const data = dataUser;
-          this.setState({
-            dataUser,
-          });
-          this.setState({
-            pro_id: data.id,
-            user_id: data.user_id,
-            pro_name: data.pro_name,
-            pro_pen_name: data.pro_pen_name,
-            pro_birth_day: data.pro_birth_day,
-            pro_gender: data.pro_gender,
-            pro_birth_place: data.pro_birth_place,
-            pro_home_town: data.pro_home_town,
-            pro_local_phone: data.pro_local_phone,
-            pro_resident: data.pro_resident,
-            pro_ethnic: data.pro_ethnic,
-            pro_religion: data.pro_religion,
-            pro_background_origin: data.pro_background_origin,
-            pro_occupation: data.pro_occupation,
-            pro_identity_card: data.pro_identity_card,
-            pro_identity_card_when: data.pro_identity_card_when,
-            pro_identity_card_where: data.pro_identity_card_where,
-            pro_note: data.pro_note,
-            dep_id: data.department.data.dep_id,
-            pos_id: data.department.data.pos_id,
-            par_id: data.department.data.part_id,
-            appointment_date: 
-            // new Date(
-              data.department.data.appointment_date 
-              // * 1000)
-              ,
-            deg_type: data.userDegree.data.deg_type,
-            deg_diploma: data.userDegree.data.deg_diploma,
-            deg_majors: data.userDegree.data.deg_majors,
-            deg_school_name: data.userDegree.data.deg_school_name,
-            deg_begin_study: new Date(
-              data.userDegree.data.deg_begin_study * 1000
-            ),
-            deg_end_study: new Date(data.userDegree.data.deg_end_study * 1000),
-            deg_note:data.userDegree.data.deg_note,
-            work_formality: data.workObject.data.formality,
-            work_note:data.workObject.data.work_note,
-            car_number: data.journalistCard.data.car_number,
-            car_number_day: new Date(data.journalistCard.data.car_number_day),
-            car_begin: new Date(data.journalistCard.data.car_begin * 1000),
-            car_end: new Date(data.journalistCard.data.car_end * 1000),
-            car_note:data.journalistCard.data.car_note,
-            idDepartment: data.department.data.id,
-            idUserDegree: data.userDegree.data.id,
-            idWorkObject: data.workObject.data.id,
-            idJou: data.journalistCard.data.id,
-          });
-        })
-        .catch((err) => {
-          if (err.message === "Unauthorized") {
-            message.error("Nhân sự không có quyền xem khi user đang chỉnh sửa");
-            window.location.href = "http://erp.tuoitre.vn/crm/admin/user";
-          }
-          console.log(err);
-        });
-      Axios.get(`/api/transfers/profiles/${pro_id}`).then((res) => {
-        this.setState({
-          STATUS_PROFILE: res.data.data.after_status,
-          step_id: res.data.data.next_step_id,
-        });
+      let resGetUser = await getUser(idUser);
+      this.setState({
+        full_name: resGetUser.data.full_name,
+        phone: resGetUser.data.phone,
+        email: resGetUser.data.email,
+      });
+      dataUser = await getProfile(idUser);
+      pro_id = dataUser.data.id;
+      const data = dataUser.data;
+      this.setState({
+        pro_id: data.id,
+        user_id: data.user_id,
+        pro_name: data.pro_name,
+        pro_pen_name: data.pro_pen_name,
+        pro_birth_day: data.pro_birth_day,
+        pro_gender: data.pro_gender,
+        pro_birth_place: data.pro_birth_place,
+        pro_home_town: data.pro_home_town,
+        pro_local_phone: data.pro_local_phone,
+        pro_resident: data.pro_resident,
+        pro_ethnic: data.pro_ethnic,
+        pro_religion: data.pro_religion,
+        pro_background_origin: data.pro_background_origin,
+        pro_occupation: data.pro_occupation,
+        pro_identity_card: data.pro_identity_card,
+        pro_identity_card_when: data.pro_identity_card_when,
+        pro_identity_card_where: data.pro_identity_card_where,
+        pro_note: data.pro_note,
+        dep_id: data.department ? data.department.data.dep_id : "",
+        pos_id: data.department ? data.department.data.pos_id : "",
+        par_id: data.department ? data.department.data.part_id : "",
+        appointment_date:
+          // new Date(
+          data.department ? data.department.data.appointment_date : "",
+        // * 1000)
+        deg_type: data.userDegree ? data.userDegree.data.deg_type : "",
+        deg_diploma: data.userDegree ? data.userDegree.data.deg_diploma : "",
+        deg_majors: data.userDegree ? data.userDegree.data.deg_majors : "",
+        deg_school_name: data.userDegree
+          ? data.userDegree.data.deg_school_name
+          : "",
+        deg_begin_study: data.userDegree
+          ? new Date(data.userDegree.data.deg_begin_study1 * 1000)
+          : null,
+        deg_end_study: data.userDegree
+          ? new Date(data.userDegree.data.deg_end_study * 1000)
+          : null,
+        deg_note: data.userDegree ? data.userDegree.data.deg_note : "",
+        work_formality: data.workObject ? data.workObject.data.formality : "",
+        work_note: data.workObject ? data.workObject.data.work_note : "",
+        car_number: data.journalistCard
+          ? data.journalistCard.data.car_number
+          : "",
+        car_number_day: data.journalistCard
+          ? new Date(data.journalistCard.data.car_number_day)
+          : null,
+        car_begin: data.journalistCard
+          ? new Date(data.journalistCard.data.car_begin * 1000)
+          : null,
+        car_end: data.journalistCard
+          ? new Date(data.journalistCard.data.car_end * 1000)
+          : null,
+        car_note: data.journalistCard ? data.journalistCard.data.car_note : "",
+        idDepartment: data.department ? data.department.data.id : "",
+        idUserDegree: data.userDegree ? data.userDegree.data.id : "",
+        idWorkObject: data.workObject ? data.workObject.data.id : "",
+        idJou: data.journalistCard ? data.journalistCard.data.id : "",
+      });
+      let dataTransfersProfile = await transfersProfile(pro_id);
+      this.setState({
+        STATUS_PROFILE: dataTransfersProfile.data.after_status,
+        step_id: dataTransfersProfile.data.next_step_id,
       });
     }
   };
@@ -319,19 +300,19 @@ class addInformationUser extends Component {
   };
   handleConfirm = async () => {
     let idUser = this.props.match.params.id;
-    await axiosConfig
-      .put(`/api/profiles/${this.state.pro_id}`, {
-        user_id: idUser,
-        reject: 0,
-        action: "confirm",
-        notify_content: "xac nhan ho so hoan tat",
-      })
-      .then((res) => {
-        if (res.message) {
-          message.success("Duyệt thông tin nhân sự thành công");
-          window.location.reload();
-        }
-      });
+    let params = {
+      user_id: idUser,
+      reject: 0,
+      action: "confirm",
+      notify_content: "xac nhan ho so hoan tat",
+    };
+    let resUpdateProfile = await updateProfile(this.state.pro_id, params);
+    if (resUpdateProfile.message) {
+      message.success("Duyệt thông tin nhân sự thành công");
+      window.location.reload();
+    } else {
+      message.error("Duyệt hồ sơ thất bại");
+    }
   };
   // nhân sự từ chối
   handleReject = async () => {
@@ -402,7 +383,6 @@ class addInformationUser extends Component {
     }
   };
   handleAdd = async (value) => {
-    
     let messageErr = 0;
     let userId = 0;
     let proId = 0;
@@ -419,7 +399,7 @@ class addInformationUser extends Component {
     //   !this.state.valid_part.isValid &&
     //   !this.state.valid_department.isValid &&
     //   !this.state.valid_position.isValid
-    // ) 
+    // )
     {
       this.props.uiActionCreators.showLoading();
       let paramUser = {
@@ -429,18 +409,10 @@ class addInformationUser extends Component {
         full_name: this.state.pro_name,
         service_management_id: "1",
       };
-
-      await axiosConfig
-        .post("/api/register", paramUser)
-        .then((res) => {
-          console.log(res);
-          if (res.message === "Đăng ký thành công!") {
-            userId = res.detail.id;
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      let resRegister = await register(paramUser);
+      if (resRegister.message === "Đăng ký thành công!") {
+        userId = resRegister.detail.id;
+      }
       if (userId !== 0) {
         let params = {
           user_id: userId,
@@ -464,31 +436,18 @@ class addInformationUser extends Component {
           button: value,
           action: "create",
         };
-        console.log(params)
-        await axiosConfig
-          .post(`/api/profiles`, params)
-          .then((res) => {
-            if (res.message == "Success!. Stored") {
-              (proId = res.id);
-            } else {
-              messageErr = 2;
-            }
-          })
-          .catch(() => {
-            messageErr = 3;
-          });
+        let resAddProfile = await addProfile(params);
+        if (resAddProfile.message == "Success!. Stored") {
+          proId = resAddProfile.id;
+        } else {
+          messageErr = 2;
+        }
         if (value === "send") {
-          await axiosConfig
-            .put(`/api/profiles/${proId}`, params)
-            .then((res) => {
-              if (res.message == "Success!. Updated") {
-              } else {
-                messageErr = 2;
-              }
-            })
-            .catch(() => {
-              messageErr = 3;
-            });
+          let resUpdateProfile = await updateProfile(proId, params);
+          if (resUpdateProfile.message == "Success!. Updated") {
+          } else {
+            messageErr = 2;
+          }
         }
       }
       if (userId !== 0 && proId !== 0) {
@@ -498,20 +457,15 @@ class addInformationUser extends Component {
           dep_id: this.state.dep_id,
           pos_id: this.state.pos_id,
           part_id: this.state.par_id,
-          appointment_date: Date.parse(this.state.appointment_date) / 1000 ,
+          appointment_date: Date.parse(this.state.appointment_date) / 1000,
         };
-
-        await axiosConfig
-          .post(`/api/profiles/departments`, paramsDepartment)
-          .then((res) => {
-            if (res.message == "Success!. Stored") {
-            } else {
-              messageErr = 4;
-            }
-          })
-          .catch(() => {
-            messageErr = 5;
-          });
+        let resAddDepartmentProfile = await addDepartmentProfile(
+          paramsDepartment
+        );
+        if (resAddDepartmentProfile.message == "Success!. Stored") {
+        } else {
+          messageErr = 4;
+        }
         let paramsUserDegrees = {
           pro_id: proId,
           user_id: userId,
@@ -523,36 +477,23 @@ class addInformationUser extends Component {
           deg_end_study: Date.parse(this.state.deg_end_study) / 1000,
           deg_note: this.state.deg_note,
         };
-        await axiosConfig
-          .post(`/api/user-degrees`, paramsUserDegrees)
-          .then((res) => {
-            if (res.message == "Success!. Stored") {
-            } else {
-              messageErr = 6;
-            }
-          })
-          .catch(() => {
-            messageErr = 7;
-          });
+        let resAddUserDegrees = await addUserDegrees(paramsUserDegrees);
+        if (resAddUserDegrees.message === "Success!. Stored") {
+        } else {
+          messageErr = 6;
+        }
         let paramsWorkObjects = {
           pro_id: proId,
           user_id: userId,
           work_formality: this.state.work_formality,
           work_note: this.state.work_note,
         };
-
-        await axiosConfig
-          .post(`/api/work-objects`, paramsWorkObjects)
-          .then((res) => {
-            if (res.message == "Success!. Stored") {
-              message;
-            } else {
-              messageErr = 8;
-            }
-          })
-          .catch(() => {
-            messageErr = 9;
-          });
+        let resAddWorkObject = await addWorkObject(paramsWorkObjects);
+        if (resAddWorkObject.message == "Success!. Stored") {
+          message;
+        } else {
+          messageErr = 8;
+        }
         let paramsJournalistCards = {
           pro_id: proId,
           user_id: userId,
@@ -562,27 +503,23 @@ class addInformationUser extends Component {
           car_end: Date.parse(this.state.car_end) / 1000,
           car_note: this.state.car_note,
         };
-        await axiosConfig
-          .post(`/api/journalist-cards`, paramsJournalistCards)
-          .then((res) => {
-            if (res.message == "Success!. Stored") {
-            } else {
-              messageErr = 10;
-            }
-          })
-          .catch(() => {
-            messageErr = 11;
-          });
+        let resAddJournalistCards = await addJournalistCards(
+          paramsJournalistCards
+        );
+        if (resAddJournalistCards.message == "Success!. Stored") {
+        } else {
+          messageErr = 10;
+        }
       }
       console.log("messageErr: ", messageErr);
       if (messageErr == 0) {
         message.success("Thêm thông tin nhân sự thành công");
         this.props.uiActionCreators.hideLoading();
-        this.props.history.push("/erp/admin/user")
+        this.props.history.push("/erp/admin/user");
         this.setState({
-            idSaved:userId,
-            pro_id_saved:proId
-        })
+          idSaved: userId,
+          pro_id_saved: proId,
+        });
       } else {
         message.error("Thêm thông tin nhân sự thất bại");
       }
@@ -591,10 +528,10 @@ class addInformationUser extends Component {
   handleEdit = async (value) => {
     let userId = this.props.match.params.id || this.state.idSaved;
     let pro_id = null;
-    if(this.state.pro_id_saved == null){
-      pro_id = this.state.pro_id
+    if (this.state.pro_id_saved == null) {
+      pro_id = this.state.pro_id;
     } else {
-      pro_id = this.state.pro_id_saved
+      pro_id = this.state.pro_id_saved;
     }
     this.props.uiActionCreators.showLoading();
     let messageErr = 0;
@@ -603,17 +540,11 @@ class addInformationUser extends Component {
       email: this.state.email,
       phone: this.state.phone,
     };
-    axiosConfig
-      .put(`/api/user/${userId}`, paramsUser)
-      .then((res) => {
-        if (res.message === "Success!. Stored") {
-        } else {
-          messageErr: 1;
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    let resUpdateUser = await updateUser(userId, paramsUser);
+    if (resUpdateUser.message === "Success!. Stored") {
+    } else {
+      messageErr: 1;
+    }
     let params = {
       user_id: this.state.user_id,
       pro_name: this.state.pro_name,
@@ -636,37 +567,27 @@ class addInformationUser extends Component {
       button: value,
       action: "create",
     };
-    await axiosConfig
-      .put(`/api/profiles/${pro_id}`, params)
-      .then((res) => {
-        if (res.message == "Success!. Updated") {
-        } else {
-          messageErr = 2;
-        }
-      })
-      .catch(() => {
-        messageErr = 3;
-      });
+    let resUpdateProfile = await updateProfile(pro_id, params);
+    if (resUpdateProfile.message == "Success!. Updated") {
+    } else {
+      messageErr = 2;
+    }
     let paramsDepartment = {
       pro_id: pro_id,
       user_id: this.state.user_id,
       dep_id: this.state.dep_id,
       pos_id: this.state.pos_id,
       part_id: this.state.par_id,
-      appointment_date: Date.parse(this.state.appointment_date) / 1000 ,
+      appointment_date: Date.parse(this.state.appointment_date) / 1000,
     };
-
-    await axiosConfig
-      .put(`/api/profiles/departments/${pro_id}`, paramsDepartment)
-      .then((res) => {
-        if (res.message == "Success!. Updated") {
-        } else {
-          messageErr = 4;
-        }
-      })
-      .catch(() => {
-        messageErr = 5;
-      });
+    let resUpdateDepartmentProfile = await updateDepartmentProfile(
+      pro_id,
+      paramsDepartment
+    );
+    if (resUpdateDepartmentProfile.message == "Success!. Updated") {
+    } else {
+      messageErr = 4;
+    }
     let paramsUserDegrees = {
       user_id: this.state.user_id,
       pro_id: pro_id,
@@ -678,36 +599,29 @@ class addInformationUser extends Component {
       deg_end_study: Date.parse(this.state.deg_end_study) / 1000,
       deg_note: this.state.deg_note,
     };
-    await axiosConfig
-      .put(`/api/user-degrees/${this.state.idUserDegree}`, paramsUserDegrees)
-      .then((res) => {
-        if (res.message == "Success!. Updated") {
-        } else {
-          messageErr = 6;
-        }
-      })
-      .catch(() => {
-        messageErr = 7;
-      });
+    let resUpdateUserDegree = await updateUserDegree(
+      this.state.idUserDegree,
+      paramsUserDegrees
+    );
+    if (resUpdateUserDegree.message == "Success!. Updated") {
+    } else {
+      messageErr = 6;
+    }
     let paramsWorkObjects = {
       user_id: this.state.user_id,
       pro_id: pro_id,
       work_formality: this.state.work_formality,
       work_note: this.state.work_note,
     };
-
-    await axiosConfig
-      .put(`/api/work-objects/${this.state.idWorkObject}`, paramsWorkObjects)
-      .then((res) => {
-        if (res.message == "Success!. Updated") {
-          message;
-        } else {
-          messageErr = 8;
-        }
-      })
-      .catch(() => {
-        messageErr = 9;
-      });
+    let resUpdateWorkObject = await updateWorkObject(
+      this.state.idWorkObject,
+      paramsWorkObjects
+    );
+    if (resUpdateWorkObject.message == "Success!. Updated") {
+      message;
+    } else {
+      messageErr = 8;
+    }
     let paramsJournalistCards = {
       user_id: this.state.user_id,
       pro_id: pro_id,
@@ -717,17 +631,14 @@ class addInformationUser extends Component {
       car_end: Date.parse(this.state.car_end) / 1000,
       car_note: this.state.car_note,
     };
-    await axiosConfig
-      .put(`/api/journalist-cards/${this.state.idJou}`, paramsJournalistCards)
-      .then((res) => {
-        if (res.message == "Success!. Updated") {
-        } else {
-          messageErr = 10;
-        }
-      })
-      .catch(() => {
-        messageErr = 11;
-      });
+    let resUpdateJournalistCards = await updateJournalistCards(
+      this.state.idJou,
+      paramsJournalistCards
+    );
+    if (resUpdateJournalistCards.message == "Success!. Updated") {
+    } else {
+      messageErr = 10;
+    }
     await this.fetchData();
     console.log(messageErr);
     if (messageErr == 0) {
@@ -744,8 +655,8 @@ class addInformationUser extends Component {
     this.onAddInforUser("send");
   };
   renderWorkflow = () => {
-    if (!!this.state.dataWorkflow === true) {
-      const workflowProfile = this.state.dataWorkflow;
+    if (!!this.state.dataWorkflowProfile === true) {
+      const workflowProfile = this.state.dataWorkflowProfile;
       return workflowProfile.steps.map((item) => {
         return <Step key={item.id} title={item.description} />;
       });
@@ -816,9 +727,9 @@ class addInformationUser extends Component {
       pos_id: null,
     });
   };
-  handleReloadComponent = () =>{
+  handleReloadComponent = () => {
     this.componentDidMount();
-  }
+  };
   render() {
     let value = 0;
     let step_id = this.state.step_id;
@@ -1077,9 +988,7 @@ class addInformationUser extends Component {
                           </div>
                         </li>
                         <li className="tabs-main-left-li">
-                          <span className="tabs-user-infor-top">
-                            Ngày sinh 
-                          </span>
+                          <span className="tabs-user-infor-top">Ngày sinh</span>
                           <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                             <DatePicker
                               placeholder="Chọn ngày"
@@ -1634,7 +1543,7 @@ class addInformationUser extends Component {
           pro_id={this.state.pro_id}
           user_id={this.props.match.params.id}
           closeDeny={this.closeDeny}
-          handleReloadComponent = {this.handleReloadComponent}
+          handleReloadComponent={this.handleReloadComponent}
         />
       </div>
     );
