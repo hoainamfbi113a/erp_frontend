@@ -55,6 +55,18 @@ export const deleteParts = (params) =>{
     })
   })
 }
-
+export const searchParts =(dep_id, name) =>{
+  return axiosConfig
+  .get(`/api/search/parts/departments?name=${name}&per_page=10&dep_id=${dep_id}`)
+  .then(data=>{
+      return data
+  })
+  .catch(err=>{
+      console.log(err);
+      return ({
+          err:"error"
+      })
+  })
+}
 
 

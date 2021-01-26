@@ -47,9 +47,24 @@ export const deleteDepartment = (params) =>{
     })
     .catch (err =>{
         console.log(err);
+        return ({
+            err:"error"
+        })
     })
 }
-
+export const searchDepartment = name =>{
+    return axiosConfig
+    .get(`/api/search/departments?name=${name}&per_page=10`)
+    .then(data=>{
+        return data
+    })
+    .catch(err=>{
+        console.log(err);
+        return ({
+            err:"error"
+        })
+    })
+}
 export const addDepartmentProfile = (params) => {
     return axiosConfig
     .post(`/api/profiles/departments`, params)

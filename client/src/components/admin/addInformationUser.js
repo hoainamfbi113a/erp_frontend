@@ -13,7 +13,6 @@ import { bindActionCreators } from "redux";
 import moment from "moment";
 
 import { connect } from "react-redux";
-import axiosConfig from "../../apis/axios";
 import { validateInputFormUser } from "../../helpers/FuncHelper";
 import * as uiActions from "../../actions/ui";
 import Notify from "../Modal/Notify";
@@ -21,9 +20,10 @@ import {
   getListDepartment,
   addDepartmentProfile,
   updateDepartmentProfile,
+  searchDepartment
 } from "../../apis/departmentApi";
-import { getListPosition } from "../../apis/positionApi";
-import { getListParts } from "../../apis/partsApi";
+import { getListPosition, searchPosition } from "../../apis/positionApi";
+import { getListParts, searchParts } from "../../apis/partsApi";
 import { getProfile, addProfile, updateProfile } from "../../apis/profileApi";
 import { workflowProfile } from "../../apis/workflowApi";
 import { transfersProfile } from "../../apis/transfersApi";
@@ -131,33 +131,30 @@ class addInformationUser extends Component {
   componentDidMount = async () => {
     this.fetchData();
   };
-  componentDidUpdate = (prevProps, prevState) => {
+  functionSearch = async (prevProps, prevState)=>{
     if (prevState.searchDepartment !== this.state.searchDepartment) {
       const value = this.state.searchDepartment;
-      axiosConfig
-        .get(`/api/search/departments?name=${value}&per_page=10`)
-        .then((res) => {
-          this.setState({
-            dataDepartment: res.data,
-          });
-        })
-        .catch((err) => {
-          console.log(err);
+      let resSearchDepartment = await searchDepartment(value);
+      if(!resSearchDepartment.err){
+        this.setState({
+          dataDepartment: resSearchDepartment.data,
         });
+      } else {
+        message.error("search failed");
+      }
     }
 
     if (prevState.searchPosition !== this.state.searchPosition) {
       const value = this.state.searchPosition;
-      axiosConfig
-        .get(`/api/search/positions?name=${value}&per_page=10`)
-        .then((res) => {
-          this.setState({
-            dataPosition: res.data,
-          });
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      let resSearchPosition = await searchPosition(value);
+          if(!resSearchPosition.err){
+            this.setState({
+              dataPosition: resSearchPositiones.data,
+            });
+          } else {
+            message.error("search position faile")
+          }
+          
     }
     if (prevState.dep_id !== this.state.dep_id) {
       this.setState({
@@ -167,19 +164,18 @@ class addInformationUser extends Component {
     if (prevState.searchPart !== this.state.searchPart) {
       const value = this.state.searchPart;
       const { dep_id } = this.state;
-      axiosConfig
-        .get(
-          `/api/search/parts/departments?name=${value}&per_page=10&dep_id=${dep_id}`
-        )
-        .then((res) => {
-          this.setState({
-            dataParts: res.data,
-          });
-        })
-        .catch((err) => {
-          console.log(err);
+      let resSearchParts = await searchParts(dep_id, value)
+      if(!resSearchParts.err){
+        this.setState({
+          dataParts: resSearchParts.data,
         });
+      } else {
+        message.error("search part failed")
+      }
     }
+  }
+  componentDidUpdate = (prevProps, prevState) => {
+    this.functionSearch(prevProps, prevState)
   };
 
   fetchData = async () => {
