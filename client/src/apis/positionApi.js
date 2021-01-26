@@ -1,3 +1,4 @@
+import { data } from "jquery";
 import axiosConfig from "./axios";
 import { handleResponse } from "./handleResponse";
 export const getListPosition = (page) => {
@@ -8,9 +9,10 @@ export const getListPosition = (page) => {
       return data;
     })
     .catch((err) => {
-      return {
-        error: "error",
-      };
+        console.log(err);
+        return ({
+            err:"error"
+        })
     });
 };
 
@@ -22,7 +24,10 @@ export const addPosition = (params) =>{
         return data
     })
     .catch(err=>{
-        console.log(err)
+        console.log(err);
+        return ({
+            err:"error"
+        })
     })
 }
 
@@ -34,6 +39,9 @@ export const updatePosition = (params, id) =>{
     })
     .catch(err=>{
         console.log(err);
+        return ({
+            err:"error"
+        })
     })
 }
 
@@ -45,6 +53,23 @@ export const deletePosition = (params) =>{
     })
     .catch (err =>{
         console.log(err);
+        return ({
+            err:"error"
+        })
+    })
+}
+
+export const searchPosition = name =>{
+    return axiosConfig
+    .get(`/api/search/positions?name=${name}&per_page=10`)
+    .then(data=>{
+        return data
+    })
+    .catch(err=>{
+        console.log(err);
+        return ({
+            err:"error"
+        })
     })
 }
 

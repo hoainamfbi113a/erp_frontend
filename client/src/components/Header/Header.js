@@ -38,7 +38,6 @@ class HeaderLayout extends Component {
   render() {
     const menu = (
       <Menu>
-
         <Menu.Item icon={<RollbackOutlined />}>
           <a target="_blank" rel="noopener noreferrer" >
             Đổi mật khẩu

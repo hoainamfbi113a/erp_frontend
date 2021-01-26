@@ -17,7 +17,6 @@ import {
   updatePosition,
   deletePosition
 } from "../../apis/positionApi";
-import axiosConfig from "../../apis/axios";
 const { Content } = Layout;
 class TablePosition extends Component {
   state = {
@@ -410,7 +409,7 @@ class TablePosition extends Component {
     }
     const columns = [
       {
-        title: "Tên bộ phận",
+        title: "Tên chức vụ",
         dataIndex: "pos_name",
         key: "pos_name",
       },

@@ -75,6 +75,8 @@ app.use("/api/workflow", workflowController);
 app.use("/api/notifications", notificationController);
 app.use("/api/search", searchController);
 
+app.use("/api/service-management",servicemanagerController)
+app.use("/api/step", stepController)
 // if (process.env.NODE_ENV === "production") {
 // Serve any static files
 app.use(express.static(path.join(__dirname, "client/dist")));
