@@ -19,6 +19,7 @@ import notificationController from "./controllers/Notify.mjs"
 import { listAction, addAction, updateAction, deleteAction } from "./controllers/Action.mjs";
 import workflowController from "./controllers/workflow.mjs";
 import servicemanagerController from "./controllers/servicemanagerController.mjs"
+import  stepController  from "./controllers/stepController.mjs" 
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 5001;
@@ -74,6 +75,7 @@ app.use("/api/notifications", notificationController);
 app.use("/api/search", searchController);
 
 app.use("/api/service-management",servicemanagerController)
+app.use("/api/step", stepController)
 // if (process.env.NODE_ENV === "production") {
 // Serve any static files
 app.use(express.static(path.join(__dirname, "client/dist")));
