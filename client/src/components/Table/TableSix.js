@@ -11,7 +11,7 @@ import { Table, Space, Tag, Avatar } from "antd";
 import { Popconfirm, message } from "antd";
 import { Input, Modal } from "antd";
 import user from "../../assets/images/user2.png";
-import axiosConfig from "../../apis/axios";
+import { listUser } from "../../apis/authenticationApi";
 const { Content } = Layout;
 class TableSix extends Component {
   state = {
@@ -38,44 +38,21 @@ class TableSix extends Component {
       [e.target.name]: e.target.value,
     });
   };
-  onSubmit = () => {
-    let params = {
-      app_id: process.env.app_id,
-      email: this.state.email,
-      phone: this.state.phone,
-      full_name: this.state.full_name,
-    };
-    this.hideModal();
-    axiosConfig
-      .post("/api/register", params)
-      .then((res) => {
-        if (res.message === "Đăng ký thành công!") {
-          message.success("Đăng ký user thành công");
-          const { userSixActionCreators } = this.props;
-          const { fetchListUserSix } = userSixActionCreators;
-          fetchListUserSix();
-        }
-      })
-      .catch((err) => {
-        message.error("đăng ký user thất bại");
-        console.log(err);
-      });
-  };
   componentDidMount() {
+    this.fetData();
+  }
+  fetData = async ()=>{
     this.props.uiActionCreators.showLoading();
-    axiosConfig
-      .get(`/api/userpagin?page=1`)
-      .then((res) => {
-        this.setState({
-          dataUser: res,
-        });
+    let resListUser = await listUser(1);
+        if(!resListUser.err){
+          this.setState({
+            dataUser: resListUser,
+          });
+        }
+        else{
+          message.error("get user failed");
+        }
         this.props.uiActionCreators.hideLoading();
-      })
-      .catch((err) => {
-        message.error("get user failed");
-        console.log(err);
-        this.props.uiActionCreators.hideLoading();
-      });
   }
   confirm = (e) => {
     const { userSixActionCreators } = this.props;
@@ -89,22 +66,7 @@ class TableSix extends Component {
   onSelectChange = (selectedRowKeys) => {
     this.setState({ selectedRowKeys });
   };
-  handleGrantRole = (id) => {
-    this.setState({
-      showModalGrantRole: true,
-      idGrantRole: id,
-    });
-    axiosConfig
-      .get(`/api/user/permission/${id}`)
-      .then((res) => {
-        this.setState({
-          roleAndPermissionUser: res,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
+
   handleOkGrantRole = () => {
     this.setState({
       showModalGrantRole: false,
@@ -117,35 +79,17 @@ class TableSix extends Component {
   };
   handlePagination = async (pagination) => {
     this.props.uiActionCreators.showLoading();
-    await axiosConfig
-      .get(`/api/userpagin?page=${pagination}`)
-      .then((res) => {
-        this.setState({
-          dataUser: res,
-        });
-      })
-      .catch((err) => {
-        message.error("get user failed");
-        console.log(err);
-      });
-    this.props.uiActionCreators.hideLoading();
-  };
-  updateUser = async (id) => {
-    await axiosConfig
-      .post(`/api/fe/profiles/user`, {
-        id: id,
-      })
-      .then((res) => {
-        console.log(res);
-        if (res === "Unauthorized") {
-          alert("Nhân viên đang chỉnh sửa hồ sơ của mình");
-        } else {
-          window.location.href = `http://erp.tuoitre.vn/erp/admin/edituser/${id}`;
+    let resListUser = await listUser(pagination);
+        if(!resListUser.err){
+          this.setState({
+            dataUser: resListUser,
+          });
         }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+        else{
+          message.error("get user failed");
+        }
+
+    this.props.uiActionCreators.hideLoading();
   };
   render() {
     let data = [];
@@ -222,14 +166,6 @@ class TableSix extends Component {
               Sửa và duyệt
             </Tag>
             </Link> 
-            <Tag
-              color="volcano"
-              onClick={() => {
-                this.handleGrantRole(text);
-              }}
-            >
-              Grant quyền
-            </Tag>
           </Space>
         ),
       },
@@ -254,54 +190,6 @@ class TableSix extends Component {
             </div>
           </div>
         </Content>
-        <Modal
-          title="Tạo nhân viên mới"
-          visible={this.props.showModalAddUser}
-          onOk={this.onSubmit}
-          onCancel={this.hideModal}
-          okText="OK"
-          cancelText="Cancel"
-          width={600}
-        >
-          <form
-            style={{ width: "100%" }}
-            className="tabs-main tabs-main-modal"
-            noValidate
-            onSubmit={this.onSubmit}
-            method="post"
-          >
-            <ul style={{ marginLeft: "23px" }}>
-              <li className="tabs-main-left-li">
-                <span className="tabs-user-infor-top">Họ và tên</span>
-                <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal ">
-                  <Input name="full_name" onChange={this.onChange} />
-                </div>
-              </li>
-              <li className="tabs-main-left-li">
-                <span className="tabs-user-infor-top">Mật khẩu</span>
-                <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
-                  <Input.Password
-                    name="pro_resident"
-                    onChange={this.onChange}
-                    className="modal-password"
-                  />
-                </div>
-              </li>
-              <li className="tabs-main-left-li">
-                <span className="tabs-user-infor-top">Số điện thoại</span>
-                <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
-                  <Input name="phone" onChange={this.onChange} />
-                </div>
-              </li>
-              <li className="tabs-main-left-li">
-                <span className="tabs-user-infor-top">Email</span>
-                <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
-                  <Input name="email" onChange={this.onChange} />
-                </div>
-              </li>
-            </ul>
-          </form>
-        </Modal>
         <GrantRole
           idGrant={this.state.idGrantRole}
           handleOk={this.handleOkGrantRole}

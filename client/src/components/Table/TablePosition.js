@@ -15,7 +15,6 @@ import {
   updatePosition,
   deletePosition
 } from "../../apis/positionApi";
-import axiosConfig from "../../apis/axios";
 const { Content } = Layout;
 class TablePosition extends Component {
   state = {

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button, Pagination } from "antd";
-import docCookies from "doc-cookies"
-import axiosConfig from "../../../apis/axios";
+import docCookies from "doc-cookies";
+import { updateStatusNotify, listNotify } from "../../../apis/notificationApi";
 import "./notification.css";
 const app_id = 99;
 const slug = "profile";
@@ -17,69 +17,66 @@ export default class NotifiMy extends Component {
   componentDidMount = () => {
     this.fetchNotify(1);
   };
-  fetchNotify = (value) =>{
-    const user_id = docCookies.getItem("user_id")
+  fetchNotify = async (value) => {
+    const user_id = docCookies.getItem("user_id");
     const params = {
       app_id,
       slug,
       user_id,
       per_page,
-      page:value,
+      page: value,
     };
-    axiosConfig
-      .post("/api/notifications", params)
-      .then((res) => {
-        this.setState({
-          data: res,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
+    let resListNotify = await listNotify(params);
+    console.log("resListNotify", resListNotify)
+    if(!resListNotify.err){
+      this.setState({
+        data: resListNotify,
       });
-  }
-  
-  changeStatusNotify = (id) =>{
+    }
+  };
+
+  changeStatusNotify = async (id) => {
     const params = {
-      status:"2"
+      status: "2",
+    };
+    let resUpdateStatusNotify = await updateStatusNotify(id, params);
+    if (resUpdateStatusNotify.message === "Success!. Updated") {
+      this.fetchNotify(this.state.paginationPage);
     }
-    axiosConfig.put(`/api/notifications/status/${id}`,params)
-    .then(res=>{
-      if(res.message === "Success!. Updated"){
-        this.fetchNotify(this.state.paginationPage);
-      }
-    })
-    .catch(err=>{
-      console.log(err)
-    })
-  }
-  onChangePagination = (page) =>{
+  };
+  onChangePagination = (page) => {
     this.setState({
-      paginationPage:page
-    })
+      paginationPage: page,
+    });
     this.fetchNotify(page);
-  }
-  renderNotifyItem = () =>{
-    let dataNotify = this.state.data
-    if(!!dataNotify){
-      return dataNotify.data.map((item)=>{
+  };
+  renderNotifyItem = () => {
+    let dataNotify = this.state.data;
+    if (!!dataNotify) {
+      return dataNotify.data.map((item) => {
         return (
-        <tr key = {item.id}>
-          <td>
-            <div className="content-notification-table-btn">
-            {!!item.serviceManagement === true ? item.serviceManagement.data.slug : ""}
-            </div>
-          </td>
-          <td className={item.status === 1? "content-notification-unread" : ""} onClick ={()=>{
-            this.changeStatusNotify(item.id)
-          }} >
-          {item.content}
-          </td>
-          <td>{item.created_at}</td>
-        </tr>
-        )
-      })
+          <tr key={item.id}>
+            <td>
+              <div className="content-notification-table-btn">
+                {!!item.serviceManagement === true
+                  ? item.serviceManagement.data.slug
+                  : ""}
+              </div>
+            </td>
+            <td
+              className={item.status === 1 ? "content-notification-unread" : ""}
+              onClick={() => {
+                this.changeStatusNotify(item.id);
+              }}
+            >
+              {item.content}
+            </td>
+            <td>{item.created_at}</td>
+          </tr>
+        );
+      });
     }
-  }
+  };
   render() {
     return (
       <div className="content-background2">
@@ -153,8 +150,12 @@ export default class NotifiMy extends Component {
               {this.renderNotifyItem()}
             </tbody>
           </table>
-          <div >
-            <Pagination defaultCurrent={1} total={150} onChange={this.onChangePagination} />
+          <div>
+            <Pagination
+              defaultCurrent={1}
+              total={150}
+              onChange={this.onChangePagination}
+            />
           </div>
         </div>
       </div>

@@ -6,11 +6,9 @@ import {
 } from "../../apis/authenticationApi";
 import logomall from "../../assets/images/logoPage.png";
 import { Menu, Layout } from "antd";
-import { message } from "antd";
 import { withRouter } from "react-router";
 import { UserOutlined, ShopOutlined } from "@ant-design/icons";
 import docCookies from "doc-cookies";
-import axiosConfig from "../../apis/axios";
 import "./Menu.css";
 const { SubMenu } = Menu;
 const { Sider } = Layout;
@@ -18,7 +16,6 @@ class MenuLayout extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeProfile: 0,
       dataPermission: null,
       slugPermission: null,
       major: 0,
@@ -29,21 +26,6 @@ class MenuLayout extends Component {
     this.props.history.push("/erp/admin/user");
   };
   componentDidMount = async () => {
-    await axiosConfig
-      .post(`/api/fe/profiles/user`, {
-        id: docCookies.getItem("user_id"),
-      })
-      .then((res) => {
-        if (res === "Unauthorized") {
-        } else {
-          this.setState({
-            activeProfile: 1,
-          });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
     await this.fetchSlugPermission();
     await this.fetchPermission();
     this.getMajor();
@@ -267,23 +249,11 @@ class MenuLayout extends Component {
               <Menu.Item key="4">
                 <Link to="/erp/employee/notification/myword">Việc của tôi</Link>
               </Menu.Item>
-              {this.state.activeProfile == 0 ? (
-                <Menu.Item
-                  onClick={() => {
-                    message.error("Nhân sự đang duyệt hồ sơ");
-                  }}
-                  key="5"
-                >
-                  <Link to="#">Cập nhật thông tin</Link>
-                </Menu.Item>
-              ) : (
                 <Menu.Item key="5">
                   <Link to="/erp/employee/edit-information">
                     Cập nhật thông tin
                   </Link>
                 </Menu.Item>
-              )}
-
               <Menu.Item key="6">
                 <Link to="/erp/employee/notification/create">Tạo</Link>
               </Menu.Item>
