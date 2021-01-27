@@ -715,7 +715,6 @@ class addInformationUser extends Component {
         } else if (step_id === null) {
             value = 3;
         }
-        let dataUser = this.state.dataUser;
         return (
             <div className="content-background2" style={{ width: "100%" }}>
                 <Steps current={value} size="small" className="process-work-flow">
@@ -723,22 +722,22 @@ class addInformationUser extends Component {
                     <Step title="Đóng hồ sơ" />
                 </Steps>
                 {value == 2 ? (
-                    <li className="tabs-main-left-li">
-                        <Button
+                    <li className="tabs-main-left-li btn-confirm-reject ">
+                        <span
                             onClick={this.handleReject}
-                            className="btn-confirm"
+                            className="btn-confirm btn-add-user"
                             style={{ marginBottom: "10px", width: "140px" }}
                         >
                             Không duyệt
-                        </Button>
-                        <Button
+                        </span>
+                        <span
                             onClick={this.handleConfirm}
                             htmlType="submit"
-                            className="btn-no-confirm"
+                            className="btn-no-confirm btn-add-user"
                             style={{ marginBottom: "10px", width: "140px" }}
                         >
                             Duyệt
-                        </Button>
+                        </span>
                     </li>
                 ) : (
                     ""
@@ -1497,14 +1496,14 @@ class addInformationUser extends Component {
                                                         />
                                                     </div>
                                                 </li>
-                                                {value !== 3 ? (
+                                                {value == 0 ? (
                                                     <li className="tabs-main-left-li tabs-main-left-li-submit">
-                                                        <Button
+                                                        <span
                                                             className="btn-add-user"
                                                             onClick={this.handleSave}
                                                         >
                                                             Lưu
-                                                        </Button>
+                                                        </span>
                                                         <Popconfirm
                                                             title="Bạn có chắc chắn xác nhận hồ sơ"
                                                             onConfirm={() => this.confirm()}
@@ -1512,16 +1511,16 @@ class addInformationUser extends Component {
                                                             okText="Yes"
                                                             cancelText="No"
                                                         >
-                                                            <Button
+                                                            <span
                                                                 className="btn-add-user"
                                                                 // onClick={this.handleSend}
                                                             >
                                                                 Xác nhận
-                                                            </Button>
+                                                            </span>
                                                         </Popconfirm>
                                                     </li>
                                                 ) : (
-                                                    ""
+                                                    "Bạn chỉ có thể xem (nhân viên đang chỉnh hồ sơ của mình)"
                                                 )}
                                             </ul>
                                         </div>

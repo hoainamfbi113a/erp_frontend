@@ -31,7 +31,7 @@ export default class NotifiDepartment extends Component {
   renderComponents = () => {
     if (this.state.activeLink === 1) {
       return (
-        <CurriculumVitae handleReloadComponent={this.handleReloadComponent} />
+        <CurriculumVitae statusProfile={this.state.step_id} handleReloadComponent={this.handleReloadComponent} />
       );
     }
     if (this.state.activeLink === 2) {
@@ -93,7 +93,7 @@ export default class NotifiDepartment extends Component {
     this.componentDidMount();
   };
   render() {
-    let value = 3;
+    let value = 0;
     let step_id = this.state.step_id;
     if (step_id === 1) {
       value = 0;
