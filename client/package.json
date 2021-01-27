@@ -34,7 +34,7 @@
   },
   "dependencies": {
     "@ant-design/icons": "^4.2.2",
-    "@tuoitre/flowchart-builder": "^0.1.8",
+    "@tuoitre/flowchart-builder": "^0.2.0",
     "antd": "^4.8.0",
     "axios": "^0.21.0",
     "concurrently": "^5.3.0",
