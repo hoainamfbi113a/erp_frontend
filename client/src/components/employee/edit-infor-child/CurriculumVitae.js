@@ -902,20 +902,23 @@ class CurriculumVitae extends Component {
                         />
                       </div>
                     </li>
-                    <li className="tabs-main-left-li tabs-main-left-li-submit">
-                      <Button
+                    {this.props.statusProfile == 2 ? (<li className="tabs-main-left-li tabs-main-left-li-submit">
+                      <span
                         className="btn-add-user"
                         onClick={this.handleSave}
                       >
                         Lưu
-                      </Button>
-                      <Button
+                      </span>
+                      <span
                         className="btn-add-user"
                         onClick={this.handleSend}
                       >
                         Xác nhận
-                      </Button>
-                    </li>
+                      </span>
+                    </li>) : 
+                    "Bạn chỉ có thể xem hồ sơ (liên hệ nhân sự để chỉnh sửa)"
+                    }
+                    
                   </ul>
                 </div>
               </div>
