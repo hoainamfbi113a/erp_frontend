@@ -4,24 +4,24 @@ import { bindActionCreators } from "redux";
 import moment from "moment";
 
 import { connect } from "react-redux";
-import { validateInputFormUser } from "../../helpers/FuncHelper";
-import * as uiActions from "../../actions/ui";
-import Notify from "../Modal/Notify";
+import { validateInputFormUser } from "../../../helpers/FuncHelper";
+import * as uiActions from "../../../actions/ui";
+import Notify from "../../Modal/Notify";
 import {
     getListDepartment,
     addDepartmentProfile,
     updateDepartmentProfile,
     searchDepartment,
-} from "../../apis/departmentApi";
-import { getListPosition, searchPosition } from "../../apis/positionApi";
-import { getListParts, searchParts } from "../../apis/partsApi";
-import { getProfile, addProfile, updateProfile } from "../../apis/profileApi";
-import { workflowProfile } from "../../apis/workflowApi";
-import { transfersProfile } from "../../apis/transfersApi";
-import { register, updateUser, getUser } from "../../apis/authenticationApi";
-import { addUserDegrees, updateUserDegree } from "../../apis/userDegreesApi";
-import { addWorkObject, updateWorkObject } from "../../apis/workObjectsApi";
-import { addJournalistCards, updateJournalistCards } from "../../apis/journalistCardsApi";
+} from "../../../apis/departmentApi";
+import { getListPosition, searchPosition } from "../../../apis/positionApi";
+import {  searchParts } from "../../../apis/partsApi";
+import { getProfile, addProfile, updateProfile } from "../../../apis/profileApi";
+import { workflowProfile } from "../../../apis/workflowApi";
+import { transfersProfile } from "../../../apis/transfersApi";
+import { register, updateUser, getUser } from "../../../apis/authenticationApi";
+import { addUserDegrees, updateUserDegree } from "../../../apis/userDegreesApi";
+import { addWorkObject, updateWorkObject } from "../../../apis/workObjectsApi";
+import { addJournalistCards, updateJournalistCards } from "../../../apis/journalistCardsApi";
 const { Option } = Select;
 const { Step } = Steps;
 const { RangePicker } = DatePicker;
@@ -178,8 +178,8 @@ class addInformationUser extends Component {
     };
 
     fetchDataUser = async () => {
-        if (this.props.match.params.id) {
-            let idUser = this.props.match.params.id;
+        if (this.props.idUser) {
+            let idUser = this.props.idUser;
             let dataUser = null;
             let pro_id = 0;
             let resGetUser = await getUser(idUser);
@@ -280,7 +280,7 @@ class addInformationUser extends Component {
         });
     };
     handleConfirm = async () => {
-        let idUser = this.props.match.params.id;
+        let idUser = this.props.idUser;
         let params = {
             user_id: idUser,
             reject: 0,
@@ -357,7 +357,7 @@ class addInformationUser extends Component {
         });
     };
     onAddInforUser = (value) => {
-        if (this.props.match.params.id) {
+        if (this.props.idUser) {
             this.handleEdit(value);
         } else {
             this.handleAdd(value);
@@ -495,7 +495,7 @@ class addInformationUser extends Component {
         }
     };
     handleEdit = async (value) => {
-        let userId = this.props.match.params.id || this.state.idSaved;
+        let userId = this.props.idUser || this.state.idSaved;
         let pro_id = null;
         if (this.state.pro_id_saved == null) {
             pro_id = this.state.pro_id;
@@ -1509,7 +1509,7 @@ class addInformationUser extends Component {
                 <Notify
                     actionModal={this.state.modalNotify}
                     pro_id={this.state.pro_id}
-                    user_id={this.props.match.params.id}
+                    // user_id={this.props.idUser}
                     closeDeny={this.closeDeny}
                     handleReloadComponent={this.handleReloadComponent}
                 />
