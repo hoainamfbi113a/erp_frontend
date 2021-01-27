@@ -64,8 +64,7 @@ const deletePermissionForPos = async (req, res) => {
     try {
         const data = await axios.delete(
             `${process.env.apiEmployee}/api/position/permission/${id}`,
-            req.body,
-            config,
+            { data: req.body, headers: { Authorization: req.headers.authorization } },
         );
         res.send(data.data);
     } catch (error) {
