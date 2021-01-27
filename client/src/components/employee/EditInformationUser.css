@@ -15,6 +15,9 @@
 .edit-infor-tabs li:hover span{
     color: #3699FF;
 }
+.edit-infor-tabs li:hover {
+    cursor: pointer;
+}
 .edit-infor-tabs li:hover div{
     color: #3699FF;
     background:#D7EAFF ;
