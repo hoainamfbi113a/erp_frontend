@@ -18,6 +18,8 @@ import { listPosition, addPosition, updatePosition, deletePosition } from "./con
 import notificationController from "./controllers/Notify.mjs"
 import { listAction, addAction, updateAction, deleteAction } from "./controllers/Action.mjs";
 import workflowController from "./controllers/workflow.mjs";
+import servicemanagerController from "./controllers/servicemanagerController.mjs"
+import  stepController  from "./controllers/stepController.mjs" 
 import { addPermissionForPos ,deletePermissionForPos} from "./controllers/Position.mjs";
 dotenv.config();
 const app = express();

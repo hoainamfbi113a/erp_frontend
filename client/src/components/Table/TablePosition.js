@@ -6,7 +6,7 @@ import "./Table.css";
 import * as userSixActions from "../../actions/userSix";
 import * as uiAction from "../../actions/ui";
 import { Layout } from "antd";
-import { Table, Space, Tag, Avatar } from "antd";
+import { Table, Space, Tag, Avatar,Select } from "antd";
 import { Popconfirm, message } from "antd";
 import { Input, Modal } from "antd";
 const { Option } = Select;
@@ -17,6 +17,7 @@ import {
   updatePosition,
   deletePosition
 } from "../../apis/positionApi";
+import axiosConfig from "../../apis/axios";
 const { Content } = Layout;
 class TablePosition extends Component {
   state = {
@@ -95,9 +96,8 @@ class TablePosition extends Component {
                         return (arrayAction = item.actions);
                     }
                 });
-                console.log(arrayAction);
                 const listAllAction = await axiosConfig.get(`/api/action`);
-                console.log(listAllAction);
+                
                 if (listAllAction) {
                     let res = listAllAction.data.filter((item) => arrayAction.includes(item.name));
                     this.setState({
@@ -151,6 +151,7 @@ class TablePosition extends Component {
         const data = await axiosConfig.post(`/api/position/permission/${posId}`, params);
         if (data.message === "Success!. Stored") {
             message.success("Thêm quyền thành công");
+            this.hideModal();
         } else {
             message.error("Thêm quyền thất bại");
         }
@@ -163,10 +164,11 @@ class TablePosition extends Component {
                 permission_id: this.state.per_id.toString(),
                 actions: this.state.action,
             };
-            console.log(params);
+            
             const data = await axiosConfig.delete(`/api/position/permission/${posId}`, params);
             if (data.message === "Success!. Stored") {
                 message.success("Xóa quyền thành công");
+                this.hideModal();
             } else {
                 message.error("Xóa quyền thất bại");
             }
@@ -196,11 +198,15 @@ class TablePosition extends Component {
                 break;
             default:
                 break;
-        }
+        };
     };
   hideModal = () => {
         this.setState({
             visible: false,
+            crud : null,
+            action : [],
+            per_id :  null,
+            dep_id : null
         });
     this.props.hideModal();
   };
@@ -216,7 +222,6 @@ class TablePosition extends Component {
     this.props.showModal();
   };
     showModalPosition = async (id) => {
-        // const b = await this.getListPermissionNotYet();
         this.setState({
             pos_id: id,
         });
@@ -367,7 +372,7 @@ class TablePosition extends Component {
     showAction = () => {
         const { action } = this.state;
         let OPTIONS = this.state.option;
-        if (this.state.dataAction) {
+        if (this.state.dataAction ) {
             this.state.dataAction.map((item) => {
                 OPTIONS.push(item.name);
             });
@@ -488,7 +493,7 @@ class TablePosition extends Component {
                 pagination={{
                   onChange: this.handlePagination,
                   pageSize: 15,
-                  total: 16,
+                  total: total,
                 }}
               />
             </div>
