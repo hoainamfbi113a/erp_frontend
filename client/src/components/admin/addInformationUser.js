@@ -369,6 +369,12 @@ class addInformationUser extends Component {
         let messageErr = 0;
         let userId = 0;
         let proId = 0;
+        this.handleInputValid("pro_name", this.state.pro_name);
+        this.handleInputValid("email", this.state.email);
+        this.handleInputValid("phone", this.state.phone);
+        this.handleInputValid("part", this.state.par_id);
+        this.handleInputValid("department", this.state.dep_id);
+        this.handleInputValid("position", this.state.pos_id);
         if (
             !this.state.valid_pro_name.isValid &&
             !this.state.valid_email.isValid &&
@@ -641,14 +647,12 @@ class addInformationUser extends Component {
     };
     handleInputValid = (name, value) => {
         const { isValid, errorMessage } = validateInputFormUser(name, value);
-        this.setState(
-            {
-                [`valid_${name}`]: {
-                    isValid: isValid,
-                    errorMessage: errorMessage,
-                },
-            }
-        );
+        this.setState({
+            [`valid_${name}`]: {
+                isValid: isValid,
+                errorMessage: errorMessage,
+            },
+        });
     };
     handleSearchDepartment(value) {
         if (this.typingRef.current) {
@@ -1152,7 +1156,7 @@ class addInformationUser extends Component {
                                                     </span>
                                                     <div className="tabs-user-infor-bottom">
                                                         <Select
-                                                            defaultValue={0}
+                                                            // defaultValue={0}
                                                             showSearch
                                                             // optionFilterProp="children"
                                                             value={this.state.dep_id}
@@ -1193,7 +1197,7 @@ class addInformationUser extends Component {
                                                     </span>
                                                     <div className="tabs-user-infor-bottom">
                                                         <Select
-                                                            defaultValue={0}
+                                                            // defaultValue={0}
                                                             showSearch
                                                             value={this.state.par_id}
                                                             onChange={this.handleChangeParts}
@@ -1228,7 +1232,7 @@ class addInformationUser extends Component {
                                                     </span>
                                                     <div className="tabs-user-infor-bottom">
                                                         <Select
-                                                            defaultValue={0}
+                                                            // defaultValue={0}
                                                             showSearch
                                                             value={this.state.pos_id}
                                                             onChange={this.handleChangePosition}
