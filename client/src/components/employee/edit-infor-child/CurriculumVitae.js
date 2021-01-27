@@ -916,7 +916,7 @@ class CurriculumVitae extends Component {
                         Xác nhận
                       </span>
                     </li>) : 
-                    "Bạn chỉ có thể xem hồ sơ (liên hệ nhân sự để chỉnh sửa)"
+                    "Bạn chỉ có thể xem hồ sơ (liên hệ nhân sự để chỉnh sửa )"
                     }
                     
                   </ul>
