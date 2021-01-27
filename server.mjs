@@ -70,7 +70,7 @@ app.post("/api/positions", addPosition);
 app.put("/api/positions/:id", updatePosition);
 app.post("/api/positionsd", deletePosition);
 app.post("/api/position/permission/:id", addPermissionForPos);
-app.delete("/api/position/permission/:id", deletePermissionForPos);
+app.post("/api/position/permissiond/:id", deletePermissionForPos);
 
 app.use("/api/departments", departmentsController);
 app.use("/api/workflow", workflowController);
