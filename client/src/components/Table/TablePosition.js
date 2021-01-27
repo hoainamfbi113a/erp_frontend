@@ -164,9 +164,8 @@ class TablePosition extends Component {
                 permission_id: this.state.per_id.toString(),
                 actions: this.state.action,
             };
-            
-            const data = await axiosConfig.delete(`/api/position/permission/${posId}`, params);
-            if (data.message === "Success!. Stored") {
+            const data = await axiosConfig.post(`/api/position/permissiond/${posId}`, params);
+            if (data.message === "Success!. Removed") {
                 message.success("Xóa quyền thành công");
                 this.hideModal();
             } else {
@@ -378,7 +377,7 @@ class TablePosition extends Component {
             });
             const filteredOptions = OPTIONS.filter((o) => !action.includes(o));
             return filteredOptions.map((item) => (
-                <Option key={item.id} value={item.id}>
+                <Option key={item.id} value={item.id.toString()}>
                     {item.name}
                 </Option>
             ));
@@ -584,8 +583,7 @@ class TablePosition extends Component {
                             <span>Chọn Action :</span>
                             <Select
                                 mode="multiple"
-                                value={this.state.action}
-                                onFocus={this.handleFocusAction}
+                                value={this.state.action}                               
                                 onChange={this.handleChangeAction}
                             >
                                 {this.showAction()}
