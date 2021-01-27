@@ -388,15 +388,16 @@ class addInformationUser extends Component {
     this.handleInputValid("department", this.state.dep_id);
     this.handleInputValid("position", this.state.pos_id);
     this.handleInputValid("part", this.state.par_id);
-    // if (
-    //   !this.state.valid_pro_name.isValid &&
-    //   !this.state.valid_email.isValid &&
-    //   !this.state.valid_phone.isValid &&
-    //   !this.state.valid_part.isValid &&
-    //   !this.state.valid_department.isValid &&
-    //   !this.state.valid_position.isValid
-    // )
+    if (
+      !this.state.valid_pro_name.isValid &&
+      !this.state.valid_email.isValid &&
+      !this.state.valid_phone.isValid &&
+      !this.state.valid_part.isValid &&
+      !this.state.valid_department.isValid &&
+      !this.state.valid_position.isValid
+    )
     {
+      alert("123")
       this.props.uiActionCreators.showLoading();
       let paramUser = {
         app_id: 99,
@@ -746,22 +747,22 @@ class addInformationUser extends Component {
           <Step title="Đóng hồ sơ" />
         </Steps>
         {value == 2 ? (
-          <li className="tabs-main-left-li">
-            <Button
+          <li className="tabs-main-left-li btn-confirm-reject" >
+            <span
               onClick={this.handleReject}
-              className="btn-confirm"
+              className="btn-confirm btn-add-user"
               style={{ marginBottom: "10px", width: "140px" }}
             >
               Không duyệt
-            </Button>
-            <Button
+            </span>
+            <span
               onClick={this.handleConfirm}
               htmlType="submit"
-              className="btn-no-confirm"
+              className="btn-no-confirm btn-add-user"
               style={{ marginBottom: "10px", width: "140px" }}
             >
               Duyệt
-            </Button>
+            </span>
           </li>
         ) : (
           ""
@@ -869,9 +870,6 @@ class addInformationUser extends Component {
               <form
                 style={{ width: "100%" }}
                 className="tabs-main"
-                noValidate
-                onSubmit={this.onSubmit}
-                method="post"
               >
                 <div className="tabs-main-left" style={{ width: "41%" }}>
                   <div className="tabs-main-left-content">
@@ -1500,31 +1498,32 @@ class addInformationUser extends Component {
                             />
                           </div>
                         </li>
-                        {value !== 3 ? (
+                        {value == 0 ? (
                           <li className="tabs-main-left-li tabs-main-left-li-submit">
-                            <Button
+                            <div className="btn-add-user"  onClick={this.handleSave}>Lưu</div>
+                            {/* <Button
                               className="btn-add-user"
                               onClick={this.handleSave}
                             >
                               Lưu
-                            </Button>
+                            </Button> */}
                             <Popconfirm
                               title="Bạn có chắc chắn xác nhận hồ sơ"
                               onConfirm={() => this.confirm()}
                               onCancel={this.cancel}
-                              okText="Yes"
-                              cancelText="No"
+                              okText="Có"
+                              cancelText="Không"
                             >
-                              <Button
+                              <button className="btn-add-user">Xác nhận</button>
+                              {/* <Button
                                 className="btn-add-user"
-                                // onClick={this.handleSend}
                               >
                                 Xác nhận
-                              </Button>
+                              </Button> */}
                             </Popconfirm>
                           </li>
                         ) : (
-                          ""
+                          "Bạn chỉ có thể xem"
                         )}
                       </ul>
                     </div>
