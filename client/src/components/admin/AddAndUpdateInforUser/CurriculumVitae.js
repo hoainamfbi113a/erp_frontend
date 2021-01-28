@@ -367,6 +367,12 @@ class addInformationUser extends Component {
         let messageErr = 0;
         let userId = 0;
         let proId = 0;
+        this.handleInputValid("pro_name", this.state.pro_name);
+        this.handleInputValid("email", this.state.email);
+        this.handleInputValid("phone", this.state.phone);
+        this.handleInputValid("part", this.state.par_id);
+        this.handleInputValid("department", this.state.dep_id);
+        this.handleInputValid("position", this.state.pos_id);
         if (
             !this.state.valid_pro_name.isValid &&
             !this.state.valid_email.isValid &&
@@ -375,6 +381,7 @@ class addInformationUser extends Component {
             !this.state.valid_department.isValid &&
             !this.state.valid_position.isValid
         ) {
+            alert("1234")
             this.props.uiActionCreators.showLoading();
             let paramUser = {
                 app_id: 99,
