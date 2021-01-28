@@ -2,6 +2,7 @@ import { DatePicker, Input, message, Popconfirm, Radio, Select, Steps } from "an
 import moment from "moment";
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { withRouter } from 'react-router'
 import { bindActionCreators } from "redux";
 import * as uiActions from "../../../actions/ui";
 import { getUser, register, updateUser } from "../../../apis/authenticationApi";
@@ -396,7 +397,6 @@ class addInformationUser extends Component {
             !this.state.valid_department.isValid &&
             !this.state.valid_position.isValid
         ) {
-            alert("1234");
             this.props.uiActionCreators.showLoading();
             let paramUser = {
                 app_id: 99,
@@ -1540,4 +1540,5 @@ class addInformationUser extends Component {
 const mapDispatchToProps = (dispatch) => ({
     uiActionCreators: bindActionCreators(uiActions, dispatch),
 });
-export default connect(null, mapDispatchToProps)(addInformationUser);
+const ShowTheLocationWithRouter = withRouter(addInformationUser);
+export default connect(null, mapDispatchToProps)(ShowTheLocationWithRouter);
