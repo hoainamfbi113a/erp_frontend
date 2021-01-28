@@ -5,4 +5,4 @@ export {
     FETCH_LIST_ROLE,
     FETCH_LIST_ROLE_SUCCESS,
     FETCH_LIST_ROLE_FAILED,
-}
+};

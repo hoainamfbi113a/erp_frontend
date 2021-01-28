@@ -1,23 +1,22 @@
-import React, { Component } from 'react'
-import { BrowserRouter as Router, Route,Switch } from 'react-router-dom';
 import docCookies from "doc-cookies";
-import "./RouterUrl.css"
-
-import ContentUserSix from "../content/ContentSix";
+import React, { Component } from 'react';
+import { Route, Switch } from 'react-router-dom';
 import {
-    getPermissionUser,
-    slugPermission,
-  } from "../../apis/authenticationApi";
-import ContentNotification from "../content/Notification/ContentNotification";
-import ContentMyNotification from "../content/ContentMyNotification";
-import AddAndUpdateInforUser from "../admin/AddAndUpdateInforUser"
-import ContentRoles from "../content/ContentRoles";
-import ContentPermission from "../content/ContentPermission"
-import ContentParts from "../content/ContentParts"
-import ContentPosition from "../content/ContentPosition"
-import ContentDepartment from "../content/ContentDepartment"
+  getPermissionUser
+} from "../../apis/authenticationApi";
 import NotFound from "../../components/NotFound";
+import AddAndUpdateInforUser from "../admin/AddAndUpdateInforUser";
 import Workflow from '../admin/workflow/Workflow';
+import ContentDepartment from "../content/ContentDepartment";
+import ContentMyNotification from "../content/ContentMyNotification";
+import ContentParts from "../content/ContentParts";
+import ContentPermission from "../content/ContentPermission";
+import ContentPosition from "../content/ContentPosition";
+import ContentRoles from "../content/ContentRoles";
+import ContentUserSix from "../content/ContentSix";
+import ContentNotification from "../content/Notification/ContentNotification";
+import "./RouterUrl.css";
+
 export default class RouterUrl extends Component {
     constructor(props) {
         super(props);

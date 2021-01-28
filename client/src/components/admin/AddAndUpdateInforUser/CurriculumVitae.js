@@ -1,27 +1,27 @@
-import React, { Component } from "react";
-import { Input, DatePicker, Radio, Button, message, Steps, Popconfirm, Select } from "antd";
-import { bindActionCreators } from "redux";
+import { DatePicker, Input, message, Popconfirm, Radio, Select, Steps } from "antd";
 import moment from "moment";
-
+import React, { Component } from "react";
 import { connect } from "react-redux";
-import { validateInputFormUser } from "../../../helpers/FuncHelper";
+import { bindActionCreators } from "redux";
 import * as uiActions from "../../../actions/ui";
-import Notify from "../../Modal/Notify";
+import { getUser, register, updateUser } from "../../../apis/authenticationApi";
 import {
-    getListDepartment,
-    addDepartmentProfile,
-    updateDepartmentProfile,
-    searchDepartment,
+    addDepartmentProfile, getListDepartment,
+
+
+    searchDepartment, updateDepartmentProfile
 } from "../../../apis/departmentApi";
-import { getListPosition, searchPosition } from "../../../apis/positionApi";
-import { searchParts } from "../../../apis/partsApi";
-import { getProfile, addProfile, updateProfile } from "../../../apis/profileApi";
-import { workflowProfile } from "../../../apis/workflowApi";
-import { transfersProfile } from "../../../apis/transfersApi";
-import { register, updateUser, getUser } from "../../../apis/authenticationApi";
-import { addUserDegrees, updateUserDegree } from "../../../apis/userDegreesApi";
-import { addWorkObject, updateWorkObject } from "../../../apis/workObjectsApi";
 import { addJournalistCards, updateJournalistCards } from "../../../apis/journalistCardsApi";
+import { searchParts } from "../../../apis/partsApi";
+import { getListPosition, searchPosition } from "../../../apis/positionApi";
+import { addProfile, getProfile, updateProfile } from "../../../apis/profileApi";
+import { transfersProfile } from "../../../apis/transfersApi";
+import { addUserDegrees, updateUserDegree } from "../../../apis/userDegreesApi";
+import { workflowProfile } from "../../../apis/workflowApi";
+import { addWorkObject, updateWorkObject } from "../../../apis/workObjectsApi";
+import { validateInputFormUser } from "../../../helpers/FuncHelper";
+import Notify from "../../Modal/Notify";
+
 const { Option } = Select;
 const { Step } = Steps;
 const { RangePicker } = DatePicker;
