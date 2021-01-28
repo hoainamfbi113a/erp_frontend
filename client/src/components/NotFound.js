@@ -1,5 +1,5 @@
+import { Button, Result } from "antd";
 import React, { Component } from "react";
-import { Result, Button } from "antd";
 import { Link } from "react-router-dom";
 export default class NotFound extends Component {
   render() {
