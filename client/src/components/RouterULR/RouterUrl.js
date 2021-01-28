@@ -10,7 +10,6 @@ import {
   } from "../../apis/authenticationApi";
 import ContentNotification from "../content/Notification/ContentNotification";
 import ContentMyNotification from "../content/ContentMyNotification";
-import addInformationUser from "../admin/addInformationUser";
 import AddAndUpdateInforUser from "../admin/AddAndUpdateInforUser"
 import ContentRoles from "../content/ContentRoles";
 import ContentPermission from "../content/ContentPermission"
@@ -86,8 +85,8 @@ export default class RouterUrl extends Component {
             <Route exact path="/erp/admin/user" component = {ContentUserSix}></Route>
             <Route exact path="/erp/admin/notification" component = {ContentNotification}></Route>
             <Route exact path="/erp/admin/mynotification" component = {ContentMyNotification}></Route>
-            <Route exact path="/erp/admin/edituser/:id" component = {addInformationUser}></Route>
-            <Route exact path="/erp/admin/adduser" component = {addInformationUser}></Route>
+            <Route exact path="/erp/admin/edituser/:id" component = {AddAndUpdateInforUser}></Route>
+            <Route exact path="/erp/admin/adduser" component = {AddAndUpdateInforUser}></Route>
             <Route  component={NotFound}/>
             </Switch>
         }
