@@ -14,7 +14,7 @@ import {
     searchDepartment,
 } from "../../../apis/departmentApi";
 import { getListPosition, searchPosition } from "../../../apis/positionApi";
-import {  searchParts } from "../../../apis/partsApi";
+import { searchParts } from "../../../apis/partsApi";
 import { getProfile, addProfile, updateProfile } from "../../../apis/profileApi";
 import { workflowProfile } from "../../../apis/workflowApi";
 import { transfersProfile } from "../../../apis/transfersApi";
@@ -320,9 +320,14 @@ class addInformationUser extends Component {
         }
     };
     handleChangeDepartment = (value) => {
-        this.setState({
-            dep_id: value,
-        });
+        this.setState(
+            {
+                dep_id: value,
+            },
+            () => {
+                this.handleInputValid("department", value);
+            },
+        );
     };
     renderPosition = () => {
         if (this.state.dataPosition !== null) {
@@ -336,9 +341,14 @@ class addInformationUser extends Component {
         } else return "";
     };
     handleChangePosition = (value) => {
-        this.setState({
-            pos_id: value,
-        });
+        this.setState(
+            {
+                pos_id: value,
+            },
+            () => {
+                this.handleInputValid("position", value);
+            },
+        );
     };
     renderParts = () => {
         if (this.state.dataParts !== null) {
@@ -352,9 +362,14 @@ class addInformationUser extends Component {
         } else return "";
     };
     handleChangeParts = (value) => {
-        this.setState({
-            par_id: value,
-        });
+        this.setState(
+            {
+                par_id: value,
+            },
+            () => {
+                this.handleInputValid("part", value);
+            },
+        );
     };
     onAddInforUser = (value) => {
         if (this.props.idUser) {
@@ -381,7 +396,7 @@ class addInformationUser extends Component {
             !this.state.valid_department.isValid &&
             !this.state.valid_position.isValid
         ) {
-            alert("1234")
+            alert("1234");
             this.props.uiActionCreators.showLoading();
             let paramUser = {
                 app_id: 99,
@@ -646,14 +661,12 @@ class addInformationUser extends Component {
     };
     handleInputValid = (name, value) => {
         const { isValid, errorMessage } = validateInputFormUser(name, value);
-        this.setState(
-            {
-                [`valid_${name}`]: {
-                    isValid: isValid,
-                    errorMessage: errorMessage,
-                },
-            }
-        );
+        this.setState({
+            [`valid_${name}`]: {
+                isValid: isValid,
+                errorMessage: errorMessage,
+            },
+        });
     };
     handleSearchDepartment(value) {
         if (this.typingRef.current) {
