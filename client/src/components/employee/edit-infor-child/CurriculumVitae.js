@@ -324,7 +324,6 @@ class CurriculumVitae extends Component {
         this.fetchDataUser();
         this.fetchDepartment();
         this.fetchPosition();
-        // this.fetchParts();
     };
     fetchPosition = async () => {
         let res = await getListPosition(1);
@@ -336,16 +335,6 @@ class CurriculumVitae extends Component {
             message.error("get list position failed");
         }
     };
-    // fetchParts = async () => {
-    //     let res = await getListParts(1);
-    //     if (!res.err) {
-    //         this.setState({
-    //             dataParts: res.data,
-    //         });
-    //     } else {
-    //         message.error("get list Parts failed");
-    //     }
-    // };
     fetchDepartment = async () => {
         let res = await getListDepartment(1);
         if (!res.err) {
