@@ -479,9 +479,14 @@ class CurriculumVitae extends Component {
         } else return "";
     };
     handleChangeDepartment = (value) => {
-        this.setState({
-            dep_id: value,
-        });
+        this.setState(
+            {
+                dep_id: value,
+            },
+            () => {
+                this.handleInputValid("department", value);
+            },
+        );
     };
     renderPosition = () => {
         if (this.state.dataPosition !== null) {
@@ -495,9 +500,14 @@ class CurriculumVitae extends Component {
         } else return "";
     };
     handleChangePosition = (value) => {
-        this.setState({
-            pos_id: value,
-        });
+        this.setState(
+            {
+                pos_id: value,
+            },
+            () => {
+                this.handleInputValid("position", value);
+            },
+        );
     };
     renderParts = () => {
         if (this.state.dataParts !== null) {
@@ -511,9 +521,14 @@ class CurriculumVitae extends Component {
         } else return "";
     };
     handleChangeParts = (value) => {
-        this.setState({
-            par_id: value,
-        });
+        this.setState(
+            {
+                par_id: value,
+            },
+            () => {
+                this.handleInputValid("part", value);
+            },
+        );
     };
     render() {
         return (
@@ -1158,21 +1173,22 @@ class CurriculumVitae extends Component {
                                         </li>
                                         {this.props.statusProfile == 2 ? (
                                             <li className="tabs-main-left-li tabs-main-left-li-submit">
-                                            <span
-                                                className="btn-add-user"
-                                                onClick={this.handleSave}
-                                            >
-                                                Lưu
-                                            </span>
-                                            <span
-                                                className="btn-add-user"
-                                                onClick={this.handleSend}
-                                            >
-                                                Xác nhận
-                                            </span>
-                                          </li>
-                                        ): "Bạn chỉ được xem hãy liên hệ nhân sự để được chỉnh sửa"}
-                                      
+                                                <span
+                                                    className="btn-add-user"
+                                                    onClick={this.handleSave}
+                                                >
+                                                    Lưu
+                                                </span>
+                                                <span
+                                                    className="btn-add-user"
+                                                    onClick={this.handleSend}
+                                                >
+                                                    Xác nhận
+                                                </span>
+                                            </li>
+                                        ) : (
+                                            "Bạn chỉ được xem hãy liên hệ nhân sự để được chỉnh sửa"
+                                        )}
                                     </ul>
                                 </div>
                             </div>
