@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Input } from "antd";
 import { Button } from "antd";
 
-import TablePosition from "../Table/TablePosition";
+import TablePosition from "components/Table/TablePosition";
 const { Search } = Input;
 
 import "./Content.css";

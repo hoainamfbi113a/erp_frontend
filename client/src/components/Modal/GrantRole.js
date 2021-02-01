@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { Modal, Space, message, Popconfirm,Tag,Button } from "antd";
 import { Select } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import axiosConfig from "../../apis/axios";
+import axiosConfig from "apis/axios";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import * as roleActions from "../../actions/roleAction";
+import * as roleActions from "actions/roleAction";
 const { Option } = Select;
 class GrantRole extends Component {
   state = {

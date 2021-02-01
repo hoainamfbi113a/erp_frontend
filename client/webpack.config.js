@@ -27,6 +27,7 @@ module.exports = (env, agrv) => {
         "process.env": JSON.stringify(dotenv.parsed),
       }),
     ],
+
     module: {
       rules: [
         {
@@ -78,6 +79,15 @@ module.exports = (env, agrv) => {
         //     ],
         // }
       ],
+    },
+    resolve: {
+      alias: {
+        'components': path.resolve(__dirname, 'src/components/'),
+        'actions': path.resolve(__dirname, 'src/actions/'),
+        'apis': path.resolve(__dirname, 'src/apis/'),
+        'helpers': path.resolve(__dirname, 'src/helpers/'),
+        'assets': path.resolve(__dirname, 'src/assets/'),
+      }
     },
     optimization: {
       minimizer: [new TerserJSPlugin({}), new OptimizeCSSAssetsPlugin({})],

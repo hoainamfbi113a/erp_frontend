@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button, Pagination } from "antd";
 import docCookies from "doc-cookies";
-import { updateStatusNotify, listNotify } from "../../../apis/notificationApi";
+import { updateStatusNotify, listNotify } from "apis/notificationApi";
 import "./notification.css";
 const app_id = 99;
 const slug = "profile";

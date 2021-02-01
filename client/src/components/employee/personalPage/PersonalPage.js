@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from "react";
 import LazyLoad from "react-lazyload";
-import coverimg from "../../../assets/images/coverimg.png";
-import avatar from "../../../assets/images/avatar.png";
-import HeaderLayout from "../../Header/Header";
-import MenuLayout from "../../Menu/MenuLayout";
-import { getProfile } from "../../../apis/profileApi";
-import { getUser } from "../../../apis/authenticationApi";
+import coverimg from "assets/images/coverimg.png";
+import avatar from "assets/images/avatar.png";
+import HeaderLayout from "components/Header/Header";
+import MenuLayout from "components/Menu/MenuLayout";
+import { getProfile } from "apis/profileApi";
+import { getUser } from "apis/authenticationApi";
 import { Button } from "antd";
 import { Timeline } from "antd";
 import { Layout } from "antd";
 import docCookies from "doc-cookies";
-import user2 from "../../../assets/images/icon/user2.png";
-import phone from "../../../assets/images/icon/phone.png";
-import email from "../../../assets/images/icon/email.png";
+import user2 from "assets/images/icon/user2.png";
+import phone from "assets/images/icon/phone.png";
+import email from "assets/images/icon/email.png";
 const { Footer } = Layout;
 import "./PersonalPage.css";
 const PersonalPage = () => {

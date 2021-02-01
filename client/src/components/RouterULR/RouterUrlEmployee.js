@@ -2,14 +2,14 @@ import React, { Component } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import "./RouterUrl.css"
 
-import ContentNotification from "../content//Notification/ContentNotification";
-import NotifiGenaral from "../content//Notification/NotifiGenaral";
-import NotifiMy from "../content//Notification/NotifiMy";
-import NotifiDepartment from "../content//Notification/NotifiDepartment";
-import NotifiMyWord from "../content//Notification/NotifiMyWord";
-import CreateNotifi from "../content//Notification/CreateNotifi";
-import EditInformationUser from "../employee/EditInformationUser";
-import NotFound from "../../components/NotFound";
+import ContentNotification from "components/content//Notification/ContentNotification";
+import NotifiGenaral from "components/content//Notification/NotifiGenaral";
+import NotifiMy from "components/content//Notification/NotifiMy";
+import NotifiDepartment from "components/content//Notification/NotifiDepartment";
+import NotifiMyWord from "components/content//Notification/NotifiMyWord";
+import CreateNotifi from "components/content//Notification/CreateNotifi";
+import EditInformationUser from "components/employee/EditInformationUser";
+import NotFound from "components/NotFound";
 // import PersonalPage from "../employee/personalPage/PersonalPage"
 export default class RouterUrl extends Component {
     render() {

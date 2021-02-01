@@ -5,13 +5,13 @@ import {Link}  from 'react-router-dom'
 import axios from "axios"
 import "../../App/App.css";
 import "./Table.css"
-import * as userSixActions from '../../actions/userSix';
+import * as userSixActions from 'actions/userSix';
 import {  Layout } from "antd";
 import { Table, Space, Tag, Avatar } from 'antd';
 import { Popconfirm, message } from 'antd';
 import { Input, Modal } from "antd";
-import imgUser from "../../assets/images/imguser.png";
-import user from "../../assets/images/user2.png";
+import imgUser from "assets/images/imguser.png";
+import user from "assets/images/user2.png";
 
 const { Content } = Layout;
 class TableSix extends Component {

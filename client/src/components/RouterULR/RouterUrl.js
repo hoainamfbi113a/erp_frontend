@@ -3,18 +3,18 @@ import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import {
   getPermissionUser
-} from "../../apis/authenticationApi";
-import NotFound from "../../components/NotFound";
-import AddAndUpdateInforUser from "../admin/AddAndUpdateInforUser";
-import Workflow from '../admin/workflow/Workflow';
-import ContentDepartment from "../content/ContentDepartment";
-import ContentMyNotification from "../content/ContentMyNotification";
-import ContentParts from "../content/ContentParts";
-import ContentPermission from "../content/ContentPermission";
-import ContentPosition from "../content/ContentPosition";
-import ContentRoles from "../content/ContentRoles";
-import ContentUserSix from "../content/ContentSix";
-import ContentNotification from "../content/Notification/ContentNotification";
+} from "apis/authenticationApi";
+import NotFound from "components/NotFound";
+import AddAndUpdateInforUser from "components/admin/AddAndUpdateInforUser";
+import Workflow from 'components/admin/workflow/Workflow';
+import ContentDepartment from "components/content/ContentDepartment";
+import ContentMyNotification from "components/content/ContentMyNotification";
+import ContentParts from "components/content/ContentParts";
+import ContentPermission from "components/content/ContentPermission";
+import ContentPosition from "components/content/ContentPosition";
+import ContentRoles from "components/content/ContentRoles";
+import ContentUserSix from "components/content/ContentSix";
+import ContentNotification from "components/content/Notification/ContentNotification";
 import "./RouterUrl.css";
 
 export default class RouterUrl extends Component {

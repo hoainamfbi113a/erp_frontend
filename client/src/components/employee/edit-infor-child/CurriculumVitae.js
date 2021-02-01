@@ -11,17 +11,17 @@ import {
     getListDepartment,
     searchDepartment,
     updateDepartmentProfile,
-} from "../../../apis/departmentApi";
-import { getListPosition, searchPosition } from "../../../apis/positionApi";
-import { getListParts, searchParts } from "../../../apis/partsApi";
-import { getProfile, updateProfile } from "../../../apis/profileApi";
-import { updateUser, getUser } from "../../../apis/authenticationApi";
-import { updateUserDegree } from "../../../apis/userDegreesApi";
-import { updateWorkObject } from "../../../apis/workObjectsApi";
-import { updateJournalistCards } from "../../../apis/journalistCardsApi";
-import * as uiActions from "../../../actions/ui";
+} from "apis/departmentApi";
+import { getListPosition, searchPosition } from "apis/positionApi";
+import { getListParts, searchParts } from "apis/partsApi";
+import { getProfile, updateProfile } from "apis/profileApi";
+import { updateUser, getUser } from "apis/authenticationApi";
+import { updateUserDegree } from "apis/userDegreesApi";
+import { updateWorkObject } from "apis/workObjectsApi";
+import { updateJournalistCards } from "apis/journalistCardsApi";
+import * as uiActions from "actions/ui";
 import { Select } from "antd";
-import { validateInputFormUser } from "../../../helpers/FuncHelper";
+import { validateInputFormUser } from "helpers/FuncHelper";
 const dateFormat = "YYYY/MM/DD";
 const { Option } = Select;
 class CurriculumVitae extends Component {

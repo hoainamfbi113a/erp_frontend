@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import {
   getPermissionUser,
   slugPermission,
-} from "../../apis/authenticationApi";
-import logomall from "../../assets/images/logoPage.png";
+} from "apis/authenticationApi";
+import logomall from "assets/images/logoPage.png";
 import { Menu, Layout } from "antd";
 import { withRouter } from "react-router";
 import { UserOutlined, ShopOutlined } from "@ant-design/icons";

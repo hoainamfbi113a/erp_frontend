@@ -6,11 +6,10 @@ import { Spin } from 'antd';
 import docCookies from "doc-cookies"
 import { Breadcrumb } from 'antd';
 
-import { logout } from "../../apis/authenticationApi";
+import { logout } from "apis/authenticationApi";
 
 import "./Header.css"
 const { Header } = Layout;
-
 import {
   LogoutOutlined,
   RollbackOutlined,

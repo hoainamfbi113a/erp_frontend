@@ -4,24 +4,24 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from 'react-router'
 import { bindActionCreators } from "redux";
-import * as uiActions from "../../../actions/ui";
-import { getUser, register, updateUser } from "../../../apis/authenticationApi";
+import * as uiActions from "actions/ui";
+import { getUser, register, updateUser } from "apis/authenticationApi";
 import {
     addDepartmentProfile, getListDepartment,
 
 
     searchDepartment, updateDepartmentProfile
-} from "../../../apis/departmentApi";
-import { addJournalistCards, updateJournalistCards } from "../../../apis/journalistCardsApi";
-import { searchParts } from "../../../apis/partsApi";
-import { getListPosition, searchPosition } from "../../../apis/positionApi";
-import { addProfile, getProfile, updateProfile } from "../../../apis/profileApi";
-import { transfersProfile } from "../../../apis/transfersApi";
-import { addUserDegrees, updateUserDegree } from "../../../apis/userDegreesApi";
-import { workflowProfile } from "../../../apis/workflowApi";
-import { addWorkObject, updateWorkObject } from "../../../apis/workObjectsApi";
-import { validateInputFormUser } from "../../../helpers/FuncHelper";
-import Notify from "../../Modal/Notify";
+} from "apis/departmentApi";
+import { addJournalistCards, updateJournalistCards } from "apis/journalistCardsApi";
+import { searchParts } from "apis/partsApi";
+import { getListPosition, searchPosition } from "apis/positionApi";
+import { addProfile, getProfile, updateProfile } from "apis/profileApi";
+import { transfersProfile } from "apis/transfersApi";
+import { addUserDegrees, updateUserDegree } from "apis/userDegreesApi";
+import { workflowProfile } from "apis/workflowApi";
+import { addWorkObject, updateWorkObject } from "apis/workObjectsApi";
+import { validateInputFormUser } from "helpers/FuncHelper";
+import Notify from "components/Modal/Notify";
 
 const { Option } = Select;
 const { Step } = Steps;
