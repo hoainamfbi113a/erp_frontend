@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Globading.css'
 import { Spin, Space } from 'antd';
-import * as uiAction from "../../actions/ui"
+import * as uiAction from "actions/ui"
 import {bindActionCreators} from 'redux';
 import {connect} from "react-redux"
 class Globading extends Component {

@@ -11,9 +11,9 @@ import Kinship from "./edit-infor-child/Kinship";
 import Social from "./edit-infor-child/Social";
 import { Steps } from "antd";
 import docCookies from "doc-cookies";
-import { getProfile} from "../../apis/profileApi";
-import { workflowProfile } from "../../apis/workflowApi";
-import { transfersProfile } from "../../apis/transfersApi";
+import { getProfile} from "apis/profileApi";
+import { workflowProfile } from "apis/workflowApi";
+import { transfersProfile } from "apis/transfersApi";
 const { Step } = Steps;
 export default class NotifiDepartment extends Component {
   constructor(props) {

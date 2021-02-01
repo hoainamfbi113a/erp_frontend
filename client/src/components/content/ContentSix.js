@@ -3,7 +3,7 @@ import { Input } from "antd";
 import { Button, Modal, DatePicker } from "antd";
 
 import {Link}  from 'react-router-dom'
-import TableSix from "../Table/TableSix";
+import TableSix from "components/Table/TableSix";
 const { Search } = Input;
 
 import "./Content.css";

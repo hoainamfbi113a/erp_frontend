@@ -1,5 +1,5 @@
 import { Form, Input, Modal, Button, message } from "antd";
-import { updateProfile } from "../../apis/profileApi";
+import { updateProfile } from "apis/profileApi";
 import React, { Component } from "react";
 
 export default class Notify extends Component {

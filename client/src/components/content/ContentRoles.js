@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Input } from "antd";
 import { Button } from "antd";
 
-import TableRoles from "../Table/TableRoles";
+import TableRoles from "components/Table/TableRoles";
 const { Search } = Input;
 
 import "./Content.css";

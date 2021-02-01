@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { Button, Pagination } from "antd";
 import "./notification.css";
-import proposal from "../../../assets/images/proposal.svg";
-import put from "../../../assets/images/put.svg";
-import takeleave from "../../../assets/images/takeleave.svg";
-import vote from "../../../assets/images/vote.svg";
-import ProposalForm from "../../Modal/ProposalForm"
+import proposal from "assets/images/proposal.svg";
+import put from "assets/images/put.svg";
+import takeleave from "assets/images/takeleave.svg";
+import vote from "assets/images/vote.svg";
+import ProposalForm from "components/Modal/ProposalForm"
 export default class CreateNotifi extends Component {
   constructor() {
     super();

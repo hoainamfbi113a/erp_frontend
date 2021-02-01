@@ -3,19 +3,19 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import "../../App/App.css";
 import "./Table.css";
-import * as userSixActions from "../../actions/userSix";
-import * as uiAction from "../../actions/ui";
+import * as userSixActions from "actions/userSix";
+import * as uiAction from "actions/ui";
 import { Layout } from "antd";
 import { Table, Space, Tag, Avatar } from "antd";
 import { Popconfirm, message } from "antd";
 import { Input, Modal } from "antd";
-import axiosConfig from "../../apis/axios";
+import axiosConfig from "apis/axios";
 import {
   getListParts,
   addParts,
   updateParts,
   deleteParts,
-} from "../../apis/partsApi";
+} from "apis/partsApi";
 import { Select } from "antd";
 const { Option } = Select;
 const { Content } = Layout;

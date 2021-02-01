@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import "../../App/App.css";
 import "./Table.css";
-import * as userSixActions from "../../actions/userSix";
-import * as uiAction from "../../actions/ui";
+import * as userSixActions from "actions/userSix";
+import * as uiAction from "actions/ui";
 import { Layout } from "antd";
 import { Table, Space, Tag, Avatar,Select } from "antd";
 import { Popconfirm, message } from "antd";
@@ -16,8 +16,8 @@ import {
   addPosition,
   updatePosition,
   deletePosition
-} from "../../apis/positionApi";
-import axiosConfig from "../../apis/axios";
+} from "apis/positionApi";
+import axiosConfig from "apis/axios";
 const { Content } = Layout;
 class TablePosition extends Component {
   state = {

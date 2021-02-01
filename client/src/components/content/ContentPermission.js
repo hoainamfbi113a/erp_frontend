@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Input } from "antd";
 import { Button } from "antd";
 
-import TablePermission from "../Table/TablePermission";
+import TablePermission from "components/Table/TablePermission";
 const { Search } = Input;
 
 import "./Content.css";

@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { login } from "../../apis/authenticationApi";
+import { login } from "apis/authenticationApi";
 import { Spin } from "antd";
-import { ValidateEmail, ValidateField } from "../../helpers/FuncHelper";
+import { ValidateEmail, ValidateField } from "helpers/FuncHelper";
 import { message } from "antd";
 import docCookies from "doc-cookies";
 import { withRouter } from "react-router-dom";
 import "./Login.css";
-import logologin from "../../assets/images/logoFix1.png";
-import background from "../../assets/images/bgd.jpg";
+import logologin from "assets/images/logoFix1.png";
+import background from "assets/images/bgd.jpg";
 class Login extends Component {
   constructor() {
     super();

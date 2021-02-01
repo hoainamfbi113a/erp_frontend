@@ -2,16 +2,16 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { Link } from "react-router-dom";
-import GrantRole from "../Modal/GrantRole";
+import GrantRole from "components/Modal/GrantRole";
 import "../../App/App.css";
 import "./Table.css";
-import * as uiActions from "../../actions/ui";
+import * as uiActions from "actions/ui";
 import { Layout } from "antd";
 import { Table, Space, Tag, Avatar } from "antd";
 import { Popconfirm, message } from "antd";
 import { Input, Modal } from "antd";
-import user from "../../assets/images/user2.png";
-import { listUser } from "../../apis/authenticationApi";
+import user from "assets/images/user2.png";
+import { listUser } from "apis/authenticationApi";
 const { Content } = Layout;
 class TableSix extends Component {
   state = {
