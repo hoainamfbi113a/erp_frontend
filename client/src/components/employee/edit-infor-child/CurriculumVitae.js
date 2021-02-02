@@ -280,7 +280,6 @@ class CurriculumVitae extends Component {
             if (messageErr == 0) {
                 message.success("Cập nhât thông tin thành công");
                 this.props.handleReloadComponent();
-                // window.location.href = "http://erp.tuoitre.vn/erp/employee/personal-page";
             } else {
                 message.error("Cập nhật thất bại");
             }

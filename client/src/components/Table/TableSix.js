@@ -155,10 +155,10 @@ class TableSix extends Component {
                 Ẩn
               </Tag>
             </Popconfirm>
-            <Link to={`/erp/admin/edituser/${text}`}> 
+            <Link to={`/admin/edituser/${text}`}> 
             <Tag
               // onClick={() => {
-              //   this.updateUser(text);/erp/admin/edituser/${id}
+              //   this.updateUser(text);/admin/edituser/${id}
               // }}
               color="geekblue"
               className="table-action"

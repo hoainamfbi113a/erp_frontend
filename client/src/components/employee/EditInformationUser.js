@@ -112,7 +112,7 @@ export default class NotifiDepartment extends Component {
         <div style={{ minHeight: "70vh" }} className="edit-infor" disabled>
           <div className="edit-infor-tabs">
             <ul>
-              {/* <Link to="/erp/employee/edit-information"> */}
+              {/* <Link to="/employee/edit-information"> */}
               <li onClick={() => this.handleClick(1)}>
                 <div className={this.state.activeLink === 1 ? "active" : ""}>
                   1
@@ -122,7 +122,7 @@ export default class NotifiDepartment extends Component {
                 </span>
               </li>
               {/* </Link> */}
-              {/* <Link to="/erp/employee/edit-information/personal-history"> */}
+              {/* <Link to="/employee/edit-information/personal-history"> */}
               <li onClick={() => this.handleClick(2)}>
                 <div className={this.state.activeLink === 2 ? "active" : ""}>
                   2
@@ -132,7 +132,7 @@ export default class NotifiDepartment extends Component {
                 </span>
               </li>
               {/* </Link> */}
-              {/* <Link to="/erp/employee/edit-information/joinDCS"> */}
+              {/* <Link to="/employee/edit-information/joinDCS"> */}
               <li onClick={() => this.handleClick(3)}>
                 <div className={this.state.activeLink === 3 ? "active" : ""}>
                   3
@@ -142,7 +142,7 @@ export default class NotifiDepartment extends Component {
                 </span>
               </li>
               {/* </Link> */}
-              {/* <Link to="/erp/employee/edit-information/join-TCTTXH"> */}
+              {/* <Link to="/employee/edit-information/join-TCTTXH"> */}
               <li onClick={() => this.handleClick(4)}>
                 <div className={this.state.activeLink === 4 ? "active" : ""}>
                   4
@@ -152,7 +152,7 @@ export default class NotifiDepartment extends Component {
                 </span>
               </li>
               {/* </Link> */}
-              {/* <Link to="/erp/employee/edit-information/professional-compensation"> */}
+              {/* <Link to="/employee/edit-information/professional-compensation"> */}
               <li onClick={() => this.handleClick(5)}>
                 <div className={this.state.activeLink === 5 ? "active" : ""}>
                   5
@@ -163,7 +163,7 @@ export default class NotifiDepartment extends Component {
                 </span>
               </li>
               {/* </Link> */}
-              {/* <Link to="/erp/employee/edit-information/bonus"> */}
+              {/* <Link to="/employee/edit-information/bonus"> */}
               <li onClick={() => this.handleClick(6)}>
                 <div className={this.state.activeLink === 6 ? "active" : ""}>
                   6
@@ -173,7 +173,7 @@ export default class NotifiDepartment extends Component {
                 </span>
               </li>
               {/* </Link> */}
-              {/* <Link to="/erp/employee/edit-information/family"> */}
+              {/* <Link to="/employee/edit-information/family"> */}
               <li onClick={() => this.handleClick(7)}>
                 <div className={this.state.activeLink === 7 ? "active" : ""}>
                   7
@@ -183,7 +183,7 @@ export default class NotifiDepartment extends Component {
                 </span>
               </li>
               {/* </Link> */}
-              {/* <Link to="/erp/employee/edit-information/kinship"> */}
+              {/* <Link to="/employee/edit-information/kinship"> */}
               <li onClick={() => this.handleClick(8)}>
                 <div className={this.state.activeLink === 8 ? "active" : ""}>
                   8
@@ -193,7 +193,7 @@ export default class NotifiDepartment extends Component {
                 </span>
               </li>
               {/* </Link> */}
-              {/* <Link to="/erp/employee/edit-information/social"> */}
+              {/* <Link to="/employee/edit-information/social"> */}
               <li onClick={() => this.handleClick(9)}>
                 <div className={this.state.activeLink === 9 ? "active" : ""}>
                   9

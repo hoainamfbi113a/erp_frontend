@@ -506,7 +506,7 @@ class addInformationUser extends Component {
             if (messageErr == 0) {
                 message.success("Thêm thông tin nhân sự thành công");
                 this.props.uiActionCreators.hideLoading();
-                this.props.history.push("/erp/admin/user");
+                this.props.history.push("/admin/user");
                 this.setState({
                     idSaved: userId,
                     pro_id_saved: proId,

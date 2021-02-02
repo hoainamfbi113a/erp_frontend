@@ -64,28 +64,28 @@ export default class RouterUrl extends Component {
         if(this.state.major == 8 && this.state.isTrue === true ){
             return (
                 <Switch>
-                        <Route exact path="/erp/admin/user" component = {ContentUserSix}></Route>
-                        <Route exact path="/erp/admin/notification" component = {ContentNotification}></Route>
-                        <Route exact path="/erp/admin/mynotification" component = {ContentMyNotification}></Route>
-                        <Route exact path="/erp/admin/edituser/:id" component = {AddAndUpdateInforUser}></Route>
-                        <Route exact path="/erp/admin/adduser" component = {AddAndUpdateInforUser}></Route>
-                        <Route exact path="/erp/admin/roles" component = {ContentRoles}></Route>
-                        <Route exact path="/erp/admin/permission" component = {ContentPermission}></Route>
-                        <Route exact path="/erp/admin/parts" component = {ContentParts}></Route>
-                        <Route exact path="/erp/admin/position" component = {ContentPosition}></Route>
-                        <Route exact path="/erp/admin/department" component = {ContentDepartment}></Route>
-                        <Route exact path="/erp/admin/workflow" component = {Workflow}></Route>
+                        <Route exact path="/admin/user" component = {ContentUserSix}></Route>
+                        <Route exact path="/admin/notification" component = {ContentNotification}></Route>
+                        <Route exact path="/admin/mynotification" component = {ContentMyNotification}></Route>
+                        <Route exact path="/admin/edituser/:id" component = {AddAndUpdateInforUser}></Route>
+                        <Route exact path="/admin/adduser" component = {AddAndUpdateInforUser}></Route>
+                        <Route exact path="/admin/roles" component = {ContentRoles}></Route>
+                        <Route exact path="/admin/permission" component = {ContentPermission}></Route>
+                        <Route exact path="/admin/parts" component = {ContentParts}></Route>
+                        <Route exact path="/admin/position" component = {ContentPosition}></Route>
+                        <Route exact path="/admin/department" component = {ContentDepartment}></Route>
+                        <Route exact path="/admin/workflow" component = {Workflow}></Route>
                         <Route  component={NotFound}/>
                 </Switch>
             )
         }
         else if(this.state.major == 8 && this.state.isTrue === false){
             <Switch>
-            <Route exact path="/erp/admin/user" component = {ContentUserSix}></Route>
-            <Route exact path="/erp/admin/notification" component = {ContentNotification}></Route>
-            <Route exact path="/erp/admin/mynotification" component = {ContentMyNotification}></Route>
-            <Route exact path="/erp/admin/edituser/:id" component = {AddAndUpdateInforUser}></Route>
-            <Route exact path="/erp/admin/adduser" component = {AddAndUpdateInforUser}></Route>
+            <Route exact path="/admin/user" component = {ContentUserSix}></Route>
+            <Route exact path="/admin/notification" component = {ContentNotification}></Route>
+            <Route exact path="/admin/mynotification" component = {ContentMyNotification}></Route>
+            <Route exact path="/admin/edituser/:id" component = {AddAndUpdateInforUser}></Route>
+            <Route exact path="/admin/adduser" component = {AddAndUpdateInforUser}></Route>
             <Route  component={NotFound}/>
             </Switch>
         }
