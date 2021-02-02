@@ -32,7 +32,7 @@ export default class App extends Component {
           <Switch>
             {/* <Route exact path="/" component={Login} /> */}
             <Route exact path="/" component={()=>docCookies.getItem("usertoken") ?<PersonalPage/> : <Login/>} />
-            <PrivateRoute path="/erp" component={Erp} />
+            <PrivateRoute path="/" component={Erp} />
             <Route component={NotFound}/>
           </Switch>
         </Router>

@@ -122,7 +122,7 @@ class TableSix extends Component {
             <Popconfirm title="Are you sure hide this user?" onConfirm={()=>this.confirm(text)} onCancel={this.cancel} okText="Yes" cancelText="No">
               <Tag color="volcano" className="table-action">Ẩn</Tag>
             </Popconfirm>
-            <Link to={`/erp/admin/edituser/${text}`}> 
+            <Link to={`/admin/edituser/${text}`}> 
             <Tag color="geekblue" className="table-action">Xem và duyệt</Tag></Link> 
           </Space>
         ),
