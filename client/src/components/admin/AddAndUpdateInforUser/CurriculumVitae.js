@@ -503,7 +503,7 @@ class addInformationUser extends Component {
             console.log("messageErr: ", messageErr);
             if (messageErr == 0) {
                 message.success("Thêm thông tin nhân sự thành công");
-                this.props.history.push("/admin/user");
+                this.props.history.push("/user");
                 this.setState({
                     idSaved: userId,
                     pro_id_saved: proId,

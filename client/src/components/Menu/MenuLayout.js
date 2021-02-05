@@ -23,7 +23,7 @@ class MenuLayout extends Component {
     };
   }
   handleOnclick = () => {
-    this.props.history.push("/admin/user");
+    this.props.history.push("/user");
   };
   componentDidMount = async () => {
     await this.fetchSlugPermission();
@@ -115,13 +115,13 @@ class MenuLayout extends Component {
         icon={<ShopOutlined />}
       >
         <Menu.Item key="13" onClick={this.handleOnclick}>
-          <Link to="/admin/usersix">Gán quyền </Link>
+          <Link to="/usersix">Gán quyền </Link>
         </Menu.Item>
         <Menu.Item key="14">
-          <Link to="/admin/permission"> Quyền </Link>
+          <Link to="/permission"> Quyền </Link>
         </Menu.Item>
         <Menu.Item key="15">
-          <Link to="/admin/roles"> Roles </Link>
+          <Link to="/roles"> Roles </Link>
         </Menu.Item>
       </SubMenu>
       )
@@ -138,7 +138,7 @@ class MenuLayout extends Component {
         icon={<ShopOutlined />}
       >
         <Menu.Item key="8" onClick={this.handleOnclick}>
-          <Link to="/admin/usersix">Nhân sự </Link>
+          <Link to="/usersix">Nhân sự </Link>
         </Menu.Item>
         </SubMenu>
       );
@@ -151,7 +151,7 @@ class MenuLayout extends Component {
         icon={<ShopOutlined />}
       >
       <Menu.Item key="9">
-        <Link to="/admin/department">Phòng ban </Link>
+        <Link to="/department">Phòng ban </Link>
       </Menu.Item>;
       </SubMenu>
     }
@@ -163,7 +163,7 @@ class MenuLayout extends Component {
         icon={<ShopOutlined />}
       >
       <Menu.Item key="10">
-        <Link to="/admin/parts">Tổ</Link>
+        <Link to="/parts">Tổ</Link>
       </Menu.Item>;
       </SubMenu>
     }
@@ -175,7 +175,7 @@ class MenuLayout extends Component {
         icon={<ShopOutlined />}
       >
       <Menu.Item key="11">
-        <Link to="/admin/position">Chức vụ</Link>
+        <Link to="/position">Chức vụ</Link>
       </Menu.Item>;
       </SubMenu>
     }
@@ -188,21 +188,21 @@ class MenuLayout extends Component {
         icon={<ShopOutlined />}
       >
          <Menu.Item key="8" onClick={this.handleOnclick}>
-          <Link to="/admin/usersix">Nhân sự </Link>
+          <Link to="/usersix">Nhân sự </Link>
         </Menu.Item>
         <Menu.Item key="9">
-          <Link to="/admin/department">Phòng ban </Link>
+          <Link to="/department">Phòng ban </Link>
         </Menu.Item>
         ;
         <Menu.Item key="10">
-          <Link to="/admin/parts">Tổ</Link>
+          <Link to="/parts">Tổ</Link>
         </Menu.Item>
         ;
         <Menu.Item key="11">
-          <Link to="/admin/position">Chức vụ</Link>
+          <Link to="/position">Chức vụ</Link>
         </Menu.Item>
         <Menu.Item key="12">
-          <Link to="/admin/workflow">Workflow</Link>
+          <Link to="/workflow">Workflow</Link>
         </Menu.Item>
         ;
 
@@ -235,30 +235,30 @@ class MenuLayout extends Component {
           <Menu mode="inline" className="menulayout-main">
             <SubMenu title="Thông tin cá nhân" icon={<UserOutlined />}>
               <Menu.Item key="1">
-                <Link to="/employee/notification/general">
+                <Link to="/notification/general">
                   Thông báo chung
                 </Link>
               </Menu.Item>
               <Menu.Item key="2">
-                <Link to="/employee/notification/my">
+                <Link to="/notification/my">
                   Thông báo của tôi
                 </Link>
               </Menu.Item>
               <Menu.Item key="3">
-                <Link to="/employee/notification/department">
+                <Link to="/notification/department">
                   Thông tin phòng ban
                 </Link>
               </Menu.Item>
               <Menu.Item key="4">
-                <Link to="/employee/notification/myword">Việc của tôi</Link>
+                <Link to="/notification/myword">Việc của tôi</Link>
               </Menu.Item>
                 <Menu.Item key="5">
-                  <Link to="/employee/edit-information">
+                  <Link to="/edit-information">
                     Cập nhật thông tin
                   </Link>
                 </Menu.Item>
               <Menu.Item key="6">
-                <Link to="/employee/notification/create">Tạo</Link>
+                <Link to="/notification/create">Tạo</Link>
               </Menu.Item>
             </SubMenu>
             {/* <SubMenu

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./EditInformationUser.css";
-import CurriculumVitae from "./edit-infor-child/CurriculumVitaes";
+import CurriculumVitae from "./edit-infor-child/CurriculumVitae";
 import PersonalHistory from "./edit-infor-child/PersonalHistory";
 import JoinTCTTXH from "./edit-infor-child/JoinTCTTXH";
 import JoinDCS from "./edit-infor-child/JoinDCS";
@@ -87,7 +87,6 @@ export default class NotifiDepartment extends Component {
         return <Step key={item.id} title={item.description} />;
       });
     }
-    // return ""
   };
   handleReloadComponent = () => {
     this.componentDidMount();
@@ -108,11 +107,9 @@ export default class NotifiDepartment extends Component {
           {this.renderWorkflow()}
           <Step title="Đóng hồ sơ" />
         </Steps>
-        {/* <fieldset disabled={value == 2 || value == 3 ? "disabled" : ""}> */}
         <div style={{ minHeight: "70vh" }} className="edit-infor" disabled>
           <div className="edit-infor-tabs">
             <ul>
-              {/* <Link to="/employee/edit-information"> */}
               <li onClick={() => this.handleClick(1)}>
                 <div className={this.state.activeLink === 1 ? "active" : ""}>
                   1
@@ -121,8 +118,6 @@ export default class NotifiDepartment extends Component {
                   Sơ yếu lý lịch
                 </span>
               </li>
-              {/* </Link> */}
-              {/* <Link to="/employee/edit-information/personal-history"> */}
               <li onClick={() => this.handleClick(2)}>
                 <div className={this.state.activeLink === 2 ? "active" : ""}>
                   2
@@ -131,8 +126,7 @@ export default class NotifiDepartment extends Component {
                   Lịch sử bản thân
                 </span>
               </li>
-              {/* </Link> */}
-              {/* <Link to="/employee/edit-information/joinDCS"> */}
+
               <li onClick={() => this.handleClick(3)}>
                 <div className={this.state.activeLink === 3 ? "active" : ""}>
                   3
@@ -141,8 +135,6 @@ export default class NotifiDepartment extends Component {
                   Gia nhập Đảng Cộng Sản Việt Nam
                 </span>
               </li>
-              {/* </Link> */}
-              {/* <Link to="/employee/edit-information/join-TCTTXH"> */}
               <li onClick={() => this.handleClick(4)}>
                 <div className={this.state.activeLink === 4 ? "active" : ""}>
                   4
@@ -151,8 +143,7 @@ export default class NotifiDepartment extends Component {
                   Tham gia các tổ chức chính trị, xã hội, các nghề nghiệp
                 </span>
               </li>
-              {/* </Link> */}
-              {/* <Link to="/employee/edit-information/professional-compensation"> */}
+
               <li onClick={() => this.handleClick(5)}>
                 <div className={this.state.activeLink === 5 ? "active" : ""}>
                   5
@@ -162,8 +153,6 @@ export default class NotifiDepartment extends Component {
                   ngoại ngữ
                 </span>
               </li>
-              {/* </Link> */}
-              {/* <Link to="/employee/edit-information/bonus"> */}
               <li onClick={() => this.handleClick(6)}>
                 <div className={this.state.activeLink === 6 ? "active" : ""}>
                   6
@@ -172,8 +161,6 @@ export default class NotifiDepartment extends Component {
                   Khen thưởng, kỷ luật
                 </span>
               </li>
-              {/* </Link> */}
-              {/* <Link to="/employee/edit-information/family"> */}
               <li onClick={() => this.handleClick(7)}>
                 <div className={this.state.activeLink === 7 ? "active" : ""}>
                   7
@@ -182,8 +169,6 @@ export default class NotifiDepartment extends Component {
                   Hoàn cảnh kinh tế, quan hệ gia đình
                 </span>
               </li>
-              {/* </Link> */}
-              {/* <Link to="/employee/edit-information/kinship"> */}
               <li onClick={() => this.handleClick(8)}>
                 <div className={this.state.activeLink === 8 ? "active" : ""}>
                   8
@@ -192,8 +177,6 @@ export default class NotifiDepartment extends Component {
                   Quan hệ gia đình, thân tộc
                 </span>
               </li>
-              {/* </Link> */}
-              {/* <Link to="/employee/edit-information/social"> */}
               <li onClick={() => this.handleClick(9)}>
                 <div className={this.state.activeLink === 9 ? "active" : ""}>
                   9
@@ -202,13 +185,11 @@ export default class NotifiDepartment extends Component {
                   Quan hệ xã hội
                 </span>
               </li>
-              {/* </Link> */}
             </ul>
             <div className="edit-infr-vertical-line"></div>
           </div>
           {this.renderComponents()}
         </div>
-        {/* </fieldset> */}
       </div>
     );
   }
