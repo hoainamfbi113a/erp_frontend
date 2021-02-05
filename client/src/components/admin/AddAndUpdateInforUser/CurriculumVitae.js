@@ -4,7 +4,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from 'react-router'
 import { bindActionCreators } from "redux";
-import * as uiActions from "actions/ui";
 import { getUser, register, updateUser } from "apis/authenticationApi";
 import {
     addDepartmentProfile, getListDepartment,
@@ -397,7 +396,6 @@ class addInformationUser extends Component {
             !this.state.valid_department.isValid &&
             !this.state.valid_position.isValid
         ) {
-            this.props.uiActionCreators.showLoading();
             let paramUser = {
                 app_id: 99,
                 email: this.state.email,
@@ -505,7 +503,6 @@ class addInformationUser extends Component {
             console.log("messageErr: ", messageErr);
             if (messageErr == 0) {
                 message.success("Thêm thông tin nhân sự thành công");
-                this.props.uiActionCreators.hideLoading();
                 this.props.history.push("/admin/user");
                 this.setState({
                     idSaved: userId,
@@ -524,7 +521,6 @@ class addInformationUser extends Component {
         } else {
             pro_id = this.state.pro_id_saved;
         }
-        this.props.uiActionCreators.showLoading();
         let messageErr = 0;
         let paramsUser = {
             full_name: this.state.pro_name,
@@ -633,7 +629,6 @@ class addInformationUser extends Component {
         } else {
             message.error("Cập nhật thất bại");
         }
-        this.props.uiActionCreators.hideLoading();
     };
     handleSave = () => {
         this.onAddInforUser("save");
@@ -1537,8 +1532,6 @@ class addInformationUser extends Component {
         );
     }
 }
-const mapDispatchToProps = (dispatch) => ({
-    uiActionCreators: bindActionCreators(uiActions, dispatch),
-});
+
 const ShowTheLocationWithRouter = withRouter(addInformationUser);
-export default connect(null, mapDispatchToProps)(ShowTheLocationWithRouter);
+export default connect(null, null)(ShowTheLocationWithRouter);

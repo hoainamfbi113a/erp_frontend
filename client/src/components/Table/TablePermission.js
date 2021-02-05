@@ -1,13 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { Link } from "react-router-dom";
 import "../../App/App.css";
 import "./Table.css";
-import * as userSixActions from "actions/userSix";
-import * as uiAction from "actions/ui";
 import { Layout } from "antd";
-import { Table, Space, Tag, Avatar } from "antd";
+import { Table, Space, Tag } from "antd";
 import { Popconfirm, message } from "antd";
 import { Input, Modal } from "antd";
 import { getListPermission, addPermission, updatePermission } from "apis/permissionApi";
@@ -107,7 +103,6 @@ class TablePermission extends Component {
     });
   };
   handlePagination = async (pagination) => {
-    this.props.uiActionCreators.showLoading();
     let res = await getListPermission(1);
       if(!res.err){
         this.setState({
@@ -117,7 +112,6 @@ class TablePermission extends Component {
         message.error("get list permission failed");
         console.log("False to load API", error);
       }
-      this.props.uiActionCreators.hideLoading();
       
   };
   render() {
@@ -278,11 +272,4 @@ class TablePermission extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  listUserSix: state.userSixReducer,
-});
-const mapDispatchToProps = (dispatch) => ({
-  userSixActionCreators: bindActionCreators(userSixActions, dispatch),
-  uiActionCreators: bindActionCreators(uiAction, dispatch),
-});
-export default connect(null, mapDispatchToProps)(TablePermission);
+export default connect(null, null)(TablePermission);

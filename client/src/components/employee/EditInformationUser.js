@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import "./EditInformationUser.css";
-import CurriculumVitae from "./edit-infor-child/CurriculumVitae";
+import CurriculumVitae from "./edit-infor-child/CurriculumVitaes";
 import PersonalHistory from "./edit-infor-child/PersonalHistory";
 import JoinTCTTXH from "./edit-infor-child/JoinTCTTXH";
 import JoinDCS from "./edit-infor-child/JoinDCS";

@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import lodash from "lodash";
 import $ from 'jquery';
 import "../../App/App.css";
 import "./Table.css";
-import * as uiActions from "actions/ui";
 import { Layout } from "antd";
 import { Table, Space, Tag } from "antd";
 import { Popconfirm, message } from "antd";
@@ -37,7 +35,6 @@ class TableRoles extends Component {
         
     };
     fetchData = async () => {
-        this.props.uiActionCreators.showLoading();
         await axiosConfig
             .get("/api/role?page=1")
             .then((res) => {
@@ -53,10 +50,8 @@ class TableRoles extends Component {
                 dataAction: res.data,
             });
         });
-        this.props.uiActionCreators.hideLoading();
     };
     getMock = async (id) => {
-        this.props.uiActionCreators.showLoading();
         const targetKeys = [];
         const mockData = [];
         await axiosConfig
@@ -138,7 +133,6 @@ class TableRoles extends Component {
         // console.log(mockData);
         // console.log(targetKeys);
         this.setState({ mockData, targetKeys });
-        this.props.uiActionCreators.hideLoading();
     };
     onSelect = (selectedKeys, info) => {
         // console.log("selected", selectedKeys, info);
@@ -315,7 +309,6 @@ class TableRoles extends Component {
         });
     };
     handlePagination = async (pagination) => {
-        this.props.uiActionCreators.showLoading();
         try {
             const data = await axiosConfig.get(`/api/role?page=${pagination}`);
             this.setState({
@@ -324,7 +317,6 @@ class TableRoles extends Component {
         } catch (error) {
             console.log("False to load API", error);
         } finally {
-            this.props.uiActionCreators.hideLoading();
         }
     };
 
@@ -490,10 +482,4 @@ class TableRoles extends Component {
     }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-    listUserSix: state.userSixReducer,
-});
-const mapDispatchToProps = (dispatch) => ({
-    uiActionCreators: bindActionCreators(uiActions, dispatch),
-});
-export default connect(null, mapDispatchToProps)(TableRoles);
+export default connect(null, null)(TableRoles);

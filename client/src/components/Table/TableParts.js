@@ -1,12 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import "../../App/App.css";
 import "./Table.css";
-import * as userSixActions from "actions/userSix";
-import * as uiAction from "actions/ui";
 import { Layout } from "antd";
-import { Table, Space, Tag, Avatar } from "antd";
+import { Table, Space, Tag } from "antd";
 import { Popconfirm, message } from "antd";
 import { Input, Modal } from "antd";
 import axiosConfig from "apis/axios";
@@ -33,10 +30,8 @@ class TableParts extends Component {
     status: 1,
   };
   componentDidMount = () => {
-    this.props.uiActionCreators.showLoading();
     this.fetchData();
     this.fetchDepartment();
-    this.props.uiActionCreators.hideLoading();
   };
   fetchDepartment = () => {
     axiosConfig
@@ -147,16 +142,13 @@ class TableParts extends Component {
     } else return "";
   };
   handlePagination = async (pagination) => {
-    this.props.uiActionCreators.showLoading();
     try {
       let res = await getListParts(pagination);
       this.setState({
         data: res,
       });
-      this.props.uiActionCreators.hideLoading();
     } catch (error) {
       console.log("False to load API", error);
-      this.props.uiActionCreators.hideLoading();
     }
   };
   render() {
@@ -327,11 +319,4 @@ class TableParts extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  listUserSix: state.userSixReducer,
-});
-const mapDispatchToProps = (dispatch) => ({
-  userSixActionCreators: bindActionCreators(userSixActions, dispatch),
-  uiActionCreators: bindActionCreators(uiAction, dispatch),
-});
-export default connect(null, mapDispatchToProps)(TableParts);
+export default connect(null, null)(TableParts);
