@@ -16,17 +16,16 @@ export default class RouterUrl extends Component {
         return (
             <div style={{ background: "#EEEFF3" }} >
                  <Switch>
-                <Route exact path="/employee/notification" component = {ContentNotification}></Route>
-                {/* <Route exact path="/employee/personal-page" component = {PersonalPage}></Route> */}
-                <Route exact path="/employee/notification/general" component = {NotifiGenaral}></Route>
-                <Route exact path="/employee/notification/my" component = {NotifiMy}></Route>
-                <Route exact path="/employee/notification/department" component = {NotifiDepartment}></Route>
-                <Route exact path="/employee/notification/myword" component = {NotifiMyWord}></Route>
-                <Route exact path="/employee/notification/create" component = {CreateNotifi}></Route>
+                {/* <Route exact path="/notification" component = {ContentNotification}></Route> */}
+                {/* <Route exact path="/personal-page" component = {PersonalPage}></Route> */}
+                {/* <Route exact path="/notification/general" component = {NotifiGenaral}></Route> */}
+                {/* <Route exact path="/notification/my" component = {NotifiMy}></Route> */}
+                {/* <Route exact path="/notification/department" component = {NotifiDepartment}></Route> */}
+                {/* <Route exact path="/notification/myword" component = {NotifiMyWord}></Route> */}
+                {/* <Route exact path="/notification/create" component = {CreateNotifi}></Route> */}
 
-                <Route path="/employee/edit-information" component = {EditInformationUser}></Route>
-                {/* <Route path="/employee/edit-information/:id" component = {EditInformationUser}></Route> */}
-                <Route component={NotFound}/>
+                {/* <Route path="/edit-information" component = {EditInformationUser}></Route> */}
+                {/* <Route component={NotFound}/> */}
                 </Switch>
             </div>
         )

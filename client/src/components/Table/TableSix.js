@@ -148,7 +148,7 @@ class TableSix extends Component {
                 Ẩn
               </Tag>
             </Popconfirm>
-            <Link to={`/admin/edituser/${text}`}> 
+            <Link to={`/edituser/${text}`}> 
             <Tag
               // onClick={() => {
               //   this.updateUser(text);/admin/edituser/${id}

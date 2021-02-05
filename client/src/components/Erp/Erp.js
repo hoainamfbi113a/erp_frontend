@@ -25,8 +25,10 @@ export default class Erp extends React.Component {
           <MenuLayout collapsed={this.state.collapsed} />
           <Layout>
             <HeaderLayout collapsed={this.collapsed} />
-            <Route  path="/admin" component = {RouterUrl}></Route>
-            <Route path="/employee" component = {RouterUrlEmployee}></Route>
+            <Route path="/" component = {RouterUrl}></Route>
+            {/* <Route path="/" component = {RouterUrlEmployee}></Route> */}
+       
+           
              {/* <Route path="erp/employee/edit" component = {EditInforEmployee}></Route> */}
             <Footer style={{ textAlign: "center" }} className="layout-footer">
               Ant Design ©2020 Created by TuoiTre
