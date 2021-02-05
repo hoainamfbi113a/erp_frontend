@@ -1,13 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { Link } from "react-router-dom";
 import "../../App/App.css";
 import "./Table.css";
-import * as userSixActions from "actions/userSix";
-import * as uiAction from "actions/ui";
 import { Layout } from "antd";
-import { Table, Space, Tag, Avatar } from "antd";
+import { Table, Space, Tag } from "antd";
 import { Popconfirm, message } from "antd";
 import { Input, Modal } from "antd";
 const { Content } = Layout;
@@ -35,13 +31,11 @@ class TablePermission extends Component {
     this.fetchData(1);
   };
   fetchData = async (page) => {
-    this.props.uiActionCreators.showLoading();
     let data = await getListDepartment(page);
     this.setState({
       data,
     });
     this.props.totalDepartment(data.meta.pagination.total)
-    this.props.uiActionCreators.hideLoading();
   };
   onSubmit = async () => {
     let params = {
@@ -271,11 +265,4 @@ class TablePermission extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  listUserSix: state.userSixReducer,
-});
-const mapDispatchToProps = (dispatch) => ({
-  userSixActionCreators: bindActionCreators(userSixActions, dispatch),
-  uiActionCreators: bindActionCreators(uiAction, dispatch),
-});
-export default connect(null, mapDispatchToProps)(TablePermission);
+export default connect(null, null)(TablePermission);

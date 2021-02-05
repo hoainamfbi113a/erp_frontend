@@ -7,13 +7,11 @@ import {
 } from "react-router-dom";
 import { Provider } from "react-redux";
 import docCookies from "doc-cookies"
-import configStore from "../store/configStore";
-import Login from "../components/Login/Login";
-import Erp from "../components/Erp/Erp";
-import NotFound from "../components/NotFound";
-import Globading from "../components/Loading/Globading";
-import PersonalPage from "../components/employee/personalPage/PersonalPage"
-const store = configStore();
+import Login from "components/Login/Login";
+import Erp from "components/Erp/Erp";
+import NotFound from "components/NotFound";
+import Globading from "components/Loading/Globading";
+import PersonalPage from "components/employee/personalPage/PersonalPage"
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
@@ -26,7 +24,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 export default class App extends Component {
   render() {
     return (
-      <Provider store={store}>
+      <div>
         <Globading />
         <Router>
           <Switch>
@@ -36,27 +34,8 @@ export default class App extends Component {
             <Route component={NotFound}/>
           </Switch>
         </Router>
-      </Provider>
+        </div>
     );
   }
 }
 
-// import React, { Component } from 'react';
-// import AllPostContainer from '../containers/AllPostContainer';
-// import PostFormContainer from '../containers/PostFormContainer';
-
-// class App extends Component {
-//   render() {
-//     return (
-//       <div className="App">
-//         <h1>
-//           Hello
-//         </h1>
-//         <PostFormContainer />
-//         <AllPostContainer />
-//       </div>
-//     );
-//   }
-// }
-
-// export default App;

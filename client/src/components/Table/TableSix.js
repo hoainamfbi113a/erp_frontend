@@ -1,15 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
 import { Link } from "react-router-dom";
 import GrantRole from "components/Modal/GrantRole";
 import "../../App/App.css";
 import "./Table.css";
-import * as uiActions from "actions/ui";
 import { Layout } from "antd";
 import { Table, Space, Tag, Avatar } from "antd";
 import { Popconfirm, message } from "antd";
-import { Input, Modal } from "antd";
 import user from "assets/images/user2.png";
 import { listUser } from "apis/authenticationApi";
 const { Content } = Layout;
@@ -42,7 +39,6 @@ class TableSix extends Component {
     this.fetData();
   }
   fetData = async ()=>{
-    this.props.uiActionCreators.showLoading();
     let resListUser = await listUser(1);
         if(!resListUser.err){
           this.setState({
@@ -52,7 +48,6 @@ class TableSix extends Component {
         else{
           message.error("get user failed");
         }
-        this.props.uiActionCreators.hideLoading();
   }
   confirm = (e) => {
     const { userSixActionCreators } = this.props;
@@ -78,7 +73,6 @@ class TableSix extends Component {
     });
   };
   handlePagination = async (pagination) => {
-    this.props.uiActionCreators.showLoading();
     let resListUser = await listUser(pagination);
         if(!resListUser.err){
           this.setState({
@@ -89,7 +83,6 @@ class TableSix extends Component {
           message.error("get user failed");
         }
 
-    this.props.uiActionCreators.hideLoading();
   };
   render() {
     let data = [];
@@ -202,10 +195,4 @@ class TableSix extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-  listUserSix: state.userSixReducer,
-});
-const mapDispatchToProps = (dispatch) => ({
-  uiActionCreators: bindActionCreators(uiActions, dispatch),
-});
-export default connect(null, mapDispatchToProps)(TableSix);
+export default connect(null, null)(TableSix);

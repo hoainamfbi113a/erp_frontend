@@ -57,27 +57,6 @@ module.exports = (env, agrv) => {
             },
           ],
         },
-        // {
-        //     test: /\.scss$/,
-        //     exclude: /node_modules/,
-        //     use: [
-        //         {
-        //             loader: 'style-loader',
-        //         },
-        //         {
-        //             loader: 'css-loader',
-        //             options: {
-        //                 sourceMap: true,
-        //             },
-        //         },
-        //         {
-        //             loader: 'sass-loader',
-        //             options: {
-        //                 sourceMap: true,
-        //             },
-        //         },
-        //     ],
-        // }
       ],
     },
     resolve: {
@@ -87,6 +66,7 @@ module.exports = (env, agrv) => {
         'apis': path.resolve(__dirname, 'src/apis/'),
         'helpers': path.resolve(__dirname, 'src/helpers/'),
         'assets': path.resolve(__dirname, 'src/assets/'),
+        'reduxToolkit': path.resolve(__dirname, 'src/reduxToolkit/'),
       }
     },
     optimization: {

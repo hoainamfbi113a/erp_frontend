@@ -56,6 +56,18 @@ export const getUser = (id) =>{
     }
   })
 }
+export const getUserApi = (id) =>{
+  return axiosConfig
+  .get(`/api/user/${id}`)
+  .then((data)=>{
+    return data
+  })
+  .catch(err=>{
+    return {
+      error:"error"
+    }
+  })
+}
 export const updateUser = (id, params) =>{
   return axiosConfig
   .put(`/api/user/${id}`, params)
