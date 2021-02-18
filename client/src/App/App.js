@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import { Provider } from "react-redux";
 import docCookies from "doc-cookies"
-import Login from "components/Login/Login";
+import Logins from "components/Login/Logins";
 import Erp from "components/Erp/Erp";
 import NotFound from "components/NotFound";
 import Globading from "components/Loading/Globading";
@@ -29,7 +29,7 @@ export default class App extends Component {
         <Router>
           <Switch>
             {/* <Route exact path="/" component={Login} /> */}
-            <Route exact path="/" component={()=>docCookies.getItem("usertoken") ?<PersonalPage/> : <Login/>} />
+            <Route exact path="/" component={()=>docCookies.getItem("usertoken") ?<PersonalPage/> : <Logins/>} />
             <PrivateRoute path="/" component={Erp} />
             <Route component={NotFound}/>
           </Switch>
