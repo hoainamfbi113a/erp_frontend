@@ -5,7 +5,6 @@ import coverimg from "assets/images/coverimg.png";
 import avatar from "assets/images/avatar.png";
 import HeaderLayout from "components/Header/Header";
 import MenuLayout from "components/Menu/MenuLayout";
-import { getProfile } from "apis/profileApi";
 import { Button } from "antd";
 import { Timeline } from "antd";
 import { Layout } from "antd";

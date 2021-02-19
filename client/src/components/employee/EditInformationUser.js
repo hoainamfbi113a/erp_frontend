@@ -39,16 +39,16 @@ export default class NotifiDepartment extends Component {
       return <PersonalHistory />;
     }
     if (this.state.activeLink === 3) {
-      return <Bonus />;
+      return <JoinDCS/>;
     }
     if (this.state.activeLink === 4) {
-      return <JoinDCS />;
+      return <JoinTCTTXH />;
     }
     if (this.state.activeLink === 5) {
-      return <Bonus />;
+      return <ProfessionalCompensation />;
     }
     if (this.state.activeLink === 6) {
-      return <Family />;
+      return <Bonus />;
     }
     if (this.state.activeLink === 7) {
       return <Family />;

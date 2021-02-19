@@ -12,6 +12,7 @@ import background from "assets/images/bgd.jpg";
 import { useForm } from "react-hook-form";
 import { getLogin} from "reduxToolkit/features/authencationSlice"
 import { showLoading, hideLoading} from "reduxToolkit/features/uiLoadingSlice"
+let emailUser = "";
 const Logins = () => {
   const dispatch = useDispatch()
   const { push } = useHistory();
@@ -20,7 +21,6 @@ const Logins = () => {
   const [errEmail, setErrEmail] = useState("err")
   const [errPassword, setErrPassword] = useState("err")
   const [isVibrate, setIsVibrate] = useState(false)
-  let emailUser = "";
   const onSubmitForm = async(formData) => {
     // dispatch(showLoading())
     emailUser = formData.email;
@@ -59,7 +59,6 @@ const Logins = () => {
     
   }
   const respLogin = useSelector(state => state.authen);
-  console.log(respLogin)
   useEffect (()=>{
     if(respLogin && respLogin.message === "Đăng nhập thành công!") {
       if(emailUser === "manager0@gmail.com"){

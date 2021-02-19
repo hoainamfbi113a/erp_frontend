@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Input } from "antd";
-import { Button, Pagination, DatePicker } from "antd";
+import { Button, DatePicker } from "antd";
 const { RangePicker } = DatePicker;
-import {  Modal } from "antd";
+import { Modal } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Select } from "antd";
 
@@ -10,29 +10,28 @@ import { Space, Tag } from "antd";
 const { Option } = Select;
 import { Popconfirm } from "antd";
 const { TextArea } = Input;
-const ProfessionalCompensation = () => {
-    const [visible, setVisible] = useState(false);
-    const showModal = () => {
-      setVisible(true);
-    };
 
-   const hideModal = () => {
-      setVisible(false);
-    };
-    const onSubmit = () =>{
+const Family = () => {
+  const [visible, setVisible] = useState(false);
+  const showModal = () => {
+    setVisible(true);
+  };
+
+  const hideModal = () => {
+    setVisible(false);
+  };
+  const onSubmit = () =>{
     
-    }
+  }
   return (
     <div className="edit-infor-form">
       <div className="tabs-main personal-history">
-        <div className="personal-history-title">Đào tạo:</div>
+        <div className="personal-history-title">Tài sản</div>
         <div>
           <div className="edit-infr-vertical-line"></div>
           <ul className="personal-history-list">
             <li>
-              <div className="personal-history-time">
-                05/09/1990 - 10/05/1995
-              </div>
+              <div className="personal-history-time">Nhà</div>
               <Space size="middle">
                 <Popconfirm
                   title="Are you sure hide this user?"
@@ -48,75 +47,19 @@ const ProfessionalCompensation = () => {
                 </Tag>
               </Space>
               <p className="personal-history-content">
-                CỬ NHÂN Quản Trị Kinh Doanh - Trường Đại Học Kinh tế - Văn bằng
-                2 - Học từ xa.
-              </p>
-            </li>
-            <li>
-              <div className="personal-history-time">
-                05/09/1990 - 10/05/1995
-              </div>
-              <Space size="middle">
-                <Popconfirm
-                  title="Are you sure hide this user?"
-                  okText="Yes"
-                  cancelText="No"
-                >
-                  <Tag color="volcano" className="table-action">
-                    Xoá
-                  </Tag>
-                </Popconfirm>
-                <Tag color="geekblue" className="table-action">
-                  Sửa{" "}
-                </Tag>
-              </Space>
-              <p className="personal-history-content">
-                CHỨNG CHỈ Quản lý sản phẩm - Quản lý sản phẩm - Trung Tâm Phát
-                Triển Trí Tuệ Việt - Học tập trung.
-              </p>
-            </li>
-            <li>
-              <div className="personal-history-time">
-                05/09/1990 - 10/05/1995
-              </div>
-              <Space size="middle">
-                <Popconfirm
-                  title="Are you sure hide this user?"
-                  okText="Yes"
-                  cancelText="No"
-                >
-                  <Tag color="volcano" className="table-action">
-                    Xoá
-                  </Tag>
-                </Popconfirm>
-                <Tag color="geekblue" className="table-action">
-                  Sửa{" "}
-                </Tag>
-              </Space>
-              <p className="personal-history-content">
-                CỬ NHÂN Luật - Trường Đại Học Luật TP.HCM - Văn bằng 2 - Học từ
-                xa.
+                123 Phạm Văn Đồng Gò Vấp giá trị 3 tỉ đồng
               </p>
             </li>
           </ul>
-          <Button
-            onClick={showModal}
-            className="btn-add-detail"
-            icon={<PlusCircleOutlined />}
-          >
-            Thêm
-          </Button>
         </div>
       </div>
       <div className="tabs-main personal-history">
-        <div className="personal-history-title">Bồi dưỡng:</div>
+        <div className="personal-history-title">Gia đình</div>
         <div>
           <div className="edit-infr-vertical-line"></div>
           <ul className="personal-history-list">
             <li>
-              <div className="personal-history-time">
-                05/09/1990 - 10/05/1995
-              </div>
+              <div className="personal-history-time">Vợ: Nguyễn Thị B</div>
               <Space size="middle">
                 <Popconfirm
                   title="Are you sure hide this user?"
@@ -131,12 +74,12 @@ const ProfessionalCompensation = () => {
                   Sửa{" "}
                 </Tag>
               </Space>
-              <p className="personal-history-content">Lớp học A</p>
+              <p className="personal-history-content">
+                Sinh ngày 20/11/1998 quê HCM, Nghề ngiệp ngân hàng
+              </p>
             </li>
             <li>
-              <div className="personal-history-time">
-                05/09/1990 - 10/05/1995
-              </div>
+              <div className="personal-history-time">Con: Nguyễn Văn C</div>
               <Space size="middle">
                 <Popconfirm
                   title="Are you sure hide this user?"
@@ -151,12 +94,13 @@ const ProfessionalCompensation = () => {
                   Sửa{" "}
                 </Tag>
               </Space>
-              <p className="personal-history-content">Lớp học B</p>
+              <p className="personal-history-content">
+                Sinh ngày 20/11/1998 quê HCM, Nghề ngiệp học sinh trường thpt
+                Cần Giuộc
+              </p>
             </li>
             <li>
-              <div className="personal-history-time">
-                05/09/1990 - 10/05/1995
-              </div>
+              <div className="personal-history-time">Nguyễn Văn C</div>
               <Space size="middle">
                 <Popconfirm
                   title="Are you sure hide this user?"
@@ -171,7 +115,31 @@ const ProfessionalCompensation = () => {
                   Sửa{" "}
                 </Tag>
               </Space>
-              <p className="personal-history-content">Lớp học C</p>
+              <p className="personal-history-content">
+                Sinh ngày 20/11/1998 quê HCM, Nghề ngiệp học sinh trường thpt
+                Cần Giuộc
+              </p>
+            </li>
+            <li>
+              <div className="personal-history-time">Nguyễn Văn C</div>
+              <Space size="middle">
+                <Popconfirm
+                  title="Are you sure hide this user?"
+                  okText="Yes"
+                  cancelText="No"
+                >
+                  <Tag color="volcano" className="table-action">
+                    Xoá
+                  </Tag>
+                </Popconfirm>
+                <Tag color="geekblue" className="table-action">
+                  Sửa{" "}
+                </Tag>
+              </Space>
+              <p className="personal-history-content">
+                Sinh ngày 20/11/1998 quê HCM, Nghề ngiệp học sinh trường thpt
+                Cần Giuộc
+              </p>
             </li>
           </ul>
           <Button
@@ -196,7 +164,7 @@ const ProfessionalCompensation = () => {
           style={{ width: "100%" }}
           className="tabs-main"
           noValidate
-          onSubmit={onSubmit}
+          // onSubmit={this.onSubmit}
           method="post"
         >
           <ul>
@@ -243,9 +211,6 @@ const ProfessionalCompensation = () => {
         </form>
       </Modal>
     </div>
-    // <div>sdfsdfsdf</div>
   );
 };
-export default ProfessionalCompensation;
-
-
+export default Family;
