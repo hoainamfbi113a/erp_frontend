@@ -44,7 +44,7 @@ const ProfessionalCompensation = () => {
                   </Tag>
                 </Popconfirm>
                 <Tag color="geekblue" className="table-action">
-                  Sửa{" "}
+                  Update{" "}
                 </Tag>
               </Space>
               <p className="personal-history-content">
@@ -67,7 +67,7 @@ const ProfessionalCompensation = () => {
                   </Tag>
                 </Popconfirm>
                 <Tag color="geekblue" className="table-action">
-                  Sửa{" "}
+                  Update{" "}
                 </Tag>
               </Space>
               <p className="personal-history-content">
@@ -90,7 +90,7 @@ const ProfessionalCompensation = () => {
                   </Tag>
                 </Popconfirm>
                 <Tag color="geekblue" className="table-action">
-                  Sửa{" "}
+                  Update{" "}
                 </Tag>
               </Space>
               <p className="personal-history-content">
@@ -128,7 +128,7 @@ const ProfessionalCompensation = () => {
                   </Tag>
                 </Popconfirm>
                 <Tag color="geekblue" className="table-action">
-                  Sửa{" "}
+                  Update{" "}
                 </Tag>
               </Space>
               <p className="personal-history-content">Lớp học A</p>
@@ -148,7 +148,7 @@ const ProfessionalCompensation = () => {
                   </Tag>
                 </Popconfirm>
                 <Tag color="geekblue" className="table-action">
-                  Sửa{" "}
+                  Update{" "}
                 </Tag>
               </Space>
               <p className="personal-history-content">Lớp học B</p>
@@ -168,7 +168,7 @@ const ProfessionalCompensation = () => {
                   </Tag>
                 </Popconfirm>
                 <Tag color="geekblue" className="table-action">
-                  Sửa{" "}
+                  Update{" "}
                 </Tag>
               </Space>
               <p className="personal-history-content">Lớp học C</p>
@@ -226,7 +226,6 @@ const ProfessionalCompensation = () => {
               <div className="tabs-user-infor-bottom">
                 <RangePicker
                   className="modal-ranPicker"
-                  placeholder="Chọn ngày"
                 />
               </div>
             </li>

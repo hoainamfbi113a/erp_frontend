@@ -62,27 +62,28 @@ const AddAndUpdateInforUser = (props) => {
     }
   };
   const renderWorkflow = () => {
-    console.log(workflow)
     if (workflow) {
       return workflow.steps.map((item) => {
         return <Step key={item.id} title={item.description} />;
       });
     } else {
-        
+
     }
     // return ""
   };
   const dataProfile = useSelector((state) => state.userProfile);
   useEffect(() => {
     (async function fetchTransfer() {
-        await dispatch(getUserProfile(props.match.params.id));
+      let dataWorkflowProfile = await workflowProfile();
+      setWorkflowProfile(dataWorkflowProfile);
+      if(props.match.params.id){
+        await dispatch(getUserProfile(props.match.params.id)); // get id profile
         if(Object.keys(dataProfile).length != 0){
             let dataTransfersProfile = {}
             dataTransfersProfile = await transfersProfile(dataProfile.id);
             setStep_id(dataTransfersProfile.data.next_step_id)
-            let dataWorkflowProfile = await workflowProfile();
-            setWorkflowProfile(dataWorkflowProfile);
         }
+      }
     })
     ();
   }, [dataProfile.id]);

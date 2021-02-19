@@ -114,6 +114,7 @@ class TablePosition extends Component {
     this.setState({
       data,
     });
+    this.props.totalPosition(data.meta.pagination.total)
   };
   onSubmit = async () => {
     let params = {

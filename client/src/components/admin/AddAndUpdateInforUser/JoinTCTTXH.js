@@ -46,7 +46,7 @@ const JoinTCTTXH = () => {
                   </Tag>
                 </Popconfirm>
                 <Tag color="geekblue" className="table-action">
-                  Sửa{" "}
+                  Update{" "}
                 </Tag>
               </Space>
               <p className="personal-history-content">
@@ -68,7 +68,7 @@ const JoinTCTTXH = () => {
                   </Tag>
                 </Popconfirm>
                 <Tag color="geekblue" className="table-action">
-                  Sửa{" "}
+                  Update{" "}
                 </Tag>
               </Space>
               <p className="personal-history-content">
@@ -90,7 +90,7 @@ const JoinTCTTXH = () => {
                   </Tag>
                 </Popconfirm>
                 <Tag color="geekblue" className="table-action">
-                  Sửa{" "}
+                  Update{" "}
                 </Tag>
               </Space>
               <p className="personal-history-content">Nhân viên Báo Tuổi Trẻ</p>
@@ -125,7 +125,7 @@ const JoinTCTTXH = () => {
                   <div className="tabs-user-infor-bottom">
                     <Select
                       className="modal-selection"
-                      defaultValue="jack"
+                      defaultValue="educate"
                       style={{ width: 527 }}
                       // onChange={handleChange}
                     >
@@ -146,7 +146,6 @@ const JoinTCTTXH = () => {
                   <div className="tabs-user-infor-bottom">
                     <RangePicker
                       className="modal-ranPicker"
-                      placeholder="Chọn ngày"
                     />
                   </div>
                 </li>

@@ -12,7 +12,8 @@ export default class ContentPosition extends Component {
     super();
     this.state = {
       visible: false,
-      registerUserSuccess: false
+      registerUserSuccess: false,
+      totalPosition:""
     };
   }
   showModal = () => {
@@ -25,13 +26,18 @@ export default class ContentPosition extends Component {
       visible:false
     })
   }
+  totalPosition = (value) => {
+    this.setState({
+      totalPosition: value
+    })
+  }
   render() {
     return (
       <div>
         <div className="content-top">
           <div className="content-top-left">
             <div className="content-top-left-sum-item">
-              10 Position
+              {this.state.totalPosition} chức vụ
             </div>
             <Search
               placeholder="Tìm kiếm"
@@ -43,11 +49,14 @@ export default class ContentPosition extends Component {
           </div>
           <div className="content-top-right">
             <Button onClick={this.showModal} className="btn-add-user-six">
-              Thêm Position
+              Thêm chức vụ
             </Button>
           </div>
         </div>
-        <TablePosition showModalPosition={this.state.visible} hideModal={this.hideModal} showModal={this.showModal} />
+        <TablePosition showModalPosition={this.state.visible}
+         hideModal={this.hideModal} showModal={this.showModal}
+         totalPosition = {this.totalPosition}
+          />
       </div>
     );
   }

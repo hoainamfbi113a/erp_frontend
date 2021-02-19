@@ -46,7 +46,7 @@ const PersonalHistory = (props) => {
                   </Tag>
                 </Popconfirm>
                 <Tag color="geekblue" className="table-action">
-                  Sửa{" "}
+                  Update{" "}
                 </Tag>
               </Space>
               <p className="personal-history-content">
@@ -68,7 +68,7 @@ const PersonalHistory = (props) => {
                   </Tag>
                 </Popconfirm>
                 <Tag color="geekblue" className="table-action">
-                  Sửa{" "}
+                  Update{" "}
                 </Tag>
               </Space>
               <p className="personal-history-content">
@@ -90,7 +90,7 @@ const PersonalHistory = (props) => {
                   </Tag>
                 </Popconfirm>
                 <Tag color="geekblue" className="table-action">
-                  Sửa{" "}
+                  Update{" "}
                 </Tag>
               </Space>
               <p className="personal-history-content">
@@ -148,7 +148,6 @@ const PersonalHistory = (props) => {
                   <div className="tabs-user-infor-bottom">
                     <RangePicker
                       className="modal-ranPicker"
-                      placeholder="Chọn ngày"
                     />
                   </div>
                 </li>
