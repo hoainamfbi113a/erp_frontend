@@ -18,6 +18,7 @@ import { updateUser, getUser } from "apis/authenticationApi";
 import { updateUserDegree } from "apis/userDegreesApi";
 import { updateWorkObject } from "apis/workObjectsApi";
 import { updateJournalistCards } from "apis/journalistCardsApi";
+import { validateInputFormUser } from "helpers/FuncHelper";
 import { Select } from 'antd';
 const { Option } = Select;
 const dateFormat = "YYYY/MM/DD";
@@ -124,7 +125,7 @@ class CurriculumVitae extends Component {
           dataPosition: resSearchPositiones.data,
         });
       } else {
-        message.error("search position faile");
+        message.error("search position failed");
       }
     }
     if (prevState.dep_id !== this.state.dep_id) {
@@ -386,24 +387,38 @@ class CurriculumVitae extends Component {
         // new Date(
         data.department.data.appointment_date,
       // * 1000)
-      deg_type: data.userDegree.data.deg_type,
-      deg_diploma: data.userDegree.data.deg_diploma,
-      deg_majors: data.userDegree.data.deg_majors,
-      deg_school_name: data.userDegree.data.deg_school_name,
-      deg_begin_study: new Date(data.userDegree.data.deg_begin_study * 1000),
-      deg_end_study: new Date(data.userDegree.data.deg_end_study * 1000),
-      deg_note: data.userDegree.data.deg_note,
-      work_formality: data.workObject.data.formality,
-      work_note: data.workObject.data.work_note,
-      car_number: data.journalistCard.data.car_number,
-      car_number_day: new Date(data.journalistCard.data.car_number_day),
-      car_begin: new Date(data.journalistCard.data.car_begin * 1000),
-      car_end: new Date(data.journalistCard.data.car_end * 1000),
-      car_note: data.journalistCard.data.car_note,
-      idDepartment: data.department.data.id,
-      idUserDegree: data.userDegree.data.id,
-      idWorkObject: data.workObject.data.id,
-      idJou: data.journalistCard.data.id,
+      deg_type: data.userDegree ? data.userDegree.data.deg_type : "",
+      deg_diploma: data.userDegree ? data.userDegree.data.deg_diploma : "",
+      deg_majors: data.userDegree ? data.userDegree.data.deg_majors : "",
+      deg_school_name: data.userDegree
+        ? data.userDegree.data.deg_school_name
+        : "",
+      deg_begin_study: data.userDegree
+        ? new Date(data.userDegree.data.deg_begin_study1 * 1000)
+        : null,
+      deg_end_study: data.userDegree
+        ? new Date(data.userDegree.data.deg_end_study * 1000)
+        : null,
+      deg_note: data.userDegree ? data.userDegree.data.deg_note : "",
+      work_formality: data.workObject ? data.workObject.data.formality : "",
+      work_note: data.workObject ? data.workObject.data.work_note : "",
+      car_number: data.journalistCard
+      ? data.journalistCard.data.car_number
+      : "",
+    car_number_day: data.journalistCard
+      ? new Date(data.journalistCard.data.car_number_day)
+      : null,
+    car_begin: data.journalistCard
+      ? new Date(data.journalistCard.data.car_begin * 1000)
+      : null,
+    car_end: data.journalistCard
+      ? new Date(data.journalistCard.data.car_end * 1000)
+      : null,
+    car_note: data.journalistCard ? data.journalistCard.data.car_note : "",
+    idDepartment: data.department ? data.department.data.id : "",
+    idUserDegree: data.userDegree ? data.userDegree.data.id : "",
+    idWorkObject: data.workObject ? data.workObject.data.id : "",
+    idJou: data.journalistCard ? data.journalistCard.data.id : "",
     });
   };
   handleSearchDepartment(value) {
@@ -472,6 +487,30 @@ class CurriculumVitae extends Component {
       });
     } else return "";
   };
+  renderPosition = () => {
+    if (this.state.dataPosition !== null) {
+      return this.state.dataPosition.map((item) => {
+        
+        return (
+          <Option key={item.id} value={item.id}>
+            {item.pos_name}
+          </Option>
+        );
+      });
+    } else return "";
+  };
+  renderParts = () => {
+    if (this.state.dataParts !== null) {
+      return this.state.dataParts.map((item) => {
+        console.log(item.id)
+        return (
+          <Option key={item.id} value={item.id}>
+            {item.part_name}
+          </Option>
+        );
+      });
+    } else return "";
+  };
   handleChangeDepartment = (value) => {
     this.setState(
       {
@@ -482,17 +521,7 @@ class CurriculumVitae extends Component {
       }
     );
   };
-  renderPosition = () => {
-    if (this.state.dataPosition !== null) {
-      return this.state.dataPosition.map((item) => {
-        return (
-          <Option key={item.id} value={item.id}>
-            {item.pos_name}
-          </Option>
-        );
-      });
-    } else return "";
-  };
+  
   handleChangePosition = (value) => {
     this.setState(
       {
@@ -503,17 +532,7 @@ class CurriculumVitae extends Component {
       }
     );
   };
-  renderParts = () => {
-    if (this.state.dataParts !== null) {
-      return this.state.dataParts.map((item) => {
-        return (
-          <Option key={item.id} value={item.id}>
-            {item.part_name}
-          </Option>
-        );
-      });
-    } else return "";
-  };
+ 
   handleChangeParts = (value) => {
     this.setState(
       {
@@ -837,11 +856,9 @@ class CurriculumVitae extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Select
-                          // defaultValue={0}
                           showSearch
-                          // optionFilterProp="children"
                           value={this.state.dep_id}
-                          name="depart"
+                          // name="depart"
                           style={{ width: "100%" }}
                           onChange={this.handleChangeDepartment}
                           onSearch={this.handleSearchDepartment}
@@ -854,7 +871,7 @@ class CurriculumVitae extends Component {
                           }
                           ref={this.typingRef}
                         >
-                          {this.renderDepartment()}
+                          {this.renderDepartment()} 
                         </Select>
                       </div>
                       {this.state.valid_department.isValid ? (

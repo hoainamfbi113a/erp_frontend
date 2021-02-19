@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {useSelector, useDispatch} from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import docCookies from "doc-cookies";
 import { Input, message } from "antd";
 import { DatePicker } from "antd";
@@ -15,7 +15,7 @@ import { getListPosition, searchPosition } from "apis/positionApi";
 import { searchParts } from "apis/partsApi";
 import { getProfile, updateProfile } from "apis/profileApi";
 // import { updateUser, getUser } from "apis/authenticationApi";
-import {getUser} from "reduxToolkit/features/userSlice";
+import { getUser } from "reduxToolkit/features/userSlice";
 import { updateUserDegree } from "apis/userDegreesApi";
 import { updateWorkObject } from "apis/workObjectsApi";
 import { updateJournalistCards } from "apis/journalistCardsApi";
@@ -25,60 +25,29 @@ const dateFormat = "YYYY/MM/DD";
 
 const CurriculumVitaes = (props) => {
   const dispatch = useDispatch();
-  // const initialFormState = { id: null, name: "", username: "" };
   let idUser = docCookies.getItem("user_id");
   const [user, setUser] = useState({});
-  useEffect (()=>{
-    dispatch(getUser(idUser))
-  },[dispatch])
-  const onSubmit = () =>{
-
-  }
-  const onChange =() =>{
-
-  }
-  const handleChangeDepartment = () =>{
-
-  }
-  const handleSearchDepartment =() =>{
-
-  }
-  const handFocusDepartment =()=>{
-
-  }
-  const renderDepartment = () =>{
-
-  }
-  const handleChangeParts =() =>{
-
-  }
-  const handleSearchPart = () =>{
-
-  }
-  const handFocusPart = () =>{
-
-  }
-  const renderParts = () =>{
-
-  }
-  const handleChangePosition = () =>{
-
-  }
-  const handleSearchPosition = () =>{
-
-  }
-  const handFocusPosition = () =>{
-
-  }
-  const renderPosition = () =>{
-
-  }
-  const handleSave = () =>{
-
-  }
-  const handleSend = () =>{
-
-  }
+  useEffect(() => {
+    dispatch(getUser(idUser));
+  }, [dispatch]);
+  const userInfor = useSelector(state => state.user)
+  console.log(userInfor)
+  const onSubmit = () => {};
+  const onChange = () => {};
+  const handleChangeDepartment = () => {};
+  const handleSearchDepartment = () => {};
+  const handFocusDepartment = () => {};
+  const renderDepartment = () => {};
+  const handleChangeParts = () => {};
+  const handleSearchPart = () => {};
+  const handFocusPart = () => {};
+  const renderParts = () => {};
+  const handleChangePosition = () => {};
+  const handleSearchPosition = () => {};
+  const handFocusPosition = () => {};
+  const renderPosition = () => {};
+  const handleSave = () => {};
+  const handleSend = () => {};
   return (
     <div className="edit-infor-form">
       {/* <div className="tabs-main">

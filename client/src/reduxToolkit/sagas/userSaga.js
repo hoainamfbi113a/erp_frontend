@@ -7,12 +7,11 @@ export default function* userSaga() {
 }
 function* fetchUser(action) {
   try {
-    console.log(action.payload)
-    // const resp = yield call(getUserById);
-    // console.log(resp)
-    // if (resp.message === "Successfully") {
-    //   yield put(setUser({ ...resp.data }));
-    // }
+    // console.log(action.payload)
+    const resp = yield call(getUserApi, action.payload);
+    if (resp.message === "Successfully") {
+      yield put(setUser({ ...resp.data }));
+    }
   } catch (error) {
     console.log(error);
   }

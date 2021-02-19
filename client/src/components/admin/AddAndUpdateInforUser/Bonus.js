@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Input } from "antd";
-import { Button, Pagination, DatePicker } from "antd";
+import { Button, DatePicker } from "antd";
 const { RangePicker } = DatePicker;
-import {  Modal } from "antd";
+import { Modal } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Select } from "antd";
 
@@ -10,22 +10,22 @@ import { Space, Tag } from "antd";
 const { Option } = Select;
 import { Popconfirm } from "antd";
 const { TextArea } = Input;
-const ProfessionalCompensation = () => {
-    const [visible, setVisible] = useState(false);
-    const showModal = () => {
+const Bonus = (props) => {
+  const [visible, setVisible] = useState(false);
+  const showModal = () => {
       setVisible(true);
-    };
+  };
 
-   const hideModal = () => {
-      setVisible(false);
-    };
-    const onSubmit = () =>{
+  const hideModal = () => {
+    setVisible(false);
+  };
+  const onSubmit = () =>{
     
-    }
+  }
   return (
     <div className="edit-infor-form">
       <div className="tabs-main personal-history">
-        <div className="personal-history-title">Đào tạo:</div>
+        <div className="personal-history-title">Khen thưởng</div>
         <div>
           <div className="edit-infr-vertical-line"></div>
           <ul className="personal-history-list">
@@ -47,10 +47,7 @@ const ProfessionalCompensation = () => {
                   Sửa{" "}
                 </Tag>
               </Space>
-              <p className="personal-history-content">
-                CỬ NHÂN Quản Trị Kinh Doanh - Trường Đại Học Kinh tế - Văn bằng
-                2 - Học từ xa.
-              </p>
+              <p className="personal-history-content">Lao Động Tiên Tiến</p>
             </li>
             <li>
               <div className="personal-history-time">
@@ -70,10 +67,7 @@ const ProfessionalCompensation = () => {
                   Sửa{" "}
                 </Tag>
               </Space>
-              <p className="personal-history-content">
-                CHỨNG CHỈ Quản lý sản phẩm - Quản lý sản phẩm - Trung Tâm Phát
-                Triển Trí Tuệ Việt - Học tập trung.
-              </p>
+              <p className="personal-history-content">Lao Động Xuất Sắc</p>
             </li>
             <li>
               <div className="personal-history-time">
@@ -93,10 +87,7 @@ const ProfessionalCompensation = () => {
                   Sửa{" "}
                 </Tag>
               </Space>
-              <p className="personal-history-content">
-                CỬ NHÂN Luật - Trường Đại Học Luật TP.HCM - Văn bằng 2 - Học từ
-                xa.
-              </p>
+              <p className="personal-history-content">Lao Động Xuất Sắc</p>
             </li>
           </ul>
           <Button
@@ -131,7 +122,7 @@ const ProfessionalCompensation = () => {
                   Sửa{" "}
                 </Tag>
               </Space>
-              <p className="personal-history-content">Lớp học A</p>
+              <p className="personal-history-content">Kỷ luật 1</p>
             </li>
             <li>
               <div className="personal-history-time">
@@ -151,7 +142,7 @@ const ProfessionalCompensation = () => {
                   Sửa{" "}
                 </Tag>
               </Space>
-              <p className="personal-history-content">Lớp học B</p>
+              <p className="personal-history-content">Kỷ luật 2</p>
             </li>
             <li>
               <div className="personal-history-time">
@@ -171,7 +162,7 @@ const ProfessionalCompensation = () => {
                   Sửa{" "}
                 </Tag>
               </Space>
-              <p className="personal-history-content">Lớp học C</p>
+              <p className="personal-history-content">Kỷ luật 3</p>
             </li>
           </ul>
           <Button
@@ -196,7 +187,7 @@ const ProfessionalCompensation = () => {
           style={{ width: "100%" }}
           className="tabs-main"
           noValidate
-          onSubmit={onSubmit}
+          // onSubmit={onSubmit}
           method="post"
         >
           <ul>
@@ -243,9 +234,7 @@ const ProfessionalCompensation = () => {
         </form>
       </Modal>
     </div>
-    // <div>sdfsdfsdf</div>
   );
 };
-export default ProfessionalCompensation;
 
-
+export default Bonus;
