@@ -51,9 +51,11 @@ class TableParts extends Component {
       this.setState({
         data: res,
       });
+      this.props.totalPart(res.meta.pagination.total)
     } else {
       message.error("get list parts failed");
     }
+
   };
   onSubmit = async () => {
     let params = {
@@ -72,7 +74,7 @@ class TableParts extends Component {
       }
     } else {
       this.hideModal();
-      let res = updateParts(this.state.id, params);
+      let res = await updateParts(this.state.id, params);
       if (res.message === "Success!. Updated") {
         message.success("Cập nhật tổ thành công");
         this.setState({
@@ -81,7 +83,6 @@ class TableParts extends Component {
         this.fetchData();
       } else {
         message.error("Update permission thất bại");
-        console.log(err);
       }
     }
   };
@@ -274,7 +275,6 @@ class TableParts extends Component {
             style={{ width: "100%" }}
             className="tabs-main tabs-main-modal"
             noValidate
-            // onSubmit={this.onSubmit}
             method="post"
           >
             <ul style={{ marginLeft: "23px" }}>

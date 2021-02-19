@@ -10,15 +10,14 @@
     align-items:center;
 }
 .content-top-left-sum-item{
+    margin-right: 20px;
+    margin-left: 23px;
     font-weight: 600;
     font-size:14px;
     color:#80808f;
 }
 .table-btn-search{
     margin: 0;
-}
-.content-top-left-sum-item{
-    margin-right:20px;
 }
 .btn-add-user{
     background:#E1F0FF;

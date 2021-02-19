@@ -37,7 +37,7 @@ export default class ContentDepartment extends Component {
         <div className="content-top">
           <div className="content-top-left">
             <div className="content-top-left-sum-item">
-              {this.state.totalDepartment} Department
+              {this.state.totalDepartment} Phòng ban
             </div>
             <Search
               placeholder="Tìm kiếm"

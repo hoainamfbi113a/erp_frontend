@@ -12,7 +12,9 @@ export default class ContentParts extends Component {
     super();
     this.state = {
       visible: false,
-      registerUserSuccess: false
+      registerUserSuccess: false,
+      totalPart: ""
+
     };
   }
   showModal = () => {
@@ -25,13 +27,18 @@ export default class ContentParts extends Component {
       visible:false
     })
   }
+  totalPart = (value) =>{
+    this.setState({
+      totalPart:value
+    })
+  }
   render() {
     return (
       <div>
         <div className="content-top">
           <div className="content-top-left">
             <div className="content-top-left-sum-item">
-              10 Parts
+              {this.state.totalPart} tổ làm việc
             </div>
             <Search
               placeholder="Tìm kiếm"
@@ -43,11 +50,14 @@ export default class ContentParts extends Component {
           </div>
           <div className="content-top-right">
             <Button onClick={this.showModal} className="btn-add-user-six">
-              Thêm Parts
+              Thêm tổ
             </Button>
           </div>
         </div>
-        <TableParts showModalParts={this.state.visible} hideModal={this.hideModal} showModal={this.showModal} />
+        <TableParts showModalParts={this.state.visible}
+         hideModal={this.hideModal} showModal={this.showModal}
+         totalPart = {this.totalPart}
+         />
       </div>
     );
   }

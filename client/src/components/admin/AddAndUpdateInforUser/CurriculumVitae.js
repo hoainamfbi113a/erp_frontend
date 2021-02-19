@@ -233,7 +233,7 @@ class addInformationUser extends Component {
           ? data.userDegree.data.deg_school_name
           : "",
         deg_begin_study: data.userDegree
-          ? new Date(data.userDegree.data.deg_begin_study1 * 1000)
+          ? new Date(data.userDegree.data.deg_begin_study * 1000)
           : null,
         deg_end_study: data.userDegree
           ? new Date(data.userDegree.data.deg_end_study * 1000)
@@ -759,7 +759,7 @@ class addInformationUser extends Component {
                             color: "red",
                             fontStyle: "italic",
                           }}
-                        >
+                        > 
                           {this.state.valid_pro_name.errorMessage}
                         </span>
                       ) : null}
@@ -768,6 +768,8 @@ class addInformationUser extends Component {
                       <span className="tabs-user-infor-top">Email cá nhân</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                          // {{this.props.idUser ? disabled : ""}}
+                          disabled = {this.props.idUser ? true : false}
                           value={this.state.email}
                           name="email"
                           onChange={this.onChange}
@@ -791,6 +793,7 @@ class addInformationUser extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input.Password
+                          disabled = {this.props.idUser ? true : false}
                           value={this.state.password}
                           name="password"
                           onChange={this.onChange}
@@ -1212,6 +1215,7 @@ class addInformationUser extends Component {
                         Thời gian bắt đầu học:
                       </span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
+                          {/* {console.log(this.state.deg_begin_study)} */}
                         <RangePicker
                           value={
                             this.state.deg_begin_study == null

@@ -585,6 +585,7 @@ class CurriculumVitae extends Component {
                       <span className="tabs-user-infor-top">Email cá nhân</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                          disabled = {true}
                           value={this.state.email}
                           name="email"
                           onChange={this.onChange}
@@ -601,19 +602,6 @@ class CurriculumVitae extends Component {
                           {this.state.valid_email.errorMessage}
                         </span>
                       ) : null}
-                    </li>
-                    <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">
-                        Mật khẩu đăng nhập
-                      </span>
-                      <div className="tabs-user-infor-bottom">
-                        <Input.Password
-                          value={this.state.password}
-                          name="password"
-                          onChange={this.onChange}
-                          placeholder="Mật khẩu đăng nhập"
-                        />
-                      </div>
                     </li>
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">Số điện thoại</span>
@@ -856,9 +844,9 @@ class CurriculumVitae extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Select
+                          disabled = {true}
                           showSearch
                           value={this.state.dep_id}
-                          // name="depart"
                           style={{ width: "100%" }}
                           onChange={this.handleChangeDepartment}
                           onSearch={this.handleSearchDepartment}
@@ -889,6 +877,7 @@ class CurriculumVitae extends Component {
                       <span className="tabs-user-infor-top">Tổ làm việc</span>
                       <div className="tabs-user-infor-bottom">
                         <Select
+                          disabled = {true}
                           showSearch
                           value={this.state.par_id}
                           onChange={this.handleChangeParts}
@@ -920,6 +909,7 @@ class CurriculumVitae extends Component {
                       <span className="tabs-user-infor-top">Chức vụ:</span>
                       <div className="tabs-user-infor-bottom">
                         <Select
+                          disabled = {true}
                           showSearch
                           value={this.state.pos_id}
                           onChange={this.handleChangePosition}

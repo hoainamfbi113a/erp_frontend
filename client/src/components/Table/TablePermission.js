@@ -213,7 +213,7 @@ class TablePermission extends Component {
           </div>
         </Content>
         <Modal
-          title="Tạo permission"
+          title="Tạo quyền"
           visible={this.props.showModalPermission}
           onOk={this.onSubmit}
           onCancel={this.hideModal}
@@ -256,14 +256,14 @@ class TablePermission extends Component {
                   />
                 </div>
               </li>
-              <li className="tabs-main-left-li">
+              {/* <li className="tabs-main-left-li">
                 <span className="tabs-user-infor-top">Trạng thái</span>
                 <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
                   <Select defaultValue="1" style={{ width: 120 }}>
                     <Option value="1">Action</Option>
                   </Select>
                 </div>
-              </li>
+              </li> */}
             </ul>
           </form>
         </Modal>

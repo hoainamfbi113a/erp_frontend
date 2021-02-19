@@ -16,7 +16,7 @@ export const getListParts = (page) => {
 
 export const addParts = (params) =>{
     return axiosConfig
-    .post(`/api/parts`)
+    .post(`/api/parts`,params)
     .then((data) =>{
         return data
     })
@@ -30,13 +30,14 @@ export const addParts = (params) =>{
 
 export const updateParts = (id, params) =>{
     return axiosConfig
-    .post(`/api/parts/${id}`)
+    .put(`/api/parts/${id}`,params)
+    .then(handleResponse)
     .then(data=>{
         return data
     })
     .catch(err=>{
-      console.log(err)
-      return ({
+        console.log(err);
+        return ({
           err:"error"
       })
     })

@@ -129,11 +129,6 @@ class TablePermission extends Component {
         key: "dep_name",
       },
       {
-        title: "Ghi chú phòng ban",
-        dataIndex: "dep_note",
-        key: "dep_note",
-      },
-      {
         title: "Địa chỉ",
         dataIndex: "dep_address",
         key: "dep_address",
@@ -142,6 +137,11 @@ class TablePermission extends Component {
         title: "Số điện thoại",
         dataIndex: "dep_phone",
         key: "dep_phone",
+      },
+      {
+        title: "Ghi chú phòng ban",
+        dataIndex: "dep_note",
+        key: "dep_note",
       },
       {
         title: "Ngày tạo",

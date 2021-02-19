@@ -44,7 +44,7 @@ const Bonus = (props) => {
                   </Tag>
                 </Popconfirm>
                 <Tag color="geekblue" className="table-action">
-                  Sửa{" "}
+                  Update{" "}
                 </Tag>
               </Space>
               <p className="personal-history-content">Lao Động Tiên Tiến</p>
@@ -64,7 +64,7 @@ const Bonus = (props) => {
                   </Tag>
                 </Popconfirm>
                 <Tag color="geekblue" className="table-action">
-                  Sửa{" "}
+                  Update{" "}
                 </Tag>
               </Space>
               <p className="personal-history-content">Lao Động Xuất Sắc</p>
@@ -84,7 +84,7 @@ const Bonus = (props) => {
                   </Tag>
                 </Popconfirm>
                 <Tag color="geekblue" className="table-action">
-                  Sửa{" "}
+                  Update{" "}
                 </Tag>
               </Space>
               <p className="personal-history-content">Lao Động Xuất Sắc</p>
@@ -119,7 +119,7 @@ const Bonus = (props) => {
                   </Tag>
                 </Popconfirm>
                 <Tag color="geekblue" className="table-action">
-                  Sửa{" "}
+                  Update{" "}
                 </Tag>
               </Space>
               <p className="personal-history-content">Kỷ luật 1</p>
@@ -139,7 +139,7 @@ const Bonus = (props) => {
                   </Tag>
                 </Popconfirm>
                 <Tag color="geekblue" className="table-action">
-                  Sửa{" "}
+                  Update{" "}
                 </Tag>
               </Space>
               <p className="personal-history-content">Kỷ luật 2</p>
@@ -159,7 +159,7 @@ const Bonus = (props) => {
                   </Tag>
                 </Popconfirm>
                 <Tag color="geekblue" className="table-action">
-                  Sửa{" "}
+                  Update{" "}
                 </Tag>
               </Space>
               <p className="personal-history-content">Kỷ luật 3</p>
@@ -196,7 +196,7 @@ const Bonus = (props) => {
               <div className="tabs-user-infor-bottom">
                 <Select
                   className="modal-selection"
-                  defaultValue="jack"
+                  defaultValue="bonus"
                   style={{ width: 527 }}
                   // onChange={handleChange}
                 >
@@ -217,7 +217,6 @@ const Bonus = (props) => {
               <div className="tabs-user-infor-bottom">
                 <RangePicker
                   className="modal-ranPicker"
-                  placeholder="Chọn ngày"
                 />
               </div>
             </li>

@@ -114,15 +114,12 @@ class MenuLayout extends Component {
         title="Vai trò & Quyền"
         icon={<ShopOutlined />}
       >
-        <Menu.Item key="13" onClick={this.handleOnclick}>
-          <Link to="/usersix">Gán quyền </Link>
-        </Menu.Item>
         <Menu.Item key="14">
           <Link to="/permission"> Quyền </Link>
         </Menu.Item>
-        <Menu.Item key="15">
+        {/* <Menu.Item key="15">
           <Link to="/roles"> Roles </Link>
-        </Menu.Item>
+        </Menu.Item> */}
       </SubMenu>
       )
     }
