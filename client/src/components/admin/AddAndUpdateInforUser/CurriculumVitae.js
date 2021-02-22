@@ -531,12 +531,12 @@ class addInformationUser extends Component {
     }
   };
   handleEdit = async (value) => {
-    this.handleInputValid("pro_name", this.state.pro_name);
-    this.handleInputValid("email", this.state.email);
-    this.handleInputValid("phone", this.state.phone);
-    this.handleInputValid("part", this.state.par_id);
-    this.handleInputValid("department", this.state.dep_id);
-    this.handleInputValid("position", this.state.pos_id);
+    await this.handleInputValid("pro_name", this.state.pro_name);
+    await this.handleInputValid("email", this.state.email);
+    await this.handleInputValid("phone", this.state.phone);
+    await this.handleInputValid("part", this.state.par_id);
+    await this.handleInputValid("department", this.state.dep_id);
+    await this.handleInputValid("position", this.state.pos_id);
     if (
       !this.state.valid_pro_name.isValid &&
       !this.state.valid_email.isValid &&
@@ -868,7 +868,7 @@ class addInformationUser extends Component {
                         <DatePicker
                           placeholder="Chọn ngày"
                           value={
-                            this.state.pro_birth_day == null
+                            this.state.pro_birth_day == null || this.state.pro_birth_day == "1970-01-01 08:00:00"
                               ? null
                               : moment(this.state.pro_birth_day, dateFormat)
                           }
@@ -1001,7 +1001,7 @@ class addInformationUser extends Component {
                         <DatePicker
                           placeholder="Chọn ngày"
                           value={
-                            this.state.pro_identity_card_when == null
+                            this.state.pro_identity_card_when == null || this.state.pro_identity_card_when == "1970-01-01 08:00:00"
                               ? null
                               : moment(
                                   this.state.pro_identity_card_when,
@@ -1162,7 +1162,7 @@ class addInformationUser extends Component {
                           placeholder="Chọn ngày"
                           style={{ width: "100%" }}
                           value={
-                            this.state.appointment_date == null
+                            this.state.appointment_date == null || this.state.appointment_date == "1970-01-01 08:00:00"
                               ? null
                               : moment(this.state.appointment_date, dateFormat)
                           }
@@ -1233,17 +1233,28 @@ class addInformationUser extends Component {
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                         {/* {console.log(this.state.deg_begin_study)} */}
                         <RangePicker
-                          value={
-                            this.state.deg_begin_study == null
-                              ? null
-                              : [
-                                  moment(
-                                    this.state.deg_begin_study,
-                                    dateFormat
-                                  ),
-                                  moment(this.state.deg_end_study, dateFormat),
-                                ]
-                          }
+                         value={
+                          this.state.deg_begin_study == null
+                            ? null
+                            : [
+                                this.state.deg_begin_study == null ||
+                                this.state.deg_begin_study ==
+                                  "Thu Jan 01 1970 08:00:00 GMT+0800 (Indochina Time)"
+                                  ? null
+                                  : moment(
+                                      this.state.deg_begin_study,
+                                      dateFormat
+                                    ),
+                                this.state.deg_end_study == null ||
+                                this.state.deg_end_study ==
+                                  "Thu Jan 01 1970 08:00:00 GMT+0800 (Indochina Time)"
+                                  ? null
+                                  : moment(
+                                      this.state.deg_end_study,
+                                      dateFormat
+                                    ),
+                              ]
+                        }
                           onChange={(date, dateString) =>
                             this.onChangeRange(
                               date,
@@ -1311,9 +1322,8 @@ class addInformationUser extends Component {
                         <DatePicker
                           placeholder="Chọn ngày"
                           style={{ width: "100%" }}
-                          placeholder="Chọn ngày"
                           value={
-                            this.state.car_number_day == null
+                            this.state.car_number_day == null || this.state.car_number_day == "Thu Jan 01 1970 08:00:00 GMT+0800 (Indochina Time)"
                               ? null
                               : moment(this.state.car_number_day, dateFormat)
                           }
@@ -1333,14 +1343,28 @@ class addInformationUser extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                         <RangePicker
-                          value={
-                            this.state.car_begin == null
-                              ? null
-                              : [
-                                  moment(this.state.car_begin, dateFormat),
-                                  moment(this.state.car_end, dateFormat),
-                                ]
-                          }
+                         value={
+                          this.state.car_begin == null
+                            ? null
+                            : [
+                                this.state.car_begin == null ||
+                                this.state.car_begin ==
+                                  "Thu Jan 01 1970 08:00:00 GMT+0800 (Indochina Time)"
+                                  ? null
+                                  : moment(
+                                      this.state.car_begin,
+                                      dateFormat
+                                    ),
+                                this.state.car_end == null ||
+                                this.state.car_end ==
+                                  "Thu Jan 01 1970 08:00:00 GMT+0800 (Indochina Time)"
+                                  ? null
+                                  : moment(
+                                      this.state.car_end,
+                                      dateFormat
+                                    ),
+                              ]
+                        }
                           onChange={(date, dateString) =>
                             this.onChangeRange(
                               date,
