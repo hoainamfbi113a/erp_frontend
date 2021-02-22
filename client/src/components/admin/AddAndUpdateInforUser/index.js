@@ -32,6 +32,7 @@ const AddAndUpdateInforUser = (props) => {
   const [step_id, setStep_id] = useState(0);
   const [workflow, setWorkflowProfile] = useState(null);
   const [pro_id, setPro_id] = useState(0);
+  const [reload, setReload] = useState(false); 
   const renderMenuLeft = () => {
     if (activeLink === 1) {
       return <CurriculumVitae idUser={props.match.params.id} value = {value} />;
@@ -87,7 +88,28 @@ const AddAndUpdateInforUser = (props) => {
     })
     ();
   }, [dataProfile.id]);
-
+  const handleReject = () =>{
+    setModalNotify(true);
+  }
+  const handleConfirm = async () => {
+    let idUser = props.match.params.id;
+    let params = {
+      user_id: idUser,
+      reject: 0,
+      action: "confirm",
+      notify_content: "xac nhan ho so hoan tat",
+    };
+    let resUpdateProfile = await updateProfile(dataProfile.id, params);
+    if (resUpdateProfile.message) {
+      message.success("Duyệt thông tin nhân sự thành công");
+      window.location.reload();
+    } else {
+      message.error("Duyệt hồ sơ thất bại");
+    }
+  };
+  const handleReloadComponent = () =>{
+    setReload(!reload)
+  }
   let value = 0;
   if (step_id === 1) {
       value = 0;
@@ -107,14 +129,14 @@ const AddAndUpdateInforUser = (props) => {
         {value == 2 ? (
             <li className="tabs-main-left-li btn-confirm-reject ">
                 <span
-                    onClick={this.handleReject}
+                    onClick={handleReject}
                     className="btn-confirm btn-add-user"
                     style={{ marginBottom: "10px", width: "140px" }}
                 >
                     Không duyệt
                 </span>
                 <span
-                    onClick={this.handleConfirm}
+                    onClick={handleConfirm}
                     htmlType="submit"
                     className="btn-no-confirm btn-add-user"
                     style={{ marginBottom: "10px", width: "140px" }}
@@ -192,7 +214,7 @@ const AddAndUpdateInforUser = (props) => {
             actionModal={modalNotify}
             pro_id={dataProfile.id}
             closeDeny={()=>{setModalNotify(false)}}
-            // handleReloadComponent={this.handleReloadComponent}
+            handleReloadComponent={handleReloadComponent}
         />
     </div>
   );

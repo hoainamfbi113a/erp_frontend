@@ -23,7 +23,7 @@ import {
   addJournalistCards,
   updateJournalistCards,
 } from "apis/journalistCardsApi";
-import { searchParts } from "apis/partsApi";
+import { searchParts, getListParts } from "apis/partsApi";
 import { getListPosition, searchPosition } from "apis/positionApi";
 import { addProfile, getProfile, updateProfile } from "apis/profileApi";
 import { transfersProfile } from "apis/transfersApi";
@@ -178,11 +178,13 @@ class addInformationUser extends Component {
     this.fetchDataUser();
     let dataDepartment = await getListDepartment();
     let dataPosition = await getListPosition();
+    let dataParts = await getListParts();
     let dataWorkflowProfile = await workflowProfile();
     this.setState({
       dataDepartment: dataDepartment.data,
       dataPosition: dataPosition.data,
       dataWorkflowProfile,
+      dataParts: dataParts.data,
     });
   };
 
@@ -529,124 +531,139 @@ class addInformationUser extends Component {
     }
   };
   handleEdit = async (value) => {
-    let userId = this.props.idUser || this.state.idSaved;
-    let pro_id = null;
-    if (this.state.pro_id_saved == null) {
-      pro_id = this.state.pro_id;
-    } else {
-      pro_id = this.state.pro_id_saved;
-    }
-    let messageErr = 0;
-    let paramsUser = {
-      full_name: this.state.pro_name,
-      email: this.state.email,
-      phone: this.state.phone,
-    };
-    let resUpdateUser = await updateUser(userId, paramsUser);
-    if (resUpdateUser.message === "Success!. Stored") {
-    } else {
-      messageErr: 1;
-    }
-    let params = {
-      user_id: this.state.user_id,
-      pro_name: this.state.pro_name,
-      pro_pen_name: this.state.pro_pen_name,
-      pro_birth_day: Date.parse(this.state.pro_birth_day) / 1000,
-      pro_gender: this.state.pro_gender,
-      pro_birth_place: this.state.pro_birth_place,
-      pro_home_town: this.state.pro_home_town,
-      pro_local_phone: this.state.pro_local_phone,
-      pro_resident: this.state.pro_resident,
-      pro_ethnic: this.state.pro_ethnic,
-      pro_religion: this.state.pro_religion,
-      pro_background_origin: this.state.pro_background_origin,
-      pro_occupation: this.state.pro_occupation,
-      pro_identity_card: this.state.pro_identity_card,
-      pro_identity_card_when:
-        Date.parse(this.state.pro_identity_card_when) / 1000,
-      pro_identity_card_where: this.state.pro_identity_card_where,
-      pro_note: this.state.pro_note,
-      button: value,
-      action: "create",
-    };
-    let resUpdateProfile = await updateProfile(pro_id, params);
-    if (resUpdateProfile.message == "Success!. Updated") {
-    } else {
-      messageErr = 2;
-    }
-    let paramsDepartment = {
-      pro_id: pro_id,
-      user_id: this.state.user_id,
-      dep_id: this.state.dep_id,
-      pos_id: this.state.pos_id,
-      part_id: this.state.par_id,
-      appointment_date: Date.parse(this.state.appointment_date) / 1000,
-    };
-    let resUpdateDepartmentProfile = await updateDepartmentProfile(
-      pro_id,
-      paramsDepartment
-    );
-    if (resUpdateDepartmentProfile.message == "Success!. Updated") {
-    } else {
-      messageErr = 4;
-    }
-    let paramsUserDegrees = {
-      user_id: this.state.user_id,
-      pro_id: pro_id,
-      deg_type: this.state.deg_type,
-      deg_diploma: this.state.deg_diploma,
-      deg_majors: this.state.deg_majors,
-      deg_school_name: this.state.deg_school_name,
-      deg_begin_study: Date.parse(this.state.deg_begin_study) / 1000,
-      deg_end_study: Date.parse(this.state.deg_end_study) / 1000,
-      deg_note: this.state.deg_note,
-    };
-    let resUpdateUserDegree = await updateUserDegree(
-      this.state.idUserDegree,
-      paramsUserDegrees
-    );
-    if (resUpdateUserDegree.message == "Success!. Updated") {
-    } else {
-      messageErr = 6;
-    }
-    let paramsWorkObjects = {
-      user_id: this.state.user_id,
-      pro_id: pro_id,
-      work_formality: this.state.work_formality,
-      work_note: this.state.work_note,
-    };
-    let resUpdateWorkObject = await updateWorkObject(
-      this.state.idWorkObject,
-      paramsWorkObjects
-    );
-    if (resUpdateWorkObject.message == "Success!. Updated") {
-      message;
-    } else {
-      messageErr = 8;
-    }
-    let paramsJournalistCards = {
-      user_id: this.state.user_id,
-      pro_id: pro_id,
-      car_number: this.state.car_number,
-      car_number_day: Date.parse(this.state.car_number_day),
-      car_begin: Date.parse(this.state.car_begin) / 1000,
-      car_end: Date.parse(this.state.car_end) / 1000,
-      car_note: this.state.car_note,
-    };
-    let resUpdateJournalistCards = await updateJournalistCards(
-      this.state.idJou,
-      paramsJournalistCards
-    );
-    if (resUpdateJournalistCards.message == "Success!. Updated") {
-    } else {
-      messageErr = 10;
-    }
-    await this.fetchData();
-    console.log(messageErr);
-    if (messageErr == 0) {
-      message.success("Cập nhât thông tin thành công");
-    } else {
-      message.error("Cập nhật thất bại");
+    this.handleInputValid("pro_name", this.state.pro_name);
+    this.handleInputValid("email", this.state.email);
+    this.handleInputValid("phone", this.state.phone);
+    this.handleInputValid("part", this.state.par_id);
+    this.handleInputValid("department", this.state.dep_id);
+    this.handleInputValid("position", this.state.pos_id);
+    if (
+      !this.state.valid_pro_name.isValid &&
+      !this.state.valid_email.isValid &&
+      !this.state.valid_phone.isValid &&
+      !this.state.valid_part.isValid &&
+      !this.state.valid_department.isValid &&
+      !this.state.valid_position.isValid
+    ) {
+      let userId = this.props.idUser || this.state.idSaved;
+      let pro_id = null;
+      if (this.state.pro_id_saved == null) {
+        pro_id = this.state.pro_id;
+      } else {
+        pro_id = this.state.pro_id_saved;
+      }
+      let messageErr = 0;
+      let paramsUser = {
+        full_name: this.state.pro_name,
+        email: this.state.email,
+        phone: this.state.phone,
+      };
+      let resUpdateUser = await updateUser(userId, paramsUser);
+      if (resUpdateUser.message === "Success!. Stored") {
+      } else {
+        messageErr: 1;
+      }
+      let params = {
+        user_id: this.state.user_id,
+        pro_name: this.state.pro_name,
+        pro_pen_name: this.state.pro_pen_name,
+        pro_birth_day: Date.parse(this.state.pro_birth_day) / 1000,
+        pro_gender: this.state.pro_gender,
+        pro_birth_place: this.state.pro_birth_place,
+        pro_home_town: this.state.pro_home_town,
+        pro_local_phone: this.state.pro_local_phone,
+        pro_resident: this.state.pro_resident,
+        pro_ethnic: this.state.pro_ethnic,
+        pro_religion: this.state.pro_religion,
+        pro_background_origin: this.state.pro_background_origin,
+        pro_occupation: this.state.pro_occupation,
+        pro_identity_card: this.state.pro_identity_card,
+        pro_identity_card_when:
+          Date.parse(this.state.pro_identity_card_when) / 1000,
+        pro_identity_card_where: this.state.pro_identity_card_where,
+        pro_note: this.state.pro_note,
+        button: value,
+        action: "create",
+      };
+      let resUpdateProfile = await updateProfile(pro_id, params);
+      if (resUpdateProfile.message == "Success!. Updated") {
+      } else {
+        messageErr = 2;
+      }
+      let paramsDepartment = {
+        pro_id: pro_id,
+        user_id: this.state.user_id,
+        dep_id: this.state.dep_id,
+        pos_id: this.state.pos_id,
+        part_id: this.state.par_id,
+        appointment_date: Date.parse(this.state.appointment_date) / 1000,
+      };
+      let resUpdateDepartmentProfile = await updateDepartmentProfile(
+        pro_id,
+        paramsDepartment
+      );
+      if (resUpdateDepartmentProfile.message == "Success!. Updated") {
+      } else {
+        messageErr = 4;
+      }
+      let paramsUserDegrees = {
+        user_id: this.state.user_id,
+        pro_id: pro_id,
+        deg_type: this.state.deg_type,
+        deg_diploma: this.state.deg_diploma,
+        deg_majors: this.state.deg_majors,
+        deg_school_name: this.state.deg_school_name,
+        deg_begin_study: Date.parse(this.state.deg_begin_study) / 1000,
+        deg_end_study: Date.parse(this.state.deg_end_study) / 1000,
+        deg_note: this.state.deg_note,
+      };
+      let resUpdateUserDegree = await updateUserDegree(
+        this.state.idUserDegree,
+        paramsUserDegrees
+      );
+      if (resUpdateUserDegree.message == "Success!. Updated") {
+      } else {
+        messageErr = 6;
+      }
+      let paramsWorkObjects = {
+        user_id: this.state.user_id,
+        pro_id: pro_id,
+        work_formality: this.state.work_formality,
+        work_note: this.state.work_note,
+      };
+      let resUpdateWorkObject = await updateWorkObject(
+        this.state.idWorkObject,
+        paramsWorkObjects
+      );
+      if (resUpdateWorkObject.message == "Success!. Updated") {
+        message;
+      } else {
+        messageErr = 8;
+      }
+      let paramsJournalistCards = {
+        user_id: this.state.user_id,
+        pro_id: pro_id,
+        car_number: this.state.car_number,
+        car_number_day: Date.parse(this.state.car_number_day),
+        car_begin: Date.parse(this.state.car_begin) / 1000,
+        car_end: Date.parse(this.state.car_end) / 1000,
+        car_note: this.state.car_note,
+      };
+      let resUpdateJournalistCards = await updateJournalistCards(
+        this.state.idJou,
+        paramsJournalistCards
+      );
+      if (resUpdateJournalistCards.message == "Success!. Updated") {
+      } else {
+        messageErr = 10;
+      }
+      await this.fetchData();
+      console.log(messageErr);
+      if (messageErr == 0) {
+        message.success("Cập nhât thông tin thành công");
+      } else {
+        message.error("Cập nhật thất bại");
+      }
     }
   };
   handleSave = () => {
@@ -727,7 +744,7 @@ class addInformationUser extends Component {
     this.componentDidMount();
   };
   render() {
-    return ( 
+    return (
       <div className="edit-infor-form">
         <div className="tabs-main">
           <form
@@ -759,7 +776,7 @@ class addInformationUser extends Component {
                             color: "red",
                             fontStyle: "italic",
                           }}
-                        > 
+                        >
                           {this.state.valid_pro_name.errorMessage}
                         </span>
                       ) : null}
@@ -768,8 +785,7 @@ class addInformationUser extends Component {
                       <span className="tabs-user-infor-top">Email cá nhân</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
-                          // {{this.props.idUser ? disabled : ""}}
-                          disabled = {this.props.idUser ? true : false}
+                          disabled={this.props.idUser ? true : false}
                           value={this.state.email}
                           name="email"
                           onChange={this.onChange}
@@ -793,7 +809,7 @@ class addInformationUser extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input.Password
-                          disabled = {this.props.idUser ? true : false}
+                          disabled={this.props.idUser ? true : false}
                           value={this.state.password}
                           name="password"
                           onChange={this.onChange}
@@ -1215,7 +1231,7 @@ class addInformationUser extends Component {
                         Thời gian bắt đầu học:
                       </span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
-                          {/* {console.log(this.state.deg_begin_study)} */}
+                        {/* {console.log(this.state.deg_begin_study)} */}
                         <RangePicker
                           value={
                             this.state.deg_begin_study == null
@@ -1374,7 +1390,7 @@ class addInformationUser extends Component {
                       </li>
                     ) : (
                       "Bạn chỉ có thể xem (nhân viên đang chỉnh hồ sơ của mình)"
-                     )} 
+                    )}
                   </ul>
                 </div>
               </div>

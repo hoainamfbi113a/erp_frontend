@@ -12,7 +12,7 @@ import {
   updateDepartmentProfile,
 } from "apis/departmentApi";
 import { getListPosition, searchPosition } from "apis/positionApi";
-import { searchParts } from "apis/partsApi";
+import { searchParts, getListParts } from "apis/partsApi";
 import { getProfile, updateProfile } from "apis/profileApi";
 import { updateUser, getUser } from "apis/authenticationApi";
 import { updateUserDegree } from "apis/userDegreesApi";
@@ -169,6 +169,7 @@ class CurriculumVitae extends Component {
       !this.state.valid_department.isValid &&
       !this.state.valid_position.isValid
     ) {
+
       let paramsUser = {
         full_name: this.state.pro_name,
         email: this.state.email,
@@ -319,7 +320,18 @@ class CurriculumVitae extends Component {
     this.fetchDataUser();
     this.fetchDepartment();
     this.fetchPosition();
+    this.fetchPart();
   };
+  fetchPart = async () => {
+    let res = await getListParts();
+    if (!res.err) {
+      this.setState({
+        dataParts: res.data,
+      });
+    } else {
+      message.error("get list parts failed");
+    }
+  }
   fetchPosition = async () => {
     let res = await getListPosition(1);
     if (!res.err) {
@@ -516,8 +528,8 @@ class CurriculumVitae extends Component {
       {
         dep_id: value,
       },
-      () => {
-        this.handleInputValid("department", value);
+      async () => {
+      await  this.handleInputValid("department", value);
       }
     );
   };
@@ -527,8 +539,8 @@ class CurriculumVitae extends Component {
       {
         pos_id: value,
       },
-      () => {
-        this.handleInputValid("position", value);
+     async () => {
+     await  this.handleInputValid("position", value);
       }
     );
   };
@@ -538,8 +550,8 @@ class CurriculumVitae extends Component {
       {
         par_id: value,
       },
-      () => {
-        this.handleInputValid("part", value);
+     async () => {
+     await this.handleInputValid("part", value);
       }
     );
   };

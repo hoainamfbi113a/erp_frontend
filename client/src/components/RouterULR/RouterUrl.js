@@ -44,17 +44,16 @@ export default class RouterUrl extends Component {
     });
   };
   getMajor = () => {
-    // let dataSlug = this.state.slugPermission;
     let dataPermission = this.state.dataPermission;
     if (
       dataPermission.permissions.length > 7 &&
-      dataPermission.permissions[8].actions[4] == "Confirm"
+      dataPermission.permissions[7].actions[4] == "Confirm"
     ) {
       this.setState({
         major: 8,
         isTrue: true,
       });
-    } else if (dataPermission.permissions > 8) {
+    } else if (dataPermission.permissions.length > 7) {
       this.setState({
         major: 1,
       });
@@ -130,8 +129,9 @@ export default class RouterUrl extends Component {
           {/* <Route component={NotFound} /> */}
         </Switch>
       );
-    } else if (this.state.major == 8 && this.state.isTrue === false) {
-      <Switch>
+    } else if (this.state.major == 8 && this.state.isTrue === false) { 
+      return (
+        <Switch>
         <Route exact path="/user" component={ContentUserSix}></Route>
         <Route
           exact
@@ -143,6 +143,7 @@ export default class RouterUrl extends Component {
           path="/mynotification"
           component={ContentMyNotification}
         ></Route>
+        <Route path="/edit-information" component={EditInformationUser}></Route>
         <Route
           exact
           path="/edituser/:id"
@@ -150,9 +151,31 @@ export default class RouterUrl extends Component {
         ></Route>
         <Route exact path="/adduser" component={AddAndUpdateInforUser}></Route>
         <Route component={NotFound} />
-      </Switch>;
-    } else if (this.state.major == -1)
+      </Switch>
+      )
+ 
+    } else if (this.state.major == -1) {
       return <Switch>{/* <Route component={NotFound} /> */}</Switch>;
+    } else if (this.state.major == 1) {
+      return (
+      <Switch>
+      <Route exact path="/user" component={ContentUserSix}></Route>
+      <Route
+        exact
+        path="/notification"
+        component={ContentNotification}
+      ></Route>
+      <Route
+        exact
+        path="/mynotification"
+        component={ContentMyNotification}
+      ></Route>
+      <Route path="/edit-information" component={EditInformationUser}></Route>
+      <Route component={NotFound} />
+    </Switch>
+    )
+    }
+
     return "";
   };
   render() {
