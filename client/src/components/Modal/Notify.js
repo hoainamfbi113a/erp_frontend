@@ -20,6 +20,7 @@ export default class Notify extends Component {
     if (resUpdateProfile.message) {
       message.success("Từ chối thông tin nhân sự thành công");
       this.hideModal();
+      window.location.reload();
       this.props.handleReloadComponent();
     }
   };
