@@ -155,12 +155,12 @@ class CurriculumVitae extends Component {
   handleEdit = async (value) => {
     let userId = this.state.user_id;
     let messageErr = 0;
-    this.handleInputValid("pro_name", this.state.pro_name);
-    this.handleInputValid("email", this.state.email);
-    this.handleInputValid("phone", this.state.phone);
-    this.handleInputValid("part", this.state.par_id);
-    this.handleInputValid("department", this.state.dep_id);
-    this.handleInputValid("position", this.state.pos_id);
+    await this.handleInputValid("pro_name", this.state.pro_name);
+    await this.handleInputValid("email", this.state.email);
+    await this.handleInputValid("phone", this.state.phone);
+    await this.handleInputValid("part", this.state.par_id);
+    await this.handleInputValid("department", this.state.dep_id);
+    await this.handleInputValid("position", this.state.pos_id);
     if (
       !this.state.valid_pro_name.isValid &&
       !this.state.valid_email.isValid &&
