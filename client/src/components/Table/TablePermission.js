@@ -71,6 +71,7 @@ class TablePermission extends Component {
     let permission = this.state.data.data.filter((item) => {
       return item.id == id;
     });
+    console.log(permission)
     this.setState({
       id: permission[0].id,
       feature_id: permission[0].feature_id,

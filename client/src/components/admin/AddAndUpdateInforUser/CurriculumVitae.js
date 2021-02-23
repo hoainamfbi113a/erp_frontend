@@ -31,7 +31,7 @@ import { addUserDegrees, updateUserDegree } from "apis/userDegreesApi";
 import { workflowProfile } from "apis/workflowApi";
 import { addWorkObject, updateWorkObject } from "apis/workObjectsApi";
 import { validateInputFormUser } from "helpers/FuncHelper";
-
+import { showLoading, hideLoading} from "reduxToolkit/features/uiLoadingSlice"
 const { Option } = Select;
 const { Step } = Steps;
 const { RangePicker } = DatePicker;
@@ -175,6 +175,7 @@ class addInformationUser extends Component {
   };
 
   fetchData = async () => {
+    this.props.uiActionCreatorsS();
     this.fetchDataUser();
     let dataDepartment = await getListDepartment();
     let dataPosition = await getListPosition();
@@ -186,9 +187,11 @@ class addInformationUser extends Component {
       dataWorkflowProfile,
       dataParts: dataParts.data,
     });
+    this.props.uiActionCreatorsH();
   };
 
   fetchDataUser = async () => {
+    
     if (this.props.idUser) {
       let idUser = this.props.idUser;
       let dataUser = null;
@@ -391,6 +394,7 @@ class addInformationUser extends Component {
     }
   };
   handleAdd = async (value) => {
+    this.props.uiActionCreatorsS();
     let messageErr = 0;
     let userId = 0;
     let proId = 0;
@@ -496,7 +500,7 @@ class addInformationUser extends Component {
         };
         let resAddWorkObject = await addWorkObject(paramsWorkObjects);
         if (resAddWorkObject.message == "Success!. Stored") {
-          message;
+          // message;
         } else {
           messageErr = 8;
         }
@@ -520,6 +524,7 @@ class addInformationUser extends Component {
       console.log("messageErr: ", messageErr);
       if (messageErr == 0) {
         message.success("Thêm thông tin nhân sự thành công");
+        this.props.uiActionCreatorsH();
         this.props.history.push("/user");
         this.setState({
           idSaved: userId,
@@ -531,6 +536,7 @@ class addInformationUser extends Component {
     }
   };
   handleEdit = async (value) => {
+    
     await this.handleInputValid("pro_name", this.state.pro_name);
     await this.handleInputValid("email", this.state.email);
     await this.handleInputValid("phone", this.state.phone);
@@ -545,6 +551,7 @@ class addInformationUser extends Component {
       !this.state.valid_department.isValid &&
       !this.state.valid_position.isValid
     ) {
+      this.props.uiActionCreatorsS();
       let userId = this.props.idUser || this.state.idSaved;
       let pro_id = null;
       if (this.state.pro_id_saved == null) {
@@ -659,8 +666,11 @@ class addInformationUser extends Component {
       }
       await this.fetchData();
       console.log(messageErr);
+      this.props.uiActionCreatorsH();
       if (messageErr == 0) {
         message.success("Cập nhât thông tin thành công");
+        
+        window.location.reload();
       } else {
         message.error("Cập nhật thất bại");
       }
@@ -743,6 +753,48 @@ class addInformationUser extends Component {
   handleReloadComponent = () => {
     this.componentDidMount();
   };
+  renderButton = (value) => {
+    if(value === 0) {
+      return (
+        <li className="tabs-main-left-li tabs-main-left-li-submit">
+        <span
+          className="btn-add-user"
+          onClick={this.handleSave}
+        >
+          Lưu
+        </span>
+        <Popconfirm
+          title="Bạn có chắc chắn xác nhận hồ sơ"
+          onConfirm={() => this.confirm()}
+          onCancel={this.cancel}
+          okText="Yes"
+          cancelText="No"
+        >
+          <span
+            className="btn-add-user"
+            // onClick={this.handleSend}
+          >
+            Xác nhận
+          </span>
+        </Popconfirm>
+      </li>
+      )
+    } else if (value === 1) {
+      return (
+      <p>  Bạn chỉ có thể xem (nhân viên đang chỉnh hồ sơ của mình) </p>
+      )
+    } else if (value === 2) {
+      return (
+        <p>Bạn hãy duyệt hồ sơ</p>
+      )
+    } else if (value ===3) {
+      return (
+        <p>Hồ sơ đã đống</p>
+      )
+    } else {
+      return 
+    }
+  }
   render() {
     return (
       <div className="edit-infor-form">
@@ -868,7 +920,10 @@ class addInformationUser extends Component {
                         <DatePicker
                           placeholder="Chọn ngày"
                           value={
-                            this.state.pro_birth_day == null || this.state.pro_birth_day == "1970-01-01 08:00:00"
+                            this.state.pro_birth_day == null || this.state.pro_birth_day == "1970-01-01 08:00:00" 
+                            || this.state.pro_birth_day == "Thu Jan 01 1970 08:00:00 GMT+0800 (Indochina Time)"
+                            || this.state.pro_birth_day == "1970-01-01"
+
                               ? null
                               : moment(this.state.pro_birth_day, dateFormat)
                           }
@@ -1389,7 +1444,8 @@ class addInformationUser extends Component {
                         />
                       </div>
                     </li>
-                    {this.props.value == 0 ? (
+                    {this.renderButton(this.props.value)}
+                    {/* {this.props.value == 0 ? (
                       <li className="tabs-main-left-li tabs-main-left-li-submit">
                         <span
                           className="btn-add-user"
@@ -1414,7 +1470,7 @@ class addInformationUser extends Component {
                       </li>
                     ) : (
                       "Bạn chỉ có thể xem (nhân viên đang chỉnh hồ sơ của mình)"
-                    )}
+                    )} */}
                   </ul>
                 </div>
               </div>
@@ -1425,6 +1481,9 @@ class addInformationUser extends Component {
     );
   }
 }
-
+const mapDispatchToProps = (dispatch) => ({
+  uiActionCreatorsS: bindActionCreators(showLoading, dispatch),
+  uiActionCreatorsH: bindActionCreators(hideLoading, dispatch),
+});
 const ShowTheLocationWithRouter = withRouter(addInformationUser);
-export default connect(null, null)(ShowTheLocationWithRouter);
+export default connect(null, mapDispatchToProps)(ShowTheLocationWithRouter);

@@ -12,16 +12,18 @@ import { useDispatch } from "react-redux";
 import "./Header.css";
 const { Header } = Layout;
 import { LogoutOutlined, RollbackOutlined } from "@ant-design/icons";
-
+import { showLoading, hideLoading} from "reduxToolkit/features/uiLoadingSlice"
 const HeaderLayout = () => {
   let history = useHistory();
   const dispatch = useDispatch();
   const menu = () => {
     const sleep = (m) => new Promise((r) => setTimeout(r, m));
     const logOut = async (e) => {
-      await sleep(800);
+      dispatch(showLoading());
+      await sleep(1000);
       await logout();
       await dispatch(Logout());
+      dispatch(hideLoading());
       history.push("/");
     };
     return (
