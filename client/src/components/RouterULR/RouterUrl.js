@@ -53,7 +53,7 @@ export default class RouterUrl extends Component {
         major: 8,
         isTrue: true,
       });
-    } else if (dataPermission.permissions.length > 7) {
+    } else if (dataPermission.permissions.length >= 7) {
       this.setState({
         major: 1,
       });
