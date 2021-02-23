@@ -33,6 +33,7 @@ class MenuLayout extends Component {
   fetchPermission = async () => {
     const user_id = docCookies.getItem("user_id");
     const data = await getPermissionUser(user_id);
+    console.log(data)
     this.setState({
       dataPermission: data,
     });

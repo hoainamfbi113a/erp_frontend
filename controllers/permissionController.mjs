@@ -52,6 +52,7 @@ router.get("/departments/positions", async (req, res) => {
         `${process.env.apiEmployee}/api/permission/departments/positions?dep_id=${dep_id}&pos_id=${pos_id}`,
         config,
     );
+    console.log(`${process.env.apiEmployee}/api/permission/departments/positions?dep_id=${dep_id}&pos_id=${pos_id}`)
     res.send(data);
 });
 

@@ -232,7 +232,6 @@ class TablePermission extends Component {
               <li className="tabs-main-left-li">
                 <span className="tabs-user-infor-top">Chọn đặc tính</span>
                 <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal ">
-                  {alert(this.state.table_management_id)}
                   <Select
                     value={this.state.table_management_id.toString()}
                     style={{ width: 120 }}

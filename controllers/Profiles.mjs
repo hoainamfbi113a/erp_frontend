@@ -5,6 +5,7 @@ const getProfile = async (req, res) => {
     headers: { Authorization: req.headers.authorization }
   };
   let { id } = req.body;
+  console.log(`${process.env.apiEmployee}/api/fe/profiles/users/${id}`)
    Axios.get(
     `${process.env.apiEmployee}/api/fe/profiles/users/${id}`,config )
     .then(response=>{
