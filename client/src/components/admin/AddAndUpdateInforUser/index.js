@@ -5,9 +5,13 @@ import React, {
   useCallback,
   useMemo,
 } from "react";
+import {
+  message,
+} from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { transfersProfile } from "apis/transfersApi";
 import { workflowProfile } from "apis/workflowApi";
+import {updateProfile } from "apis/profileApi";
 import CurriculumVitae from "./CurriculumVitae";
 import PersonalHistory from "./PersonalHistory";
 import JoinTCTTXH from "./JoinTCTTXH";
@@ -100,6 +104,7 @@ const AddAndUpdateInforUser = (props) => {
       notify_content: "xac nhan ho so hoan tat",
     };
     let resUpdateProfile = await updateProfile(dataProfile.id, params);
+    alert(resUpdateProfile.message)
     if (resUpdateProfile.message) {
       message.success("Duyệt thông tin nhân sự thành công");
       window.location.reload();
@@ -107,9 +112,9 @@ const AddAndUpdateInforUser = (props) => {
       message.error("Duyệt hồ sơ thất bại");
     }
   };
-  const handleReloadComponent = () =>{
-    setReload(!reload)
-  }
+  // const handleReloadComponent = () =>{
+  //   setReload(!reload)
+  // }
   let value = 0;
   if (step_id === 1) {
       value = 0;
@@ -214,7 +219,7 @@ const AddAndUpdateInforUser = (props) => {
             actionModal={modalNotify}
             pro_id={dataProfile.id}
             closeDeny={()=>{setModalNotify(false)}}
-            handleReloadComponent={handleReloadComponent}
+            // handleReloadComponent={handleReloadComponent}
         />
     </div>
   );

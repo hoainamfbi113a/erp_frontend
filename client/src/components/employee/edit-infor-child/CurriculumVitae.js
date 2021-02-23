@@ -21,6 +21,8 @@ import { updateJournalistCards } from "apis/journalistCardsApi";
 import { validateInputFormUser } from "helpers/FuncHelper";
 import { Select } from 'antd';
 const { Option } = Select;
+import { showLoading, hideLoading} from "reduxToolkit/features/uiLoadingSlice"
+import { bindActionCreators } from "redux";
 const dateFormat = "YYYY/MM/DD";
 class CurriculumVitae extends Component {
   constructor(props) {
@@ -169,7 +171,7 @@ class CurriculumVitae extends Component {
       !this.state.valid_department.isValid &&
       !this.state.valid_position.isValid
     ) {
-
+      this.props.uiActionCreatorsS();
       let paramsUser = {
         full_name: this.state.pro_name,
         email: this.state.email,
@@ -276,6 +278,7 @@ class CurriculumVitae extends Component {
       }
       await this.fetchData();
       console.log(messageErr);
+      this.props.uiActionCreatorsH();
       if (messageErr == 0) {
         message.success("Cập nhât thông tin thành công");
         this.props.handleReloadComponent();
@@ -314,7 +317,9 @@ class CurriculumVitae extends Component {
     });
   };
   componentDidMount = async () => {
+    this.props.uiActionCreatorsS();
     await this.fetchData();
+    this.props.uiActionCreatorsH();
   };
   fetchData = async () => {
     this.fetchDataUser();
@@ -514,7 +519,6 @@ class CurriculumVitae extends Component {
   renderParts = () => {
     if (this.state.dataParts !== null) {
       return this.state.dataParts.map((item) => {
-        console.log(item.id)
         return (
           <Option key={item.id} value={item.id}>
             {item.part_name}
@@ -666,7 +670,9 @@ class CurriculumVitae extends Component {
                         <DatePicker
                           placeholder="Chọn ngày"
                           value={
-                            this.state.pro_birth_day == null || this.state.pro_birth_day == "1970-01-01 08:00:00"
+                            this.state.pro_birth_day == null || this.state.pro_birth_day == "1970-01-01 08:00:00" 
+                            || this.state.pro_birth_day == "Thu Jan 01 1970 08:00:00 GMT+0800 (Indochina Time)"
+                            || this.state.pro_birth_day == "1970-01-01"
                               ? null
                               : moment(this.state.pro_birth_day, dateFormat)
                           }
@@ -1212,4 +1218,8 @@ class CurriculumVitae extends Component {
     );
   }
 }
-export default connect(null, null)(CurriculumVitae);
+const mapDispatchToProps = (dispatch) => ({
+  uiActionCreatorsS: bindActionCreators(showLoading, dispatch),
+  uiActionCreatorsH: bindActionCreators(hideLoading, dispatch),
+});
+export default connect(null, mapDispatchToProps)(CurriculumVitae);

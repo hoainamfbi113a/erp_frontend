@@ -21,6 +21,7 @@ const Logins = () => {
   const [errEmail, setErrEmail] = useState("err")
   const [errPassword, setErrPassword] = useState("err")
   const [isVibrate, setIsVibrate] = useState(false)
+  const sleep = (m) => new Promise((r) => setTimeout(r, m));
   const onSubmitForm = async(formData) => {
     // dispatch(showLoading())
     emailUser = formData.email;
@@ -33,6 +34,7 @@ const Logins = () => {
         user_ip: "123",
         user_agent: navigator.userAgent,
       }
+      dispatch(showLoading());
       await dispatch(getLogin(params));
     } else {
       if (errEmail !== "pass" && errPassword !== "pass") {
@@ -59,15 +61,19 @@ const Logins = () => {
     
   }
   const respLogin = useSelector(state => state.authen);
-  useEffect (()=>{
+  useEffect (async ()=>{
     if(respLogin && respLogin.message === "Đăng nhập thành công!") {
       if(emailUser === "manager0@gmail.com"){
         localStorage.setItem("0","0")
       }
+      await sleep(1000)
+      dispatch(hideLoading())
       push("/");
     } else if (respLogin && respLogin.message === "Email hoặc mật khẩu không đúng!") {
         setActiveErrEmail(false);
         setActiveErrPassWord(false);
+        await sleep(1000)
+        dispatch(hideLoading())
         message.error("Email hoặc mật khẩu không đúng!");
       } 
   },[respLogin])

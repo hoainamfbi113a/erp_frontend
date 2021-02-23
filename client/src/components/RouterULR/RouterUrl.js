@@ -129,51 +129,88 @@ export default class RouterUrl extends Component {
           {/* <Route component={NotFound} /> */}
         </Switch>
       );
-    } else if (this.state.major == 8 && this.state.isTrue === false) { 
+    } else if (this.state.major == 8 && this.state.isTrue === false) {
       return (
         <Switch>
-        <Route exact path="/user" component={ContentUserSix}></Route>
-        <Route
-          exact
-          path="/notification"
-          component={ContentNotification}
-        ></Route>
-        <Route
-          exact
-          path="/mynotification"
-          component={ContentMyNotification}
-        ></Route>
-        <Route path="/edit-information" component={EditInformationUser}></Route>
-        <Route
-          exact
-          path="/edituser/:id"
-          component={AddAndUpdateInforUser}
-        ></Route>
-        <Route exact path="/adduser" component={AddAndUpdateInforUser}></Route>
-        <Route component={NotFound} />
-      </Switch>
-      )
- 
+          <Route exact path="/user" component={ContentUserSix}></Route>
+          <Route
+            exact
+            path="/notification"
+            component={ContentNotification}
+          ></Route>
+          <Route
+            exact
+            path="/mynotification"
+            component={ContentMyNotification}
+          ></Route>
+          <Route
+            path="/edit-information"
+            component={EditInformationUser}
+          ></Route>
+          <Route
+            exact
+            path="/edituser/:id"
+            component={AddAndUpdateInforUser}
+          ></Route>
+          <Route
+            exact
+            path="/adduser"
+            component={AddAndUpdateInforUser}
+          ></Route>
+          <Route component={NotFound} />
+        </Switch>
+      );
     } else if (this.state.major == -1) {
       return <Switch>{/* <Route component={NotFound} /> */}</Switch>;
     } else if (this.state.major == 1) {
       return (
-      <Switch>
-      <Route exact path="/user" component={ContentUserSix}></Route>
-      <Route
-        exact
-        path="/notification"
-        component={ContentNotification}
-      ></Route>
-      <Route
-        exact
-        path="/mynotification"
-        component={ContentMyNotification}
-      ></Route>
-      <Route path="/edit-information" component={EditInformationUser}></Route>
-      <Route component={NotFound} />
-    </Switch>
-    )
+        <Switch>
+          <Route exact path="/user" component={ContentUserSix}></Route>
+          <Route
+            exact
+            path="/notification"
+            component={ContentNotification}
+          ></Route>
+          <Route
+            exact
+            path="/mynotification"
+            component={ContentMyNotification}
+          ></Route>
+          <Route
+            path="/edit-information"
+            component={EditInformationUser}
+          ></Route>
+          <Route
+            exact
+            path="/notification"
+            component={ContentNotification}
+          ></Route>
+          {/* <Route exact path="/personal-page" component = {PersonalPage}></Route> */}
+          <Route
+            exact
+            path="/notification/general"
+            component={NotifiGenaral}
+          ></Route>
+          <Route exact path="/notification/my" component={NotifiMy}></Route>
+          <Route
+            exact
+            path="/notification/department"
+            component={NotifiDepartment}
+          ></Route>
+          <Route
+            exact
+            path="/notification/myword"
+            component={NotifiMyWord}
+          ></Route>
+          <Route
+            exact
+            path="/notification/create"
+            component={CreateNotifi}
+          ></Route>
+
+          <Route component={NotFound} />
+        </Switch>
+      );
     }
 
     return "";

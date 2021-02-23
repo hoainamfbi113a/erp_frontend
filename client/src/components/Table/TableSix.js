@@ -9,6 +9,8 @@ import { Table, Space, Tag, Avatar } from "antd";
 import { Popconfirm, message } from "antd";
 import user from "assets/images/user2.png";
 import { listUser } from "apis/authenticationApi";
+import { showLoading, hideLoading} from "reduxToolkit/features/uiLoadingSlice"
+import { bindActionCreators } from "redux";
 const { Content } = Layout;
 class TableSix extends Component {
   state = {
@@ -39,6 +41,7 @@ class TableSix extends Component {
     this.fetData();
   }
   fetData = async ()=>{
+    this.props.uiActionCreatorsS();
     let resListUser = await listUser(1);
         if(!resListUser.err){
           this.setState({
@@ -48,6 +51,7 @@ class TableSix extends Component {
         else{
           message.error("get user failed");
         }
+    this.props.uiActionCreatorsH();
   }
   confirm = (e) => {
     const { userSixActionCreators } = this.props;
@@ -194,5 +198,8 @@ class TableSix extends Component {
     );
   }
 }
-
-export default connect(null, null)(TableSix);
+const mapDispatchToProps = (dispatch) => ({
+  uiActionCreatorsS: bindActionCreators(showLoading, dispatch),
+  uiActionCreatorsH: bindActionCreators(hideLoading, dispatch),
+});
+export default connect(null, mapDispatchToProps)(TableSix);
