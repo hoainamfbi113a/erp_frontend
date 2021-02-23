@@ -17,7 +17,7 @@ class TablePermission extends Component {
     loading: false,
     id: "",
     app_id: "99",
-    feature_id: "1",
+    table_management_id: "1",
     name: "",
     status: 1,
   };
@@ -37,7 +37,7 @@ class TablePermission extends Component {
   onSubmit = async () => {
     let params = {
         app_id: this.state.app_id,
-        feature_id: this.state.feature_id,
+        table_management_id: this.state.table_management_id,
         name: this.state.name,
         status: this.state.status,
       };
@@ -71,10 +71,9 @@ class TablePermission extends Component {
     let permission = this.state.data.data.filter((item) => {
       return item.id == id;
     });
-    console.log(permission)
     this.setState({
       id: permission[0].id,
-      feature_id: permission[0].feature_id,
+      table_management_id: permission[0].table_management_id,
       name: permission[0].name,
       status: permission[0].status,
     });
@@ -100,7 +99,7 @@ class TablePermission extends Component {
   };
   handleChangeFeature = (value) => {
     this.setState({
-      feature_id: value,
+      table_management_id: value,
     });
   };
   handlePagination = async (pagination) => {
@@ -233,8 +232,9 @@ class TablePermission extends Component {
               <li className="tabs-main-left-li">
                 <span className="tabs-user-infor-top">Chọn đặc tính</span>
                 <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal ">
+                  {alert(this.state.table_management_id)}
                   <Select
-                    value={this.state.feature_id.toString()}
+                    value={this.state.table_management_id.toString()}
                     style={{ width: 120 }}
                     onChange={this.handleChangeFeature}
                   >
@@ -244,6 +244,9 @@ class TablePermission extends Component {
                     <Option value="4">Work Object</Option>
                     <Option value="5">Journalist Card</Option>
                     <Option value="6">User Degree</Option>
+                    <Option value="7">Part</Option>
+                    <Option value="8">Position</Option>
+                    <Option value="9">Common</Option>
                   </Select>
                 </div>
               </li>

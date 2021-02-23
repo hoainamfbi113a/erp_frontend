@@ -9,7 +9,6 @@ router.post("/", async (req, res) => {
     // console.log(req.body);
     // console.log(`${process.env.apiEmployee}/api/notifications/app/slug/user?app_id=${app_id}&slug=${slug}&user_id=${user_id}&per_page=${per_page}&page=${page}`)
     let { data } = await axios.get(`${process.env.apiEmployee}/api/notifications/app/slug/user?service_management_id=1&slug=${slug}&user_id=${2}&per_page=${per_page}&page=${page}`, config);
-    console.log(data)
     res.send(data);
 });
 router.put("/status/:id", async (req,res)=>{
