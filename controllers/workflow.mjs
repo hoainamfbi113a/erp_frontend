@@ -19,8 +19,9 @@ router.get('/detail', async (req,res)=>{
   let { data } = await axios.get(`${process.env.apiWorkflow}/api/workflow/detail?type=${type}`);
   res.send(data);
 })
-router.get('/store', async (req,res)=>{
-  let { data } = await axios.get(`${process.env.apiWorkflow}/api/workflow/store`);
+router.post('/store', async (req,res)=>{
+  // console.log(req.body)
+  let { data } = await axios.post(`${process.env.apiWorkflow}/api/workflow/store`,req.body);
     
     res.send(data);
 })
