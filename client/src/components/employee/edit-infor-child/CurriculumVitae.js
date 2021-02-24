@@ -559,6 +559,42 @@ class CurriculumVitae extends Component {
       }
     );
   };
+  renderButton = (value) => {
+    if(value === 0) {
+      return (
+        <p className ="text-feedback-user">Hồ sơ chưa mở</p>
+      )
+    } else if (value === 1) {
+      return (
+      <p className ="text-feedback-user">  Nhân sự đang tạo hồ sơ cho bạn! </p>
+      )
+    } else if (value === 2) {
+      return (
+        <li className="tabs-main-left-li tabs-main-left-li-submit">
+        <span
+          className="btn-add-user"
+          onClick={this.handleSave}
+        >
+          Lưu
+        </span>
+        <span
+          className="btn-add-user"
+          onClick={this.handleSend}
+        >
+          Xác nhận
+        </span>
+      </li>
+      )
+    } else if (value ===3) {
+      return (
+        <p className ="text-feedback-user">Hồ sơ đang chờ duyệt</p>
+      )
+    } else {
+      return (
+        <p className ="text-feedback-user">Hồ sơ đã sẵn sàng</p>
+      )
+    }
+  }
   render() {
     return (
       <div className="edit-infor-form">
@@ -1184,7 +1220,8 @@ class CurriculumVitae extends Component {
                         />
                       </div>
                     </li>
-                    {this.props.statusProfile == 2 ? (
+                    {this.renderButton(this.props.statusProfile)}
+                    {/* {this.props.statusProfile == 2 ? (
                       <li className="tabs-main-left-li tabs-main-left-li-submit">
                         <span
                           className="btn-add-user"
@@ -1201,7 +1238,7 @@ class CurriculumVitae extends Component {
                       </li>
                     ) : (
                       "Bạn chỉ được xem hãy liên hệ nhân sự để được chỉnh sửa"
-                    )}
+                    )} */}
                   </ul>
                 </div>
               </div>

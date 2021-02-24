@@ -45,23 +45,24 @@ export default class RouterUrl extends Component {
   };
   getMajor = () => {
     let dataPermission = this.state.dataPermission;
-    if (
-      dataPermission.permissions.length > 7 &&
-      dataPermission.permissions[7].actions[4] == "Confirm"
-    ) {
-      this.setState({
-        major: 8,
-        isTrue: true,
-      });
-    } else if (dataPermission.permissions.length >= 7) {
-      this.setState({
-        major: 1,
-      });
-    } else {
-      this.setState({
-        major: -1,
-      });
-    }
+    if(dataPermission.permissions.length >7 &&
+      dataPermission.permissions[8]&&
+       dataPermission.permissions[8].actions[4]=="Confirm"
+       && localStorage.getItem("0")==0
+       ){
+     this.setState({
+       major:8,
+       isTrue:true
+     })
+   }
+   if(dataPermission.permissions.length>7 &&
+      dataPermission.permissions[0].actions[4]=="Confirm"
+      && localStorage.getItem("0")!=0
+      ){
+     this.setState({
+       major:1,
+     })
+   }
   };
   renderUrl = () => {
     if (this.state.major == 8 && this.state.isTrue === true) {
@@ -129,7 +130,7 @@ export default class RouterUrl extends Component {
           {/* <Route component={NotFound} /> */}
         </Switch>
       );
-    } else if (this.state.major == 8 && this.state.isTrue === false) {
+    } else if (this.state.major ==1) {
       return (
         <Switch>
           <Route exact path="/user" component={ContentUserSix}></Route>
@@ -162,7 +163,7 @@ export default class RouterUrl extends Component {
       );
     } else if (this.state.major == -1) {
       return <Switch>{/* <Route component={NotFound} /> */}</Switch>;
-    } else if (this.state.major == 1) {
+    } else if (this.state.major == 0) {
       return (
         <Switch>
           <Route exact path="/user" component={ContentUserSix}></Route>

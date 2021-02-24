@@ -114,7 +114,6 @@ const AddAndUpdateInforUser = (props) => {
       message.error("Duyệt hồ sơ thất bại");
     }
   };
-  console.log("Rendered! or did I just re-render?");
   const handleReloadComponent = async () =>{
     let dataWorkflowProfile = await workflowProfile();
     setWorkflowProfile(dataWorkflowProfile);

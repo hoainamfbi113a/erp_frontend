@@ -790,15 +790,15 @@ class addInformationUser extends Component {
       )
     } else if (value === 1) {
       return (
-      <p>  Bạn chỉ có thể xem (nhân viên đang chỉnh hồ sơ của mình) </p>
+      <p className ="text-feedback-user">  Bạn chỉ có thể xem (nhân viên đang chỉnh hồ sơ của mình) </p>
       )
     } else if (value === 2) {
       return (
-        <p>Bạn hãy duyệt hồ sơ</p>
+        <p className ="text-feedback-user">Bạn hãy duyệt hồ sơ</p>
       )
     } else if (value ===3) {
       return (
-        <p>Hồ sơ đã đống</p>
+        <p className ="text-feedback-user">Hồ sơ đã đống</p>
       )
     } else {
       return 

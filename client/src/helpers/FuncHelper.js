@@ -69,11 +69,13 @@ const validateInputFormUser = (type, checkingText, listUser) => {
           isValid = false;
           errorMessage = "";
         }
-        for (let i = 0; i < listUser.length; i++) {
+        if (listUser) {
+          for (let i = 0; i < listUser.length; i++) {
             if (listUser[i].email == checkingText) {
               isValid = true;
               errorMessage = "Email đã được đăng ký";
             }
+          }
         }
       }
       break;
