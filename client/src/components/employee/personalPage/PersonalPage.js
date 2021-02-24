@@ -126,7 +126,7 @@ const PersonalPage = () => {
                     <Timeline className="personal-page-timeline">
                       <Timeline.Item>
                         <div className="personal-history-time">
-                          05/09/1990 - 10/05/1995
+                        05/04/2003 - 10/05/2005 
                         </div>
                         <p className="personal-history-content">
                           Nhân viên Công Ty TNHH Sutrix Media
@@ -134,26 +134,18 @@ const PersonalPage = () => {
                       </Timeline.Item>
                       <Timeline.Item>
                         <div className="personal-history-time">
-                          05/09/1990 - 10/05/1995
+                        10/05/2005 - 10/05/2008
                         </div>
                         <p className="personal-history-content">
-                          Nhân viên Công Ty TNHH Sutrix Media
+                        Nhân viên Công Ty FPT Online
                         </p>
                       </Timeline.Item>
                       <Timeline.Item>
                         <div className="personal-history-time">
-                          05/09/1990 - 10/05/1995
+                        10/05/2008 - đến nay
                         </div>
                         <p className="personal-history-content">
-                          Nhân viên Công Ty TNHH Sutrix Media
-                        </p>
-                      </Timeline.Item>
-                      <Timeline.Item>
-                        <div className="personal-history-time">
-                          05/09/1990 - 10/05/1995
-                        </div>
-                        <p className="personal-history-content">
-                          Nhân viên Công Ty TNHH Sutrix Media
+                        Nhân viên Báo Tuổi Trẻ
                         </p>
                       </Timeline.Item>
                     </Timeline>

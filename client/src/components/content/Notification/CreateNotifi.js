@@ -11,11 +11,13 @@ export default class CreateNotifi extends Component {
     super();
     this.state = {
       visible: false,
+      title:"",
     };
   }
-  showModal = () => {
+  showModal = (value) => {
     this.setState({
-      visible:true
+      visible:true,
+      title:value
     })
   }
   hideModal =() => {
@@ -38,19 +40,19 @@ export default class CreateNotifi extends Component {
             </div>
             <div className="create-notifi-content">
               <ul>
-                <li onClick = {this.showModal}>
+                <li onClick = {()=>{this.showModal("tạo phiếu đề xuất")}}>
                   <img src={proposal}></img>
-                  <span> Phiếu đề xuất </span>
+                  <span> Phiếu đề xuất. </span>
                 </li>
-                <li onClick = {this.showModal}>
+                <li onClick = {()=>this.showModal("tạo xin nghỉ phép")}>
                   <img src={takeleave}></img>
                   <span> Đơn xin nghỉ phép. </span>
                 </li>
-                <li onClick = {this.showModal}>
+                <li onClick = {()=>this.showModal("tạo đặt phòng họp")}>
                   <img src={put}></img>
                   <span> Đặt phòng họp.</span>
                 </li>
-                <li onClick = {this.showModal}>
+                <li onClick = {()=>this.showModal("tạo  bình bầu thi đua")}>
                   <img src={vote}></img>
                   <span> Bình bầu thi đua. </span>
                 </li>
@@ -123,7 +125,7 @@ export default class CreateNotifi extends Component {
             </div>
           </div>
         </div>
-        <ProposalForm showProposal={this.state.visible} hideModal={this.hideModal}></ProposalForm>
+        <ProposalForm title={this.state.title} showProposal={this.state.visible} hideModal={this.hideModal}></ProposalForm>
       </div>
     );
   }

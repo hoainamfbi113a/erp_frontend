@@ -405,3 +405,6 @@
   font-size: large;
   font-weight: 700;
 }
+.ant-modal-title{
+  text-transform: uppercase;
+}
