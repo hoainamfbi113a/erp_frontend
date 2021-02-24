@@ -112,9 +112,9 @@ const AddAndUpdateInforUser = (props) => {
       message.error("Duyệt hồ sơ thất bại");
     }
   };
-  // const handleReloadComponent = () =>{
-  //   setReload(!reload)
-  // }
+  const handleReloadComponent = () =>{
+    setReload(!reload)
+  }
   let value = 0;
   if (step_id === 1) {
       value = 0;
@@ -219,7 +219,7 @@ const AddAndUpdateInforUser = (props) => {
             actionModal={modalNotify}
             pro_id={dataProfile.id}
             closeDeny={()=>{setModalNotify(false)}}
-            // handleReloadComponent={handleReloadComponent}
+            handleReloadComponent={handleReloadComponent}
         />
     </div>
   );
