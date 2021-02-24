@@ -670,8 +670,12 @@ class addInformationUser extends Component {
       this.props.uiActionCreatorsH();
       if (messageErr == 0) {
         message.success("Cập nhât thông tin thành công");
-        
-        // window.location.reload();
+        // this.props.handleReloadComponent;
+
+        if(value =="send") {
+          window.location.reload();
+        }
+        // // window.location.reload();
       } else {
         message.error("Cập nhật thất bại");
       }
