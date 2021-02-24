@@ -46,7 +46,6 @@ const permissionToRole = async (req, res) => {
         headers: { Authorization: req.headers.authorization },
     };
     let { id } = req.params;
-    console.log(req.body);
     let { data } = await axios.post(
         `${process.env.apiEmployee}/api/role/permission/${id}`,
         req.body,

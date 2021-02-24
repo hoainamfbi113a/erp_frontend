@@ -398,12 +398,12 @@ class addInformationUser extends Component {
     let messageErr = 0;
     let userId = 0;
     let proId = 0;
-    this.handleInputValid("pro_name", this.state.pro_name);
-    this.handleInputValid("email", this.state.email);
-    this.handleInputValid("phone", this.state.phone);
-    this.handleInputValid("part", this.state.par_id);
-    this.handleInputValid("department", this.state.dep_id);
-    this.handleInputValid("position", this.state.pos_id);
+    await this.handleInputValid("pro_name", this.state.pro_name);
+    await this.handleInputValid("email", this.state.email);
+    await this.handleInputValid("phone", this.state.phone);
+    await this.handleInputValid("part", this.state.par_id);
+    await this.handleInputValid("department", this.state.dep_id);
+    await this.handleInputValid("position", this.state.pos_id);
     if (
       !this.state.valid_pro_name.isValid &&
       !this.state.valid_email.isValid &&
@@ -525,7 +525,7 @@ class addInformationUser extends Component {
       if (messageErr == 0) {
         message.success("Thêm thông tin nhân sự thành công");
         this.props.uiActionCreatorsH();
-        this.props.history.push("/user");
+        this.props.history.push(`/edituser/${userId}`);
         this.setState({
           idSaved: userId,
           pro_id_saved: proId,
@@ -534,6 +534,7 @@ class addInformationUser extends Component {
         message.error("Thêm thông tin nhân sự thất bại");
       }
     }
+    this.props.uiActionCreatorsH();
   };
   handleEdit = async (value) => {
     
@@ -670,7 +671,7 @@ class addInformationUser extends Component {
       if (messageErr == 0) {
         message.success("Cập nhât thông tin thành công");
         
-        window.location.reload();
+        // window.location.reload();
       } else {
         message.error("Cập nhật thất bại");
       }
@@ -813,6 +814,7 @@ class addInformationUser extends Component {
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
                         Họ và tên khai sinh:
+                        <span>*</span>
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
@@ -834,7 +836,9 @@ class addInformationUser extends Component {
                       ) : null}
                     </li>
                     <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">Email cá nhân</span>
+                      <span className="tabs-user-infor-top">Email cá nhân
+                      <span>*</span>
+                      </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
                           disabled={this.props.idUser ? true : false}
@@ -858,6 +862,7 @@ class addInformationUser extends Component {
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
                         Mật khẩu đăng nhập
+                        <span>*</span>
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input.Password
@@ -870,7 +875,8 @@ class addInformationUser extends Component {
                       </div>
                     </li>
                     <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">Số điện thoại</span>
+                      <span className="tabs-user-infor-top">Số điện thoại
+                      <span>*</span></span>
                       <div className="tabs-user-infor-bottom">
                         <Input
                           value={this.state.phone}
@@ -920,10 +926,7 @@ class addInformationUser extends Component {
                         <DatePicker
                           placeholder="Chọn ngày"
                           value={
-                            this.state.pro_birth_day == null || this.state.pro_birth_day == "1970-01-01 08:00:00" 
-                            || this.state.pro_birth_day == "Thu Jan 01 1970 08:00:00 GMT+0800 (Indochina Time)"
-                            || this.state.pro_birth_day == "1970-01-01"
-
+                            this.state.pro_birth_day == null || moment(this.state.pro_birth_day,dateFormat) == "Thu Jan 01 1970 08:00:00 GMT+0800"
                               ? null
                               : moment(this.state.pro_birth_day, dateFormat)
                           }
@@ -1056,7 +1059,7 @@ class addInformationUser extends Component {
                         <DatePicker
                           placeholder="Chọn ngày"
                           value={
-                            this.state.pro_identity_card_when == null || this.state.pro_identity_card_when == "1970-01-01 08:00:00"
+                            this.state.pro_identity_card_when == null || moment(this.state.pro_identity_card_when,dateFormat) == "Thu Jan 01 1970 08:00:00 GMT+0800"
                               ? null
                               : moment(
                                   this.state.pro_identity_card_when,
@@ -1110,6 +1113,7 @@ class addInformationUser extends Component {
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
                         Chọn phòng ban:
+                        <span>*</span>
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Select
@@ -1145,7 +1149,9 @@ class addInformationUser extends Component {
                       ) : null}
                     </li>
                     <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">Tổ làm việc</span>
+                      <span className="tabs-user-infor-top">Tổ làm việc:
+                      <span>*</span>
+                      </span>
                       <div className="tabs-user-infor-bottom">
                         <Select
                           defaultValue={0}
@@ -1177,7 +1183,9 @@ class addInformationUser extends Component {
                       ) : null}
                     </li>
                     <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">Chức vụ:</span>
+                      <span className="tabs-user-infor-top">Chức vụ:
+                      <span>*</span>
+                      </span>
                       <div className="tabs-user-infor-bottom">
                         <Select
                           defaultValue={0}
@@ -1217,7 +1225,7 @@ class addInformationUser extends Component {
                           placeholder="Chọn ngày"
                           style={{ width: "100%" }}
                           value={
-                            this.state.appointment_date == null || this.state.appointment_date == "1970-01-01 08:00:00"
+                            this.state.appointment_date == null || moment(this.state.appointment_date,dateFormat) == "Thu Jan 01 1970 08:00:00 GMT+0800"
                               ? null
                               : moment(this.state.appointment_date, dateFormat)
                           }
@@ -1293,16 +1301,14 @@ class addInformationUser extends Component {
                             ? null
                             : [
                                 this.state.deg_begin_study == null ||
-                                this.state.deg_begin_study ==
-                                  "Thu Jan 01 1970 08:00:00 GMT+0800 (Indochina Time)"
+                                moment(this.state.deg_begin_study,dateFormat) == "Thu Jan 01 1970 08:00:00 GMT+0800"
                                   ? null
                                   : moment(
                                       this.state.deg_begin_study,
                                       dateFormat
                                     ),
                                 this.state.deg_end_study == null ||
-                                this.state.deg_end_study ==
-                                  "Thu Jan 01 1970 08:00:00 GMT+0800 (Indochina Time)"
+                                moment(this.state.deg_end_study,dateFormat) == "Thu Jan 01 1970 08:00:00 GMT+0800"
                                   ? null
                                   : moment(
                                       this.state.deg_end_study,
@@ -1378,7 +1384,7 @@ class addInformationUser extends Component {
                           placeholder="Chọn ngày"
                           style={{ width: "100%" }}
                           value={
-                            this.state.car_number_day == null || this.state.car_number_day == "Thu Jan 01 1970 08:00:00 GMT+0800 (Indochina Time)"
+                            this.state.car_number_day == null || moment(this.state.car_number_day,dateFormat) == "Thu Jan 01 1970 08:00:00 GMT+0800"
                               ? null
                               : moment(this.state.car_number_day, dateFormat)
                           }
@@ -1403,16 +1409,14 @@ class addInformationUser extends Component {
                             ? null
                             : [
                                 this.state.car_begin == null ||
-                                this.state.car_begin ==
-                                  "Thu Jan 01 1970 08:00:00 GMT+0800 (Indochina Time)"
+                                moment(this.state.car_begin,dateFormat) == "Thu Jan 01 1970 08:00:00 GMT+0800"
                                   ? null
                                   : moment(
                                       this.state.car_begin,
                                       dateFormat
                                     ),
                                 this.state.car_end == null ||
-                                this.state.car_end ==
-                                  "Thu Jan 01 1970 08:00:00 GMT+0800 (Indochina Time)"
+                                moment(this.state.car_end,dateFormat) == "Thu Jan 01 1970 08:00:00 GMT+0800"
                                   ? null
                                   : moment(
                                       this.state.car_end,
@@ -1445,32 +1449,6 @@ class addInformationUser extends Component {
                       </div>
                     </li>
                     {this.renderButton(this.props.value)}
-                    {/* {this.props.value == 0 ? (
-                      <li className="tabs-main-left-li tabs-main-left-li-submit">
-                        <span
-                          className="btn-add-user"
-                          onClick={this.handleSave}
-                        >
-                          Lưu
-                        </span>
-                        <Popconfirm
-                          title="Bạn có chắc chắn xác nhận hồ sơ"
-                          onConfirm={() => this.confirm()}
-                          onCancel={this.cancel}
-                          okText="Yes"
-                          cancelText="No"
-                        >
-                          <span
-                            className="btn-add-user"
-                            // onClick={this.handleSend}
-                          >
-                            Xác nhận
-                          </span>
-                        </Popconfirm>
-                      </li>
-                    ) : (
-                      "Bạn chỉ có thể xem (nhân viên đang chỉnh hồ sơ của mình)"
-                    )} */}
                   </ul>
                 </div>
               </div>

@@ -106,7 +106,7 @@ export default class NotifiDepartment extends Component {
       <div className="content-background2">
         <Steps current={value} size="small" className="process-work-flow">
           {this.renderWorkflow()}
-          <Step title="Đóng hồ sơ" />
+          <Step title="Hồ sơ sẵn sàng" />
         </Steps>
         <div style={{ minHeight: "70vh" }} className="edit-infor" disabled>
           <div className="edit-infor-tabs">

@@ -129,7 +129,7 @@ const AddAndUpdateInforUser = (props) => {
     <div className="content-background2" style={{ width: "100%" }}>
       <Steps current={value} size="small" className="process-work-flow">
             {renderWorkflow()}
-            <Step title="Đóng hồ sơ" />
+            <Step title="Hồ sơ sẵn sàng" />
         </Steps>
         {value == 2 ? (
             <li className="tabs-main-left-li btn-confirm-reject ">
