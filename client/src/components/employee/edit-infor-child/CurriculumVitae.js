@@ -670,9 +670,7 @@ class CurriculumVitae extends Component {
                         <DatePicker
                           placeholder="Chọn ngày"
                           value={
-                            this.state.pro_birth_day == null || this.state.pro_birth_day == "1970-01-01 08:00:00" 
-                            || this.state.pro_birth_day == "Thu Jan 01 1970 08:00:00 GMT+0800 (Indochina Time)"
-                            || this.state.pro_birth_day == "1970-01-01"
+                            this.state.pro_birth_day == null || moment(this.state.pro_birth_day,dateFormat) == "1970-01-01"
                               ? null
                               : moment(this.state.pro_birth_day, dateFormat)
                           }
@@ -805,7 +803,7 @@ class CurriculumVitae extends Component {
                         <DatePicker
                           placeholder="Chọn ngày"
                           value={
-                            this.state.pro_identity_card_when == null || this.state.pro_identity_card_when == "1970-01-01 08:00:00"
+                            this.state.pro_identity_card_when == null || moment(this.state.pro_identity_card_when,dateFormat) == "1970-01-01"
                               ? null
                               : moment(
                                   this.state.pro_identity_card_when,
@@ -963,7 +961,7 @@ class CurriculumVitae extends Component {
                         <DatePicker
                           placeholder="Chọn ngày"
                           value={
-                            this.state.appointment_date == null || this.state.appointment_date == "1970-01-01 08:00:00"
+                            this.state.appointment_date == null || moment(this.state.appointment_date,dateFormat) == "1970-01-01"
                               ? null
                               : moment(this.state.appointment_date, dateFormat)
                           }
@@ -1039,16 +1037,14 @@ class CurriculumVitae extends Component {
                               ? null
                               : [
                                   this.state.deg_begin_study == null ||
-                                  this.state.deg_begin_study ==
-                                    "Thu Jan 01 1970 08:00:00 GMT+0800 (Indochina Time)"
+                                  moment(this.state.deg_begin_study,dateFormat) == "1970-01-01"
                                     ? null
                                     : moment(
                                         this.state.deg_begin_study,
                                         dateFormat
                                       ),
                                   this.state.deg_end_study == null ||
-                                  this.state.deg_end_study ==
-                                    "Thu Jan 01 1970 08:00:00 GMT+0800 (Indochina Time)"
+                                  moment(this.state.deg_end_study,dateFormat) == "1970-01-01"
                                     ? null
                                     : moment(
                                         this.state.deg_end_study,
@@ -1124,7 +1120,7 @@ class CurriculumVitae extends Component {
                           placeholder="Chọn ngày"
                           placeholder="Chọn ngày"
                           value={
-                            this.state.car_number_day == null || this.state.car_number_day == "Thu Jan 01 1970 08:00:00 GMT+0800 (Indochina Time)"
+                            this.state.car_number_day == null ||  moment(this.state.car_number_day,dateFormat) == "1970-01-01"
                               ? null
                               : moment(this.state.car_number_day, dateFormat)
                           }
@@ -1149,16 +1145,14 @@ class CurriculumVitae extends Component {
                             ? null
                             : [
                                 this.state.car_begin == null ||
-                                this.state.car_begin ==
-                                  "Thu Jan 01 1970 08:00:00 GMT+0800 (Indochina Time)"
+                                moment(this.state.car_begin,dateFormat) == "1970-01-01"
                                   ? null
                                   : moment(
                                       this.state.car_begin,
                                       dateFormat
                                     ),
                                 this.state.car_end == null ||
-                                this.state.car_end ==
-                                  "Thu Jan 01 1970 08:00:00 GMT+0800 (Indochina Time)"
+                                moment(this.state.car_end,dateFormat) == "1970-01-01"
                                   ? null
                                   : moment(
                                       this.state.car_end,

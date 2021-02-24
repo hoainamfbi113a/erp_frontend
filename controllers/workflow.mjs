@@ -20,9 +20,7 @@ router.get('/detail', async (req,res)=>{
   res.send(data);
 })
 router.post('/store', async (req,res)=>{
-  // console.log(req.body)
   let { data } = await axios.post(`${process.env.apiWorkflow}/api/workflow/store`,req.body);
-    
     res.send(data);
 })
 
