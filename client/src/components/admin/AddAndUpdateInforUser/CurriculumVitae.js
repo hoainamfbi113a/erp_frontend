@@ -30,6 +30,7 @@ import { transfersProfile } from "apis/transfersApi";
 import { addUserDegrees, updateUserDegree } from "apis/userDegreesApi";
 import { workflowProfile } from "apis/workflowApi";
 import { addWorkObject, updateWorkObject } from "apis/workObjectsApi";
+import { listUser } from "apis/authenticationApi";
 import { validateInputFormUser } from "helpers/FuncHelper";
 import { showLoading, hideLoading} from "reduxToolkit/features/uiLoadingSlice"
 const { Option } = Select;
@@ -40,6 +41,7 @@ class addInformationUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      listUser:[],
       pro_id_saved: null,
       idSaved: null,
       dataUser: {},
@@ -181,11 +183,13 @@ class addInformationUser extends Component {
     let dataPosition = await getListPosition();
     let dataParts = await getListParts();
     let dataWorkflowProfile = await workflowProfile();
+    let resListUser = await listUser(100);
     this.setState({
       dataDepartment: dataDepartment.data,
       dataPosition: dataPosition.data,
       dataWorkflowProfile,
       dataParts: dataParts.data,
+      listUser:resListUser.data
     });
     this.props.uiActionCreatorsH();
   };
@@ -701,7 +705,7 @@ class addInformationUser extends Component {
   };
   // Modal Notify
   handleInputValid = (name, value) => {
-    const { isValid, errorMessage } = validateInputFormUser(name, value);
+    const { isValid, errorMessage } = validateInputFormUser(name, value, this.state.listUser);
     this.setState({
       [`valid_${name}`]: {
         isValid: isValid,
