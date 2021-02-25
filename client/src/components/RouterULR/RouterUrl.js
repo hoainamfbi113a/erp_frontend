@@ -46,23 +46,42 @@ export default class RouterUrl extends Component {
   getMajor = () => {
     let dataPermission = this.state.dataPermission;
     if(dataPermission.permissions.length >7 &&
-      dataPermission.permissions[8]&&
-       dataPermission.permissions[8].actions[4]=="Confirm"
-       && localStorage.getItem("0")==0
+       dataPermission.permissions[0].name == "Manage Profile"&&
+        dataPermission.permissions[0].actions[4]=="Confirm" &&
+        dataPermission.permissions[1].actions[4]!="Confirm"
+        ){
+      this.setState({
+        major:10,
+      })
+    }
+    if(dataPermission.permissions.length >6 &&
+       dataPermission.permissions[1].name == "Manage Department"&&
+       dataPermission.permissions[1].actions[4]=="Confirm" &&
+       dataPermission.permissions[0].actions[4]!="Confirm" 
+        ){
+      this.setState({
+        major:11,
+      })
+    }
+    if(dataPermission.permissions.length >7 &&
+       dataPermission.permissions[8]&&
+        dataPermission.permissions[8].actions[4]=="Confirm"
+        && localStorage.getItem("0")==0
+        ){
+      this.setState({
+        major:8,
+        isTrue:true
+      })
+    }
+    if(dataPermission.permissions.length>7 &&
+       dataPermission.permissions[0].actions[4]=="Confirm" &&
+       dataPermission.permissions[6].actions[4]=="Confirm"
+       && localStorage.getItem("0")!=0
        ){
-     this.setState({
-       major:8,
-       isTrue:true
-     })
-   }
-   if(dataPermission.permissions.length>7 &&
-      dataPermission.permissions[0].actions[4]=="Confirm"
-      && localStorage.getItem("0")!=0
-      ){
-     this.setState({
-       major:1,
-     })
-   }
+      this.setState({
+        major:1,
+      })
+    }
   };
   renderUrl = () => {
     if (this.state.major == 8 && this.state.isTrue === true) {
@@ -163,7 +182,8 @@ export default class RouterUrl extends Component {
       );
     } else if (this.state.major == -1) {
       return <Switch>{/* <Route component={NotFound} /> */}</Switch>;
-    } else if (this.state.major == 0) {
+    } 
+    else if (this.state.major == 0) {
       return (
         <Switch>
           <Route exact path="/user" component={ContentUserSix}></Route>
@@ -210,6 +230,55 @@ export default class RouterUrl extends Component {
           ></Route>
 
           {/* <Route component={NotFound} /> */}
+        </Switch>
+      );
+    }
+    else if (this.state.major == 11) {
+      return (
+        <Switch>
+          <Route exact path="/user" component={ContentUserSix}></Route>
+          <Route
+            exact
+            path="/notification"
+            component={ContentNotification}
+          ></Route>
+          <Route
+            exact
+            path="/mynotification"
+            component={ContentMyNotification}
+          ></Route>
+          <Route
+            path="/edit-information"
+            component={EditInformationUser}
+          ></Route>
+          <Route
+            exact
+            path="/notification"
+            component={ContentNotification}
+          ></Route>
+          {/* <Route exact path="/personal-page" component = {PersonalPage}></Route> */}
+          <Route
+            exact
+            path="/notification/general"
+            component={NotifiGenaral}
+          ></Route>
+          <Route exact path="/notification/my" component={NotifiMy}></Route>
+          <Route
+            exact
+            path="/notification/department"
+            component={NotifiDepartment}
+          ></Route>
+          <Route
+            exact
+            path="/notification/myword"
+            component={NotifiMyWord}
+          ></Route>
+          <Route
+            exact
+            path="/notification/create"
+            component={CreateNotifi}
+          ></Route>
+          <Route exact path="/department" component={ContentDepartment}></Route>
         </Switch>
       );
     }
