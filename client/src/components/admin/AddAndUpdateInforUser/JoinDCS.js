@@ -235,12 +235,12 @@ const JoinDCS = () => {
                     </li>
                   </div>
                   <li className="tabs-main-left-li">
-                    <Button
+                    <span
                       htmlType="submit"
                       className="btn-add-user btn-add-user-DCS"
                     >
                       Gửi thông tin
-                    </Button>
+                    </span>
                   </li>
                 </ul>
               </div>
