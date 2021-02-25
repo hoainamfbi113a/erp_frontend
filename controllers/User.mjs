@@ -24,11 +24,20 @@ router.get("/userpagin",async (req,res)=>{
     const config = {
       headers: { Authorization: req.headers.authorization },
     };
+    if(page == 100){
+      let { data } = await axios.get(
+        `${process.env.apiEmployee}/api/user?order=asc&page=1&per_page=80`,
+        config
+      );
+      res.send(data);
+    } else {
     let { data } = await axios.get(
       `${process.env.apiEmployee}/api/user?order=asc&page=${page}`,
       config
     );
     res.send(data);
+    }
+    
 })
 
 router.post('/login',async (req,res)=>{

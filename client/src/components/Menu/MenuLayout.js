@@ -48,63 +48,24 @@ class MenuLayout extends Component {
     // let dataSlug = this.state.slugPermission;
     let dem = 0;
     let dataPermission = this.state.dataPermission;
-    if(dataPermission.permissions.length >7 && dataPermission.permissions[8]&& dataPermission.permissions[8].actions[4]=="Confirm"){
+    if(dataPermission.permissions.length >7 &&
+       dataPermission.permissions[8]&&
+        dataPermission.permissions[8].actions[4]=="Confirm"
+        && localStorage.getItem("0")==0
+        ){
       this.setState({
         major:8,
         isTrue:true
       })
     }
-    if(dataPermission.permissions>8){
+    if(dataPermission.permissions.length>7 &&
+       dataPermission.permissions[0].actions[4]=="Confirm"
+       && localStorage.getItem("0")!=0
+       ){
       this.setState({
         major:1,
       })
     }
-    // if (dataPermission) {
-    //   for (let item of dataPermission.permissions) {
-    //     if(item.actions[4]==="Confirm" && item.slug_service_management === "position"){
-    //       this.setState({
-    //           isTrue : true
-    //       })       
-    //      }
-    //     if (
-    //         item.slug_service_management === "profile" ||
-    //         item.slug_service_management === "position" ||
-    //         item.slug_service_management === "department" ||
-    //         item.slug_service_management === "part"||
-    //         item.slug_service_management === "journalist-card"||
-    //         item.slug_service_management === "work-object"||
-    //         item.slug_service_management === "user-degree"||
-    //         item.slug_service_management === "personal-history"
-    //     ) {
-    //         dem++;
-    //     }
-    //     if (dem == 4) {
-    //         this.setState({
-    //             major:1
-    //         })
-    //     }
-    //     if (item.slug_service_management === "department") {
-    //         this.setState({
-    //             major:2
-    //         })
-    //     }
-    //     if (item.slug_service_management === "part") {
-    //         this.setState({
-    //             major:3
-    //         })
-    //     }
-    //     if (item.slug_service_management === "position") {
-    //         this.setState({
-    //             major:4
-    //         })
-    //     }
-    //     if(dem== 8){
-    //         this.setState({
-    //             major:8
-    //         })
-    //     }
-    //   }
-    // }
   };
   renderAdmin = () =>{
     if(this.state.major === 8 && localStorage.getItem("0")==0){
@@ -126,7 +87,6 @@ class MenuLayout extends Component {
     }
   }
   renderMenu = () => {
-      
     if (this.state.major == 1) {
       return (
         <SubMenu

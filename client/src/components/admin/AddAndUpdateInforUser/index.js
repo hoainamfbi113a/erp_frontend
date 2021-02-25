@@ -1,6 +1,6 @@
 import React, {
   useState,
-  useContext,
+  useReducer,
   useEffect,
   useCallback,
   useMemo,
@@ -35,11 +35,10 @@ const AddAndUpdateInforUser = (props) => {
   const [modalNotify,setModalNotify] = useState(false);
   const [step_id, setStep_id] = useState(0);
   const [workflow, setWorkflowProfile] = useState(null);
-  const [pro_id, setPro_id] = useState(0);
-  const [reload, setReload] = useState(false); 
   const renderMenuLeft = () => {
     if (activeLink === 1) {
-      return <CurriculumVitae idUser={props.match.params.id} value = {value} />;
+      return <CurriculumVitae idUser={props.match.params.id} value = {value}
+        handleReloadComponent={handleReloadComponent} />;
     }
     if (activeLink === 2) {
       return <PersonalHistory />;
@@ -77,6 +76,9 @@ const AddAndUpdateInforUser = (props) => {
     // return ""
   };
   const dataProfile = useSelector((state) => state.userProfile);
+  const fetchData = () =>{
+
+  }
   useEffect(() => {
     (async function fetchTransfer() {
       let dataWorkflowProfile = await workflowProfile();
@@ -112,8 +114,18 @@ const AddAndUpdateInforUser = (props) => {
       message.error("Duyệt hồ sơ thất bại");
     }
   };
-  const handleReloadComponent = () =>{
-    setReload(!reload)
+  const handleReloadComponent = async () =>{
+    let dataWorkflowProfile = await workflowProfile();
+    setWorkflowProfile(dataWorkflowProfile);
+    if(props.match.params.id){
+      await dispatch(getUserProfile(props.match.params.id)); // get id profile
+      if(Object.keys(dataProfile).length != 0){
+          let dataTransfersProfile = {}
+          dataTransfersProfile = await transfersProfile(dataProfile.id);
+          setStep_id(dataTransfersProfile.data.next_step_id)
+      }
+    }
+    // forceUpdate(n => !n)
   }
   let value = 0;
   if (step_id === 1) {
@@ -125,6 +137,7 @@ const AddAndUpdateInforUser = (props) => {
   } else if (step_id === null) {
       value = 3;
   }
+  const [, forceUpdate] = React.useState(0);
   return (
     <div className="content-background2" style={{ width: "100%" }}>
       <Steps current={value} size="small" className="process-work-flow">
@@ -219,7 +232,7 @@ const AddAndUpdateInforUser = (props) => {
             actionModal={modalNotify}
             pro_id={dataProfile.id}
             closeDeny={()=>{setModalNotify(false)}}
-            handleReloadComponent={handleReloadComponent}
+            handleReloadComponent={()=>handleReloadComponent}
         />
     </div>
   );

@@ -101,6 +101,8 @@ export default class NotifiDepartment extends Component {
       value = 1;
     } else if (step_id === 3) {
       value = 2;
+    } else {
+      value = 3
     }
     return (
       <div className="content-background2">
