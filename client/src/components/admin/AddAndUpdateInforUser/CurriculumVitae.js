@@ -398,7 +398,7 @@ class addInformationUser extends Component {
     }
   };
   handleAdd = async (value) => {
-    this.props.uiActionCreatorsS();
+    // this.props.uiActionCreatorsS();
     let messageErr = 0;
     let userId = 0;
     let proId = 0;

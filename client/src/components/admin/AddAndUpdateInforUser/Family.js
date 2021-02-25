@@ -20,6 +20,14 @@ const Family = () => {
   const hideModal = () => {
     setVisible(false);
   };
+  const [visible1, setVisible1] = useState(false);
+  const showModal1 = () => {
+    setVisible1(true);
+  };
+
+  const hideModal1 = () => {
+    setVisible1(false);
+  };
   const onSubmit = () => {};
   return (
     <div className="edit-infor-form">
@@ -50,7 +58,7 @@ const Family = () => {
             </li>
           </ul>
           <Button
-            onClick={showModal}
+            onClick={showModal1}
             className="btn-add-detail"
             icon={<PlusCircleOutlined />}
           >
@@ -158,6 +166,45 @@ const Family = () => {
       </div>
       <Modal
         title="Nhập thông tin"
+        visible={visible1}
+        onOk={hideModal1}
+        onCancel={hideModal1}
+        okText="OK"
+        cancelText="Cancel"
+        width={577}
+      >
+        <form
+          style={{ width: "100%" }}
+          className="tabs-main"
+          noValidate
+          // onSubmit={this.onSubmit}
+          method="post"
+        >
+          <ul>
+            <li className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row-clear">
+                      <span className="tabs-user-infor-top">Tên tài sản:</span>
+                      <div className="tabs-user-infor-bottom">
+                        <Input
+                          name="pro_religion" style={{width:"100%"}}
+                          // defaultValue={ state.pro_religion }
+                          placeholder=""
+                        />
+                      </div>
+                    </li>
+            <li className="tabs-main-left-li">
+              <span className="tabs-user-infor-top"></span>
+              <div className="tabs-user-infor-bottom">
+                <TextArea style={{width:"100%"}}
+                  placeholder="Mời bạn nhập chi tiết"
+                  autoSize={{ minRows: 7, maxRows: 15 }}
+                />
+              </div>
+            </li>
+          </ul>
+        </form>
+      </Modal>
+      <Modal
+        title="Nhập thông tin"
         visible={visible}
         onOk={hideModal}
         onCancel={hideModal}
@@ -182,21 +229,31 @@ const Family = () => {
                   style={{ width: 527 }}
                   // onChange={handleChange}
                 >
-                  <Option value="jack">Nhà</Option>
-                  <Option value="lucy">Gia đình</Option>
-                  <Option value="disabled">Quan hệ thân tộc</Option>
-                  <Option value="educate">Quan hệ xã hội</Option>
+                  <Option value="jack">Vợ </Option>
+                  <Option value="lucy">Con</Option>
                 </Select>
               </div>
             </li>
-            <li className="tabs-main-left-li tabs-main-left-li-row">
-              <span className="tabs-user-infor-top">Từ ngày</span>
-              <div className="tabs-user-infor-bottom">
-                <RangePicker
-                  className="modal-ranPicker"
-                />
-              </div>
-            </li>
+            <li  className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row-clear">
+                      <span className="tabs-user-infor-top">Họ và tên:</span>
+                      <div className="tabs-user-infor-bottom">
+                        <Input style={{width:"100%"}}
+                          name="pro_religion"
+                          // defaultValue={ state.pro_religion }
+                          placeholder="Họ và tên"
+                        />
+                      </div>
+                    </li>
+            <li className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row-clear">
+                      <span className="tabs-user-infor-top">Nghề nghiệp:</span>
+                      <div className="tabs-user-infor-bottom">
+                        <Input style={{width:"100%"}}
+                          name="pro_religion"
+                          // defaultValue={ state.pro_religion }
+                          placeholder="Nghề nghiệp"
+                        />
+                      </div>
+                    </li>
             <li className="tabs-main-left-li">
               <span className="tabs-user-infor-top"></span>
               <div className="tabs-user-infor-bottom">

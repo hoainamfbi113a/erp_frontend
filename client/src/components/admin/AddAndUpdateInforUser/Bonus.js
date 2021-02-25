@@ -100,7 +100,7 @@ const Bonus = (props) => {
         </div>
       </div>
       <div className="tabs-main personal-history">
-        <div className="personal-history-title">Bồi dưỡng:</div>
+        <div className="personal-history-title">Kỷ luật:</div>
         <div>
           <div className="edit-infr-vertical-line"></div>
           <ul className="personal-history-list">
