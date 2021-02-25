@@ -209,7 +209,7 @@ export default class RouterUrl extends Component {
             component={CreateNotifi}
           ></Route>
 
-          <Route component={NotFound} />
+          {/* <Route component={NotFound} /> */}
         </Switch>
       );
     }
