@@ -529,28 +529,27 @@ class addInformationUser extends Component {
       if (messageErr == 0) {
         message.success("Thêm thông tin nhân sự thành công");
         this.props.uiActionCreatorsH();
-        this.props.history.push(`/edituser/${userId}`);
         this.setState({
           idSaved: userId,
           pro_id_saved: proId,
         });
+        this.props.history.push(`/edituser/${userId}`);
+        
       } else {
         message.error("Thêm thông tin nhân sự thất bại");
       }
     }
     this.props.uiActionCreatorsH();
+    window.location.reload();
   };
   handleEdit = async (value) => {
-    
     await this.handleInputValid("pro_name", this.state.pro_name);
-    await this.handleInputValid("email", this.state.email);
     await this.handleInputValid("phone", this.state.phone);
     await this.handleInputValid("part", this.state.par_id);
     await this.handleInputValid("department", this.state.dep_id);
     await this.handleInputValid("position", this.state.pos_id);
     if (
       !this.state.valid_pro_name.isValid &&
-      !this.state.valid_email.isValid &&
       !this.state.valid_phone.isValid &&
       !this.state.valid_part.isValid &&
       !this.state.valid_department.isValid &&
@@ -598,7 +597,7 @@ class addInformationUser extends Component {
         action: "create",
       };
       let resUpdateProfile = await updateProfile(pro_id, params);
-      if (resUpdateProfile.message == "Success!. Updated") {
+      if (resUpdateProfile && resUpdateProfile.message == "Success!. Updated") {
       } else {
         messageErr = 2;
       }
@@ -844,7 +843,7 @@ class addInformationUser extends Component {
                       ) : null}
                     </li>
                     <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">Email cá nhân
+                      <span className="tabs-user-infor-top">Email cá nhân:
                       <span>*</span>
                       </span>
                       <div className="tabs-user-infor-bottom">
@@ -869,7 +868,7 @@ class addInformationUser extends Component {
                     </li>
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
-                        Mật khẩu đăng nhập
+                        Mật khẩu đăng nhập:
                         <span>*</span>
                       </span>
                       <div className="tabs-user-infor-bottom">
@@ -883,7 +882,7 @@ class addInformationUser extends Component {
                       </div>
                     </li>
                     <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">Số điện thoại
+                      <span className="tabs-user-infor-top">Số điện thoại:
                       <span>*</span></span>
                       <div className="tabs-user-infor-bottom">
                         <Input
@@ -929,7 +928,7 @@ class addInformationUser extends Component {
                       </div>
                     </li>
                     <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">Ngày sinh</span>
+                      <span className="tabs-user-infor-top">Ngày sinh:</span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                         <DatePicker
                           placeholder="Chọn ngày"
