@@ -564,16 +564,16 @@ class addInformationUser extends Component {
         pro_id = this.state.pro_id_saved;
       }
       let messageErr = 0;
-      // let paramsUser = {
-      //   full_name: this.state.pro_name,
-      //   email: this.state.email,
-      //   phone: this.state.phone,
-      // };
-      // let resUpdateUser = await updateUser(userId, paramsUser);
-      // if (resUpdateUser.message === "Success!. Stored") {
-      // } else {
-      //   messageErr: 1;
-      // }
+      let paramsUser = {
+        full_name: this.state.pro_name,
+        email: this.state.email,
+        phone: this.state.phone,
+      };
+      let resUpdateUser = await updateUser(userId, paramsUser);
+      if (resUpdateUser.message === "Success!. Stored") {
+      } else {
+        messageErr: 1;
+      }
  
       let params = {
         user_id: userId,
