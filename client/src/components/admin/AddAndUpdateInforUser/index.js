@@ -115,6 +115,7 @@ const AddAndUpdateInforUser = (props) => {
     }
   };
   const handleReloadComponent = async () =>{
+   
     let dataWorkflowProfile = await workflowProfile();
     setWorkflowProfile(dataWorkflowProfile);
     if(props.match.params.id){
@@ -125,7 +126,6 @@ const AddAndUpdateInforUser = (props) => {
           setStep_id(dataTransfersProfile.data.next_step_id)
       }
     }
-    // forceUpdate(n => !n)
   }
   let value = 0;
   if (step_id === 1) {

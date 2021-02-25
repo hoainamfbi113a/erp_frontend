@@ -398,7 +398,7 @@ class addInformationUser extends Component {
     }
   };
   handleAdd = async (value) => {
-    // this.props.uiActionCreatorsS();
+    this.props.uiActionCreatorsS();
     let messageErr = 0;
     let userId = 0;
     let proId = 0;
@@ -533,14 +533,14 @@ class addInformationUser extends Component {
           idSaved: userId,
           pro_id_saved: proId,
         });
+        // await this.fetchData();
         this.props.history.push(`/edituser/${userId}`);
-        
+        this.props.handleReloadComponent();
       } else {
         message.error("Thêm thông tin nhân sự thất bại");
       }
     }
     this.props.uiActionCreatorsH();
-    window.location.reload();
   };
   handleEdit = async (value) => {
     await this.handleInputValid("pro_name", this.state.pro_name);
@@ -574,8 +574,9 @@ class addInformationUser extends Component {
       } else {
         messageErr: 1;
       }
+ 
       let params = {
-        user_id: this.state.user_id,
+        user_id: userId,
         pro_name: this.state.pro_name,
         pro_pen_name: this.state.pro_pen_name,
         pro_birth_day: Date.parse(this.state.pro_birth_day) / 1000,
@@ -596,6 +597,7 @@ class addInformationUser extends Component {
         button: value,
         action: "create",
       };
+      // console.log(params)
       let resUpdateProfile = await updateProfile(pro_id, params);
       if (resUpdateProfile && resUpdateProfile.message == "Success!. Updated") {
       } else {
@@ -603,7 +605,7 @@ class addInformationUser extends Component {
       }
       let paramsDepartment = {
         pro_id: pro_id,
-        user_id: this.state.user_id,
+        user_id: userId,
         dep_id: this.state.dep_id,
         pos_id: this.state.pos_id,
         part_id: this.state.par_id,
@@ -618,7 +620,7 @@ class addInformationUser extends Component {
         messageErr = 4;
       }
       let paramsUserDegrees = {
-        user_id: this.state.user_id,
+        user_id: userId,
         pro_id: pro_id,
         deg_type: this.state.deg_type,
         deg_diploma: this.state.deg_diploma,
@@ -637,7 +639,7 @@ class addInformationUser extends Component {
         messageErr = 6;
       }
       let paramsWorkObjects = {
-        user_id: this.state.user_id,
+        user_id: userId,
         pro_id: pro_id,
         work_formality: this.state.work_formality,
         work_note: this.state.work_note,
@@ -652,7 +654,7 @@ class addInformationUser extends Component {
         messageErr = 8;
       }
       let paramsJournalistCards = {
-        user_id: this.state.user_id,
+        user_id: userId,
         pro_id: pro_id,
         car_number: this.state.car_number,
         car_number_day: Date.parse(this.state.car_number_day),
@@ -673,12 +675,7 @@ class addInformationUser extends Component {
       this.props.uiActionCreatorsH();
       if (messageErr == 0) {
         message.success("Cập nhât thông tin thành công");
-        // this.props.handleReloadComponent;
-
-        if(value =="send") {
-          window.location.reload();
-        }
-        // // window.location.reload();
+        this.props.handleReloadComponent();
       } else {
         message.error("Cập nhật thất bại");
       }
