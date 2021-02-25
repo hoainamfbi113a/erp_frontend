@@ -51,6 +51,7 @@ class addInformationUser extends Component {
       dataPosition: null,
       dataWorkflowProfile: null,
       dataParts: null,
+      dataPartsInit:null,
       user_id: null,
       pro_id: null,
       pro_name: null,
@@ -155,8 +156,16 @@ class addInformationUser extends Component {
       }
     }
     if (prevState.dep_id !== this.state.dep_id) {
+      let arrParts = this.state.dataPartsInit;
+      let idDep = this.state.dep_id
+      let arrPartOfDep = []
+      for(let item of arrParts) {
+        if(idDep === item.dep_id){
+          arrPartOfDep.push(item)
+        }
+      }
       this.setState({
-        dataParts: [],
+        dataParts: arrPartOfDep,
       });
     }
     if (prevState.searchPart !== this.state.searchPart) {
@@ -189,6 +198,7 @@ class addInformationUser extends Component {
       dataPosition: dataPosition.data,
       dataWorkflowProfile,
       dataParts: dataParts.data,
+      dataPartsInit:dataParts.data,
       listUser:resListUser.data
     });
     this.props.uiActionCreatorsH();
@@ -370,6 +380,7 @@ class addInformationUser extends Component {
     );
   };
   renderParts = () => {
+    // console.log(this.state.dataParts)
     if (this.state.dataParts !== null) {
       return this.state.dataParts.map((item) => {
         return (
