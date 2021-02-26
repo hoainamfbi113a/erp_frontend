@@ -4,25 +4,24 @@ import { useHistory } from "react-router-dom";
 import { Spin } from "antd";
 import { ValidateEmail, ValidateField } from "helpers/FuncHelper";
 import { message } from "antd";
-import docCookies from "doc-cookies";
-import { withRouter } from "react-router-dom";
+import {sleep} from "helpers/FuncHelper"
 import "./Login.css";
 import logologin from "assets/images/logoFix1.png";
 import background from "assets/images/bgd.jpg";
 import { useForm } from "react-hook-form";
-import { getLogin} from "reduxToolkit/features/authencationSlice"
-import { showLoading, hideLoading} from "reduxToolkit/features/uiLoadingSlice"
+import { getLogin } from "reduxToolkit/features/authencationSlice";
+import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 let emailUser = "";
 const Logins = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const { push } = useHistory();
-  const [activeErrEmail, setActiveErrEmail] = useState(false)
-  const [activeErrPassWord, setActiveErrPassWord] = useState(false)
-  const [errEmail, setErrEmail] = useState("err")
-  const [errPassword, setErrPassword] = useState("err")
-  const [isVibrate, setIsVibrate] = useState(false)
-  const sleep = (m) => new Promise((r) => setTimeout(r, m));
-  const onSubmitForm = async(formData) => {
+  const [activeErrEmail, setActiveErrEmail] = useState(false);
+  const [activeErrPassWord, setActiveErrPassWord] = useState(false);
+  const [errEmail, setErrEmail] = useState("err");
+  const [errPassword, setErrPassword] = useState("err");
+  const [isVibrate, setIsVibrate] = useState(false);
+  // const sleep = (m) => new Promise((r) => setTimeout(r, m));
+  const onSubmitForm = async (formData) => {
     // dispatch(showLoading())
     emailUser = formData.email;
     let errEmail = ValidateEmail(formData.email, 8);
@@ -33,50 +32,51 @@ const Logins = () => {
         password: formData.password,
         user_ip: "123",
         user_agent: navigator.userAgent,
-      }
+      };
       dispatch(showLoading());
       await dispatch(getLogin(params));
     } else {
       if (errEmail !== "pass" && errPassword !== "pass") {
-          setErrEmail(errEmail);
-          setErrPassword(errPassword);
-          setActiveErrEmail(true);
-          setActiveErrPassWord(true);
-          setIsVibrate(true);
+        setErrEmail(errEmail);
+        setErrPassword(errPassword);
+        setActiveErrEmail(true);
+        setActiveErrPassWord(true);
+        setIsVibrate(true);
       } else if (errEmail != "pass") {
-          setErrEmail(errEmail);
-          setActiveErrEmail(true);
-          setActiveErrPassWord(false);
-          setIsVibrate(true);
+        setErrEmail(errEmail);
+        setActiveErrEmail(true);
+        setActiveErrPassWord(false);
+        setIsVibrate(true);
       } else if (errPassword != "pass") {
         setErrPassword(errPassword);
         setActiveErrPassWord(true);
         setActiveErrEmail(false);
         setIsVibrate(true);
       }
-      setTimeout(() => {
-        setIsVibrate(false);
-      }, 300);
+      await sleep(300);
+      setIsVibrate(false);
     }
-    
-  }
-  const respLogin = useSelector(state => state.authen);
-  useEffect (async ()=>{
-    if(respLogin && respLogin.message === "Đăng nhập thành công!") {
-      if(emailUser === "manager0@gmail.com"){
-        localStorage.setItem("0","0")
+  };
+  const respLogin = useSelector((state) => state.authen);
+  useEffect(async () => {
+    if (respLogin && respLogin.message === "Đăng nhập thành công!") {
+      if (emailUser === "manager0@gmail.com") {
+        localStorage.setItem("0", "0");
       }
-      await sleep(1000)
-      dispatch(hideLoading())
+      await sleep(1000);
+      dispatch(hideLoading());
       push("/");
-    } else if (respLogin && respLogin.message === "Email hoặc mật khẩu không đúng!") {
-        setActiveErrEmail(false);
-        setActiveErrPassWord(false);
-        await sleep(1000)
-        dispatch(hideLoading())
-        message.error("Email hoặc mật khẩu không đúng!");
-      } 
-  },[respLogin])
+    } else if (
+      respLogin &&
+      respLogin.message === "Email hoặc mật khẩu không đúng!"
+    ) {
+      setActiveErrEmail(false);
+      setActiveErrPassWord(false);
+      await sleep(1000);
+      dispatch(hideLoading());
+      message.error("Email hoặc mật khẩu không đúng!");
+    }
+  }, [respLogin]);
   const { register, handleSubmit, errors, watch } = useForm();
   return (
     <div>
@@ -111,13 +111,10 @@ const Logins = () => {
                   placeholder="Email đăng nhập"
                   type="text"
                   className={
-                    "form__input " 
-                    + (activeErrEmail == true &&
-                    isVibrate == true
-                      ? "error"
-                      : "")
+                    "form__input " +
+                    (activeErrEmail == true && isVibrate == true ? "error" : "")
                   }
-                  ref= {register}
+                  ref={register}
                   name="email"
                 />
                 <i
@@ -140,12 +137,12 @@ const Logins = () => {
                   <label>Mật khẩu</label>
                 </div>
                 <input
+                  autoComplete="on"
                   placeholder="Mật khẩu"
                   type="password"
                   className={
-                    "form__input " 
-                    + (activeErrPassWord == true &&
-                    isVibrate == true
+                    "form__input " +
+                    (activeErrPassWord == true && isVibrate == true
                       ? "error"
                       : "")
                   }

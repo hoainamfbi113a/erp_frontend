@@ -26,6 +26,7 @@ module.exports = (env, agrv) => {
       new webpack.DefinePlugin({
         "process.env": JSON.stringify(dotenv.parsed),
       }),
+      // ['import', { libraryName: 'antd', libraryDirectory: 'lib', style: true }],
     ],
 
     module: {
@@ -44,7 +45,7 @@ module.exports = (env, agrv) => {
         },
         {
           test: /\.less$/,
-          use: ["style-loader", "css-loader", "less-loader"],
+          use: ["style-loader", {loader: 'css-loader', options: {sourceMap: 1}}, "postcss-loader", "less-loader"],
         },
         {
           test: /\.(png|svg|jpg|gif|jpeg)$/,

@@ -23,11 +23,10 @@ import Kinship from "./Kinship";
 import Social from "./Social";
 import Notify from "components/Modal/Notify";
 import { getUserProfile } from "reduxToolkit/features/userProfileSlice";
+import { showLoading, hideLoading} from "reduxToolkit/features/uiLoadingSlice"
 import {
     Steps,
   } from "antd";
-import { object } from "prop-types";
-import { data } from "jquery";
   const { Step } = Steps;
 const AddAndUpdateInforUser = (props) => {
   const dispatch = useDispatch()
@@ -35,10 +34,15 @@ const AddAndUpdateInforUser = (props) => {
   const [modalNotify,setModalNotify] = useState(false);
   const [step_id, setStep_id] = useState(0);
   const [workflow, setWorkflowProfile] = useState(null);
+  const [profile, setProfile] = useState({})
+  const dataProfile = useSelector((state) => state.userProfile);
+  // console.log(profile)
   const renderMenuLeft = () => {
     if (activeLink === 1) {
       return <CurriculumVitae idUser={props.match.params.id} value = {value}
-        handleReloadComponent={handleReloadComponent} />;
+        handleReloadComponent={handleReloadComponent}
+        dataProfile = {profile}
+         />;
     }
     if (activeLink === 2) {
       return <PersonalHistory />;
@@ -75,14 +79,14 @@ const AddAndUpdateInforUser = (props) => {
     }
     // return ""
   };
-  const dataProfile = useSelector((state) => state.userProfile);
-  const fetchData = () =>{
 
-  }
   useEffect(() => {
+   
     (async function fetchTransfer() {
+      dispatch(showLoading())
       let dataWorkflowProfile = await workflowProfile();
       setWorkflowProfile(dataWorkflowProfile);
+      setProfile(dataProfile)
       if(props.match.params.id){
         await dispatch(getUserProfile(props.match.params.id)); // get id profile
         if(Object.keys(dataProfile).length != 0){
@@ -93,6 +97,7 @@ const AddAndUpdateInforUser = (props) => {
       }
     })
     ();
+    // dispatch(hideLoading())
   }, [dataProfile.id]);
   const handleReject = () =>{
     setModalNotify(true);
@@ -155,7 +160,6 @@ const AddAndUpdateInforUser = (props) => {
                 </span>
                 <span
                     onClick={handleConfirm}
-                    htmlType="submit"
                     className="btn-no-confirm btn-add-user"
                     style={{ marginBottom: "10px", width: "140px" }}
                 >

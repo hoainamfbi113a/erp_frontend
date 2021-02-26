@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Input } from "antd";
 import { Button, Pagination } from "antd";
-import "./notification.css"
+import "./notification.css";
 
 export default class NotifiGenaral extends Component {
   render() {
@@ -86,12 +86,24 @@ export default class NotifiGenaral extends Component {
                 </td>
                 <td>09:15</td>
               </tr>
+              <tr>
+                <td>
+                  <div className="content-notification-table-btn">
+                    Thông báo
+                  </div>
+                </td>
+                <td>
+                  Kính gửi Cán bộ nhân viên và người lao động, Cơ quan tổ chức
+                  khám sức khỏe tổng quát cho cán bộ nhân viên và người lao động
+                  (CBNV) trong 2 ngày...
+                </td>
+                <td>09:15</td>
+              </tr>
             </tbody>
           </table>
-          <div className="content-bottom">
-                <Pagination defaultCurrent={1} total={50} />
-            </div>
-
+          <div className="content-bottom-pagination">
+            <Pagination defaultCurrent={1} total={50} />
+          </div>
         </div>
       </div>
     );

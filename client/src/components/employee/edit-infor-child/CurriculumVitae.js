@@ -19,10 +19,11 @@ import { updateUserDegree } from "apis/userDegreesApi";
 import { updateWorkObject } from "apis/workObjectsApi";
 import { updateJournalistCards } from "apis/journalistCardsApi";
 import { validateInputFormUser } from "helpers/FuncHelper";
-import { Select } from 'antd';
+import { Select } from "antd";
 const { Option } = Select;
-import { showLoading, hideLoading} from "reduxToolkit/features/uiLoadingSlice"
+import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 import { bindActionCreators } from "redux";
+import {sleep} from "helpers/FuncHelper";
 const dateFormat = "YYYY/MM/DD";
 class CurriculumVitae extends Component {
   constructor(props) {
@@ -315,15 +316,15 @@ class CurriculumVitae extends Component {
     });
   };
   componentDidMount = async () => {
-    this.props.uiActionCreatorsS();
-    await this.fetchData();
-    this.props.uiActionCreatorsH();
+    this.fetchData()
   };
   fetchData = async () => {
-    this.fetchDataUser();
-    this.fetchDepartment();
-    this.fetchPosition();
-    this.fetchPart();
+    this.props.uiActionCreatorsS();
+    await this.fetchDataUser();
+    await this.fetchDepartment();
+    await this.fetchPosition();
+    await this.fetchPart();
+    this.props.uiActionCreatorsH();
   };
   fetchPart = async () => {
     let res = await getListParts();
@@ -334,7 +335,7 @@ class CurriculumVitae extends Component {
     } else {
       message.error("get list parts failed");
     }
-  }
+  };
   fetchPosition = async () => {
     let res = await getListPosition(1);
     if (!res.err) {
@@ -381,7 +382,10 @@ class CurriculumVitae extends Component {
       user_id: data.user_id,
       pro_name: data.pro_name,
       pro_pen_name: data.pro_pen_name,
-      pro_birth_day: data.pro_birth_day,
+      pro_birth_day:
+        data.pro_birth_day.indexOf("1970-01-01") == 0
+          ? null
+          : data.pro_birth_day,
       pro_gender: data.pro_gender,
       pro_birth_place: data.pro_birth_place,
       pro_home_town: data.pro_home_town,
@@ -392,48 +396,57 @@ class CurriculumVitae extends Component {
       pro_background_origin: data.pro_background_origin,
       pro_occupation: data.pro_occupation,
       pro_identity_card: data.pro_identity_card,
-      pro_identity_card_when: data.pro_identity_card_when,
+      pro_identity_card_when:
+        data.pro_identity_card_when.indexOf("1970-01-01") == 0
+          ? null
+          : data.pro_identity_card_when,
       pro_identity_card_where: data.pro_identity_card_where,
       pro_note: data.pro_note,
       dep_id: data.department.data.dep_id,
       pos_id: data.department.data.pos_id,
       par_id: data.department.data.part_id,
       appointment_date:
-        // new Date(
-        data.department.data.appointment_date,
-      // * 1000)
+        data.department &&
+        data.department.data.appointment_date.indexOf("1970-01-01") != 0
+          ? data.department.data.appointment_date
+          : null,
       deg_type: data.userDegree ? data.userDegree.data.deg_type : "",
       deg_diploma: data.userDegree ? data.userDegree.data.deg_diploma : "",
       deg_majors: data.userDegree ? data.userDegree.data.deg_majors : "",
       deg_school_name: data.userDegree
         ? data.userDegree.data.deg_school_name
         : "",
-      deg_begin_study: data.userDegree
-        ? new Date(data.userDegree.data.deg_begin_study * 1000)
-        : null,
-      deg_end_study: data.userDegree
-        ? new Date(data.userDegree.data.deg_end_study * 1000)
-        : null,
+      deg_begin_study:
+        data.userDegree && data.userDegree.data.deg_begin_study != null
+          ? new Date(data.userDegree.data.deg_begin_study * 1000)
+          : null,
+      deg_end_study:
+        data.userDegree && data.userDegree.data.deg_end_study != null
+          ? new Date(data.userDegree.data.deg_end_study * 1000)
+          : null,
       deg_note: data.userDegree ? data.userDegree.data.deg_note : "",
       work_formality: data.workObject ? data.workObject.data.formality : "",
       work_note: data.workObject ? data.workObject.data.work_note : "",
       car_number: data.journalistCard
-      ? data.journalistCard.data.car_number
-      : "",
-    car_number_day: data.journalistCard
-      ? new Date(data.journalistCard.data.car_number_day)
-      : null,
-    car_begin: data.journalistCard
-      ? new Date(data.journalistCard.data.car_begin * 1000)
-      : null,
-    car_end: data.journalistCard
-      ? new Date(data.journalistCard.data.car_end * 1000)
-      : null,
-    car_note: data.journalistCard ? data.journalistCard.data.car_note : "",
-    idDepartment: data.department ? data.department.data.id : "",
-    idUserDegree: data.userDegree ? data.userDegree.data.id : "",
-    idWorkObject: data.workObject ? data.workObject.data.id : "",
-    idJou: data.journalistCard ? data.journalistCard.data.id : "",
+        ? data.journalistCard.data.car_number
+        : "",
+      car_number_day:
+        data.journalistCard && data.journalistCard.data.car_number_day != null
+          ? new Date(data.journalistCard.data.car_number_day)
+          : null,
+      car_begin:
+        data.journalistCard && data.journalistCard.data.car_begin != null
+          ? new Date(data.journalistCard.data.car_begin * 1000)
+          : null,
+      car_end:
+        data.journalistCard && data.journalistCard.data.car_end != null
+          ? new Date(data.journalistCard.data.car_end * 1000)
+          : null,
+      car_note: data.journalistCard ? data.journalistCard.data.car_note : "",
+      idDepartment: data.department ? data.department.data.id : "",
+      idUserDegree: data.userDegree ? data.userDegree.data.id : "",
+      idWorkObject: data.workObject ? data.workObject.data.id : "",
+      idJou: data.journalistCard ? data.journalistCard.data.id : "",
     });
   };
   handleSearchDepartment(value) {
@@ -505,7 +518,6 @@ class CurriculumVitae extends Component {
   renderPosition = () => {
     if (this.state.dataPosition !== null) {
       return this.state.dataPosition.map((item) => {
-        
         return (
           <Option key={item.id} value={item.id}>
             {item.pos_name}
@@ -531,68 +543,56 @@ class CurriculumVitae extends Component {
         dep_id: value,
       },
       async () => {
-      await  this.handleInputValid("department", value);
+        await this.handleInputValid("department", value);
       }
     );
   };
-  
+
   handleChangePosition = (value) => {
     this.setState(
       {
         pos_id: value,
       },
-     async () => {
-     await  this.handleInputValid("position", value);
+      async () => {
+        await this.handleInputValid("position", value);
       }
     );
   };
- 
+
   handleChangeParts = (value) => {
     this.setState(
       {
         par_id: value,
       },
-     async () => {
-     await this.handleInputValid("part", value);
+      async () => {
+        await this.handleInputValid("part", value);
       }
     );
   };
   renderButton = (value) => {
-    if(value === 0) {
-      return (
-        <p className ="text-feedback-user">Hồ sơ chưa mở</p>
-      )
+    if (value === 0) {
+      return <p className="text-feedback-user">Hồ sơ chưa mở</p>;
     } else if (value === 1) {
       return (
-      <p className ="text-feedback-user">  Nhân sự đang tạo hồ sơ cho bạn! </p>
-      )
+        <p className="text-feedback-user"> Nhân sự đang tạo hồ sơ cho bạn! </p>
+      );
     } else if (value === 2) {
       return (
         <li className="tabs-main-left-li tabs-main-left-li-submit">
-        <span
-          className="btn-add-user"
-          onClick={this.handleSave}
-        >
-          Lưu
-        </span>
-        <span
-          className="btn-add-user"
-          onClick={this.handleSend}
-        >
-          Xác nhận
-        </span>
-      </li>
-      )
-    } else if (value ===3) {
-      return (
-        <p className ="text-feedback-user">Hồ sơ đang chờ duyệt</p>
-      )
+          <span className="btn-add-user" onClick={this.handleSave}>
+            Lưu
+          </span>
+          <span className="btn-add-user" onClick={this.handleSend}>
+            Xác nhận
+          </span>
+        </li>
+      );
+    } else if (value === 3) {
+      return <p className="text-feedback-user">Hồ sơ đang chờ duyệt</p>;
     } else {
-      return (
-        <p className ="text-feedback-user">Hồ sơ đã sẵn sàng</p>
-      )
+      return <p className="text-feedback-user">Hồ sơ đã sẵn sàng</p>;
     }
-  }
+  };
   render() {
     return (
       <div className="edit-infor-form">
@@ -635,7 +635,7 @@ class CurriculumVitae extends Component {
                       <span className="tabs-user-infor-top">Email cá nhân</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
-                          disabled = {true}
+                          disabled={true}
                           value={this.state.email}
                           name="email"
                           onChange={this.onChange}
@@ -704,7 +704,9 @@ class CurriculumVitae extends Component {
                         <DatePicker
                           placeholder="Chọn ngày"
                           value={
-                            this.state.pro_birth_day == null || moment(this.state.pro_birth_day,dateFormat) == "1970-01-01"
+                            this.state.pro_birth_day == null ||
+                            moment(this.state.pro_birth_day, dateFormat) ==
+                              "1970-01-01"
                               ? null
                               : moment(this.state.pro_birth_day, dateFormat)
                           }
@@ -837,7 +839,11 @@ class CurriculumVitae extends Component {
                         <DatePicker
                           placeholder="Chọn ngày"
                           value={
-                            this.state.pro_identity_card_when == null || moment(this.state.pro_identity_card_when,dateFormat) == "1970-01-01"
+                            this.state.pro_identity_card_when == null ||
+                            moment(
+                              this.state.pro_identity_card_when,
+                              dateFormat
+                            ) == "1970-01-01"
                               ? null
                               : moment(
                                   this.state.pro_identity_card_when,
@@ -894,7 +900,7 @@ class CurriculumVitae extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Select
-                          disabled = {true}
+                          disabled={true}
                           showSearch
                           value={this.state.dep_id}
                           style={{ width: "100%" }}
@@ -909,7 +915,7 @@ class CurriculumVitae extends Component {
                           }
                           ref={this.typingRef}
                         >
-                          {this.renderDepartment()} 
+                          {this.renderDepartment()}
                         </Select>
                       </div>
                       {this.state.valid_department.isValid ? (
@@ -927,7 +933,7 @@ class CurriculumVitae extends Component {
                       <span className="tabs-user-infor-top">Tổ làm việc</span>
                       <div className="tabs-user-infor-bottom">
                         <Select
-                          disabled = {true}
+                          disabled={true}
                           showSearch
                           value={this.state.par_id}
                           onChange={this.handleChangeParts}
@@ -959,7 +965,7 @@ class CurriculumVitae extends Component {
                       <span className="tabs-user-infor-top">Chức vụ:</span>
                       <div className="tabs-user-infor-bottom">
                         <Select
-                          disabled = {true}
+                          disabled={true}
                           showSearch
                           value={this.state.pos_id}
                           onChange={this.handleChangePosition}
@@ -995,7 +1001,9 @@ class CurriculumVitae extends Component {
                         <DatePicker
                           placeholder="Chọn ngày"
                           value={
-                            this.state.appointment_date == null || moment(this.state.appointment_date,dateFormat) == "1970-01-01"
+                            this.state.appointment_date == null ||
+                            moment(this.state.appointment_date, dateFormat) ==
+                              "1970-01-01"
                               ? null
                               : moment(this.state.appointment_date, dateFormat)
                           }
@@ -1071,14 +1079,20 @@ class CurriculumVitae extends Component {
                               ? null
                               : [
                                   this.state.deg_begin_study == null ||
-                                  moment(this.state.deg_begin_study,dateFormat) == "1970-01-01"
+                                  moment(
+                                    this.state.deg_begin_study,
+                                    dateFormat
+                                  ) == "1970-01-01"
                                     ? null
                                     : moment(
                                         this.state.deg_begin_study,
                                         dateFormat
                                       ),
                                   this.state.deg_end_study == null ||
-                                  moment(this.state.deg_end_study,dateFormat) == "1970-01-01"
+                                  moment(
+                                    this.state.deg_end_study,
+                                    dateFormat
+                                  ) == "1970-01-01"
                                     ? null
                                     : moment(
                                         this.state.deg_end_study,
@@ -1154,7 +1168,9 @@ class CurriculumVitae extends Component {
                           placeholder="Chọn ngày"
                           placeholder="Chọn ngày"
                           value={
-                            this.state.car_number_day == null ||  moment(this.state.car_number_day,dateFormat) == "1970-01-01"
+                            this.state.car_number_day == null ||
+                            moment(this.state.car_number_day, dateFormat) ==
+                              "1970-01-01"
                               ? null
                               : moment(this.state.car_number_day, dateFormat)
                           }
@@ -1174,26 +1190,22 @@ class CurriculumVitae extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                         <RangePicker
-                         value={
-                          this.state.car_begin == null
-                            ? null
-                            : [
-                                this.state.car_begin == null ||
-                                moment(this.state.car_begin,dateFormat) == "1970-01-01"
-                                  ? null
-                                  : moment(
-                                      this.state.car_begin,
-                                      dateFormat
-                                    ),
-                                this.state.car_end == null ||
-                                moment(this.state.car_end,dateFormat) == "1970-01-01"
-                                  ? null
-                                  : moment(
-                                      this.state.car_end,
-                                      dateFormat
-                                    ),
-                              ]
-                        }
+                          value={
+                            this.state.car_begin == null
+                              ? null
+                              : [
+                                  this.state.car_begin == null ||
+                                  moment(this.state.car_begin, dateFormat) ==
+                                    "1970-01-01"
+                                    ? null
+                                    : moment(this.state.car_begin, dateFormat),
+                                  this.state.car_end == null ||
+                                  moment(this.state.car_end, dateFormat) ==
+                                    "1970-01-01"
+                                    ? null
+                                    : moment(this.state.car_end, dateFormat),
+                                ]
+                          }
                           onChange={(date, dateString) =>
                             this.onChangeRange(
                               date,

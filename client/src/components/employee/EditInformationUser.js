@@ -12,11 +12,15 @@ import Kinship from "./edit-infor-child/Kinship";
 import Social from "./edit-infor-child/Social";
 import { Steps } from "antd";
 import docCookies from "doc-cookies";
-import { getProfile} from "apis/profileApi";
+import { getProfile } from "apis/profileApi";
 import { workflowProfile } from "apis/workflowApi";
 import { transfersProfile } from "apis/transfersApi";
+import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import {sleep} from "helpers/FuncHelper";
 const { Step } = Steps;
-export default class NotifiDepartment extends Component {
+class EditInformationUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -26,20 +30,23 @@ export default class NotifiDepartment extends Component {
       step_id: null,
     };
   }
-  handleClick = (id) => { 
+  handleClick = (id) => {
     this.setState({ activeLink: id });
   };
   renderComponents = () => {
     if (this.state.activeLink === 1) {
       return (
-        <CurriculumVitae statusProfile={this.state.step_id} handleReloadComponent={this.handleReloadComponent} />
+        <CurriculumVitae
+          statusProfile={this.state.step_id}
+          handleReloadComponent={this.handleReloadComponent}
+        />
       );
     }
     if (this.state.activeLink === 2) {
       return <PersonalHistory />;
     }
     if (this.state.activeLink === 3) {
-      return <JoinDCS/>;
+      return <JoinDCS />;
     }
     if (this.state.activeLink === 4) {
       return <JoinTCTTXH />;
@@ -61,10 +68,12 @@ export default class NotifiDepartment extends Component {
     }
   };
   async componentDidMount() {
-   this.fetProfile();
-    this.fetchWorkflowProfile();
+    //  this.props.uiActionCreatorsS()
+     this.fetProfile();
+     this.fetchWorkflowProfile();
+
   }
-  fetProfile = async () =>{
+  fetProfile = async () => {
     let tokenID = docCookies.getItem("user_id");
     let resGetProfile = await getProfile(tokenID);
     const data = resGetProfile.data;
@@ -74,12 +83,14 @@ export default class NotifiDepartment extends Component {
       STATUS_PROFILE: dataTransfersProfile.data.after_status,
       step_id: dataTransfersProfile.data.next_step_id,
     });
-  }
+  };
   fetchWorkflowProfile = async () => {
+    
     let dataWorkflowProfile = await workflowProfile();
     this.setState({
       dataWorkflow: dataWorkflowProfile,
     });
+    // this.props.uiActionCreatorsH()
   };
   renderWorkflow = () => {
     if (!!this.state.dataWorkflow === true) {
@@ -88,6 +99,7 @@ export default class NotifiDepartment extends Component {
         return <Step key={item.id} title={item.description} />;
       });
     }
+    
   };
   handleReloadComponent = () => {
     this.componentDidMount();
@@ -102,7 +114,7 @@ export default class NotifiDepartment extends Component {
     } else if (step_id === 3) {
       value = 2;
     } else {
-      value = 3
+      value = 3;
     }
     return (
       <div className="content-background2">
@@ -197,3 +209,8 @@ export default class NotifiDepartment extends Component {
     );
   }
 }
+const mapDispatchToProps = (dispatch) => ({
+  uiActionCreatorsS: bindActionCreators(showLoading, dispatch),
+  uiActionCreatorsH: bindActionCreators(hideLoading, dispatch),
+});
+export default connect(null, mapDispatchToProps)(EditInformationUser);

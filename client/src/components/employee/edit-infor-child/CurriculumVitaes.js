@@ -31,7 +31,6 @@ const CurriculumVitaes = (props) => {
     dispatch(getUser(idUser));
   }, [dispatch]);
   const userInfor = useSelector(state => state.user)
-  console.log(userInfor)
   const onSubmit = () => {};
   const onChange = () => {};
   const handleChangeDepartment = () => {};

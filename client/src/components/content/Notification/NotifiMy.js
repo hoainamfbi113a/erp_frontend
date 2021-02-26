@@ -153,7 +153,7 @@ export default class NotifiMy extends Component {
           <div>
             <Pagination
               defaultCurrent={1}
-              total={150}
+              total={50}
               onChange={this.onChangePagination}
             />
           </div>
