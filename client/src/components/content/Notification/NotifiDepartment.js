@@ -77,9 +77,20 @@ export default class NotifiDepartment extends Component {
                   </td>
                   <td>09:15</td>
                 </tr>
+                <tr>
+                  <td>
+                    <div className="content-notification-table-btn">
+                    Hội ý
+                    </div>
+                  </td>
+                  <td>
+                  Gửi các bạn phòng CNTT, 2:00 PM Phòng CNTT sẽ có cuộc hơp về dự án A với sự miêu tả của anh B. Mong các bạn đến đúng giờ....
+                  </td>
+                  <td>09:15</td>
+                </tr>
               </tbody>
             </table>
-            <div className="content-bottom">
+            <div className="content-bottom-pagination">
                 <Pagination defaultCurrent={1} total={150} />
             </div>
           </div>

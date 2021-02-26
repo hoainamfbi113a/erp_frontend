@@ -130,10 +130,12 @@ const validateInputFormUser = (type, checkingText, listUser) => {
     errorMessage: errorMessage,
   };
 };
+const sleep = (m) => new Promise((r) => setTimeout(r, m));
 export {
   ValidateEmail,
   ValidateField,
   resetStatusProfile,
   getIdActionByName,
   validateInputFormUser,
+  sleep
 };

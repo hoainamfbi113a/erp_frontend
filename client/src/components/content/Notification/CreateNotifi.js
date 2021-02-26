@@ -120,7 +120,7 @@ export default class CreateNotifi extends Component {
                 </tr>
               </tbody>
             </table>
-            <div className="content-bottom">
+            <div className="content-bottom-pagination">
               <Pagination defaultCurrent={1} total={50} />
             </div>
           </div>

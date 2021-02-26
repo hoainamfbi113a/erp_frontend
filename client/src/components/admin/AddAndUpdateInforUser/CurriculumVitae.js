@@ -129,7 +129,7 @@ class addInformationUser extends Component {
     this.handleSearchPart = this.handleSearchPart.bind(this);
   }
   componentDidMount = async () => {
-    this.fetchData();
+    
   };
   functionSearch = async (prevProps, prevState) => {
     if (prevState.searchDepartment !== this.state.searchDepartment) {
@@ -182,11 +182,74 @@ class addInformationUser extends Component {
     }
   };
   componentDidUpdate = (prevProps, prevState) => {
+    if (this.props.dataProfile !== prevProps.dataProfile) {
+      let data = this.props.dataProfile
+      if(Object.keys(data).length !== 0)
+      this.setState({
+        pro_id: data.id,
+        user_id: data.user_id,
+        pro_name: data.pro_name,
+        pro_pen_name: data.pro_pen_name,
+        pro_birth_day: data.pro_birth_day.indexOf("1970-01-01") == 0 ? null:data.pro_birth_day ,
+        pro_gender: data.pro_gender,
+        pro_birth_place: data.pro_birth_place,
+        pro_home_town: data.pro_home_town,
+        pro_local_phone: data.pro_local_phone,
+        pro_resident: data.pro_resident,
+        pro_ethnic: data.pro_ethnic,
+        pro_religion: data.pro_religion,
+        pro_background_origin: data.pro_background_origin,
+        pro_occupation: data.pro_occupation,
+        pro_identity_card: data.pro_identity_card,
+        pro_identity_card_when: data.pro_identity_card_when.indexOf("1970-01-01") == 0? null:data.pro_identity_card_when ,
+        pro_identity_card_where: data.pro_identity_card_where,
+        pro_note: data.pro_note,
+        dep_id: data.department ? data.department.data.dep_id : "",
+        pos_id: data.department ? data.department.data.pos_id : "",
+        par_id: data.department ? data.department.data.part_id : "",
+        appointment_date:
+        data.department && data.department.data.appointment_date.indexOf("1970-01-01") !=0 ? 
+        data.department.data.appointment_date : null,
+        deg_type: data.userDegree ? data.userDegree.data.deg_type : "",
+        deg_diploma: data.userDegree ? data.userDegree.data.deg_diploma : "",
+        deg_majors: data.userDegree ? data.userDegree.data.deg_majors : "",
+        deg_school_name: data.userDegree
+          ? data.userDegree.data.deg_school_name
+          : "",
+        deg_begin_study:
+        data.userDegree && data.userDegree.data.deg_begin_study != null
+          ? new Date(data.userDegree.data.deg_begin_study * 1000)
+          : null,
+        deg_end_study: data.userDegree && data.userDegree.data.deg_end_study !=null
+          ? new Date(data.userDegree.data.deg_end_study * 1000)
+          : null,
+        deg_note: data.userDegree ? data.userDegree.data.deg_note : "",
+        work_formality: data.workObject ? data.workObject.data.formality : "",
+        work_note: data.workObject ? data.workObject.data.work_note : "",
+        car_number: data.journalistCard
+          ? data.journalistCard.data.car_number
+          : "",
+        car_number_day: data.journalistCard && data.journalistCard.data.car_number_day !=null
+          ? new Date(data.journalistCard.data.car_number_day)
+          : null,
+        car_begin: data.journalistCard && data.journalistCard.data.car_begin !=null
+          ? new Date(data.journalistCard.data.car_begin * 1000)
+          : null,
+        car_end: data.journalistCard && data.journalistCard.data.car_end !=null
+          ? new Date(data.journalistCard.data.car_end * 1000)
+          : null,
+        car_note: data.journalistCard ? data.journalistCard.data.car_note : "",
+        idDepartment: data.department ? data.department.data.id : "",
+        idUserDegree: data.userDegree ? data.userDegree.data.id : "",
+        idWorkObject: data.workObject ? data.workObject.data.id : "",
+        idJou: data.journalistCard ? data.journalistCard.data.id : "",
+      });
+      this.fetchData();
+  }
     this.functionSearch(prevProps, prevState);
   };
 
   fetchData = async () => {
-    this.props.uiActionCreatorsS();
     this.fetchDataUser();
     let dataDepartment = await getListDepartment();
     let dataPosition = await getListPosition();
@@ -203,9 +266,7 @@ class addInformationUser extends Component {
     });
     this.props.uiActionCreatorsH();
   };
-
   fetchDataUser = async () => {
-    
     if (this.props.idUser) {
       let idUser = this.props.idUser;
       let dataUser = null;
@@ -215,73 +276,6 @@ class addInformationUser extends Component {
         full_name: resGetUser.data.full_name,
         phone: resGetUser.data.phone,
         email: resGetUser.data.email,
-      });
-      dataUser = await getProfile(idUser);
-      pro_id = dataUser.data.id;
-      const data = dataUser.data;
-      this.setState({
-        pro_id: data.id,
-        user_id: data.user_id,
-        pro_name: data.pro_name,
-        pro_pen_name: data.pro_pen_name,
-        pro_birth_day: data.pro_birth_day,
-        pro_gender: data.pro_gender,
-        pro_birth_place: data.pro_birth_place,
-        pro_home_town: data.pro_home_town,
-        pro_local_phone: data.pro_local_phone,
-        pro_resident: data.pro_resident,
-        pro_ethnic: data.pro_ethnic,
-        pro_religion: data.pro_religion,
-        pro_background_origin: data.pro_background_origin,
-        pro_occupation: data.pro_occupation,
-        pro_identity_card: data.pro_identity_card,
-        pro_identity_card_when: data.pro_identity_card_when,
-        pro_identity_card_where: data.pro_identity_card_where,
-        pro_note: data.pro_note,
-        dep_id: data.department ? data.department.data.dep_id : "",
-        pos_id: data.department ? data.department.data.pos_id : "",
-        par_id: data.department ? data.department.data.part_id : "",
-        appointment_date:
-          // new Date(
-          data.department ? data.department.data.appointment_date : "",
-        // * 1000)
-        deg_type: data.userDegree ? data.userDegree.data.deg_type : "",
-        deg_diploma: data.userDegree ? data.userDegree.data.deg_diploma : "",
-        deg_majors: data.userDegree ? data.userDegree.data.deg_majors : "",
-        deg_school_name: data.userDegree
-          ? data.userDegree.data.deg_school_name
-          : "",
-        deg_begin_study: data.userDegree
-          ? new Date(data.userDegree.data.deg_begin_study * 1000)
-          : null,
-        deg_end_study: data.userDegree
-          ? new Date(data.userDegree.data.deg_end_study * 1000)
-          : null,
-        deg_note: data.userDegree ? data.userDegree.data.deg_note : "",
-        work_formality: data.workObject ? data.workObject.data.formality : "",
-        work_note: data.workObject ? data.workObject.data.work_note : "",
-        car_number: data.journalistCard
-          ? data.journalistCard.data.car_number
-          : "",
-        car_number_day: data.journalistCard
-          ? new Date(data.journalistCard.data.car_number_day)
-          : null,
-        car_begin: data.journalistCard
-          ? new Date(data.journalistCard.data.car_begin * 1000)
-          : null,
-        car_end: data.journalistCard
-          ? new Date(data.journalistCard.data.car_end * 1000)
-          : null,
-        car_note: data.journalistCard ? data.journalistCard.data.car_note : "",
-        idDepartment: data.department ? data.department.data.id : "",
-        idUserDegree: data.userDegree ? data.userDegree.data.id : "",
-        idWorkObject: data.workObject ? data.workObject.data.id : "",
-        idJou: data.journalistCard ? data.journalistCard.data.id : "",
-      });
-      let dataTransfersProfile = await transfersProfile(pro_id);
-      this.setState({
-        STATUS_PROFILE: dataTransfersProfile.data.after_status,
-        step_id: dataTransfersProfile.data.next_step_id,
       });
     }
   };
@@ -380,7 +374,6 @@ class addInformationUser extends Component {
     );
   };
   renderParts = () => {
-    // console.log(this.state.dataParts)
     if (this.state.dataParts !== null) {
       return this.state.dataParts.map((item) => {
         return (
@@ -881,8 +874,8 @@ class addInformationUser extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input.Password
+                          autoComplete ="on"
                           disabled={this.props.idUser ? true : false}
-                          value={this.state.password}
                           name="password"
                           onChange={this.onChange}
                           placeholder="Mật khẩu đăng nhập"
@@ -1309,7 +1302,6 @@ class addInformationUser extends Component {
                         Thời gian bắt đầu học:
                       </span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
-                        {/* {console.log(this.state.deg_begin_study)} */}
                         <RangePicker
                          value={
                           this.state.deg_begin_study == null
