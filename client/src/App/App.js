@@ -25,6 +25,7 @@ export default class App extends Component {
   render() {
     return (
       <div>
+        
         <Globading />
         <Router>
           <Switch>

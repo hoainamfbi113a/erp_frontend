@@ -48,6 +48,11 @@ module.exports = (env, agrv) => {
           use: ["style-loader", {loader: 'css-loader', options: {sourceMap: 1}}, "postcss-loader", "less-loader"],
         },
         {
+          test: /\.(svg|woff|woff2|ttf|eot|otf)([\?]?.*)$/,
+          loader: 'file-loader?name=assets/fonts/[name].[ext]',
+        },
+        
+        {
           test: /\.(png|svg|jpg|gif|jpeg)$/,
           use: [
             {

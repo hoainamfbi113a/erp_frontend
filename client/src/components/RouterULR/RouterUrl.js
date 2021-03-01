@@ -4,7 +4,9 @@ import { Route, Switch } from "react-router-dom";
 import { getPermissionUser } from "apis/authenticationApi";
 import NotFound from "components/NotFound";
 import AddAndUpdateInforUser from "components/admin/AddAndUpdateInforUser";
-import Workflow from "components/admin/workflow/Workflow";
+import Workflow from "components/admin/workflow/Workflow"; 
+import FormBuilder from "components/admin/FormBuilder/FormBuilder";
+import Document from "components/admin/Document/Document";
 import ContentDepartment from "components/content/ContentDepartment";
 import ContentMyNotification from "components/content/ContentMyNotification";
 import ContentParts from "components/content/ContentParts";
@@ -114,6 +116,8 @@ export default class RouterUrl extends Component {
           <Route exact path="/position" component={ContentPosition}></Route>
           <Route exact path="/department" component={ContentDepartment}></Route>
           <Route exact path="/workflow" component={Workflow}></Route>
+          <Route exact path="/form-builder" component={FormBuilder}></Route>
+          <Route exact path="/documents" component={Document}></Route>
           <Route
             exact
             path="/notification"
