@@ -67,4 +67,7 @@ ant-menu-submenu-active, ant-menu-submenu-selected{
 .ant-menu-submenu-title:hover .ant-menu-submenu-arrow:after{
     background:#000 !important;
 }
-
+.dropdown-menu{
+ position: initial !important;
+ z-index: 0 i !important;
+}

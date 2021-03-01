@@ -187,6 +187,12 @@ class MenuLayout extends Component {
           <Menu.Item key="12">
             <Link to="/workflow">Workflow</Link>
           </Menu.Item>
+          <Menu.Item key="13">
+            <Link to="/form-builder">Form builder</Link>
+          </Menu.Item>
+          <Menu.Item key="14">
+            <Link to="/document">Document</Link>
+          </Menu.Item>
           ;
         </SubMenu>
       );
