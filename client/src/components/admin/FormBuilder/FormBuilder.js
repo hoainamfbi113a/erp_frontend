@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { TTFormBuilder } from '@tuoitre/form-builder'
-import '@tuoitre/form-builder/dist/index.css'
+// import '@tuoitre/form-builder/dist/index.css'
 
 const FormBuilder = () => {
   return (

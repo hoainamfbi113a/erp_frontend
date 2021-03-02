@@ -29,7 +29,7 @@ const __dirname = path.resolve();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api", userController);
-app.use("/api", formBuilderController);
+// app.use("/api", formBuilderController);
 
 app.get("/api/transfers", transfers);
 app.get("/api/transfers/profiles/:id", profileTransfers);

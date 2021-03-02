@@ -468,3 +468,7 @@ img {
     right: -5px;
   }
 }
+.flow-modal .modal{
+  display: block !important;
+  height: auto !important;
+}
