@@ -6,13 +6,22 @@ import { TTFormBuilder } from '@tuoitre/form-builder'
 const FormBuilder = () => {
   return (
     <div>
-    <TTFormBuilder 
+    {/* <TTFormBuilder 
     urlGetListTypeDoc='/api/document-type/get-document-types'
     apiKey=''
     urlCreate='/api/document-template/store'
     urlDelete='http://tthr.local/api/profiles/'
     urlGetForm='/api/document-template/get'
-    />
+    /> */}
+     <div>
+      <TTFormBuilder 
+      urlGetListTypeDoc='https://document.tuoitre.vn/api/document-type/get-document-types'
+      apiKey=''
+      urlCreate='https://document.tuoitre.vn/api/document-template/store'
+      urlDelete='http://tthr.local/api/profiles/'
+      urlGetForm='https://document.tuoitre.vn/api/document-template/get'
+      />
+    </div>
   </div>
   )
 
