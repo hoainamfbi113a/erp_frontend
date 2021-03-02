@@ -18,6 +18,7 @@ import { listPosition, addPosition, updatePosition, deletePosition } from "./con
 import notificationController from "./controllers/Notify.mjs"
 import { listAction, addAction, updateAction, deleteAction } from "./controllers/Action.mjs";
 import workflowController from "./controllers/workflow.mjs";
+import formBuilderController from "./controllers/FormBuilder.mjs";
 import servicemanagerController from "./controllers/servicemanagerController.mjs"
 import  stepController  from "./controllers/stepController.mjs" 
 import { addPermissionForPos ,deletePermissionForPos} from "./controllers/Position.mjs";
@@ -28,6 +29,7 @@ const __dirname = path.resolve();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use("/api", userController);
+app.use("/api", formBuilderController);
 
 app.get("/api/transfers", transfers);
 app.get("/api/transfers/profiles/:id", profileTransfers);
