@@ -7,11 +7,11 @@ const FormBuilder = () => {
   return (
     <div>
     <TTFormBuilder 
-    urlGetListTypeDoc='https://document.tuoitre.vn/api/document-type/get-document-types'
+    urlGetListTypeDoc='/api/document-type/get-document-types'
     apiKey=''
-    urlCreate='https://document.tuoitre.vn/api/document-template/store'
+    urlCreate='/api/document-template/store'
     urlDelete='http://tthr.local/api/profiles/'
-    urlGetForm='https://document.tuoitre.vn/api/document-template/get'
+    urlGetForm='/api/document-template/get'
     />
   </div>
   )
