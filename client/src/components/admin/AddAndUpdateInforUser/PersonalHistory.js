@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Input } from "antd";
 import { Button, Pagination, DatePicker } from "antd";
 const { RangePicker } = DatePicker;
@@ -9,18 +9,77 @@ import { Table, Space, Tag, Avatar } from "antd";
 import { Popconfirm, message } from "antd";
 const { Option } = Select;
 const { TextArea } = Input;
-
+import moment from "moment";
+const dateFormat = "YYYY/MM/DD";
+let fakeData = [
+  {
+    id: 1,
+    dateStart: "05/09/1990",
+    dateEnd: "05/09/1990",
+    content: "Học sinh Trường Tiểu Học Nguyễn Hữu A",
+  },
+  {
+    id: 2,
+    dateStart: "05/09/1990",
+    dateEnd: "05/09/1990",
+    content: "Học sinh Trường Tiểu Học Nguyễn Hữu A",
+  },
+  {
+    id: 3,
+    dateStart: "05/09/1990",
+    dateEnd: "05/09/1990",
+    content: "Học sinh Trường Tiểu Học Nguyễn Hữu A",
+  },
+];
 const PersonalHistory = (props) => {
   const [visible, setVisible] = useState(false);
+  const [dataItem, setDataItem] = useState({})
   const showModal = () => {
     setVisible(true);
+    setDataItem({})
   };
-
+  useEffect (()=>{
+    
+  },[])
   const hideModal = () => {
     setVisible(false);
   };
-  const onSubmit = () =>{
-    
+  const onSubmit = () => {};
+  const handleUpdate = (value) => {
+    setVisible(true);
+    setDataItem(value)
+  };
+  const renderData = () =>{
+    return fakeData.map((item)=>{
+      return(
+      <li key = {item.id}>
+      <div className="personal-history-time">
+       {item.dateStart} - <span> {item.dateStart}</span>
+      </div>
+      <Space size="middle">
+        <Popconfirm
+          title="Are you sure hide this user?"
+          okText="Yes"
+          cancelText="No"
+        >
+          <Tag color="volcano" className="table-action">
+            Xoá
+          </Tag>
+        </Popconfirm>
+        <Tag
+          color="geekblue"
+          className="table-action"
+          onClick={()=>handleUpdate(item)}
+        >
+          Update
+        </Tag>
+      </Space>
+      <p className="personal-history-content">
+        {item.content}
+      </p>
+    </li> 
+    )
+    })
   }
   return (
     <div className="edit-infor-form">
@@ -31,72 +90,7 @@ const PersonalHistory = (props) => {
         <div>
           <div className="edit-infr-vertical-line"></div>
           <ul className="personal-history-list">
-            <li>
-              <div className="personal-history-time">
-                05/09/1990 - 10/05/1995
-              </div>
-              <Space size="middle">
-                <Popconfirm
-                  title="Are you sure hide this user?"
-                  okText="Yes"
-                  cancelText="No"
-                >
-                  <Tag color="volcano" className="table-action">
-                    Xoá
-                  </Tag>
-                </Popconfirm>
-                <Tag color="geekblue" className="table-action">
-                  Update{" "}
-                </Tag>
-              </Space>
-              <p className="personal-history-content">
-                Học sinh Trường Tiểu Học Nguyễn Hữu A
-              </p>
-            </li>
-            <li>
-              <div className="personal-history-time">
-                05/09/1990 - 10/05/1995
-              </div>
-              <Space size="middle">
-                <Popconfirm
-                  title="Are you sure hide this user?"
-                  okText="Yes"
-                  cancelText="No"
-                >
-                  <Tag color="volcano" className="table-action">
-                    Xoá
-                  </Tag>
-                </Popconfirm>
-                <Tag color="geekblue" className="table-action">
-                  Update{" "}
-                </Tag>
-              </Space>
-              <p className="personal-history-content">
-                Học sinh Trường Tiểu Học Nguyễn Hữu A
-              </p>
-            </li>
-            <li>
-              <div className="personal-history-time">
-                05/09/1990 - 10/05/1995
-              </div>
-              <Space size="middle">
-                <Popconfirm
-                  title="Are you sure hide this user?"
-                  okText="Yes"
-                  cancelText="No"
-                >
-                  <Tag color="volcano" className="table-action">
-                    Xoá
-                  </Tag>
-                </Popconfirm>
-                <Tag color="geekblue" className="table-action">
-                  Update{" "}
-                </Tag>
-              </Space>
-              <p className="personal-history-content">
-                Học sinh Trường Tiểu Học Nguyễn Hữu A
-              </p>
-            </li>
+            {renderData()}
           </ul>
           <Button
             onClick={showModal}
@@ -125,36 +119,28 @@ const PersonalHistory = (props) => {
                 <li className="tabs-main-left-li tabs-main-left-li-row">
                   <span className="tabs-user-infor-top">Thông tin</span>
                   <div className="tabs-user-infor-bottom">
-                    <Select
-                      className="modal-selection"
-                      defaultValue="jack"
-                      style={{ width: 527 }}
-                      // onChange={handleChange}
-                    >
-                      <Option value="jack">Lịch sử bản thân</Option>
-                      <Option value="lucy">Gia nhập đảng cộng sản</Option>
-                      <Option value="disabled">
-                        Tham gia các tổ chức chính trị xã hội
-                      </Option>
-                      <Option value="educate">Đào tạo</Option>
-                      <Option value="fostering">bồi dưỡng</Option>
-                      <Option value="bonus">Khen thưởng</Option>
-                      <Option value="discipline">Kỷ luật</Option>
-                    </Select>
+                    <p>Lịch sử bản thân</p>
                   </div>
                 </li>
                 <li className="tabs-main-left-li tabs-main-left-li-row">
                   <span className="tabs-user-infor-top">Từ ngày</span>
                   <div className="tabs-user-infor-bottom">
-                    <RangePicker
-                      className="modal-ranPicker"
-                    />
+                    <RangePicker 
+                    value={dataItem.dateStart ? [moment(
+                      dataItem.dateStart,
+                      dateFormat
+                    ),moment(
+                      dataItem.dateEnd,
+                      dateFormat
+                    )] : null}
+                    className="modal-ranPicker" />
                   </div>
                 </li>
                 <li className="tabs-main-left-li">
                   <span className="tabs-user-infor-top"></span>
                   <div className="tabs-user-infor-bottom">
                     <TextArea
+                      value = {dataItem.content}
                       placeholder="Mời bạn nhập chi tiết"
                       autoSize={{ minRows: 7, maxRows: 15 }}
                     />
