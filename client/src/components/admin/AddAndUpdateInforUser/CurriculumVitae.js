@@ -1248,6 +1248,32 @@ class addInformationUser extends Component {
                     </li>
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
+                        Tên trường đào tạo:
+                      </span>
+                      <div className="tabs-user-infor-bottom">
+                        <Input
+                          name="deg_school_name"
+                          value={this.state.deg_school_name}
+                          onChange={this.onChange}
+                          placeholder="Tên trường đào tạo"
+                        />
+                      </div>
+                    </li>
+                    <li className="tabs-main-left-li">
+                      <span className="tabs-user-infor-top">
+                        Chuyên ngành học:
+                      </span>
+                      <div className="tabs-user-infor-bottom">
+                        <Input
+                          name="deg_majors"
+                          value={this.state.deg_majors}
+                          onChange={this.onChange}
+                          placeholder="Chuyên ngành học"
+                        />
+                      </div>
+                    </li>
+                    <li className="tabs-main-left-li">
+                      <span className="tabs-user-infor-top">
                         Loại bằng cấp:
                       </span>
                       <div className="tabs-user-infor-bottom">
@@ -1270,32 +1296,7 @@ class addInformationUser extends Component {
                         />
                       </div>
                     </li>
-                    <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">
-                        Chuyên ngành học:
-                      </span>
-                      <div className="tabs-user-infor-bottom">
-                        <Input
-                          name="deg_majors"
-                          value={this.state.deg_majors}
-                          onChange={this.onChange}
-                          placeholder="Chuyên ngành học"
-                        />
-                      </div>
-                    </li>
-                    <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">
-                        Tên trường đào tạo:
-                      </span>
-                      <div className="tabs-user-infor-bottom">
-                        <Input
-                          name="deg_school_name"
-                          value={this.state.deg_school_name}
-                          onChange={this.onChange}
-                          placeholder="Tên trường đào tạo"
-                        />
-                      </div>
-                    </li>
+                  
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
                         Thời gian bắt đầu học:

@@ -49,7 +49,7 @@ class Login extends Component {
               activeErrEmail: false,
               activeErrPassWord: false,
             });
-            if(this.state.email === "manager0@gmail.com"){
+            if(this.state.email === "manager@gmail.com"){
               localStorage.setItem("0","0")
             }
             this.props.history.push("/");
