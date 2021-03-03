@@ -26,7 +26,6 @@ import {
 import { searchParts, getListParts } from "apis/partsApi";
 import { getListPosition, searchPosition } from "apis/positionApi";
 import { addProfile, getProfile, updateProfile } from "apis/profileApi";
-import { transfersProfile } from "apis/transfersApi";
 import { addUserDegrees, updateUserDegree } from "apis/userDegreesApi";
 import { workflowProfile } from "apis/workflowApi";
 import { addWorkObject, updateWorkObject } from "apis/workObjectsApi";
@@ -184,7 +183,7 @@ class addInformationUser extends Component {
   componentDidUpdate = (prevProps, prevState) => {
     if (this.props.dataProfile !== prevProps.dataProfile) {
       let data = this.props.dataProfile
-      if(Object.keys(data).length !== 0)
+      if(Object.keys(data).length !== 0 && this.props.idUser)
       this.setState({
         pro_id: data.id,
         user_id: data.user_id,
@@ -653,7 +652,7 @@ class addInformationUser extends Component {
         paramsWorkObjects
       );
       if (resUpdateWorkObject.message == "Success!. Updated") {
-        message;
+        // message;
       } else {
         messageErr = 8;
       }

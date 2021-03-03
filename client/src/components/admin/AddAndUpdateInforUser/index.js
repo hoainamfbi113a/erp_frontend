@@ -81,7 +81,6 @@ const AddAndUpdateInforUser = (props) => {
   };
 
   useEffect(() => {
-   
     (async function fetchTransfer() {
       dispatch(showLoading())
       let dataWorkflowProfile = await workflowProfile();
