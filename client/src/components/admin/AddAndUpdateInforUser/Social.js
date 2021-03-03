@@ -9,6 +9,29 @@ import { Space, Tag } from "antd";
 const { Option } = Select;
 import { Popconfirm } from "antd";
 const { TextArea } = Input;
+let fakeData = [
+  {
+    id: 1,
+    title: "Ông nội",
+    name: "Nguyễn Thị C",
+    job: "Giáo Viên",
+    content: "",
+  },
+  {
+    id: 2,
+    title: "Bà nội",
+    name: "Nguyễn Thị D",
+    job: "Kỹ sư cầu đường",
+    content: "",
+  },
+  {
+    id: 2,
+    title: "Ông",
+    name: "Nguyễn Văn E",
+    job: "Học sinh",
+    content: "",
+  },
+];
 const Social = () => {
   const [visible, setVisible] = useState(false);
   const showModal = () => {

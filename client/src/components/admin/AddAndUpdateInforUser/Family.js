@@ -56,7 +56,6 @@ const Family = () => {
   };
   const handleUpdate2 = (value) => {
     setVisible(true);
-    console.log(value)
     setDataItem2(value);
   };
   const hideModal1 = () => {
