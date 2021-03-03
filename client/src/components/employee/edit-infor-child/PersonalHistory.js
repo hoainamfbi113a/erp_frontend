@@ -125,22 +125,7 @@ const PersonalHistory = (props) => {
                 <li className="tabs-main-left-li tabs-main-left-li-row">
                   <span className="tabs-user-infor-top">Thông tin</span>
                   <div className="tabs-user-infor-bottom">
-                    <Select
-                      className="modal-selection"
-                      defaultValue="jack"
-                      style={{ width: 527 }}
-                      // onChange={handleChange}
-                    >
-                      <Option value="jack">Lịch sử bản thân</Option>
-                      <Option value="lucy">Gia nhập đảng cộng sản</Option>
-                      <Option value="disabled">
-                        Tham gia các tổ chức chính trị xã hội
-                      </Option>
-                      <Option value="educate">Đào tạo</Option>
-                      <Option value="fostering">bồi dưỡng</Option>
-                      <Option value="bonus">Khen thưởng</Option>
-                      <Option value="discipline">Kỷ luật</Option>
-                    </Select>
+                  <p>Lịch sử bản thân</p>
                   </div>
                 </li>
                 <li className="tabs-main-left-li tabs-main-left-li-row">

@@ -7,9 +7,9 @@ export const login = (params) => {
     .post("/api/login", params)
     .then((res) => {
       if (res.data.message === "Đăng nhập thành công!") {
-        docCookies.setItem("usertoken", res.data.access_token, 2000);
-        docCookies.setItem("user_id", res.data.detail.id, 2000);
-        docCookies.setItem("email", res.data.detail.email, 2000);
+        docCookies.setItem("usertoken", res.data.access_token, 10000);
+        docCookies.setItem("user_id", res.data.detail.id, 10000);
+        docCookies.setItem("email", res.data.detail.email, 10000);
       }
       return res.data;
     })
