@@ -254,7 +254,7 @@ class CurriculumVitae extends Component {
         paramsWorkObjects
       );
       if (resUpdateWorkObject.message == "Success!. Updated") {
-        message;
+        // message;
       } else {
         messageErr = 8;
       }
