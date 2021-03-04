@@ -107,6 +107,7 @@ const Family = () =>{
       value = "6"
     }
   }
+  // console.log(value)
   return (
     <div className="edit-infor-form">
     <div className="tabs-main personal-history">
@@ -149,7 +150,8 @@ const Family = () =>{
               <span className="tabs-user-infor-top">Thông tin</span>
               <div className="tabs-user-infor-bottom">
                 <Select
-                  value={value}
+                  // value={value}
+                  defaultValue = {value}
                   className="modal-selection"
                   style={{ width: 527 }}
                   // onChange={handleChange}

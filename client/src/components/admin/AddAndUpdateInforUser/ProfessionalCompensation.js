@@ -202,7 +202,7 @@ const ProfessionalCompensation = () => {
               <div className="tabs-user-infor-bottom">
                 <Select
                   className="modal-selection"
-                  value={dataItem.category == 1 ? "1": "2"}
+                  defaultValue={dataItem.category == 1 ? "1": "2"}
                   style={{ width: 527 }}
                   // onChange={handleChange}
                 >

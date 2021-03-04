@@ -144,7 +144,7 @@ const Social = () => {
               <span className="tabs-user-infor-top">Thông tin</span>
               <div className="tabs-user-infor-bottom">
                 <Select
-                  value="1"
+                  defaultValue={value}
                   className="modal-selection"
                   style={{ width: 527 }}
                   // onChange={handleChange}
