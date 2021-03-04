@@ -116,7 +116,7 @@ const Family = () => {
           </Space>
           <p className="personal-history-content">
             {item.job}
-            <p>item.content</p>
+            <p>{item.content}</p>
           </p>
         </li>
       );

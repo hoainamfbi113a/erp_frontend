@@ -70,7 +70,7 @@ const AddAndUpdateInforUser = (props) => {
     }
   };
   const renderWorkflow = () => {
-    if (workflow) {
+    if (workflow && workflow.steps) {
       return workflow.steps.map((item) => {
         return <Step key={item.id} title={item.description} />;
       });

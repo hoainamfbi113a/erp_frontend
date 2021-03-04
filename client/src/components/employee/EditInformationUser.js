@@ -93,7 +93,7 @@ class EditInformationUser extends Component {
     // this.props.uiActionCreatorsH()
   };
   renderWorkflow = () => {
-    if (!!this.state.dataWorkflow === true) {
+    if (!!this.state.dataWorkflow === true && workflowProfile.steps) {
       const workflowProfile = this.state.dataWorkflow;
       return workflowProfile.steps.map((item) => {
         return <Step key={item.id} title={item.description} />;

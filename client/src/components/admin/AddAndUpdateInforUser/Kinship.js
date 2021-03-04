@@ -46,7 +46,6 @@ const Family = () =>{
   };
   const handleUpdate = (value) => {
     setVisible(true);
-    console.log(value)
     setDataItem(value);
 
   };
