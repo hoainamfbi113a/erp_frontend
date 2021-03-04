@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Input,Button } from "antd";
+import { Input, Button } from "antd";
 import { DatePicker } from "antd";
 const { RangePicker } = DatePicker;
 import { Modal } from "antd";
@@ -45,7 +45,7 @@ const Social = () => {
   const showModal = () => {
     setDataItem({});
     setVisible(true);
-};
+  };
 
   const hideModal = () => {
     setVisible(false);
@@ -53,7 +53,6 @@ const Social = () => {
   const handleUpdate = (value) => {
     setVisible(true);
     setDataItem(value);
-
   };
   const renderData = () => {
     return fakeData.map((item) => {
@@ -88,32 +87,26 @@ const Social = () => {
       );
     });
   };
-  let value = "1"
-  if(dataItem && dataItem.title)
-  {
-    if(dataItem.title == "Ông nội") {
-      value ="1";
+  let value = "1";
+  if (dataItem && dataItem.title) {
+    if (dataItem.title == "Ông nội") {
+      value = "1";
     }
-    if(dataItem.title == "Bà nội"){
-      value = "2"
+    if (dataItem.title == "Bà nội") {
+      value = "2";
     }
-    if(dataItem.title == "Ông ngoại") {
-      value ="3";
+    if (dataItem.title == "Ông ngoại") {
+      value = "3";
     }
-    if(dataItem.title == "Bà ngoại"){
-      value = "4"
+    if (dataItem.title == "Bà ngoại") {
+      value = "4";
     }
   }
   const onSubmit = () => {};
   return (
     <div className="edit-infor-form">
       <div className="tabs-main personal-history">
-        <div className="personal-history-title">Quan hệ xã hội</div>
-        <div>
-          <div className="edit-infr-vertical-line"></div>
-          <ul className="personal-history-list">
-          {renderData()}
-          </ul>
+        <div className="btn-btn-profile">
           <Button
             onClick={showModal}
             className="btn-add-detail"
@@ -121,6 +114,11 @@ const Social = () => {
           >
             Thêm
           </Button>
+        </div>
+        <div className="personal-history-title">Quan hệ xã hội</div>
+        <div>
+          <div className="edit-infr-vertical-line"></div>
+          <ul className="personal-history-list">{renderData()}</ul>
         </div>
       </div>
       <Modal
@@ -140,7 +138,7 @@ const Social = () => {
           method="post"
         >
           <ul>
-          <li className="tabs-main-left-li tabs-main-left-li-row">
+            <li className="tabs-main-left-li tabs-main-left-li-row">
               <span className="tabs-user-infor-top">Thông tin</span>
               <div className="tabs-user-infor-bottom">
                 <Select
@@ -162,7 +160,7 @@ const Social = () => {
                 <Input
                   style={{ width: "100%" }}
                   name="pro_religion"
-                  value = {dataItem.name}
+                  value={dataItem.name}
                   // defaultValue={ state.pro_religion }
                   placeholder="Họ và tên"
                 />
@@ -174,7 +172,7 @@ const Social = () => {
                 <Input
                   style={{ width: "100%" }}
                   name="pro_religion"
-                  value = {dataItem.job}
+                  value={dataItem.job}
                   // defaultValue={ state.pro_religion }
                   placeholder="Nghề nghiệp"
                 />
@@ -184,7 +182,7 @@ const Social = () => {
               <span className="tabs-user-infor-top"></span>
               <div className="tabs-user-infor-bottom">
                 <TextArea
-                  value = {dataItem.content}
+                  value={dataItem.content}
                   placeholder="Mời bạn nhập chi tiết"
                   autoSize={{ minRows: 7, maxRows: 15 }}
                 />

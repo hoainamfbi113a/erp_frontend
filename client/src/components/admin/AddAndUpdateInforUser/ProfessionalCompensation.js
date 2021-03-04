@@ -149,12 +149,7 @@ const ProfessionalCompensation = () => {
   return (
     <div className="edit-infor-form">
       <div className="tabs-main personal-history">
-        <div className="personal-history-title">Đào tạo:</div>
-        <div>
-          <div className="edit-infr-vertical-line"></div>
-          <ul className="personal-history-list">
-          {renderData1()}
-          </ul>
+      <div className="btn-btn-profile">
           <Button
             onClick={()=>showModal(1)}
             className="btn-add-detail"
@@ -162,6 +157,13 @@ const ProfessionalCompensation = () => {
           >
             Thêm
           </Button>
+        </div>
+        <div className="personal-history-title">Đào tạo:</div>
+        <div>
+          <div className="edit-infr-vertical-line"></div>
+          <ul className="personal-history-list">
+          {renderData1()}
+          </ul>
         </div>
       </div>
       <div className="tabs-main personal-history">
@@ -171,13 +173,6 @@ const ProfessionalCompensation = () => {
           <ul className="personal-history-list">
           {renderData2()}
           </ul>
-          <Button
-            onClick={()=>showModal(2)}
-            className="btn-add-detail"
-            icon={<PlusCircleOutlined />}
-          >
-            Thêm
-          </Button>
         </div>
       </div>
       <Modal
@@ -202,7 +197,7 @@ const ProfessionalCompensation = () => {
               <div className="tabs-user-infor-bottom">
                 <Select
                   className="modal-selection"
-                  defaultValue={dataItem.category == 1 ? "1": "2"}
+                  defaultValue={dataItem.category == 2 ? "2": "1"}
                   style={{ width: 527 }}
                   // onChange={handleChange}
                 >

@@ -75,7 +75,7 @@ const Bonus = (props) => {
   };
   const handleUpdate = (value) => {
     setVisible(true);
-    setDataItem(value)
+    setDataItem(value);
   };
   const renderData1 = () => {
     return fakeData1.map((item) => {
@@ -140,35 +140,26 @@ const Bonus = (props) => {
   return (
     <div className="edit-infor-form">
       <div className="tabs-main personal-history">
-        <div className="personal-history-title">Khen thưởng</div>
-        <div>
-          <div className="edit-infr-vertical-line"></div>
-          <ul className="personal-history-list">
-          {renderData1()}
-          </ul>
+        <div className="btn-btn-profile">
           <Button
-            onClick={()=>showModal(1)}
+            onClick={showModal}
             className="btn-add-detail"
             icon={<PlusCircleOutlined />}
           >
             Thêm
           </Button>
         </div>
+        <div className="personal-history-title">Khen thưởng</div>
+        <div>
+          <div className="edit-infr-vertical-line"></div>
+          <ul className="personal-history-list">{renderData1()}</ul>
+        </div>
       </div>
       <div className="tabs-main personal-history">
         <div className="personal-history-title">Kỷ luật:</div>
         <div>
           <div className="edit-infr-vertical-line"></div>
-          <ul className="personal-history-list">
-          {renderData2()}
-          </ul>
-          <Button
-            onClick={()=>showModal(2)}
-            className="btn-add-detail"
-            icon={<PlusCircleOutlined />}
-          >
-            Thêm
-          </Button>
+          <ul className="personal-history-list">{renderData2()}</ul>
         </div>
       </div>
       <Modal
@@ -193,7 +184,7 @@ const Bonus = (props) => {
               <div className="tabs-user-infor-bottom">
                 <Select
                   className="modal-selection"
-                  defaultValue={dataItem.category == 1 ? "1": "2"}
+                  defaultValue={dataItem.category == 1 ? "1" : "2"}
                   style={{ width: 527 }}
                   // onChange={handleChange}
                 >
@@ -206,21 +197,23 @@ const Bonus = (props) => {
               <span className="tabs-user-infor-top">Từ ngày</span>
               <div className="tabs-user-infor-bottom">
                 <RangePicker
-                 value={dataItem.dateStart ? [moment(
-                  dataItem.dateStart,
-                  dateFormat
-                ),moment(
-                  dataItem.dateEnd,
-                  dateFormat
-                )] : null}
-                className="modal-ranPicker" />
+                  value={
+                    dataItem.dateStart
+                      ? [
+                          moment(dataItem.dateStart, dateFormat),
+                          moment(dataItem.dateEnd, dateFormat),
+                        ]
+                      : null
+                  }
+                  className="modal-ranPicker"
+                />
               </div>
             </li>
             <li className="tabs-main-left-li">
               <span className="tabs-user-infor-top"></span>
               <div className="tabs-user-infor-bottom">
                 <TextArea
-                  value = {dataItem.content} 
+                  value={dataItem.content}
                   placeholder="Mời bạn nhập chi tiết"
                   autoSize={{ minRows: 7, maxRows: 15 }}
                 />

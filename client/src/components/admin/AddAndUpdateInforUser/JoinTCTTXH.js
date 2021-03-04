@@ -33,66 +33,54 @@ let fakeData = [
 ];
 const JoinTCTTXH = () => {
   const [visible, setVisible] = useState(false);
-  const [dataItem, setDataItem] = useState({})
+  const [dataItem, setDataItem] = useState({});
   const showModal = () => {
-    setDataItem({})
+    setDataItem({});
     setVisible(true);
-   
   };
 
   const hideModal = () => {
     setVisible(false);
   };
-  const onSubmit = () =>{
-    
-  }  
+  const onSubmit = () => {};
   const handleUpdate = (value) => {
-    setDataItem(value)
+    setDataItem(value);
     setVisible(true);
   };
-  const renderData = () =>{
-    return fakeData.map((item)=>{
-      return(
-      <li key = {item.id}>
-      <div className="personal-history-time">
-       {item.dateStart} - <span> {item.dateStart}</span>
-      </div>
-      <Space size="middle">
-        <Popconfirm
-          title="Are you sure hide this user?"
-          okText="Yes"
-          cancelText="No"
-        >
-          <Tag color="volcano" className="table-action">
-            Xoá
-          </Tag>
-        </Popconfirm>
-        <Tag
-          color="geekblue"
-          className="table-action"
-          onClick={()=>handleUpdate(item)}
-        >
-          Update
-        </Tag>
-      </Space>
-      <p className="personal-history-content">
-        {item.content}
-      </p>
-    </li> 
-    )
-    })
-  }
+  const renderData = () => {
+    return fakeData.map((item) => {
+      return (
+        <li key={item.id}>
+          <div className="personal-history-time">
+            {item.dateStart} - <span> {item.dateStart}</span>
+          </div>
+          <Space size="middle">
+            <Popconfirm
+              title="Are you sure hide this user?"
+              okText="Yes"
+              cancelText="No"
+            >
+              <Tag color="volcano" className="table-action">
+                Xoá
+              </Tag>
+            </Popconfirm>
+            <Tag
+              color="geekblue"
+              className="table-action"
+              onClick={() => handleUpdate(item)}
+            >
+              Update
+            </Tag>
+          </Space>
+          <p className="personal-history-content">{item.content}</p>
+        </li>
+      );
+    });
+  };
   return (
     <div className="edit-infor-form">
       <div className="tabs-main personal-history">
-        <div className="personal-history-title">
-          Tham gia các tổ chức chính trị, các hội nghề nghiệp:
-        </div>
-        <div>
-          <div className="edit-infr-vertical-line"></div>
-          <ul className="personal-history-list">
-          {renderData()}
-          </ul>
+        <div className="btn-btn-profile">
           <Button
             onClick={showModal}
             className="btn-add-detail"
@@ -100,6 +88,13 @@ const JoinTCTTXH = () => {
           >
             Thêm
           </Button>
+        </div>
+        <div className="personal-history-title">
+          Tham gia các tổ chức chính trị, các hội nghề nghiệp:
+        </div>
+        <div>
+          <div className="edit-infr-vertical-line"></div>
+          <ul className="personal-history-list">{renderData()}</ul>
           <Modal
             title="Nhập thông tin"
             visible={visible}
@@ -120,20 +115,21 @@ const JoinTCTTXH = () => {
                 <li className="tabs-main-left-li tabs-main-left-li-row">
                   <span className="tabs-user-infor-top">Thông tin</span>
                   <div className="tabs-user-infor-bottom">
-                  Tham gia các tổ chức chính trị, các hội nghề nghiệp:
+                    Tham gia các tổ chức chính trị, các hội nghề nghiệp:
                   </div>
                 </li>
                 <li className="tabs-main-left-li tabs-main-left-li-row">
                   <span className="tabs-user-infor-top">Từ ngày</span>
                   <div className="tabs-user-infor-bottom">
                     <RangePicker
-                    value={dataItem.dateStart ? [moment(
-                      dataItem.dateStart,
-                      dateFormat
-                    ),moment(
-                      dataItem.dateEnd,
-                      dateFormat
-                    )] : null}
+                      value={
+                        dataItem.dateStart
+                          ? [
+                              moment(dataItem.dateStart, dateFormat),
+                              moment(dataItem.dateEnd, dateFormat),
+                            ]
+                          : null
+                      }
                       className="modal-ranPicker"
                     />
                   </div>
@@ -142,7 +138,7 @@ const JoinTCTTXH = () => {
                   <span className="tabs-user-infor-top"></span>
                   <div className="tabs-user-infor-bottom">
                     <TextArea
-                      value = {dataItem.content}
+                      value={dataItem.content}
                       placeholder="Mời bạn nhập chi tiết"
                       autoSize={{ minRows: 7, maxRows: 15 }}
                     />

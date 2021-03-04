@@ -125,10 +125,7 @@ const Family = () => {
   return (
     <div className="edit-infor-form">
       <div className="tabs-main personal-history">
-        <div className="personal-history-title">Tài sản</div>
-        <div>
-          <div className="edit-infr-vertical-line"></div>
-          <ul className="personal-history-list">{renderData1()}</ul>
+      <div className="btn-btn-profile">
           <Button
             onClick={showModal1}
             className="btn-add-detail"
@@ -137,12 +134,14 @@ const Family = () => {
             Thêm
           </Button>
         </div>
-      </div>
-      <div className="tabs-main personal-history">
-        <div className="personal-history-title">Gia đình</div>
+        <div className="personal-history-title">Tài sản</div>
         <div>
           <div className="edit-infr-vertical-line"></div>
-          <ul className="personal-history-list">{renderData2()}</ul>
+          <ul className="personal-history-list">{renderData1()}</ul>
+        </div>
+      </div>
+      <div className="tabs-main personal-history">
+      <div className="btn-btn-profile">
           <Button
             onClick={showModal}
             className="btn-add-detail"
@@ -150,6 +149,11 @@ const Family = () => {
           >
             Thêm
           </Button>
+        </div>
+        <div className="personal-history-title">Gia đình</div>
+        <div>
+          <div className="edit-infr-vertical-line"></div>
+          <ul className="personal-history-list">{renderData2()}</ul>
         </div>
       </div>
       <Modal
@@ -216,7 +220,7 @@ const Family = () => {
               <span className="tabs-user-infor-top">Thông tin</span>
               <div className="tabs-user-infor-bottom">
                 <Select
-                  value={dataItem2.title == "Vợ" ? "1": "2"}
+                  value={dataItem2.title == "Con" ? "2": "1"}
                   className="modal-selection"
                   style={{ width: 527 }}
                   // onChange={handleChange}
