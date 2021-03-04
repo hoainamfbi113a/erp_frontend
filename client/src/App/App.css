@@ -1,23 +1,30 @@
-@import '~antd/dist/antd.css';
-body{
-  font-family: -apple-system,BlinkMacSystemFont,segoe ui,Roboto,helvetica neue,Arial,noto sans,sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol,noto color emoji;
+@import "~antd/dist/antd.css";
+body {
+  font-family: -apple-system, BlinkMacSystemFont, segoe ui, Roboto,
+    helvetica neue, Arial, noto sans, sans-serif, apple color emoji,
+    segoe ui emoji, segoe ui symbol, noto color emoji !important;
 }
 .logo {
-    height: 59px;
-    margin: 16px;
-  }
+  height: 59px;
+  margin: 16px;
+}
 .logo-img {
-    height: 73px;
-  }
-  
-  .site-layout-sub-header-background {
-    background: #fff;
-    
-  }
-  
-  .site-layout-background {
-    background: #fff;
-  }
-.ant-picker-clear{
+  height: 73px;
+}
+
+.site-layout-sub-header-background {
+  background: #fff;
+}
+
+.site-layout-background {
+  background: #fff;
+}
+.ant-picker-clear {
+  display: none;
+}
+.anticon-swap-right{
  display: none;
+}
+svg {
+  vertical-align: initial !important;
 }

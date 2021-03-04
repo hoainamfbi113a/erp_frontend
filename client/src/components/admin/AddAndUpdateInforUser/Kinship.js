@@ -6,9 +6,9 @@ import { Modal } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Select } from "antd";
 
-import { Space, Tag } from 'antd';
+import { Space, Tag } from "antd";
 const { Option } = Select;
-import { Popconfirm, message } from 'antd';
+import { Popconfirm, message } from "antd";
 const { TextArea } = Input;
 let fakeData = [
   {
@@ -33,12 +33,12 @@ let fakeData = [
     content: "",
   },
 ];
-const Family = () =>{
+const Family = () => {
   const [visible, setVisible] = useState(false);
   const [dataItem, setDataItem] = useState({});
   const showModal = () => {
-      setDataItem({});
-      setVisible(true);
+    setDataItem({});
+    setVisible(true);
   };
 
   const hideModal = () => {
@@ -47,11 +47,8 @@ const Family = () =>{
   const handleUpdate = (value) => {
     setVisible(true);
     setDataItem(value);
-
   };
-  const onSubmit = () =>{
-    
-  }
+  const onSubmit = () => {};
   const renderData = () => {
     return fakeData.map((item) => {
       return (
@@ -85,73 +82,69 @@ const Family = () =>{
       );
     });
   };
-  let value = "1"
-  if(dataItem && dataItem.title)
-  {
-    if(dataItem.title == "Cha") {
-      value ="1";
+  let value = "1";
+  if (dataItem && dataItem.title) {
+    if (dataItem.title == "Cha") {
+      value = "1";
     }
-    if(dataItem.title == "Mẹ"){
-      value = "2"
+    if (dataItem.title == "Mẹ") {
+      value = "2";
     }
-    if(dataItem.title == "Em gái") {
-      value ="3";
+    if (dataItem.title == "Em gái") {
+      value = "3";
     }
-    if(dataItem.title == "Em trai"){
-      value = "4"
+    if (dataItem.title == "Em trai") {
+      value = "4";
     }
-    if(dataItem.title == "Chị gái") {
-      value ="5"
+    if (dataItem.title == "Chị gái") {
+      value = "5";
     }
-    if(dataItem.title == "Anh trai"){
-      value = "6"
+    if (dataItem.title == "Anh trai") {
+      value = "6";
     }
   }
   // console.log(value)
   return (
     <div className="edit-infor-form">
-    <div className="tabs-main personal-history">
-      <div className="personal-history-title">
-      Quan hệ thân tộc
-      </div>
-      <div>
-        <div className="edit-infr-vertical-line"></div>
-        <ul className="personal-history-list">
-          {renderData()}
-        </ul>
-        <Button
-          onClick={showModal}
-          className="btn-add-detail"
-          icon={<PlusCircleOutlined />}
-        >
-          Thêm
-        </Button>
-      
-      </div>
-    </div>
-    <Modal
-          title="Nhập thông tin"
-          visible={visible}
-          onOk={hideModal}
-          onCancel={hideModal}
-          okText="OK"
-          cancelText="Cancel"
-          width={577}
-        >
-          <form
-            style={{ width: "100%" }}
-            className="tabs-main"
-            noValidate
-            onSubmit={onSubmit}
-            method="post"
+      <div className="tabs-main personal-history">
+        <div className="btn-btn-profile">
+          <Button
+            onClick={showModal}
+            className="btn-add-detail"
+            icon={<PlusCircleOutlined />}
           >
-            <ul>
+            Thêm
+          </Button>
+        </div>
+        <div className="personal-history-title">Quan hệ thân tộc</div>
+        <div>
+          <div className="edit-infr-vertical-line"></div>
+          <ul className="personal-history-list">{renderData()}</ul>
+        </div>
+      </div>
+      <Modal
+        title="Nhập thông tin"
+        visible={visible}
+        onOk={hideModal}
+        onCancel={hideModal}
+        okText="OK"
+        cancelText="Cancel"
+        width={577}
+      >
+        <form
+          style={{ width: "100%" }}
+          className="tabs-main"
+          noValidate
+          onSubmit={onSubmit}
+          method="post"
+        >
+          <ul>
             <li className="tabs-main-left-li tabs-main-left-li-row">
               <span className="tabs-user-infor-top">Thông tin</span>
               <div className="tabs-user-infor-bottom">
                 <Select
                   // value={value}
-                  defaultValue = {value}
+                  defaultValue={value}
                   className="modal-selection"
                   style={{ width: 527 }}
                   // onChange={handleChange}
@@ -171,7 +164,7 @@ const Family = () =>{
                 <Input
                   style={{ width: "100%" }}
                   name="pro_religion"
-                  value = {dataItem.name}
+                  value={dataItem.name}
                   // defaultValue={ state.pro_religion }
                   placeholder="Họ và tên"
                 />
@@ -183,7 +176,7 @@ const Family = () =>{
                 <Input
                   style={{ width: "100%" }}
                   name="pro_religion"
-                  value = {dataItem.job}
+                  value={dataItem.job}
                   // defaultValue={ state.pro_religion }
                   placeholder="Nghề nghiệp"
                 />
@@ -193,17 +186,17 @@ const Family = () =>{
               <span className="tabs-user-infor-top"></span>
               <div className="tabs-user-infor-bottom">
                 <TextArea
-                  value = {dataItem.content}
+                  value={dataItem.content}
                   placeholder="Mời bạn nhập chi tiết"
                   autoSize={{ minRows: 7, maxRows: 15 }}
                 />
               </div>
             </li>
-            </ul>
-          </form>
-        </Modal>
-  </div>
-  )
-}
+          </ul>
+        </form>
+      </Modal>
+    </div>
+  );
+};
 
-export default Family
+export default Family;

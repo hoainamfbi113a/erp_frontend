@@ -126,7 +126,7 @@
 .left-user-address {
   margin-bottom: 30px;
 }
-.btn-add-DCS{
+.btn-add-DCS {
   align-items: center;
 }
 /* .tabs-main-left-bottom{
@@ -322,10 +322,10 @@
   content: "";
   position: absolute;
   border-left: 1px solid #ebedf3;
-  left: -14px;
-  bottom: -24px;
+  left: 0px;
+  bottom: -32px;
   z-index: 1;
-  height: 131%;
+  height: 107%;
 }
 .personal-history-list li:last-child .personal-history-time:before {
   content: none;
@@ -335,7 +335,7 @@
   color: #3699ff;
   border: 1px solid #3699ff;
   margin-top: 20px;
-  margin-bottom: 30px;
+  margin-bottom: -25px;
 }
 .tabs-main-left-li-row {
   flex-direction: row;
@@ -400,14 +400,29 @@
   flex-direction: row;
 }
 .tabs-user-infor-top span {
-    color: red;
-    font-size: 20px;
+  color: red;
+  font-size: 20px;
 }
-.text-feedback-user{
+.text-feedback-user {
   color: royalblue;
   font-size: large;
   font-weight: 700;
 }
-.ant-modal-title{
+.ant-modal-title {
   text-transform: uppercase;
+}
+.btn-btn-profile {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.personal-history-list {
+  margin: auto !important;
+  padding: 18px;
+  font: caption !important;
+}
+.personal-history-list li {
+  margin: auto !important;
+  padding: 18px;
+  font: caption !important;
 }
