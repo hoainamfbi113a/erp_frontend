@@ -181,13 +181,13 @@ class TablePermission extends Component {
                 Ẩn
               </Tag>
             </Popconfirm>
-            <Tag
+            {/* <Tag
               onClick={() => this.showModal(text)}
               color="geekblue"
               className="table-action"
             >
               Cập nhật
-            </Tag>
+            </Tag> */}
           </Space>
         ),
       },
