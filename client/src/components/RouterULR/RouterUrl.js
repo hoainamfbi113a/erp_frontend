@@ -4,7 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import { getPermissionUser } from "apis/authenticationApi";
 import NotFound from "components/NotFound";
 import AddAndUpdateInforUser from "components/admin/AddAndUpdateInforUser";
-import Workflow from "components/admin/workflow/Workflow"; 
+import Workflow from "components/admin/workflow/Workflow";
 import FormBuilder from "components/admin/FormBuilder/FormBuilder";
 import Document from "components/admin/Document/Document";
 import ContentDepartment from "components/content/ContentDepartment";
@@ -22,7 +22,20 @@ import NotifiMyWord from "components/content//Notification/NotifiMyWord";
 import CreateNotifi from "components/content//Notification/CreateNotifi";
 import EditInformationUser from "components/employee/EditInformationUser";
 import "./RouterUrl.css";
-
+import {
+  Manage_Profile,
+  Manage_Department,
+  Manage_Personal_History,
+  Manage_Work_Object,
+  Manage_User_Degree,
+  Manage_Journalist_Card,
+  Manage_Part,
+  Manage_Position,
+  Assign_Department,
+  Manage_Permission,
+  Manage_Workflow,
+  Manage_Document,
+} from "constant/permission";
 export default class RouterUrl extends Component {
   constructor(props) {
     super(props);
@@ -45,51 +58,73 @@ export default class RouterUrl extends Component {
       dataPermission: data,
     });
   };
+  checkPermission = (itemMenu, action) => {
+    let dataPermission = this.state.dataPermission;
+    if (dataPermission && dataPermission.permissions)
+      for (const element of dataPermission.permissions) {
+        if (element.name === itemMenu) {
+          if (element.actions[0] === action) {
+            return true;
+          }
+        }
+      }
+    return false;
+  };
   getMajor = () => {
     let dataPermission = this.state.dataPermission;
-    if(dataPermission.permissions.length >7 &&
-       dataPermission.permissions[0].name == "Manage Profile"&&
-        dataPermission.permissions[0].actions[4]=="Confirm" &&
-        dataPermission.permissions[1].actions[4]!="Confirm"
-        ){
+    if (
+      dataPermission.permissions.length > 7 &&
+      dataPermission.permissions[0].name == "Manage Profile" &&
+      dataPermission.permissions[0].actions[4] == "Confirm" &&
+      dataPermission.permissions[1].actions[4] != "Confirm"
+    ) {
       this.setState({
-        major:10,
-      })
+        major: 10,
+      });
     }
-    if(dataPermission.permissions.length >6 &&
-       dataPermission.permissions[1].name == "Manage Department"&&
-       dataPermission.permissions[1].actions[4]=="Confirm" &&
-       dataPermission.permissions[0].actions[4]!="Confirm" 
-        ){
+    if (
+      dataPermission.permissions.length > 6 &&
+      dataPermission.permissions[1].name == "Manage Department" &&
+      dataPermission.permissions[1].actions[4] == "Confirm" &&
+      dataPermission.permissions[0].actions[4] != "Confirm"
+    ) {
       this.setState({
-        major:11,
-      })
+        major: 11,
+      });
     }
-    if(dataPermission.permissions.length >7 &&
-       dataPermission.permissions[8]&&
-        dataPermission.permissions[8].actions[4]=="Confirm"
-        && localStorage.getItem("0")==0
-        ){
+    if (
+      dataPermission.permissions.length > 7 &&
+      dataPermission.permissions[8] &&
+      dataPermission.permissions[8].actions[4] == "Confirm" &&
+      localStorage.getItem("0") == 0
+    ) {
       this.setState({
-        major:8,
-        isTrue:true
-      })
+        major: 8,
+        isTrue: true,
+      });
     }
-    if(dataPermission.permissions.length>7 &&
-       dataPermission.permissions[0].actions[4]=="Confirm" &&
-       dataPermission.permissions[6].actions[4]=="Confirm"
-       && localStorage.getItem("0")!=0
-       ){
+    if (
+      dataPermission.permissions.length > 7 &&
+      dataPermission.permissions[0].actions[4] == "Confirm" &&
+      dataPermission.permissions[6].actions[4] == "Confirm" &&
+      localStorage.getItem("0") != 0
+    ) {
       this.setState({
-        major:1,
-      })
+        major: 1,
+      });
     }
   };
   renderUrl = () => {
     if (this.state.major == 8 && this.state.isTrue === true) {
       return (
         <Switch>
-          <Route exact path="/user" component={ContentUserSix}></Route>
+          {this.checkPermission(Manage_Profile, "Create") === true ? (
+            // <Route exact path="/user" component={()=><ContentUserSix actions={permission.actions}/>}></Route>
+            <Route exact path="/user" component={()=><ContentUserSix />}></Route>
+          ) : (
+            ""
+          )}
+
           <Route
             exact
             path="/notification"
@@ -105,19 +140,48 @@ export default class RouterUrl extends Component {
             path="/edituser/:id"
             component={AddAndUpdateInforUser}
           ></Route>
-          <Route
-            exact
-            path="/adduser"
-            component={AddAndUpdateInforUser}
-          ></Route>
+          {this.checkPermission(Manage_Profile, "Create") === true ? (
+            <Route
+              exact
+              path="/adduser"
+              component={AddAndUpdateInforUser}
+            ></Route>
+          ) : (
+            ""
+          )}
           <Route exact path="/roles" component={ContentRoles}></Route>
           <Route exact path="/permission" component={ContentPermission}></Route>
           <Route exact path="/parts" component={ContentParts}></Route>
-          <Route exact path="/position" component={ContentPosition}></Route>
-          <Route exact path="/department" component={ContentDepartment}></Route>
-          <Route exact path="/workflow" component={Workflow}></Route>
-          <Route exact path="/form-builder" component={FormBuilder}></Route>
-          <Route exact path="/documents" component={Document}></Route>
+          {this.checkPermission(Manage_Position, "Create") === true ? (
+            <Route exact path="/position" component={ContentPosition}></Route>
+          ) : (
+            ""
+          )}
+          {this.checkPermission(Manage_Document, "Create") === true ? (
+            <Route
+              exact
+              path="/department"
+              component={ContentDepartment}
+            ></Route>
+          ) : (
+            ""
+          )}
+          {this.checkPermission(Manage_Workflow, "Create") === true ? (
+            <Route exact path="/workflow" component={Workflow}></Route>
+          ) : (
+            ""
+          )}
+          {this.checkPermission(Manage_Workflow, "Create") === true ? (
+            <Route exact path="/form-builder" component={FormBuilder}></Route>
+          ) : (
+            ""
+          )}
+          {this.checkPermission(Manage_Workflow, "Create") === true ? (
+            <Route exact path="/documents" component={Document}></Route>
+          ) : (
+            ""
+          )}
+
           <Route
             exact
             path="/notification"
@@ -153,7 +217,7 @@ export default class RouterUrl extends Component {
           {/* <Route component={NotFound} /> */}
         </Switch>
       );
-    } else if (this.state.major ==1) {
+    } else if (this.state.major == 1) {
       return (
         <Switch>
           <Route exact path="/user" component={ContentUserSix}></Route>
@@ -186,8 +250,7 @@ export default class RouterUrl extends Component {
       );
     } else if (this.state.major == -1) {
       return <Switch>{/* <Route component={NotFound} /> */}</Switch>;
-    } 
-    else if (this.state.major == 0) {
+    } else if (this.state.major == 0) {
       return (
         <Switch>
           <Route exact path="/user" component={ContentUserSix}></Route>
@@ -236,8 +299,7 @@ export default class RouterUrl extends Component {
           {/* <Route component={NotFound} /> */}
         </Switch>
       );
-    }
-    else if (this.state.major == 11) {
+    } else if (this.state.major == 11) {
       return (
         <Switch>
           <Route exact path="/user" component={ContentUserSix}></Route>

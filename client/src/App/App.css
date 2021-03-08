@@ -28,3 +28,25 @@ body {
 svg {
   vertical-align: initial !important;
 }
+.form-builder .row {
+  display: flex;
+  justify-content: center;
+} 
+.row .col-md-4 .border-primary {
+ margin-left: 0 !important;
+}
+
+element.style {
+  margin-left: 150px;
+  margin-top: 50px;
+  width: 24rem;
+}
+.row .col-md-4 .border-primary {
+  margin-left: 0 !important;
+}
+.form-builder .card {
+  /* overflow: auto; */
+}
+.card {
+  height: auto !important;
+}

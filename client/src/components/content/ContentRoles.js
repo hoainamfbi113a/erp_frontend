@@ -8,14 +8,16 @@ const { Search } = Input;
 import "./Content.css";
 
 export default class ContentRoles extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.child = React.createRef();
     this.state = {
       visible: false,
       registerUserSuccess: false
     };
   }
   showModal = () => {
+    this.clickChild()
     this.setState({
       visible:true
     })
@@ -43,11 +45,13 @@ export default class ContentRoles extends Component {
           </div>
           <div className="content-top-right">
             <Button onClick={this.showModal} className="btn-add-user-six">
-              Thêm roles
+              Thêm roles mới
             </Button>
           </div>
         </div>
-        <TableRoles showModalRoles={this.state.visible} hideModal={this.hideModal} showModal={this.showModal} />
+        <TableRoles showModalRoles={this.state.visible}
+        setClick={click => this.clickChild = click}
+        hideModal={this.hideModal} showModal={this.showModal} />
       </div>
     );
   }

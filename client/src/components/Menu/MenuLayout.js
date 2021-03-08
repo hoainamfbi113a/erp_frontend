@@ -6,6 +6,20 @@ import { Menu, Layout } from "antd";
 import { withRouter } from "react-router";
 import { UserOutlined, ShopOutlined } from "@ant-design/icons";
 import docCookies from "doc-cookies";
+import {
+  Manage_Profile,
+  Manage_Department,
+  Manage_Personal_History,
+  Manage_Work_Object,
+  Manage_User_Degree,
+  Manage_Journalist_Card,
+  Manage_Part,
+  Manage_Position,
+  Assign_Department,
+  Manage_Permission,
+  Manage_Workflow,
+  Manage_Document,
+} from "constant/permission";
 import "./Menu.css";
 const { SubMenu } = Menu;
 const { Sider } = Layout;
@@ -40,6 +54,18 @@ class MenuLayout extends Component {
     // this.setState({
     //   slugPermission: data,
     // });
+  };
+  checkPermission = (itemMenu, action) => {
+    let dataPermission = this.state.dataPermission;
+    if(dataPermission && dataPermission.permissions)
+    for (const element of dataPermission.permissions) {
+      if (element.name === itemMenu) {
+        if (element.actions[0] === action) {
+          return true;
+        }
+      }
+    }
+    return false;
   };
   getMajor = () => {
     // let dataSlug = this.state.slugPermission;
@@ -100,68 +126,13 @@ class MenuLayout extends Component {
             <Link to="/permission"> Quyền </Link>
           </Menu.Item>
           <Menu.Item key="15">
-          <Link to="/roles"> Roles </Link>
-        </Menu.Item>
+            <Link to="/roles"> Roles </Link>
+          </Menu.Item>
         </SubMenu>
       );
     }
   };
   renderMenu = () => {
-    if (this.state.major == 1) {
-      return (
-        <SubMenu
-          key="7"
-          icon={<UserOutlined />}
-          title="Nghiệp vụ"
-          icon={<ShopOutlined />}
-        >
-          <Menu.Item key="8" onClick={this.handleOnclick}>
-            <Link to="/usersix">Nhân sự </Link>
-          </Menu.Item>
-        </SubMenu>
-      );
-    }
-    if (this.state.major == 11) {
-      return(
-        <SubMenu
-        key="7"
-        icon={<UserOutlined />}
-        title="Nghiệp vụ"
-        icon={<ShopOutlined />}
-      >
-        <Menu.Item key="9">
-          <Link to="/department">Phòng ban </Link>
-        </Menu.Item>
-        ;
-      </SubMenu>
-      )
-    }
-    if (this.state.major == 3) {
-      <SubMenu
-        key="7"
-        icon={<UserOutlined />}
-        title="Nghiệp vụ"
-        icon={<ShopOutlined />}
-      >
-        <Menu.Item key="10">
-          <Link to="/parts">Tổ</Link>
-        </Menu.Item>
-        ;
-      </SubMenu>;
-    }
-    if (this.state.major == 4) {
-      <SubMenu
-        key="7"
-        icon={<UserOutlined />}
-        title="Nghiệp vụ"
-        icon={<ShopOutlined />}
-      >
-        <Menu.Item key="11">
-          <Link to="/position">Chức vụ</Link>
-        </Menu.Item>
-        ;
-      </SubMenu>;
-    }
     if (this.state.major == 8 && this.state.isTrue === true) {
       return (
         <SubMenu
@@ -170,30 +141,51 @@ class MenuLayout extends Component {
           title="Nghiệp vụ"
           icon={<ShopOutlined />}
         >
-          <Menu.Item key="8" onClick={this.handleOnclick}>
-            <Link to="/usersix">Nhân sự </Link>
-          </Menu.Item>
-          <Menu.Item key="9">
-            <Link to="/department">Phòng ban </Link>
-          </Menu.Item>
-          ;
-          <Menu.Item key="10">
-            <Link to="/parts">Tổ</Link>
-          </Menu.Item>
-          ;
-          <Menu.Item key="11">
-            <Link to="/position">Chức vụ</Link>
-          </Menu.Item>
-          <Menu.Item key="12">
-            <Link to="/workflow">Workflow</Link>
-          </Menu.Item>
+          {this.checkPermission(Manage_Profile, "Create") === true ? (
+            <Menu.Item key="8" onClick={this.handleOnclick}>
+              <Link to="/usersix">Nhân sự </Link>
+            </Menu.Item>
+          ) : (
+            ""
+          )}
+          {this.checkPermission(Manage_Department, "Create") === true ? (
+            <Menu.Item key="9">
+              <Link to="/department">Phòng ban </Link>
+            </Menu.Item>
+          ) : (
+            ""
+          )}
+          {this.checkPermission(Manage_Part, "Create") === true ? (
+            <Menu.Item key="10">
+              <Link to="/parts">Tổ</Link>
+            </Menu.Item>
+          ) : (
+            ""
+          )}
+          {this.checkPermission(Manage_Position, "Create") === true ? (
+            <Menu.Item key="11">
+              <Link to="/position">Chức vụ</Link>
+            </Menu.Item>
+          ) : (
+            ""
+          )}
+          {this.checkPermission(Manage_Workflow, "Create") === true ? (
+            <Menu.Item key="12">
+              <Link to="/workflow">Workflow</Link>
+            </Menu.Item>
+          ) : (
+            ""
+          )}
           <Menu.Item key="13">
             <Link to="/form-builder">Form builder</Link>
           </Menu.Item>
-          <Menu.Item key="14">
-            <Link to="/documents">Document</Link>
-          </Menu.Item>
-          ;
+          {this.checkPermission(Manage_Document, "Create") === true ? (
+            <Menu.Item key="14">
+              <Link to="/documents">Document</Link>
+            </Menu.Item>
+          ) : (
+            ""
+          )}
         </SubMenu>
       );
     }

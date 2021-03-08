@@ -73,6 +73,7 @@ module.exports = (env, agrv) => {
         'helpers': path.resolve(__dirname, 'src/helpers/'),
         'assets': path.resolve(__dirname, 'src/assets/'),
         'reduxToolkit': path.resolve(__dirname, 'src/reduxToolkit/'),
+        'constant': path.resolve(__dirname, 'src/constant/'),
       }
     },
     optimization: {

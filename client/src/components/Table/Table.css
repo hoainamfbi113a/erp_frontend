@@ -113,6 +113,12 @@
     z-index: 4;
 } */
 /* custom transfer */
+.select-grant-role{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 10px;
+}
 .ant-transfer-list-header {
     display: none;
 }
