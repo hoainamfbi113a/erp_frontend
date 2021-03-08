@@ -6,7 +6,6 @@ import NotFound from "components/NotFound";
 import AddAndUpdateInforUser from "components/admin/AddAndUpdateInforUser";
 import Workflow from "components/admin/workflow/Workflow";
 import FormBuilder from "components/admin/FormBuilder/FormBuilder";
-import Document from "components/admin/Document/Document";
 import ContentDepartment from "components/content/ContentDepartment";
 import ContentMyNotification from "components/content/ContentMyNotification";
 import ContentParts from "components/content/ContentParts";
@@ -157,7 +156,7 @@ export default class RouterUrl extends Component {
           ) : (
             ""
           )}
-          {this.checkPermission(Manage_Document, "Create") === true ? (
+          {/* {this.checkPermission(Manage_Document, "Create") === true ? (
             <Route
               exact
               path="/department"
@@ -165,7 +164,7 @@ export default class RouterUrl extends Component {
             ></Route>
           ) : (
             ""
-          )}
+          )} */}
           {this.checkPermission(Manage_Workflow, "Create") === true ? (
             <Route exact path="/workflow" component={Workflow}></Route>
           ) : (
