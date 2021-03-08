@@ -15,6 +15,7 @@ const FormBuilder = () => {
     /> */}
      <div>
       <TTFormBuilder 
+      urlSearchTypeDoc='https://document.tuoitre.vn/api/document-type/search'
       urlGetListTypeDoc='https://document.tuoitre.vn/api/document-type/get-document-types'
       apiKey=''
       urlCreate='https://document.tuoitre.vn/api/document-template/store'
