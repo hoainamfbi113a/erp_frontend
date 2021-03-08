@@ -424,6 +424,7 @@ class addInformationUser extends Component {
         email: this.state.email,
         phone: this.state.phone,
         full_name: this.state.pro_name,
+        password:"123123",
         service_management_id: "1",
       };
       let resRegister = await register(paramUser);

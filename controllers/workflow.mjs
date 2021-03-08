@@ -11,13 +11,10 @@ router.get('/update-profile',async (req,res)=>{
 })
 router.get('/get-workflow-types', async (req,res)=>{
   let { data } = await axios.get(`${process.env.apiWorkflow}/api/workflow/get-workflow-types`);
-    // console.log(data)
-    res.send(data);
+  res.status(204).json(data)
+    // res.send(data);
 })
 router.get('/detail', async (req,res)=>{
-
-
- 
   try {
     const { type } = req.query;
     let { data, status } = await 
