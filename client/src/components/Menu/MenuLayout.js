@@ -179,13 +179,13 @@ class MenuLayout extends Component {
           <Menu.Item key="13">
             <Link to="/form-builder">Form builder</Link>
           </Menu.Item>
-          {this.checkPermission(Manage_Document, "Create") === true ? (
+          {/* {this.checkPermission(Manage_Document, "Create") === true ? (
             <Menu.Item key="14">
               <Link to="/documents">Document</Link>
             </Menu.Item>
           ) : (
             ""
-          )}
+          )} */}
         </SubMenu>
       );
     }
