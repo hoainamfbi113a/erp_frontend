@@ -20,6 +20,7 @@ import NotifiDepartment from "components/content//Notification/NotifiDepartment"
 import NotifiMyWord from "components/content//Notification/NotifiMyWord";
 import CreateNotifi from "components/content//Notification/CreateNotifi";
 import EditInformationUser from "components/employee/EditInformationUser";
+import formDocument from "components/content/documents/Form";
 import "./RouterUrl.css";
 import {
   Manage_Profile,
@@ -128,6 +129,11 @@ export default class RouterUrl extends Component {
             exact
             path="/notification"
             component={ContentNotification}
+          ></Route>
+          <Route
+            exact
+            path="/form-document"
+            component={formDocument}
           ></Route>
           <Route
             exact

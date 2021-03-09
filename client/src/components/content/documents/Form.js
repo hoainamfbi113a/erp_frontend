@@ -185,84 +185,84 @@ class Create extends Component {
       documentData: {},
     };
   }
-  handleCheckboxChange = (e, inputId, isChecked) => {
-    const stateInputsData = this.state.inputsData;
-    var index = stateInputsData.findIndex((x) => x.id === inputId);
-    if (index != -1) {
-      let check = stateInputsData[index].value.includes(e.target.value);
-      let index2 = stateInputsData[index].value.findIndex(
-        (x) => x === e.target.value
-      );
-      if (check === false) {
-        this.setState({
-          inputsData: [
-            ...stateInputsData.slice(0, index),
-            {
-              id: inputId,
-              value: [...stateInputsData[index].value, e.target.value],
-            },
-            ...stateInputsData.slice(index + 1),
-          ],
-        });
-      } else {
-        this.setState({
-          inputsData: [
-            ...stateInputsData.slice(0, index),
-            {
-              id: inputId,
-              value: [
-                ...stateInputsData[index].value.slice(0, index2),
-                ...stateInputsData[index].value.slice(index2 + 1),
-              ],
-            },
-            ...stateInputsData.slice(index + 1),
-          ],
-        });
-      }
-    } else {
-      this.setState({
-        inputsData: [
-          ...stateInputsData,
-          {
-            id: inputId,
-            value: [e.target.value],
-          },
-        ],
-      });
-    }
-  };
-  handleChange = (e, inputId) => {
-    const stateInputsData = this.state.inputsData;
-    var index = stateInputsData.findIndex((x) => x.id === inputId);
-    if (index != -1) {
-      this.setState({
-        inputsData: [
-          ...stateInputsData.slice(0, index),
-          {
-            id: inputId,
-            value: e.target.value,
-          },
-          ...stateInputsData.slice(index + 1),
-        ],
-      });
-    } else {
-      this.setState({
-        inputsData: [
-          ...stateInputsData,
-          {
-            id: inputId,
-            value: e.target.value,
-          },
-        ],
-      });
-    }
-  };
-  handleClick = (e) => {
-    var data = {
-      template_id: this.state.documentData.itemForm.id,
-      inputs: this.state.listInputs,
-    };
-  };
+  // handleCheckboxChange = (e, inputId, isChecked) => {
+  //   const stateInputsData = this.state.inputsData;
+  //   var index = stateInputsData.findIndex((x) => x.id === inputId);
+  //   if (index != -1) {
+  //     let check = stateInputsData[index].value.includes(e.target.value);
+  //     let index2 = stateInputsData[index].value.findIndex(
+  //       (x) => x === e.target.value
+  //     );
+  //     if (check === false) {
+  //       this.setState({
+  //         inputsData: [
+  //           ...stateInputsData.slice(0, index),
+  //           {
+  //             id: inputId,
+  //             value: [...stateInputsData[index].value, e.target.value],
+  //           },
+  //           ...stateInputsData.slice(index + 1),
+  //         ],
+  //       });
+  //     } else {
+  //       this.setState({
+  //         inputsData: [
+  //           ...stateInputsData.slice(0, index),
+  //           {
+  //             id: inputId,
+  //             value: [
+  //               ...stateInputsData[index].value.slice(0, index2),
+  //               ...stateInputsData[index].value.slice(index2 + 1),
+  //             ],
+  //           },
+  //           ...stateInputsData.slice(index + 1),
+  //         ],
+  //       });
+  //     }
+  //   } else {
+  //     this.setState({
+  //       inputsData: [
+  //         ...stateInputsData,
+  //         {
+  //           id: inputId,
+  //           value: [e.target.value],
+  //         },
+  //       ],
+  //     });
+  //   }
+  // };
+  // handleChange = (e, inputId) => {
+  //   const stateInputsData = this.state.inputsData;
+  //   var index = stateInputsData.findIndex((x) => x.id === inputId);
+  //   if (index != -1) {
+  //     this.setState({
+  //       inputsData: [
+  //         ...stateInputsData.slice(0, index),
+  //         {
+  //           id: inputId,
+  //           value: e.target.value,
+  //         },
+  //         ...stateInputsData.slice(index + 1),
+  //       ],
+  //     });
+  //   } else {
+  //     this.setState({
+  //       inputsData: [
+  //         ...stateInputsData,
+  //         {
+  //           id: inputId,
+  //           value: e.target.value,
+  //         },
+  //       ],
+  //     });
+  //   }
+  // };
+  // handleClick = (e) => {
+  //   var data = {
+  //     template_id: this.state.documentData.itemForm.id,
+  //     inputs: this.state.listInputs,
+  //   };
+  // };
   componentWillMount() {
     this.setState({
       documentData: this.props.documentData,
@@ -291,12 +291,14 @@ class Create extends Component {
         });
     } else {
       let params = {
-        type_id: this.props.documentData.itemForm.id,
+        type_id: 2,
       };
-      ApiHelper.callAxios(this.props.urlGetForm, "get", params)
+      // ApiHelper.callAxios(this.props.urlGetForm, "get", params)
+      axios.get("https://document.tuoitre.vn/api/document-template/get?type_id=2")
         .then((data) => {
+          // console.log(data.data)
           this.setState({
-            listInputs: data.inputs,
+            listInputs: data.data.inputs,
           });
         })
         .catch((err) => {
@@ -304,46 +306,13 @@ class Create extends Component {
         });
     }
   }
-  handleSubmit = (e, action) => {
-    if (action === "create") {
-      let data = {
-        template_id: this.state.documentData.itemForm.template_id,
-        user_id: this.props.userId,
-        inputs: this.state.inputsData,
-      };
-      ApiHelper.callAxios(this.props.urlCreate, "post", {}, data)
-        .then((data) => {
-          alert("Tạo tài liệu thành công!");
-          this.props.handleBackBtn();
-        })
-        .catch((err) => {
-          console.log(err);
-          alert("Tạo tài liệu thất bại!");
-        });
-    } else if (action === "update") {
-      let data = {
-        document_id: this.state.data_document_id,
-        user_id: this.props.userId,
-        inputs: this.state.inputsData,
-      };
-      ApiHelper.callAxios(this.props.urlUpdate, "post", {}, data)
-        .then((data) => {
-          alert("Cập nhật tài liệu thành công!");
-          this.props.handleBackBtn();
-        })
-        .catch((err) => {
-          console.log(data);
-          alert("Cập nhật tài liệu thất bại!");
-        });
-    }
-  };
   render() {
-    const { listInputs, inputsData, documentData } = this.state;
+    const { listInputs, inputsData } = this.state;
+    console.log(listInputs)
     return (
       <div>
         <div className="row">
-          <div className="col-md-2">
-          </div>
+          <div className="col-md-2"></div>
           <div className="col-md-8"></div>
         </div>
         <div className="row">
@@ -374,10 +343,10 @@ class Create extends Component {
                       data={item}
                       value={value}
                       value2={data2}
-                      handleTextChange={this.handleTextChange}
-                      handleChange={this.handleChange}
-                      handleCheckboxChange={this.handleCheckboxChange}
-                      handleClick={this.handleClick}
+                      // handleTextChange={this.handleTextChange}
+                      // handleChange={this.handleChange}
+                      // handleCheckboxChange={this.handleCheckboxChange}
+                      // handleClick={this.handleClick}
                     />
                   </div>
                 );

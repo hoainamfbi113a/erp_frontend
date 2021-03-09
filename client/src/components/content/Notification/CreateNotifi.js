@@ -62,7 +62,7 @@ export default class CreateNotifi extends Component {
     })
   }
   onSelect = (selectedKeys, info) => {
-    console.log('selected', selectedKeys, info);
+    this.props.history.push("/form-document");
   };
   render() {
     let treeData = this.state.treeData;
@@ -80,26 +80,6 @@ export default class CreateNotifi extends Component {
             </div>
             <Tree treeData={treeData} height={233} defaultExpandAll onSelect={this.onSelect} />
             <div className="create-notifi-content">
-              
-              {/* <ul>
-             
-                 <li onClick = {()=>{this.showModal("tạo phiếu đề xuất")}}>
-                  <img src={proposal}></img>
-                  <span> Phiếu đề xuất. </span>
-                </li>
-                <li onClick = {()=>this.showModal("tạo xin nghỉ phép")}>
-                  <img src={takeleave}></img>
-                  <span> Đơn xin nghỉ phép. </span>
-                </li>
-                <li onClick = {()=>this.showModal("tạo đặt phòng họp")}>
-                  <img src={put}></img>
-                  <span> Đặt phòng họp.</span>
-                </li>
-                <li onClick = {()=>this.showModal("tạo  bình bầu thi đua")}>
-                  <img src={vote}></img>
-                  <span> Bình bầu thi đua. </span>
-                </li> 
-              </ul> */}
             </div>
           </div>
         </div>
