@@ -4,7 +4,7 @@ const listRole = async (req, res) => {
     const config = {
         headers: { Authorization: req.headers.authorization },
     };
-    let { data } = await axios.get(`${process.env.apiEmployee}/api/role?page=${page}`, config);
+    let { data } = await axios.get(`${process.env.apiEmployee}/api/permission/departments/positions/list`, config);
     res.send(data);
 };
 

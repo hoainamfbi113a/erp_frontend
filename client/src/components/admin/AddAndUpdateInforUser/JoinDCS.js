@@ -2,15 +2,9 @@ import React, { useState } from "react";
 import { Input } from "antd";
 import { Button, DatePicker } from "antd";
 const JoinDCS = () => {
-  const onChange = () =>{
-
-  }
-  const onChangeBirthDay = () =>{
-    
-  }
-  const onSubmit = () =>{
-    
-  }
+  const onChange = () => {};
+  const onChangeBirthDay = () => {};
+  const onSubmit = () => {};
   return (
     <div className="edit-infor-form edit-infor-form-DCS">
       <div className="tabs-main">
@@ -79,28 +73,31 @@ const JoinDCS = () => {
                       />
                     </div>
                   </li>
-                  <li className="tabs-main-left-li tabs-main-left-li-row">
-                    <span className="tabs-user-infor-top ">Chức vụ:</span>
-                    <div className="tabs-user-infor-bottom">
-                      <Input
-                        name="pro_birth_place"
-                        // defaultValue={ state.pro_birth_place }
-                        onChange={onChange}
-                        placeholder="Chức vụ người giới thiệu thứ nhất"
-                      />
-                    </div>
+                  <li className="tabs-main-left-li tabs-main-left-li-lever-2">
+                    <li className="tabs-main-left-li tabs-main-left-li-row">
+                      <span className="tabs-user-infor-top ">Chức vụ:</span>
+                      <div className="tabs-user-infor-bottom">
+                        <Input
+                          name="pro_birth_place"
+                          // defaultValue={ state.pro_birth_place }
+                          onChange={onChange}
+                          placeholder="Chức vụ người giới thiệu thứ nhất"
+                        />
+                      </div>
+                    </li>
+                    <li className="tabs-main-left-li tabs-main-left-li-row">
+                      <span className="tabs-user-infor-top">Đơn vị:</span>
+                      <div className="tabs-user-infor-bottom">
+                        <Input
+                          name="pro_birth_place"
+                          // defaultValue={ state.pro_birth_place }
+                          onChange={onChange}
+                          placeholder="Đơn vị người giới thiệu thứ nhất"
+                        />
+                      </div>
+                    </li>
                   </li>
-                  <li className="tabs-main-left-li tabs-main-left-li-row">
-                    <span className="tabs-user-infor-top">Đơn vị:</span>
-                    <div className="tabs-user-infor-bottom">
-                      <Input
-                        name="pro_birth_place"
-                        // defaultValue={ state.pro_birth_place }
-                        onChange={onChange}
-                        placeholder="Đơn vị người giới thiệu thứ nhất"
-                      />
-                    </div>
-                  </li>
+
                   <li className="tabs-main-left-li">
                     <span className="tabs-user-infor-top">Hiện nay ở đâu</span>
                     <div className="tabs-user-infor-bottom">
@@ -125,6 +122,7 @@ const JoinDCS = () => {
                       />
                     </div>
                   </li>
+                  <li className="tabs-main-left-li tabs-main-left-li-lever-2">
                   <li className="tabs-main-left-li tabs-main-left-li-row">
                     <span className="tabs-user-infor-top">Chức vụ :</span>
                     <div className="tabs-user-infor-bottom">
@@ -146,6 +144,7 @@ const JoinDCS = () => {
                         placeholder="Đơn vị "
                       />
                     </div>
+                  </li>
                   </li>
                   <li className="tabs-main-left-li">
                     <span className="tabs-user-infor-top">Hiện nay ở đâu</span>
@@ -171,6 +170,7 @@ const JoinDCS = () => {
                       />
                     </div>
                   </li>
+                  <li className="tabs-main-left-li tabs-main-left-li-lever-2">
                   <li className="tabs-main-left-li tabs-main-left-li-row">
                     <span className="tabs-user-infor-top">Tại chi bộ:</span>
                     <div className="tabs-user-infor-bottom">
@@ -193,7 +193,10 @@ const JoinDCS = () => {
                       />
                     </div>
                   </li>
+                  </li>
+                  
                   <div className="join-DCS-three">
+                  <li className="tabs-main-left-li tabs-main-left-li-lever-2">
                     <li className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row-clear">
                       <span className="tabs-user-infor-top">Số Đảng viên:</span>
                       <div className="tabs-user-infor-bottom">
@@ -232,6 +235,7 @@ const JoinDCS = () => {
                           placeholder="Cấp sổ Đảng viên ở Đảng bộ"
                         />
                       </div>
+                    </li>
                     </li>
                   </div>
                   <li className="tabs-main-left-li btn-add-DCS">

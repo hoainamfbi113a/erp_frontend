@@ -50,3 +50,12 @@ element.style {
 .card {
   height: auto !important;
 }
+.ant-pagination{
+  padding-top:25px;
+  padding:17px;
+}
+.ant-tag-volcano{
+  color: #181c32;
+  background: #f3f6f9;
+  border-color: #777;
+}
