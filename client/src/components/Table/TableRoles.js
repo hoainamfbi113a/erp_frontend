@@ -57,11 +57,11 @@ class TableRoles extends Component {
     this.setState({
       dataRoles
     });
-    await axiosConfig.get("/api/action").then((res) => {
-      this.setState({
-        dataAction: res.data,
-      });
-    });
+    // await axiosConfig.get("/api/action").then((res) => {
+    //   this.setState({
+    //     dataAction: res.data,
+    //   });
+    // });
   };
   getMock = async (dep_id, pos_id) => {
     const targetKeys = [];
@@ -84,12 +84,11 @@ class TableRoles extends Component {
       .then((res) => {
         dataRight = res;
       });
-    var arrAll = this.state.dataAction.map((obj) => ({
-      key: obj.id + Math.random(),
-      // key: obj.id*2,
-      id: obj.id,
-      title: obj.name,
-    }));
+    // var arrAll = this.state.dataAction.map((obj) => ({
+    //   key: obj.id + Math.random(),
+    //   id: obj.id,
+    //   title: obj.name,
+    // }));
     var arrRight = dataRight.map((obj) => ({
       key: obj.id,
       id: obj.id,
@@ -99,51 +98,61 @@ class TableRoles extends Component {
         parentId: obj.id,
       })),
     }));
-    for (let i = 0; i < this.state.dataPermission.length; i++) {
+    let arrPermission = this.state.dataPermission;
+    for (let i = 0; i < arrPermission.length; i++) {
+      let arrAction = [];
+      for(let itemAction of arrPermission.actions) {
+        let obj ={
+          title: itemAction.actions,
+          key: i.toString()+ itemAction.id.toString(),
+        }
+        arrAction.push(obj)
+       
+      }
       const data = {
         key: `${this.state.dataPermission[i].id}`,
         title: `${this.state.dataPermission[i].name}`,
         id: `${this.state.dataPermission[i].id}`,
-        children: arrAll,
+        children: arrAction,
       };
 
-      for (let j = 0; j < dataRight.length; j++) {
-        if (dataRight[j].id == this.state.dataPermission[i].id) {
-          let arrRightAction = [];
-          for (const value of arrRight) {
-            if (value.id === dataRight[j].id) {
-              arrRightAction = lodash.intersectionBy(
-                data.children,
-                value.title,
-                "title"
-              );
-            }
-          }
-          let dataClone = {
-            key: `${this.state.dataPermission[i].id} clone`,
-            title: `${this.state.dataPermission[i].name}`,
-            id: `${this.state.dataPermission[i].id}`,
-            children: arrRightAction,
-          };
-          targetKeys.push(dataClone.key);
-          mockData.push(dataClone);
-        }
-      }
+      // for (let j = 0; j < dataRight.length; j++) {
+      //   if (dataRight[j].id == this.state.dataPermission[i].id) {
+      //     let arrRightAction = [];
+      //     for (const value of arrRight) {
+      //       if (value.id === dataRight[j].id) {
+      //         arrRightAction = lodash.intersectionBy(
+      //           data.children,
+      //           value.title,
+      //           "title"
+      //         );
+      //       }
+      //     }
+      //     let dataClone = {
+      //       key: `${this.state.dataPermission[i].id} clone`,
+      //       title: `${this.state.dataPermission[i].name}`,
+      //       id: `${this.state.dataPermission[i].id}`,
+      //       children: arrRightAction,
+      //     };
+      //     targetKeys.push(dataClone.key);
+      //     mockData.push(dataClone);
+      //   }
+      // }
       // format child Action left
-      for (let j = 0; j < dataRight.length; j++) {
-        if (dataRight[j].id == this.state.dataPermission[i].id) {
-          for (const value of arrRight) {
-            if (value.id === dataRight[j].id) {
-              const arrTemp = lodash.differenceBy(
-                data.children,
-                value.title,
-                "title"
-              );
-              data.children = arrTemp;
-            }
-          }
-        }
-      }
+      // for (let j = 0; j < dataRight.length; j++) {
+      //   if (dataRight[j].id == this.state.dataPermission[i].id) {
+      //     for (const value of arrRight) {
+      //       if (value.id === dataRight[j].id) {
+      //         const arrTemp = lodash.differenceBy(
+      //           data.children,
+      //           value.title,
+      //           "title"
+      //         );
+      //         data.children = arrTemp;
+      //       }
+      //     }
+      //   }
+      // }
       mockData.push(data);
     }
 
