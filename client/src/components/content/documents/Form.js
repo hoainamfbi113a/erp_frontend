@@ -3,10 +3,10 @@ import classes from "classnames";
 import * as Constant from "constant/ConstantDocument";
 import * as ApiHelper from "helpers/ApiHelper";
 import axios from "axios";
+import { withRouter } from 'react-router-dom';
 // import Button from "react-bootstrap/Button";
 
 function RenderInputPreview(props) {
-  console.log(props.data.type);
   var data = "";
   switch (props.data.type) {
     case Constant.INPUT_TYPE_TEXTFIELD:
@@ -294,9 +294,14 @@ class Create extends Component {
         type_id: 2,
       };
       // ApiHelper.callAxios(this.props.urlGetForm, "get", params)
-      axios.get("https://document.tuoitre.vn/api/document-template/get?type_id=2")
+      const id = this.props.match.params.id
+      axios.get(`https://document.tuoitre.vn/api/document-template/get?type_id=${id}`)
         .then((data) => {
-          // console.log(data.data)
+          
+          if(data.data.inputs.length === 0) {
+            alert("Template chưa được tạo")
+            this.props.history.push(`/notification/create`);
+          }
           this.setState({
             listInputs: data.data.inputs,
           });
@@ -308,7 +313,6 @@ class Create extends Component {
   }
   render() {
     const { listInputs, inputsData } = this.state;
-    console.log(listInputs)
     return (
       <div>
         <div className="row">

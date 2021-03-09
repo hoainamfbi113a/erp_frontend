@@ -132,7 +132,7 @@ export default class RouterUrl extends Component {
           ></Route>
           <Route
             exact
-            path="/form-document"
+            path="/form-document/:id"
             component={formDocument}
           ></Route>
           <Route
