@@ -42,7 +42,8 @@ export default class CreateNotifi extends Component {
         for (let itemChild of item.children ) {
           const treeNodeChild = {
             title:itemChild.display_name,
-            key:itemChild.id
+            key:itemChild.id,
+            id:itemChild.id
           }
           treeDataStudent.push(treeNodeChild)
         }
@@ -62,7 +63,22 @@ export default class CreateNotifi extends Component {
     })
   }
   onSelect = (selectedKeys, info) => {
-    this.props.history.push("/form-document");
+    let id = info.node.id;
+    if(id){
+      axios.get(`https://document.tuoitre.vn/api/document-template/get?type_id=${id}`)
+      .then((data) => {
+        if(data.data.inputs.length === 0) {
+          alert("Template chưa được tạo")
+        } else {
+          this.props.history.push(`/form-document/${id}`);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    } else {
+      return ;
+    }
   };
   render() {
     let treeData = this.state.treeData;
