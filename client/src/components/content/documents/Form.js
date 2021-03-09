@@ -312,6 +312,25 @@ class Create extends Component {
         });
     }
   }
+  handleSubmit = (e) => {
+    // if (action === "create") {
+      let data = {
+        template_id: this.props.match.params.id,
+        user_id: 1,
+        inputs: this.state.inputsData,
+      };
+      // ApiHelper.callAxios(this.props.urlCreate, "post", {}, data)
+      axios.post("https://document.tuoitre.vn/api/document/store", data)
+        .then((data) => {
+          alert("Tạo tài liệu thành công!");
+          // this.props.handleBackBtn();
+        })
+        .catch((err) => {
+          console.log(err);
+          alert("Tạo tài liệu thất bại!");
+        });
+    // }
+  };
   render() {
     const { listInputs, inputsData } = this.state;
     return (
@@ -319,7 +338,7 @@ class Create extends Component {
         <div className="row">
           <div className="col-md-2">
           <button
-              onClick={(e) => this.handleSubmit(e, this.props.action)}
+              onClick={(e) => this.handleSubmit(e)}
               // variant="success"
             >
               Submits
