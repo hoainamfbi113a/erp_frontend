@@ -11,6 +11,7 @@ import {
 } from "antd";
 import axiosConfig from "apis/axios";
 import { getListPosition } from "apis/positionApi";
+import { getListRole } from "apis/roleApi";
 import lodash from "lodash";
 import React, { Component } from "react";
 import { connect } from "react-redux";
@@ -24,6 +25,7 @@ class TableRoles extends Component {
     this.showModalAssign = this.showModalAssign.bind(this);
     this.state = {
       dataDepartment: null,
+      dataRoles: null,
       dep_id: null,
       dos_id: null,
       modalAssign: false,
@@ -50,6 +52,10 @@ class TableRoles extends Component {
     let data = await getListPosition(1);
     this.setState({
       data,
+    });
+    let dataRoles = await getListRole();
+    this.setState({
+      dataRoles
     });
     await axiosConfig.get("/api/action").then((res) => {
       this.setState({
@@ -203,35 +209,39 @@ class TableRoles extends Component {
       alert("action không được để trống");
       return;
     }
-    let res = moveKeys[0].replace(" clone", "");
-    const params = {
-        dep_id: this.state.dep_id,
-        permission_id: res,
-        actions: this.state.arrCheckedAction,
-      };
-    if (direction === "right") {
-      const data = await axiosConfig.post(
-        `/api/position/permission/${this.state.pos_id}`,
-        params
-      );
-      if (data.message === "Success!. Stored") {
-        message.success("Thêm quyền thành công");
-        this.getMock(this.state.dep_id, this.state.pos_id);
-      } else {
-        message.error("Thêm quyền thất bại");
-      }
-    } else {
-      const data = await axiosConfig.post(
-        `/api/position/permissiond/${this.state.pos_id}`,
-        params
-      );
-      if (data.message === "Success!. Removed") {
-        message.success("Xóa quyền thành công");
-        this.getMock(this.state.dep_id, this.state.pos_id);
-      } else {
-        message.error("Xóa quyền thất bại");
-      }
+    for(let item of moveKeys ) {
+      item.replace(" clone", "")
     }
+    // let res =;
+    console.log(moveKeys)
+    // const params = {
+    //     dep_id: this.state.dep_id,
+    //     permissions: res,
+    //     actions: this.state.arrCheckedAction,
+    //   };
+    // if (direction === "right") {
+    //   const data = await axiosConfig.post(
+    //     `/api/position/permission/${this.state.pos_id}`,
+    //     params
+    //   );
+    //   if (data.message === "Success!. Stored") {
+    //     message.success("Thêm quyền thành công");
+    //     this.getMock(this.state.dep_id, this.state.pos_id);
+    //   } else {
+    //     message.error("Thêm quyền thất bại");
+    //   }
+    // } else {
+    //   const data = await axiosConfig.post(
+    //     `/api/position/permissiond/${this.state.pos_id}`,
+    //     params
+    //   );
+    //   if (data.message === "Success!. Removed") {
+    //     message.success("Xóa quyền thành công");
+    //     this.getMock(this.state.dep_id, this.state.pos_id);
+    //   } else {
+    //     message.error("Xóa quyền thất bại");
+    //   }
+    // }
   };
 
   onSelectChange = (selectedRowKeys) => {
@@ -327,43 +337,25 @@ class TableRoles extends Component {
   };
   render() {
     let data = "";
-    let total = 0;
-    if (this.state.data) {
-      data = this.state.data.data;
-      total = this.state.data.meta.pagination.total;
+    console.log(this.state.dataRoles)
+    if (this.state.dataRoles) {
+      data = this.state.dataRoles;
     }
     const columns = [
       {
-        title: "Chức danh",
+        title: "Phòng ban",
         width: 200,
-        dataIndex: "pos_name",
-        key: "pos_name",
+        dataIndex: "department_name",
+        key: "department_name",
         fixed: "left",
       },
       {
-        title: "Trạng thái",
-        dataIndex: "status",
-        key: "status",
-        render: (text) => {
-          if (text == 1)
-            return (
-              <Tag color="geekblue" className="table-action">
-                ACTIVE
-              </Tag>
-            );
-          return (
-            <Tag color="geekblue" className="table-action">
-              HIDE
-            </Tag>
-          );
-        },
+        title: "Chức danh",
+        width: 200,
+        dataIndex: "position_name",
+        key: "position_name",
+        fixed: "left",
       },
-      {
-        title: "Ngày tạo",
-        dataIndex: "created_at",
-        key: "created_at",
-      },
-
       {
         title: "Hành động",
         key: "operation",
@@ -376,7 +368,7 @@ class TableRoles extends Component {
               color="geekblue"
               className="table-action"
             >
-              Phân quyền
+              Update
             </Tag>
           </Space>
         ),
@@ -396,7 +388,6 @@ class TableRoles extends Component {
                 pagination={{
                   onChange: this.handlePagination,
                   pageSize: 15,
-                  total: total,
                 }}
               />
             </div>

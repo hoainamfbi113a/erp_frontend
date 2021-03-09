@@ -6,12 +6,16 @@ import put from "assets/images/put.svg";
 import takeleave from "assets/images/takeleave.svg";
 import vote from "assets/images/vote.svg";
 import ProposalForm from "components/Modal/ProposalForm"
+import axios from "axios";
+import { Tree } from 'antd';
 export default class CreateNotifi extends Component {
   constructor() {
     super();
     this.state = {
       visible: false,
       title:"",
+      dataDocumentType:null,
+      treeData:null,
     };
   }
   showModal = (value) => {
@@ -25,7 +29,43 @@ export default class CreateNotifi extends Component {
       visible:false
     })
   }
+  componentDidMount = () =>{
+    axios.get("https://document.tuoitre.vn/api/document-type/get-document-types")
+    .then((res)=>{
+      // console.log(res.data)
+      this.setState({
+        dataDocumentType:res.data
+      })
+      let treeData = []
+      for(let item of this.state.dataDocumentType) {
+        let treeDataStudent = [];
+        for (let itemChild of item.children ) {
+          const treeNodeChild = {
+            title:itemChild.display_name,
+            key:itemChild.id
+          }
+          treeDataStudent.push(treeNodeChild)
+        }
+        const treeNode = {
+          title:item.display_name,
+          key:item.id,
+          children:treeDataStudent
+        }
+        treeData.push(treeNode)
+      }
+      this.setState({
+        treeData
+      })
+    })
+    .catch(err=>{
+      console.log(err)
+    })
+  }
+  onSelect = (selectedKeys, info) => {
+    console.log('selected', selectedKeys, info);
+  };
   render() {
+    let treeData = this.state.treeData;
     return (
       <div className="create-notifi">
         <div className="content-background2">
@@ -38,9 +78,12 @@ export default class CreateNotifi extends Component {
                 </Button>
               </div>
             </div>
+            <Tree treeData={treeData} height={233} defaultExpandAll onSelect={this.onSelect} />
             <div className="create-notifi-content">
-              <ul>
-                <li onClick = {()=>{this.showModal("tạo phiếu đề xuất")}}>
+              
+              {/* <ul>
+             
+                 <li onClick = {()=>{this.showModal("tạo phiếu đề xuất")}}>
                   <img src={proposal}></img>
                   <span> Phiếu đề xuất. </span>
                 </li>
@@ -55,8 +98,8 @@ export default class CreateNotifi extends Component {
                 <li onClick = {()=>this.showModal("tạo  bình bầu thi đua")}>
                   <img src={vote}></img>
                   <span> Bình bầu thi đua. </span>
-                </li>
-              </ul>
+                </li> 
+              </ul> */}
             </div>
           </div>
         </div>

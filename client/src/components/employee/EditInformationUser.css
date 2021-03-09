@@ -123,6 +123,13 @@
   flex-direction: column;
   margin-bottom: 16px;
 }
+.tabs-main-left-li-lever-2{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+}
 .left-user-address {
   margin-bottom: 30px;
 }
@@ -179,7 +186,7 @@
 }
 .tabs-user-infor-top {
   font-style: normal;
-  font-weight: normal;
+  font-weight: 500;
   font-size: 15px;
   line-height: 18px;
   color: #3f4254;
@@ -242,12 +249,6 @@
 }
 .btn-add-user {
   width: 140px;
-  background-image: linear-gradient(
-    to right,
-    #84fab0 0%,
-    #8fd3f4 51%,
-    #84fab0 100%
-  );
   /* flex: 1 1 auto; */
   margin: 10px;
   padding: 10px;
@@ -257,12 +258,11 @@
   transition: 0.5s;
   background-size: 200% auto;
   color: white;
-  /* text-shadow: 0px 0px 10px rgba(0,0,0,0.2);*/
   box-shadow: 0 0 20px #eee;
-  border-radius: 10px;
-  background-image: linear-gradient(-106deg, #51beed 2%, #288ad6 100%);
+  border-radius: 3px;
+  /* background-image: linear-gradient(-106deg, #51beed 2%, #288ad6 100%); */
+  background: #3C9CFF;
   box-shadow: 0 2px 6px 0 #9ed4ec;
-  border-radius: 100px;
 }
 .btn-add-user:hover {
   width: 140px;
@@ -300,6 +300,7 @@
   color: #3f4254;
 }
 .personal-history-content {
+  font-size: 15px !important;
   padding-left: 20px;
   /* display: inline-block; */
   margin-right: 10px;
@@ -361,7 +362,6 @@
 }
 .tabs-main-left-li-row .tabs-user-infor-bottom input {
   width: 220px;
-  margin-right: 10px;
 }
 .tabs-main-left-li-row-clear {
   display: block !important;
@@ -371,11 +371,9 @@
 }
 .tabs-main-left-li-row-three .tabs-user-infor-bottom input {
   width: 144px;
-  margin-right: 10px;
 }
 .tabs-main-left-li-row-three .ant-picker {
   width: 143px !important;
-  margin-right: 10px;
 }
 .join-DCS-three {
   display: flex;
