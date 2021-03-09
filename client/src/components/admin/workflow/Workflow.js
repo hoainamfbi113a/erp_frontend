@@ -5,11 +5,10 @@ import { TTFlow } from '@tuoitre/flowchart-builder'
 
 const Workflow = () => {
   return <TTFlow urls={{
-    workflowTypesUrl : '/api/workflow/get-workflow-types',
-    storeStepsUrl:'/api/workflow/store',
-    workflowDetailUrl:'/api/workflow/detail?type=',
-    targetTypeUrl : '/api/step/get-action-target-types',
-    actionTypeUrl : '/api/step/get-action-types',
+    get_list_document_types: 'https://document.tuoitre.vn//api/document-type/get-document-types',
+    get_one_document_type: 'https://document.tuoitre.vn//api/document-type/get',
+    get_workflow_detail: 'http://192.168.61.117/api/workflow/detail',
+    store_work_flow: 'http://192.168.61.117/api/workflow/store',
   }} />
 }
 
