@@ -1,16 +1,11 @@
-import React, { useState } from "react";
-import { Input } from "antd";
-import { Button, DatePicker } from "antd";
-const { RangePicker } = DatePicker;
-import { Modal } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import { Select } from "antd";
-
-import { Space, Tag } from "antd";
-const { Option } = Select;
-import { Popconfirm } from "antd";
-const { TextArea } = Input;
+import { Button, DatePicker, Input, Modal, Popconfirm, Select, Space, Tag } from "antd";
 import moment from "moment";
+import React, { useState } from "react";
+const { RangePicker } = DatePicker;
+
+const { Option } = Select;
+const { TextArea } = Input;
 const dateFormat = "YYYY/MM/DD";
 let fakeData1 = [
   {
