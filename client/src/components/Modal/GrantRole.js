@@ -60,13 +60,13 @@ class GrantRole extends Component {
     }
   };
   renderOption = () => {
-    return this.state.listRole.map((item) => {
-      return (
-        <Option key={item.id} value={item.id}>
-          {item.name}
-        </Option>
-      );
-    });
+    // return this.state.listRole.map((item) => {
+    //   return (
+    //     <Option key={item.id} value={item.id}>
+    //       {item.name}
+    //     </Option>
+    //   );
+    // });
   };
   renderRole = () =>{
     if(this.props.roleAndPermissionUser && this.props.roleAndPermissionUser.role){
