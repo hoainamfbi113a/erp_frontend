@@ -81,8 +81,6 @@
 }
 .create-notifi{
     display: flex;
-    justify-content: center;
-    align-items: center;
 }
 .create-notifi > div{
     margin: 10px;

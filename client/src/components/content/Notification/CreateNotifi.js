@@ -35,7 +35,6 @@ export default class CreateNotifi extends Component {
     axios
       .get("https://document.tuoitre.vn/api/document-type/get-document-types")
       .then((res) => {
-        // console.log(res.data)
         this.setState({
           dataDocumentType: res.data,
         });
@@ -47,6 +46,7 @@ export default class CreateNotifi extends Component {
               title: itemChild.display_name,
               key: itemChild.id,
               id: itemChild.id,
+              template_id: itemChild.template_id,
             };
             treeDataStudent.push(treeNodeChild);
           }
@@ -66,11 +66,11 @@ export default class CreateNotifi extends Component {
       });
     axios
       .get(
-        "https://document.tuoitre.vn/api/document-type/get-document-types?page=1&per_page=1000&user_id=1"
+        "https://document.tuoitre.vn/api/document/list?page=1&per_page=1000&user_id=1"
       )
       .then((res) => {
         this.setState({
-          dataDocumentUser: res.data,
+          dataDocumentUser: res.data.data,
         });
       })
       .catch((err) => {
@@ -78,17 +78,17 @@ export default class CreateNotifi extends Component {
       });
   };
   onSelect = (selectedKeys, info) => {
-    let id = info.node.id;
+    let { template_id, id } = info.node;
     if (id) {
       axios
         .get(
           `https://document.tuoitre.vn/api/document-template/get?type_id=${id}`
         )
         .then((data) => {
-          if (data.data.inputs.length === 0) {
+          if (data.data === "") {
             alert("Template chưa được tạo");
           } else {
-            this.props.history.push(`/form-document/${id}`);
+            this.props.history.push(`/form-document/${id}/${template_id}`);
           }
         })
         .catch((err) => {
@@ -97,6 +97,22 @@ export default class CreateNotifi extends Component {
     } else {
       return;
     }
+  };
+  confirm = (id) => {
+    axios
+      .delete(`https://document.tuoitre.vn/api/document/delete/${id}`)
+      .then((res) => {
+        if (res.message === "success") {
+          alert("Xoá tài liệu thành công");
+        }
+      })
+      .catch((err) => {
+        alert("Xoá tài liệu thất bại");
+        console.log(err);
+      });
+  };
+  handleViewDocument = (id) => {
+    this.props.history.push(`/form-document-view/${id}`);
   };
   renderHistoryCreate = () => {
     let data = this.state.dataDocumentUser;
@@ -107,28 +123,35 @@ export default class CreateNotifi extends Component {
             <td>
               <img src={proposal}></img>
             </td>
-            <td className="content-notification-unread">{item.display_name}</td>
+            <td
+              onClick={() => {
+                this.handleViewDocument(item.id);
+              }}
+              className="content-notification-unread"
+            >
+              {item.document_type.display_name}
+            </td>
             <td>{item.updated_at}</td>
             <td>
-            <Space size="middle">
-            <Popconfirm
-              title="Are you sure hide this user?"
-              okText="Yes"
-              cancelText="No"
-            >
-              <Tag color="volcano" className="table-action">
-                Xoá
-              </Tag>
-            </Popconfirm>
-            <Tag
-              color="geekblue"
-              className="table-action"
-              onClick={() => handleUpdate(item)}
-            >
-              Update
-            </Tag>
-          </Space>
-
+              <Space size="middle">
+                <Popconfirm
+                  onConfirm={() => this.confirm(item.id)}
+                  title="Are you sure hide this user?"
+                  okText="Yes"
+                  cancelText="No"
+                >
+                  <Tag color="volcano" className="table-action">
+                    Xoá
+                  </Tag>
+                </Popconfirm>
+                <Tag
+                  color="geekblue"
+                  className="table-action"
+                  onClick={() => handleUpdate(item)}
+                >
+                  Update
+                </Tag>
+              </Space>
             </td>
           </tr>
         );
@@ -151,7 +174,7 @@ export default class CreateNotifi extends Component {
             </div>
             <Tree
               treeData={treeData}
-              height={233}
+              // height={233}
               defaultExpandAll
               onSelect={this.onSelect}
             />
