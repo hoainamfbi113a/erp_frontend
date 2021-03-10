@@ -3,7 +3,7 @@ import classes from "classnames";
 import * as Constant from "constant/ConstantDocument";
 import * as ApiHelper from "helpers/ApiHelper";
 import axios from "axios";
-import { withRouter } from 'react-router-dom';
+import { withRouter } from "react-router-dom";
 // import Button from "react-bootstrap/Button";
 
 function RenderInputPreview(props) {
@@ -183,6 +183,7 @@ class Create extends Component {
       listInputs: [],
       inputsData: [],
       documentData: {},
+      create: true,
     };
   }
   handleCheckboxChange = (e, inputId, isChecked) => {
@@ -232,7 +233,7 @@ class Create extends Component {
     }
   };
   handleChange = (e, inputId) => {
-    this.setState({ [e.target.name]: e.target.value })
+    this.setState({ [e.target.name]: e.target.value });
     const stateInputsData = this.state.inputsData;
     var index = stateInputsData.findIndex((x) => x.id === inputId);
     if (index != -1) {
@@ -258,33 +259,24 @@ class Create extends Component {
       });
     }
   };
-  // handleClick = (e) => {
-  //   var data = {
-  //     template_id: this.state.documentData.itemForm.id,
-  //     inputs: this.state.listInputs,
-  //   };
-  // };
   componentWillMount() {
-    this.setState({
-      documentData: this.props.documentData,
-    });
-    if (
-      this.props.inputsData !== undefined &&
-      this.props.inputsData.length > 0
-    ) {
+    let currentUrl = window.location.href;
+    let checkUrl = "form-document-view";
+    if(currentUrl.indexOf(checkUrl) !== -1) {
       this.setState({
-        inputsData: this.props.inputsData,
-      });
+        create:false
+      })
     }
-    if (this.props.data_document_id !== undefined) {
-      let params = {
-        id: this.props.data_document_id,
-      };
-      ApiHelper.callAxios(this.props.urlGetDataDoc, "get", params)
-        .then((data) => {
+  }
+  componentDidMount = ()=>{
+    const id = this.props.match.params.id;
+    if (this.state.create === false) {
+      axios
+        .get(`https://document.tuoitre.vn/api/document/get?id=${id}`)
+        .then((res) => {
           this.setState({
-            inputsData: data.inputs,
-            listInputs: data.inputs,
+            listInputs: res.data.inputs,
+            inputsData: res.data.inputs,
           });
         })
         .catch((err) => {
@@ -295,12 +287,13 @@ class Create extends Component {
         type_id: 2,
       };
       // ApiHelper.callAxios(this.props.urlGetForm, "get", params)
-      const id = this.props.match.params.id
-      axios.get(`https://document.tuoitre.vn/api/document-template/get?type_id=${id}`)
+      axios
+        .get(
+          `https://document.tuoitre.vn/api/document-template/get?type_id=${id}`
+        )
         .then((data) => {
-          
-          if(data.data.inputs.length === 0) {
-            alert("Template chưa được tạo")
+          if (data.data.inputs.length === 0) {
+            alert("Template chưa được tạo");
             this.props.history.push(`/notification/create`);
           }
           this.setState({
@@ -313,14 +306,16 @@ class Create extends Component {
     }
   }
   handleSubmit = (e) => {
-    // if (action === "create") {
+    // alert(this.state.create === true)
+    if(this.state.create === true){
       let data = {
-        template_id: this.props.match.params.id,
+        template_id: this.props.match.params.template_id,
         user_id: 1,
         inputs: this.state.inputsData,
       };
       // ApiHelper.callAxios(this.props.urlCreate, "post", {}, data)
-      axios.post("https://document.tuoitre.vn/api/document/store", data)
+      axios
+        .post("https://document.tuoitre.vn/api/document/store", data)
         .then((data) => {
           alert("Tạo tài liệu thành công!");
           // this.props.handleBackBtn();
@@ -329,6 +324,33 @@ class Create extends Component {
           console.log(err);
           alert("Tạo tài liệu thất bại!");
         });
+    } else {
+      let arrValueInput = []
+      for( let item of this.state.inputsData){
+        if(item.value === null){
+          item.value = "null"
+        }
+        let obj = {
+          id:item.id,
+          value:item.value
+        } 
+        arrValueInput.push(obj)
+      }
+      let data = {
+        document_id: this.props.match.params.id,
+        user_id: 1,
+        inputs: arrValueInput,
+      }
+      axios.post("https://document.tuoitre.vn/api/document/update", data)
+      .then(res=>{
+        alert("update document thành công")
+      })
+      .catch(err=>{
+        console.log(err)
+        alert("update thất bại")
+      })
+    }
+  
     // }
   };
   render() {
@@ -337,7 +359,7 @@ class Create extends Component {
       <div>
         <div className="row">
           <div className="col-md-2">
-          <button
+            <button
               onClick={(e) => this.handleSubmit(e)}
               // variant="success"
             >
@@ -358,7 +380,6 @@ class Create extends Component {
             {listInputs.length > 0 &&
               listInputs.map((item, index) => {
                 var data = inputsData.find((x) => x.id == item.id);
-                var data2 = inputsData.filter((x) => x.id == item.id);
                 var value = "";
                 if (data !== undefined) {
                   value = data.value;
@@ -380,7 +401,6 @@ class Create extends Component {
                     <RenderInputPreview
                       data={item}
                       value={value}
-                      value2={data2}
                       handleTextChange={this.handleTextChange}
                       handleChange={this.handleChange}
                       handleCheckboxChange={this.handleCheckboxChange}
