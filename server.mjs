@@ -10,7 +10,8 @@ import { addProfileDepartments, updateProfileDepartments } from "./controllers/p
 import { addJournalistCards, updateJournalistCards } from "./controllers/JournalistCards.mjs"
 import { addUserDegrees, updateUserDegrees } from "./controllers/UserDegrees.mjs"
 import { addWorkObjects,updateWorkObjects } from "./controllers/WorkObjects.mjs"
-import { removePermissionFromRole, listRole, addRole, updateRole, deleteRole, listPermissionOfRole, permissionToRole} from "./controllers/Roles.mjs"
+import { removePermissionFromRole, listRole, addRole, updateRole, deleteRole,
+     listPermissionOfRole, permissionToRole, listPermissionAction} from "./controllers/Roles.mjs"
 // import { listPermission, addPermission, updatePermission, deletePermission } from "./controllers/Permission.mjs"
 import permissionController from "./controllers/permissionController.mjs";
 import { listParts, addParts, updateParts, deleteParts } from "./controllers/Parts.mjs"
@@ -81,6 +82,9 @@ app.use("/api/search", searchController);
 
 app.use("/api/service-management",servicemanagerController)
 app.use("/api/step", stepController)
+
+// không theo trật tự
+app.get("/api/list/permission/actions",listPermissionAction)
 // if (process.env.NODE_ENV === "production") {
 // Serve any static files
 app.use(express.static(path.join(__dirname, "client/dist")));

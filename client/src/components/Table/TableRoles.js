@@ -12,6 +12,7 @@ import {
 import axiosConfig from "apis/axios";
 import { getListPosition } from "apis/positionApi";
 import { getListRole } from "apis/roleApi";
+import axios from "axios";
 import lodash from "lodash";
 import React, { Component } from "react";
 import { connect } from "react-redux";
@@ -55,7 +56,7 @@ class TableRoles extends Component {
     });
     let dataRoles = await getListRole();
     this.setState({
-      dataRoles
+      dataRoles,
     });
     // await axiosConfig.get("/api/action").then((res) => {
     //   this.setState({
@@ -66,14 +67,14 @@ class TableRoles extends Component {
   getMock = async (dep_id, pos_id) => {
     const targetKeys = [];
     const mockData = [];
-    await axiosConfig
-      .get("/api/permission")
+    axiosConfig
+      .get("/api/list/permission/actions")
       .then((res) => {
         this.setState({
-          dataPermission: res.data,
+          dataPermission: res,
         });
       })
-      .catch((err) => {
+      .catch((er) => {
         console.log(err);
       });
     let dataRight = [];
@@ -101,13 +102,12 @@ class TableRoles extends Component {
     let arrPermission = this.state.dataPermission;
     for (let i = 0; i < arrPermission.length; i++) {
       let arrAction = [];
-      for(let itemAction of arrPermission.actions) {
-        let obj ={
-          title: itemAction.actions,
-          key: i.toString()+ itemAction.id.toString(),
-        }
-        arrAction.push(obj)
-       
+      for (let itemAction of arrPermission[i].actions) {
+        let obj = {
+          title: itemAction.note,
+          key: i.toString() + itemAction.id.toString(),
+        };
+        arrAction.push(obj);
       }
       const data = {
         key: `${this.state.dataPermission[i].id}`,
@@ -115,7 +115,6 @@ class TableRoles extends Component {
         id: `${this.state.dataPermission[i].id}`,
         children: arrAction,
       };
-
       // for (let j = 0; j < dataRight.length; j++) {
       //   if (dataRight[j].id == this.state.dataPermission[i].id) {
       //     let arrRightAction = [];
@@ -218,11 +217,11 @@ class TableRoles extends Component {
       alert("action không được để trống");
       return;
     }
-    for(let item of moveKeys ) {
-      item.replace(" clone", "")
+    for (let item of moveKeys) {
+      item.replace(" clone", "");
     }
     // let res =;
-    console.log(moveKeys)
+    console.log(moveKeys);
     // const params = {
     //     dep_id: this.state.dep_id,
     //     permissions: res,
@@ -346,7 +345,6 @@ class TableRoles extends Component {
   };
   render() {
     let data = "";
-    console.log(this.state.dataRoles)
     if (this.state.dataRoles) {
       data = this.state.dataRoles;
     }
