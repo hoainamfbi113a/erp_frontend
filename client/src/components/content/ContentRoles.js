@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Input } from "antd";
 import { Button } from "antd";
 
-import TableRoles from "components/Table/TableRoles";
+import TableRoles from "components/Table/TableRoles_v2";
 const { Search } = Input;
 
 import "./Content.css";
@@ -17,7 +17,7 @@ export default class ContentRoles extends Component {
     };
   }
   showModal = () => {
-    this.clickChild()
+    // this.clickChild()
     this.setState({
       visible:true
     })
@@ -50,7 +50,7 @@ export default class ContentRoles extends Component {
           </div>
         </div>
         <TableRoles showModalRoles={this.state.visible}
-        setClick={click => this.clickChild = click}
+        // setClick={click => this.clickChild = click}
         hideModal={this.hideModal} showModal={this.showModal} />
       </div>
     );

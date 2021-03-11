@@ -229,7 +229,7 @@ class MenuLayout extends Component {
                 <Link to="/edit-information">Cập nhật thông tin</Link>
               </Menu.Item>
               <Menu.Item key="6">
-                <Link to="/notification/create">Tạo</Link>
+                <Link to="/notification/create">Tạo loại tài liệu</Link>
               </Menu.Item>
             </SubMenu>
             {/* <SubMenu

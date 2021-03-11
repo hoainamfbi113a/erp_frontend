@@ -166,7 +166,7 @@ export default class CreateNotifi extends Component {
           <div style={{ minHeight: "70vh" }} className="content-main">
             <div className="content-top content-top-create-notif">
               <div className="content-top-left content-notification content-notification-create-notif">
-                <div className="content-top-left-sum-item">Tạo</div>
+                <div className="content-top-left-sum-item">Tạo loại tài liệu</div>
                 <Button className="btn-notification" type="primary">
                   ...
                 </Button>
