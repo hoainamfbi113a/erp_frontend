@@ -8,6 +8,7 @@ import {
   Tag,
   Transfer,
   Tree,
+  Button,
 } from "antd";
 import axiosConfig from "apis/axios";
 import { getListPosition } from "apis/positionApi";
@@ -20,8 +21,8 @@ import "../../App/App.css";
 import "./Table.css";
 const { Option } = Select;
 const { Content } = Layout;
-import DualListBox from 'react-dual-listbox';
-import 'react-dual-listbox/lib/react-dual-listbox.css';
+import DualListBox from "react-dual-listbox";
+import "react-dual-listbox/lib/react-dual-listbox.css";
 export default class TableRoles_v2 extends Component {
   constructor(props) {
     super(props);
@@ -43,7 +44,8 @@ export default class TableRoles_v2 extends Component {
       targetKeys: [],
       moveKeys: [],
       arrCheckedAction: [],
-      selected: ['luna'],
+      selected: [],
+      dataOptions: [],
     };
   }
   componentDidMount = () => {
@@ -60,18 +62,77 @@ export default class TableRoles_v2 extends Component {
       dataRoles,
     });
     axiosConfig
-    .get(`/api/departments?per_page=100`)
-    .then((res) => {
-      this.setState({
-        dataDepartment: res,
+      .get(`/api/departments?per_page=100`)
+      .then((res) => {
+        this.setState({
+          dataDepartment: res,
+        });
+      })
+      .catch((error) => {
+        console.log("False to load API", error);
       });
-    })
-    .catch((error) => {
-      console.log("False to load API", error);
+  };
+  showModalAssign = async () => {};
+  handleChangePosition = (value) => {
+    this.setState({
+      pos_id: value,
+    });
+    if (this.state.dep_id != null && value != null) {
+      this.getMock(this.state.dep_id, value);
+    }
+  };
+  handleFocusPosition = () => {
+    this.setState({
+      pos_id: null,
     });
   };
-  showModalAssign = async () => {
-   
+  handleChangeDepartment = (value) => {
+    this.setState({
+      dep_id: value,
+    });
+    if (value != null && this.state.pos_id != null) {
+      this.getMock(value, this.state.pos_id);
+    }
+  };
+  handleFocusDepartment = () => {
+    this.setState({
+      dep_id: null,
+    });
+  };
+  getMock = async (dep_id, pos_id) => {
+    await axiosConfig
+      .get("/api/list/permission/actions")
+      .then((res) => {
+        this.setState({
+          dataPermission: res,
+        });
+        
+      })
+      .catch((er) => {
+        console.log(err);
+      });
+    let arrOption = [];
+    console.log(this.state.dataPermission)
+    for(let item of this.state.dataPermission) {
+        console.log(item)
+        let arrAction = []
+        for(let itemChild of item.actions) {
+           let objChild = {
+                label: itemChild.note,
+                value: `${item.id}_${itemChild.id}`
+            }
+            arrAction.push(objChild)
+        }
+        let obj = {
+            label: item.name,
+            options: arrAction
+        }
+        arrOption.push(obj);
+    }
+    console.log(arrOption)
+    this.setState({
+        dataOptions:arrOption
+    })
   };
   handleCancel = () => {
     this.props.hideModal();
@@ -100,7 +161,8 @@ export default class TableRoles_v2 extends Component {
   };
   onChange = (selected) => {
     this.setState({ selected });
-};
+  };
+  handleOk = () => {};
   render() {
     let data = "";
     if (this.state.dataRoles) {
@@ -139,30 +201,7 @@ export default class TableRoles_v2 extends Component {
         ),
       },
     ];
-    const options = [
-        {
-            label: 'Earth',
-            options: [
-                { value: 'luna', label: 'Moon' },
-            ],
-        },
-        {
-            label: 'Mars',
-            options: [
-                { value: 'phobos', label: 'Phobos' },
-                { value: 'deimos', label: 'Deimos' },
-            ],
-        },
-        {
-            label: 'Jupiter',
-            options: [
-                { value: 'io', label: 'Io' },
-                { value: 'europa', label: 'Europa' },
-                { value: 'ganymede', label: 'Ganymede' },
-                { value: 'callisto', label: 'Callisto' },
-            ],
-        },
-    ];
+    const options = this.state.dataOptions
     const { selected } = this.state;
     return (
       <div>
@@ -189,7 +228,7 @@ export default class TableRoles_v2 extends Component {
           visible={this.props.showModalRoles}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
-          className="modal-transfer-grant-permission"
+          //   className="modal-transfer-grant-permission"
         >
           <div className="select-grant-role">
             <Select
@@ -214,9 +253,9 @@ export default class TableRoles_v2 extends Component {
             </Select>
           </div>
           <DualListBox
-              options={options}
-              selected={selected}
-              onChange={this.onChange}
+            options={options}
+            selected={selected}
+            onChange={this.onChange}
           />
         </Modal>
       </div>
