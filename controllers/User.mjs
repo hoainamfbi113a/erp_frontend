@@ -74,15 +74,19 @@ router.post("/user/role/:id",async (req,res)=>{
       res.send(data);
 })
 router.get("/user/permission/:id",async (req,res)=>{
+  try {
     const config = {
-        headers: { Authorization: req.headers.authorization },
-      };
-      let { id } = req.params;
-      let { data } = await axios.get(
-        `${process.env.apiEmployee}/api/user/permission/${id}`,
-        config
-      );
-      res.send(data);
+      headers: { Authorization: req.headers.authorization },
+    };
+    let { id } = req.params;
+    let { data } = await axios.get(
+      `${process.env.apiEmployee}/api/user/permission/${id}`,
+      config
+    );
+    res.send(data); 
+  } catch (error) {
+    console.log(error)
+  }
 })
 
 router.post("/user/role-user/:id", async (req,res)=>{

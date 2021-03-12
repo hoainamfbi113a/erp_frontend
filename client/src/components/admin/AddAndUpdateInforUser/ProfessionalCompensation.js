@@ -11,7 +11,7 @@ const { Option } = Select;
 import { Popconfirm } from "antd";
 const { TextArea } = Input;
 import moment from "moment";
-const dateFormat = "DD/MM/YYYY";
+const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
 let fakeData1 = [
   {
     id: 1,
@@ -61,7 +61,7 @@ let fakeData2 = [
 const ProfessionalCompensation = () => {
     const [visible, setVisible] = useState(false);
     const [dataItem, setDataItem] = useState({})
-    // const [dataItem2, setDataItem2] = useState({})
+    const [refresh, setRefresh] = useState(true);
     const showModal = (value) => {
       console.log(value)
       if(value == 1){
@@ -83,6 +83,17 @@ const ProfessionalCompensation = () => {
       setVisible(true);
       setDataItem(value)
     };
+    const onChangeRange = (e, dateString, name1, name2) => {
+      dataItem.dateStart = dateString[0]
+      dataItem.dateEnd = dateString[1]
+      setDataItem(dataItem)
+      setRefresh(!refresh)
+    };
+    const handleChange = (value) =>{
+      dataItem.category = value;
+      setDataItem(dataItem);
+      setRefresh(!refresh)
+    }
     const renderData1 = () =>{
       return fakeData1.map((item)=>{
         return(
@@ -196,12 +207,11 @@ const ProfessionalCompensation = () => {
             <li className="tabs-main-left-li tabs-main-left-li-row">
               <span className="tabs-user-infor-top">Thông tin</span>
               <div className="tabs-user-infor-bottom">
-                {/* {console.log(dataItem.category)} */}
                 <Select
                   className="modal-selection"
-                  value={dataItem.category === 2 ? "2": "1"}
+                  value={dataItem.category == 2 ? "2": "1"}
                   style={{ width: 527 }}
-                  // onChange={handleChange}
+                  onChange={handleChange}
                 >
                   <Option value="1">Đào tạo</Option>
                   <Option value="2">Bồi dưỡng</Option>
@@ -213,16 +223,24 @@ const ProfessionalCompensation = () => {
               <span className="tabs-user-infor-top">Từ ngày</span>
               <div className="tabs-user-infor-bottom">
                 <RangePicker
-                format="DD/MM/YYYY"
+                format={dateFormatList}
                 placeholder = {["Từ ngày", "Đến ngày"]}
                  value={dataItem.dateStart ? [moment(
                   dataItem.dateStart,
-                  dateFormat
+                  dateFormatList[0]
                 ),moment(
                   dataItem.dateEnd,
-                  dateFormat
+                  dateFormatList[0]
                 )] : null}
                   className="modal-ranPicker"
+                  onChange={(date, dateString) =>
+                    onChangeRange(
+                      date,
+                      dateString,
+                      "deg_begin_study",
+                      "deg_end_study"
+                    )
+                  }
                 />
               </div>
             </li>

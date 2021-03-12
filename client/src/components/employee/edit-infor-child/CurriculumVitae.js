@@ -24,7 +24,7 @@ const { Option } = Select;
 import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 import { bindActionCreators } from "redux";
 import {sleep} from "helpers/FuncHelper";
-const dateFormat = "DD/MM/YYYY";
+const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
 class CurriculumVitae extends Component {
   constructor(props) {
     super(props);
@@ -701,14 +701,13 @@ class CurriculumVitae extends Component {
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">Ngày sinh</span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
-                        <DatePicker
+                      <DatePicker
+                          format={dateFormatList}
                           placeholder="Chọn ngày"
                           value={
-                            this.state.pro_birth_day == null ||
-                            moment(this.state.pro_birth_day, dateFormat) ==
-                              "1970-01-01"
+                            this.state.pro_birth_day == null || moment(this.state.pro_birth_day,dateFormatList[0]) == "Thu Jan 01 1970 08:00:00 GMT+0800"
                               ? null
-                              : moment(this.state.pro_birth_day, dateFormat)
+                              : moment(this.state.pro_birth_day, dateFormatList[0])
                           }
                           onChange={(date, dateString) =>
                             this.onChangeBirthDay(
@@ -717,7 +716,7 @@ class CurriculumVitae extends Component {
                               "pro_birth_day"
                             )
                           }
-                        />
+                          />
                       </div>
                     </li>
                     <li className="tabs-main-left-li">
@@ -836,18 +835,15 @@ class CurriculumVitae extends Component {
                         Ngày cấp CMND, CCCD :
                       </span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
-                        <DatePicker
+                      <DatePicker
+                        format={dateFormatList}
                           placeholder="Chọn ngày"
                           value={
-                            this.state.pro_identity_card_when == null ||
-                            moment(
-                              this.state.pro_identity_card_when,
-                              dateFormat
-                            ) == "1970-01-01"
+                            this.state.pro_identity_card_when == null || moment(this.state.pro_identity_card_when,dateFormatList[0]) == "Thu Jan 01 1970 08:00:00 GMT+0800"
                               ? null
                               : moment(
                                   this.state.pro_identity_card_when,
-                                  dateFormat
+                                  dateFormatList[0]
                                 )
                           }
                           onChange={(date, dateString) =>
@@ -998,14 +994,14 @@ class CurriculumVitae extends Component {
                         Ngày bổ nhiệm chức vụ :
                       </span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
-                        <DatePicker
+                      <DatePicker
+                        format={dateFormatList}
                           placeholder="Chọn ngày"
+                          style={{ width: "100%" }}
                           value={
-                            this.state.appointment_date == null ||
-                            moment(this.state.appointment_date, dateFormat) ==
-                              "1970-01-01"
+                            this.state.appointment_date == null || moment(this.state.appointment_date,dateFormatList[0]) == "Thu Jan 01 1970 08:00:00 GMT+0800"
                               ? null
-                              : moment(this.state.appointment_date, dateFormat)
+                              : moment(this.state.appointment_date, dateFormatList[0])
                           }
                           onChange={(date, dateString) =>
                             this.onChangeBirthDay(
@@ -1105,35 +1101,28 @@ class CurriculumVitae extends Component {
                         Thời gian bắt đầu học:
                       </span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
-                        <RangePicker 
+                      <RangePicker
                         placeholder = {["Từ ngày", "Đến ngày"]}
-                          // placeholder="Chọn ngày"
-                          value={
-                            this.state.deg_begin_study == null
-                              ? null
-                              : [
-                                  this.state.deg_begin_study == null ||
-                                  moment(
-                                    this.state.deg_begin_study,
-                                    dateFormat
-                                  ) == "1970-01-01"
-                                    ? null
-                                    : moment(
-                                        this.state.deg_begin_study,
-                                        dateFormat
-                                      ),
-                                  this.state.deg_end_study == null ||
-                                  moment(
-                                    this.state.deg_end_study,
-                                    dateFormat
-                                  ) == "1970-01-01"
-                                    ? null
-                                    : moment(
-                                        this.state.deg_end_study,
-                                        dateFormat
-                                      ),
-                                ]
-                          }
+                         value={
+                          this.state.deg_begin_study == null
+                            ? null
+                            : [
+                                this.state.deg_begin_study == null ||
+                                moment(this.state.deg_begin_study,dateFormatList[0]) == "Thu Jan 01 1970 08:00:00 GMT+0800"
+                                  ? null
+                                  : moment(
+                                      this.state.deg_begin_study,
+                                      dateFormatList[0]
+                                    ),
+                                this.state.deg_end_study == null ||
+                                moment(this.state.deg_end_study,dateFormatList[0]) == "Thu Jan 01 1970 08:00:00 GMT+0800"
+                                  ? null
+                                  : moment(
+                                      this.state.deg_end_study,
+                                      dateFormatList[0]
+                                    ),
+                              ]
+                        }
                           onChange={(date, dateString) =>
                             this.onChangeRange(
                               date,
@@ -1142,6 +1131,7 @@ class CurriculumVitae extends Component {
                               "deg_end_study"
                             )
                           }
+                          format={dateFormatList}
                         />
                       </div>
                     </li>
@@ -1198,15 +1188,14 @@ class CurriculumVitae extends Component {
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">Ngày cấp thẻ:</span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
-                        <DatePicker
+                      <DatePicker
+                        format={dateFormatList}
                           placeholder="Chọn ngày"
-                          placeholder="Chọn ngày"
+                          style={{ width: "100%" }}
                           value={
-                            this.state.car_number_day == null ||
-                            moment(this.state.car_number_day, dateFormat) ==
-                              "1970-01-01"
+                            this.state.car_number_day == null || moment(this.state.car_number_day,dateFormatList[0]) == "Thu Jan 01 1970 08:00:00 GMT+0800"
                               ? null
-                              : moment(this.state.car_number_day, dateFormat)
+                              : moment(this.state.car_number_day, dateFormatList[0])
                           }
                           onChange={(date, dateString) =>
                             this.onChangeBirthDay(
@@ -1223,24 +1212,28 @@ class CurriculumVitae extends Component {
                         Thời gian thẻ có hiệu lực:
                       </span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
-                        <RangePicker
+                      <RangePicker 
                         placeholder = {["Từ ngày", "Đến ngày"]}
-                          value={
-                            this.state.car_begin == null
-                              ? null
-                              : [
-                                  this.state.car_begin == null ||
-                                  moment(this.state.car_begin, dateFormat) ==
-                                    "1970-01-01"
-                                    ? null
-                                    : moment(this.state.car_begin, dateFormat),
-                                  this.state.car_end == null ||
-                                  moment(this.state.car_end, dateFormat) ==
-                                    "1970-01-01"
-                                    ? null
-                                    : moment(this.state.car_end, dateFormat),
-                                ]
-                          }
+                         value={
+                          this.state.car_begin == null
+                            ? null
+                            : [
+                                this.state.car_begin == null ||
+                                moment(this.state.car_begin,dateFormatList[0]) == "Thu Jan 01 1970 08:00:00 GMT+0800"
+                                  ? null
+                                  : moment(
+                                      this.state.car_begin,
+                                      dateFormatList[0]
+                                    ),
+                                this.state.car_end == null ||
+                                moment(this.state.car_end,dateFormatList[0]) == "Thu Jan 01 1970 08:00:00 GMT+0800"
+                                  ? null
+                                  : moment(
+                                      this.state.car_end,
+                                      dateFormatList[0]
+                                    ),
+                              ]
+                        }
                           onChange={(date, dateString) =>
                             this.onChangeRange(
                               date,
@@ -1249,6 +1242,7 @@ class CurriculumVitae extends Component {
                               "car_end"
                             )
                           }
+                          format={dateFormatList}
                         />
                       </div>
                     </li>

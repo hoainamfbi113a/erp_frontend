@@ -59,7 +59,7 @@ class MenuLayout extends Component {
     let dataPermission = this.state.dataPermission;
     if(dataPermission && dataPermission.permissions)
     for (const element of dataPermission.permissions) {
-      if (element.name === itemMenu) {
+      if (element.slug_service_management === itemMenu) {
         if (element.actions[0] === action) {
           return true;
         }
@@ -141,44 +141,48 @@ class MenuLayout extends Component {
           title="Nghiệp vụ"
           icon={<ShopOutlined />}
         >
-          {this.checkPermission(Manage_Profile, "Create") === true ? (
+          {this.checkPermission("profile-service", "Create") === true ? (
             <Menu.Item key="8" onClick={this.handleOnclick}>
               <Link to="/usersix">Nhân sự </Link>
             </Menu.Item>
           ) : (
             ""
           )}
-          {this.checkPermission(Manage_Department, "Create") === true ? (
+          {this.checkPermission("profile-service", "Create") === true ? (
             <Menu.Item key="9">
               <Link to="/department">Phòng ban </Link>
             </Menu.Item>
           ) : (
             ""
           )}
-          {this.checkPermission(Manage_Part, "Create") === true ? (
+          {this.checkPermission("profile-service", "Create") === true ? (
             <Menu.Item key="10">
               <Link to="/parts">Tổ</Link>
             </Menu.Item>
           ) : (
             ""
           )}
-          {this.checkPermission(Manage_Position, "Create") === true ? (
+          {this.checkPermission("profile-service", "Create") === true ? (
             <Menu.Item key="11">
               <Link to="/position">Chức vụ</Link>
             </Menu.Item>
           ) : (
             ""
           )}
-          {this.checkPermission(Manage_Workflow, "Create") === true ? (
+          {this.checkPermission("workflow-service", "Create") === true ? (
             <Menu.Item key="12">
               <Link to="/workflow">Workflow</Link>
             </Menu.Item>
           ) : (
             ""
           )}
+          {this.checkPermission("document-service", "Create") === true ? (
           <Menu.Item key="13">
             <Link to="/form-builder">Form builder</Link>
           </Menu.Item>
+           ) : (
+            ""
+          )}
           {/* {this.checkPermission(Manage_Document, "Create") === true ? (
             <Menu.Item key="14">
               <Link to="/documents">Document</Link>

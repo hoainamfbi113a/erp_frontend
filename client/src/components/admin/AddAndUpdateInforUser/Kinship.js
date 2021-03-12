@@ -36,6 +36,7 @@ let fakeData = [
 const Family = () => {
   const [visible, setVisible] = useState(false);
   const [dataItem, setDataItem] = useState({});
+  const [refresh, setRefresh] = useState(true);
   const showModal = () => {
     setDataItem({});
     setVisible(true);
@@ -49,6 +50,49 @@ const Family = () => {
     setDataItem(value);
   };
   const onSubmit = () => {};
+  const handleChange = (value) =>{
+    if (value == "1") {
+      dataItem.title = "Cha"
+    }
+    if (value == "2") {
+      dataItem.title = "Mẹ"
+    }
+    if (value == "3") {
+      dataItem.title = "Em gái"
+      
+    }
+    if (value == "4") {
+      dataItem.title ="Em trai"
+      
+    }
+    if (value == "5") {
+      dataItem.title = "Chị gái"
+      
+    }
+    if ( value == "6") {
+      dataItem.title = "Anh trai"
+     
+    }
+    if (value == "7") {
+      dataItem.title = "Bác"
+    }
+    if (value == "8") {
+      dataItem.title = "Chú"
+      
+    }
+    if (value == "9") {
+      dataItem.title = "Cô"
+      
+    }
+    if ( value == "10") {
+      dataItem.title = "Cậu"
+    }
+    if (value == "11") {
+      dataItem.title = "Dì"
+    }
+    setDataItem(dataItem);
+    setRefresh(!refresh)
+  }
   const renderData = () => {
     return fakeData.map((item) => {
       return (
@@ -162,7 +206,7 @@ const Family = () => {
                   value={value}
                   className="modal-selection"
                   style={{ width: 527 }}
-                  // onChange={handleChange}
+                  onChange={handleChange}
                 >
                   <Option value="1">Cha </Option>
                   <Option value="2">Mẹ</Option>
