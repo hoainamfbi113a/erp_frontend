@@ -5,6 +5,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const TerserJSPlugin = require("terser-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 var dotenv = require("dotenv").config({ path: __dirname + "/.env" });
 module.exports = (env, agrv) => {
   const isDev = agrv.mode === "development";
@@ -16,6 +17,12 @@ module.exports = (env, agrv) => {
       publicPath: "/",
     },
     plugins: [
+      new CopyPlugin({
+        patterns: [{
+          from: path.resolve(__dirname, 'src', 'assets'), 
+          to: path.resolve(__dirname, 'dist', 'assets') 
+        }],
+      }),
       new CleanWebpackPlugin(),
       new HtmlWebpackPlugin({
         template: "./index.html",
@@ -50,6 +57,18 @@ module.exports = (env, agrv) => {
         {
           test: /\.(svg|woff|woff2|ttf|eot|otf)([\?]?.*)$/,
           loader: 'file-loader?name=assets/fonts/[name].[ext]',
+        },
+        
+        {
+          test: /\.lang$/,
+          use: [
+            {
+              loader: "file-loader",
+              options: {
+                name: "[path][name].[ext]",
+              },
+            },
+          ],
         },
         
         {
