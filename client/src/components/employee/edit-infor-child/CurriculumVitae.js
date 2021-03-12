@@ -24,7 +24,7 @@ const { Option } = Select;
 import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 import { bindActionCreators } from "redux";
 import {sleep} from "helpers/FuncHelper";
-const dateFormat = "YYYY/MM/DD";
+const dateFormat = "DD/MM/YYYY";
 class CurriculumVitae extends Component {
   constructor(props) {
     super(props);
@@ -1018,39 +1018,59 @@ class CurriculumVitae extends Component {
                       </div>
                     </li>
                     <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">
-                        Loại bằng cấp:
-                      </span>
+                      <span className="tabs-user-infor-top">Học vấn:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
-                          name="deg_type"
-                          value={this.state.deg_type}
+                          name="deg_diploma"
+                          value="Đại học"
                           onChange={this.onChange}
-                          placeholder="Loại bằng cấp"
+                          placeholder="Học vấn"
                         />
                       </div>
                     </li>
                     <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">Bằng cấp:</span>
+                      <span className="tabs-user-infor-top">Chính trị:</span>
+                      <div className="tabs-user-infor-bottom">
+                        <Input
+                          name="deg_diploma"
+                          value="Trung cấp"
+                          onChange={this.onChange}
+                          placeholder="Chính trị"
+                        />
+                      </div>
+                    </li>
+                    <li className="tabs-main-left-li">
+                      <span className="tabs-user-infor-top">Ngoại ngữ:</span>
+                      <div className="tabs-user-infor-bottom">
+                        <Input
+                          name="deg_diploma"
+                          value="Tiếng anh bằng C"
+                          onChange={this.onChange}
+                          placeholder="Ngoại ngữ"
+                        />
+                      </div>
+                    </li>
+                    <li className="tabs-main-left-li">
+                      <span className="tabs-user-infor-top">Trình độ:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
                           name="deg_diploma"
                           value={this.state.deg_diploma}
                           onChange={this.onChange}
-                          placeholder="Bằng cấp"
+                          placeholder="Trình độ"
                         />
                       </div>
                     </li>
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
-                        Chuyên ngành học:
+                        Chuyên ngành:
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
                           name="deg_majors"
                           value={this.state.deg_majors}
                           onChange={this.onChange}
-                          placeholder="Chuyên ngành học"
+                          placeholder="Chuyên ngành"
                         />
                       </div>
                     </li>
@@ -1069,10 +1089,24 @@ class CurriculumVitae extends Component {
                     </li>
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
+                        Hình thức đào tạo:
+                      </span>
+                      <div className="tabs-user-infor-bottom">
+                        <Input
+                          name="deg_type"
+                          value={this.state.deg_type}
+                          onChange={this.onChange}
+                          placeholder="Hình thức đào tạo"
+                        />
+                      </div>
+                    </li>
+                    <li className="tabs-main-left-li">
+                      <span className="tabs-user-infor-top">
                         Thời gian bắt đầu học:
                       </span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
-                        <RangePicker
+                        <RangePicker 
+                        placeholder = {["Từ ngày", "Đến ngày"]}
                           // placeholder="Chọn ngày"
                           value={
                             this.state.deg_begin_study == null
@@ -1190,6 +1224,7 @@ class CurriculumVitae extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                         <RangePicker
+                        placeholder = {["Từ ngày", "Đến ngày"]}
                           value={
                             this.state.car_begin == null
                               ? null

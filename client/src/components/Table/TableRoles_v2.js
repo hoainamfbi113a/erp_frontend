@@ -106,33 +106,29 @@ export default class TableRoles_v2 extends Component {
         this.setState({
           dataPermission: res,
         });
-        
       })
       .catch((er) => {
         console.log(err);
       });
     let arrOption = [];
-    console.log(this.state.dataPermission)
-    for(let item of this.state.dataPermission) {
-        console.log(item)
-        let arrAction = []
-        for(let itemChild of item.actions) {
-           let objChild = {
-                label: itemChild.note,
-                value: `${item.id}_${itemChild.id}`
-            }
-            arrAction.push(objChild)
-        }
-        let obj = {
-            label: item.name,
-            options: arrAction
-        }
-        arrOption.push(obj);
+    for (let item of this.state.dataPermission) {
+      let arrAction = [];
+      for (let itemChild of item.actions) {
+        let objChild = {
+          label: itemChild.note,
+          value: `${item.id}_${itemChild.id}`,
+        };
+        arrAction.push(objChild);
+      }
+      let obj = {
+        label: item.name,
+        options: arrAction,
+      };
+      arrOption.push(obj);
     }
-    console.log(arrOption)
     this.setState({
-        dataOptions:arrOption
-    })
+      dataOptions: arrOption,
+    });
   };
   handleCancel = () => {
     this.props.hideModal();
@@ -140,6 +136,7 @@ export default class TableRoles_v2 extends Component {
   showDepartment = () => {
     if (this.state.dataDepartment) {
       return this.state.dataDepartment.data.map((element) => {
+        if(this.state.dataRoles)
         return (
           <Option key={element.id} value={element.id}>
             {element.dep_name}
@@ -149,6 +146,14 @@ export default class TableRoles_v2 extends Component {
     }
   };
   showPosition = () => {
+    let dep_id = this.state.dep_id
+    let arrayPosExist = []
+    for(let item of this.state.dataRoles) {
+        if(dep_id === item.dep_id){
+            arrayPosExist.push(item.pos_id)
+        }
+    }
+    let difference = this.state.data.data.filter(x => !arr2.includes(x));
     if (this.state.data) {
       return this.state.data.data.map((element) => {
         return (
@@ -162,7 +167,60 @@ export default class TableRoles_v2 extends Component {
   onChange = (selected) => {
     this.setState({ selected });
   };
-  handleOk = () => {};
+  handleOk = () => {
+    let data = this.state.selected;
+    let arrPermission = [];
+    for (let item of data) {
+      for (let itemChild of arrPermission) {
+        if (itemChild.id && itemChild.id === item.split("_")[0]) {
+          break;
+        } else {
+          let obj = {
+            id: item.split("_")[0],
+          };
+          arrPermission.push(obj);
+        }
+      }
+      if (arrPermission.length === 0) {
+        let obj = {
+          id: item.split("_")[0],
+        };
+        arrPermission.push(obj);
+      }
+    }
+    // console.log(arrPermission)
+    let arrayPerAction = [];
+    for (let itemPer of arrPermission) {
+      let arrAction = [];
+      for (let item of data) {
+        if (item.split("_")[0] === itemPer.id) {
+          arrAction.push(item.split("_")[1]);
+        }
+      }
+      let obj = {
+        id: itemPer.id,
+        actions: arrAction,
+      };
+      arrayPerAction.push(obj);
+    }
+      const params = {
+        dep_id: this.state.dep_id,
+        permissions: arrayPerAction,
+      };
+      axiosConfig.post(`/api/position/permission/${this.state.pos_id}`,params)
+      .then(res=>{
+        console.log(res)
+        if(res.message === "Success!. Stored"){
+            alert("gán quyền cho chức vụ thành công")
+            this.handleCancel();
+        }
+      })
+      .catch(err=>{
+          alert("Gán quyền cho chức vụ thất bại")
+          this.handleCancel();
+          console.log(err)
+      })
+  };
   render() {
     let data = "";
     if (this.state.dataRoles) {
@@ -201,7 +259,7 @@ export default class TableRoles_v2 extends Component {
         ),
       },
     ];
-    const options = this.state.dataOptions
+    const options = this.state.dataOptions;
     const { selected } = this.state;
     return (
       <div>

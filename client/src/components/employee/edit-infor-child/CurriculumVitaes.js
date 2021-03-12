@@ -21,7 +21,7 @@ import { updateWorkObject } from "apis/workObjectsApi";
 import { updateJournalistCards } from "apis/journalistCardsApi";
 import { Select } from "antd";
 const { Option } = Select;
-const dateFormat = "YYYY/MM/DD";
+const dateFormat = "DD/MM/YYYY";
 
 const CurriculumVitaes = (props) => {
   const dispatch = useDispatch();
