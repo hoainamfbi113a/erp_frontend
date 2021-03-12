@@ -42,6 +42,7 @@ let fakeData = [
 const Social = () => {
   const [visible, setVisible] = useState(false);
   const [dataItem, setDataItem] = useState({});
+  const [refresh, setRefresh] = useState(true);
   const showModal = () => {
     setDataItem({});
     setVisible(true);
@@ -54,6 +55,22 @@ const Social = () => {
     setVisible(true);
     setDataItem(value);
   };
+  const handleChange = (value) =>{
+    if (value == "1") {
+      dataItem.title = "Ông nội"
+    }
+    if (value == "2") {
+      dataItem.title = "Bà nội"
+    }
+    if (value == "3") {
+      dataItem.title ="Ông ngoại"
+    }
+    if (value == "4") {
+      dataItem.title = "Bà ngoại"
+    }
+    setDataItem(dataItem);
+    setRefresh(!refresh)
+  }
   const renderData = () => {
     return fakeData.map((item) => {
       return (
@@ -145,7 +162,7 @@ const Social = () => {
                   value={value}
                   className="modal-selection"
                   style={{ width: 527 }}
-                  // onChange={handleChange}
+                  onChange={handleChange}
                 >
                   <Option value="1">Ông nội </Option>
                   <Option value="2">Bà nội</Option>

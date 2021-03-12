@@ -62,7 +62,7 @@ export default class RouterUrl extends Component {
     let dataPermission = this.state.dataPermission;
     if (dataPermission && dataPermission.permissions)
       for (const element of dataPermission.permissions) {
-        if (element.name === itemMenu) {
+        if (element.slug_service_management === itemMenu) {
           if (element.actions[0] === action) {
             return true;
           }
@@ -118,7 +118,7 @@ export default class RouterUrl extends Component {
     if (this.state.major == 8 && this.state.isTrue === true) {
       return (
         <Switch>
-          {this.checkPermission(Manage_Profile, "Create") === true ? (
+          {this.checkPermission("profile-service", "Create") === true ? (
             // <Route exact path="/user" component={()=><ContentUserSix actions={permission.actions}/>}></Route>
             <Route exact path="/user" component={()=><ContentUserSix />}></Route>
           ) : (
@@ -150,7 +150,7 @@ export default class RouterUrl extends Component {
             path="/edituser/:id"
             component={AddAndUpdateInforUser}
           ></Route>
-          {this.checkPermission(Manage_Profile, "Create") === true ? (
+          {this.checkPermission("profile-service", "Create") === true ? (
             <Route
               exact
               path="/adduser"
@@ -162,7 +162,7 @@ export default class RouterUrl extends Component {
           <Route exact path="/roles" component={ContentRoles}></Route>
           <Route exact path="/permission" component={ContentPermission}></Route>
           <Route exact path="/parts" component={ContentParts}></Route>
-          {this.checkPermission(Manage_Position, "Create") === true ? (
+          {this.checkPermission("profile-service", "Create") === true ? (
             <Route exact path="/position" component={ContentPosition}></Route>
           ) : (
             ""
@@ -176,17 +176,17 @@ export default class RouterUrl extends Component {
           ) : (
             ""
           )} */}
-          {this.checkPermission(Manage_Workflow, "Create") === true ? (
+          {this.checkPermission("workflow-service", "Create") === true ? (
             <Route exact path="/workflow" component={Workflow}></Route>
           ) : (
             ""
           )}
-          {this.checkPermission(Manage_Workflow, "Create") === true ? (
+          {this.checkPermission("document-service", "Create") === true ? (
             <Route exact path="/form-builder" component={FormBuilder}></Route>
           ) : (
             ""
           )}
-          {this.checkPermission(Manage_Workflow, "Create") === true ? (
+          {this.checkPermission("document-service", "Create") === true ? (
             <Route exact path="/documents" component={Document}></Route>
           ) : (
             ""

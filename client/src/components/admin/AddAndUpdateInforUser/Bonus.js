@@ -6,7 +6,7 @@ const { RangePicker } = DatePicker;
 
 const { Option } = Select;
 const { TextArea } = Input;
-const dateFormat = "DD/MM/YYYY";
+const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
 let fakeData1 = [
   {
     id: 1,
@@ -56,6 +56,7 @@ let fakeData2 = [
 const Bonus = (props) => {
   const [visible, setVisible] = useState(false);
   const [dataItem, setDataItem] = useState({});
+  const [refresh, setRefresh] = useState(true);
   const showModal = (value) => {
     if (value == 1) {
       setDataItem({ category: 1 });
@@ -72,6 +73,18 @@ const Bonus = (props) => {
     setVisible(true);
     setDataItem(value);
   };
+  const onChangeRange = (e, dateString, name1, name2) => {
+    dataItem.dateStart = dateString[0]
+    dataItem.dateEnd = dateString[1]
+    setDataItem(dataItem)
+    setRefresh(!refresh)
+  };
+  const handleChange = (value) =>{
+    dataItem.category = value;
+    setDataItem(dataItem);
+    console.log(dataItem)
+    setRefresh(!refresh)
+  }
   const renderData1 = () => {
     return fakeData1.map((item) => {
       return (
@@ -137,7 +150,7 @@ const Bonus = (props) => {
       <div className="tabs-main personal-history">
         <div className="btn-btn-profile">
           <Button
-            onClick={showModal}
+            onClick={()=>showModal(1)}
             className="btn-add-detail"
             icon={<PlusCircleOutlined />}
           >
@@ -178,6 +191,7 @@ const Bonus = (props) => {
               <span className="tabs-user-infor-top">Thông tin</span>
               <div className="tabs-user-infor-bottom">
                 <Select
+                  onChange={handleChange}
                   className="modal-selection"
                   value={dataItem.category == 1 ? "1" : "2"}
                   style={{ width: 527 }}
@@ -192,17 +206,25 @@ const Bonus = (props) => {
               <span className="tabs-user-infor-top">Từ ngày</span>
               <div className="tabs-user-infor-bottom">
                 <RangePicker
-                format="DD/MM/YYYY"
                 placeholder = {["Từ ngày", "Đến ngày"]}
                   value={
                     dataItem.dateStart
                       ? [
-                          moment(dataItem.dateStart, dateFormat),
-                          moment(dataItem.dateEnd, dateFormat),
+                          moment(dataItem.dateStart, dateFormatList[0]),
+                          moment(dataItem.dateEnd, dateFormatList[0]),
                         ]
                       : null
                   }
                   className="modal-ranPicker"
+                  format={dateFormatList}
+                  onChange={(date, dateString) =>
+                    onChangeRange(
+                      date,
+                      dateString,
+                      "deg_begin_study",
+                      "deg_end_study"
+                    )
+                  }
                 />
               </div>
             </li>

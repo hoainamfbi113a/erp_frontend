@@ -1,17 +1,12 @@
-import React, { useState } from "react";
-import { Input } from "antd";
-import { Button, DatePicker } from "antd";
-const { RangePicker } = DatePicker;
-import { Modal } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
-import { Select } from "antd";
-
-import { Space, Tag } from "antd";
-const { Option } = Select;
-import { Popconfirm } from "antd";
-const { TextArea } = Input;
+import { Button, DatePicker, Input, Modal, Popconfirm, Select, Space, Tag } from "antd";
 import moment from "moment";
-const dateFormat = "DD/MM/YYYY";
+import React, { useState } from "react";
+const { RangePicker } = DatePicker;
+
+const { Option } = Select;
+const { TextArea } = Input;
+const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
 let fakeData1 = [
   {
     id: 1,
@@ -197,17 +192,17 @@ const Bonus = (props) => {
               <span className="tabs-user-infor-top">Từ ngày</span>
               <div className="tabs-user-infor-bottom">
                 <RangePicker
-                format="DD/MM/YYYY"
                 placeholder = {["Từ ngày", "Đến ngày"]}
                   value={
                     dataItem.dateStart
                       ? [
-                          moment(dataItem.dateStart, dateFormat),
-                          moment(dataItem.dateEnd, dateFormat),
+                          moment(dataItem.dateStart, dateFormatList[0]),
+                          moment(dataItem.dateEnd, dateFormatList[0]),
                         ]
                       : null
                   }
                   className="modal-ranPicker"
+                  format={dateFormatList}
                 />
               </div>
             </li>

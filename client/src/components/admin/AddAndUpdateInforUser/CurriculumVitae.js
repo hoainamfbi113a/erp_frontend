@@ -35,7 +35,7 @@ import { showLoading, hideLoading} from "reduxToolkit/features/uiLoadingSlice"
 const { Option } = Select;
 const { Step } = Steps;
 const { RangePicker } = DatePicker;
-const dateFormat = "DD/MM/YYYY";
+const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
 class addInformationUser extends Component {
   constructor(props) {
     super(props);
@@ -932,11 +932,12 @@ class addInformationUser extends Component {
                       <span className="tabs-user-infor-top">Ngày sinh:</span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                         <DatePicker
+                          format={dateFormatList}
                           placeholder="Chọn ngày"
                           value={
-                            this.state.pro_birth_day == null || moment(this.state.pro_birth_day,dateFormat) == "Thu Jan 01 1970 08:00:00 GMT+0800"
+                            this.state.pro_birth_day == null || moment(this.state.pro_birth_day,dateFormatList[0]) == "Thu Jan 01 1970 08:00:00 GMT+0800"
                               ? null
-                              : moment(this.state.pro_birth_day, dateFormat)
+                              : moment(this.state.pro_birth_day, dateFormatList[0])
                           }
                           onChange={(date, dateString) =>
                             this.onChangeBirthDay(
@@ -1065,13 +1066,14 @@ class addInformationUser extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                         <DatePicker
+                        format={dateFormatList}
                           placeholder="Chọn ngày"
                           value={
-                            this.state.pro_identity_card_when == null || moment(this.state.pro_identity_card_when,dateFormat) == "Thu Jan 01 1970 08:00:00 GMT+0800"
+                            this.state.pro_identity_card_when == null || moment(this.state.pro_identity_card_when,dateFormatList[0]) == "Thu Jan 01 1970 08:00:00 GMT+0800"
                               ? null
                               : moment(
                                   this.state.pro_identity_card_when,
-                                  dateFormat
+                                  dateFormatList[0]
                                 )
                           }
                           onChange={(date, dateString) =>
@@ -1230,12 +1232,13 @@ class addInformationUser extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                         <DatePicker
+                        format={dateFormatList}
                           placeholder="Chọn ngày"
                           style={{ width: "100%" }}
                           value={
-                            this.state.appointment_date == null || moment(this.state.appointment_date,dateFormat) == "Thu Jan 01 1970 08:00:00 GMT+0800"
+                            this.state.appointment_date == null || moment(this.state.appointment_date,dateFormatList[0]) == "Thu Jan 01 1970 08:00:00 GMT+0800"
                               ? null
-                              : moment(this.state.appointment_date, dateFormat)
+                              : moment(this.state.appointment_date, dateFormatList[0])
                           }
                           onChange={(date, dateString) =>
                             this.onChangeBirthDay(
@@ -1343,18 +1346,18 @@ class addInformationUser extends Component {
                             ? null
                             : [
                                 this.state.deg_begin_study == null ||
-                                moment(this.state.deg_begin_study,dateFormat) == "Thu Jan 01 1970 08:00:00 GMT+0800"
+                                moment(this.state.deg_begin_study,dateFormatList[0]) == "Thu Jan 01 1970 08:00:00 GMT+0800"
                                   ? null
                                   : moment(
                                       this.state.deg_begin_study,
-                                      dateFormat
+                                      dateFormatList[0]
                                     ),
                                 this.state.deg_end_study == null ||
-                                moment(this.state.deg_end_study,dateFormat) == "Thu Jan 01 1970 08:00:00 GMT+0800"
+                                moment(this.state.deg_end_study,dateFormatList[0]) == "Thu Jan 01 1970 08:00:00 GMT+0800"
                                   ? null
                                   : moment(
                                       this.state.deg_end_study,
-                                      dateFormat
+                                      dateFormatList[0]
                                     ),
                               ]
                         }
@@ -1366,6 +1369,7 @@ class addInformationUser extends Component {
                               "deg_end_study"
                             )
                           }
+                          format={dateFormatList}
                         />
                       </div>
                     </li>
@@ -1423,12 +1427,13 @@ class addInformationUser extends Component {
                       <span className="tabs-user-infor-top">Ngày cấp thẻ:</span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                         <DatePicker
+                        format={dateFormatList}
                           placeholder="Chọn ngày"
                           style={{ width: "100%" }}
                           value={
-                            this.state.car_number_day == null || moment(this.state.car_number_day,dateFormat) == "Thu Jan 01 1970 08:00:00 GMT+0800"
+                            this.state.car_number_day == null || moment(this.state.car_number_day,dateFormatList[0]) == "Thu Jan 01 1970 08:00:00 GMT+0800"
                               ? null
-                              : moment(this.state.car_number_day, dateFormat)
+                              : moment(this.state.car_number_day, dateFormatList[0])
                           }
                           onChange={(date, dateString) =>
                             this.onChangeBirthDay(
@@ -1452,18 +1457,18 @@ class addInformationUser extends Component {
                             ? null
                             : [
                                 this.state.car_begin == null ||
-                                moment(this.state.car_begin,dateFormat) == "Thu Jan 01 1970 08:00:00 GMT+0800"
+                                moment(this.state.car_begin,dateFormatList[0]) == "Thu Jan 01 1970 08:00:00 GMT+0800"
                                   ? null
                                   : moment(
                                       this.state.car_begin,
-                                      dateFormat
+                                      dateFormatList[0]
                                     ),
                                 this.state.car_end == null ||
-                                moment(this.state.car_end,dateFormat) == "Thu Jan 01 1970 08:00:00 GMT+0800"
+                                moment(this.state.car_end,dateFormatList[0]) == "Thu Jan 01 1970 08:00:00 GMT+0800"
                                   ? null
                                   : moment(
                                       this.state.car_end,
-                                      dateFormat
+                                      dateFormatList[0]
                                     ),
                               ]
                         }
@@ -1475,6 +1480,7 @@ class addInformationUser extends Component {
                               "car_end"
                             )
                           }
+                          format={dateFormatList}
                         />
                       </div>
                     </li>

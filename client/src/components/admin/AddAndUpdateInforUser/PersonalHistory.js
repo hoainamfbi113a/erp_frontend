@@ -10,7 +10,7 @@ import { Popconfirm, message } from "antd";
 const { Option } = Select;
 const { TextArea } = Input;
 import moment from "moment";
-const dateFormat = "DD/MM/YYYY";
+const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
 let fakeData = [
   {
     id: 1,
@@ -34,6 +34,7 @@ let fakeData = [
 const PersonalHistory = (props) => {
   const [visible, setVisible] = useState(false);
   const [dataItem, setDataItem] = useState({});
+  const [refresh, setRefresh] = useState(true);
   const showModal = () => {
     setVisible(true);
     setDataItem({});
@@ -46,6 +47,12 @@ const PersonalHistory = (props) => {
   const handleUpdate = (value) => {
     setVisible(true);
     setDataItem(value);
+  };
+  const onChangeRange = (e, dateString, name1, name2) => {
+    dataItem.dateStart = dateString[0]
+    dataItem.dateEnd = dateString[1]
+    setDataItem(dataItem)
+    setRefresh(!refresh)
   };
   const renderData = () => {
     return fakeData.map((item) => {
@@ -127,13 +134,21 @@ const PersonalHistory = (props) => {
                       value={
                         dataItem.dateStart
                           ? [
-                              moment(dataItem.dateStart, dateFormat),
-                              moment(dataItem.dateEnd, dateFormat),
+                              moment(dataItem.dateStart, dateFormatList[0]),
+                              moment(dataItem.dateEnd, dateFormatList[0]),
                             ]
                           : null
                       }
-                      format="DD/MM/YYYY"
+                      format={dateFormatList}
                       className="modal-ranPicker"
+                      onChange={(date, dateString) =>
+                        onChangeRange(
+                          date,
+                          dateString,
+                          "deg_begin_study",
+                          "deg_end_study"
+                        )
+                      }
                     />
                   </div>
                 </li>

@@ -10,7 +10,7 @@ import { Popconfirm, message } from "antd";
 const { Option } = Select;
 const { TextArea } = Input;
 import moment from "moment";
-const dateFormat = "DD/MM/YY";
+const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
 let fakeData = [
   {
     id: 1,
@@ -122,18 +122,17 @@ const PersonalHistory = (props) => {
                 <li className="tabs-main-left-li tabs-main-left-li-row">
                   <span className="tabs-user-infor-top">Từ ngày</span>
                   <div className="tabs-user-infor-bottom">
-                    <RangePicker
-                    format="DD/MM/YYYY"
+                    <RangePicker 
                     placeholder = {["Từ ngày", "Đến ngày"]}
-                    format="DD/MM/YYYY"
                       value={
                         dataItem.dateStart
                           ? [
-                              moment(dataItem.dateStart, dateFormat),
-                              moment(dataItem.dateEnd, dateFormat),
+                              moment(dataItem.dateStart, dateFormatList[0]),
+                              moment(dataItem.dateEnd, dateFormatList[0]),
                             ]
                           : null
                       }
+                      format={dateFormatList}
                       className="modal-ranPicker"
                     />
                   </div>

@@ -37,6 +37,7 @@ const Family = () => {
   const [visible, setVisible] = useState(false);
   const [dataItem1, setDataItem1] = useState({});
   const [dataItem2, setDataItem2] = useState({});
+  const [refresh, setRefresh] = useState(true);
   const showModal = () => {
     setVisible(true);
     setDataItem1({});
@@ -61,6 +62,11 @@ const Family = () => {
   const hideModal1 = () => {
     setVisible1(false);
   };
+  const handleChange = (value) =>{
+    dataItem2.title = value;
+    setDataItem2(dataItem2);
+    setRefresh(!refresh)
+  }
   const renderData1 = () => {
     return fakeData1.map((item) => {
       return (
@@ -220,13 +226,14 @@ const Family = () => {
               <span className="tabs-user-infor-top">Thông tin</span>
               <div className="tabs-user-infor-bottom">
                 <Select
-                  value={dataItem2.title == "Con" ? "2": "1"}
+                  onChange={handleChange}
+                  value={dataItem2.title == "Con" ? "Con": "Vợ"}
                   className="modal-selection"
                   style={{ width: 527 }}
                   // onChange={handleChange}
                 >
-                  <Option value="1">Vợ </Option>
-                  <Option value="2">Con</Option>
+                  <Option value="Vợ">Vợ </Option>
+                  <Option value="Con">Con</Option>
                 </Select>
               </div>
             </li>
