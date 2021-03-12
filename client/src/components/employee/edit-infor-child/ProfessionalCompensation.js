@@ -11,27 +11,27 @@ const { Option } = Select;
 import { Popconfirm } from "antd";
 const { TextArea } = Input;
 import moment from "moment";
-const dateFormat = "YYYY/MM/DD";
+const dateFormat = "DD/MM/YYYY";
 let fakeData1 = [
   {
     id: 1,
     category:1,
     dateStart: "05/09/1990",
-    dateEnd: "10/05/1995",
+    dateEnd: "11/05/1999",
     content: "CỬ NHÂN Quản Trị Kinh Doanh - Trường Đại Học Kinh tế - Văn bằng 2 - Học từ xa.",
   },
   {
     id: 2,
     category:1,
     dateStart: "05/09/1990",
-    dateEnd: "10/05/1995",
+    dateEnd: "12/05/1998",
     content: "CHỨNG CHỈ Quản lý sản phẩm - Quản lý sản phẩm - Trung Tâm Phát Triển Trí Tuệ Việt - Học tập trung.",
   },
   {
     id: 3,
     category:1,
     dateStart: "05/09/1990",
-    dateEnd: "10/05/1995",
+    dateEnd: "13/05/1997",
     content: "CỬ NHÂN Luật - Trường Đại Học Luật TP.HCM - Văn bằng 2 - Học từ xa.",
   },
 ];
@@ -197,12 +197,12 @@ const ProfessionalCompensation = () => {
               <div className="tabs-user-infor-bottom">
                 <Select
                   className="modal-selection"
-                  defaultValue={dataItem.category == 2 ? "2": "1"}
+                  value={dataItem.category == 2 ? "2": "1"}
                   style={{ width: 527 }}
                   // onChange={handleChange}
                 >
                   <Option value="1">Đào tạo</Option>
-                  <Option value="2">bồi dưỡng</Option>
+                  <Option value="2">Bồi dưỡng</Option>
 
                 </Select>
               </div>
@@ -211,6 +211,8 @@ const ProfessionalCompensation = () => {
               <span className="tabs-user-infor-top">Từ ngày</span>
               <div className="tabs-user-infor-bottom">
                 <RangePicker
+                format="DD/MM/YYYY"
+                placeholder = {["Từ ngày", "Đến ngày"]}
                  value={dataItem.dateStart ? [moment(
                   dataItem.dateStart,
                   dateFormat

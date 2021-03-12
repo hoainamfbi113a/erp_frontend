@@ -102,6 +102,21 @@ const Family = () => {
     if (dataItem.title == "Anh trai") {
       value = "6";
     }
+    if (dataItem.title == "Bác") {
+      value = "7";
+    }
+    if (dataItem.title == "Chú") {
+      value = "8";
+    }
+    if (dataItem.title == "Cô") {
+      value = "9";
+    }
+    if (dataItem.title == "Cậu") {
+      value = "10";
+    }
+    if (dataItem.title == "Dì") {
+      value = "11";
+    }
   }
   // console.log(value)
   return (
@@ -144,7 +159,7 @@ const Family = () => {
               <div className="tabs-user-infor-bottom">
                 <Select
                   // value={value}
-                  defaultValue={value}
+                  value={value}
                   className="modal-selection"
                   style={{ width: 527 }}
                   // onChange={handleChange}
@@ -155,6 +170,11 @@ const Family = () => {
                   <Option value="4">Em trai</Option>
                   <Option value="5">Chị gái</Option>
                   <Option value="6">Anh trai</Option>
+                  <Option value="7">Bác</Option>
+                  <Option value="8">Chú</Option>
+                  <Option value="9">Cô</Option>
+                  <Option value="10">Cậu</Option>
+                  <Option value="11">Dì</Option>
                 </Select>
               </div>
             </li>

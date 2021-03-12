@@ -6,7 +6,7 @@ const { RangePicker } = DatePicker;
 
 const { Option } = Select;
 const { TextArea } = Input;
-const dateFormat = "YYYY/MM/DD";
+const dateFormat = "DD/MM/YYYY";
 let fakeData1 = [
   {
     id: 1,
@@ -179,7 +179,7 @@ const Bonus = (props) => {
               <div className="tabs-user-infor-bottom">
                 <Select
                   className="modal-selection"
-                  defaultValue={dataItem.category == 1 ? "1" : "2"}
+                  value={dataItem.category == 1 ? "1" : "2"}
                   style={{ width: 527 }}
                   // onChange={handleChange}
                 >
@@ -192,6 +192,8 @@ const Bonus = (props) => {
               <span className="tabs-user-infor-top">Từ ngày</span>
               <div className="tabs-user-infor-bottom">
                 <RangePicker
+                format="DD/MM/YYYY"
+                placeholder = {["Từ ngày", "Đến ngày"]}
                   value={
                     dataItem.dateStart
                       ? [

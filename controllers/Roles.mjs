@@ -13,8 +13,8 @@ const listRole = async (req, res) => {
 const listPermissionAction = async (req, res) => {
   try {
     const config = {
-        headers: { Authorization: req.headers.authorization },
-      };
+      headers: { Authorization: req.headers.authorization },
+    };
     let { data } = await axios.get(
       `http://employee.tuoitre.vn/api/list/permission/actions`,
       config

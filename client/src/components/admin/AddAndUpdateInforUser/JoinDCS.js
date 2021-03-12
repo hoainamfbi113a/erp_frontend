@@ -243,7 +243,7 @@ const JoinDCS = () => {
                       htmlType="submit"
                       className="btn-add-user btn-add-user-DCS"
                     >
-                      Gửi thông tin
+                      XÁC NHẬN
                     </span>
                   </li>
                 </ul>

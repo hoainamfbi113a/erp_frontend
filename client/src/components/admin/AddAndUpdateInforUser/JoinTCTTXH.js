@@ -10,24 +10,24 @@ const { Option } = Select;
 import { Popconfirm } from "antd";
 const { TextArea } = Input;
 import moment from "moment";
-const dateFormat = "YYYY/MM/DD";
+const dateFormat = "DD/MM/YYYY";
 let fakeData = [
   {
     id: 1,
     dateStart: "05/09/1990",
-    dateEnd: "05/09/1990",
+    dateEnd: "05/09/1992",
     content: "Học sinh Trường Tiểu Học Nguyễn Hữu A",
   },
   {
     id: 2,
-    dateStart: "05/09/1990",
-    dateEnd: "05/09/1990",
+    dateStart: "05/09/1994",
+    dateEnd: "05/09/1997",
     content: "Học sinh Trường Tiểu Học Nguyễn Hữu A",
   },
   {
     id: 3,
-    dateStart: "05/09/1990",
-    dateEnd: "05/09/1990",
+    dateStart: "05/09/1997",
+    dateEnd: "05/09/2008",
     content: "Học sinh Trường Tiểu Học Nguyễn Hữu A",
   },
 ];
@@ -121,7 +121,9 @@ const JoinTCTTXH = () => {
                 <li className="tabs-main-left-li tabs-main-left-li-row">
                   <span className="tabs-user-infor-top">Từ ngày</span>
                   <div className="tabs-user-infor-bottom">
-                    <RangePicker
+                    <RangePicker 
+                    format="DD/MM/YYYY"
+                    placeholder = {["Từ ngày", "Đến ngày"]}
                       value={
                         dataItem.dateStart
                           ? [
