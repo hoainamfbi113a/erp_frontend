@@ -14,6 +14,8 @@ import { getUserProfile } from "reduxToolkit/features/userProfileSlice";
 import user2 from "assets/images/icon/user2.png";
 import phone from "assets/images/icon/phone.png";
 import email from "assets/images/icon/email.png";
+import { Upload, message } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 const { Footer } = Layout;
 import "./PersonalPage.css";
 const PersonalPage = () => {
@@ -42,12 +44,18 @@ const PersonalPage = () => {
             <div className="personal-page-top">
               {/* <LazyLoad height={1000}> */}
               <img src={coverimg} alt="" className="personal-page-top-cover" />
+              <Upload className="btn-img-background-profile" >
+                <Button  icon={<UploadOutlined />}>Chỉnh sửa ảnh bìa</Button>
+              </Upload>
               {/* </LazyLoad> */}
             </div>
             <div className="personal-page-content">
               <div className="personal-page-content-avatar">
                 <LazyLoad height={200}>
                   <img src={avatar} alt="" className="personal-page-top-img" />
+                  <Upload className="btn-img-profile" >
+                    <Button icon={<UploadOutlined />}>Update Avatar</Button>
+                  </Upload>
                 </LazyLoad>
               </div>
               <div className="personal-page-content-infor-primary">

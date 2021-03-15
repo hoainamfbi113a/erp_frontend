@@ -128,6 +128,13 @@ const Family = () => {
       );
     });
   };
+  let valueS = "Chồng"
+  if(dataItem2.title == "Con"){
+    valueS = "Con"
+  }
+  if(dataItem2.title == "Vợ") {
+    valueS = "Vợ"
+  }
   return (
     <div className="edit-infor-form">
       <div className="tabs-main personal-history">
@@ -227,11 +234,13 @@ const Family = () => {
               <div className="tabs-user-infor-bottom">
                 <Select
                   onChange={handleChange}
-                  value={dataItem2.title == "Con" ? "Con": "Vợ"}
+                  // value={dataItem2.title == "Con" ? "Con": "Vợ"}
+                  value={valueS}
                   className="modal-selection"
                   style={{ width: 527 }}
                   // onChange={handleChange}
                 >
+                  <Option value="Chồng">Chồng </Option>
                   <Option value="Vợ">Vợ </Option>
                   <Option value="Con">Con</Option>
                 </Select>

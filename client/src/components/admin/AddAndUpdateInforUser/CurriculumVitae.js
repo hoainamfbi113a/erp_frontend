@@ -193,7 +193,7 @@ class addInformationUser extends Component {
       let data = this.props.dataProfile
       if(Object.keys(data).length !== 0 && this.props.idUser)
       // console.log(data.pro_identity_card_when.toString().slice(0,10).split("").reverse().join(""))
-      // console.log(data.pro_birth_day)
+      console.log(data.department)
       this.setState({
         pro_id: data.id,
         user_id: data.user_id,
@@ -990,14 +990,27 @@ class addInformationUser extends Component {
                     </li>
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
-                        Quê quán hộ khẩu thường trú:
+                        Quê quán:
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
                           name="pro_home_town"
                           value={this.state.pro_home_town}
                           onChange={this.onChange}
-                          placeholder="Nơi sinh của"
+                          placeholder="Nơi sinh"
+                        />
+                      </div>
+                    </li>
+                    <li className="tabs-main-left-li">
+                      <span className="tabs-user-infor-top">
+                        Hộ khẩu thường trú:
+                      </span>
+                      <div className="tabs-user-infor-bottom">
+                        <Input
+                          name="pro_home_town"
+                          // value={this.state.pro_home_town}
+                          onChange={this.onChange}
+                          placeholder="Nơi sinh"
                         />
                       </div>
                     </li>

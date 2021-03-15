@@ -135,3 +135,12 @@
     margin: 0 auto;
     opacity: 0.3;
 }
+.btn-img-background-profile{
+    margin-left: -207px;
+    margin-top: 244px;
+}
+.btn-img-profile{
+    position: absolute;
+    left: 69px;
+    top: 197px;
+}
