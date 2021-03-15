@@ -36,6 +36,7 @@ const { Option } = Select;
 const { Step } = Steps;
 const { RangePicker } = DatePicker;
 const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
+const dateFormatListS = "YYYY/MM/DD";
 class addInformationUser extends Component {
   constructor(props) {
     super(props);
@@ -180,17 +181,26 @@ class addInformationUser extends Component {
       }
     }
   };
+  formatDate (input) {
+    var datePart = input.match(/\d+/g),
+    year = datePart[0].substring(2), // get only two digits
+    month = datePart[1], day = datePart[2];
+  
+    return day+'/'+month+'/'+year;
+  }
   componentDidUpdate = (prevProps, prevState) => {
     if (this.props.dataProfile !== prevProps.dataProfile) {
       let data = this.props.dataProfile
       if(Object.keys(data).length !== 0 && this.props.idUser)
-      clg
+      // console.log(data.pro_identity_card_when.toString().slice(0,10).split("").reverse().join(""))
+      // console.log(data.pro_birth_day)
       this.setState({
         pro_id: data.id,
         user_id: data.user_id,
         pro_name: data.pro_name,
         pro_pen_name: data.pro_pen_name,
-        pro_birth_day: data.pro_birth_day.indexOf("1970-01-01") == 0 ? null:data.pro_birth_day ,
+        // pro_birth_day: data.pro_birth_day.indexOf("1970-01-01") == 0 ? null:data.pro_birth_day ,
+        pro_birth_day: data.pro_birth_day == null ? null:data.pro_birth_day ,
         pro_gender: data.pro_gender,
         pro_birth_place: data.pro_birth_place,
         pro_home_town: data.pro_home_town,
@@ -201,15 +211,19 @@ class addInformationUser extends Component {
         pro_background_origin: data.pro_background_origin,
         pro_occupation: data.pro_occupation,
         pro_identity_card: data.pro_identity_card,
-        pro_identity_card_when: data.pro_identity_card_when.indexOf("1970-01-01") == 0? null:data.pro_identity_card_when ,
+        // pro_identity_card_when: data.pro_identity_card_when.indexOf("1970-01-01") == 0? null:data.pro_identity_card_when ,
+        pro_identity_card_when: data.pro_identity_card_when==null? null:this.formatDate(data.pro_identity_card_when.toString().slice(0,10)) ,
         pro_identity_card_where: data.pro_identity_card_where,
         pro_note: data.pro_note,
         dep_id: data.department ? data.department.data.dep_id : "",
         pos_id: data.department ? data.department.data.pos_id : "",
         par_id: data.department ? data.department.data.part_id : "",
-        appointment_date:
-        data.department && data.department.data.appointment_date.indexOf("1970-01-01") !=0 ? 
-        data.department.data.appointment_date : null,
+        // appointment_date:
+        // data.department && data.department.data.appointment_date.indexOf("1970-01-01") !=0 ? 
+        // data.department.data.appointment_date : null,
+        // data.department && data.department.data.appointment_date ==null ? null:
+        // data.department.data.appointment_date ,
+
         deg_type: data.userDegree ? data.userDegree.data.deg_type : "",
         deg_diploma: data.userDegree ? data.userDegree.data.deg_diploma : "",
         deg_majors: data.userDegree ? data.userDegree.data.deg_majors : "",
@@ -1067,13 +1081,14 @@ class addInformationUser extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                         <DatePicker
-                        format={dateFormatList}
+                       format={dateFormatList}
                           placeholder="Chọn ngày"
                           value={
-                            this.state.pro_identity_card_when == null || moment(this.state.pro_identity_card_when,dateFormatList[0]) == "Thu Jan 01 1970 08:00:00 GMT+0800"
+                            this.state.pro_identity_card_when == null 
                               ? null
                               : moment(
                                   this.state.pro_identity_card_when,
+                                  // "2020-09-08",
                                   dateFormatList[0]
                                 )
                           }
