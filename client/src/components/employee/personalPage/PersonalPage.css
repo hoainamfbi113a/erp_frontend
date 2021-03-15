@@ -136,8 +136,9 @@
     opacity: 0.3;
 }
 .btn-img-background-profile{
-    margin-left: -207px;
-    margin-top: 244px;
+    position: absolute;
+    top: 344px;
+    right: 75px;
 }
 .btn-img-profile{
     position: absolute;
