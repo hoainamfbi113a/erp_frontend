@@ -81,6 +81,7 @@ const AddAndUpdateInforUser = (props) => {
   };
 
   useEffect(() => {
+    
     (async function fetchTransfer() {
       dispatch(showLoading())
       let dataWorkflowProfile = await workflowProfile();
@@ -183,44 +184,64 @@ const AddAndUpdateInforUser = (props) => {
                 Lịch sử bản thân
               </span>
             </li>
-            <li onClick={() => setActiveLink(3)}>
+            <li onClick={() => {
+              setActiveLink(3)
+              window.scrollTo(0, 0)
+            }}>
               <div className={activeLink === 3 ? "active" : ""}>3</div>
               <span className={activeLink === 3 ? "active" : ""}>
                 Gia nhập Đảng Cộng Sản Việt Nam
               </span>
             </li>
-            <li onClick={() => setActiveLink(4)}>
+            <li onClick={() => {
+              setActiveLink(4)
+              window.scrollTo(0, 0)
+            }}>
               <div className={activeLink === 4 ? "active" : ""}>4</div>
               <span className={activeLink === 4 ? "active" : ""}>
                 Tham gia các tổ chức chính trị, xã hội, các nghề nghiệp
               </span>
             </li>
-            <li onClick={() => setActiveLink(5)}>
+            <li onClick={() => {
+              setActiveLink(5)
+              window.scrollTo(0, 0)
+            }}>
               <div className={activeLink === 5 ? "active" : ""}>5</div>
               <span className={activeLink === 5 ? "active" : ""}>
                 Đào tạo, bồi dưỡng về chuyên môn, nghiệp vụ, lý luận chính trị
                 ngoại ngữ
               </span>
             </li>
-            <li onClick={() => setActiveLink(6)}>
+            <li onClick={() => {
+              setActiveLink(6)
+              window.scrollTo(0, 0)
+            }}>
               <div className={activeLink === 6 ? "active" : ""}>6</div>
               <span className={activeLink === 6 ? "active" : ""}>
                 Khen thưởng, kỷ luật
               </span>
             </li>
-            <li onClick={() => setActiveLink(7)}>
+            <li onClick={() => {setActiveLink(7)
+            window.scrollTo(0, 0)
+            }}>
               <div className={activeLink === 7 ? "active" : ""}>7</div>
               <span className={activeLink === 7 ? "active" : ""}>
                 Hoàn cảnh kinh tế, quan hệ gia đình
               </span>
             </li>
-            <li onClick={() => setActiveLink(8)}>
+            <li onClick={() => {
+              setActiveLink(8)
+              window.scrollTo(0, 0)
+            }}>
               <div className={activeLink === 8 ? "active" : ""}>8</div>
               <span className={activeLink === 8 ? "active" : ""}>
                 Quan hệ gia đình, thân tộc
               </span>
             </li>
-            <li onClick={() => setActiveLink(9)}>
+            <li onClick={() => {
+              setActiveLink(9)
+              window.scrollTo(0, 0)
+            }}>
               <div className={activeLink === 9 ? "active" : ""}>9</div>
               <span className={activeLink === 9 ? "active" : ""}>
                 Quan hệ xã hội

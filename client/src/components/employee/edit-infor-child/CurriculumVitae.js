@@ -745,7 +745,20 @@ class CurriculumVitae extends Component {
                     </li>
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
-                        Quê quán hộ khẩu thường trú:
+                        Quê quán:
+                      </span>
+                      <div className="tabs-user-infor-bottom">
+                        <Input
+                          name="pro_home_town"
+                          value={this.state.pro_home_town}
+                          onChange={this.onChange}
+                          placeholder="Nơi sinh của"
+                        />
+                      </div>
+                    </li>
+                    <li className="tabs-main-left-li">
+                      <span className="tabs-user-infor-top">
+                        Hộ khẩu thường trú:
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
