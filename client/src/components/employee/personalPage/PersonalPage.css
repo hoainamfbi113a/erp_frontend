@@ -154,3 +154,6 @@
     height: 45px;
     background: #eee;
 }
+.ant-upload-list-text{
+    display: none;
+}
