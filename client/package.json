@@ -38,6 +38,7 @@
     "@reduxjs/toolkit": "^1.5.0",
     "@tuoitre/flowchart-builder": "^0.3.1",
     "@tuoitre/form-builder": "^1.1.5",
+    "@tuoitre/management-service": "^0.0.1",
     "antd": "^4.8.0",
     "axios": "^0.21.0",
     "babel-plugin-import": "^1.13.3",

@@ -128,6 +128,9 @@ class MenuLayout extends Component {
           <Menu.Item key="15">
             <Link to="/roles"> Roles </Link>
           </Menu.Item>
+          <Menu.Item key="16">
+            <Link to="/roles-action"> Roles-Action</Link>
+          </Menu.Item>
         </SubMenu>
       );
     }

@@ -12,6 +12,7 @@ import ContentParts from "components/content/ContentParts";
 import ContentPermission from "components/content/ContentPermission";
 import ContentPosition from "components/content/ContentPosition";
 import ContentRoles from "components/content/ContentRoles";
+import ContentRolesAction from "components/content/ContentRolesAction";
 import ContentUserSix from "components/content/ContentSix";
 import ContentNotification from "components/content/Notification/ContentNotification";
 import NotifiGenaral from "components/content//Notification/NotifiGenaral";
@@ -160,6 +161,7 @@ export default class RouterUrl extends Component {
             ""
           )}
           <Route exact path="/roles" component={ContentRoles}></Route>
+          <Route exact path="/roles-action" component={ContentRolesAction}></Route>
           <Route exact path="/permission" component={ContentPermission}></Route>
           <Route exact path="/parts" component={ContentParts}></Route>
           {this.checkPermission("profile-service", "Create") === true ? (
