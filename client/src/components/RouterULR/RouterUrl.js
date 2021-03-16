@@ -64,7 +64,7 @@ export default class RouterUrl extends Component {
     if (dataPermission && dataPermission.permissions)
       for (const element of dataPermission.permissions) {
         if (element.slug_service_management === itemMenu) {
-          if (element.actions[0] === action) {
+          if (element.actions[0].name === action) {
             return true;
           }
         }
@@ -96,7 +96,7 @@ export default class RouterUrl extends Component {
     if (
       dataPermission.permissions.length > 7 &&
       dataPermission.permissions[8] &&
-      dataPermission.permissions[8].actions[4] == "Confirm" &&
+      dataPermission.permissions[8].actions[4].name == "Confirm" &&
       localStorage.getItem("0") == 0
     ) {
       this.setState({
