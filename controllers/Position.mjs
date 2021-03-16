@@ -54,26 +54,33 @@ const addPermissionForPos = async (req, res) => {
     headers: { Authorization: req.headers.authorization },
   };
   try {
-    const data = await axios.post(`${process.env.apiEmployee}/api/position/permission/${id}`,req.body,config);
+    const data = await axios.post(
+      `${process.env.apiEmployee}/api/position/permission/${id}`,
+      req.body,
+      config
+    );
     res.send(data.data);
   } catch (error) {
-      console.log(error)
+    console.log(error);
   }
 };
 const deletePermissionForPos = async (req, res) => {
+  let a = { dep_id: 123, permissions: [{ id: "2" }] };
   const { id } = req.params;
-  const config = {
-    headers: { Authorization: req.headers.authorization },
-  };
-
+  console.log(id);
+  console.log(req.body);
+  console.log(`${process.env.apiEmployee}/api/position/permission/${id}`);
   try {
     const data = await axios.delete(
       `${process.env.apiEmployee}/api/position/permission/${id}`,
       { data: req.body, headers: { Authorization: req.headers.authorization } }
     );
-    res.send(data.data);
+    console.log("123");
+    console.log(data);
+    // res.send(data.data);
   } catch (error) {
     res.send(error);
+    console.log(error);
   }
 };
 

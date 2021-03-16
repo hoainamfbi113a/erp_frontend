@@ -13,11 +13,19 @@ export default class ContentRoles extends Component {
     this.child = React.createRef();
     this.state = {
       visible: false,
-      registerUserSuccess: false
+      registerUserSuccess: false,
+      value : true,
     };
+  }
+  componentDidMount =()=> {
+      
   }
   showModal = () => {
     // this.clickChild()
+    this.componentDidMount();
+    this.setState({
+      value:!this.state.value
+    })
     this.setState({
       visible:true
     })
@@ -51,7 +59,7 @@ export default class ContentRoles extends Component {
         </div>
         <TableRoles showModalRoles={this.state.visible}
         // setClick={click => this.clickChild = click}
-        hideModal={this.hideModal} showModal={this.showModal} />
+        hideModal={this.hideModal} showModal={this.showModal} value = {this.state.value} />
       </div>
     );
   }
