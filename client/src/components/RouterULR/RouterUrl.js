@@ -169,7 +169,7 @@ export default class RouterUrl extends Component {
           ) : (
             ""
           )}
-          {/* {this.checkPermission(Manage_Document, "Create") === true ? (
+          {this.checkPermission("profile-service", "Create") === true ? (
             <Route
               exact
               path="/department"
@@ -177,7 +177,7 @@ export default class RouterUrl extends Component {
             ></Route>
           ) : (
             ""
-          )} */}
+          )}
           {this.checkPermission("workflow-service", "Create") === true ? (
             <Route exact path="/workflow" component={Workflow}></Route>
           ) : (
