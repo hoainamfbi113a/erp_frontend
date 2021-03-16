@@ -329,10 +329,6 @@ export default class TableRoles_v2 extends Component {
         axiosConfig
           .post(`/api/position/permissiond/${this.state.pos_idUpdate}`, params)
           .then((res) => {
-            // if (res.message === "Success!. Stored") {
-              // alert("Xoá quyền cho chức vụ thành công");
-              // this.handleCancel();
-            // }
           })
           .catch((err) => {
             alert("Xoá cho chức vụ thất bại");

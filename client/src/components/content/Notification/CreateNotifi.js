@@ -8,6 +8,9 @@ import takeleave from "assets/images/takeleave.svg";
 import vote from "assets/images/vote.svg";
 import ProposalForm from "components/Modal/ProposalForm";
 import axios from "axios";
+import { Collapse } from "antd";
+
+const { Panel } = Collapse;
 import { Tree } from "antd";
 export default class CreateNotifi extends Component {
   constructor() {
@@ -77,8 +80,8 @@ export default class CreateNotifi extends Component {
         console.log(err);
       });
   };
-  onSelect = (selectedKeys, info) => {
-    let { template_id, id } = info.node;
+  onSelect = (id) => {
+    // let { template_id, id } = info.node;
     if (id) {
       axios
         .get(
@@ -88,7 +91,7 @@ export default class CreateNotifi extends Component {
           if (data.data === "") {
             alert("Template chưa được tạo");
           } else {
-            this.props.history.push(`/form-document/${id}/${template_id}`);
+            // this.props.history.push(`/form-document/${id}/${template_id}`);
           }
         })
         .catch((err) => {
@@ -114,6 +117,22 @@ export default class CreateNotifi extends Component {
   handleViewDocument = (id) => {
     this.props.history.push(`/form-document-view/${id}`);
   };
+  renderPanel = () =>{
+    let dataDocumentType = this.state.dataDocumentType
+    if(dataDocumentType){
+      return dataDocumentType.map((item)=>{
+        return (
+          <Panel header={item.display_name} key={item.id}>
+                {item.children.map((itemChild)=>{
+                  return (
+                    <p onClick ={()=>this.onSelect(itemChild.id)}>{itemChild.display_name}</p>
+                  )
+                })}
+          </Panel>
+        )
+      })
+    }
+  }
   renderHistoryCreate = () => {
     let data = this.state.dataDocumentUser;
     if (data) {
@@ -158,6 +177,9 @@ export default class CreateNotifi extends Component {
       });
     }
   };
+  callback = (key) => {
+    console.log(key);
+  }
   render() {
     let treeData = this.state.treeData;
     return (
@@ -166,18 +188,23 @@ export default class CreateNotifi extends Component {
           <div style={{ minHeight: "70vh" }} className="content-main">
             <div className="content-top content-top-create-notif">
               <div className="content-top-left content-notification content-notification-create-notif">
-                <div className="content-top-left-sum-item">Tạo loại tài liệu</div>
+                <div className="content-top-left-sum-item">
+                  Tạo loại tài liệu
+                </div>
                 <Button className="btn-notification" type="primary">
                   ...
                 </Button>
               </div>
             </div>
-            <Tree
+            {/* <Tree
               treeData={treeData}
               // height={233}
               defaultExpandAll
               onSelect={this.onSelect}
-            />
+            /> */}
+            <Collapse onChange={this.callback}>
+              {this.renderPanel()}
+            </Collapse>
             <div className="create-notifi-content"></div>
           </div>
         </div>
