@@ -96,9 +96,9 @@ const PersonalPage = () => {
                     </ul>
                   </div>
                 </div>
-                <div className="infor-primary-contact-edit">
+                {/* <div className="infor-primary-contact-edit">
                   <Button className="btn-edit-user">Chỉnh sửa</Button>
-                </div>
+                </div> */}
               </div>
             </div>
             <hr className="personal-page-hr"></hr>
