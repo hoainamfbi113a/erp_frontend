@@ -12,7 +12,7 @@ import ContentParts from "components/content/ContentParts";
 import ContentPermission from "components/content/ContentPermission";
 import ContentPosition from "components/content/ContentPosition";
 import ContentRoles from "components/content/ContentRoles";
-import ContentRolesAction from "components/content/ContentRolesAction";
+import ContentRolesAction from "components/admin/Roles/ManergerRole";
 import ContentUserSix from "components/content/ContentSix";
 import ContentNotification from "components/content/Notification/ContentNotification";
 import NotifiGenaral from "components/content//Notification/NotifiGenaral";
