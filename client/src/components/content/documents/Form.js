@@ -5,7 +5,7 @@ import * as ApiHelper from "helpers/ApiHelper";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
 import { Typography } from 'antd';
-
+import { Radio } from 'antd';
 const { Title } = Typography;
 
 function RenderInputPreview(props) {
@@ -78,28 +78,31 @@ function RenderInputPreview(props) {
       data = (
         <div className="form-group">
           <label className="control-label">{props.data.label}</label>
+          <Radio.Group style={{display:"block"}} name={props.data.name} defaultValue={1}>
           {typeof props.data.values !== "undefined" &&
             props.data.values.length > 0 &&
             props.data.values.map((item, index) => (
-              <div className="form-check">
-                <label className="form-check-label">
-                  {console.log(item.selected)}
-                  <input
-                    checked={item.selected}
-                    // checked={props.data.options.findIndex(x => x.value === item.value) != -1}
-                    onChange={(event) =>
-                      props.handleChange(event, props.data.id)
-                    }
-                    // {item.selected == true ? "checked": ""}
-                    type="radio"
-                    className="form-check-input"
-                    name={props.data.name}
-                    value={item.value}
-                  />
-                  {item.label}
-                </label>
-              </div>
+              // <div className="form-check">
+              //   <label className="form-check-label">
+              //     {console.log(item.selected)}
+              //     <input
+              //       checked={item.selected}
+              //       // checked={props.data.options.findIndex(x => x.value === item.value) != -1}
+              //       onChange={(event) =>
+              //         props.handleChange(event, props.data.id)
+              //       }
+              //       // {item.selected == true ? "checked": ""}
+              //       type="radio"
+              //       className="form-check-input"
+              //       name={props.data.name}
+              //       value={item.value}
+              //     />
+              //     {item.label}
+              //   </label>
+              // </div>
+              <Radio style={{display:"block"}} value={item.value}>{item.label}</Radio>
             ))}
+            </Radio.Group>
         </div>
       );
       break;
@@ -114,7 +117,7 @@ function RenderInputPreview(props) {
                 <label className="form-check-label">
                   <input
                     type="checkbox"
-                    checked = {item.selected}
+                    defaultChecked = {item.selected}
                     // checked={
                     //   props.value.length > 0 && props.value.includes(item.value)
                     // }
