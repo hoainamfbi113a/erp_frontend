@@ -81,7 +81,6 @@ export default class CreateNotifi extends Component {
       });
   };
   onSelect = (id) => {
-    // let { template_id, id } = info.node;
     if (id) {
       axios
         .get(
@@ -91,7 +90,7 @@ export default class CreateNotifi extends Component {
           if (data.data === "") {
             alert("Template chưa được tạo");
           } else {
-            // this.props.history.push(`/form-document/${id}/${template_id}`);
+            this.props.history.push(`/form-document/${id}`);
           }
         })
         .catch((err) => {

@@ -4,11 +4,27 @@ import * as Constant from "constant/ConstantDocument";
 import * as ApiHelper from "helpers/ApiHelper";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
-// import Button from "react-bootstrap/Button";
+import { Typography } from 'antd';
+
+const { Title } = Typography;
 
 function RenderInputPreview(props) {
   var data = "";
   switch (props.data.type) {
+    case Constant.INPUT_TYPE_HEADER:
+      data = (
+        <div className="form-group">
+          <Title level={props.data.subtype.slice(1, 2)}>{props.data.label}</Title>
+        </div>
+      );
+      break;
+    case Constant.INPUT_TYPE_PARAGRAPH:
+      data = (
+        <div className="form-group">
+          <p>{props.data.label}</p>
+        </div>
+      );
+      break;
     case Constant.INPUT_TYPE_TEXTFIELD:
       data = (
         <div className="form-group">
@@ -44,15 +60,15 @@ function RenderInputPreview(props) {
         <div className="form-group">
           <label className="control-label">{props.data.label}</label>
           <select
-            value={props.value}
+            // value={props.value}
             onChange={(event) => props.handleChange(event, props.data.id)}
             className="form-control"
             name={props.data.name}
           >
-            {typeof props.data.options !== "undefined" &&
-              props.data.options.length > 0 &&
-              props.data.options.map((item, index) => (
-                <option value={item.value}>{item.option}</option>
+            {typeof props.data.values !== "undefined" &&
+              props.data.values.length > 0 &&
+              props.data.values.map((item, index) => (
+                <option value={item.value}>{item.label}</option>
               ))}
           </select>
         </div>
@@ -62,23 +78,25 @@ function RenderInputPreview(props) {
       data = (
         <div className="form-group">
           <label className="control-label">{props.data.label}</label>
-          {typeof props.data.options !== "undefined" &&
-            props.data.options.length > 0 &&
-            props.data.options.map((item, index) => (
+          {typeof props.data.values !== "undefined" &&
+            props.data.values.length > 0 &&
+            props.data.values.map((item, index) => (
               <div className="form-check">
                 <label className="form-check-label">
+                  {console.log(item.selected)}
                   <input
-                    checked={props.value === item.value}
+                    checked={item.selected}
                     // checked={props.data.options.findIndex(x => x.value === item.value) != -1}
                     onChange={(event) =>
                       props.handleChange(event, props.data.id)
                     }
+                    // {item.selected == true ? "checked": ""}
                     type="radio"
                     className="form-check-input"
                     name={props.data.name}
                     value={item.value}
                   />
-                  {item.option}
+                  {item.label}
                 </label>
               </div>
             ))}
@@ -88,17 +106,18 @@ function RenderInputPreview(props) {
     case Constant.INPUT_TYPE_CHECKBOX:
       data = (
         <div className="form-group">
-          <label className="control-label">{props.data.label}</label>'
-          {typeof props.data.options !== "undefined" &&
-            props.data.options.length > 0 &&
-            props.data.options.map((item, index) => (
+          <label className="control-label">{props.data.label}</label>
+          {typeof props.data.values !== "undefined" &&
+            props.data.values.length > 0 &&
+            props.data.values.map((item, index) => (
               <div className="form-check">
                 <label className="form-check-label">
                   <input
                     type="checkbox"
-                    checked={
-                      props.value.length > 0 && props.value.includes(item.value)
-                    }
+                    checked = {item.selected}
+                    // checked={
+                    //   props.value.length > 0 && props.value.includes(item.value)
+                    // }
                     onChange={(event) =>
                       props.handleCheckboxChange(event, props.data.id)
                     }
@@ -106,7 +125,7 @@ function RenderInputPreview(props) {
                     name={props.data.name}
                     value={item.value}
                   />
-                  {item.option}
+                  {item.label}
                 </label>
               </div>
             ))}
@@ -286,7 +305,6 @@ class Create extends Component {
       let params = {
         type_id: 2,
       };
-      // ApiHelper.callAxios(this.props.urlGetForm, "get", params)
       axios
         .get(
           `https://document.tuoitre.vn/api/document-template/get?type_id=${id}`
@@ -318,7 +336,6 @@ class Create extends Component {
         .post("https://document.tuoitre.vn/api/document/store", data)
         .then((data) => {
           alert("Tạo tài liệu thành công!");
-          // this.props.handleBackBtn();
         })
         .catch((err) => {
           console.log(err);
@@ -389,13 +406,13 @@ class Create extends Component {
                   <div
                     className={classes({ preview: false })}
                     key={item.id}
-                    style={{
-                      width: "200px",
-                      position: "absolute",
-                      zIndex: 3,
-                      top: item.y,
-                      left: item.x,
-                    }}
+                    // style={{
+                    //   width: "200px",
+                    //   position: "absolute",
+                    //   zIndex: 3,
+                    //   top: item.y,
+                    //   left: item.x,
+                    // }}
                     data-index={index}
                   >
                     <RenderInputPreview

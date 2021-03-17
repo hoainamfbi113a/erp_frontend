@@ -91,8 +91,8 @@ class MenuLayout extends Component {
     }
     if (
       dataPermission.permissions.length > 7 &&
-      dataPermission.permissions[8] &&
-      dataPermission.permissions[8].actions[4].name == "Confirm" &&
+      dataPermission.permissions[1] &&
+      dataPermission.permissions[1].actions[4].name == "Confirm" &&
       localStorage.getItem("0") == 0
     ) {
       this.setState({
