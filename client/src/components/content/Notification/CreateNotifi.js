@@ -34,51 +34,57 @@ export default class CreateNotifi extends Component {
       visible: false,
     });
   };
-  componentDidMount = () => {
+  getDataDocumentType = () =>{
     axios
-      .get("https://document.tuoitre.vn/api/document-type/get-document-types")
-      .then((res) => {
-        this.setState({
-          dataDocumentType: res.data,
-        });
-        let treeData = [];
-        for (let item of this.state.dataDocumentType) {
-          let treeDataStudent = [];
-          for (let itemChild of item.children) {
-            const treeNodeChild = {
-              title: itemChild.display_name,
-              key: itemChild.id,
-              id: itemChild.id,
-              template_id: itemChild.template_id,
-            };
-            treeDataStudent.push(treeNodeChild);
-          }
-          const treeNode = {
-            title: item.display_name,
-            key: item.id,
-            children: treeDataStudent,
+    .get("https://document.tuoitre.vn/api/document-type/get-document-types")
+    .then((res) => {
+      this.setState({
+        dataDocumentType: res.data,
+      });
+      let treeData = [];
+      for (let item of this.state.dataDocumentType) {
+        let treeDataStudent = [];
+        for (let itemChild of item.children) {
+          const treeNodeChild = {
+            title: itemChild.display_name,
+            key: itemChild.id,
+            id: itemChild.id,
+            template_id: itemChild.template_id,
           };
-          treeData.push(treeNode);
+          treeDataStudent.push(treeNodeChild);
         }
-        this.setState({
-          treeData,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
+        const treeNode = {
+          title: item.display_name,
+          key: item.id,
+          children: treeDataStudent,
+        };
+        treeData.push(treeNode);
+      }
+      this.setState({
+        treeData,
       });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }
+  getDataDocumentListUser = () =>{
     axios
-      .get(
-        "https://document.tuoitre.vn/api/document/list?page=1&per_page=1000&user_id=1"
-      )
-      .then((res) => {
-        this.setState({
-          dataDocumentUser: res.data.data,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
+    .get(
+      "https://document.tuoitre.vn/api/document/list?page=1&per_page=1000&user_id=1"
+    )
+    .then((res) => {
+      this.setState({
+        dataDocumentUser: res.data.data,
       });
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }
+  componentDidMount = () => {
+    this.getDataDocumentType()
+    this.getDataDocumentListUser();
   };
   onSelect = (id) => {
     if (id) {
@@ -104,8 +110,10 @@ export default class CreateNotifi extends Component {
     axios
       .delete(`https://document.tuoitre.vn/api/document/delete/${id}`)
       .then((res) => {
-        if (res.message === "success") {
+        console.log(res)
+        if (res.data.message === "success") {
           alert("Xoá tài liệu thành công");
+          this.getDataDocumentListUser();
         }
       })
       .catch((err) => {

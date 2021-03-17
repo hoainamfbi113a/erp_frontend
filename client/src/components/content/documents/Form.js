@@ -75,31 +75,20 @@ function RenderInputPreview(props) {
       );
       break;
     case Constant.INPUT_TYPE_RADIO:
+      { var selectedRadio = "";
+        for (let item of props.data.values){
+        if(item.selected === true){
+           selectedRadio = item.value
+        }
+      }}
       data = (
         <div className="form-group">
           <label className="control-label">{props.data.label}</label>
-          <Radio.Group style={{display:"block"}} name={props.data.name} defaultValue={1}>
+          <Radio.Group style={{display:"block"}} name={props.data.name} defaultValue = {selectedRadio}
+           onChange={(event) => props.handleChange(event, props.data.id)} >
           {typeof props.data.values !== "undefined" &&
             props.data.values.length > 0 &&
             props.data.values.map((item, index) => (
-              // <div className="form-check">
-              //   <label className="form-check-label">
-              //     {console.log(item.selected)}
-              //     <input
-              //       checked={item.selected}
-              //       // checked={props.data.options.findIndex(x => x.value === item.value) != -1}
-              //       onChange={(event) =>
-              //         props.handleChange(event, props.data.id)
-              //       }
-              //       // {item.selected == true ? "checked": ""}
-              //       type="radio"
-              //       className="form-check-input"
-              //       name={props.data.name}
-              //       value={item.value}
-              //     />
-              //     {item.label}
-              //   </label>
-              // </div>
               <Radio style={{display:"block"}} value={item.value}>{item.label}</Radio>
             ))}
             </Radio.Group>
@@ -206,9 +195,10 @@ class Create extends Component {
       inputsData: [],
       documentData: {},
       create: true,
+      valueRadio : 1
     };
   }
-  handleCheckboxChange = (e, inputId, isChecked) => {
+  handleCheckboxChange = (e, inputId) => {
     const stateInputsData = this.state.inputsData;
     var index = stateInputsData.findIndex((x) => x.id === inputId);
     if (index != -1) {
@@ -258,7 +248,7 @@ class Create extends Component {
     this.setState({ [e.target.name]: e.target.value });
     const stateInputsData = this.state.inputsData;
     var index = stateInputsData.findIndex((x) => x.id === inputId);
-    if (index != -1) {
+    if (index != -1) { // tìm thấy
       this.setState({
         inputsData: [
           ...stateInputsData.slice(0, index),
@@ -327,14 +317,13 @@ class Create extends Component {
     }
   }
   handleSubmit = (e) => {
-    // alert(this.state.create === true)
     if(this.state.create === true){
       let data = {
-        template_id: this.props.match.params.template_id,
+        template_id: this.props.match.params.id,
         user_id: 1,
         inputs: this.state.inputsData,
       };
-      // ApiHelper.callAxios(this.props.urlCreate, "post", {}, data)
+      console.log(data)
       axios
         .post("https://document.tuoitre.vn/api/document/store", data)
         .then((data) => {
@@ -345,30 +334,30 @@ class Create extends Component {
           alert("Tạo tài liệu thất bại!");
         });
     } else {
-      let arrValueInput = []
-      for( let item of this.state.inputsData){
-        if(item.value === null){
-          item.value = "null"
-        }
-        let obj = {
-          id:item.id,
-          value:item.value
-        } 
-        arrValueInput.push(obj)
-      }
-      let data = {
-        document_id: this.props.match.params.id,
-        user_id: 1,
-        inputs: arrValueInput,
-      }
-      axios.post("https://document.tuoitre.vn/api/document/update", data)
-      .then(res=>{
-        alert("update document thành công")
-      })
-      .catch(err=>{
-        console.log(err)
-        alert("update thất bại")
-      })
+    //   let arrValueInput = []
+    //   for( let item of this.state.inputsData){
+    //     if(item.value === null){
+    //       item.value = "null"
+    //     }
+    //     let obj = {
+    //       id:item.id,
+    //       value:item.value
+    //     } 
+    //     arrValueInput.push(obj)
+    //   }
+    //   let data = {
+    //     document_id: this.props.match.params.id,
+    //     user_id: 1,
+    //     inputs: arrValueInput,
+    //   }
+    //   axios.post("https://document.tuoitre.vn/api/document/update", data)
+    //   .then(res=>{
+    //     alert("update document thành công")
+    //   })
+    //   .catch(err=>{
+    //     console.log(err)
+    //     alert("update thất bại")
+    //   })
     }
   
     // }
