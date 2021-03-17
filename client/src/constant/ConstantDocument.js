@@ -1,13 +1,15 @@
 export const INPUT_TYPE_TEXTFIELD = 'text';
 export const INPUT_TYPE_AREA = 'textarea';
 export const INPUT_TYPE_SELECT = 'select';
-export const INPUT_TYPE_RADIO = 'radio';
-export const INPUT_TYPE_CHECKBOX = 'checkbox';
+export const INPUT_TYPE_RADIO = 'radio-group';
+export const INPUT_TYPE_CHECKBOX = 'checkbox-group';
 export const INPUT_TYPE_EMAIL = 'email';
 export const INPUT_TYPE_NUMBER = 'number';
 export const INPUT_TYPE_PASSWORD = 'password';
 export const INPUT_TYPE_DATE = 'date';
 export const INPUT_TYPE_BUTTON = 'button';
+export const INPUT_TYPE_HEADER = 'header'
+export const INPUT_TYPE_PARAGRAPH = 'paragraph'
 
 export const NAME_LABEL = 'label';
 export const NAME_PLACEHOLDER = 'placeholder';
