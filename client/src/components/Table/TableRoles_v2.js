@@ -357,14 +357,14 @@ export default class TableRoles_v2 extends Component {
     const columns = [
       {
         title: "Phòng ban",
-        width: 200,
+        // width: 200,
         dataIndex: "department_name",
         key: "department_name",
         fixed: "left",
       },
       {
         title: "Chức danh",
-        width: 200,
+        // width: 200,
         dataIndex: "position_name",
         key: "position_name",
         fixed: "left",
