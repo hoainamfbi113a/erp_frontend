@@ -173,7 +173,7 @@ export default class CreateNotifi extends Component {
                 <Tag
                   color="geekblue"
                   className="table-action"
-                  onClick={() => handleUpdate(item)}
+                  onClick={() => this.handleViewDocument(item.id)}
                 >
                   Update
                 </Tag>

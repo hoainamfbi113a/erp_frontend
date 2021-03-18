@@ -4,8 +4,8 @@ import * as Constant from "constant/ConstantDocument";
 import * as ApiHelper from "helpers/ApiHelper";
 import axios from "axios";
 import { withRouter } from "react-router-dom";
-import { Typography } from 'antd';
-import { Radio } from 'antd';
+import { Typography } from "antd";
+import { Radio } from "antd";
 const { Title } = Typography;
 
 function RenderInputPreview(props) {
@@ -14,7 +14,9 @@ function RenderInputPreview(props) {
     case Constant.INPUT_TYPE_HEADER:
       data = (
         <div className="form-group">
-          <Title level={props.data.subtype.slice(1, 2)}>{props.data.label}</Title>
+          <Title level={props.data.subtype.slice(1, 2)}>
+            {props.data.label}
+          </Title>
         </div>
       );
       break;
@@ -75,23 +77,31 @@ function RenderInputPreview(props) {
       );
       break;
     case Constant.INPUT_TYPE_RADIO:
-      { var selectedRadio = "";
-        for (let item of props.data.values){
-        if(item.selected === true){
-           selectedRadio = item.value
+      {
+        var selectedRadio = "";
+        for (let item of props.data.values) {
+          if (item.selected === true) {
+            selectedRadio = item.value;
+          }
         }
-      }}
+      }
       data = (
         <div className="form-group">
           <label className="control-label">{props.data.label}</label>
-          <Radio.Group style={{display:"block"}} name={props.data.name} defaultValue = {selectedRadio}
-           onChange={(event) => props.handleChange(event, props.data.id)} >
-          {typeof props.data.values !== "undefined" &&
-            props.data.values.length > 0 &&
-            props.data.values.map((item, index) => (
-              <Radio style={{display:"block"}} value={item.value}>{item.label}</Radio>
-            ))}
-            </Radio.Group>
+          <Radio.Group
+            style={{ display: "block" }}
+            name={props.data.name}
+            defaultValue={selectedRadio}
+            onChange={(event) => props.handleChange(event, props.data.id)}
+          >
+            {typeof props.data.values !== "undefined" &&
+              props.data.values.length > 0 &&
+              props.data.values.map((item, index) => (
+                <Radio style={{ display: "block" }} value={item.value}>
+                  {item.label}
+                </Radio>
+              ))}
+          </Radio.Group>
         </div>
       );
       break;
@@ -106,10 +116,10 @@ function RenderInputPreview(props) {
                 <label className="form-check-label">
                   <input
                     type="checkbox"
-                    defaultChecked = {item.selected}
-                    // checked={
-                    //   props.value.length > 0 && props.value.includes(item.value)
-                    // }
+                    // defaultChecked={item.selected}
+                    checked={
+                      props.value.length > 0 && props.value.includes(item.value)
+                    }
                     onChange={(event) =>
                       props.handleCheckboxChange(event, props.data.id)
                     }
@@ -195,7 +205,7 @@ class Create extends Component {
       inputsData: [],
       documentData: {},
       create: true,
-      valueRadio : 1
+      valueRadio: 1,
     };
   }
   handleCheckboxChange = (e, inputId) => {
@@ -248,7 +258,8 @@ class Create extends Component {
     this.setState({ [e.target.name]: e.target.value });
     const stateInputsData = this.state.inputsData;
     var index = stateInputsData.findIndex((x) => x.id === inputId);
-    if (index != -1) { // tìm thấy
+    if (index != -1) {
+      // tìm thấy
       this.setState({
         inputsData: [
           ...stateInputsData.slice(0, index),
@@ -274,13 +285,13 @@ class Create extends Component {
   componentWillMount() {
     let currentUrl = window.location.href;
     let checkUrl = "form-document-view";
-    if(currentUrl.indexOf(checkUrl) !== -1) {
+    if (currentUrl.indexOf(checkUrl) !== -1) {
       this.setState({
-        create:false
-      })
+        create: false,
+      });
     }
   }
-  componentDidMount = ()=>{
+  componentDidMount = () => {
     const id = this.props.match.params.id;
     if (this.state.create === false) {
       axios
@@ -315,15 +326,15 @@ class Create extends Component {
           console.log(err);
         });
     }
-  }
+  };
   handleSubmit = (e) => {
-    if(this.state.create === true){
+    if (this.state.create === true) {
       let data = {
-        template_id: this.props.match.params.id,
+        type_id: this.props.match.params.id,
         user_id: 1,
         inputs: this.state.inputsData,
       };
-      console.log(data)
+      console.log(data);
       axios
         .post("https://document.tuoitre.vn/api/document/store", data)
         .then((data) => {
@@ -334,32 +345,32 @@ class Create extends Component {
           alert("Tạo tài liệu thất bại!");
         });
     } else {
-    //   let arrValueInput = []
-    //   for( let item of this.state.inputsData){
-    //     if(item.value === null){
-    //       item.value = "null"
-    //     }
-    //     let obj = {
-    //       id:item.id,
-    //       value:item.value
-    //     } 
-    //     arrValueInput.push(obj)
-    //   }
-    //   let data = {
-    //     document_id: this.props.match.params.id,
-    //     user_id: 1,
-    //     inputs: arrValueInput,
-    //   }
-    //   axios.post("https://document.tuoitre.vn/api/document/update", data)
-    //   .then(res=>{
-    //     alert("update document thành công")
-    //   })
-    //   .catch(err=>{
-    //     console.log(err)
-    //     alert("update thất bại")
-    //   })
+        let arrValueInput = []
+        for( let item of this.state.inputsData){
+          if(item.value === null){
+            item.value = "null"
+          }
+          let obj = {
+            id:item.id,
+            value:item.value
+          }
+          arrValueInput.push(obj)
+        }
+        let data = {
+          document_id: this.props.match.params.id,
+          user_id: 1,
+          inputs: arrValueInput,
+        }
+        axios.post("https://document.tuoitre.vn/api/document/update", data)
+        .then(res=>{
+          alert("update document thành công")
+        })
+        .catch(err=>{
+          console.log(err)
+          alert("update thất bại")
+        })
     }
-  
+
     // }
   };
   render() {
@@ -367,20 +378,19 @@ class Create extends Component {
     return (
       <div>
         <div className="row">
-          <div className="col-md-2">
-            <button
+          <div className="col-md-2" style ={{margin:"26px"}}>
+            <span
+              className="btn-add-user"
               onClick={(e) => this.handleSubmit(e)}
-              // variant="success"
             >
-              Submits
-            </button>
-            <button
-              style={{ marginLeft: 20 + "px" }}
-              onClick={this.props.handleBackBtn}
-              // variant="primary"
+              Lưu tài liệu
+            </span>
+            <span
+              className="btn-add-user"
+              onClick={() => this.props.history.goBack()}
             >
-              Back
-            </button>
+              Trở về
+            </span>
           </div>
           <div className="col-md-8"></div>
         </div>
