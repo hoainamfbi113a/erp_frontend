@@ -9,7 +9,7 @@ import IndexTable from './components/table'
 import IndexService from './components/service'
 import AssignAction from './components/action-table/assign-action'
 
-// import './style.css'
+import './style.css'
 function App(props) {
   const [currentComponent, setCurrentComponent] = useState('Service')
   const [isShow, setIsShow] = useState(false)
