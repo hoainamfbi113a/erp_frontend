@@ -122,3 +122,9 @@
 .ant-transfer-list-header {
     display: none;
 }
+.rdl-control {
+    height: 400px;
+}
+/* .rdl-control optgroup option {
+    display: none;
+} */
