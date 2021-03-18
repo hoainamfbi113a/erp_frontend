@@ -259,23 +259,12 @@ export default class TableRoles_v2 extends Component {
     let data = dataSelected;
     let arrPermission = [];
     for (let item of data) {
-      for (let itemChild of arrPermission) {
-        if (itemChild.id && itemChild.id === item.split("_")[0]) {
-          break;
-        } else {
-          let obj = {
-            id: item.split("_")[0],
-          };
-          arrPermission.push(obj);
-        }
-      }
-      if (arrPermission.length === 0) {
-        let obj = {
-          id: item.split("_")[0],
-        };
-        arrPermission.push(obj);
-      }
+      let obj = {
+        id: item.split("_")[0],
+      };
+      arrPermission.push(obj);
     }
+    arrPermission = lodash.uniqBy(arrPermission, 'id');
     let arrayPerAction = [];
     for (let itemPer of arrPermission) {
       let arrAction = [];
@@ -338,42 +327,11 @@ export default class TableRoles_v2 extends Component {
       }
     } else {
       let data = this.state.selected;
-      let arrPermission = [];
-      for (let item of data) {
-        for (let itemChild of arrPermission) {
-          if (itemChild.id && itemChild.id === item.split("_")[0]) {
-            break;
-          } else {
-            let obj = {
-              id: item.split("_")[0],
-            };
-            arrPermission.push(obj);
-          }
-        }
-        if (arrPermission.length === 0) {
-          let obj = {
-            id: item.split("_")[0],
-          };
-          arrPermission.push(obj);
-        }
-      }
-      let arrayPerAction = [];
-      for (let itemPer of arrPermission) {
-        let arrAction = [];
-        for (let item of data) {
-          if (item.split("_")[0] === itemPer.id) {
-            arrAction.push(item.split("_")[1]);
-          }
-        }
-        let obj = {
-          id: itemPer.id,
-          actions: arrAction,
-        };
-        arrayPerAction.push(obj);
-      }
+      let arrPerAction = this.customSelected(data);
+      
       const params = {
         dep_id: this.state.dep_id,
-        permissions: arrayPerAction,
+        permissions: arrPerAction,
       };
       axiosConfig
         .post(`/api/position/permission/${this.state.pos_id}`, params)
@@ -460,7 +418,7 @@ export default class TableRoles_v2 extends Component {
         <Modal
           destroyOnClose={true}
           width={800}
-          title="assign permission to role"
+          title="Gán quyền cho chức vụ phòng ban"
           visible={this.props.showModalRoles}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
