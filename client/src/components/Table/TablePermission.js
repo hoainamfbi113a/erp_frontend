@@ -14,6 +14,7 @@ import {
 import { Select } from "antd";
 import axios from "axios";
 import lodash from "lodash";
+import axiosConfig from "apis/axios";
 const { Option } = Select;
 const { Content } = Layout;
 class TablePermission extends Component {
@@ -35,16 +36,17 @@ class TablePermission extends Component {
   };
   fetchData = async () => {
     let res = await getListPermission(1);
-    axios
-      .get("https://employee.tuoitre.vn/api/table-management")
-      .then((res) => {
-        this.setState({
-          dataTableManager: res.data.data,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    axiosConfig.get
+    // axios
+    //   .get("https://employee.tuoitre.vn/api/table-management")
+    //   .then((res) => {
+    //     this.setState({
+    //       dataTableManager: res.data.data,
+    //     });
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
     axios
       .get("https://employee.tuoitre.vn/api/service-management")
       .then((res) => {
