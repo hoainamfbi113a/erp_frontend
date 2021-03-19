@@ -118,7 +118,7 @@ function RenderInputPreview(props) {
                     type="checkbox"
                     // defaultChecked={item.selected}
                     checked={
-                      props.value.length > 0 && props.value.includes(item.value)
+                      props.value && props.value.length > 0 && props.value.includes(item.value)
                     }
                     onChange={(event) =>
                       props.handleCheckboxChange(event, props.data.id)
