@@ -192,8 +192,6 @@ class addInformationUser extends Component {
     if (this.props.dataProfile !== prevProps.dataProfile) {
       let data = this.props.dataProfile
       if(Object.keys(data).length !== 0 && this.props.idUser)
-      // console.log(data.pro_identity_card_when.toString().slice(0,10).split("").reverse().join(""))
-      console.log(data.department)
       this.setState({
         pro_id: data.id,
         user_id: data.user_id,
