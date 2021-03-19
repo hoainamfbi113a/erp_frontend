@@ -6,8 +6,14 @@ import { Layout } from "antd";
 import { Table, Space, Tag } from "antd";
 import { Popconfirm, message } from "antd";
 import { Input, Modal } from "antd";
-import { getListPermission, addPermission, updatePermission } from "apis/permissionApi";
+import {
+  getListPermission,
+  addPermission,
+  updatePermission,
+} from "apis/permissionApi";
 import { Select } from "antd";
+import axios from "axios";
+import lodash from "lodash";
 const { Option } = Select;
 const { Content } = Layout;
 class TablePermission extends Component {
@@ -17,15 +23,39 @@ class TablePermission extends Component {
     loading: false,
     id: "",
     app_id: "99",
-    table_management_id: "1",
+    table_management_id: "",
     name: "",
     status: 1,
+    dataTableManager: null,
+    service_manager_id: "",
+    dataService: null,
   };
   componentDidMount = () => {
     this.fetchData();
   };
   fetchData = async () => {
     let res = await getListPermission(1);
+    axios
+      .get("https://employee.tuoitre.vn/api/table-management")
+      .then((res) => {
+        this.setState({
+          dataTableManager: res.data.data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    axios
+      .get("https://employee.tuoitre.vn/api/service-management")
+      .then((res) => {
+        console.log(res.data)
+        this.setState({
+          dataService: res.data.data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     if (!res.err) {
       this.setState({
         data: res,
@@ -36,11 +66,12 @@ class TablePermission extends Component {
   };
   onSubmit = async () => {
     let params = {
-        app_id: this.state.app_id,
-        table_management_id: this.state.table_management_id,
-        name: this.state.name,
-        status: this.state.status,
-      };
+      app_id: this.state.app_id,
+      table_management_id: this.state.table_management_id,
+      name: this.state.name,
+      status: this.state.status,
+    };
+    console.log(params);
     if (this.state.id === "") {
       this.hideModal();
       let res = await addPermission(params);
@@ -53,17 +84,17 @@ class TablePermission extends Component {
     } else {
       this.hideModal();
       let res = await updatePermission(id, params);
-          if (res.message === "Success!. Updated") {
-            message.success("Update permission thành công");
-            this.setState({
-              id: "",
-            });
-            this.fetchData();
-          } else{
-          message.error("Update permission thất bại");
-          }
+      if (res.message === "Success!. Updated") {
+        message.success("Update permission thành công");
+        this.setState({
+          id: "",
+        });
+        this.fetchData();
+      } else {
+        message.error("Update permission thất bại");
+      }
+    }
   };
-}
   hideModal = () => {
     this.props.hideModal();
   };
@@ -99,20 +130,40 @@ class TablePermission extends Component {
   };
   handleChangeFeature = (value) => {
     this.setState({
+      service_manager_id: value,
+    });
+  };
+  handleChangeTable = (value) => {
+    this.setState({
       table_management_id: value,
     });
   };
   handlePagination = async (pagination) => {
     let res = await getListPermission(1);
-      if(!res.err){
-        this.setState({
-            data: res,
-          });
-      } else {
-        message.error("get list permission failed");
-        console.log("False to load API", error);
-      }
-      
+    if (!res.err) {
+      this.setState({
+        data: res,
+      });
+    } else {
+      message.error("get list permission failed");
+      console.log("False to load API", error);
+    }
+  };
+  renderServiceManager = () => {
+    if (this.state.dataService) {
+      return this.state.dataService.map((item) => {
+        return <Option value={item.id}>{item.name}</Option>;
+      });
+    }
+  };
+  renderTableManager = () => {
+    if (this.state.dataService && this.state.dataTableManager) {
+       return this.state.dataTableManager.map(item=>{
+          if (this.state.service_manager_id == item.service_management_id) {
+           return  <Option value={item.id}>{item.name}</Option>;
+         }
+        })
+    }
   };
   render() {
     let data = "";
@@ -230,22 +281,26 @@ class TablePermission extends Component {
           >
             <ul style={{ marginLeft: "23px" }}>
               <li className="tabs-main-left-li">
-                <span className="tabs-user-infor-top">Chọn đặc tính</span>
+                <span className="tabs-user-infor-top">Chọn Service</span>
                 <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal ">
                   <Select
-                    value={this.state.table_management_id.toString()}
+                    value={this.state.service_manager_id}
                     style={{ width: 120 }}
                     onChange={this.handleChangeFeature}
                   >
-                    <Option value="1">Profile</Option>
-                    <Option value="2">Department</Option>
-                    <Option value="3">Personal History</Option>
-                    <Option value="4">Work Object</Option>
-                    <Option value="5">Journalist Card</Option>
-                    <Option value="6">User Degree</Option>
-                    <Option value="7">Part</Option>
-                    <Option value="8">Position</Option>
-                    <Option value="9">Common</Option>
+                    {this.renderServiceManager()}
+                  </Select>
+                </div>
+              </li>
+              <li className="tabs-main-left-li">
+                <span className="tabs-user-infor-top">Chọn table</span>
+                <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal ">
+                  <Select
+                    value={this.state.table_management_id}
+                    style={{ width: 120 }}
+                    onChange={this.handleChangeTable}
+                  >
+                    {this.renderTableManager()}
                   </Select>
                 </div>
               </li>
