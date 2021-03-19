@@ -101,6 +101,7 @@ router.post("/user/role-user/:id", async (req, res) => {
 });
 
 router.put("/user/:id", async (req, res) => {
+
   const config = {
     headers: { Authorization: req.headers.authorization },
   };
@@ -112,4 +113,12 @@ router.put("/user/:id", async (req, res) => {
   );
   res.send(data);
 });
+router.get('/document-type/get',async (req,res)=>{
+  let params = req.query
+  const config = {
+      headers: { Authorization: req.headers.authorization },
+    };
+  let { data } = await axios.get(`https://document.tuoitre.vn/api/document-type/get`, {params});
+  res.send(data);
+})
 export default router;

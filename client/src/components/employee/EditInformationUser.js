@@ -76,6 +76,7 @@ class EditInformationUser extends Component {
   fetProfile = async () => {
     let tokenID = docCookies.getItem("user_id");
     let resGetProfile = await getProfile(tokenID);
+    console.log(resGetProfile)
     const data = resGetProfile.data;
     let pro_id = data.id;
     let dataTransfersProfile = await transfersProfile(pro_id);
