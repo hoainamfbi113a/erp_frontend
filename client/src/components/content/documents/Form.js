@@ -62,7 +62,7 @@ function RenderInputPreview(props) {
         <div className="form-group">
           <label className="control-label">{props.data.label}</label>
           <select
-            // value={props.value}
+            value={props.value}
             onChange={(event) => props.handleChange(event, props.data.id)}
             className="form-control"
             name={props.data.name}
@@ -87,11 +87,12 @@ function RenderInputPreview(props) {
       }
       data = (
         <div className="form-group">
-          <label className="control-label">{props.data.label}</label>
+          {console.log(props.data)}
+          <label className="control-label">{props.data.label} </label>
           <Radio.Group
             style={{ display: "block" }}
             name={props.data.name}
-            defaultValue={selectedRadio}
+            defaultValue={props.data.value ? props.data.value.toString():""}
             onChange={(event) => props.handleChange(event, props.data.id)}
           >
             {typeof props.data.values !== "undefined" &&
@@ -184,6 +185,7 @@ function RenderInputPreview(props) {
             type="date"
             onChange={(event) => props.handleChange(event, props.data.id)}
             name={props.data.name}
+            value ={props.data.value}
             className="form-control"
           />
         </div>
