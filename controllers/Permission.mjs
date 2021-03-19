@@ -11,12 +11,12 @@ const listPermission = async (req, res) => {
     res.send(data);
 };
 const listTableId = async (req, res) => {
-    const { id } = req.query;
+    const { id } = req.params;
     const config = {
         headers: { Authorization: req.headers.authorization },
     };
     let { data } = await axios.get(
-        `${process.env.apiEmployee}api/service-management/table-management/${id}`,
+        `${process.env.apiEmployee}/api/service-management/table-management/${id}`,
         config,
     );
     res.send(data);

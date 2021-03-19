@@ -36,23 +36,6 @@ class TablePermission extends Component {
   };
   fetchData = async () => {
     let res = await getListPermission(1);
-    // axiosConfig.get(`/api/service-management/table-management/${this.state.service_manager_id}`)
-    // .then(res=>{
-    //   console.log(res);
-    // })
-    // .catch(err=>{
-    //   console.log(err)
-    // })
-    axios
-      .get("https://employee.tuoitre.vn/api/table-management")
-      .then((res) => {
-        this.setState({
-          dataTableManager: res.data.data,
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
     axios
       .get("https://employee.tuoitre.vn/api/service-management")
       .then((res) => {
@@ -137,6 +120,16 @@ class TablePermission extends Component {
     this.setState({ selectedRowKeys });
   };
   handleChangeFeature = (value) => {
+    axiosConfig.get(`/api/service-management/table-management/${value}`)
+    .then(res=>{
+      console.log(res)
+      this.setState({
+        dataTableManager: res,
+      });
+    })
+    .catch(err=>{
+      console.log(err)
+    })
     this.setState({
       service_manager_id: value,
     });
@@ -167,9 +160,9 @@ class TablePermission extends Component {
   renderTableManager = () => {
     if (this.state.dataService && this.state.dataTableManager) {
        return this.state.dataTableManager.map(item=>{
-          if (this.state.service_manager_id == item.service_management_id) {
+          // if (this.state.service_manager_id == item.service_management_id) {
            return  <Option value={item.id}>{item.name}</Option>;
-         }
+        //  }
         })
     }
   };
@@ -181,22 +174,17 @@ class TablePermission extends Component {
       total = this.state.data.meta.pagination.total;
     }
     const columns = [
-      {
-        title: "id đặc tính",
-        width: 200,
-        dataIndex: "name",
-        key: "name",
-        fixed: "left",
-      },
+      // {
+      //   title: "id",
+      //   width: 200,
+      //   dataIndex: "name",
+      //   key: "name",
+      //   fixed: "left",
+      // },
       {
         title: "Tên quyền",
         dataIndex: "name",
         key: "name",
-      },
-      {
-        title: "Slug",
-        dataIndex: "slug",
-        key: "slug",
       },
       {
         title: "Trạng thái",
@@ -218,8 +206,8 @@ class TablePermission extends Component {
       },
       {
         title: "Ngày tạo",
-        dataIndex: "created",
-        key: "created",
+        dataIndex: "created_at",
+        key: "created_at",
       },
 
       {

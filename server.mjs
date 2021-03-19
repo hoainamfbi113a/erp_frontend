@@ -49,7 +49,7 @@ app.put("/api/user-degrees/:id", updateUserDegrees);
 app.put("/api/work-objects/:id", updateWorkObjects);
 
 app.get("/api/role", listRole);
-app.get("",listTableId)
+app.get("/api/service-management/table-management/:id",listTableId)
 app.post("/api/role", addRole);
 app.put("/api/role/:id", updateRole);
 app.delete("/api/role", deleteRole);
