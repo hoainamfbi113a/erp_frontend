@@ -36,17 +36,23 @@ class TablePermission extends Component {
   };
   fetchData = async () => {
     let res = await getListPermission(1);
-    axiosConfig.get
-    // axios
-    //   .get("https://employee.tuoitre.vn/api/table-management")
-    //   .then((res) => {
-    //     this.setState({
-    //       dataTableManager: res.data.data,
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    // axiosConfig.get(`/api/service-management/table-management/${this.state.service_manager_id}`)
+    // .then(res=>{
+    //   console.log(res);
+    // })
+    // .catch(err=>{
+    //   console.log(err)
+    // })
+    axios
+      .get("https://employee.tuoitre.vn/api/table-management")
+      .then((res) => {
+        this.setState({
+          dataTableManager: res.data.data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     axios
       .get("https://employee.tuoitre.vn/api/service-management")
       .then((res) => {

@@ -10,6 +10,17 @@ const listPermission = async (req, res) => {
     );
     res.send(data);
 };
+const listTableId = async (req, res) => {
+    const { id } = req.query;
+    const config = {
+        headers: { Authorization: req.headers.authorization },
+    };
+    let { data } = await axios.get(
+        `${process.env.apiEmployee}api/service-management/table-management/${id}`,
+        config,
+    );
+    res.send(data);
+};
 
 const addPermission = async (req, res) => {
     const config = {
@@ -41,4 +52,4 @@ const deletePermission = async (req, res) => {
     res.send(data);
 };
 
-export { listPermission, addPermission, updatePermission, deletePermission };
+export {listTableId, listPermission, addPermission, updatePermission, deletePermission };
