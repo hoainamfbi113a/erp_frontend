@@ -174,13 +174,6 @@ class TablePermission extends Component {
       total = this.state.data.meta.pagination.total;
     }
     const columns = [
-      // {
-      //   title: "id",
-      //   width: 200,
-      //   dataIndex: "name",
-      //   key: "name",
-      //   fixed: "left",
-      // },
       {
         title: "Tên quyền",
         dataIndex: "name",
