@@ -2,12 +2,22 @@ import axios from "axios";
 import express from "express";
 const router = express.Router();
 router.get("/", async (req, res) => {
-    const { page } = req.query;
-    const config = {
-        headers: { Authorization: req.headers.authorization },
-    };
-    let { data } = await axios.get(`${process.env.apiEmployee}/api/departments?page=${page}`, config);
-    res.send(data);
+    try {
+        const { page } = req.query;
+        const config = {
+            headers: { Authorization: req.headers.authorization },
+        };
+        if(page == "all") {
+            // console.log(`${process.env.apiEmployee}/api/departments?per_page=100`)
+            let { data } = await axios.get(`${process.env.apiEmployee}/api/departments?per_page=100`, config);
+            res.send(data);
+        } else {
+            let { data } = await axios.get(`${process.env.apiEmployee}/api/departments?page=${page}`, config);
+            res.send(data);
+        }
+    } catch (error) {
+        console.log(error)
+    }
 });
 router.post("/", async (req, res) => {
     const config = {

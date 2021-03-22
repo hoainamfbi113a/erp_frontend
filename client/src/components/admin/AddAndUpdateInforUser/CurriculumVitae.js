@@ -15,6 +15,7 @@ import { bindActionCreators } from "redux";
 import { getUser, register, updateUser } from "apis/authenticationApi";
 import {
   addDepartmentProfile,
+  getListAllDepartment,
   getListDepartment,
   searchDepartment,
   updateDepartmentProfile,
@@ -23,8 +24,8 @@ import {
   addJournalistCards,
   updateJournalistCards,
 } from "apis/journalistCardsApi";
-import { searchParts, getListParts } from "apis/partsApi";
-import { getListPosition, searchPosition } from "apis/positionApi";
+import { searchParts, getListAllParts } from "apis/partsApi";
+import { getListAllPosition, searchPosition } from "apis/positionApi";
 import { addProfile, getProfile, updateProfile } from "apis/profileApi";
 import { addUserDegrees, updateUserDegree } from "apis/userDegreesApi";
 import { workflowProfile } from "apis/workflowApi";
@@ -263,9 +264,9 @@ class addInformationUser extends Component {
 
   fetchData = async () => {
     this.fetchDataUser();
-    let dataDepartment = await getListDepartment();
-    let dataPosition = await getListPosition();
-    let dataParts = await getListParts();
+    let dataDepartment = await getListAllDepartment();
+    let dataPosition = await getListAllPosition();
+    let dataParts = await getListAllParts();
     let dataWorkflowProfile = await workflowProfile();
     let resListUser = await listUser(100);
     this.setState({
@@ -1005,7 +1006,7 @@ class addInformationUser extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
-                          name="pro_home_town"
+                          name="xxxx"
                           // value={this.state.pro_home_town}
                           onChange={this.onChange}
                           placeholder="Nơi sinh"
@@ -1281,7 +1282,7 @@ class addInformationUser extends Component {
                       <span className="tabs-user-infor-top">Học vấn:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
-                          name="deg_diploma"
+                          name="deg_diplomaxx"
                           value="Đại học"
                           onChange={this.onChange}
                           placeholder="Học vấn"
@@ -1292,7 +1293,7 @@ class addInformationUser extends Component {
                       <span className="tabs-user-infor-top">Chính trị:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
-                          name="deg_diploma"
+                          name="deg_diplomaxx"
                           value="Trung cấp"
                           onChange={this.onChange}
                           placeholder="Chính trị"
@@ -1303,7 +1304,7 @@ class addInformationUser extends Component {
                       <span className="tabs-user-infor-top">Ngoại ngữ:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
-                          name="deg_diploma"
+                          name="deg_diplomaxx"
                           value="Tiếng anh bằng C"
                           onChange={this.onChange}
                           placeholder="Ngoại ngữ"

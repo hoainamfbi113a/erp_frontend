@@ -15,6 +15,20 @@ export const getListPosition = (page) => {
         })
     });
 };
+export const getListAllPosition = (page) => {
+  return axiosConfig
+    .get(`/api/positions?page=all`)
+    .then(handleResponse)
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+        console.log(err);
+        return ({
+            err:"error"
+        })
+    });
+};
 
 export const addPosition = (params) =>{
     return axiosConfig

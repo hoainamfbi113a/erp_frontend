@@ -13,6 +13,19 @@ export const getListParts = (page) => {
       })
     });
 };
+export const getListAllParts = (page) => {
+  return axiosConfig
+    .get(`/api/parts?page=all`)
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      console.log(err)
+      return ({
+          err:"error"
+      })
+    });
+};
 
 export const addParts = (params) =>{
     return axiosConfig
