@@ -76,7 +76,6 @@ class EditInformationUser extends Component {
   fetProfile = async () => {
     let tokenID = docCookies.getItem("user_id");
     let resGetProfile = await getProfile(tokenID);
-    console.log(resGetProfile)
     const data = resGetProfile.data;
     let pro_id = data.id;
     let dataTransfersProfile = await transfersProfile(pro_id);
@@ -94,7 +93,7 @@ class EditInformationUser extends Component {
     // this.props.uiActionCreatorsH()
   };
   renderWorkflow = () => {
-    if (!!this.state.dataWorkflow === true && workflowProfile.steps) {
+    if (this.state.dataWorkflow && this.state.dataWorkflow.steps) {
       const workflowProfile = this.state.dataWorkflow;
       return workflowProfile.steps.map((item) => {
         return <Step key={item.id} title={item.description} />;

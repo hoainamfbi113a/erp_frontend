@@ -1,57 +1,47 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { Input } from "antd";
-import { Button, Modal, DatePicker } from "antd";
+import { Button } from "antd";
 
-import {Link}  from 'react-router-dom'
+import { Link } from "react-router-dom";
 import TableSix from "components/Table/TableSix";
 const { Search } = Input;
 
 import "./Content.css";
 
-export default class ContentSix extends Component {
-  constructor() {
-    super();
-    this.state = {
-      visible: false,
-      registerUserSuccess: false
-    };
+export default function ContentSix() {
+  const [valueSearch, setValueSearch] = useState("")
+  const onSearch = value => {
+    setValueSearch(value);
   }
-  showModal = () => {
-    this.setState({
-      visible:true
-    })
-  }
-  hideModal =() => {
-    this.setState({
-      visible:false
-    })
-  }
-  render() {
-    return (
-      <div>
-        <div className="content-top">
-          <div className="content-top-left">
-            <div className="content-top-left-sum-item">
-               Nhân viên
-            </div>
-            <Search
-              placeholder="Tìm kiếm"
-              allowClear
-              onSearch={this.onSearch}
-              style={{ width: 200 }}
-              className="table-btn-search"
-            />
-          </div>
-          <div className="content-top-right">
-          <Link to={`/adduser`}> 
-            <Button className="btn-add-user-six">
-              Thêm hồ sơ nhân viên
-            </Button>
-            </Link> 
-          </div>
+  return (
+    <div>
+      <div className="content-top">
+        <div className="content-top-left">
+          <div className="content-top-left-sum-item">Nhân viên</div>
+          <Search
+            placeholder="Tìm kiếm"
+            allowClear
+            onSearch={onSearch}
+            style={{ width: 200 }}
+            className="table-btn-search"
+          />
+          {/* <Search
+            style={{ width: 200 }}
+            placeholder="input search text"
+            allowClear
+            enterButton="Search"
+            size="large"
+            onSearch={onSearch}
+          /> */}
         </div>
-        <TableSix showModalAddUser={this.state.visible} hideModal={this.hideModal} />
+        <div className="content-top-right">
+          <Link to={`/adduser`}>
+            <Button className="btn-add-user-six">Thêm hồ sơ nhân viên</Button>
+          </Link>
+        </div>
       </div>
-    );
-  }
+      <TableSix valueSearch = {valueSearch}
+      />
+    </div>
+  );
 }
