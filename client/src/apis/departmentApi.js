@@ -13,6 +13,19 @@ export const getListDepartment = (page) => {
       };
     });
 };
+export const getListAllDepartment = (page) => {
+  return axiosConfig
+    .get(`/api/departments?page=all`)
+    .then(handleResponse)
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      return {
+        error: "error",
+      };
+    });
+};
 
 export const addDepartment = (params) => {
   return axiosConfig

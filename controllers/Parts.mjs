@@ -4,8 +4,17 @@ const listParts = async (req, res) => {
   const config = {
     headers: { Authorization: req.headers.authorization }
   };
-  let { data } = await axios.get(`${process.env.apiEmployee}/api/parts?page=${page}`,config);
-  res.send(data);
+  try {
+    if (page === "all") {
+      let { data } = await axios.get(`${process.env.apiEmployee}/api/parts?per_page=100`,config);
+      res.send(data);
+    } else {
+      let { data } = await axios.get(`${process.env.apiEmployee}/api/parts?page=${page}`,config);
+      res.send(data);
+    }
+  } catch (error) {
+    console.log(error)
+  }
 };
 
 const addParts = async (req, res) => {
