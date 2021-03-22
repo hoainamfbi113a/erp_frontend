@@ -24,7 +24,7 @@ router.get("/userpagin", async (req, res) => {
   const config = {
     headers: { Authorization: req.headers.authorization },
   };
-  if (page == 100) {
+  if (page ==='all') {
     let { data } = await axios.get(
       `${process.env.apiEmployee}/api/user?order=asc&page=1&per_page=80`,
       config

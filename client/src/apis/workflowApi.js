@@ -1,14 +1,14 @@
 import axiosConfig from "./axios";
 
 export const workflowProfile = () => {
-  let params = {
-        "id": "20",
-        "only": "active",
-        "get_child": "1",
-    };
-    console.log(params)
+  // let params = {
+  //       "id": "20",
+  //       "only": "active",
+  //       "get_child": "1",
+  //   };
+    // console.log(params)
     return axiosConfig
-      .get(`/api/document-type/get`,{params})
+      .get(`/api/workflow/detail`)
       .then((data) => {
         return data;
       })

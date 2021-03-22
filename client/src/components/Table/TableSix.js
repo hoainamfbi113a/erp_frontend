@@ -29,9 +29,6 @@ class TableSix extends Component {
     idGrantRole: "",
     dataUser: null,
   };
-  hideModal = () => {
-    this.props.hideModal();
-  };
   onChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
@@ -40,6 +37,27 @@ class TableSix extends Component {
   componentDidMount() {
     this.fetData();
   }
+  componentDidUpdate = async (prevProps, prevState) => {
+    if(this.props.valueSearch!== prevProps.valueSearch ){
+        let resListUser = await listUser('all');
+        // console.log(resListUser);
+        let listUserSearch = resListUser.data.filter((user)=>{
+          return user.full_name.toLowerCase().indexOf(this.props.valueSearch.toLowerCase()) !==-1
+        })
+        let obj = {
+          meta : {
+            pagination:listUserSearch.length
+          },
+          data:listUserSearch
+        }
+        // console.log(obj)
+        this.setState({
+          dataUser:obj
+        })
+        
+    }
+  }
+
   fetData = async ()=>{
     this.props.uiActionCreatorsS();
     let resListUser = await listUser(1);
@@ -86,7 +104,6 @@ class TableSix extends Component {
         else{
           message.error("get user failed");
         }
-
   };
   render() {
     let data = [];
