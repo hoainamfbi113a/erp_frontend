@@ -7,7 +7,10 @@ import { withRouter } from "react-router-dom";
 import { Typography } from "antd";
 import { Radio } from "antd";
 const { Title } = Typography;
-import StepWizard from 'react-step-wizard';
+import {
+  Steps,
+} from "antd";
+const { Step } = Steps;
 import ModalForm from "./ModalForm"
 
 function RenderInputPreview(props) {
@@ -89,7 +92,6 @@ function RenderInputPreview(props) {
       }
       data = (
         <div className="form-group">
-          {console.log(props.data)}
           <label className="control-label">{props.data.label} </label>
           <Radio.Group
             style={{ display: "block" }}
@@ -212,6 +214,8 @@ class Create extends Component {
       valueRadio: 1,
       showModal: false,
       dataForm:null,
+      dataWorkFlow:null,
+      currentProcess:0,
     };
   }
   handleCheckboxChange = (e, inputId) => {
@@ -299,6 +303,15 @@ class Create extends Component {
   }
   componentDidMount = () => {
     const id = this.props.match.params.id;
+    axios.get(`https://document.tuoitre.vn/api/document-process/get?process_id=${id}`)
+    .then(res=>{
+      let incr = 0
+      this.setState({
+        currentProcess: res.data.current_step.id
+      })
+    })
+    .catch(err=>{
+    })
     if (this.state.create === false) {
       axios
         .get(`https://document.tuoitre.vn/api/document/get?id=${id}`)
@@ -307,6 +320,15 @@ class Create extends Component {
             listInputs: res.data.inputs,
             inputsData: res.data.inputs,
           });
+          axios.get(`https://workflow.tuoitre.vn/api/workflow/detail?type_id=${res.data.document_type.id}`)
+          .then(res=>{
+            this.setState({
+              dataWorkFlow:res.data
+            })
+          })
+          .catch(err=>{
+
+          })
         })
         .catch((err) => {
           console.log(err);
@@ -327,6 +349,15 @@ class Create extends Component {
           this.setState({
             listInputs: data.data.inputs,
           });
+          axios.get(`https://workflow.tuoitre.vn/api/workflow/detail?type_id=${data.data.document_type.id}`)
+          .then(res=>{
+            this.setState({
+              dataWorkFlow:res.data
+            })
+          })
+          .catch(err=>{
+
+          })
         })
         .catch((err) => {
           console.log(err);
@@ -375,12 +406,26 @@ class Create extends Component {
 
     // }
   };
+  renderWorkflow = () => {
+    if (this.state.dataWorkFlow && this.state.dataWorkFlow.steps) {
+      return this.state.dataWorkFlow.steps.map((item) => {
+        return <Step key={item.id} title={item.description} />;
+      });
+    } else {
+
+    }
+    // return ""
+  };
   render() {
    
     const { listInputs, inputsData } = this.state;
     return (
       <div>
         <div className="row">
+        <Steps current={this.state.currentProcess} size="small" className="process-work-flow">
+            {this.renderWorkflow()}
+            <Step title="Tài liệu sẵn sàng" />
+        </Steps>
           <div className="col-md-2" style ={{margin:"26px"}}>
             <span
               className="btn-add-user"

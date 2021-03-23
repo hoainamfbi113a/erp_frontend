@@ -29,5 +29,7 @@
 }
 .content-notify-right{
     display: flex;
-    justify-content: space-between;
+}
+.create-notification-collapse {
+    margin-top: 31px;
 }
