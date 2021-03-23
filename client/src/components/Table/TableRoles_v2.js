@@ -11,7 +11,8 @@ import {
   Button,
 } from "antd";
 import axiosConfig from "apis/axios";
-import { getListPosition } from "apis/positionApi";
+import { getListAllPosition } from "apis/positionApi";
+import { getListAllDepartment } from "apis/departmentApi";
 import { getListRole } from "apis/roleApi";
 import axios from "axios";
 import lodash from "lodash";
@@ -58,24 +59,14 @@ export default class TableRoles_v2 extends Component {
     // this.props.setClick(this.showModalAssign);
   };
   fetchData = async () => {
-    let data = await getListPosition(1);
+    let data = await getListAllPosition();
+    let dataRoles = await getListRole();
+    let dataDepartment = await getListAllDepartment();
     this.setState({
       data,
-    });
-    let dataRoles = await getListRole();
-    this.setState({
+      dataDepartment,
       dataRoles,
     });
-    axiosConfig
-      .get(`/api/departments?per_page=100`)
-      .then((res) => {
-        this.setState({
-          dataDepartment: res,
-        });
-      })
-      .catch((error) => {
-        console.log("False to load API", error);
-      });
   };
   showModalAssign = async (dep_id, pos_id, dep_name, pos_name) => {
     this.props.showModal();

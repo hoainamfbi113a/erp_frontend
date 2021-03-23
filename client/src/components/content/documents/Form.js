@@ -7,6 +7,8 @@ import { withRouter } from "react-router-dom";
 import { Typography } from "antd";
 import { Radio } from "antd";
 const { Title } = Typography;
+import StepWizard from 'react-step-wizard';
+import ModalForm from "./ModalForm"
 
 function RenderInputPreview(props) {
   var data = "";
@@ -208,6 +210,8 @@ class Create extends Component {
       documentData: {},
       create: true,
       valueRadio: 1,
+      showModal: false,
+      dataForm:null,
     };
   }
   handleCheckboxChange = (e, inputId) => {
@@ -331,21 +335,17 @@ class Create extends Component {
   };
   handleSubmit = (e) => {
     if (this.state.create === true) {
-      let data = {
+      this.setState({
+        showModal:true
+      })
+      let dataForm = {
         type_id: this.props.match.params.id,
         user_id: 1,
         inputs: this.state.inputsData,
       };
-      console.log(data);
-      axios
-        .post("https://document.tuoitre.vn/api/document/store", data)
-        .then((data) => {
-          alert("Tạo tài liệu thành công!");
-        })
-        .catch((err) => {
-          console.log(err);
-          alert("Tạo tài liệu thất bại!");
-        });
+      this.setState({
+        dataForm
+      })
     } else {
         let arrValueInput = []
         for( let item of this.state.inputsData){
@@ -376,6 +376,7 @@ class Create extends Component {
     // }
   };
   render() {
+   
     const { listInputs, inputsData } = this.state;
     return (
       <div>
@@ -432,6 +433,12 @@ class Create extends Component {
               })}
           </div>
         </div>
+        <ModalForm dataForm = {this.state.dataForm} idWorkflow ={this.props.match.params.id} show ={this.state.showModal} hideModal = {()=>{
+          this.setState({
+            showModal:false
+          })
+        }}
+        />
       </div>
     );
   }

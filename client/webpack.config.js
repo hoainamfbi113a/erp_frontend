@@ -39,7 +39,7 @@ module.exports = (env, agrv) => {
     module: {
       rules: [
         {
-          test: /\.js$/,
+          test: /\.(js|jsx)$/,
           exclude: /node_modules/,
           loader: "babel-loader",
           query: {
@@ -85,6 +85,7 @@ module.exports = (env, agrv) => {
       ],
     },
     resolve: {
+      extensions: ['*', '.js', '.jsx'],
       alias: {
         'components': path.resolve(__dirname, 'src/components/'),
         'actions': path.resolve(__dirname, 'src/actions/'),
