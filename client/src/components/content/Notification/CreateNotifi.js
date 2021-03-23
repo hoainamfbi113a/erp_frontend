@@ -209,7 +209,7 @@ export default class CreateNotifi extends Component {
               defaultExpandAll
               onSelect={this.onSelect}
             /> */}
-            <Collapse onChange={this.callback}>
+            <Collapse className="create-notification-collapse" onChange={this.callback}>
               {this.renderPanel()}
             </Collapse>
             <div className="create-notifi-content"></div>
