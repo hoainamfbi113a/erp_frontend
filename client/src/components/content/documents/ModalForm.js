@@ -22,29 +22,52 @@ export default function ModalForm(props) {
   }, []);
   const dataChild = (value) =>{
     let arr = targets;
+    for(let item of arr) {
+        if(item.step_id === value.step_id){
+            item = value;
+            value = {};
+            break;
+        }
+    }
     arr.push(value)
     setTargets(arr)
   }
   const handleCreateIssue = () =>{
+    targets = targets.filter(value => Object.keys(value).length !== 0);
       let params = {
         "document_type_id":20,
         "user_id": 1,
         "targets":targets
       }
+      console.log(params)
       axios.post("https://workflow.tuoitre.vn/api/issue/store", params)
-      .then(res=>{
+      .then(res1=>{
         let paramsDocs = props.dataForm;
-        paramsDocs.issue_id = res.data.id;
+        paramsDocs.issue_id = res1.data.id;
         axios
         .post("https://document.tuoitre.vn/api/document/store", paramsDocs)
         .then((data) => {
-          alert("Tạo tài liệu thành công!");
-          props.hideModal()
+          
+          let params = {
+            "document_id": data.data.id,
+            "issue_id": res1.data.id 
+          }
+          console.log(params)
+          axios.post("https://document.tuoitre.vn/api/document-process/store",params)
+          .then(res3=>{
+            alert("Tạo tài liệu thành công!");
+            props.hideModal()
+          })
+          .catch(err=>{
+            console.log(err);
+            alert("Tạo tài liệu thất bại!");
+            props.hideModal()
+          })
+         
         })
         .catch((err) => {
           console.log(err);
-          alert("Tạo tài liệu thất bại!");
-          props.hideModal()
+          
         });
       })
       .catch(err=>{
