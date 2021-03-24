@@ -29,8 +29,12 @@ const port = process.env.PORT || 5001;
 const __dirname = path.resolve();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// // app.disable('etag');
+// app.set('etag', false);
+// app.set('etag', 'weak')
+// app.set('etag', 'strong')  
 app.use("/api", userController);
-// app.use("/api", formBuilderController);
+app.use("/api", formBuilderController);
 
 app.get("/api/transfers", transfers);
 app.get("/api/transfers/profiles/:id", profileTransfers);

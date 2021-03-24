@@ -155,7 +155,7 @@ export default class TableRoles_v2 extends Component {
   };
   getMock = async (dep_id, pos_id) => {
     this.setState({
-      disabledSelected: false
+      disabledSelected: false,
     });
     await axiosConfig
       .get("/api/list/permission/actions")
@@ -190,16 +190,16 @@ export default class TableRoles_v2 extends Component {
   handleCancel = () => {
     this.props.hideModal();
     this.setState({
-      dep_id:"",
-      pos_id:"",
-      dep_idUpdate:null,
-      pos_idUpdate:null,
-      selected:[],
-      selectedBegin:[],
-      disabledSelected:false,
+      dep_id: "",
+      pos_id: "",
+      dep_idUpdate: null,
+      pos_idUpdate: null,
+      selected: [],
+      selectedBegin: [],
+      disabledSelected: false,
       // dataPermission: null,
       // data:null,
-    })
+    });
   };
   showDepartment = () => {
     let pos_id = this.state.pos_id;
@@ -255,7 +255,7 @@ export default class TableRoles_v2 extends Component {
       };
       arrPermission.push(obj);
     }
-    arrPermission = lodash.uniqBy(arrPermission, 'id');
+    arrPermission = lodash.uniqBy(arrPermission, "id");
     let arrayPerAction = [];
     for (let itemPer of arrPermission) {
       let arrAction = [];
@@ -290,8 +290,8 @@ export default class TableRoles_v2 extends Component {
           .post(`/api/position/permission/${this.state.pos_idUpdate}`, params)
           .then((res) => {
             // if (res.message === "Success!. Stored") {
-              alert("Chỉnh sửa quyền chức vụ thành công");
-              this.handleCancel();
+            alert("Chỉnh sửa quyền chức vụ thành công");
+            this.handleCancel();
             // }
           })
           .catch((err) => {
@@ -308,8 +308,7 @@ export default class TableRoles_v2 extends Component {
         };
         axiosConfig
           .post(`/api/position/permissiond/${this.state.pos_idUpdate}`, params)
-          .then((res) => {
-          })
+          .then((res) => {})
           .catch((err) => {
             alert("Xoá cho chức vụ thất bại");
             this.handleCancel();
@@ -319,7 +318,7 @@ export default class TableRoles_v2 extends Component {
     } else {
       let data = this.state.selected;
       let arrPerAction = this.customSelected(data);
-      
+
       const params = {
         dep_id: this.state.dep_id,
         permissions: arrPerAction,
@@ -417,7 +416,6 @@ export default class TableRoles_v2 extends Component {
         >
           <div className="select-grant-role">
             <Select
-            
               disabled={this.state.disabledSelected}
               className="select-department-grant"
               showSearch

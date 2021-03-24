@@ -306,7 +306,7 @@ class Create extends Component {
     const id = this.props.match.params.id;
     try {
       if (this.state.create === false) {
-        axios.get(`https://document.tuoitre.vn/api/document-process/get?process_id=${id}`)
+        axios.get(`/api/document-process/get?process_id=${id}`)
         .then(res=>{
           let incr = 0
           this.setState({
@@ -316,13 +316,13 @@ class Create extends Component {
         .catch(err=>{
         })
         axios
-          .get(`https://document.tuoitre.vn/api/document/get?id=${id}`)
+          .get(`/api/document/get?id=${id}`)
           .then((res) => {
             this.setState({
               listInputs: res.data.inputs,
               inputsData: res.data.inputs,
             });
-            axios.get(`https://workflow.tuoitre.vn/api/workflow/detail?type_id=${res.data.document_type.id}`)
+            axios.get(`/api/workflow/detail?type_id=${res.data.document_type.id}`)
             .then(res=>{
               this.setState({
                 dataWorkFlow:res.data
@@ -341,7 +341,7 @@ class Create extends Component {
         };
         axios
           .get(
-            `https://document.tuoitre.vn/api/document-template/get?type_id=${id}`
+            `/api/document-template/get?type_id=${id}`
           )
           .then((data) => {
             if (data.data.inputs.length === 0) {
@@ -351,7 +351,7 @@ class Create extends Component {
             this.setState({
               listInputs: data.data.inputs,
             });
-            axios.get(`https://workflow.tuoitre.vn/api/workflow/detail?type_id=${data.data.document_type.id}`)
+            axios.get(`/api/workflow/detail?type_id=${data.data.document_type.id}`)
             .then(res=>{
               this.setState({
                 dataWorkFlow:res.data
@@ -428,7 +428,7 @@ class Create extends Component {
     return (
       <div>
         <div className="row">
-        <Steps current={this.state.currentProcess} size="small" className="process-work-flow">
+        <Steps current={0} size="small" className="process-work-flow">
             {this.renderWorkflow()}
             <Step title="Tài liệu sẵn sàng" />
         </Steps>

@@ -7,6 +7,7 @@ import put from "assets/images/put.svg";
 import takeleave from "assets/images/takeleave.svg";
 import vote from "assets/images/vote.svg";
 import ProposalForm from "components/Modal/ProposalForm";
+import docCookies from "doc-cookies";
 import axios from "axios";
 import { Collapse } from "antd";
 
@@ -36,7 +37,7 @@ export default class CreateNotifi extends Component {
   };
   getDataDocumentType = () =>{
     axios
-    .get("https://document.tuoitre.vn/api/document-type/get-document-types")
+    .get("/api/document-type/get-document-types")
     .then((res) => {
       this.setState({
         dataDocumentType: res.data,
@@ -71,7 +72,7 @@ export default class CreateNotifi extends Component {
   getDataDocumentListUser = () =>{
     axios
     .get(
-      "https://document.tuoitre.vn/api/document/list?page=1&per_page=1000&user_id=1"
+      `/api/document/list?page=1&per_page=1000&user_id=${docCookies.getItem("user_id")}`
     )
     .then((res) => {
       this.setState({
@@ -90,7 +91,7 @@ export default class CreateNotifi extends Component {
     if (id) {
       axios
         .get(
-          `https://document.tuoitre.vn/api/document-template/get?type_id=${id}`
+          `/api/document-template/get?type_id=${id}`
         )
         .then((data) => {
           if (data.data === "") {

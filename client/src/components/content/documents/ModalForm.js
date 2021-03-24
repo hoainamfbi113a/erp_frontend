@@ -12,7 +12,7 @@ export default function ModalForm(props) {
   useEffect(() => {
     async function fetchMyAPI() {
       let response = await fetch(
-        `https://workflow.tuoitre.vn/api/workflow/detail?type_id=${props.idWorkflow}`
+        `/api/workflow/detail?type_id=${props.idWorkflow}`
       );
       response = await response.json();
       setDataWorkFlow(response);
@@ -39,21 +39,20 @@ export default function ModalForm(props) {
         "user_id": 1,
         "targets":targets
       }
-      console.log(params)
-      axios.post("https://workflow.tuoitre.vn/api/issue/store", params)
+      axios.post("/api/issue/store", params)
       .then(res1=>{
         let paramsDocs = props.dataForm;
         paramsDocs.issue_id = res1.data.id;
         axios
-        .post("https://document.tuoitre.vn/api/document/store", paramsDocs)
+        .post("/api/document/store", paramsDocs)
         .then((data) => {
           
           let params = {
             "document_id": data.data.id,
             "issue_id": res1.data.id 
           }
-          console.log(params)
-          axios.post("https://document.tuoitre.vn/api/document-process/store",params)
+  
+          axios.post("/api/document-process/store",params)
           .then(res3=>{
             alert("Tạo tài liệu thành công!");
             props.hideModal()
