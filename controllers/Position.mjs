@@ -2,19 +2,17 @@ import axios from "axios";
 const listPosition = async (req, res) => {
   try {
     const { page } = req.query;
-    const config = {
-      headers: { Authorization: req.headers.authorization },
-    };
+    // const config = {
+    //   headers: { Authorization: req.headers.authorization },
+    // };
     if(page === "all") {
       let { data } = await axios.get(
-        `${process.env.apiEmployee}/api/positions?per_page=100`,
-        config
+        `${process.env.apiEmployee}/api/positions?per_page=100`
       );
       res.send(data);
     } else {
       let { data } = await axios.get(
-        `${process.env.apiEmployee}/api/positions?page=${page}`,
-        config
+        `${process.env.apiEmployee}/api/positions?page=${page}`
       );
       res.send(data);
     }

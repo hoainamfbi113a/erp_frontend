@@ -113,12 +113,54 @@ router.put("/user/:id", async (req, res) => {
   );
   res.send(data);
 });
-router.get('/document-type/get',async (req,res)=>{
-  let params = req.query
+
+
+router.get('/document-type/get-document-types',async (req,res)=>{
   const config = {
       headers: { Authorization: req.headers.authorization },
     };
-  let { data } = await axios.get(`https://document.tuoitre.vn/api/document-type/get`, {params});
+  let { data } = await axios.get(`https://document.tuoitre.vn/api/document-type/get-document-types`);
   res.send(data);
 })
+router.get('/document-type/get',async (req,res)=>{
+  const config = {
+      headers: { Authorization: req.headers.authorization },
+    };
+  let { data } = await axios.get(`https://document.tuoitre.vn/api/document-type/get`);
+  // req.method="NONE";
+    // res.send(data);
+  res.set('etag', 'strong')
+  res.status(204).json(data);
+})
+router.get('/workflow/detail',async (req,res)=>{
+
+  const config = {
+      headers: { Authorization: req.headers.authorization },
+    };
+  let {type_id } = req.query;
+  let  {data, status}  = await axios.get(`https://workflow.tuoitre.vn/api/workflow/detail?type_id=${type_id}`);
+  if(status == 204) {
+    res.status(204).send()
+  } else {
+      res.send(data);
+  }
+})
+
+router.post('/issue/store', async (req,res)=>{
+  let { data } = await axios.post(`${process.env.apiWorkflow}/api/issue/store`,req.body);
+    res.send(data);
+})
+router.post('/document-process/store', async (req,res)=>{
+  let { data } = await axios.post(`https://document.tuoitre.vn/api/document-process/store`,req.body);
+    res.send(data);
+})
+router.get('/list/actions/dep/pos/tab',async (req,res)=>{
+  const config = {
+      headers: { Authorization: req.headers.authorization },
+    };
+  let { data } = await axios.get(`https://employee.tuoitre.vn/api/list/actions/dep/pos/tab`);
+  res.send(data);
+})
+
+
 export default router;

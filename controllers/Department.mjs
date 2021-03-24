@@ -4,15 +4,15 @@ const router = express.Router();
 router.get("/", async (req, res) => {
     try {
         const { page } = req.query;
-        const config = {
-            headers: { Authorization: req.headers.authorization },
-        };
+        // const config = {
+        //     headers: { Authorization: req.headers.authorization },
+        // };
         if(page == "all") {
             // console.log(`${process.env.apiEmployee}/api/departments?per_page=100`)
-            let { data } = await axios.get(`${process.env.apiEmployee}/api/departments?per_page=100`, config);
+            let { data } = await axios.get(`${process.env.apiEmployee}/api/departments?per_page=100`);
             res.send(data);
         } else {
-            let { data } = await axios.get(`${process.env.apiEmployee}/api/departments?page=${page}`, config);
+            let { data } = await axios.get(`${process.env.apiEmployee}/api/departments?page=${page}`);
             res.send(data);
         }
     } catch (error) {
