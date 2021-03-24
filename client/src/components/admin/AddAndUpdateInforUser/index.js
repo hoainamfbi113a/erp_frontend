@@ -84,7 +84,7 @@ const AddAndUpdateInforUser = (props) => {
     
     (async function fetchTransfer() {
       dispatch(showLoading())
-      let dataWorkflowProfile = await workflowProfile();
+      let dataWorkflowProfile = await workflowProfile(20);
       setWorkflowProfile(dataWorkflowProfile);
       setProfile(dataProfile)
       if(props.match.params.id){
