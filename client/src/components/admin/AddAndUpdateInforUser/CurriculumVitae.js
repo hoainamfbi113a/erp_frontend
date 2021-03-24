@@ -37,7 +37,6 @@ const { Option } = Select;
 const { Step } = Steps;
 const { RangePicker } = DatePicker;
 const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
-const dateFormatListS = "YYYY/MM/DD";
 class addInformationUser extends Component {
   constructor(props) {
     super(props);
