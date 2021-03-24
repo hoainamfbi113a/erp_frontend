@@ -138,7 +138,7 @@ router.get('/workflow/detail',async (req,res)=>{
       headers: { Authorization: req.headers.authorization },
     };
   let {type_id } = req.query;
-  let  {data, status}  = await axios.get(`https://workflow.tuoitre.vn/api/workflow/detail?type_id=${type_id}`);
+  let  {data, status}  = await axios.get(`${process.env.apiWorkflow}/api/workflow/detail?type_id=${type_id}`);
   if(status == 204) {
     res.status(204).send()
   } else {
@@ -158,7 +158,7 @@ router.get('/list/actions/dep/pos/tab',async (req,res)=>{
   const config = {
       headers: { Authorization: req.headers.authorization },
     };
-  let { data } = await axios.get(`https://employee.tuoitre.vn/api/list/actions/dep/pos/tab`);
+  let { data } = await axios.get(`${process.env.apiEmployee}/api/list/actions/dep/pos/tab`);
   res.send(data);
 })
 
