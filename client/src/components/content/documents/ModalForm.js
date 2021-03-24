@@ -12,7 +12,7 @@ export default function ModalForm(props) {
   useEffect(() => {
     async function fetchMyAPI() {
       let response = await fetch(
-        "https://workflow.tuoitre.vn/api/workflow/detail?type_id=20"
+        `https://workflow.tuoitre.vn/api/workflow/detail?type_id=${props.idWorkflow}`
       );
       response = await response.json();
       setDataWorkFlow(response);
@@ -35,7 +35,7 @@ export default function ModalForm(props) {
   const handleCreateIssue = () =>{
     targets = targets.filter(value => Object.keys(value).length !== 0);
       let params = {
-        "document_type_id":20,
+        "document_type_id": props.idWorkflow,
         "user_id": 1,
         "targets":targets
       }

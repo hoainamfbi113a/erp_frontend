@@ -19,7 +19,8 @@ function RenderInputPreview(props) {
     case Constant.INPUT_TYPE_HEADER:
       data = (
         <div className="form-group">
-          <Title level={props.data.subtype.slice(1, 2)}>
+          {/* <Title level={props.data.subtype.slice(1, 2)}> */}
+          <Title level={5}>
             {props.data.label}
           </Title>
         </div>
@@ -303,66 +304,71 @@ class Create extends Component {
   }
   componentDidMount = () => {
     const id = this.props.match.params.id;
-    axios.get(`https://document.tuoitre.vn/api/document-process/get?process_id=${id}`)
-    .then(res=>{
-      let incr = 0
-      this.setState({
-        currentProcess: res.data.current_step.id
-      })
-    })
-    .catch(err=>{
-    })
-    if (this.state.create === false) {
-      axios
-        .get(`https://document.tuoitre.vn/api/document/get?id=${id}`)
-        .then((res) => {
+    try {
+      if (this.state.create === false) {
+        axios.get(`https://document.tuoitre.vn/api/document-process/get?process_id=${id}`)
+        .then(res=>{
+          let incr = 0
           this.setState({
-            listInputs: res.data.inputs,
-            inputsData: res.data.inputs,
-          });
-          axios.get(`https://workflow.tuoitre.vn/api/workflow/detail?type_id=${res.data.document_type.id}`)
-          .then(res=>{
-            this.setState({
-              dataWorkFlow:res.data
-            })
-          })
-          .catch(err=>{
-
+            currentProcess: res.data.current_step.id
           })
         })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      let params = {
-        type_id: 2,
-      };
-      axios
-        .get(
-          `https://document.tuoitre.vn/api/document-template/get?type_id=${id}`
-        )
-        .then((data) => {
-          if (data.data.inputs.length === 0) {
-            alert("Template chưa được tạo");
-            this.props.history.push(`/notification/create`);
-          }
-          this.setState({
-            listInputs: data.data.inputs,
-          });
-          axios.get(`https://workflow.tuoitre.vn/api/workflow/detail?type_id=${data.data.document_type.id}`)
-          .then(res=>{
+        .catch(err=>{
+        })
+        axios
+          .get(`https://document.tuoitre.vn/api/document/get?id=${id}`)
+          .then((res) => {
             this.setState({
-              dataWorkFlow:res.data
+              listInputs: res.data.inputs,
+              inputsData: res.data.inputs,
+            });
+            axios.get(`https://workflow.tuoitre.vn/api/workflow/detail?type_id=${res.data.document_type.id}`)
+            .then(res=>{
+              this.setState({
+                dataWorkFlow:res.data
+              })
+            })
+            .catch(err=>{
+  
             })
           })
-          .catch(err=>{
-
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        let params = {
+          type_id: 2,
+        };
+        axios
+          .get(
+            `https://document.tuoitre.vn/api/document-template/get?type_id=${id}`
+          )
+          .then((data) => {
+            if (data.data.inputs.length === 0) {
+              alert("Template chưa được tạo");
+              this.props.history.push(`/notification/create`);
+            }
+            this.setState({
+              listInputs: data.data.inputs,
+            });
+            axios.get(`https://workflow.tuoitre.vn/api/workflow/detail?type_id=${data.data.document_type.id}`)
+            .then(res=>{
+              this.setState({
+                dataWorkFlow:res.data
+              })
+            })
+            .catch(err=>{
+  
+            })
           })
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    } catch (error) {
+      
     }
+  
   };
   handleSubmit = (e) => {
     if (this.state.create === true) {
@@ -427,12 +433,15 @@ class Create extends Component {
             <Step title="Tài liệu sẵn sàng" />
         </Steps>
           <div className="col-md-2" style ={{margin:"26px"}}>
+          {
+          this.state.create === true &&
             <span
               className="btn-add-user"
               onClick={(e) => this.handleSubmit(e)}
             >
               Lưu tài liệu
             </span>
+          }
             <span
               className="btn-add-user"
               onClick={() => this.props.history.goBack()}

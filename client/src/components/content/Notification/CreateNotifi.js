@@ -158,7 +158,7 @@ export default class CreateNotifi extends Component {
               {item.document_type.display_name}
             </td>
             <td>{item.updated_at}</td>
-            <td>
+            {/* <td>
               <Space size="middle">
                 <Popconfirm
                   onConfirm={() => this.confirm(item.id)}
@@ -178,7 +178,7 @@ export default class CreateNotifi extends Component {
                   Update
                 </Tag>
               </Space>
-            </td>
+            </td> */}
           </tr>
         );
       });
