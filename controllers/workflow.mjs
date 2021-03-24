@@ -14,19 +14,6 @@ router.get('/get-workflow-types', async (req,res)=>{
   res.status(204).json(data)
     // res.send(data);
 })
-// router.get('/detail', async (req,res)=>{
-//   try {
-//     const { type } = req.query;
-//     let { data, status } = await 
-//     // axios.get("http://192.168.61.117/api/workflow/detail?type=report")
-//     axios.get(`${process.env.apiWorkflow}/api/workflow/detail?type=${type}`);
-//     console.log(status)
-//     res.json(data);
-//   } catch (error) {
-//     console.log(error)
-//   }
-
-// })
 router.post('/store', async (req,res)=>{
   let { data } = await axios.post(`${process.env.apiWorkflow}/api/workflow/store`,req.body);
     res.send(data);
