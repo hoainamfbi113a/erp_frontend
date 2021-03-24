@@ -158,7 +158,7 @@ router.get('/list/actions/dep/pos/tab',async (req,res)=>{
   const config = {
       headers: { Authorization: req.headers.authorization },
     };
-  let { data } = await axios.get(`${process.env.apiEmployee}/api/list/actions/dep/pos/tab`);
+  let { data } = await axios.get(`${process.env.apiEmployee}/api/list/actions/dep/pos/tab`,config);
   res.send(data);
 })
 
