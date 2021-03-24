@@ -51,15 +51,20 @@ const updateRole = async (req, res) => {
 };
 
 const deleteRole = async (req, res) => {
-  const config = {
-    headers: { Authorization: req.headers.authorization },
-  };
-  let { id } = req.body;
-  let { data } = await axios.put(
-    `${process.env.apiEmployee}/api/role/${id}`,
-    config
-  );
-  res.send(data);
+  try {
+    const config = {
+      headers: { Authorization: req.headers.authorization },
+    };
+    let { id } = req.body;
+    let { data } = await axios.put(
+      `${process.env.apiEmployee}/api/role/${id}`,
+      config
+    );
+    res.send(data);
+  } catch (error) {
+    console.log(error)
+  }
+  
 };
 const listPermissionOfRole = async (req, res) => {
   const config = {
