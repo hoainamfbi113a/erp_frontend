@@ -116,7 +116,7 @@ export default class RouterUrl extends Component {
     }
   };
   renderUrl = () => {
-    if (this.state.major == 8 && this.state.isTrue === true) {
+    if (true) {
       return (
         <Switch>
           {this.checkPermission("profile-service", "Create") === true ? (
@@ -188,11 +188,11 @@ export default class RouterUrl extends Component {
           ) : (
             ""
           )}
-          {this.checkPermission("document-service", "Create") === true ? (
+          {/* {this.checkPermission("document-service", "Create") === true ? ( */}
             <Route exact path="/documents" component={Document}></Route>
-          ) : (
+          {/* ) : (
             ""
-          )}
+          )} */}
 
           <Route
             exact
