@@ -119,14 +119,14 @@ router.get('/document-type/get-document-types',async (req,res)=>{
   const config = {
       headers: { Authorization: req.headers.authorization },
     };
-  let { data } = await axios.get(`https://document.tuoitre.vn/api/document-type/get-document-types`);
+  let { data } = await axios.get(`${process.env.apiFormBuilder}/api/document-type/get-document-types`);
   res.send(data);
 })
 router.get('/document-type/get',async (req,res)=>{
   const config = {
       headers: { Authorization: req.headers.authorization },
     };
-  let { data } = await axios.get(`https://document.tuoitre.vn/api/document-type/get`);
+  let { data } = await axios.get(`${process.env.apiFormBuilder}/api/document-type/get`);
   // req.method="NONE";
     // res.send(data);
   res.set('etag', 'strong')
@@ -151,7 +151,7 @@ router.post('/issue/store', async (req,res)=>{
     res.send(data);
 })
 router.post('/document-process/store', async (req,res)=>{
-  let { data } = await axios.post(`https://document.tuoitre.vn/api/document-process/store`,req.body);
+  let { data } = await axios.post(`${process.env.apiFormBuilder}/api/document-process/store`,req.body);
     res.send(data);
 })
 router.get('/list/actions/dep/pos/tab',async (req,res)=>{

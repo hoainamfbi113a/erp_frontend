@@ -78,7 +78,7 @@ router.post("/document/store", async (req, res) => {
   console.log(req.body)
   try {
     let { data } = await axios.post(
-      `https://document.tuoitre.vn/api/document/store`,
+      `${process.env.apiFormBuilder}/api/document/store`,
       req.body
     );
     res.send(data);
