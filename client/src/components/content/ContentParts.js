@@ -11,27 +11,36 @@ export default class ContentParts extends Component {
   constructor() {
     super();
     this.state = {
+      valueSearch: "",
       visible: false,
       registerUserSuccess: false,
-      totalPart: ""
-
+      totalPart: 0,
     };
   }
   showModal = () => {
     this.setState({
-      visible:true
-    })
-  }
-  hideModal =() => {
+      visible: true,
+    });
+  };
+
+  hideModal = () => {
     this.setState({
-      visible:false
-    })
-  }
-  totalPart = (value) =>{
+      visible: false,
+    });
+  };
+
+  totalPart = (value) => {
     this.setState({
-      totalPart:value
+      totalPart: value,
+    });
+  };
+
+  onSearch = (value) => {
+    this.setState({
+      valueSearch: value,
     })
   }
+
   render() {
     return (
       <div>
@@ -54,10 +63,13 @@ export default class ContentParts extends Component {
             </Button>
           </div>
         </div>
-        <TableParts showModalParts={this.state.visible}
-         hideModal={this.hideModal} showModal={this.showModal}
-         totalPart = {this.totalPart}
-         />
+        <TableParts
+          valueSearch={this.state.valueSearch}
+          showModalParts={this.state.visible}
+          hideModal={this.hideModal}
+          showModal={this.showModal}
+          totalPart={this.totalPart}
+        />
       </div>
     );
   }

@@ -27,15 +27,39 @@ class TablePermission extends Component {
     dep_note: "",
     status: 1,
   };
+
   componentDidMount = () => {
     this.fetchData(1);
   };
+
+  componentDidUpdate = async (prevProps, prevState) => {
+    if (this.props.valueSearch !== prevProps.valueSearch) {
+      let resListDepart = await getListDepartment("all");
+      let listDepartSearch = resListDepart.data.filter((depart) => {
+        return (
+          depart.dep_name
+            .toLowerCase()
+            .indexOf(this.props.valueSearch.toLowerCase()) !== -1
+        );
+      });
+      let obj = {
+        meta: {
+          pagination: listDepartSearch.length,
+        },
+        data: listDepartSearch,
+      };
+      this.setState({
+        data: obj,
+      });
+    }
+  };
+
   fetchData = async (page) => {
     let data = await getListDepartment(page);
     this.setState({
       data,
     });
-    this.props.totalDepartment(data.meta.pagination.total)
+    this.props.totalDepartment(data.meta.pagination.total);
   };
   onSubmit = async () => {
     let params = {
@@ -113,7 +137,7 @@ class TablePermission extends Component {
     });
   };
   handlePagination = async (pagination) => {
-    this.fetchData(pagination)
+    this.fetchData(pagination);
   };
   render() {
     let data = "";

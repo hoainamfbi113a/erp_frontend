@@ -29,10 +29,34 @@ class TableParts extends Component {
     department_name: "",
     status: 1,
   };
+
   componentDidMount = () => {
-    this.fetchData();
+    this.fetchData(1);
     this.fetchDepartment();
   };
+
+  componentDidUpdate = async (prevProps, prevState) => {
+    if (this.props.valueSearch !== prevProps.valueSearch) {
+      let resListPart = await getListParts("all");
+      let listPartSearch = resListPart.data.filter((part) => {
+        return (
+          part.part_name
+            .toLowerCase()
+            .indexOf(this.props.valueSearch.toLowerCase()) !== -1
+        );
+      });
+      let obj = {
+        meta: {
+          pagination: listPartSearch.length,
+        },
+        data: listPartSearch,
+      };
+      this.setState({
+        data: obj,
+      });
+    }
+  };
+
   fetchDepartment = () => {
     axiosConfig
       .get("/api/departments/map")
@@ -45,17 +69,16 @@ class TableParts extends Component {
         console.log(err);
       });
   };
-  fetchData = async () => {
-    let res = await getListParts(1);
+  fetchData = async (page) => {
+    let res = await getListParts(page);
     if (!res.err) {
       this.setState({
         data: res,
       });
-      this.props.totalPart(res.meta.pagination.total)
+      this.props.totalPart(res.meta.pagination.total);
     } else {
       message.error("get list parts failed");
     }
-
   };
   onSubmit = async () => {
     let params = {
@@ -173,16 +196,16 @@ class TableParts extends Component {
 
     const columns = [
       {
+        title: "Tên tổ",
+        dataIndex: "part_name",
+        key: "part_name",
+      },
+      {
         title: "phòng ban",
         width: 200,
         dataIndex: "department",
         key: "department",
         fixed: "left",
-      },
-      {
-        title: "Tên tổ",
-        dataIndex: "part_name",
-        key: "part_name",
       },
       {
         title: "Ghi chú",

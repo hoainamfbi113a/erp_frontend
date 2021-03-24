@@ -108,13 +108,32 @@ class TablePosition extends Component {
         }
       }
     }
+    if (this.props.valueSearch !== prevProps.valueSearch) {
+      let resListPos = await getListPosition("all");
+      let listPosSearch = resListPos.data.filter((pos) => {
+        return (
+          pos.pos_name
+            .toLowerCase()
+            .indexOf(this.props.valueSearch.toLowerCase()) !== -1
+        );
+      });
+      let obj = {
+        meta: {
+          pagination: listPosSearch.length,
+        },
+        data: listPosSearch,
+      };
+      this.setState({
+        data: obj,
+      });
+    }
   };
   fetchData = async () => {
     let data = await getListPosition(1);
     this.setState({
       data,
     });
-    this.props.totalPosition(data.meta.pagination.total)
+    this.props.totalPosition(data.meta.pagination.total);
   };
   onSubmit = async () => {
     let params = {

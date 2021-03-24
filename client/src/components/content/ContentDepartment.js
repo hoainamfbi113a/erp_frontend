@@ -11,26 +11,34 @@ export default class ContentDepartment extends Component {
   constructor() {
     super();
     this.state = {
+      valueSearch: "",
       visible: false,
       registerUserSuccess: false,
-      totalDepartment:0,
+      totalDepartment: 0,
     };
   }
   showModal = () => {
     this.setState({
-      visible:true
-    })
-  }
-  hideModal =() => {
+      visible: true,
+    });
+  };
+  hideModal = () => {
     this.setState({
-      visible:false
-    })
-  }
-  totalDepartment = (value) =>{
+      visible: false,
+    });
+  };
+  totalDepartment = (value) => {
     this.setState({
-      totalDepartment: value
-    })
-  }
+      totalDepartment: value,
+    });
+  };
+
+  onSearch = (value) => {
+    this.setState({
+      valueSearch: value,
+    });
+  };
+
   render() {
     return (
       <div>
@@ -53,8 +61,12 @@ export default class ContentDepartment extends Component {
             </Button>
           </div>
         </div>
-        <TableDepartment showModalDepartment={this.state.visible} hideModal={this.hideModal} showModal={this.showModal}
-                         totalDepartment = {this.totalDepartment}
+        <TableDepartment
+          valueSearch={this.state.valueSearch}
+          showModalDepartment={this.state.visible}
+          hideModal={this.hideModal}
+          showModal={this.showModal}
+          totalDepartment={this.totalDepartment}
         />
       </div>
     );
