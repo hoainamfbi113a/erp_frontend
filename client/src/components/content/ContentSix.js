@@ -9,15 +9,19 @@ const { Search } = Input;
 import "./Content.css";
 
 export default function ContentSix() {
-  const [valueSearch, setValueSearch] = useState("")
-  const onSearch = value => {
+  const [valueSearch, setValueSearch] = useState("");
+  const [totalEmploy, setTotalEmploy] = useState(0);
+  const onSearch = (value) => {
     setValueSearch(value);
-  }
+  };
+  const totalEmployee = (value) => {
+    setTotalEmploy(value);
+  };
   return (
     <div>
       <div className="content-top">
         <div className="content-top-left">
-          <div className="content-top-left-sum-item">Nhân viên</div>
+          <div className="content-top-left-sum-item">{totalEmploy} Nhân viên</div>
           <Search
             placeholder="Tìm kiếm"
             allowClear
@@ -25,14 +29,6 @@ export default function ContentSix() {
             style={{ width: 200 }}
             className="table-btn-search"
           />
-          {/* <Search
-            style={{ width: 200 }}
-            placeholder="input search text"
-            allowClear
-            enterButton="Search"
-            size="large"
-            onSearch={onSearch}
-          /> */}
         </div>
         <div className="content-top-right">
           <Link to={`/adduser`}>
@@ -40,8 +36,7 @@ export default function ContentSix() {
           </Link>
         </div>
       </div>
-      <TableSix valueSearch = {valueSearch}
-      />
+      <TableSix valueSearch={valueSearch} totalEmploy={setTotalEmploy}/>
     </div>
   );
 }

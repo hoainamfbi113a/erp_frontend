@@ -67,7 +67,7 @@ export default class ContentDepartment extends Component {
           hideModal={this.hideModal}
           showModal={this.showModal}
           totalDepartment={this.totalDepartment}
-        />
+        /> 
       </div>
     );
   }

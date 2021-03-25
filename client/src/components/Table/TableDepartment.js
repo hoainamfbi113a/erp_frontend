@@ -58,6 +58,7 @@ class TablePermission extends Component {
       this.setState({
         data: obj,
       });
+      this.props.totalDepartment(obj.meta.pagination)
     }
   };
 
