@@ -103,6 +103,7 @@ router.post("/document/store", async (req, res) => {
     `${process.env.apiEmployee}/api/fe/profiles/users/${user_id}`,
     config
   );
+  console.log(data)
   pos_idUser = data.data.department.data.dep_id;
   dep_idUser = data.data.department.data.pos_id;
   for (let item of dataWorkFlow.steps) {
