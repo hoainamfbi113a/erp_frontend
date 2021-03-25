@@ -133,7 +133,7 @@ router.post("/document/store", async (req, res) => {
       };
       dataForm.issue_id = res1.data.id;
       axios
-        .post(`http://document.tuoitre.vn/api/document/store`, dataForm)
+        .post(`${process.env.apiFormBuilder}/api/document/store`, dataForm)
         .then((res) => {
           let params = {
             document_id: res.data.id,
@@ -142,7 +142,7 @@ router.post("/document/store", async (req, res) => {
 
           axios
             .post(
-              "http://document.tuoitre.vn/api/document-process/store",
+              `${process.env.apiFormBuilder}/api/document-process/store`,
               params
             )
             .then((res3) => {
@@ -151,13 +151,16 @@ router.post("/document/store", async (req, res) => {
             })
             .catch((err) => {
               console.log("err1");
+              resEnd.send("failed 3")
             });
         })
         .catch((err) => {
+          resEnd.send("failed 2")
           // console.log("err")
         });
     })
     .catch((err) => {
+      resEnd.send("failed 1")
       console.log(err);
     });
   // console.log(isSuccess);
