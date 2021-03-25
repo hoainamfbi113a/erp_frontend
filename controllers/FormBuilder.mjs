@@ -72,7 +72,7 @@ let getTarget = async (pos_id, dep_id, step_id, action_id) => {
   // console.log(dep_id, pos_id)
   let target = [];
   let { data } = await axios.get(
-    `https://employee.tuoitre.vn/api/departments/positions/list-user/${dep_id}?order=asc&pos_id=${pos_id}`
+    `${process.env.apiEmployee}/api/departments/positions/list-user/${dep_id}?order=asc&pos_id=${pos_id}`
   );
   const object = data;
   for (const property in object.data) {
@@ -146,7 +146,7 @@ router.post("/document/store", async (req, res) => {
               params
             )
             .then((res3) => {
-              console.log("success2");
+              // console.log("success2");
               resEnd.send("success")
             })
             .catch((err) => {
