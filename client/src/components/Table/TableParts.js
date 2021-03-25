@@ -29,10 +29,34 @@ class TableParts extends Component {
     department_name: "",
     status: 1,
   };
+
   componentDidMount = () => {
-    this.fetchData();
+    this.fetchData(1);
     this.fetchDepartment();
   };
+
+  componentDidUpdate = async (prevProps, prevState) => {
+    if (this.props.valueSearch !== prevProps.valueSearch) {
+      let resListPart = await getListParts("all");
+      let listPartSearch = resListPart.data.filter((part) => {
+        return (
+          part.part_name
+            .toLowerCase()
+            .indexOf(this.props.valueSearch.toLowerCase()) !== -1
+        );
+      });
+      let obj = {
+        meta: {
+          pagination: listPartSearch.length,
+        },
+        data: listPartSearch,
+      };
+      this.setState({
+        data: obj,
+      });
+    }
+  };
+
   fetchDepartment = () => {
     axiosConfig
       .get("/api/departments/map")
@@ -45,17 +69,16 @@ class TableParts extends Component {
         console.log(err);
       });
   };
-  fetchData = async () => {
-    let res = await getListParts(1);
+  fetchData = async (page) => {
+    let res = await getListParts(page);
     if (!res.err) {
       this.setState({
         data: res,
       });
-      this.props.totalPart(res.meta.pagination.total)
+      this.props.totalPart(res.meta.pagination.total);
     } else {
       message.error("get list parts failed");
     }
-
   };
   onSubmit = async () => {
     let params = {
@@ -63,27 +86,32 @@ class TableParts extends Component {
       part_name: this.state.part_name,
       part_note: this.state.part_note,
     };
-    if (this.state.id === "") {
-      this.hideModal();
-      let res = await addParts(params);
-      if (res.message === "Success!. Stored") {
-        message.success("Thêm tổ thành công");
-        this.fetchData();
+    if(Object.values(params).every(o => o !== "")) {
+      if (this.state.id === "") {
+        this.hideModal();
+        let res = await addParts(params);
+        if (res.message === "Success!. Stored") {
+          message.success("Thêm tổ thành công");
+          this.fetchData();
+        } else {
+          message.error("Thêm tổ thất bại");
+        }
       } else {
-        message.error("Thêm tổ thất bại");
-      }
-    } else {
-      this.hideModal();
-      let res = await updateParts(this.state.id, params);
-      if (res.message === "Success!. Updated") {
-        message.success("Cập nhật tổ thành công");
-        this.setState({
-          id: "",
-        });
-        this.fetchData();
-      } else {
-        message.error("Update permission thất bại");
-      }
+        this.hideModal();
+        let res = await updateParts(this.state.id, params);
+        if (res.message === "Success!. Updated") {
+          message.success("Cập nhật tổ thành công");
+          this.setState({
+            id: "",
+          });
+          this.fetchData();
+        } else {
+          message.error("Update permission thất bại");
+        }
+      } 
+    }
+    else {
+      message.error("Xin điền đầy đủ thông tin!");
     }
   };
   hideModal = () => {
@@ -114,9 +142,9 @@ class TableParts extends Component {
     let res = await deleteParts(params);
     if (res.message === "Success!. Deleted") {
       this.fetchData();
-      message.success("Xoá tổ thành công");
+      message.success("Ẩn tổ thành công");
     } else {
-      message.error("Xoá tổ thất bại");
+      message.error("Ẩn tổ thất bại");
     }
   };
 
@@ -173,16 +201,16 @@ class TableParts extends Component {
 
     const columns = [
       {
+        title: "Tên tổ",
+        dataIndex: "part_name",
+        key: "part_name",
+      },
+      {
         title: "phòng ban",
         width: 200,
         dataIndex: "department",
         key: "department",
         fixed: "left",
-      },
-      {
-        title: "Tên tổ",
-        dataIndex: "part_name",
-        key: "part_name",
       },
       {
         title: "Ghi chú",
@@ -290,7 +318,7 @@ class TableParts extends Component {
                     {this.renderDepartment()}
                   </Select>
                 </div>
-              </li>
+              </li> 
               <li className="tabs-main-left-li">
                 <span className="tabs-user-infor-top">Tên tổ</span>
                 <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">

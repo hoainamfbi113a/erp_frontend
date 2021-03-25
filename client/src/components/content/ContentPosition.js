@@ -11,26 +11,36 @@ export default class ContentPosition extends Component {
   constructor() {
     super();
     this.state = {
+      valueSearch: "",
       visible: false,
       registerUserSuccess: false,
-      totalPosition:""
+      totalPosition: "",
     };
   }
   showModal = () => {
     this.setState({
-      visible:true
-    })
-  }
-  hideModal =() => {
+      visible: true,
+    });
+  };
+
+  hideModal = () => {
     this.setState({
-      visible:false
-    })
-  }
+      visible: false,
+    });
+  };
+
   totalPosition = (value) => {
     this.setState({
-      totalPosition: value
-    })
-  }
+      totalPosition: value,
+    });
+  };
+
+  onSearch = (value) => {
+    this.setState({
+      valueSearch: value,
+    });
+  };
+
   render() {
     return (
       <div>
@@ -53,10 +63,13 @@ export default class ContentPosition extends Component {
             </Button>
           </div>
         </div>
-        <TablePosition showModalPosition={this.state.visible}
-         hideModal={this.hideModal} showModal={this.showModal}
-         totalPosition = {this.totalPosition}
-          />
+        <TablePosition
+          valueSearch={this.state.valueSearch}
+          showModalPosition={this.state.visible}
+          hideModal={this.hideModal}
+          showModal={this.showModal}
+          totalPosition={this.totalPosition}
+        />
       </div>
     );
   }

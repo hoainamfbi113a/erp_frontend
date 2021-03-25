@@ -27,15 +27,39 @@ class TablePermission extends Component {
     dep_note: "",
     status: 1,
   };
+
   componentDidMount = () => {
     this.fetchData(1);
   };
+
+  componentDidUpdate = async (prevProps, prevState) => {
+    if (this.props.valueSearch !== prevProps.valueSearch) {
+      let resListDepart = await getListDepartment("all");
+      let listDepartSearch = resListDepart.data.filter((depart) => {
+        return (
+          depart.dep_name
+            .toLowerCase()
+            .indexOf(this.props.valueSearch.toLowerCase()) !== -1
+        );
+      });
+      let obj = {
+        meta: {
+          pagination: listDepartSearch.length,
+        },
+        data: listDepartSearch,
+      };
+      this.setState({
+        data: obj,
+      });
+    }
+  };
+
   fetchData = async (page) => {
     let data = await getListDepartment(page);
     this.setState({
       data,
     });
-    this.props.totalDepartment(data.meta.pagination.total)
+    this.props.totalDepartment(data.meta.pagination.total);
   };
   onSubmit = async () => {
     let params = {
@@ -44,27 +68,32 @@ class TablePermission extends Component {
       dep_phone: this.state.dep_phone,
       dep_note: this.state.dep_note,
     };
-    if (this.state.id === "") {
-      let res = await addDepartment(params);
-      if (res.message === "Success!. Stored") {
-        message.success("Thêm phòng ban thành công");
-        this.fetchData();
+    if(Object.values(params).every(o => o !== "")) {
+      console.log(params);
+      if (this.state.id === "") {
+        let res = await addDepartment(params);
+        if (res.message === "Success!. Stored") {
+          message.success("Thêm phòng ban thành công");
+          this.fetchData();
+        } else {
+          message.error("Thêm phòng ban thất bại");
+        }
       } else {
-        message.error("Thêm phòng ban thất bại");
+        let res = await updateDepartment(params, this.state.id);
+        this.setState({
+          id: "",
+        });
+        if (res.message === "Success!. Updated") {
+          message.success("Cập nhật phòng ban thành công");
+          this.fetchData();
+        } else {
+          message.error("Cập nhật phòng ban thất bại");
+        }
       }
+      this.hideModal();
     } else {
-      let res = await updateDepartment(params, this.state.id);
-      this.setState({
-        id: "",
-      });
-      if (res.message === "Success!. Updated") {
-        message.success("Cập nhật phòng ban thành công");
-        this.fetchData();
-      } else {
-        message.error("Cập nhật phòng ban thất bại");
-      }
+      message.error("Xin điền đủ thông tin!");
     }
-    this.hideModal();
   };
   hideModal = () => {
     this.props.hideModal();
@@ -113,7 +142,7 @@ class TablePermission extends Component {
     });
   };
   handlePagination = async (pagination) => {
-    this.fetchData(pagination)
+    this.fetchData(pagination);
   };
   render() {
     let data = "";
@@ -157,7 +186,7 @@ class TablePermission extends Component {
         render: (text, row) => (
           <Space size="middle">
             <Popconfirm
-              title="Are you sure hide this user?"
+              title="Bạn có muốn Ẩn không?"
               onConfirm={() => this.confirm(text)}
               onCancel={this.cancel}
               okText="Yes"
