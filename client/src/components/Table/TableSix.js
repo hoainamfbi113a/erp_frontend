@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import GrantRole from "components/Modal/GrantRole";
 import "../../App/App.css";
 import "./Table.css";
 import { Layout } from "antd";
@@ -9,7 +8,7 @@ import { Table, Space, Tag, Avatar } from "antd";
 import { Popconfirm, message } from "antd";
 import user from "assets/images/user2.png";
 import { listUser } from "apis/authenticationApi";
-import { showLoading, hideLoading} from "reduxToolkit/features/uiLoadingSlice"
+import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 import { bindActionCreators } from "redux";
 const { Content } = Layout;
 class TableSix extends Component {
@@ -34,43 +33,40 @@ class TableSix extends Component {
       [e.target.name]: e.target.value,
     });
   };
-  componentDidMount() {
-    this.fetData();
+  componentDidMount = () => {
+    this.fetchData(1);
   }
   componentDidUpdate = async (prevProps, prevState) => {
-    if(this.props.valueSearch!== prevProps.valueSearch ){
-        let resListUser = await listUser('all');
-        // console.log(resListUser);
-        let listUserSearch = resListUser.data.filter((user)=>{
-          return user.full_name.toLowerCase().indexOf(this.props.valueSearch.toLowerCase()) !==-1
-        })
-        let obj = {
-          meta : {
-            pagination:listUserSearch.length
-          },
-          data:listUserSearch
-        }
-        // console.log(obj)
-        this.setState({
-          dataUser:obj
-        })
-        
+    if (this.props.valueSearch !== prevProps.valueSearch) {
+      let resListUser = await listUser("all");
+      // console.log(resListUser);
+      let listUserSearch = resListUser.data.filter((user) => {
+        return (
+          user.full_name
+            .toLowerCase()
+            .indexOf(this.props.valueSearch.toLowerCase()) !== -1
+        );
+      });
+      let obj = {
+        meta: {
+          pagination: listUserSearch.length,
+        },
+        data: listUserSearch,
+      };
+      this.setState({
+        dataUser: obj,
+      });
+      this.props.totalEmploy(obj.meta.pagination)
     }
-  }
+  };
 
-  fetData = async ()=>{
-    this.props.uiActionCreatorsS();
-    let resListUser = await listUser(1);
-        if(!resListUser.err){
-          this.setState({
-            dataUser: resListUser,
-          });
-        }
-        else{
-          message.error("get user failed");
-        }
-    this.props.uiActionCreatorsH();
-  }
+  fetchData = async (page) => {
+    let data = await listUser(page);
+    this.setState({
+      dataUser: data,
+    });
+    this.props.totalEmploy(data.meta.pagination.total);
+  };
   confirm = (e) => {
     const { userSixActionCreators } = this.props;
     const { deleteUserSix } = userSixActionCreators;
@@ -80,30 +76,16 @@ class TableSix extends Component {
   cancel = (e) => {
     message.error("Không ẩn");
   };
-  onSelectChange = (selectedRowKeys) => {
-    this.setState({ selectedRowKeys });
-  };
 
-  handleOkGrantRole = () => {
-    this.setState({
-      showModalGrantRole: false,
-    });
-  };
-  handleCancelGrantRole = () => {
-    this.setState({
-      showModalGrantRole: false,
-    });
-  };
   handlePagination = async (pagination) => {
     let resListUser = await listUser(pagination);
-        if(!resListUser.err){
-          this.setState({
-            dataUser: resListUser,
-          });
-        }
-        else{
-          message.error("get user failed");
-        }
+    if (!resListUser.err) {
+      this.setState({
+        dataUser: resListUser,
+      });
+    } else {
+      message.error("get user failed");
+    }
   };
   render() {
     let data = [];
@@ -159,27 +141,24 @@ class TableSix extends Component {
         render: (text, row) => (
           <Space size="middle">
             <Popconfirm
-              title="Are you sure hide this user?"
+              title="Bạn có muốn ẩn không?"
               onConfirm={() => this.confirm(text)}
               onCancel={this.cancel}
-              okText="Yes"
-              cancelText="No"
+              okText="Có"
+              cancelText="Không"
             >
               <Tag color="volcano" className="table-action">
                 Ẩn
               </Tag>
             </Popconfirm>
-            <Link to={`/edituser/${text}`}> 
-            <Tag
-              // onClick={() => {
-              //   this.updateUser(text);/admin/edituser/${id}
-              // }}
-              color="geekblue"
-              className="table-action"
-            >
-              Sửa và duyệt
-            </Tag>
-            </Link> 
+            <Link to={`/edituser/${text}`}>
+              <Tag
+                color="geekblue"
+                className="table-action"
+              >
+                Sửa và duyệt
+              </Tag>
+            </Link>
           </Space>
         ),
       },
@@ -204,13 +183,6 @@ class TableSix extends Component {
             </div>
           </div>
         </Content>
-        <GrantRole
-          idGrant={this.state.idGrantRole}
-          handleOk={this.handleOkGrantRole}
-          handleCancel={this.handleCancelGrantRole}
-          visible={this.state.showModalGrantRole}
-          roleAndPermissionUser={this.state.roleAndPermissionUser}
-        ></GrantRole>
       </div>
     );
   }

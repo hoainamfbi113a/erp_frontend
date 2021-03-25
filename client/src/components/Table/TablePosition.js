@@ -52,6 +52,7 @@ class TablePosition extends Component {
       this.setState({
         data: obj,
       });
+      this.props.totalPosition(obj.meta.pagination);
     }
   };
   fetchData = async () => {
