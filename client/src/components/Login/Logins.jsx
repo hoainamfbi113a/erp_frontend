@@ -26,9 +26,9 @@ const Logins = () => {
     emailUser = formData.email;
     let errEmail = ValidateEmail(formData.email, 8);
     let errPassword = ValidateField(formData.password, 6, 18, "Mật khẩu");
-    if (errEmail == "pass" && errPassword == "pass") {
+    if (errEmail == "" && errPassword == "") {
       const params = {
-        email: formData.email,
+        email: formData.email, 
         password: formData.password,
         user_ip: "123",
         user_agent: navigator.userAgent,
@@ -36,18 +36,18 @@ const Logins = () => {
       dispatch(showLoading());
       await dispatch(getLogin(params));
     } else {
-      if (errEmail !== "pass" && errPassword !== "pass") {
+      if (errEmail !== "" && errPassword !== "") {
         setErrEmail(errEmail);
         setErrPassword(errPassword);
         setActiveErrEmail(true);
         setActiveErrPassWord(true);
         setIsVibrate(true);
-      } else if (errEmail != "pass") {
+      } else if (errEmail != "") {
         setErrEmail(errEmail);
         setActiveErrEmail(true);
         setActiveErrPassWord(false);
         setIsVibrate(true);
-      } else if (errPassword != "pass") {
+      } else if (errPassword != "") {
         setErrPassword(errPassword);
         setActiveErrPassWord(true);
         setActiveErrEmail(false);

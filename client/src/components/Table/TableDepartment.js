@@ -1,11 +1,14 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 import "../../App/App.css";
 import "./Table.css";
 import { Layout } from "antd";
 import { Table, Space, Tag } from "antd";
 import { Popconfirm, message } from "antd";
 import { Input, Modal } from "antd";
+import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
+import { ValidateField, ValidateNumber } from "helpers/FuncHelper";
 const { Content } = Layout;
 import {
   getListDepartment,
@@ -18,12 +21,16 @@ class TablePermission extends Component {
     collapsed: false,
     data: null,
     loading: false,
+    is_create: false,
     id: "",
     app_id: "99",
     feature_id: "1",
     dep_name: "",
+    err_name: "",
     dep_address: "",
+    err_address: "",
     dep_phone: "",
+    err_phone: "",
     dep_note: "",
     status: 1,
   };
@@ -62,15 +69,29 @@ class TablePermission extends Component {
     this.props.totalDepartment(data.meta.pagination.total);
   };
   onSubmit = async () => {
+    let ts = this.state;
     let params = {
-      dep_name: this.state.dep_name,
-      dep_address: this.state.dep_address,
-      dep_phone: this.state.dep_phone,
-      dep_note: this.state.dep_note,
+      dep_name: ts.dep_name,
+      dep_address: ts.dep_address,
+      dep_phone: ts.dep_phone,
+      dep_note: ts.dep_note,
     };
-    if(Object.values(params).every(o => o !== "")) {
-      console.log(params);
+    let err_name = await ValidateField(params.dep_name, 8, 30, "Tên");
+    let err_address = await ValidateField(params.dep_address, 8, 30, "Địa chỉ");
+    let err_phone = await ValidateNumber(params.dep_phone, 9, 11, "Số điện thoại")
+    if(err_name || err_address || err_phone) {
+      this.setState({
+        err_name,
+        err_address,
+        err_phone
+      })
+    }
+    
+    if (err_name === "" && err_address === "" && err_phone === "") {
+      this.hideModal();
+      this.props.uiActionCreatorsS();
       if (this.state.id === "") {
+        
         let res = await addDepartment(params);
         if (res.message === "Success!. Stored") {
           message.success("Thêm phòng ban thành công");
@@ -90,25 +111,35 @@ class TablePermission extends Component {
           message.error("Cập nhật phòng ban thất bại");
         }
       }
-      this.hideModal();
-    } else {
-      message.error("Xin điền đủ thông tin!");
+      this.props.uiActionCreatorsH();
     }
   };
   hideModal = () => {
     this.props.hideModal();
+    this.setState({
+      is_create: false,
+      dep_name: "",
+      err_name: "",
+      dep_address: "",
+      err_address: "",
+      dep_phone: "",
+      err_phone: "",
+      dep_note: "",
+    });
   };
   showModal = (id) => {
     let department = this.state.data.data.filter((item) => {
       return item.id == id;
     });
     this.setState({
+      is_create: true,
       id: department[0].id,
       dep_name: department[0].dep_name,
       dep_address: department[0].dep_address,
       dep_phone: department[0].dep_phone,
       dep_note: department[0].dep_note,
     });
+
     this.props.showModal();
   };
   onChange = (e) => {
@@ -118,6 +149,7 @@ class TablePermission extends Component {
   };
 
   confirm = async (id) => {
+    this.props.uiActionCreatorsS();
     const params = {
       id,
     };
@@ -128,6 +160,7 @@ class TablePermission extends Component {
     } else {
       message.error("Ẩn phòng ban thất bại");
     }
+    this.props.uiActionCreatorsH();
   };
 
   cancel = (e) => {
@@ -228,7 +261,7 @@ class TablePermission extends Component {
           </div>
         </Content>
         <Modal
-          title="Tạo phòng ban"
+          title={!this.state.is_create ? "Tạo phòng ban" : "Cập nhật phòng ban"}
           visible={this.props.showModalDepartment}
           onOk={this.onSubmit}
           onCancel={this.hideModal}
@@ -245,7 +278,9 @@ class TablePermission extends Component {
           >
             <ul style={{ marginLeft: "23px" }}>
               <li className="tabs-main-left-li">
-                <span className="tabs-user-infor-top">Tên phòng ban</span>
+                <span className="tabs-user-infor-top">
+                  Tên phòng ban<span>*</span>
+                </span>
                 <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
                   <Input
                     value={this.state.dep_name}
@@ -253,9 +288,21 @@ class TablePermission extends Component {
                     onChange={this.onChange}
                   />
                 </div>
+                {this.state.err_name !== "" ? (
+                  <span
+                    style={{
+                      color: "red",
+                      fontStyle: "italic",
+                    }}
+                  >
+                    {this.state.err_name}
+                  </span>
+                ) : null}
               </li>
               <li className="tabs-main-left-li">
-                <span className="tabs-user-infor-top">Địa chỉ phòng ban</span>
+                <span className="tabs-user-infor-top">
+                  Địa chỉ phòng ban<span>*</span>
+                </span>
                 <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
                   <Input
                     value={this.state.dep_address}
@@ -263,10 +310,20 @@ class TablePermission extends Component {
                     onChange={this.onChange}
                   />
                 </div>
+                {this.state.err_address !== "" ? (
+                  <span
+                    style={{
+                      color: "red",
+                      fontStyle: "italic",
+                    }}
+                  >
+                    {this.state.err_address}
+                  </span>
+                ) : null}
               </li>
               <li className="tabs-main-left-li">
                 <span className="tabs-user-infor-top">
-                  Số điện thoại phòng ban
+                  Số điện thoại phòng ban<span>*</span>
                 </span>
                 <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
                   <Input
@@ -275,6 +332,15 @@ class TablePermission extends Component {
                     onChange={this.onChange}
                   />
                 </div>
+                {this.state.err_phone !== "" ? (
+                  <span
+                    style={{
+                      color: "red",
+                      fontStyle: "italic",
+                    }}
+                  >
+                    {this.state.err_phone}
+                  </span>) : null}
               </li>
               <li className="tabs-main-left-li">
                 <span className="tabs-user-infor-top">Ghi chú phòng ban</span>
@@ -294,4 +360,9 @@ class TablePermission extends Component {
   }
 }
 
-export default connect(null, null)(TablePermission);
+const mapDispatchToProps = (dispatch) => ({
+  uiActionCreatorsS: bindActionCreators(showLoading, dispatch),
+  uiActionCreatorsH: bindActionCreators(hideLoading, dispatch),
+});
+
+export default connect(null, mapDispatchToProps)(TablePermission);

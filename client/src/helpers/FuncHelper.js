@@ -9,10 +9,10 @@ const ValidateEmail = (value, length) => {
   } else if (isEmail == false) {
     msg = "Email không đúng định dạng!";
   } else {
-    msg = "pass";
+    msg = "";
   }
   return msg;
-};
+}; 
 const ValidateField = (value, min, max, field) => {
   let msg = "";
   if (value.length == 0) {
@@ -22,10 +22,34 @@ const ValidateField = (value, min, max, field) => {
   } else if (value.length > max) {
     msg = `${field} không được lớn hơn ${max} ký tự!`;
   } else {
-    msg = "pass";
+    msg = "";
   }
   return msg;
 };
+const ValidateNumber = (value, min, max, field) => {
+  let msg = "";
+  if(value.length == 0) {
+    msg = `${field} không được để trống`;
+  } else if(isNaN(value)) {
+    msg = `${field} không hợp lệ`
+  } else if(value.length < min) {
+    msg = `${field} không được nhỏ hơn ${min} ký tự!`;
+  } else if(value.length > max) {
+    msg = `${field} không được lớn hơn ${max} ký tự!`;
+  } else {
+    msg = "";
+  }
+  return msg;
+}
+const notNull = (value, field) => {
+  let msg = "";
+  if(value.length == 0) {
+    msg = `Bạn chưa chọn ${field}`;
+  } else {
+    msg = "";
+  }
+  return msg;
+}
 const getIdActionByName = (actionName, arrayId) => {
   for (let item of arrayId) {
     if (item.name == actionName) return arrayId.id;
@@ -134,6 +158,8 @@ const sleep = (m) => new Promise((r) => setTimeout(r, m));
 export {
   ValidateEmail,
   ValidateField,
+  ValidateNumber,
+  notNull,
   resetStatusProfile,
   getIdActionByName,
   validateInputFormUser,

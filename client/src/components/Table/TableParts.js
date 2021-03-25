@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
+import { ValidateField, notNull } from "helpers/FuncHelper";
 import "../../App/App.css";
 import "./Table.css";
 import { Layout } from "antd";
@@ -22,9 +25,12 @@ class TableParts extends Component {
     data: null,
     dataDepartment: null,
     loading: false,
+    is_create: false,
     id: "",
     dep_id: "",
+    err_dep: "",
     part_name: "",
+    err_name: "",
     part_note: "",
     department_name: "",
     status: 1,
@@ -81,14 +87,25 @@ class TableParts extends Component {
     }
   };
   onSubmit = async () => {
+    let ts = this.state;
     let params = {
-      dep_id: this.state.dep_id,
-      part_name: this.state.part_name,
-      part_note: this.state.part_note,
+      dep_id: ts.dep_id,
+      part_name: ts.part_name,
+      part_note: ts.part_note,
     };
-    if(Object.values(params).every(o => o !== "")) {
+    let err_name = await ValidateField(params.part_name, 8, 30, "Tổ");
+    let err_dep = await notNull(params.dep_id, "Phòng ban");
+
+    if (err_name || err_dep) {
+      this.setState({
+        err_name,
+        err_dep,
+      });
+    }
+    if (err_dep === "" && err_name === "") {
+      this.hideModal();
+      this.props.uiActionCreatorsS();
       if (this.state.id === "") {
-        this.hideModal();
         let res = await addParts(params);
         if (res.message === "Success!. Stored") {
           message.success("Thêm tổ thành công");
@@ -97,7 +114,6 @@ class TableParts extends Component {
           message.error("Thêm tổ thất bại");
         }
       } else {
-        this.hideModal();
         let res = await updateParts(this.state.id, params);
         if (res.message === "Success!. Updated") {
           message.success("Cập nhật tổ thành công");
@@ -108,20 +124,27 @@ class TableParts extends Component {
         } else {
           message.error("Update permission thất bại");
         }
-      } 
-    }
-    else {
-      message.error("Xin điền đầy đủ thông tin!");
+      }
+      this.props.uiActionCreatorsH();
     }
   };
   hideModal = () => {
     this.props.hideModal();
+    this.setState({
+      is_create: false,
+      dep_id: "",
+      err_dep: "",
+      part_name: "",
+      err_name: "",
+      part_note: "",
+    });
   };
   showModal = (id) => {
     let parts = this.state.data.data.filter((item) => {
       return item.id == id;
     });
     this.setState({
+      is_create: true,
       id: parts[0].id,
       dep_id: parts[0].dep_id,
       part_name: parts[0].part_name,
@@ -136,6 +159,7 @@ class TableParts extends Component {
   };
 
   confirm = async (id) => {
+    this.props.uiActionCreatorsS();
     const params = {
       id,
     };
@@ -146,6 +170,7 @@ class TableParts extends Component {
     } else {
       message.error("Ẩn tổ thất bại");
     }
+    this.props.uiActionCreatorsH();
   };
 
   cancel = (e) => {
@@ -291,7 +316,7 @@ class TableParts extends Component {
           </div>
         </Content>
         <Modal
-          title="Tạo tổ"
+          title={!this.state.is_create ? "Tạo tổ" : "Cập nhật tổ"}
           visible={this.props.showModalParts}
           onOk={this.onSubmit}
           onCancel={this.hideModal}
@@ -307,7 +332,9 @@ class TableParts extends Component {
           >
             <ul style={{ marginLeft: "23px" }}>
               <li className="tabs-main-left-li">
-                <span className="tabs-user-infor-top">Chọn phòng ban</span>
+                <span className="tabs-user-infor-top">
+                  Chọn phòng ban<span>*</span>
+                </span>
                 <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal ">
                   <Select
                     value={this.state.dep_id}
@@ -318,9 +345,21 @@ class TableParts extends Component {
                     {this.renderDepartment()}
                   </Select>
                 </div>
-              </li> 
+                {this.state.err_dep !== ""  ? (
+                  <span
+                    style={{
+                      color: "red",
+                      fontStyle: "italic",
+                    }}
+                  >
+                    {this.state.err_dep}
+                  </span>
+                ) : null}
+              </li>
               <li className="tabs-main-left-li">
-                <span className="tabs-user-infor-top">Tên tổ</span>
+                <span className="tabs-user-infor-top">
+                  Tên tổ<span>*</span>
+                </span>
                 <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
                   <Input
                     value={this.state.part_name}
@@ -328,6 +367,16 @@ class TableParts extends Component {
                     onChange={this.onChange}
                   />
                 </div>
+                {this.state.err_name !== "" ? (
+                  <span
+                    style={{
+                      color: "red",
+                      fontStyle: "italic",
+                    }}
+                  >
+                    {this.state.err_name}
+                  </span>
+                ) : null}
               </li>
               <li className="tabs-main-left-li">
                 <span className="tabs-user-infor-top">Ghi chú tổ</span>
@@ -347,4 +396,9 @@ class TableParts extends Component {
   }
 }
 
-export default connect(null, null)(TableParts);
+const mapDispatchToProps = (dispatch) => ({
+  uiActionCreatorsS: bindActionCreators(showLoading, dispatch),
+  uiActionCreatorsH: bindActionCreators(hideLoading, dispatch),
+});
+
+export default connect(null, mapDispatchToProps)(TableParts);
