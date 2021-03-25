@@ -133,7 +133,7 @@ router.post("/document/store", async (req, res) => {
       };
       dataForm.issue_id = res1.data.id;
       axios
-        .post(`https://document.tuoitre.vn/api/document/store`, dataForm)
+        .post(`http://document.tuoitre.vn/api/document/store`, dataForm)
         .then((res) => {
           let params = {
             document_id: res.data.id,
@@ -142,7 +142,7 @@ router.post("/document/store", async (req, res) => {
 
           axios
             .post(
-              "https://document.tuoitre.vn/api/document-process/store",
+              "http://document.tuoitre.vn/api/document-process/store",
               params
             )
             .then((res3) => {
