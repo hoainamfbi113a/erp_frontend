@@ -267,7 +267,7 @@ class addInformationUser extends Component {
     let dataPosition = await getListAllPosition();
     let dataParts = await getListAllParts();
     let dataWorkflowProfile = await workflowProfile(20);
-    let resListUser = await listUser(100);
+    let resListUser = await listUser("all");
     this.setState({
       dataDepartment: dataDepartment.data,
       dataPosition: dataPosition.data,
