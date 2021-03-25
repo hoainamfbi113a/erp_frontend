@@ -5,8 +5,11 @@ import axios from "axios";
 import { Steps } from "antd";
 const { Step } = Steps;
 import RenderInputPreview from "./Input";
+import { connect } from "react-redux";
+import { showLoading, hideLoading} from "reduxToolkit/features/uiLoadingSlice"
 import docCookies from "doc-cookies";
 import axiosConfig from "apis/axios";
+import { bindActionCreators } from "redux";
 class Create extends Component {
   constructor(props) {
     super(props);
@@ -23,6 +26,7 @@ class Create extends Component {
     };
   }
   componentDidMount = () => {
+    this.props.uiActionCreatorsS();
     const id = this.props.match.params.id;
     try {
       if (this.state.create === false) {
@@ -74,6 +78,7 @@ class Create extends Component {
                 this.setState({
                   dataWorkFlow: res.data,
                 });
+                this.props.uiActionCreatorsH();
               })
               .catch((err) => {});
           })
@@ -82,6 +87,8 @@ class Create extends Component {
           });
       }
     } catch (error) {}
+    
+    
   };
   handleCheckboxChange = (e, inputId) => {
     const stateInputsData = this.state.inputsData;
@@ -169,6 +176,7 @@ class Create extends Component {
 
   handleSubmit = (e) => {
     if (this.state.create === true) {
+      this.props.uiActionCreatorsS();
       let params = {
         document_type_id: this.props.match.params.id,
         user_id: docCookies.getItem("user_id"),
@@ -211,10 +219,12 @@ class Create extends Component {
         .post("https://document.tuoitre.vn/api/document/update", data)
         .then((res) => {
           alert("update document thành công");
+          this.props.uiActionCreatorsH();
         })
         .catch((err) => {
           console.log(err);
           alert("update thất bại");
+          this.props.uiActionCreatorsH();
         });
     }
 
@@ -238,22 +248,7 @@ class Create extends Component {
             {this.renderWorkflow()}
             <Step title="Tài liệu sẵn sàng" />
           </Steps>
-          <div className="col-md-2" style={{ margin: "26px" }}>
-            {this.state.create === true && (
-              <span
-                className="btn-add-user"
-                onClick={(e) => this.handleSubmit(e)}
-              >
-                Gửi tài liệu
-              </span>
-            )}
-            <span
-              className="btn-add-user"
-              onClick={() => this.props.history.goBack()}
-            >
-              Trở về
-            </span>
-          </div>
+       
           <div className="col-md-8"></div>
         </div>
         <div className="row">
@@ -291,7 +286,24 @@ class Create extends Component {
                 );
               })}
           </div>
+          <div className="col-md-2" style={{ margin: "26px" }}>
+            {this.state.create === true && (
+              <span
+                className="btn-add-user"
+                onClick={(e) => this.handleSubmit(e)}
+              >
+                Gửi tài liệu
+              </span>
+            )}
+            <span
+              className="btn-add-user"
+              onClick={() => this.props.history.goBack()}
+            >
+              Trở về
+            </span>
+          </div>
         </div>
+        
         {/* <ModalForm dataForm = {this.state.dataForm} idWorkflow ={this.props.match.params.id} show ={this.state.showModal} hideModal = {()=>{
           this.setState({
             showModal:false
@@ -302,5 +314,8 @@ class Create extends Component {
     );
   }
 }
-
-export default Create;
+const mapDispatchToProps = (dispatch) => ({
+  uiActionCreatorsS: bindActionCreators(showLoading, dispatch),
+  uiActionCreatorsH: bindActionCreators(hideLoading, dispatch),
+});
+export default connect(null, mapDispatchToProps)(Create);
