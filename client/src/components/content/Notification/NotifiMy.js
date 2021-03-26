@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Button, Pagination } from "antd";
+import { Button, notification, Pagination } from "antd";
 import docCookies from "doc-cookies";
 import { updateStatusNotify, listNotify } from "apis/notificationApi";
+import axiosConfig from "apis/axios";
 import "./notification.css";
 const app_id = 99;
 const slug = "profile";
@@ -12,10 +13,22 @@ export default class NotifiMy extends Component {
     this.state = {
       data: null,
       paginationPage: 1,
+      notification:null
     };
   }
   componentDidMount = () => {
-    this.fetchNotify(1);
+    const user_id = docCookies.getItem("user_id");
+    axiosConfig.get(`/api/notification/list?user_id=${user_id}`)
+    .then(res=>{
+      console.log(res)
+      this.setState({
+        notification:res.data
+      })
+    })
+    .catch(err=>{
+      console.log("err")
+    })
+    // this.fetchNotify(1);
   };
   fetchNotify = async (value) => {
     const user_id = docCookies.getItem("user_id");
@@ -50,10 +63,61 @@ export default class NotifiMy extends Component {
     });
     this.fetchNotify(page);
   };
-  renderNotifyItem = () => {
-    let dataNotify = this.state.data;
+  changeStatusNotiDocument = (item_id, document_id, process_id) =>{
+    axiosConfig.get(`/api/notification/mark-as-read/${item_id}`)
+    .then(res=>{
+      let body = {
+            "process_id": +process_id,
+            "user_id":  +docCookies.getItem("user_id"),
+            "status": "view"
+          }
+        axiosConfig.post("/api/document-process/process",body)
+        .then(res=>{
+          console.log("123")
+          this.props.history.push(`/form-document-view/${document_id}/${process_id}`);
+        })
+        .catch(err=>{
+          console.log("err")
+          alert("Lỗi rồi")
+        })
+      
+    })
+    .catch(err=>{
+      console.log("err", err)
+    })
+  }
+   renderNotifyItemDocument = () => {
+    let dataNotify = this.state.notification;
     if (!!dataNotify) {
-      return dataNotify.data.map((item) => {
+      return dataNotify.map((item) => {
+        return (
+          <tr key={item.id}>
+            <td>
+              <div className="content-notification-table-btn">
+                {!!item.serviceManagement === true
+                  ? item.serviceManagement.data.slug
+                  : ""}
+              </div>
+            </td>
+            <td
+              className={item.status === 1 ? "content-notification-unread" : ""}
+              onClick={() => {
+                this.changeStatusNotiDocument(item.id,item.process.document_id, item.process.id)
+              }}
+            >
+              {item.content}
+            </td>
+            <td>{item.created_at}</td>
+          </tr>
+        );
+      });
+    }
+  };
+
+  renderNotifyItem = () => {
+    let dataNotifyDocument = this.state.data;
+    if (!!dataNotifyDocument) {
+      return dataNotifyDocument.data.map((item) => {
         return (
           <tr key={item.id}>
             <td>
@@ -77,6 +141,7 @@ export default class NotifiMy extends Component {
       });
     }
   };
+
   render() {
     return (
       <div className="content-background2">
@@ -148,6 +213,7 @@ export default class NotifiMy extends Component {
                 <td>09:15</td>
               </tr> */}
               {this.renderNotifyItem()}
+              {this.renderNotifyItemDocument()}
             </tbody>
           </table>
           <div>

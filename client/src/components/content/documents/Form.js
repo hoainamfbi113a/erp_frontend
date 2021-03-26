@@ -52,6 +52,7 @@ class Create extends Component {
                 this.setState({
                   dataWorkFlow: res.data,
                 });
+                this.props.uiActionCreatorsH();
               })
               .catch((err) => {});
           })
@@ -187,12 +188,13 @@ class Create extends Component {
       axiosConfig
         .post("/api/document/store", params)
         .then((data) => {
-          console.log(data)
+          this.props.uiActionCreatorsH();
           if(data === "success") {
             alert("gửi tài liệu thành công")
           } else {
             alert("gửi tài liệu thất bại")
           }
+          this.props.history.goBack()
         })
         .catch((err) => {
           console.log(err);
@@ -218,19 +220,35 @@ class Create extends Component {
       axios
         .post("https://document.tuoitre.vn/api/document/update", data)
         .then((res) => {
-          alert("update document thành công");
           this.props.uiActionCreatorsH();
+          alert("update document thành công");
+          
         })
         .catch((err) => {
           console.log(err);
-          alert("update thất bại");
           this.props.uiActionCreatorsH();
+          alert("update thất bại");
+          
         });
     }
-    this.props.uiActionCreatorsH();
+    // this.props.uiActionCreatorsH();
 
     // }
   };
+  handleAccept = () =>{
+    let body = {
+      "process_id": +this.props.match.params.process_id,
+      "user_id":  +docCookies.getItem("user_id"),
+      "status": "pass"
+    }
+    axiosConfig.post("/api/document-process/process",body)
+    .then(res=>{
+      alert("Xác nhận thành công")
+    })
+    .catch(err=>{
+      console.log("err")
+    })
+  }
   renderWorkflow = () => {
     if (this.state.dataWorkFlow && this.state.dataWorkFlow.steps) {
       return this.state.dataWorkFlow.steps.map((item) => {
@@ -287,21 +305,41 @@ class Create extends Component {
                 );
               })}
           </div>
-          <div className="col-md-2" style={{ margin: "26px" }}>
+          <div style={{width:"100%"}}>
             {this.state.create === true && (
+              <div style={{display:"flex", justifyContent:"flex-end"}}>
               <span
                 className="btn-add-user"
                 onClick={(e) => this.handleSubmit(e)}
               >
                 Gửi tài liệu
               </span>
+                <span
+                className="btn-add-user"
+                onClick={() => this.props.history.goBack()}
+              >
+                Trở về
+              </span>
+              </div>
             )}
-            <span
-              className="btn-add-user"
-              onClick={() => this.props.history.goBack()}
-            >
-              Trở về
-            </span>
+          
+            {this.state.create === false && (
+                 <div style={{display:"flex", justifyContent:"flex-end"}}>
+              <span
+                className="btn-add-user"
+                onClick={(e) => this.handleAccept()}
+              >
+                Xác nhận
+              </span>
+                <span
+                className="btn-add-user"
+                onClick={() => this.props.history.goBack()}
+              >
+                Trở về
+              </span>
+              </div>
+            )}
+          
           </div>
         </div>
         
