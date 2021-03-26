@@ -227,6 +227,7 @@ class Create extends Component {
           this.props.uiActionCreatorsH();
         });
     }
+    this.props.uiActionCreatorsH();
 
     // }
   };
