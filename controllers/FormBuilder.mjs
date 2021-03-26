@@ -52,7 +52,6 @@ router.get("/document/list", async (req, res) => {
       `${process.env.apiFormBuilder}/api/document/list?page=${page}&per_page=${per_page}&user_id=${user_id}`
     );
     res.send(data);
-    console.log(data);
   } catch (error) {
     console.log(error);
   }
@@ -69,7 +68,6 @@ router.get("/document-type/get-document-types", async (req, res) => {
   }
 });
 let getTarget = async (pos_id, dep_id, step_id, action_id) => {
-  console.log(dep_id, pos_id)
   let target = [];
   let { data } = await axios.get(
     `${process.env.apiEmployee}/api/departments/positions/list-user/${dep_id}?order=asc&pos_id=${pos_id}`
@@ -104,27 +102,32 @@ router.post("/document/store", async (req, res) => {
   pos_idUser = data.data.department.data.pos_id;
   let target = [];
   let targetBegin = {
-    target_id: user_id ,
+    target_id: user_id,
     target_name: data.data.pro_name,
-    step_id:1,
-    action_id:1,
-  }
-  target.push(targetBegin)
+    step_id: 1,
+    action_id: 1,
+  };
+  target.push(targetBegin);
   for (let item of dataWorkFlow.steps) {
-    if(item.id == 1) {
-      break
+    // console.log(item.id)
+    if (item.id !== 1) {
+      let pos_id, dep_id;
+      dep_id =
+        item.actions[0].department_id == null
+          ? dep_idUser
+          : item.actions[0].department_id;
+      pos_id =
+        item.actions[0].position_id == null
+          ? pos_idUser
+          : item.actions[0].position_id;
+      let arrChild = await getTarget(
+        pos_id,
+        dep_id,
+        item.id,
+        item.actions[0].id
+      );
+      target = [...target, ...arrChild];
     }
-    let pos_id, dep_id;
-    dep_id =
-      item.actions[0].department_id == null
-        ? dep_idUser
-        : item.actions[0].department_id;
-    pos_id =
-      item.actions[0].position_id == null
-        ? pos_idUser
-        : item.actions[0].position_id;
-    let arrChild = await getTarget(pos_id, dep_id, item.id, item.actions[0].id);
-    target = [...target, ...arrChild];
   }
   let paramsIssue = {
     document_type_id,
@@ -141,7 +144,7 @@ router.post("/document/store", async (req, res) => {
       };
       dataForm.issue_id = res1.data.id;
       axios
-        .post(`${process.env.apiFormBuilderLocal}/api/document/store`, dataForm)
+        .post(`${process.env.apiFormBuilder}/api/document/store`, dataForm)
         .then((res) => {
           let params = {
             document_id: res.data.id,
@@ -150,25 +153,25 @@ router.post("/document/store", async (req, res) => {
 
           axios
             .post(
-              `${process.env.apiFormBuilderLocal}/api/document-process/store`,
+              `${process.env.apiFormBuilder}/api/document-process/store`,
               params
             )
             .then((res3) => {
               // console.log("success2");
-              resEnd.send("success")
+              resEnd.send("success");
             })
             .catch((err) => {
               console.log("err1");
-              resEnd.send("failed 3")
+              resEnd.send("failed 3");
             });
         })
         .catch((err) => {
-          resEnd.send("failed 2")
+          resEnd.send("failed 2");
           // console.log("err")
         });
     })
     .catch((err) => {
-      resEnd.send("failed 1")
+      resEnd.send("failed 1");
       console.log(err);
     });
   // console.log(isSuccess);
@@ -232,6 +235,17 @@ router.get("/document-process/get", async (req, res) => {
   try {
     let { data } = await axios.get(
       `${process.env.apiFormBuilder}/api/document-process/get?process_id=${process_id}`
+    );
+    res.send(data);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.post("/document-process/process", async (req, res) => {
+  try {
+    let { data } = await axios.post(
+      `${process.env.apiFormBuilder}/api/document-process/process`,req.body
     );
     res.send(data);
   } catch (error) {
