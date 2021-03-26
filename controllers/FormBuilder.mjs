@@ -231,10 +231,10 @@ router.delete("/document-type/delete", async (req, res) => {
 });
 
 router.get("/document-process/get", async (req, res) => {
-  let { process_id } = req.query;
+  let { id } = req.query;
   try {
     let { data } = await axios.get(
-      `${process.env.apiFormBuilder}/api/document-process/get?process_id=${process_id}`
+      `${process.env.apiFormBuilder}/api/document-process/get?id=${id}`
     );
     res.send(data);
   } catch (error) {
