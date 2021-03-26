@@ -16,7 +16,8 @@ import { listPermission, addPermission, updatePermission, deletePermission, list
 import permissionController from "./controllers/permissionController.mjs";
 import { listParts, addParts, updateParts, deleteParts } from "./controllers/Parts.mjs"
 import { listPosition, addPosition, updatePosition, deletePosition } from "./controllers/Position.mjs"
-import notificationController from "./controllers/Notify.mjs"
+import notificationsController from "./controllers/Notify.mjs"
+import notificationController from "./controllers/NotifyDocument.mjs"
 import { listAction, addAction, updateAction, deleteAction } from "./controllers/Action.mjs";
 import workflowController from "./controllers/workflow.mjs";
 import formBuilderController from "./controllers/FormBuilder.mjs";
@@ -82,7 +83,8 @@ app.post("/api/position/permissiond/:id", deletePermissionForPos);
 
 app.use("/api/departments", departmentsController);
 app.use("/api/workflow", workflowController);
-app.use("/api/notifications", notificationController);
+app.use("/api/notifications", notificationsController);
+app.use("/api/notification", notificationController);
 app.use("/api/search", searchController);
 
 app.use("/api/service-management",servicemanagerController)
