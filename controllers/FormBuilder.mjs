@@ -69,7 +69,7 @@ router.get("/document-type/get-document-types", async (req, res) => {
   }
 });
 let getTarget = async (pos_id, dep_id, step_id, action_id) => {
-  // console.log(dep_id, pos_id)
+  console.log(dep_id, pos_id)
   let target = [];
   let { data } = await axios.get(
     `${process.env.apiEmployee}/api/departments/positions/list-user/${dep_id}?order=asc&pos_id=${pos_id}`
@@ -88,25 +88,32 @@ let getTarget = async (pos_id, dep_id, step_id, action_id) => {
 };
 
 router.post("/document/store", async (req, res) => {
-  // let isSuccess = false;
   let resEnd = res;
-  let target = [];
-  // console.log("123")
   let { document_type_id, user_id, dataWorkFlow, inputsData } = req.body;
   const config = {
     headers: { Authorization: req.headers.authorization },
   };
-  //get pos, dep of user
   let pos_idUser, dep_idUser;
 
   let { data } = await axios.get(
     `${process.env.apiEmployee}/api/fe/profiles/users/${user_id}`,
     config
   );
-  console.log(data)
-  pos_idUser = data.data.department.data.dep_id;
-  dep_idUser = data.data.department.data.pos_id;
+
+  dep_idUser = data.data.department.data.dep_id;
+  pos_idUser = data.data.department.data.pos_id;
+  let target = [];
+  let targetBegin = {
+    target_id: user_id ,
+    target_name: data.data.pro_name,
+    step_id:1,
+    action_id:1,
+  }
+  target.push(targetBegin)
   for (let item of dataWorkFlow.steps) {
+    if(item.id == 1) {
+      break
+    }
     let pos_id, dep_id;
     dep_id =
       item.actions[0].department_id == null
@@ -134,7 +141,7 @@ router.post("/document/store", async (req, res) => {
       };
       dataForm.issue_id = res1.data.id;
       axios
-        .post(`${process.env.apiFormBuilder}/api/document/store`, dataForm)
+        .post(`${process.env.apiFormBuilderLocal}/api/document/store`, dataForm)
         .then((res) => {
           let params = {
             document_id: res.data.id,
@@ -143,7 +150,7 @@ router.post("/document/store", async (req, res) => {
 
           axios
             .post(
-              `${process.env.apiFormBuilder}/api/document-process/store`,
+              `${process.env.apiFormBuilderLocal}/api/document-process/store`,
               params
             )
             .then((res3) => {
@@ -227,7 +234,6 @@ router.get("/document-process/get", async (req, res) => {
       `${process.env.apiFormBuilder}/api/document-process/get?process_id=${process_id}`
     );
     res.send(data);
-    console.log(data);
   } catch (error) {
     console.log(error);
   }
