@@ -13,21 +13,22 @@ export default class NotifiMy extends Component {
     this.state = {
       data: null,
       paginationPage: 1,
-      notification:null
+      notification: null,
     };
   }
   componentDidMount = () => {
     const user_id = docCookies.getItem("user_id");
-    axiosConfig.get(`/api/notification/list?user_id=${user_id}`)
-    .then(res=>{
-      console.log(res)
-      this.setState({
-        notification:res.data
+    axiosConfig
+      .get(`/api/notification/list?user_id=${user_id}`)
+      .then((res) => {
+        console.log(res);
+        this.setState({
+          notification: res.data,
+        });
       })
-    })
-    .catch(err=>{
-      console.log("err")
-    })
+      .catch((err) => {
+        console.log("err");
+      });
     // this.fetchNotify(1);
   };
   fetchNotify = async (value) => {
@@ -40,8 +41,8 @@ export default class NotifiMy extends Component {
       page: value,
     };
     let resListNotify = await listNotify(params);
-    console.log("resListNotify", resListNotify)
-    if(!resListNotify.err){
+    console.log("resListNotify", resListNotify);
+    if (!resListNotify.err) {
       this.setState({
         data: resListNotify,
       });
@@ -63,30 +64,41 @@ export default class NotifiMy extends Component {
     });
     this.fetchNotify(page);
   };
-  changeStatusNotiDocument = (item_id, document_id, process_id) =>{
-    axiosConfig.get(`/api/notification/mark-as-read/${item_id}`)
-    .then(res=>{
-      let body = {
-            "process_id": +process_id,
-            "user_id":  +docCookies.getItem("user_id"),
-            "status": "view"
-          }
-        axiosConfig.post("/api/document-process/process",body)
-        .then(res=>{
-          console.log("123")
-          this.props.history.push(`/form-document-view/${document_id}/${process_id}`);
-        })
-        .catch(err=>{
-          console.log("err")
-          alert("Lỗi rồi")
-        })
-      
-    })
-    .catch(err=>{
-      console.log("err", err)
-    })
-  }
-   renderNotifyItemDocument = () => {
+  changeStatusNotiDocument = (item_id, document_id, process_id) => {
+    axiosConfig
+      .get(`/api/notification/mark-as-read/${item_id}`)
+      .then((res) => {
+        axiosConfig
+          .get(`/api/document-process/get?id=${process_id}`)
+          .then((res) => {
+            if (res.targets[0].target_id == docCookies.getItem("user_id")) {
+              let body = {
+                process_id: +process_id,
+                user_id: +docCookies.getItem("user_id"),
+                status: "view",
+              };
+              axiosConfig
+                .post("/api/document-process/process", body)
+                .then((res) => {
+                })
+                .catch((err) => {
+                  console.log("err");
+                  alert("Lỗi rồi");
+                });
+            }
+          })
+          .catch((err) => {
+            console.log("erraaaa");
+          });
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
+      this.props.history.push(
+        `/form-document-view/${document_id}/${process_id}`
+      );
+  };
+  renderNotifyItemDocument = () => {
     let dataNotify = this.state.notification;
     if (!!dataNotify) {
       return dataNotify.map((item) => {
@@ -102,12 +114,16 @@ export default class NotifiMy extends Component {
             <td
               className={item.status === 1 ? "content-notification-unread" : ""}
               onClick={() => {
-                this.changeStatusNotiDocument(item.id,item.process.document_id, item.process.id)
+                this.changeStatusNotiDocument(
+                  item.id,
+                  item.process.document_id,
+                  item.process.id
+                );
               }}
             >
               {item.content}
             </td>
-            <td>{item.created_at}</td>
+            <td>{item.updated_at}</td>
           </tr>
         );
       });

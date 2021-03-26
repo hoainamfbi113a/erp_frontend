@@ -6,7 +6,7 @@ import { Steps } from "antd";
 const { Step } = Steps;
 import RenderInputPreview from "./Input";
 import { connect } from "react-redux";
-import { showLoading, hideLoading} from "reduxToolkit/features/uiLoadingSlice"
+import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 import docCookies from "doc-cookies";
 import axiosConfig from "apis/axios";
 import { bindActionCreators } from "redux";
@@ -88,8 +88,6 @@ class Create extends Component {
           });
       }
     } catch (error) {}
-    
-    
   };
   handleCheckboxChange = (e, inputId) => {
     const stateInputsData = this.state.inputsData;
@@ -181,7 +179,7 @@ class Create extends Component {
       let params = {
         document_type_id: this.props.match.params.id,
         user_id: docCookies.getItem("user_id"),
-        dataWorkFlow:this.state.dataWorkFlow,
+        dataWorkFlow: this.state.dataWorkFlow,
         inputsData: this.state.inputsData,
         // targets: targets,
       };
@@ -189,17 +187,16 @@ class Create extends Component {
         .post("/api/document/store", params)
         .then((data) => {
           this.props.uiActionCreatorsH();
-          if(data === "success") {
-            alert("gửi tài liệu thành công")
+          if (data === "success") {
+            alert("gửi tài liệu thành công");
           } else {
-            alert("gửi tài liệu thất bại")
+            alert("gửi tài liệu thất bại");
           }
-          this.props.history.goBack()
+          this.props.history.goBack();
         })
         .catch((err) => {
           console.log(err);
         });
-      
     } else {
       let arrValueInput = [];
       for (let item of this.state.inputsData) {
@@ -222,33 +219,41 @@ class Create extends Component {
         .then((res) => {
           this.props.uiActionCreatorsH();
           alert("update document thành công");
-          
         })
         .catch((err) => {
           console.log(err);
           this.props.uiActionCreatorsH();
           alert("update thất bại");
-          
         });
     }
     // this.props.uiActionCreatorsH();
 
     // }
   };
-  handleAccept = () =>{
-    let body = {
-      "process_id": +this.props.match.params.process_id,
-      "user_id":  +docCookies.getItem("user_id"),
-      "status": "pass"
-    }
-    axiosConfig.post("/api/document-process/process",body)
-    .then(res=>{
-      alert("Xác nhận thành công")
-    })
-    .catch(err=>{
-      console.log("err")
-    })
-  }
+  handleAccept = () => {
+    axiosConfig
+      .get(`/api/document-process/get?id=${this.props.match.params.process_id}`)
+      .then((res) => {
+        if (res.targets[0].target_id == docCookies.getItem("user_id")) {
+          let body = {
+            process_id: +this.props.match.params.process_id,
+            user_id: +docCookies.getItem("user_id"),
+            status: "pass",
+          };
+          axiosConfig
+            .post("/api/document-process/process", body)
+            .then((res) => {
+              alert("Xác nhận thành công");
+            })
+            .catch((err) => {
+              console.log("err");
+            });
+        }
+      })
+      .catch((err) => {
+        console.log("err");
+      });
+  };
   renderWorkflow = () => {
     if (this.state.dataWorkFlow && this.state.dataWorkFlow.steps) {
       return this.state.dataWorkFlow.steps.map((item) => {
@@ -267,7 +272,7 @@ class Create extends Component {
             {this.renderWorkflow()}
             <Step title="Tài liệu sẵn sàng" />
           </Steps>
-       
+
           <div className="col-md-8"></div>
         </div>
         <div className="row">
@@ -305,44 +310,43 @@ class Create extends Component {
                 );
               })}
           </div>
-          <div style={{width:"100%"}}>
+          <div style={{ width: "100%" }}>
             {this.state.create === true && (
-              <div style={{display:"flex", justifyContent:"flex-end"}}>
-              <span
-                className="btn-add-user"
-                onClick={(e) => this.handleSubmit(e)}
-              >
-                Gửi tài liệu
-              </span>
+              <div style={{ display: "flex", justifyContent: "flex-end" }}>
                 <span
-                className="btn-add-user"
-                onClick={() => this.props.history.goBack()}
-              >
-                Trở về
-              </span>
+                  className="btn-add-user"
+                  onClick={(e) => this.handleSubmit(e)}
+                >
+                  Gửi tài liệu
+                </span>
+                <span
+                  className="btn-add-user"
+                  onClick={() => this.props.history.goBack()}
+                >
+                  Trở về
+                </span>
               </div>
             )}
-          
+
             {this.state.create === false && (
-                 <div style={{display:"flex", justifyContent:"flex-end"}}>
-              <span
-                className="btn-add-user"
-                onClick={(e) => this.handleAccept()}
-              >
-                Xác nhận
-              </span>
+              <div style={{ display: "flex", justifyContent: "flex-end" }}>
                 <span
-                className="btn-add-user"
-                onClick={() => this.props.history.goBack()}
-              >
-                Trở về
-              </span>
+                  className="btn-add-user"
+                  onClick={(e) => this.handleAccept()}
+                >
+                  Xác nhận
+                </span>
+                <span
+                  className="btn-add-user"
+                  onClick={() => this.props.history.goBack()}
+                >
+                  Trở về
+                </span>
               </div>
             )}
-          
           </div>
         </div>
-        
+
         {/* <ModalForm dataForm = {this.state.dataForm} idWorkflow ={this.props.match.params.id} show ={this.state.showModal} hideModal = {()=>{
           this.setState({
             showModal:false
