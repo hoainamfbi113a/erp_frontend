@@ -1,50 +1,34 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import "../../App/App.css";
 import "./Table.css";
-import { Layout } from "antd";
-import { Table, Space, Tag, Avatar } from "antd";
-import { Popconfirm, message } from "antd";
+import {  } from "antd";
+import { Layout, Table, Space, Tag, Avatar, Popconfirm, message } from "antd";
 import user from "assets/images/user2.png";
 import { listUser } from "apis/authenticationApi";
-import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
-import { bindActionCreators } from "redux";
+//import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
+import usePrevious from "../../hooks/usePrevious";
 const { Content } = Layout;
-class TableSix extends Component {
-  state = {
-    collapsed: false,
-    visibleModify: false,
-    visibleAdduser: false,
-    showModalGrantRole: false,
-    selectedRowKeys: [],
-    roleAndPermissionUser: null,
-    loading: false,
-    current_user_id: "4",
-    app_id: "99",
-    full_name: "",
-    email: "",
-    phone: "",
-    idGrantRole: "",
-    dataUser: null,
-  };
-  onChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value,
-    });
-  };
-  componentDidMount = () => {
-    this.fetchData(1);
-  }
-  componentDidUpdate = async (prevProps, prevState) => {
-    if (this.props.valueSearch !== prevProps.valueSearch) {
+const TableSix = (props) => {
+
+  const lastValue = usePrevious(props.valueSearch);
+  const [dataUser, setDataUser] = useState(null);
+
+  useEffect(async() => {
+    let data = await listUser(1);
+    setDataUser(data)
+    props.totalEmploy(data.meta.pagination.total);
+  }, []);
+
+  useEffect(async() => {
+    if (props.valueSearch !== lastValue) {
       let resListUser = await listUser("all");
-      // console.log(resListUser);
       let listUserSearch = resListUser.data.filter((user) => {
         return (
           user.full_name
             .toLowerCase()
-            .indexOf(this.props.valueSearch.toLowerCase()) !== -1
+            .indexOf(props.valueSearch.toLowerCase()) !== -1
         );
       });
       let obj = {
@@ -53,142 +37,137 @@ class TableSix extends Component {
         },
         data: listUserSearch,
       };
-      this.setState({
-        dataUser: obj,
-      });
-      this.props.totalEmploy(obj.meta.pagination)
+      setDataUser(obj);
+      props.totalEmploy(obj.meta.pagination)
     }
-  };
+  });
 
-  fetchData = async (page) => {
-    let data = await listUser(page);
-    this.setState({
-      dataUser: data,
-    });
-    this.props.totalEmploy(data.meta.pagination.total);
-  };
-  confirm = (e) => {
-    const { userSixActionCreators } = this.props;
+  const confirm = (e) => {
+    const { userSixActionCreators } = props;
     const { deleteUserSix } = userSixActionCreators;
     deleteUserSix(e);
   };
 
-  cancel = (e) => {
+  const cancel = (e) => {
     message.error("Không ẩn");
   };
 
-  handlePagination = async (pagination) => {
+  const handlePagination = async (pagination) => {
     let resListUser = await listUser(pagination);
     if (!resListUser.err) {
-      this.setState({
-        dataUser: resListUser,
-      });
+      setDataUser(resListUser)
     } else {
       message.error("get user failed");
     }
   };
-  render() {
-    let data = [];
-    let total = 0;
-    if (this.state.dataUser) {
-      data = this.state.dataUser.data;
-      total = this.state.dataUser.meta.pagination.total;
-    }
 
-    const columns = [
-      {
-        title: "Ảnh đại diện",
-        width: 200,
-        dataIndex: "userImg",
-        key: "userImg",
-        fixed: "left",
-        render: () => (
-          <div>
-            <Avatar
-              shape="square"
-              size={64}
-              style={{ marginRight: "3px" }}
-              src={user}
+  const columns = [
+    {
+      title: "Ảnh đại diện",
+      width: 200,
+      dataIndex: "userImg",
+      key: "userImg",
+      fixed: "left",
+      render: () => (
+        <div>
+          <Avatar
+            shape="square"
+            size={64}
+            style={{ marginRight: "3px" }}
+            src={user}
+          />
+        </div>
+      ),
+    },
+    {
+      title: "Họ và tên",
+      dataIndex: "full_name",
+      key: "full_name",
+      // sorter: (a, b) => a.full_name.length - b.full_name.length,
+    },
+    {
+      title: "Chức vụ",
+      dataIndex: "full_name",
+      key: "full_name",
+      // sorter: (a, b) => a.full_name.length - b.full_name.length,
+    },
+    {
+      title: "Phòng ban",
+      dataIndex: "dep_name",
+      key: "dep_name",
+      // sorter: (a, b) => a.full_name.length - b.full_name.length,
+    },
+    {
+      title: "Ngày sinh",
+      dataIndex: "full_name",
+      key: "full_name",
+      // sorter: (a, b) => a.full_name.length - b.full_name.length,
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "2",
+      // sorter: (a, b) => a.pro_name.length - b.pro_name.length,
+    },
+    {
+      title: "Số điện thoại",
+      dataIndex: "phone",
+      key: "sex",
+      sorter: (a, b) => a.phone - b.phone,
+    },
+
+    {
+      title: "Hành động",
+      key: "operation",
+      dataIndex: "id",
+      fixed: "right",
+      // width: 300,
+      render: (text, row) => (
+        <Space size="middle">
+          <Popconfirm
+            title="Bạn có muốn ẩn không?"
+            onConfirm={() => confirm(text)}
+            onCancel={cancel}
+            okText="Có"
+            cancelText="Không"
+          >
+            <Tag color="volcano" className="table-action">
+              Ẩn
+            </Tag>
+          </Popconfirm>
+          <Link to={`/edituser/${text}`}>
+            <Tag
+              color="geekblue"
+              className="table-action"
+            >
+              Sửa và duyệt
+            </Tag>
+          </Link>
+        </Space>
+      ),
+    },
+  ];
+
+  return (
+    <div>
+      <Content>
+        <div className="layout-content">
+          <div style={{ padding: 24, minHeight: 200 }}>
+            <Table
+              columns={columns}
+              dataSource={dataUser ? dataUser.data : []}
+              className="table-content"
+              rowKey="id"
+              pagination={{
+                onChange: handlePagination,
+                pageSize: 15,
+                total: dataUser ? dataUser.meta.pagination.total : 0,
+              }}
             />
           </div>
-        ),
-      },
-      {
-        title: "Họ và tên",
-        dataIndex: "full_name",
-        key: "full_name",
-        // sorter: (a, b) => a.full_name.length - b.full_name.length,
-      },
-      {
-        title: "Email",
-        dataIndex: "email",
-        key: "2",
-        // sorter: (a, b) => a.pro_name.length - b.pro_name.length,
-      },
-      {
-        title: "Số điện thoại",
-        dataIndex: "phone",
-        key: "sex",
-        sorter: (a, b) => a.phone - b.phone,
-      },
-
-      {
-        title: "Hành động",
-        key: "operation",
-        dataIndex: "id",
-        fixed: "right",
-        // width: 300,
-        render: (text, row) => (
-          <Space size="middle">
-            <Popconfirm
-              title="Bạn có muốn ẩn không?"
-              onConfirm={() => this.confirm(text)}
-              onCancel={this.cancel}
-              okText="Có"
-              cancelText="Không"
-            >
-              <Tag color="volcano" className="table-action">
-                Ẩn
-              </Tag>
-            </Popconfirm>
-            <Link to={`/edituser/${text}`}>
-              <Tag
-                color="geekblue"
-                className="table-action"
-              >
-                Sửa và duyệt
-              </Tag>
-            </Link>
-          </Space>
-        ),
-      },
-    ];
-    return (
-      <div>
-        <Content>
-          {/* <div style={{ height: "calc(100vh - 139px)" }} className="layout-content"> */}
-          <div className="layout-content">
-            <div style={{ padding: 24, minHeight: 200 }}>
-              <Table
-                columns={columns}
-                dataSource={data}
-                className="table-content"
-                rowKey="id"
-                pagination={{
-                  onChange: this.handlePagination,
-                  pageSize: 15,
-                  total: total,
-                }}
-              />
-            </div>
-          </div>
-        </Content>
-      </div>
-    );
-  }
+        </div>
+      </Content>
+    </div>
+  );
 }
-const mapDispatchToProps = (dispatch) => ({
-  uiActionCreatorsS: bindActionCreators(showLoading, dispatch),
-  uiActionCreatorsH: bindActionCreators(hideLoading, dispatch),
-});
-export default connect(null, mapDispatchToProps)(TableSix);
+export default TableSix;
