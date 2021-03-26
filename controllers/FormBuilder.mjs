@@ -108,7 +108,7 @@ router.post("/document/store", async (req, res) => {
     action_id: 1,
   };
   target.push(targetBegin);
-  for (let item of dataWorkFlow.steps) {
+  for (let item of (dataWorkFlow && dataWorkFlow.steps) ) {
     // console.log(item.id)
     if (item.id !== 1) {
       let pos_id, dep_id;
