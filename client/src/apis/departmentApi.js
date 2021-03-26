@@ -27,6 +27,20 @@ export const getListAllDepartment = (page) => {
     });
 };
 
+export const getListIdDepartment = () => {
+  return axiosConfig
+    .get(`/api/departments?per_page=30`)
+    .then(handleResponse)
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      return {
+        error: "error",
+      };
+    });
+};
+
 export const addDepartment = (params) => {
   return axiosConfig
     .post(`/api/departments`, params)
