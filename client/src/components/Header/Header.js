@@ -24,10 +24,14 @@ const HeaderLayout = () => {
       await logout();
       await dispatch(Logout());
       dispatch(hideLoading());
-      setTimeout(()=>{
+      setTimeout(function(){
         history.push("/");
-      },400)
+      } , 400);
       
+      setTimeout(() => {
+        history.push("/");
+        window.location.href = window.location.href
+      }, 200);
     };
     return (
       <Menu>
