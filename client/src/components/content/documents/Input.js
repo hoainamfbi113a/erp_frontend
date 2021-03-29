@@ -3,9 +3,11 @@ import * as Constant from "constant/ConstantDocument";
 
 import * as ApiHelper from "helpers/ApiHelper";
 import { withRouter } from "react-router-dom";
+import { Input } from 'antd';
 import { Typography } from "antd";
 import { Radio } from "antd";
 const { Title } = Typography;
+const { TextArea } = Input;
 function RenderInputPreview(props) {
     var data = "";
     switch (props.data.type) {
@@ -30,7 +32,8 @@ function RenderInputPreview(props) {
         data = (
           <div className="form-group">
             <label className="control-label">{props.data.label}</label>
-            <input
+            <Input
+              disabled = {props.create == false ? true: false}
               type="text"
               name={props.data.name}
               placeholder={props.data.placeHolder}
@@ -45,7 +48,8 @@ function RenderInputPreview(props) {
         data = (
           <div className="form-group">
             <label className="control-label">{props.data.label}</label>
-            <textarea
+            <TextArea
+              disabled = {props.create == false ? true: false}
               rows="5"
               value={props.value}
               onChange={(event) => props.handleChange(event, props.data.id)}
@@ -184,6 +188,7 @@ function RenderInputPreview(props) {
               onChange={(event) => props.handleChange(event, props.data.id)}
               name={props.data.name}
               value ={props.data.value}
+              disabled = {props.create == false ? true: false}
               className="form-control"
             />
           </div>

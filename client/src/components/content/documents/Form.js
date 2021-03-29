@@ -343,6 +343,7 @@ class Create extends Component {
                     data-index={index}
                   >
                     <RenderInputPreview
+                      create = {this.state.create}
                       data={item}
                       value={value}
                       handleTextChange={this.handleTextChange}

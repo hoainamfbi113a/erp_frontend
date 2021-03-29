@@ -101,33 +101,33 @@ router.post("/document/store", async (req, res) => {
   dep_idUser = data.data.department.data.dep_id;
   pos_idUser = data.data.department.data.pos_id;
   let target = [];
-  let targetBegin = {
-    target_id: user_id,
-    target_name: data.data.pro_name,
-    step_id: 1,
-    action_id: 1,
-  };
-  target.push(targetBegin);
   for (let item of (dataWorkFlow && dataWorkFlow.steps) ) {
-    // console.log(item.id)
-    if (item.id !== 1) {
-      let pos_id, dep_id;
-      dep_id =
-        item.actions[0].department_id == null
-          ? dep_idUser
-          : item.actions[0].department_id;
-      pos_id =
-        item.actions[0].position_id == null
-          ? pos_idUser
-          : item.actions[0].position_id;
-      let arrChild = await getTarget(
-        pos_id,
-        dep_id,
-        item.id,
-        item.actions[0].id
-      );
-      target = [...target, ...arrChild];
-    }
+      if(item.actions[0].department_id == null &&  item.actions[0].position_id == null) {
+        let targetBegin = {
+          target_id: user_id,
+          target_name: data.data.pro_name,
+          step_id: item.id,
+          action_id: item.actions[0].id,
+        };
+        target.push(targetBegin);
+      } else {
+          let pos_id, dep_id;
+          dep_id =
+            item.actions[0].department_id == null
+              ? dep_idUser
+              : item.actions[0].department_id;
+          pos_id =
+            item.actions[0].position_id == null
+              ? pos_idUser
+              : item.actions[0].position_id;
+          let arrChild = await getTarget(
+            pos_id,
+            dep_id,
+            item.id,
+            item.actions[0].id
+          );
+          target = [...target, ...arrChild];
+      }
   }
   let paramsIssue = {
     document_type_id,

@@ -80,8 +80,8 @@ export default class NotifiMy extends Component {
                 .then((res) => {
                 })
                 .catch((err) => {
-                  console.log("err");
-                  alert("Lỗi rồi");
+                  console.log("loi roi");
+                  console.log(err)
                 });
             }
           })
@@ -109,7 +109,7 @@ export default class NotifiMy extends Component {
             </td>
             {console.log(item)}
             <td
-              className={item.status === 1 ? "content-notification-unread" : ""}
+              className={item.read_at === null ? "content-notification-unread" : ""}
               onClick={() => {
                 this.changeStatusNotiDocument(
                   item.id,
