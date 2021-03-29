@@ -18,7 +18,7 @@ const TableSix = (props) => {
   useEffect(async() => {
     let data = await listUser(1);
     setDataUser(data)
-    props.totalEmploy(data.meta.pagination.total);
+    props.totalEmploy(data.pagination.total);
   }, []);
 
   useEffect(async() => {
@@ -32,13 +32,11 @@ const TableSix = (props) => {
         );
       });
       let obj = {
-        meta: {
           pagination: listUserSearch.length,
-        },
-        data: listUserSearch,
+          data: listUserSearch,
       };
       setDataUser(obj);
-      props.totalEmploy(obj.meta.pagination)
+      props.totalEmploy(obj.pagination)
     }
   });
 
@@ -161,7 +159,7 @@ const TableSix = (props) => {
               pagination={{
                 onChange: handlePagination,
                 pageSize: 15,
-                total: dataUser ? dataUser.meta.pagination.total : 0,
+                total: dataUser ? dataUser.pagination.total : 0,
               }}
             />
           </div>
