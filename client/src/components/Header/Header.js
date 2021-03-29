@@ -24,7 +24,10 @@ const HeaderLayout = () => {
       await logout();
       await dispatch(Logout());
       dispatch(hideLoading());
-      history.push("/");
+      setTimeout(()=>{
+        history.push("/");
+      },400)
+      
     };
     return (
       <Menu>
