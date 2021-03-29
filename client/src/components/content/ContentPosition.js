@@ -1,76 +1,48 @@
-import React, { Component } from "react";
-import { Input } from "antd";
-import { Button } from "antd";
-
+import React, { useState } from "react";
+import { Input, Button } from "antd";
 import TablePosition from "components/Table/TablePosition";
 const { Search } = Input;
-
 import "./Content.css";
 
-export default class ContentPosition extends Component {
-  constructor() {
-    super();
-    this.state = {
-      valueSearch: "",
-      visible: false,
-      registerUserSuccess: false,
-      totalPosition: "",
-    };
-  }
-  showModal = () => {
-    this.setState({
-      visible: true,
-    });
+export default function ContentPosition() {
+  const [value, setValue] = useState("");
+  const [visible, setVisible] = useState(false);
+  const [total, setTotal] = useState(0);
+  const showModal = () => {
+    setVisible(true);
   };
 
-  hideModal = () => {
-    this.setState({
-      visible: false,
-    });
+  const hideModal = () => {
+    setVisible(false);
   };
-
-  totalPosition = (value) => {
-    this.setState({
-      totalPosition: value,
-    });
-  };
-
-  onSearch = (value) => {
-    this.setState({
-      valueSearch: value,
-    });
-  };
-
-  render() {
-    return (
-      <div>
-        <div className="content-top">
-          <div className="content-top-left">
-            <div className="content-top-left-sum-item">
-              {this.state.totalPosition} chức vụ
-            </div>
-            <Search
-              placeholder="Tìm kiếm"
-              allowClear
-              onSearch={this.onSearch}
-              style={{ width: 200 }}
-              className="table-btn-search"
-            />
+  return (
+    <div>
+      <div className="content-top">
+        <div className="content-top-left">
+          <div className="content-top-left-sum-item">
+            {total} chức vụ
           </div>
-          <div className="content-top-right">
-            <Button onClick={this.showModal} className="btn-add-user-six">
-              Thêm chức vụ
-            </Button>
-          </div>
+          <Search
+            placeholder="Tìm kiếm"
+            allowClear
+            onSearch={(e) => setValue(e)}
+            style={{ width: 200 }}
+            className="table-btn-search"
+          />
         </div>
-        <TablePosition
-          valueSearch={this.state.valueSearch}
-          showModalPosition={this.state.visible}
-          hideModal={this.hideModal}
-          showModal={this.showModal}
-          totalPosition={this.totalPosition}
-        />
+        <div className="content-top-right">
+          <Button onClick={showModal} className="btn-add-user-six">
+            Thêm chức vụ
+          </Button>
+        </div>
       </div>
-    );
-  }
+      <TablePosition
+        valueSearch={value}
+        showModalPosition={visible}
+        hideModal={hideModal}
+        showModal={showModal}
+        totalPosition={setTotal}
+      />
+    </div>
+  );
 }

@@ -37,8 +37,11 @@ class Create extends Component {
     .get(`/api/document-process/get?id=${id}`)
     .then((res) => {
       let incr = 0;
-      if (res.targets[0].target_id == docCookies.getItem("user_id")) {
-          
+      // console.log(res.data)
+      if (res.data.targets[0].target_id != docCookies.getItem("user_id")) {
+          this.setState({
+            view:true
+          })
       }
       this.setState({
         currentProcess: res.data.current_step.id,
@@ -247,8 +250,10 @@ class Create extends Component {
     axiosConfig
       .get(`/api/document-process/get?id=${this.props.match.params.process_id}`)
       .then((res) => {
-        
         if (res.targets[0].target_id == docCookies.getItem("user_id")) {
+          this.setState({
+            view:true,
+          })
           let body = {
             process_id: +this.props.match.params.process_id,
             user_id: +docCookies.getItem("user_id"),
@@ -350,12 +355,14 @@ class Create extends Component {
 
             {this.state.create === false && (
               <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                {this.state.view === false &&
                 <span
                   className="btn-add-user"
                   onClick={(e) => this.handleAccept()}
                 >
                   Xác nhận
                 </span>
+                }
                 <span
                   className="btn-add-user"
                   onClick={() => this.props.history.goBack()}

@@ -1,74 +1,49 @@
-import React, { Component } from "react";
-import { Input } from "antd";
-import { Button } from "antd";
-
+import React, { useState } from "react";
+import { Input, Button } from "antd";
 import TableDepartment from "components/Table/TableDepartment";
 const { Search } = Input;
-
 import "./Content.css";
 
-export default class ContentDepartment extends Component {
-  constructor() {
-    super();
-    this.state = {
-      valueSearch: "",
-      visible: false,
-      registerUserSuccess: false,
-      totalDepartment: 0,
-    };
-  }
-  showModal = () => {
-    this.setState({
-      visible: true,
-    });
-  };
-  hideModal = () => {
-    this.setState({
-      visible: false,
-    });
-  };
-  totalDepartment = (value) => {
-    this.setState({
-      totalDepartment: value,
-    });
+const ContentDepartment = () => {
+  const [value, setValue] = useState("");
+  const [visible, setVisible] = useState(false);
+  const [total, setTotal] = useState(0);
+
+  const showModal = () => {
+    setVisible(true);
   };
 
-  onSearch = (value) => {
-    this.setState({
-      valueSearch: value,
-    });
+  const hideModal = () => {
+    setVisible(false);
   };
 
-  render() {
-    return (
-      <div>
-        <div className="content-top">
-          <div className="content-top-left">
-            <div className="content-top-left-sum-item">
-              {this.state.totalDepartment} Phòng ban
-            </div>
-            <Search
-              placeholder="Tìm kiếm"
-              allowClear
-              onSearch={this.onSearch}
-              style={{ width: 200 }}
-              className="table-btn-search"
-            />
-          </div>
-          <div className="content-top-right">
-            <Button onClick={this.showModal} className="btn-add-user-six">
-              Thêm Department
-            </Button>
-          </div>
+  return (
+    <div>
+      <div className="content-top">
+        <div className="content-top-left">
+          <div className="content-top-left-sum-item">{total} Phòng ban</div>
+          <Search
+            placeholder="Tìm kiếm"
+            allowClear
+            onSearch={(e) => setValue(e)}
+            style={{ width: 200 }}
+            className="table-btn-search"
+          />
         </div>
-        <TableDepartment
-          valueSearch={this.state.valueSearch}
-          showModalDepartment={this.state.visible}
-          hideModal={this.hideModal}
-          showModal={this.showModal}
-          totalDepartment={this.totalDepartment}
-        />
+        <div className="content-top-right">
+          <Button onClick={showModal} className="btn-add-user-six">
+            Thêm Department
+          </Button>
+        </div>
       </div>
-    );
-  }
-}
+      <TableDepartment
+        valueSearch={value}
+        showModalDepartment={visible}
+        hideModal={hideModal}
+        showModal={showModal}
+        totalDepartment={setTotal}
+      />
+    </div>
+  );
+};
+export default ContentDepartment;

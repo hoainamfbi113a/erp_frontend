@@ -60,6 +60,7 @@ class TableParts extends Component {
       this.setState({
         data: obj,
       });
+      this.props.totalPart(obj.meta.pagination);
     }
   };
 
@@ -345,7 +346,7 @@ class TableParts extends Component {
                     {this.renderDepartment()}
                   </Select>
                 </div>
-                {this.state.err_dep !== ""  ? (
+                {this.state.err_dep !== "" ? (
                   <span
                     style={{
                       color: "red",

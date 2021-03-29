@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
+import { ValidateField } from "helpers/FuncHelper";
 import "../../App/App.css";
 import "./Table.css";
 import { Layout } from "antd";
@@ -19,95 +22,18 @@ class TablePosition extends Component {
   state = {
     collapsed: false,
     data: null,
-    dataDepartment: null,
     loading: false,
+    is_create: false,
     id: "",
     pos_name: "",
+    err_name: "",
     pos_note: "",
-    visible: false,
-    dep_id: "",
-    action: [],
-    dataPermission: null,
-    pos_id: "",
-    dataAction: [],
-    crud: "",
-    option: [],
   };
 
   componentDidMount = () => {
     this.fetchData();
   };
   componentDidUpdate = async (prevProps, prevState) => {
-    if (prevState.dep_id !== this.state.dep_id) {
-      const { dep_id } = this.state;
-      const { pos_id } = this.state;
-
-      if (this.state.crud == 1) {
-        const data = await this.getListPermissionNotYet(dep_id, pos_id);
-        this.setState({
-          dataPermission: data,
-        });
-      }
-      if (this.state.crud == 2) {
-        axiosConfig
-          .get(
-            `/api/permission/departments/positions?dep_id=${dep_id}&pos_id=${pos_id}`
-          )
-          .then((res) => {
-            this.setState({
-              dataPermission: res,
-            });
-          });
-      }
-    }
-    if (prevState.per_id !== this.state.per_id) {
-      const { dep_id } = this.state;
-      const { pos_id } = this.state;
-
-      if (this.state.crud == 1) {
-        const data = await this.getListPermissionNotYet(dep_id, pos_id);
-        let arrayAction;
-        // Lấy action theo quyền
-        data.map((item) => {
-          if (item.id == this.state.per_id) {
-            return (arrayAction = item.actions);
-          }
-        });
-        const listAllAction = await axiosConfig.get(`/api/action`);
-
-        if (listAllAction) {
-          let res = listAllAction.data.filter(
-            (item) => !arrayAction.includes(item.name)
-          );
-
-          this.setState({
-            option: res,
-          });
-        }
-      }
-      if (this.state.crud == 2) {
-        // const listAllAction = await axiosConfig.get(`/api/action`);
-        const listPerByPosDep = await axiosConfig.get(
-          `/api/permission/departments/positions?dep_id=${dep_id}&pos_id=${pos_id}`
-        );
-        let arrayAction;
-        listPerByPosDep.map((item) => {
-          if (item.id == this.state.per_id) {
-            return (arrayAction = item.actions);
-          }
-        });
-        const listAllAction = await axiosConfig.get(`/api/action`);
-
-        if (listAllAction) {
-          let res = listAllAction.data.filter((item) =>
-            arrayAction.includes(item.name)
-          );
-          this.setState({
-            option: res,
-          });
-        }
-      }
-    }
     if (this.props.valueSearch !== prevProps.valueSearch) {
       let resListPos = await getListPosition("all");
       let listPosSearch = resListPos.data.filter((pos) => {
@@ -126,6 +52,7 @@ class TablePosition extends Component {
       this.setState({
         data: obj,
       });
+      this.props.totalPosition(obj.meta.pagination);
     }
   };
   fetchData = async () => {
@@ -136,191 +63,67 @@ class TablePosition extends Component {
     this.props.totalPosition(data.meta.pagination.total);
   };
   onSubmit = async () => {
+    let ts = this.state;
     let params = {
-      pos_name: this.state.pos_name,
-      pos_note: this.state.pos_note,
+      pos_name: ts.pos_name,
+      pos_note: ts.pos_note,
     };
-    if (this.state.id === "") {
-      this.hideModal();
-      let res = await addPosition(params);
-      if (res.message === "Success!. Stored") {
-        message.success("Thêm chức vụ thành công");
-        this.fetchData();
-      } else {
-        message.error("Thêm chức vụ thất bại");
-      }
-    } else {
-      this.hideModal();
-      let res = await updatePosition(params, this.state.id);
+    let err_name = await ValidateField(params.pos_name, 8, 30, "Chức vụ");
+    if (err_name) {
       this.setState({
-        id: "",
+        err_name,
       });
-      if (res.message === "Success!. Updated") {
-        message.success("Cập nhật chức vụ thành công");
-        this.fetchData();
-      } else {
-        message.error("Cập nhật chức vụ thất bại");
-      }
     }
-  };
-  submitAddModelPermission = async () => {
-    const posId = this.state.pos_id;
-    const params = {
-      dep_id: this.state.dep_id.toString(),
-      permission_id: this.state.per_id.toString(),
-      actions: this.state.action,
-    };
-    const data = await axiosConfig.post(
-      `/api/position/permission/${posId}`,
-      params
-    );
-    if (data.message === "Success!. Stored") {
-      message.success("Thêm quyền thành công");
+    if (err_name === "") {
       this.hideModal();
-    } else {
-      message.error("Thêm quyền thất bại");
-    }
-  };
-  submitDeleteModelPermission = async () => {
-    try {
-      const posId = this.state.pos_id;
-      const params = {
-        dep_id: this.state.dep_id.toString(),
-        permission_id: this.state.per_id.toString(),
-        actions: this.state.action,
-      };
-      const data = await axiosConfig.post(
-        `/api/position/permissiond/${posId}`,
-        params
-      );
-      if (data.message === "Success!. Removed") {
-        message.success("Xóa quyền thành công");
+      this.props.uiActionCreatorsS();
+      if (this.state.id === "") {
         this.hideModal();
+        let res = await addPosition(params);
+        if (res.message === "Success!. Stored") {
+          message.success("Thêm chức vụ thành công");
+          this.fetchData();
+        } else {
+          message.error("Thêm chức vụ thất bại");
+        }
       } else {
-        message.error("Xóa quyền thất bại");
+        this.hideModal();
+        let res = await updatePosition(params, this.state.id);
+        this.setState({
+          id: "",
+        });
+        if (res.message === "Success!. Updated") {
+          message.success("Cập nhật chức vụ thành công");
+          this.fetchData();
+        } else {
+          message.error("Cập nhật chức vụ thất bại");
+        }
       }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  handleSubmitPermission = () => {
-    switch (true) {
-      case !this.state.crud:
-        message.error("Bạn chưa chọn thao tác");
-        break;
-      case !this.state.dep_id:
-        message.error("Bạn chưa chọn phòng ban");
-        break;
-      case !this.state.per_id:
-        message.error("Bạn chưa chọn quyền");
-        break;
-      case this.state.action.length == 0:
-        message.error("Bạn chưa chọn action");
-        break;
-      case this.state.crud == 1:
-        this.submitAddModelPermission();
-        break;
-      case this.state.crud == 2:
-        this.submitDeleteModelPermission();
-        break;
-      default:
-        break;
+      this.props.uiActionCreatorsH();
     }
   };
   hideModal = () => {
-    this.setState({
-      visible: false,
-      crud: null,
-      action: [],
-      per_id: null,
-      dep_id: null,
-    });
     this.props.hideModal();
+    this.setState({
+      is_create: false,
+      pos_name: "",
+      pos_note: "",
+      err_name: "",
+    });
   };
   showModal = (id) => {
     let position = this.state.data.data.filter((item) => {
       return item.id == id;
     });
     this.setState({
+      is_create: true,
       id: position[0].id,
       pos_name: position[0].pos_name,
       pos_note: position[0].pos_note,
     });
     this.props.showModal();
   };
-  showModalPosition = async (id) => {
-    this.setState({
-      pos_id: id,
-    });
-    axiosConfig
-      .get(`/api/departments?per_page=10`)
-      .then((res) => {
-        this.setState({
-          dataDepartment: res,
-        });
-      })
-      .catch((error) => {
-        console.log("False to load API", error);
-      });
 
-    this.setState({
-      visible: true,
-    });
-  };
-
-  compareArray = (ar1, ar2) => {
-    if (ar1.length !== ar2.length) {
-      return false;
-    } else {
-      const a = ar1.filter((item) => !ar2.includes(item));
-      if (a) {
-        return false;
-      } else {
-        return true;
-      }
-    }
-  };
-
-  getListPermissionNotYet = async (dep_id, pos_id) => {
-    let res = [];
-    try {
-      const data = await axiosConfig.get(`/api/permission`);
-      const dataAction = await axiosConfig.get(`/api/action`);
-      const dataByPosDep = await axiosConfig.get(
-        `/api/permission/departments/positions?dep_id=${dep_id}&pos_id=${pos_id}`
-      );
-      //compare 2 array
-      const compareArray = (ar1, ar2) => {
-        const a = ar1.filter((item) => !ar2.includes(item));
-        if (a.length > 0) {
-          return false;
-        } else {
-          return true;
-        }
-      };
-      // Lấy id của quyền theo chức vụ và phòng ban
-      let filterDataPosDep = dataByPosDep.map((item) => {
-        return item.id;
-      });
-      // Lấy ra mảng các action  (all)
-      let filterAction = dataAction.data.map((item) => {
-        return item.name;
-      });
-      // Lấy ra những item không có trong mảng posDEP so với all quyền
-      res = data.data.filter((item) => !filterDataPosDep.includes(item.id));
-      res.map((items) => {
-        items.actions = [];
-      });
-      // Lấy ra những quyền thiếu actions
-      let resAction = dataByPosDep.filter(
-        (item) => !compareArray(filterAction, item.actions)
-      );
-      const dataArrayLast = res.concat(resAction);
-      return [...dataArrayLast];
-    } catch (error) {
-      return (res = []);
-    }
-  };
   onChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
@@ -328,6 +131,7 @@ class TablePosition extends Component {
   };
 
   confirm = async (id) => {
+    this.props.uiActionCreatorsS();
     const params = {
       id,
     };
@@ -338,33 +142,11 @@ class TablePosition extends Component {
     } else {
       message.error("Ẩn chức vụ thất bại");
     }
+    this.props.uiActionCreatorsH();
   };
 
   cancel = (e) => {
     message.error("Không ẩn");
-  };
-  onSelectChange = (selectedRowKeys) => {
-    this.setState({ selectedRowKeys });
-  };
-  handleChangeCrud = (value) => {
-    this.setState({
-      crud: value,
-    });
-  };
-  handleChangeDepartment = (value) => {
-    this.setState({
-      dep_id: value,
-    });
-  };
-  handleChangePermission = (value) => {
-    this.setState({
-      per_id: value,
-    });
-  };
-  handleChangeAction = (value) => {
-    this.setState({
-      action: value,
-    });
   };
   handlePagination = async (pagination) => {
     let data = await getListPosition(pagination);
@@ -372,65 +154,8 @@ class TablePosition extends Component {
       data,
     });
   };
-  showDepartment = () => {
-    if (this.state.dataDepartment) {
-      return this.state.dataDepartment.data.map((element) => {
-        return (
-          <Option key={element.id} value={element.id}>
-            {element.dep_name}
-          </Option>
-        );
-      });
-    }
-  };
-  showPermission = () => {
-    if (this.state.dataPermission) {
-      return this.state.dataPermission.map((element) => {
-        return (
-          <Option key={element.id} value={element.id}>
-            {element.name}
-          </Option>
-        );
-      });
-    }
-  };
-  showAction = () => {
-    const { action } = this.state;
-    let OPTIONS = this.state.option;
-    if (this.state.dataAction) {
-      this.state.dataAction.map((item) => {
-        OPTIONS.push(item.name);
-      });
-      const filteredOptions = OPTIONS.filter((o) => !action.includes(o));
-      return filteredOptions.map((item) => (
-        <Option key={item.id} value={item.id.toString()}>
-          {item.name}
-        </Option>
-      ));
-    }
-  };
 
-  handleFocusCrud = () => {
-    this.setState({
-      dep_id: null,
-      per_id: null,
-      action: [],
-      crud: null,
-    });
-  };
-  handleFocusDepartment = () => {
-    this.setState({
-      dep_id: null,
-      per_id: null,
-    });
-  };
-  handleFocusPermission = () => {
-    this.setState({
-      per_id: null,
-    });
-  };
   render() {
-    const { action } = this.state;
     let data = "";
     let total = 0;
     if (this.state.data) {
@@ -480,11 +205,11 @@ class TablePosition extends Component {
         render: (text, row) => (
           <Space size="middle">
             <Popconfirm
-              title="Are you sure hide this user?"
+              title="Bạn có muốn ẩn không?"
               onConfirm={() => this.confirm(text)}
               onCancel={this.cancel}
-              okText="Yes"
-              cancelText="No"
+              okText="Có"
+              cancelText="Không"
             >
               <Tag color="volcano" className="table-action">
                 Ẩn
@@ -496,12 +221,6 @@ class TablePosition extends Component {
               className="table-action"
             >
               Cập nhật
-            </Tag>
-            <Tag
-              className="table-action"
-              onClick={() => this.showModalPosition(text)}
-            >
-              Gán quyền
             </Tag>
           </Space>
         ),
@@ -528,7 +247,7 @@ class TablePosition extends Component {
           </div>
         </Content>
         <Modal
-          title="Tạo tổ"
+          title={!this.state.is_create ? "Tạo chức vụ" : "Cập nhật chức vụ"}
           visible={this.props.showModalPosition}
           onOk={this.onSubmit}
           onCancel={this.hideModal}
@@ -545,7 +264,9 @@ class TablePosition extends Component {
           >
             <ul style={{ marginLeft: "23px" }}>
               <li className="tabs-main-left-li">
-                <span className="tabs-user-infor-top">Tên chức vụ</span>
+                <span className="tabs-user-infor-top">
+                  Tên chức vụ<span>*</span>
+                </span>
                 <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
                   <Input
                     value={this.state.pos_name}
@@ -553,6 +274,15 @@ class TablePosition extends Component {
                     onChange={this.onChange}
                   />
                 </div>
+                {this.state.err_name !== "" ? (
+                  <span
+                    style={{
+                      color: "red",
+                      fontStyle: "italic",
+                    }}
+                  >
+                    {this.state.err_name}
+                  </span>) : null}
               </li>
               <li className="tabs-main-left-li">
                 <span className="tabs-user-infor-top">Ghi chú chức vụ</span>
@@ -567,62 +297,14 @@ class TablePosition extends Component {
             </ul>
           </form>
         </Modal>
-        <Modal
-          title="Gán quyền"
-          visible={this.state.visible}
-          onOk={this.handleSubmitPermission}
-          onCancel={this.hideModal}
-          style={{ width: "200px" }}
-        >
-          <form method="POST">
-            <div className="select-span-table">
-              <span>Chọn thao tác</span>
-              <Select
-                value={this.state.crud}
-                onChange={this.handleChangeCrud}
-                onFocus={this.handleFocusCrud}
-              >
-                <Option value="1">Thêm quyền</Option>
-                <Option value="2">Xóa quyền</Option>
-              </Select>
-            </div>
-            <div className="select-span-table">
-              <span>Chọn phòng ban :</span>
-              <Select
-                showSearch
-                value={this.state.dep_id}
-                placeholder="Chọn phòng ban"
-                onChange={this.handleChangeDepartment}
-                onFocus={this.handleFocusDepartment}
-              >
-                {this.showDepartment()}
-              </Select>
-            </div>
-            <div className="select-span-table">
-              <span>Chọn quyền :</span>
-              <Select
-                value={this.state.per_id}
-                onChange={this.handleChangePermission}
-                onFocus={this.handleFocusPermission}
-              >
-                {this.showPermission()}
-              </Select>
-            </div>
-            <div className="select-span-table">
-              <span>Chọn Action :</span>
-              <Select
-                mode="multiple"
-                value={this.state.action}
-                onChange={this.handleChangeAction}
-              >
-                {this.showAction()}
-              </Select>
-            </div>
-          </form>
-        </Modal>
       </div>
     );
   }
 }
 
-export default connect(null, null)(TablePosition);
+const mapDispatchToProps = (dispatch) => ({
+  uiActionCreatorsS: bindActionCreators(showLoading, dispatch),
+  uiActionCreatorsH: bindActionCreators(hideLoading, dispatch),
+});
+
+export default connect(null, mapDispatchToProps)(TablePosition);
