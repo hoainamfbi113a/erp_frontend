@@ -6,6 +6,7 @@ import "./Table.css";
 import { Layout, Table, Space, Tag, Avatar, Popconfirm, message } from "antd";
 import user from "assets/images/user2.png";
 import { listUser } from "apis/authenticationApi";
+import { getListDepartment } from "../../apis/departmentApi";
 //import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 import usePrevious from "../../hooks/usePrevious";
 const { Content } = Layout;
@@ -13,11 +14,14 @@ const TableSix = (props) => {
 
   const lastValue = usePrevious(props.valueSearch);
   const [dataUser, setDataUser] = useState(null);
+  const [dataDepart, setDataDepart] = useState([{
+    text: "", value: ""
+  }]);
+  const [filter, setFilter] = useState(null);
 
-  useEffect(async() => {
-    let data = await listUser(1);
-    setDataUser(data)
-    props.totalEmploy(data.meta.pagination.total);
+  useEffect(() => {
+    fetchData(1);
+    //fetchDepart("all");
   }, []);
 
   useEffect(async() => {
@@ -31,15 +35,33 @@ const TableSix = (props) => {
         );
       });
       let obj = {
-        meta: {
           pagination: listUserSearch.length,
-        },
-        data: listUserSearch,
+          data: listUserSearch,
       };
       setDataUser(obj);
-      props.totalEmploy(obj.meta.pagination)
+      props.totalEmploy(obj.pagination)
     }
   });
+
+  const fetchData = async(page) => {
+    let data = await listUser(page);
+    let container = [];
+    const depart = data.data.map(item => item.department.data.dep_name);
+    for(let i of depart) {
+      container.push({text: i, value: i})
+    }
+    const filteredArr = container.reduce((acc, current) => {
+      const x = acc.find(item => item.text === current.text);
+      if (!x) {
+        return acc.concat([current]);
+      } else {
+        return acc;
+      }
+    }, []);
+    setDataDepart(filteredArr);
+    setDataUser(data)
+    props.totalEmploy(data.pagination.total);
+  }
 
   const confirm = (e) => {
     const { userSixActionCreators } = props;
@@ -49,6 +71,10 @@ const TableSix = (props) => {
 
   const cancel = (e) => {
     message.error("Không ẩn");
+  };
+
+  const handleTableChange = filters => {
+    setFilter(filters)
   };
 
   const handlePagination = async (pagination) => {
@@ -63,7 +89,7 @@ const TableSix = (props) => {
   const columns = [
     {
       title: "Ảnh đại diện",
-      width: 200,
+      width: 150,
       dataIndex: "userImg",
       key: "userImg",
       fixed: "left",
@@ -86,20 +112,26 @@ const TableSix = (props) => {
     },
     {
       title: "Chức vụ",
-      dataIndex: "full_name",
-      key: "full_name",
+      dataIndex: "department",
+      key: "department",
+      render: department => `${department.data.pos_name}`,
       // sorter: (a, b) => a.full_name.length - b.full_name.length,
     },
     {
       title: "Phòng ban",
-      dataIndex: "dep_name",
-      key: "dep_name",
+      dataIndex: "department",
+      key: "department",
+      filters: dataDepart,
+      render: department => `${department.data.dep_name}`,
+      filteredValue: filter ? filter.department : null,
+      onFilter: (value, record) => record.department.data.dep_name.includes(value),
       // sorter: (a, b) => a.full_name.length - b.full_name.length,
     },
     {
       title: "Ngày sinh",
-      dataIndex: "full_name",
-      key: "full_name",
+      dataIndex: "profile",
+      key: "profile",
+      render: profile => `${profile.data.pro_birth_day}`,
       // sorter: (a, b) => a.full_name.length - b.full_name.length,
     },
     {
@@ -158,10 +190,11 @@ const TableSix = (props) => {
               dataSource={dataUser ? dataUser.data : []}
               className="table-content"
               rowKey="id"
+              onChange={handleTableChange}
               pagination={{
                 onChange: handlePagination,
                 pageSize: 15,
-                total: dataUser ? dataUser.meta.pagination.total : 0,
+                total: dataUser ? dataUser.pagination.total : 0,
               }}
             />
           </div>
