@@ -25,8 +25,10 @@ class Create extends Component {
       dataForm: null,
       dataWorkFlow: null,
       currentProcess: 0,
-      note: "",
+      note: "Không có ý kiến",
+      user_id:"",
       view: false,
+      isProcessed: false,
       isModalVisible: false,
     };
   }
@@ -38,14 +40,21 @@ class Create extends Component {
     .then((res) => {
       let incr = 0;
       // console.log(res.data)
-      if (res.data.targets[0].target_id != docCookies.getItem("user_id")) {
+      if (res.data.targets[0].target_id != docCookies.getItem("user_id") || res.data.status === "processed") {
           this.setState({
             view:true
           })
       }
-      this.setState({
-        currentProcess: res.data.current_step.id,
-      });
+      if(res.data.status === "processed") {
+        this.setState({
+          isProcessed:true,
+          currentProcess: res.data.current_step.id,
+        })
+      } else {
+        this.setState({
+          currentProcess: res.data.current_step.id - 1,
+        });
+      }
     })
     .catch((err) => {});
     try {
@@ -56,6 +65,7 @@ class Create extends Component {
             this.setState({
               listInputs: res.data.inputs,
               inputsData: res.data.inputs,
+              user_id:res.data.user_id
             });
             axios
               .get(`/api/workflow/detail?type_id=${res.data.document_type.id}`)
@@ -242,9 +252,14 @@ class Create extends Component {
     // }
   };
   handleAccept = () => {
-    this.setState({
-      isModalVisible: true,
-    });
+    if(this.state.user_id == docCookies.getItem("user_id")) {
+      this.handleOk ();
+    } else {
+      this.setState({
+        isModalVisible: true,
+      });
+    }
+  
   };
   handleOk = () => {
     axiosConfig
@@ -263,7 +278,10 @@ class Create extends Component {
           axiosConfig
             .post("/api/document-process/process", body)
             .then((res) => {
+              console.log(res)
               alert("Xác nhận thành công");
+              this.setState({ isModalVisible: false });
+              this.props.history.goBack()
             })
             .catch((err) => {
               console.log("err");
@@ -290,18 +308,19 @@ class Create extends Component {
   };
   render() {
     const { listInputs, inputsData } = this.state;
+    console.log(this.state.isProcessed)
     return (
       <div>
         <div className="row">
-          <Steps current={0} size="small" className="process-work-flow">
+          <Steps current={this.state.currentProcess} size="small" className="process-work-flow">
             {this.renderWorkflow()}
             <Step title="Tài liệu sẵn sàng" />
           </Steps>
 
           <div className="col-md-8"></div>
         </div>
-        <div className="row">
-          <div className="col-md-12 form-builder-area card gridify tiny dropTarget">
+        <div className="row" style ={{justifyContent:"center"}}>
+          <div className="col-md-7 form-builder-area card gridify tiny dropTarget">
             {listInputs.length > 0 &&
               listInputs.map((item, index) => {
                 var data = inputsData.find((x) => x.id == item.id);
@@ -337,7 +356,7 @@ class Create extends Component {
           </div>
           <div style={{ width: "100%" }}>
             {this.state.create === true && (
-              <div style={{ display: "flex", justifyContent: "flex-end" }}>
+              <div style={{ display: "flex", justifyContent: "center" }}>
                 <span
                   className="btn-add-user"
                   onClick={(e) => this.handleSubmit(e)}
@@ -354,7 +373,7 @@ class Create extends Component {
             )}
 
             {this.state.create === false && (
-              <div style={{ display: "flex", justifyContent: "flex-end" }}>
+              <div style={{ display: "flex", justifyContent: "center" }}>
                 {this.state.view === false &&
                 <span
                   className="btn-add-user"

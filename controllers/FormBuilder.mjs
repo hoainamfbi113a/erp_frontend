@@ -141,6 +141,11 @@ router.post("/document/store", async (req, res) => {
         type_id: document_type_id,
         user_id: user_id,
         inputs: inputsData,
+        user_name: data.data.pro_name,
+        dep_id: data.data.department.data.dep_id,
+        dep_name: data.data.department.data.dep_name,
+        pos_id: data.data.department.data.pos_id,
+        pos_name: data.data.department.data.pos_name,
       };
       dataForm.issue_id = res1.data.id;
       axios

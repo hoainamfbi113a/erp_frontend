@@ -21,7 +21,6 @@ export default class NotifiMy extends Component {
     axiosConfig
       .get(`/api/notification/list?user_id=${user_id}`)
       .then((res) => {
-        console.log(res);
         this.setState({
           notification: res.data,
         });
@@ -41,7 +40,6 @@ export default class NotifiMy extends Component {
       page: value,
     };
     let resListNotify = await listNotify(params);
-    console.log("resListNotify", resListNotify);
     if (!resListNotify.err) {
       this.setState({
         data: resListNotify,
@@ -106,9 +104,7 @@ export default class NotifiMy extends Component {
           <tr key={item.id}>
             <td>
               <div className="content-notification-table-btn">
-                {!!item.serviceManagement === true
-                  ? item.serviceManagement.data.slug
-                  : ""}
+                {item.document_type.display_name}
               </div>
             </td>
             {console.log(item)}
@@ -117,12 +113,12 @@ export default class NotifiMy extends Component {
               onClick={() => {
                 this.changeStatusNotiDocument(
                   item.id,
-                  item.process_id,
-                  item.process_id
+                  item.process.document_id,
+                  item.process.id
                 );
               }}
             >
-              {item.content} {item.document_type.display_name} {item.user_id}
+              {item.content} {item.document_type.display_name} <b> {item.user_name} </b> {item.department_name}
             </td>
             <td>{item.updated_at}</td>
           </tr>
