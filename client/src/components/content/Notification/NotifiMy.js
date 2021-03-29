@@ -111,17 +111,18 @@ export default class NotifiMy extends Component {
                   : ""}
               </div>
             </td>
+            {console.log(item)}
             <td
               className={item.status === 1 ? "content-notification-unread" : ""}
               onClick={() => {
                 this.changeStatusNotiDocument(
                   item.id,
-                  item.process.document_id,
-                  item.process.id
+                  item.process_id,
+                  item.process_id
                 );
               }}
             >
-              {item.content}
+              {item.content} {item.document_type.display_name} {item.user_id}
             </td>
             <td>{item.updated_at}</td>
           </tr>

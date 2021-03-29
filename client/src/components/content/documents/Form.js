@@ -10,6 +10,8 @@ import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 import docCookies from "doc-cookies";
 import axiosConfig from "apis/axios";
 import { bindActionCreators } from "redux";
+import { Modal, Button } from "antd";
+import { Input } from "antd";
 class Create extends Component {
   constructor(props) {
     super(props);
@@ -23,22 +25,31 @@ class Create extends Component {
       dataForm: null,
       dataWorkFlow: null,
       currentProcess: 0,
+      note: "",
+      view: false,
+      isModalVisible: false,
     };
   }
   componentDidMount = () => {
     this.props.uiActionCreatorsS();
     const id = this.props.match.params.id;
+    axios
+    .get(`/api/document-process/get?id=${id}`)
+    .then((res) => {
+      let incr = 0;
+      // console.log(res.data)
+      if (res.data.targets[0].target_id != docCookies.getItem("user_id")) {
+          this.setState({
+            view:true
+          })
+      }
+      this.setState({
+        currentProcess: res.data.current_step.id,
+      });
+    })
+    .catch((err) => {});
     try {
       if (this.state.create === false) {
-        axios
-          .get(`/api/document-process/get?process_id=${id}`)
-          .then((res) => {
-            let incr = 0;
-            this.setState({
-              currentProcess: res.data.current_step.id,
-            });
-          })
-          .catch((err) => {});
         axios
           .get(`/api/document/get?id=${id}`)
           .then((res) => {
@@ -231,14 +242,23 @@ class Create extends Component {
     // }
   };
   handleAccept = () => {
+    this.setState({
+      isModalVisible: true,
+    });
+  };
+  handleOk = () => {
     axiosConfig
       .get(`/api/document-process/get?id=${this.props.match.params.process_id}`)
       .then((res) => {
         if (res.targets[0].target_id == docCookies.getItem("user_id")) {
+          this.setState({
+            view:true,
+          })
           let body = {
             process_id: +this.props.match.params.process_id,
             user_id: +docCookies.getItem("user_id"),
             status: "pass",
+            note: this.state.note,
           };
           axiosConfig
             .post("/api/document-process/process", body)
@@ -262,6 +282,11 @@ class Create extends Component {
     } else {
     }
     // return ""
+  };
+  onChange = (e) => {
+    this.setState({
+      note: e.target.value,
+    });
   };
   render() {
     const { listInputs, inputsData } = this.state;
@@ -330,12 +355,14 @@ class Create extends Component {
 
             {this.state.create === false && (
               <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                {this.state.view === false &&
                 <span
                   className="btn-add-user"
                   onClick={(e) => this.handleAccept()}
                 >
                   Xác nhận
                 </span>
+                }
                 <span
                   className="btn-add-user"
                   onClick={() => this.props.history.goBack()}
@@ -346,7 +373,21 @@ class Create extends Component {
             )}
           </div>
         </div>
-
+        <Modal
+          title="Basic Modal"
+          visible={this.state.isModalVisible}
+          onOk={()=>{this.handleOk()}}
+          onCancel={() => {
+            this.setState({ isModalVisible: false });
+          }}
+        >
+          <Input
+            value={this.state.note}
+            name="note"
+            onChange={this.onChange}
+            placeholder="Nhập phản hồi của bạn"
+          />
+        </Modal>
         {/* <ModalForm dataForm = {this.state.dataForm} idWorkflow ={this.props.match.params.id} show ={this.state.showModal} hideModal = {()=>{
           this.setState({
             showModal:false

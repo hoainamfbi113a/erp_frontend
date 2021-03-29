@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import "../../App/App.css";
 import "./Table.css";
-import {  } from "antd";
 import { Layout, Table, Space, Tag, Avatar, Popconfirm, message } from "antd";
 import user from "assets/images/user2.png";
 import { listUser } from "apis/authenticationApi";
@@ -152,6 +151,7 @@ const TableSix = (props) => {
     <div>
       <Content>
         <div className="layout-content">
+          {console.log(dataUser)}
           <div style={{ padding: 24, minHeight: 200 }}>
             <Table
               columns={columns}
