@@ -187,7 +187,6 @@ const TableParts = (props) => {
   };
   //let data = ""
   if (data !== null && dataDepart !== null) {
-    console.log(data)
     for (let item of data.data) {
       for (let itemDepartment of dataDepart) {
         if (item.dep_id === itemDepartment.id) {
