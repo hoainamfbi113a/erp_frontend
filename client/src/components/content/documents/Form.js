@@ -38,21 +38,21 @@ class Create extends Component {
     axios
     .get(`/api/document-process/get?id=${id}`)
     .then((res) => {
-      let incr = 0;
-      // console.log(res.data)
+      console.log(res)
       if (res.data.targets[0].target_id != docCookies.getItem("user_id") || res.data.status === "processed") {
           this.setState({
             view:true
           })
       }
+      console.log(res.data)
       if(res.data.status === "processed") {
         this.setState({
           isProcessed:true,
-          currentProcess: res.data.current_step.id,
+          currentProcess: res.data.current_step.id - 6,
         })
       } else {
         this.setState({
-          currentProcess: res.data.current_step.id - 1,
+          currentProcess: res.data.current_step.id -7,
         });
       }
     })
