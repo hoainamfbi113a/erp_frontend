@@ -24,6 +24,7 @@ class Create extends Component {
       showModal: false,
       dataForm: null,
       dataWorkFlow: null,
+      stepDataFlow:[],
       currentProcess: 0,
       note: "Không có ý kiến",
       user_id:"",
@@ -32,27 +33,64 @@ class Create extends Component {
       isModalVisible: false,
     };
   }
+  getDetailIssue = (type_id) =>{
+      let params = {
+        type_id,
+        nested: "1",
+      };
+      console.log(params)
+      axiosConfig.get("/api/issue/detail",{params})
+      .then(res=>{
+        this.setState({
+          stepDataFlow:res
+        })
+        let i = 0;
+        console.log(this.state.currentProcess)
+        for(let item of res) {
+          i++;
+          if(item.id === this.state.currentProcess) {
+            this.setState({
+              currentProcess:i -1
+            })
+            break;
+          } 
+        }
+      })
+      .catch(err=>{
+        console.log(err);
+      })
+  }
   componentDidMount = () => {
     this.props.uiActionCreatorsS();
     const id = this.props.match.params.id;
+
     axios
     .get(`/api/document-process/get?id=${id}`)
     .then((res) => {
-      console.log(res)
-      if (res.data.targets[0].target_id != docCookies.getItem("user_id") || res.data.status === "processed") {
+      let arrTarget = res.data.targets;
+      let userLogin = docCookies.getItem("user_id");
+      for(let item of arrTarget) {
+        if(item.target_id === userLogin) {
           this.setState({
             view:true
           })
+          break;
+        }
       }
-      console.log(res.data)
+      if (res.data.status === "processed") {
+          this.setState({
+            view:true,
+            isProcessed:true,
+          })
+      }
       if(res.data.status === "processed") {
         this.setState({
           isProcessed:true,
-          currentProcess: res.data.current_step.id - 6,
+          currentProcess: res.data.current_step.id -1,
         })
       } else {
         this.setState({
-          currentProcess: res.data.current_step.id -7,
+          currentProcess: res.data.current_step.id ,
         });
       }
     })
@@ -67,6 +105,7 @@ class Create extends Component {
               inputsData: res.data.inputs,
               user_id:res.data.user_id
             });
+            this.getDetailIssue(res.data.document_type.id);
             axios
               .get(`/api/workflow/detail?type_id=${res.data.document_type.id}`)
               .then((res) => {
@@ -94,6 +133,7 @@ class Create extends Component {
             this.setState({
               listInputs: data.data.inputs,
             });
+            this.getDetailIssue(data.data.document_type.id);
             axios
               .get(`/api/workflow/detail?type_id=${data.data.document_type.id}`)
               .then((res) => {
@@ -293,9 +333,9 @@ class Create extends Component {
       });
   };
   renderWorkflow = () => {
-    if (this.state.dataWorkFlow && this.state.dataWorkFlow.steps) {
-      return this.state.dataWorkFlow.steps.map((item) => {
-        return <Step key={item.id} title={item.description} />;
+    if (this.state.stepDataFlow) {
+      return this.state.stepDataFlow.map((item) => {
+        return <Step key={item.id} title={item.name} />;
       });
     } else {
     }
@@ -308,13 +348,12 @@ class Create extends Component {
   };
   render() {
     const { listInputs, inputsData } = this.state;
-    console.log(this.state.isProcessed)
     return (
       <div>
         <div className="row">
           <Steps current={this.state.currentProcess} size="small" className="process-work-flow">
             {this.renderWorkflow()}
-            <Step title="Tài liệu sẵn sàng" />
+            <Step title="Tài liệu đã duyệt hoàn tất" />
           </Steps>
 
           <div className="col-md-8"></div>
