@@ -35,12 +35,13 @@ const TableParts = (props) => {
   const [isCreate, setIsCreate] = useState(false);
 
   useEffect(async () => {
-    fetchData(1);
+    //fetchData(1);
     fetchDepartment();
   }, [])
 
   useEffect(async() => {
     if (props.valueSearch !== lastValue) {
+      dispatch(showLoading());
       let resListPart = await getListParts("all");
       let listPartSearch = resListPart.data.filter((part) => {
         return (
@@ -57,18 +58,19 @@ const TableParts = (props) => {
       };
       setData(obj);
       props.totalPart(obj.meta.pagination);
+      dispatch(hideLoading());
     }
   }, [props.valueSearch])
 
-  const fetchData = async (page) => {
-    let res = await getListParts(page);
-    if (!res.err) {
-      setData(res);
-      props.totalPart(res.meta.pagination.total);
-    } else {
-      message.error("get list parts failed");
-    }
-  };
+  // const fetchData = async (page) => {
+  //   let res = await getListParts(page);
+  //   if (!res.err) {
+  //     setData(res);
+  //     props.totalPart(res.meta.pagination.total);
+  //   } else {
+  //     message.error("get list parts failed");
+  //   }
+  // };
 
   const fetchDepartment = async() => {
     let res = await getListIdDepartment();

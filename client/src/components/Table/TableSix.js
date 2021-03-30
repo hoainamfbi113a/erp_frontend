@@ -20,34 +20,34 @@ const TableSix = (props) => {
   const [dataPos, setDataPos] = useState([{
     text: "", value: ""
   }]);
-  const [filter, setFilter] = useState(null);
 
   useEffect(() => {
-    fetchData(1);
-    //fetchDepart("all");
+    fetchData("all");
   }, []);
 
-  useEffect(() => {
-    async function searchValue() {
-      if (props.valueSearch !== lastValue) {
-        let resListUser = await listUser("all");
-        let listUserSearch = resListUser.data.filter((user) => {
-          return (
-            user.full_name
-              .toLowerCase()
-              .indexOf(props.valueSearch.toLowerCase()) !== -1
-          );
-        });
-        let obj = {
-            pagination: listUserSearch.length,
-            data: listUserSearch,
-        };
-        setDataUser(obj);
-        props.totalEmploy(obj.pagination)
-      }
+  useEffect(async() => {
+    //async function searchValue() {
+    if (props.valueSearch !== lastValue) {
+      dispatch(showLoading());
+      let resListUser = await listUser("all");
+      let listUserSearch = resListUser.data.filter((user) => {
+        return (
+          user.full_name
+            .toLowerCase()
+            .indexOf(props.valueSearch.toLowerCase()) !== -1
+        );
+      });
+      let obj = {
+          pagination: listUserSearch.length,
+          data: listUserSearch,
+      };
+      setDataUser(obj);
+      props.totalEmploy(obj.pagination)
+      dispatch(hideLoading());
     }
-    searchValue();
-  });
+    //}
+    //searchValue();
+  }, [props.valueSearch]);
 
   const fetchData = async(page) => {
     let data = await listUser(page);
@@ -71,14 +71,13 @@ const TableSix = (props) => {
     }
     setDataDepart(filterValue(container));
 
-    const position = data.data.map(item => item.department.data.pos_name);  
+    const position = data.data.map(item => item.department.data.pos_name);
     for(let i of position) {
       positionData.push({text: i, value: i})
     }
     setDataPos(filterValue(positionData));
-
-    setDataUser(data)
-    props.totalEmploy(data.pagination.total);
+    // setDataUser(data);
+    // props.totalEmploy(data.pagination.total)
   }
 
   const confirm = (e) => {
@@ -89,10 +88,6 @@ const TableSix = (props) => {
 
   const cancel = (e) => {
     message.error("Không ẩn");
-  };
-
-  const handleTableChange = filters => {
-    setFilter(filters)
   };
 
   const handlePagination = async (pagination) => {
@@ -133,10 +128,10 @@ const TableSix = (props) => {
     {
       title: "Chức vụ",
       dataIndex: "department",
-      key: "department",
+      key: "position",
       filters: dataPos,
       render: department => `${department.data.pos_name}`,
-      filteredValue: filter ? filter.department : null,
+      //ilteredValue: filter ? filter.department : null,
       onFilter: (value, record) => record.department.data.pos_name.includes(value),
       // sorter: (a, b) => a.full_name.length - b.full_name.length,
     },
@@ -146,12 +141,13 @@ const TableSix = (props) => {
       key: "department",
       filters: dataDepart,
       render: department => `${department.data.dep_name}`,
-      filteredValue: filter ? filter.department : null,
+      //filteredValue: filter ? filter.department : null,
       onFilter: (value, record) => record.department.data.dep_name.includes(value),
       // sorter: (a, b) => a.full_name.length - b.full_name.length,
     },
     {
       title: "Ngày sinh",
+      width: 120,
       dataIndex: "profile",
       key: "profile",
       render: profile => `${profile.data.pro_birth_day}`,
@@ -206,14 +202,12 @@ const TableSix = (props) => {
     <div>
       <Content>
         <div className="layout-content">
-          {console.log(dataUser)}
           <div style={{ padding: 24, minHeight: 200 }}>
             <Table
               columns={columns}
               dataSource={dataUser ? dataUser.data : []}
               className="table-content"
               rowKey="id"
-              onChange={handleTableChange}
               pagination={{
                 onChange: handlePagination,
                 pageSize: 15,

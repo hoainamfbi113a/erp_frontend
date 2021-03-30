@@ -26,12 +26,13 @@ const TablePosition = (props) => {
   const [pos_note, setPosNote] = useState("");
   const [err, setErr] = useState("");
 
-  useEffect(() => {
-    fetchData();
-  }, [])
+  // useEffect(() => {
+  //   fetchData();
+  // }, [])
 
   useEffect(async() => {
     if (props.valueSearch !== lastValue) {
+      dispatch(showLoading());
       let resListPos = await getListPosition("all");
       let listPosSearch = resListPos.data.filter((pos) => {
         return (
@@ -48,14 +49,15 @@ const TablePosition = (props) => {
       };
       setData(obj);
       props.totalPosition(obj.meta.pagination);
+      dispatch(hideLoading());
     }
   }, [props.valueSearch])
 
-  const fetchData = async () => {
-    let data = await getListPosition(1);
-    setData(data)
-    props.totalPosition(data.meta.pagination.total);
-  };
+  // const fetchData = async () => {
+  //   let data = await getListPosition(1);
+  //   setData(data)
+  //   props.totalPosition(data.meta.pagination.total);
+  // };
 
   const onSubmit = async () => {
     let err_name = await ValidateField(pos_name, 8, 50, "Chức vụ");
