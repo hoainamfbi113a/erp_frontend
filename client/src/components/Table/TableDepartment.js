@@ -41,12 +41,14 @@ const TableDepartment = (props) => {
     err_phone: "",
   });
 
-  useEffect(() => {
-    fetchData(1);
-  }, []);
+  // useEffect(() => {
+  //   fetchData(1);
+  // }, []);
 
   useEffect(async () => {
     if (props.valueSearch !== lastValue) {
+      console.log("123");
+      dispatch(showLoading());
       let resListDepart = await getListDepartment("all");
       let listDepartSearch = resListDepart.data.filter((depart) => {
         return (
@@ -63,22 +65,23 @@ const TableDepartment = (props) => {
       };
       setData(obj);
       props.totalDepartment(obj.meta.pagination);
+      dispatch(hideLoading());
     }
   }, [props.valueSearch]);
 
-  const fetchData = async (page) => {
-    try {
-      let res = await getListDepartment(page);
-      if(!res.err) {
-        setData(res);
-        props.totalDepartment(res.meta.pagination.total);
-      } else {
-        cmessage.error("get list department failed");ons
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const fetchData = async (page) => {
+  //   try {
+  //     let res = await getListDepartment(page);
+  //     if(!res.err) {
+  //       setData(res);
+  //       props.totalDepartment(res.meta.pagination.total);
+  //     } else {
+  //       message.error("get list department failed");
+  //     }
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const onSubmit = async () => {
     let err_name = await ValidateField(depart.dep_name, 8, 50, "Tên");

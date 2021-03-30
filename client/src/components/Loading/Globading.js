@@ -8,7 +8,7 @@ const GlobalLoading = () => {
     <div>
       {showLoading === true ? (
         <div className="GlobalLoading">
-          <Spin className="icon" />
+          <Spin className="icon" size="large" />
         </div>
       ) : (
         ""
