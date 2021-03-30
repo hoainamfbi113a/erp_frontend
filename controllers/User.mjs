@@ -5,7 +5,7 @@ router.get("/user", async (req, res) => {
   const config = {
     headers: { Authorization: req.headers.authorization },
   };
-  let { data } = await axios.get(`${process.env.apiEmployee}/api/user`, config);
+  let { data } = await axios.get(`${process.env.apiEmployee}/api/profiles`, config);
   res.send(data);
 });
 router.get("/user/:id", async (req, res) => {
@@ -26,13 +26,13 @@ router.get("/userpagin", async (req, res) => {
   };
   if (page ==='all') {
     let { data } = await axios.get(
-      `${process.env.apiEmployee}/api/user?order=asc&page=1&per_page=80`,
+      `${process.env.apiEmployee}/api/profiles?order=asc&page=1&per_page=80`,
       config
     );
     res.send(data);
   } else {
     let { data } = await axios.get(
-      `${process.env.apiEmployee}/api/user?order=asc&page=${page}`,
+      `${process.env.apiEmployee}/api/profiles?order=asc&page=${page}`,
       config
     );
     res.send(data);
