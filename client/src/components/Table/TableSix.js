@@ -17,6 +17,9 @@ const TableSix = (props) => {
   const [dataDepart, setDataDepart] = useState([{
     text: "", value: ""
   }]);
+  const [dataPos, setDataPos] = useState([{
+    text: "", value: ""
+  }]);
   const [filter, setFilter] = useState(null);
 
   useEffect(() => {
@@ -24,41 +27,56 @@ const TableSix = (props) => {
     //fetchDepart("all");
   }, []);
 
-  useEffect(async() => {
-    if (props.valueSearch !== lastValue) {
-      let resListUser = await listUser("all");
-      let listUserSearch = resListUser.data.filter((user) => {
-        return (
-          user.full_name
-            .toLowerCase()
-            .indexOf(props.valueSearch.toLowerCase()) !== -1
-        );
-      });
-      let obj = {
-          pagination: listUserSearch.length,
-          data: listUserSearch,
-      };
-      setDataUser(obj);
-      props.totalEmploy(obj.pagination)
+  useEffect(() => {
+    async function searchValue() {
+      if (props.valueSearch !== lastValue) {
+        let resListUser = await listUser("all");
+        let listUserSearch = resListUser.data.filter((user) => {
+          return (
+            user.full_name
+              .toLowerCase()
+              .indexOf(props.valueSearch.toLowerCase()) !== -1
+          );
+        });
+        let obj = {
+            pagination: listUserSearch.length,
+            data: listUserSearch,
+        };
+        setDataUser(obj);
+        props.totalEmploy(obj.pagination)
+      }
     }
+    searchValue();
   });
 
   const fetchData = async(page) => {
     let data = await listUser(page);
     let container = [];
+    let positionData = [];
     const depart = data.data.map(item => item.department.data.dep_name);
     for(let i of depart) {
       container.push({text: i, value: i})
     }
-    const filteredArr = container.reduce((acc, current) => {
-      const x = acc.find(item => item.text === current.text);
-      if (!x) {
-        return acc.concat([current]);
-      } else {
-        return acc;
-      }
-    }, []);
-    setDataDepart(filteredArr);
+    
+    const filterValue = (array) => {
+      const filteredArr = (array).reduce((acc, current) => {
+        const x = acc.find(item => item.text === current.text);
+        if (!x) {
+          return acc.concat([current]);
+        } else {
+          return acc;
+        }
+      }, []);
+      return filteredArr;
+    }
+    setDataDepart(filterValue(container));
+
+    const position = data.data.map(item => item.department.data.pos_name);  
+    for(let i of position) {
+      positionData.push({text: i, value: i})
+    }
+    setDataPos(filterValue(positionData));
+
     setDataUser(data)
     props.totalEmploy(data.pagination.total);
   }
@@ -114,7 +132,10 @@ const TableSix = (props) => {
       title: "Chức vụ",
       dataIndex: "department",
       key: "department",
+      filters: dataPos,
       render: department => `${department.data.pos_name}`,
+      filteredValue: filter ? filter.department : null,
+      onFilter: (value, record) => record.department.data.pos_name.includes(value),
       // sorter: (a, b) => a.full_name.length - b.full_name.length,
     },
     {
