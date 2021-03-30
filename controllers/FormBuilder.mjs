@@ -186,7 +186,37 @@ router.post("/document/store", async (req, res) => {
   //   res.send("failed");
   // }
 });
+const recursiveFactorial = (data, arr) => {
+  if(data && !data.next_pass){
+    return arr
+  }
+  let obj = {
+    id:data.next_pass.id,
+    name:data.next_pass.name
+  }
+  arr.push(obj)
+  return recursiveFactorial(data.next_pass, arr);
+}
 
+router.get("/issue/detail", async (req, res) => {
+  try {
+    let params = req.query;
+    console.log(params)
+    let { data } = await axios.get(
+      `${process.env.apiWorkflow}/api/workflow/detail`, {params}
+    );
+    let arr = []
+    let obj = {
+      id: data.nested_step.id,
+      name: data.nested_step.name
+    }
+    arr.push(obj)
+    let a = recursiveFactorial(data.nested_step,arr)
+    res.send(a); 
+  } catch (error) {
+    console.log(error);
+  }
+});
 router.post("/api/document/update", async (req, res) => {
   try {
     let { data } = await axios.post(
