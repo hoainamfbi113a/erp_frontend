@@ -80,7 +80,7 @@ const TableParts = (props) => {
   };
   
   const onSubmit = async () => {
-    let err_name = await ValidateField(part.part_name, 8, 30, "Tổ");
+    let err_name = await ValidateField(part.part_name, 2, 50, "Tổ");
     let err_dep = await notNull(part.dep_id, "Phòng ban");
 
     if (err_name || err_dep) {

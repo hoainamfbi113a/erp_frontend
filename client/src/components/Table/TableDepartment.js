@@ -81,8 +81,8 @@ const TableDepartment = (props) => {
   };
 
   const onSubmit = async () => {
-    let err_name = await ValidateField(depart.dep_name, 8, 30, "Tên");
-    let err_address = await ValidateField(depart.dep_address, 8, 30, "Địa chỉ");
+    let err_name = await ValidateField(depart.dep_name, 8, 50, "Tên");
+    let err_address = await ValidateField(depart.dep_address, 8, 50, "Địa chỉ");
     let err_phone = await ValidateNumber(depart.dep_phone, 9, 11, "Số điện thoại"
     );
     if (err_name || err_address || err_phone) {
@@ -345,7 +345,6 @@ const TableDepartment = (props) => {
           </ul>
         </form>
       </Modal>
-      <h1>asd</h1>
     </div>
   );
 };
