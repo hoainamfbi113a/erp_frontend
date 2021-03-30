@@ -6,12 +6,12 @@ import "./Table.css";
 import { Layout, Table, Space, Tag, Avatar, Popconfirm, message } from "antd";
 import user from "assets/images/user2.png";
 import { listUser } from "apis/authenticationApi";
-import { getListDepartment } from "../../apis/departmentApi";
-//import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
+import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 import usePrevious from "../../hooks/usePrevious";
 const { Content } = Layout;
 const TableSix = (props) => {
 
+  const dispatch = useDispatch();
   const lastValue = usePrevious(props.valueSearch);
   const [dataUser, setDataUser] = useState(null);
   const [dataDepart, setDataDepart] = useState([{
@@ -96,12 +96,14 @@ const TableSix = (props) => {
   };
 
   const handlePagination = async (pagination) => {
+    dispatch(showLoading());
     let resListUser = await listUser(pagination);
     if (!resListUser.err) {
       setDataUser(resListUser)
     } else {
       message.error("get user failed");
     }
+    dispatch(hideLoading());
   };
 
   const columns = [
