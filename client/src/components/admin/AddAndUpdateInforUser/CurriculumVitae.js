@@ -421,7 +421,7 @@ class addInformationUser extends Component {
     await this.handleInputValid("pro_name", this.state.pro_name);
     await this.handleInputValid("email", this.state.email);
     await this.handleInputValid("phone", this.state.phone);
-    await this.handleInputValid("part", this.state.par_id);
+    // await this.handleInputValid("part", this.state.par_id);
     await this.handleInputValid("department", this.state.dep_id);
     await this.handleInputValid("position", this.state.pos_id);
     if (
@@ -1186,8 +1186,8 @@ class addInformationUser extends Component {
                       ) : null}
                     </li>
                     <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">Tổ làm việc:
-                      <span>*</span>
+                      <span className="tabs-user-infor-top">Tổ:
+                      {/* <span>*</span> */}
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Select
