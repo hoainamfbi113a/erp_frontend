@@ -160,7 +160,7 @@ class CurriculumVitae extends Component {
     let messageErr = 0;
     await this.handleInputValid("pro_name", this.state.pro_name);
     await this.handleInputValid("phone", this.state.phone);
-    await this.handleInputValid("part", this.state.par_id);
+    // await this.handleInputValid("part", this.state.par_id);
     await this.handleInputValid("department", this.state.dep_id);
     await this.handleInputValid("position", this.state.pos_id);
     if (
@@ -939,7 +939,7 @@ class CurriculumVitae extends Component {
                       ) : null}
                     </li>
                     <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">Tổ làm việc</span>
+                      <span className="tabs-user-infor-top">Tổ: </span>
                       <div className="tabs-user-infor-bottom">
                         <Select
                           disabled={true}
