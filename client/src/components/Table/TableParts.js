@@ -12,7 +12,7 @@ import {
   updateParts,
   deleteParts,
 } from "apis/partsApi";
-import { getListIdDepartment } from "apis/departmentApi"
+import { getListIdDepartment, getListAllDepartment } from "apis/departmentApi"
 import usePrevious from "../../hooks/usePrevious";
 const { Option } = Select;
 const { Content } = Layout;
@@ -73,7 +73,7 @@ const TableParts = (props) => {
   // };
 
   const fetchDepartment = async() => {
-    let res = await getListIdDepartment();
+    let res = await getListAllDepartment();
     if(!res.err) {
       setDataDepart(res.data);
     } else {
@@ -311,9 +311,11 @@ const TableParts = (props) => {
               </span>
               <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal ">
                 <Select
+                  showSearch
                   value={part.dep_id}
                   style={{ width: 450 }}
                   onChange={handleChangeDepart}
+                  optionFilterProp="children"
                 >
                   {renderDepartment()}
                 </Select>
