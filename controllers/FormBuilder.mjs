@@ -162,7 +162,6 @@ router.post("/document/store", async (req, res) => {
               params
             )
             .then((res3) => {
-              // console.log("success2");
               resEnd.send("success");
             })
             .catch((err) => {
@@ -172,19 +171,12 @@ router.post("/document/store", async (req, res) => {
         })
         .catch((err) => {
           resEnd.send("failed 2");
-          // console.log("err")
         });
     })
     .catch((err) => {
       resEnd.send("failed 1");
       console.log(err);
     });
-  // console.log(isSuccess);
-  // if (isSuccess === true) {
-  //   res.send("success");
-  // } else {
-  //   res.send("failed");
-  // }
 });
 const recursiveFactorial = (data, arr) => {
   if(data && !data.next_pass){
