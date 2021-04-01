@@ -40,7 +40,6 @@ class Create extends Component {
       type_id,
       nested: "1",
     };
-    console.log(params);
     axiosConfig
       .get("/api/issue/detail", { params })
       .then((res) => {
@@ -48,8 +47,6 @@ class Create extends Component {
           stepDataFlow: res,
         });
         let i = 0;
-        console.log(res);
-        console.log(this.state.currentProcess);
         for (let item of res) {
           i++;
           if (item.id === this.state.currentProcess) {
@@ -323,7 +320,6 @@ class Create extends Component {
             status: this.state.status,
             note: this.state.note,
           };
-          console.log(body);
           axiosConfig
             .post("/api/document-process/process", body)
             .then((res) => {
@@ -357,7 +353,6 @@ class Create extends Component {
   };
   render() {
     const { listInputs, inputsData, currentProcessStep } = this.state;
-    console.log(currentProcessStep);
     return (
       <div>
         <div className="row">
