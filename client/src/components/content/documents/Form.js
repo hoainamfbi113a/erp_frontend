@@ -26,10 +26,10 @@ class Create extends Component {
       dataWorkFlow: null,
       stepDataFlow: [],
       currentProcess: 0,
-      currentProcessStep:0,
+      currentProcessStep: 0,
       note: "Không có ý kiến",
       user_id: "",
-      view: false,
+      view: true,
       isProcessed: false,
       isModalVisible: false,
       status: "pass",
@@ -56,10 +56,10 @@ class Create extends Component {
             break;
           }
         }
-        if(this.state.isProcessed == true){
+        if (this.state.isProcessed == true) {
           this.setState({
-            currentProcessStep:this.state.currentProcessStep + 1,
-          })
+            currentProcessStep: this.state.currentProcessStep + 1,
+          });
         }
       })
       .catch((err) => {
@@ -79,9 +79,9 @@ class Create extends Component {
             let arrTarget = res.data.targets;
             let userLogin = docCookies.getItem("user_id");
             for (let item of arrTarget) {
-              if (item.target_id != userLogin) {
+              if (item.target_id == userLogin) {
                 this.setState({
-                  view: true,
+                  view: false,
                 });
                 break;
               }
@@ -307,31 +307,19 @@ class Create extends Component {
     }
   };
   handleOk = () => {
+    let body = {
+      process_id: +this.props.match.params.process_id,
+      user_id: +docCookies.getItem("user_id"),
+      status: this.state.status,
+      note: this.state.note,
+    };
     axiosConfig
-      .get(`/api/document-process/get?id=${this.props.match.params.process_id}`)
+      .post("/api/document-process/process", body)
       .then((res) => {
-        if (res.targets[0].target_id == docCookies.getItem("user_id")) {
-          this.setState({
-            view: true,
-          });
-          let body = {
-            process_id: +this.props.match.params.process_id,
-            user_id: +docCookies.getItem("user_id"),
-            status: this.state.status,
-            note: this.state.note,
-          };
-          axiosConfig
-            .post("/api/document-process/process", body)
-            .then((res) => {
-              console.log(res);
-              alert("Xác nhận thành công");
-              this.setState({ isModalVisible: false });
-              this.props.history.goBack();
-            })
-            .catch((err) => {
-              console.log("err");
-            });
-        }
+        console.log(res);
+        alert("Xác nhận thành công");
+        this.setState({ isModalVisible: false });
+        this.props.history.goBack();
       })
       .catch((err) => {
         console.log("err");
