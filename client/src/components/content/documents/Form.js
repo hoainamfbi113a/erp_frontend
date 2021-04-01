@@ -31,6 +31,7 @@ class Create extends Component {
       view: false,
       isProcessed: false,
       isModalVisible: false,
+      status:"pass",
     };
   }
   getDetailIssue = (type_id) =>{
@@ -45,7 +46,6 @@ class Create extends Component {
           stepDataFlow:res
         })
         let i = 0;
-        console.log(this.state.currentProcess)
         for(let item of res) {
           i++;
           if(item.id === this.state.currentProcess) {
@@ -70,7 +70,7 @@ class Create extends Component {
       let arrTarget = res.data.targets;
       let userLogin = docCookies.getItem("user_id");
       for(let item of arrTarget) {
-        if(item.target_id === userLogin) {
+        if(item.target_id != userLogin) {
           this.setState({
             view:true
           })
@@ -291,12 +291,14 @@ class Create extends Component {
 
     // }
   };
-  handleAccept = () => {
+  handleAccept = (value) => {
+
     if(this.state.user_id == docCookies.getItem("user_id")) {
-      this.handleOk ();
+      this.handleOk();
     } else {
       this.setState({
         isModalVisible: true,
+        status:value
       });
     }
   
@@ -312,7 +314,7 @@ class Create extends Component {
           let body = {
             process_id: +this.props.match.params.process_id,
             user_id: +docCookies.getItem("user_id"),
-            status: "pass",
+            status:this.state.status,
             note: this.state.note,
           };
           axiosConfig
@@ -413,21 +415,31 @@ class Create extends Component {
             )}
 
             {this.state.create === false && (
-              <div style={{ display: "flex", justifyContent: "center" }}>
+              <div style={{ display: "flex", justifyContent: "center", margin:"20px" }}>
                 {this.state.view === false &&
+                <div>
                 <span
                   className="btn-add-user"
-                  onClick={(e) => this.handleAccept()}
+                  onClick={(e) => this.handleAccept("pass")}
                 >
                   Xác nhận
                 </span>
+                <span
+                  className="btn-add-user"
+                  onClick={(e) => this.handleAccept("reject")}
+                >
+                  Từ chối
+                </span>
+                </div>
                 }
+                <div>
                 <span
                   className="btn-add-user"
                   onClick={() => this.props.history.goBack()}
                 >
                   Trở về
                 </span>
+                </div>
               </div>
             )}
           </div>

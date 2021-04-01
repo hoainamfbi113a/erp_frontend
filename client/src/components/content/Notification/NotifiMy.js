@@ -2,19 +2,15 @@ import React, { useEffect, useState } from "react";
 import docCookies from "doc-cookies";
 import { updateStatusNotify, listNotify } from "apis/notificationApi";
 import axiosConfig from "apis/axios";
-import { simpleDate } from "../../../helpers/FuncHelper"
+import { simpleDate } from "../../../helpers/FuncHelper";
 import { Button, Pagination, Tag } from "antd";
-import {
-  CheckCircleOutlined,
-  SyncOutlined,
-} from '@ant-design/icons';
+import { CheckCircleOutlined, SyncOutlined } from "@ant-design/icons";
 import "./notification.css";
 const app_id = 99;
 const slug = "profile";
 const per_page = 15;
 
 const NotifiMy = (props) => {
-
   const [data, setData] = useState(null);
   const [pagination, setPage] = useState(1);
   const [noti, setNoti] = useState(null);
@@ -23,13 +19,13 @@ const NotifiMy = (props) => {
     const user_id = docCookies.getItem("user_id");
     axiosConfig
       .get(`/api/notification/list?user_id=${user_id}`)
-        .then((res) => {
-          console.log(res);
-          setNoti(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        })
+      .then((res) => {
+        console.log(res);
+        setNoti(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   const fetchNotify = async (value) => {
@@ -58,43 +54,40 @@ const NotifiMy = (props) => {
   };
 
   const onChangePagination = (page) => {
-    setPage(page)
+    setPage(page);
     fetchNotify(page);
   };
 
   const changeStatusNotiDocument = (item_id, document_id, process_id) => {
     axiosConfig
       .get(`/api/notification/mark-as-read/${item_id}`)
-        .then((res) => {
-          axiosConfig
-            .get(`/api/document-process/get?id=${process_id}`)
-            .then((res) => {
-              if (res.targets[0].target_id == docCookies.getItem("user_id")) {
-                let body = {
-                  process_id: +process_id,
-                  user_id: +docCookies.getItem("user_id"),
-                  status: "view",
-                };
-                axiosConfig
-                  .post("/api/document-process/process", body)
-                  .then((res) => {
-                  })
-                  .catch((err) => {
-                    console.log("loi roi");
-                    console.log(err)
-                  });
-              }
-            })
-            .catch((err) => {
-              console.log("erraaaa");
-            });
-        })
-        .catch((err) => {
-          console.log("err", err);
-        });
-      props.history.push(
-        `/form-document-view/${document_id}/${process_id}`
-      );
+      .then((res) => {
+        axiosConfig
+          .get(`/api/document-process/get?id=${process_id}`)
+          .then((res) => {
+            if (res.targets[0].target_id == docCookies.getItem("user_id")) {
+              let body = {
+                process_id: +process_id,
+                user_id: +docCookies.getItem("user_id"),
+                status: "view",
+              };
+              axiosConfig
+                .post("/api/document-process/process", body)
+                .then((res) => {})
+                .catch((err) => {
+                  console.log("loi roi");
+                  console.log(err);
+                });
+            }
+          })
+          .catch((err) => {
+            console.log("erraaaa");
+          });
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
+    props.history.push(`/form-document-view/${document_id}/${process_id}`);
   };
 
   const renderNotifyItemDocument = () => {
@@ -103,7 +96,16 @@ const NotifiMy = (props) => {
       return dataNotify.map((item) => {
         const status = item.process.status === "processed";
         return (
-          <tr key={item.id}>
+          <tr
+            onClick={() => {
+              changeStatusNotiDocument(
+                item.id,
+                item.process.document_id,
+                item.process.id
+              );
+            }}
+            key={item.id}
+          >
             <td>
               <div className="content-notification-table-btn">
                 {item.document_type.display_name}
@@ -112,20 +114,22 @@ const NotifiMy = (props) => {
             <td>{item.user_name}</td>
             <td>{item.department_name}</td>
             <td
-              className={item.read_at === null ? "content-notification-unread" : ""}
-              onClick={() => {
-                changeStatusNotiDocument(
-                  item.id,
-                  item.process.document_id,
-                  item.process.id
-                );
-              }}
+              className={
+                item.read_at === null ? "content-notification-unread" : ""
+              }
             >
               {item.document_type.display_name}
             </td>
-            <td><Tag icon={status ? <CheckCircleOutlined /> : <SyncOutlined spin />} color={status ? "success" : "processing" }>
-              {status ? `Đã duyệt` : `Đang chờ duyệt` }</Tag></td>
-            <td>{simpleDate(item.created_at)}</td>
+            <td>
+              <Tag
+                icon={status ? <CheckCircleOutlined /> : <SyncOutlined spin />}
+                color={status ? "success" : "processing"}
+              >
+                {status ? `Đã duyệt` : `Đang chờ duyệt`}
+              </Tag>
+            </td>
+            {/* {console.log(item.created_at)} */}
+            {/* <td>{simpleDate("2021-03-31 18:21:20")}</td> */}
           </tr>
         );
       });
@@ -246,7 +250,6 @@ const NotifiMy = (props) => {
       </div>
     </div>
   );
-}
+};
 
 export default NotifiMy;
-
