@@ -154,6 +154,14 @@ const validateInputFormUser = (type, checkingText, listUser) => {
     errorMessage: errorMessage,
   };
 };
+
+const simpleDate = date => {
+  let a = date.split(" ");
+  let b = a[0].split("-");
+  let c = b[2].concat('/',b[1], '/').concat(b[0]);
+  return c;
+}
+
 const sleep = (m) => new Promise((r) => setTimeout(r, m));
 export {
   ValidateEmail,
@@ -163,5 +171,6 @@ export {
   resetStatusProfile,
   getIdActionByName,
   validateInputFormUser,
+  simpleDate,
   sleep
 };
