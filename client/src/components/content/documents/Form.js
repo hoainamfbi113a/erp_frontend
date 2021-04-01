@@ -24,86 +24,88 @@ class Create extends Component {
       showModal: false,
       dataForm: null,
       dataWorkFlow: null,
-      stepDataFlow:[],
+      stepDataFlow: [],
       currentProcess: 0,
       note: "Không có ý kiến",
-      user_id:"",
+      user_id: "",
       view: false,
       isProcessed: false,
       isModalVisible: false,
-      status:"pass",
+      status: "pass",
     };
   }
-  getDetailIssue = (type_id) =>{
-      let params = {
-        type_id,
-        nested: "1",
-      };
-      console.log(params)
-      axiosConfig.get("/api/issue/detail",{params})
-      .then(res=>{
+  getDetailIssue = (type_id) => {
+    let params = {
+      type_id,
+      nested: "1",
+    };
+    console.log(params);
+    axiosConfig
+      .get("/api/issue/detail", { params })
+      .then((res) => {
         this.setState({
-          stepDataFlow:res
-        })
+          stepDataFlow: res,
+        });
         let i = 0;
-        for(let item of res) {
+        for (let item of res) {
           i++;
-          if(item.id === this.state.currentProcess) {
+          if (item.id === this.state.currentProcess) {
             this.setState({
-              currentProcess:i -1
-            })
+              currentProcess: i - 1,
+            });
             break;
-          } 
+          }
         }
       })
-      .catch(err=>{
+      .catch((err) => {
         console.log(err);
-      })
-  }
+      });
+  };
   componentDidMount = () => {
     this.props.uiActionCreatorsS();
     const id = this.props.match.params.id;
-
-    axios
-    .get(`/api/document-process/get?id=${id}`)
-    .then((res) => {
-      let arrTarget = res.data.targets;
-      let userLogin = docCookies.getItem("user_id");
-      for(let item of arrTarget) {
-        if(item.target_id != userLogin) {
-          this.setState({
-            view:true
-          })
-          break;
-        }
-      }
-      if (res.data.status === "processed") {
-          this.setState({
-            view:true,
-            isProcessed:true,
-          })
-      }
-      if(res.data.status === "processed") {
-        this.setState({
-          isProcessed:true,
-          currentProcess: res.data.current_step.id -1,
-        })
-      } else {
-        this.setState({
-          currentProcess: res.data.current_step.id ,
-        });
-      }
-    })
-    .catch((err) => {});
     try {
+      // update
       if (this.state.create === false) {
+        const process_id = this.props.match.params.process_id;
+        axios
+          .get(`/api/document-process/get?id=${process_id}`)
+          .then((res) => {
+            let arrTarget = res.data.targets;
+            let userLogin = docCookies.getItem("user_id");
+            for (let item of arrTarget) {
+              if (item.target_id != userLogin) {
+                this.setState({
+                  view: true,
+                });
+                break;
+              }
+            }
+            if (res.data.status === "processed") {
+              this.setState({
+                view: true,
+                isProcessed: true,
+              });
+            }
+            if (res.data.status === "processed") {
+              this.setState({
+                isProcessed: true,
+                currentProcess: res.data.current_step.id - 1,
+              });
+            } else {
+              this.setState({
+                currentProcess: res.data.current_step.id,
+              });
+            }
+          })
+          .catch((err) => {});
         axios
           .get(`/api/document/get?id=${id}`)
           .then((res) => {
             this.setState({
               listInputs: res.data.inputs,
               inputsData: res.data.inputs,
-              user_id:res.data.user_id
+              user_id: res.data.user_id,
             });
             this.getDetailIssue(res.data.document_type.id);
             axios
@@ -119,6 +121,7 @@ class Create extends Component {
           .catch((err) => {
             console.log(err);
           });
+        // create
       } else {
         let params = {
           type_id: 2,
@@ -259,49 +262,44 @@ class Create extends Component {
           console.log(err);
         });
     } else {
-      let arrValueInput = [];
-      for (let item of this.state.inputsData) {
-        if (item.value === null) {
-          item.value = "null";
-        }
-        let obj = {
-          id: item.id,
-          value: item.value,
-        };
-        arrValueInput.push(obj);
-      }
-      let data = {
-        document_id: this.props.match.params.id,
-        user_id: 1,
-        inputs: arrValueInput,
-      };
-      axios
-        .post("https://document.tuoitre.vn/api/document/update", data)
-        .then((res) => {
-          this.props.uiActionCreatorsH();
-          alert("update document thành công");
-        })
-        .catch((err) => {
-          console.log(err);
-          this.props.uiActionCreatorsH();
-          alert("update thất bại");
-        });
+      // let arrValueInput = [];
+      // for (let item of this.state.inputsData) {
+      //   if (item.value === null) {
+      //     item.value = "null";
+      //   }
+      //   let obj = {
+      //     id: item.id,
+      //     value: item.value,
+      //   };
+      //   arrValueInput.push(obj);
+      // }
+      // let data = {
+      //   document_id: this.props.match.params.id,
+      //   user_id: 1,
+      //   inputs: arrValueInput,
+      // };
+      // axios
+      //   .post("https://document.tuoitre.vn/api/document/update", data)
+      //   .then((res) => {
+      //     this.props.uiActionCreatorsH();
+      //     alert("update document thành công");
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //     this.props.uiActionCreatorsH();
+      //     alert("update thất bại");
+      //   });
     }
-    // this.props.uiActionCreatorsH();
-
-    // }
   };
   handleAccept = (value) => {
-
-    if(this.state.user_id == docCookies.getItem("user_id")) {
+    if (this.state.user_id == docCookies.getItem("user_id")) {
       this.handleOk();
     } else {
       this.setState({
         isModalVisible: true,
-        status:value
+        status: value,
       });
     }
-  
   };
   handleOk = () => {
     axiosConfig
@@ -309,21 +307,22 @@ class Create extends Component {
       .then((res) => {
         if (res.targets[0].target_id == docCookies.getItem("user_id")) {
           this.setState({
-            view:true,
-          })
+            view: true,
+          });
           let body = {
             process_id: +this.props.match.params.process_id,
             user_id: +docCookies.getItem("user_id"),
-            status:this.state.status,
+            status: this.state.status,
             note: this.state.note,
           };
+          console.log(body);
           axiosConfig
             .post("/api/document-process/process", body)
             .then((res) => {
-              console.log(res)
+              console.log(res);
               alert("Xác nhận thành công");
               this.setState({ isModalVisible: false });
-              this.props.history.goBack()
+              this.props.history.goBack();
             })
             .catch((err) => {
               console.log("err");
@@ -353,14 +352,18 @@ class Create extends Component {
     return (
       <div>
         <div className="row">
-          <Steps current={this.state.currentProcess} size="small" className="process-work-flow">
+          <Steps
+            current={this.state.currentProcess}
+            size="small"
+            className="process-work-flow"
+          >
             {this.renderWorkflow()}
             <Step title="Tài liệu đã duyệt hoàn tất" />
           </Steps>
 
           <div className="col-md-8"></div>
         </div>
-        <div className="row" style ={{justifyContent:"center"}}>
+        <div className="row" style={{ justifyContent: "center" }}>
           <div className="col-md-7 form-builder-area card gridify tiny dropTarget">
             {listInputs.length > 0 &&
               listInputs.map((item, index) => {
@@ -384,7 +387,7 @@ class Create extends Component {
                     data-index={index}
                   >
                     <RenderInputPreview
-                      create = {this.state.create}
+                      create={this.state.create}
                       data={item}
                       value={value}
                       handleTextChange={this.handleTextChange}
@@ -415,30 +418,36 @@ class Create extends Component {
             )}
 
             {this.state.create === false && (
-              <div style={{ display: "flex", justifyContent: "center", margin:"20px" }}>
-                {this.state.view === false &&
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  margin: "20px",
+                }}
+              >
+                {this.state.view === false && (
+                  <div>
+                    <span
+                      className="btn-add-user"
+                      onClick={(e) => this.handleAccept("pass")}
+                    >
+                      Xác nhận
+                    </span>
+                    <span
+                      className="btn-add-user"
+                      onClick={(e) => this.handleAccept("reject")}
+                    >
+                      Từ chối
+                    </span>
+                  </div>
+                )}
                 <div>
-                <span
-                  className="btn-add-user"
-                  onClick={(e) => this.handleAccept("pass")}
-                >
-                  Xác nhận
-                </span>
-                <span
-                  className="btn-add-user"
-                  onClick={(e) => this.handleAccept("reject")}
-                >
-                  Từ chối
-                </span>
-                </div>
-                }
-                <div>
-                <span
-                  className="btn-add-user"
-                  onClick={() => this.props.history.goBack()}
-                >
-                  Trở về
-                </span>
+                  <span
+                    className="btn-add-user"
+                    onClick={() => this.props.history.goBack()}
+                  >
+                    Trở về
+                  </span>
                 </div>
               </div>
             )}
@@ -447,7 +456,9 @@ class Create extends Component {
         <Modal
           title="Basic Modal"
           visible={this.state.isModalVisible}
-          onOk={()=>{this.handleOk()}}
+          onOk={() => {
+            this.handleOk();
+          }}
           onCancel={() => {
             this.setState({ isModalVisible: false });
           }}

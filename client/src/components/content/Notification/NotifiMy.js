@@ -128,8 +128,8 @@ const NotifiMy = (props) => {
                 {status ? `Đã duyệt` : `Đang chờ duyệt`}
               </Tag>
             </td>
-            {/* {console.log(item.created_at)} */}
-            {/* <td>{simpleDate("2021-03-31 18:21:20")}</td> */}
+            {/* {console.log()} */}
+            <td>{simpleDate(item.created_at)}</td>
           </tr>
         );
       });
