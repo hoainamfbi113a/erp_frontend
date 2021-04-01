@@ -3,7 +3,7 @@ import docCookies from "doc-cookies";
 import { updateStatusNotify, listNotify } from "apis/notificationApi";
 import axiosConfig from "apis/axios";
 import { simpleDate } from "../../../helpers/FuncHelper";
-import { Button, Pagination, Tag } from "antd";
+import { Pagination, Tag } from "antd";
 import { CheckCircleOutlined, SyncOutlined } from "@ant-design/icons";
 import "./notification.css";
 const app_id = 99;
@@ -100,9 +100,29 @@ const NotifiMy = (props) => {
     let dataNotify = noti;
     if (dataNotify) {
       return dataNotify.map((item) => {
-        const status = item.process.status === "processed";
+        let bi = item.process.status;
+        let status = false;
+        if(item.user_id.toString() !== docCookies.getItem("user_id")) {
+          for(let e of item.process.targets) {
+            console.log(e.status);
+            if(e.target_id.toString() === docCookies.getItem("user_id") && e.status === "pass") {
+              status = true;
+            }
+          }
+        } else {
+          if(bi === "processed") {
+            status = true;
+          }
+        }
+        // if(bi === "processed" && item.user_id.toString() === docCookies.getItem("user_id")) {
+        //   status = true;
+        // } else status = false;
+        //const status = item.process.status === "processed";
         return (
           <tr
+            className={
+              item.read_at === null ? "content-notification-unread" : ""
+            }
             onClick={() => {
               changeStatusNotiDocument(
                 item.id,
@@ -119,11 +139,7 @@ const NotifiMy = (props) => {
             </td>
             <td>{item.user_name}</td>
             <td>{item.department_name}</td>
-            <td
-              className={
-                item.read_at === null ? "content-notification-unread" : ""
-              }
-            >
+            <td>
               {item.document_type.display_name}
             </td>
             <td>
@@ -176,9 +192,6 @@ const NotifiMy = (props) => {
         <div className="content-top">
           <div className="content-top-left content-notification">
             <div className="content-top-left-sum-item">Thông báo của tôi</div>
-            <Button className="btn-notification" type="primary">
-              ...
-            </Button>
           </div>
         </div>
         <table className="content-notification-table">
