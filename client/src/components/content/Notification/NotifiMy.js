@@ -61,31 +61,37 @@ const NotifiMy = (props) => {
   const changeStatusNotiDocument = (item_id, document_id, process_id) => {
     axiosConfig
       .get(`/api/notification/mark-as-read/${item_id}`)
-      .then((res) => {
-        axiosConfig
-          .get(`/api/document-process/get?id=${process_id}`)
-          .then((res) => {
-            if (res.targets[0].target_id == docCookies.getItem("user_id")) {
-              let body = {
-                process_id: +process_id,
-                user_id: +docCookies.getItem("user_id"),
-                status: "view",
-              };
-              axiosConfig
-                .post("/api/document-process/process", body)
-                .then((res) => {})
-                .catch((err) => {
-                  console.log("loi roi");
-                  console.log(err);
-                });
-            }
-          })
-          .catch((err) => {
-            console.log("erraaaa");
-          });
-      })
+      .then((res) => {})
       .catch((err) => {
         console.log("err", err);
+      });
+    axiosConfig
+      .get(`/api/document-process/get?id=${process_id}`)
+      .then((res) => {
+        let arrTarget = res.targets;
+        let userLogin = docCookies.getItem("user_id");
+        for (let item of arrTarget) {
+          if (item.target_id == userLogin) {
+            alert("have to")
+            let body = {
+              process_id: +process_id,
+              user_id: +userLogin,
+              status: "view",
+            };
+            console.log(body);
+            axiosConfig
+              .post("/api/document-process/process", body)
+              .then((res) => {})
+              .catch((err) => {
+                console.log("loi roi");
+                console.log(err);
+              });
+            break;
+          }
+        }
+      })
+      .catch((err) => {
+        console.log("erraaaa");
       });
     props.history.push(`/form-document-view/${document_id}/${process_id}`);
   };
