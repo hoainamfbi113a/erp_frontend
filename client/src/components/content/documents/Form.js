@@ -26,6 +26,7 @@ class Create extends Component {
       dataWorkFlow: null,
       stepDataFlow: [],
       currentProcess: 0,
+      currentProcessStep:0,
       note: "Không có ý kiến",
       user_id: "",
       view: false,
@@ -47,14 +48,21 @@ class Create extends Component {
           stepDataFlow: res,
         });
         let i = 0;
+        console.log(res);
+        console.log(this.state.currentProcess);
         for (let item of res) {
           i++;
           if (item.id === this.state.currentProcess) {
             this.setState({
-              currentProcess: i - 1,
+              currentProcessStep: i - 1,
             });
             break;
           }
+        }
+        if(this.state.isProcessed == true){
+          this.setState({
+            currentProcessStep:this.state.currentProcessStep + 1,
+          })
         }
       })
       .catch((err) => {
@@ -90,7 +98,7 @@ class Create extends Component {
             if (res.data.status === "processed") {
               this.setState({
                 isProcessed: true,
-                currentProcess: res.data.current_step.id - 1,
+                currentProcess: res.data.current_step.id,
               });
             } else {
               this.setState({
@@ -348,12 +356,13 @@ class Create extends Component {
     });
   };
   render() {
-    const { listInputs, inputsData } = this.state;
+    const { listInputs, inputsData, currentProcessStep } = this.state;
+    console.log(currentProcessStep);
     return (
       <div>
         <div className="row">
           <Steps
-            current={this.state.currentProcess}
+            current={currentProcessStep}
             size="small"
             className="process-work-flow"
           >
