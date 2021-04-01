@@ -85,8 +85,9 @@ const RouterUrl = () => {
           {checkPermission("document-service", "Create") ? 
             <Route exact path="/form-builder" component={FormBuilder} /> : ""}
             
-          {/* <Route exact path="/form-document-view/:id" component={formDocument} /> */}
+          
           <Route exact path="/form-document/:id" component={formDocument} />
+          <Route exact path="/form-document-view/:id" component={formDocument} />
           <Route exact path="/form-document-view/:id/:process_id" component={formDocument} />
           <Route exact path="/roles" component={ContentRoles}></Route>
           <Route exact path="/roles-action" component={ContentRolesAction}></Route>
