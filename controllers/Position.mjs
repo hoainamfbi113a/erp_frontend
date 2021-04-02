@@ -39,6 +39,7 @@ const updatePosition = async (req, res) => {
     headers: { Authorization: req.headers.authorization },
   };
   let { id } = req.params;
+  console.log(req.body)
   let { data } = await axios.put(
     `${process.env.apiEmployee}/api/positions/${id}`,
     req.body,

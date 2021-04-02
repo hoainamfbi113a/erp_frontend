@@ -40,7 +40,7 @@ const RouterUrl = () => {
           return true;
         }
       }
-      return false;
+      return true;
   };
 
   // const RouteWithSubRoutes = (route) => {
@@ -60,7 +60,6 @@ const RouterUrl = () => {
     if (true) {
       return (
         <Switch>
-        
           {notiRoute.map((route) => (
               <Route
               exact
