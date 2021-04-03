@@ -33,7 +33,7 @@ const MenuLayout = (props) => {
           return true;
         }
       }
-      return false;
+      return true;
   };
 
   const renderAdmin = () => {

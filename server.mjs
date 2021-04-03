@@ -30,10 +30,13 @@ const port = process.env.PORT || 5001;
 const __dirname = path.resolve();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// // app.disable('etag');
-// app.set('etag', false);
-// app.set('etag', 'weak')
-// app.set('etag', 'strong')  
+
+// app.use("/api", function(req, res, next){
+//     if(1) {
+//         res.send('asdsad')
+//     }
+//     next();
+// })
 app.use("/api", userController);
 app.use("/api", formBuilderController);
 

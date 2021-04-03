@@ -69,7 +69,6 @@ export default class TableRoles_v2 extends Component {
     });
   };
   showModalAssign = async (dep_id, pos_id, dep_name, pos_name) => {
-    // alert("123")
     this.props.showModal();
     this.setState({
       dep_id: dep_name,
@@ -79,7 +78,6 @@ export default class TableRoles_v2 extends Component {
       disabledSelected: true,
     });
     let dataRight = [];
-    console.log(this.state.dataRoles)
     await axiosConfig
       .get(
         `/api/permission/departments/positions?dep_id=${dep_id}&pos_id=${pos_id}`
@@ -89,45 +87,45 @@ export default class TableRoles_v2 extends Component {
       });
     let ArrSelected = [];
     for (let item of dataRight) {
-      for (let itemChild of item.permissions) {
-        ArrSelected.push(itemChild.id);
+      for (let itemChild of item.actions) {
+        ArrSelected.push(`${item.id}_${itemChild.id}`);
       }
     }
     this.setState({
+      selectedBegin: ArrSelected,
       selected: ArrSelected,
-      selectedBegin:ArrSelected,
     });
-    console.log(this.state.selected)
-    // await axiosConfig
-    //   .get("/api/list/permission/actions")
-    //   .then((res) => {
-    //     this.setState({
-    //       dataPermission: res,
-    //     });
-    //   })
-    //   .catch((er) => {
-    //     console.log(err);
-    //   });
-    //   console.log(this.state.dataPermission)
-    // let arrOption = [];
-    // for (let item of this.state.dataPermission) {
-    //   let arrAction = [];
-    //   for (let itemChild of item.actions) {
-    //     let objChild = {
-    //       label: itemChild.note,
-    //       value: `${item.id}_${itemChild.id}`,
-    //     };
-    //     arrAction.push(objChild);
-    //   }
-    //   let obj = {
-    //     label: item.name,
-    //     options: arrAction,
-    //   };
-    //   arrOption.push(obj);
-    // }
-    // this.setState({
-    //   dataOptions: arrOption,
-    // });
+
+    await axiosConfig
+      .get("/api/list/permission/actions")
+      .then((res) => {
+        this.setState({
+          dataPermission: res,
+        });
+      })
+      .catch((er) => {
+        console.log(err);
+      });
+
+    let arrOption = [];
+    for (let item of this.state.dataPermission) {
+      let arrAction = [];
+      for (let itemChild of item.actions) {
+        let objChild = {
+          label: itemChild.note,
+          value: `${item.id}_${itemChild.id}`,
+        };
+        arrAction.push(objChild);
+      }
+      let obj = {
+        label: item.name,
+        options: arrAction,
+      };
+      arrOption.push(obj);
+    }
+    this.setState({
+      dataOptions: arrOption,
+    });
   };
   handleChangePosition = (value) => {
     this.setState({
@@ -160,27 +158,51 @@ export default class TableRoles_v2 extends Component {
       disabledSelected: false,
     });
     await axiosConfig
-      .get("/api/permission")
+      .get("/api/list/permission/actions")
       .then((res) => {
-        console.log(res)
         this.setState({
-          dataPermission: res.data,
+          dataPermission: res,
         });
       })
       .catch((er) => {
         console.log(err);
       });
-    let arrOption = [];
-    for (let item of this.state.dataPermission) {
-      let obj = {
-        label: item.name,
-        value: item.id,
+      getMock = () => {
+        const targetKeys = [];
+        const mockData = [];
+        for (let i = 0; i < 20; i++) {
+          const data = {
+            key: i.toString(),
+            title: `content${i + 1}`,
+            description: `description of content${i + 1}`,
+            chosen: Math.random() * 2 > 1,
+          };
+          if (data.chosen) {
+            targetKeys.push(data.key);
+          }
+          mockData.push(data);
+        }
+        this.setState({ mockData, targetKeys });
       };
-      arrOption.push(obj);
-    }
-    this.setState({
-      dataOptions: arrOption,
-    });
+    // let arrOption = [];
+    // for (let item of this.state.dataPermission) {
+    //   let arrAction = [];
+    //   for (let itemChild of item.actions) {
+    //     let objChild = {
+    //       label: itemChild.note,
+    //       value: `${item.id}_${itemChild.id}`,
+    //     };
+    //     arrAction.push(objChild);
+    //   }
+    //   let obj = {
+    //     label: item.name,
+    //     options: arrAction,
+    //   };
+    //   arrOption.push(obj);
+    // }
+    // this.setState({
+    //   dataOptions: arrOption,
+    // });
   };
   handleCancel = () => {
     this.props.hideModal();
@@ -274,36 +296,32 @@ export default class TableRoles_v2 extends Component {
       let differenceDelete = arr1.filter((x) => !arr2.includes(x));
 
       let differenceAdd = arr2.filter((x) => !arr1.includes(x));
-      console.log(differenceAdd)
-      console.log(differenceDelete)
-      // let arrPerActionAdd = this.customSelected(differenceAdd);
-      // let arrPerActionDelete = this.customSelected(differenceDelete);
-      console.log(this.state.pos_idUpdate)
-      
-      if (differenceAdd.length !== 0) {
+      let arrPerActionAdd = this.customSelected(differenceAdd);
+      let arrPerActionDelete = this.customSelected(differenceDelete);
+      if (arrPerActionAdd.length !== 0) {
         const params = {
           dep_id: this.state.dep_idUpdate,
-          permissions: differenceAdd,
+          permissions: arrPerActionAdd,
         };
         axiosConfig
-        .post(`/api/position/permission/${this.state.pos_idUpdate}`, params)
-        .then((res) => {
-          // if (res.message === "Success!. Stored") {
-          alert("Chỉnh sửa quyền chức vụ thành công");
-          this.handleCancel();
-          // }
-        })
-        .catch((err) => {
-          alert("Gán quyền cho chức vụ thất bại");
-          this.handleCancel();
-          console.log(err);
-        });
+          .post(`/api/position/permission/${this.state.pos_idUpdate}`, params)
+          .then((res) => {
+            // if (res.message === "Success!. Stored") {
+            alert("Chỉnh sửa quyền chức vụ thành công");
+            this.handleCancel();
+            // }
+          })
+          .catch((err) => {
+            alert("Gán quyền cho chức vụ thất bại");
+            this.handleCancel();
+            console.log(err);
+          });
       }
 
-      if (differenceDelete.length !== 0) {
+      if (arrPerActionDelete.length !== 0) {
         const params = {
           dep_id: this.state.dep_idUpdate,
-          permission_id: differenceDelete,
+          permissions: arrPerActionDelete,
         };
         axiosConfig
           .post(`/api/position/permissiond/${this.state.pos_idUpdate}`, params)
@@ -315,13 +333,12 @@ export default class TableRoles_v2 extends Component {
           });
       }
     } else {
-      // let data = this.state.selected;
-      // console.log(this.state.selected)
-      // let arrPerAction = this.customSelected(data);
+      let data = this.state.selected;
+      let arrPerAction = this.customSelected(data);
 
       const params = {
         dep_id: this.state.dep_id,
-        permissions: this.state.selected,
+        permissions: arrPerAction,
       };
       axiosConfig
         .post(`/api/position/permission/${this.state.pos_id}`, params)
@@ -338,6 +355,22 @@ export default class TableRoles_v2 extends Component {
           console.log(err);
         });
     }
+  };
+  renderItem = item => {
+    const customLabel = (
+      <span className="custom-item">
+        {item.title} - {item.description}
+      </span>
+    );
+
+    return {
+      label: customLabel, // for displayed item
+      value: item.title, // for title and filter matching
+    };
+  };
+  handleChange = (targetKeys, direction, moveKeys) => {
+    console.log(targetKeys, direction, moveKeys);
+    this.setState({ targetKeys });
   };
   render() {
     let data = "";
@@ -438,10 +471,15 @@ export default class TableRoles_v2 extends Component {
               {this.showPosition()}
             </Select>
           </div>
-          <DualListBox
-            options={options}
-            selected={selected}
-            onChange={this.onChange}
+          <Transfer
+            dataSource={mockData}
+            titles={['Source', 'Target']}
+            targetKeys={targetKeys}
+            selectedKeys={selectedKeys}
+            onChange={this.onChangeAnt}
+            onSelectChange={onSelectChangeAnt}
+            // onScroll={onScroll}
+            render={item => item.title}
           />
         </Modal>
       </div>

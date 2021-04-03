@@ -31,6 +31,7 @@ export const getListAllPosition = (page) => {
 };
 
 export const addPosition = (params) =>{
+    
     return axiosConfig
     .post(`/api/positions`,params)
     .then(handleResponse)

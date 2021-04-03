@@ -31,7 +31,7 @@ export default class ContentPermission extends Component {
         <div className="content-top">
           <div className="content-top-left">
             <div className="content-top-left-sum-item">
-              10 Permission
+              10 quyền
             </div>
             <Search
               placeholder="Tìm kiếm"
@@ -43,7 +43,7 @@ export default class ContentPermission extends Component {
           </div>
           <div className="content-top-right">
             <Button onClick={this.showModal} className="btn-add-user-six">
-              Thêm permission
+              Thêm quyền
             </Button>
           </div>
         </div>

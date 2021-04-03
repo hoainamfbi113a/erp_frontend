@@ -72,13 +72,11 @@ const NotifiMy = (props) => {
         let userLogin = docCookies.getItem("user_id");
         for (let item of arrTarget) {
           if (item.target_id == userLogin) {
-            alert("have to")
             let body = {
               process_id: +process_id,
               user_id: +userLogin,
               status: "view",
             };
-            console.log(body);
             axiosConfig
               .post("/api/document-process/process", body)
               .then((res) => {})
@@ -97,7 +95,7 @@ const NotifiMy = (props) => {
   };
 
   const renderNotifyItemDocument = () => {
-    let dataNotify = noti;
+    // let dataNotify = noti;
     if (dataNotify) {
       return dataNotify.map((item) => {
         let bi = item.process.status;

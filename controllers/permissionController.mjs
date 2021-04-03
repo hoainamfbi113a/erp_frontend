@@ -13,7 +13,6 @@ router.get("/", async (req, res) => {
     res.send(data);
 });
 router.post("/", async (req, res) => {
-    console.log(req.body);
     const config = {
         headers: { Authorization: req.headers.authorization },
     };
