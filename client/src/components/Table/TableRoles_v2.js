@@ -160,7 +160,7 @@ export default class TableRoles_v2 extends Component {
       disabledSelected: false,
     });
     await axiosConfig
-      .get("/api/permission")
+      .get("/api/permission?page=all")
       .then((res) => {
         console.log(res)
         this.setState({
