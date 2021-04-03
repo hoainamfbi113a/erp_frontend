@@ -175,7 +175,7 @@ class TablePermission extends Component {
     });
   };
   handlePagination = async (pagination) => {
-    let res = await getListPermission(1);
+    let res = await getListPermission(pagination);
     if (!res.err) {
       this.setState({
         data: res,

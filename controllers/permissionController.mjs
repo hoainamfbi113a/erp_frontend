@@ -6,11 +6,22 @@ router.get("/", async (req, res) => {
     const config = {
         headers: { Authorization: req.headers.authorization },
     };
-    let { data } = await axios.get(
-        `${process.env.apiEmployee}/api/permission?page=${page}`,
-        config,
-    );
-    res.send(data);
+    if(page == "all"){
+        let { data } = await axios.get(
+            `${process.env.apiEmployee}/api/permission?number=100`,
+            config,
+        );
+        console.log(data)
+        res.send(data);
+    } else {
+        let { data } = await axios.get(
+            `${process.env.apiEmployee}/api/permission?page=${page}`,
+            config,
+        );
+        console.log(data)
+        res.send(data);
+    }
+    
 });
 router.post("/", async (req, res) => {
     const config = {
