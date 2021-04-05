@@ -60,6 +60,7 @@ export const updateDepartment = (params, id) => {
     .put(`/api/departments/${id}`, params)
     .then(handleResponse)
     .then((data) => {
+      console.log(data)
       return data;
     })
     .catch((err) => {
