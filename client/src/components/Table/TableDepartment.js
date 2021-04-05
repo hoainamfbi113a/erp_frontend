@@ -42,13 +42,12 @@ const TableDepartment = (props) => {
     err_phone: "",
   });
 
-  // useEffect(() => {
-  //   fetchData(1);
-  // }, []);
+  useEffect(() => {
+    fetchData(1);
+  }, []);
 
   useEffect(async () => {
     if (props.valueSearch !== lastValue) {
-      dispatch(showLoading());
       let resListDepart = await getListDepartment("all");
       let listDepartSearch = resListDepart.data.filter((depart) => {
         return (
@@ -65,7 +64,6 @@ const TableDepartment = (props) => {
       };
       setData(obj);
       props.totalDepartment(obj.meta.pagination);
-      dispatch(hideLoading());
     }
   }, [props.valueSearch]);
 
