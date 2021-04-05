@@ -11,14 +11,12 @@ router.get("/", async (req, res) => {
             `${process.env.apiEmployee}/api/permission?number=100`,
             config,
         );
-        console.log(data)
         res.send(data);
     } else {
         let { data } = await axios.get(
             `${process.env.apiEmployee}/api/permission?page=${page}`,
             config,
         );
-        console.log(data)
         res.send(data);
     }
     
@@ -62,7 +60,6 @@ router.get("/departments/positions", async (req, res) => {
         `${process.env.apiEmployee}/api/permission/departments/positions?dep_id=${dep_id}&pos_id=${pos_id}`,
         config,
     );
-    console.log(`${process.env.apiEmployee}/api/permission/departments/positions?dep_id=${dep_id}&pos_id=${pos_id}`)
     res.send(data);
 });
 

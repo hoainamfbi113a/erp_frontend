@@ -39,7 +39,6 @@ const updatePosition = async (req, res) => {
     headers: { Authorization: req.headers.authorization },
   };
   let { id } = req.params;
-  console.log(req.body)
   let { data } = await axios.put(
     `${process.env.apiEmployee}/api/positions/${id}`,
     req.body,
@@ -77,18 +76,12 @@ const addPermissionForPos = async (req, res) => {
   }
 };
 const deletePermissionForPos = async (req, res) => {
-  let a = { dep_id: 123, permissions: [{ id: "2" }] };
   const { id } = req.params;
-  console.log(id);
-  console.log(req.body);
-  console.log(`${process.env.apiEmployee}/api/position/permission/${id}`);
   try {
     const data = await axios.delete(
       `${process.env.apiEmployee}/api/position/permission/${id}`,
       { data: req.body, headers: { Authorization: req.headers.authorization } }
     );
-    console.log("123");
-    console.log(data);
     // res.send(data.data);
   } catch (error) {
     res.send(error);

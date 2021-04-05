@@ -21,9 +21,7 @@ const addParts = async (req, res) => {
   const config = {
     headers: { Authorization: req.headers.authorization }
   };
-  console.log(req.body)
   let { data } = await axios.post(`${process.env.apiEmployee}/api/parts`,req.body,config);
-  console.log(data)
   res.send(data);
 };
 

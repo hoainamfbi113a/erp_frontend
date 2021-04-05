@@ -11,7 +11,6 @@ router.get("/list", async (req, res) => {
 router.get("/mark-as-read/:id", async (req, res) => {
     let { id } = req.params;
     let { data } = await axios.get(`${process.env.apiFormBuilder}/api/notification/mark-as-read/${id}`);
-    console.log(data)
     res.send(data);
 });
 router.post("/", async (req, res) => {
