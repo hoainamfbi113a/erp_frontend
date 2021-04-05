@@ -23,6 +23,8 @@ const TablePosition = (props) => {
   const [arrOption, setArrOption] = useState(null);
   const [isShowModal, setIsShowModal] = useState(false);
   const [selected, setSelected] = useState([]);
+  const [permissionExist, setPermissionExist] = useState([]);
+  const [id, setId] = useState("");
 
   useEffect(() => {
     fetchData();
@@ -56,7 +58,27 @@ const TablePosition = (props) => {
     setData(data);
   };
 
-  const showModal = () =>{
+  const showModal = (id) =>{
+    setId(id);
+    //get exist permission
+    axiosConfig.get(`/api/list/permission/work-formality/${id}`)
+    .then(res=>{
+      setPermissionExist(res.data)
+      console.log(res)
+      let arrPermission = [];
+      for(let item of res) {
+        for(let itemChild of item.groups) {
+          for(let itemChild2 of itemChild.permissions) {
+            arrPermission.push(itemChild2.id)
+          }
+        }
+      }
+      setPermissionExist(arrPermission)
+      setSelected(arrPermission);
+    })
+    .catch(err=>{
+      console.log(err)
+    })
     setIsShowModal(true);
   }
   const handleCancel = () =>{
@@ -115,6 +137,45 @@ const TablePosition = (props) => {
       ),
     },
   ];
+  const handleOk = () =>{
+    let arr1 = permissionExist;
+    let arr2 = selected;
+  
+    let differenceDelete = arr1.filter((x) => !arr2.includes(x));
+    console.log(differenceDelete)
+    let differenceAdd = arr2.filter((x) => !arr1.includes(x));
+    console.log(differenceAdd)
+    let bodyAdd = {
+      id: id,
+      permissions:differenceAdd
+    }
+    let bodyDelete = {
+      id:id,
+      permissions:differenceDelete
+    }
+    console.log(bodyAdd)
+    if(differenceAdd.length!==0) {
+      axiosConfig.post("/api/work-formality/permission",bodyAdd)
+      .then(res=>{
+        alert("gan quyen thanh cong")
+        setIsShowModal(false)
+      })
+      .catch(err=>{
+        console.log(err)
+      })
+    }
+    if(differenceDelete.length!==0) {
+      axiosConfig.post("/api/work-formality/permissiond",bodyDelete)
+      .then(res=>{
+        alert("go quyen thanh cong")
+        setIsShowModal(false)
+      })
+      .catch(err=>{
+        console.log(err)
+      })
+    }
+    console.log(selected)
+  }
   const onChange = (selected) =>{
     setSelected(selected)
   }
@@ -145,7 +206,7 @@ const TablePosition = (props) => {
           title="Gán quyền cho chức vụ phòng ban"
           visible = {isShowModal}
           // visible={this.props.showModalRoles}
-          // onOk={this.handleOk}
+          onOk={handleOk}
           onCancel={handleCancel}
           //   className="modal-transfer-grant-permission"
         >

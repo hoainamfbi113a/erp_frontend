@@ -12,7 +12,7 @@ import { addUserDegrees, updateUserDegrees } from "./controllers/UserDegrees.mjs
 import { addWorkObjects,updateWorkObjects } from "./controllers/WorkObjects.mjs"
 import { removePermissionFromRole, listRole, addRole, updateRole, deleteRole,
      listPermissionOfRole, permissionToRole, listPermissionAction} from "./controllers/Roles.mjs"
-import { listPermission, addPermission, updatePermission, deletePermission, listTableId } from "./controllers/Permission.mjs"
+import { listPermission, addPermission, updatePermission, deletePermission, listTableId,  existPermission, addPermissionToPermission, deletePermissionToPermission } from "./controllers/Permission.mjs"
 import permissionController from "./controllers/permissionController.mjs";
 import { listParts, addParts, updateParts, deleteParts } from "./controllers/Parts.mjs"
 import { listPosition, addPosition, updatePosition, deletePosition } from "./controllers/Position.mjs"
@@ -72,6 +72,9 @@ app.put("/api/work-objects/:id", updateWorkObjects);
 
 app.get("/api/role", listRole);
 app.get("/api/service-management/table-management/:id",listTableId)
+app.get("/api/list/permission/work-formality/:id",existPermission)
+app.post("/api/work-formality/permission",addPermissionToPermission)
+app.post("/api/work-formality/permissiond",deletePermissionToPermission)
 app.post("/api/role", addRole);
 app.put("/api/role/:id", updateRole);
 app.delete("/api/role", deleteRole);

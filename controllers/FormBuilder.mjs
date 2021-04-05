@@ -201,7 +201,6 @@ const recursiveFactorial = (data, arr) => {
 router.get("/issue/detail", async (req, res) => {
   try {
     let params = req.query;
-    console.log(params)
     let { data } = await axios.get(
       `${process.env.apiWorkflow}/api/workflow/detail`, {params}
     );

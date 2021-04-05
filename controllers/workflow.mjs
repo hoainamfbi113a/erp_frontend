@@ -6,7 +6,6 @@ router.get('/detail',async (req,res)=>{
         headers: { Authorization: req.headers.authorization },
       };
     let { data } = await axios.get(`${process.env.apiWorkflow}/api/workflow/detail?type_id=20`);
-    console.log(data)
     res.send(data);
 })
 router.get('/get-workflow-types', async (req,res)=>{

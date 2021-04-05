@@ -84,7 +84,7 @@ router.get("/user/permission/:id", async (req, res) => {
     );
     res.send(data);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
   }
 });
 
@@ -133,7 +133,6 @@ router.get('/document-type/get',async (req,res)=>{
   res.status(204).json(data);
 })
 router.get('/workflow/detail',async (req,res)=>{
-  console.log(req.query)
   const config = {
       headers: { Authorization: req.headers.authorization },
     };

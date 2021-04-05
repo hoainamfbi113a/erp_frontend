@@ -274,8 +274,8 @@ export default class TableRoles_v2 extends Component {
       let differenceDelete = arr1.filter((x) => !arr2.includes(x));
 
       let differenceAdd = arr2.filter((x) => !arr1.includes(x));
-      console.log(differenceAdd)
-      console.log(differenceDelete)
+      // console.log(differenceAdd)
+      // console.log(differenceDelete)
       // let arrPerActionAdd = this.customSelected(differenceAdd);
       // let arrPerActionDelete = this.customSelected(differenceDelete);
       console.log(this.state.pos_idUpdate)

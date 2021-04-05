@@ -54,5 +54,31 @@ const deletePermission = async (req, res) => {
     let { data } = await axios.delete(`${process.env.apiEmployee}/api/permission/${id}`, config);
     res.send(data);
 };
-
-export {listTableId, listPermission, addPermission, updatePermission, deletePermission };
+const existPermission = async (req, res) => {
+    // console.log("123")
+    const config = {
+        headers: { Authorization: req.headers.authorization },
+    };
+    let {id } = req.params;
+    // console.log(id)
+    let { data } = await axios.get(`${process.env.apiEmployee}/api/list/permission/work-formality/${id}`, config);
+    // console.log(data)
+    res.send(data);
+}
+const addPermissionToPermission = async (req, res) => {
+    const config = {
+        headers: { Authorization: req.headers.authorization },
+    };
+    let { id, permissions } = req.body;
+    let { data } = await axios.post(`${process.env.apiEmployee}/api/work-formality/permission/${id}`, {permissions}, config);
+    res.send(data);
+};
+const deletePermissionToPermission = async (req, res) => {
+    let { id, permissions } = req.body;
+    let { data } = await axios.delete(`${process.env.apiEmployee}/api/work-formality/permission/${id}`, {
+        data: {permissions} ,
+        headers: { Authorization: req.headers.authorization },
+      });
+    res.send(data);
+};
+export {listTableId, listPermission, addPermission, updatePermission, deletePermission, existPermission, addPermissionToPermission, deletePermissionToPermission };
