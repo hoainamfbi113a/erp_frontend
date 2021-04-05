@@ -48,9 +48,12 @@ const MenuLayout = (props) => {
             <Link to="/permission"> Quyền </Link>
           </Menu.Item>
           <Menu.Item key="14">
-            <Link to="/roles"> Roles </Link>
+            <Link to="/roles"> Quyền CD-PB</Link>
           </Menu.Item>
           <Menu.Item key="15">
+            <Link to="/roles-position"> Quyền CD</Link>
+          </Menu.Item>
+          <Menu.Item key="16">
             <Link to="/roles-action"> Roles-Action</Link>
           </Menu.Item>
         </SubMenu>

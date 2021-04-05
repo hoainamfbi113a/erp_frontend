@@ -167,7 +167,7 @@ export default class TableRoles_v2 extends Component {
           dataPermission: res.data,
         });
       })
-      .catch((er) => {
+      .catch((err) => {
         console.log(err);
       });
     let arrOption = [];
