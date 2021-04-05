@@ -12,7 +12,7 @@ import {
   updateParts,
   deleteParts,
 } from "apis/partsApi";
-import { getListIdDepartment, getListAllDepartment } from "apis/departmentApi"
+import { getListIdDepartment } from "apis/departmentApi"
 import usePrevious from "../../hooks/usePrevious";
 const { Option } = Select;
 const { Content } = Layout;
@@ -35,7 +35,7 @@ const TableParts = (props) => {
   const [isCreate, setIsCreate] = useState(false);
 
   useEffect(async () => {
-    //fetchData(1);
+    fetchData(1);
     fetchDepartment();
   }, [])
 
@@ -62,18 +62,18 @@ const TableParts = (props) => {
     }
   }, [props.valueSearch])
 
-  // const fetchData = async (page) => {
-  //   let res = await getListParts(page);
-  //   if (!res.err) {
-  //     setData(res);
-  //     props.totalPart(res.meta.pagination.total);
-  //   } else {
-  //     message.error("get list parts failed");
-  //   }
-  // };
+  const fetchData = async (page) => {
+    let res = await getListParts(page);
+    if (!res.err) {
+      setData(res);
+      props.totalPart(res.meta.pagination.total);
+    } else {
+      message.error("get list parts failed");
+    }
+  };
 
   const fetchDepartment = async() => {
-    let res = await getListAllDepartment();
+    let res = await getListIdDepartment();
     if(!res.err) {
       setDataDepart(res.data);
     } else {
@@ -311,11 +311,9 @@ const TableParts = (props) => {
               </span>
               <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal ">
                 <Select
-                  showSearch
                   value={part.dep_id}
                   style={{ width: 450 }}
                   onChange={handleChangeDepart}
-                  optionFilterProp="children"
                 >
                   {renderDepartment()}
                 </Select>
