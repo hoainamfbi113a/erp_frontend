@@ -8,7 +8,6 @@ const listPermission = async (req, res) => {
         `${process.env.apiEmployee}/api/permission?page=${page}`,
         config,
     );
-    // console.log(data)
     res.send(data);
 };
 const listTableId = async (req, res) => {

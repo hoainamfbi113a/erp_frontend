@@ -1,5 +1,6 @@
 import axiosConfig from "./axios";
 import { handleResponse } from "./handleResponse";
+import { checkApi } from "apis/authenticationApi"
 export const getListDepartment = (page) => {
   return axiosConfig
     .get(`/api/departments?page=${page}`)
@@ -66,8 +67,11 @@ export const updateDepartment = (params, id) => {
     });
 };
 
-export const deleteDepartment = (params) => {
-  return axiosConfig
+export const deleteDepartment = async (params, paramsCheckApi) => {
+  const data = await checkApi(paramsCheckApi);
+  console.log(data)
+  if(data === true) {
+    return axiosConfig
     .post(`/api/departments/delete`, params)
     .then(handleResponse)
     .then((data) => {
@@ -79,6 +83,9 @@ export const deleteDepartment = (params) => {
         err: "error",
       };
     });
+  } 
+  return 
+
 };
 export const searchDepartment = (name) => {
   return axiosConfig
