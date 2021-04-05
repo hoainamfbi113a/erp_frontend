@@ -21,6 +21,7 @@ import {
   updateDepartment,
   deleteDepartment,
 } from "../../apis/departmentApi";
+import { CheckDeleteDepartment } from "constant/checkApi";
 import usePrevious from "../../hooks/usePrevious";
 
 const TableDepartment = (props) => {
@@ -69,11 +70,11 @@ const TableDepartment = (props) => {
   const fetchData = async (page) => {
     try {
       let res = await getListDepartment(page);
-      if(!res.err) {
+      if (!res.err) {
         setData(res);
         props.totalDepartment(res.meta.pagination.total);
       } else {
-        cmessage.error("get list department failed");ons
+        message.error("get list department failed");
       }
     } catch (error) {
       console.log(error);
@@ -83,7 +84,11 @@ const TableDepartment = (props) => {
   const onSubmit = async () => {
     let err_name = await ValidateField(depart.dep_name, 8, 50, "Tên");
     let err_address = await ValidateField(depart.dep_address, 8, 50, "Địa chỉ");
-    let err_phone = await ValidateNumber(depart.dep_phone, 9, 11, "Số điện thoại"
+    let err_phone = await ValidateNumber(
+      depart.dep_phone,
+      9,
+      11,
+      "Số điện thoại"
     );
     if (err_name || err_address || err_phone) {
       setErr({ err_name, err_address, err_phone });
@@ -148,10 +153,11 @@ const TableDepartment = (props) => {
 
   const confirm = async (id) => {
     dispatch(showLoading());
+    const paramsCheckApi = CheckDeleteDepartment;
     const params = {
       id,
     };
-    let res = await deleteDepartment(params);
+    let res = await deleteDepartment(params, paramsCheckApi);
     if (res.message === "Success!. Deleted") {
       fetchData();
       message.success("Ẩn phòng ban thành công");
@@ -170,8 +176,8 @@ const TableDepartment = (props) => {
   };
 
   const onChange = (e) => {
-    setDepart({ ...depart, [e.target.name]: e.target.value})
-  }
+    setDepart({ ...depart, [e.target.name]: e.target.value });
+  };
 
   const columns = [
     {

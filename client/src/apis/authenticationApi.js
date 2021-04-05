@@ -107,6 +107,19 @@ export const listUser = (pagination) =>{
     })
   })
 }
+export const checkApi = (params) => {
+  return axiosConfig.post("/api/check-permission", params)
+  .then(data=>{
+    console.log(data)
+    return data
+  })
+  .catch(err=>{
+    console.log(err)
+    return({
+      err:"error"
+    })
+  })
+}
 export const logout = () => {
   document.cookie = "usertoken" +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
   document.cookie = "user_id" +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';

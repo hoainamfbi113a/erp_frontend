@@ -24,6 +24,7 @@ import formBuilderController from "./controllers/FormBuilder.mjs";
 import servicemanagerController from "./controllers/servicemanagerController.mjs"
 import  stepController  from "./controllers/stepController.mjs" 
 import { addPermissionForPos ,deletePermissionForPos} from "./controllers/Position.mjs";
+import axios from "axios";
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 5001;
@@ -31,12 +32,25 @@ const __dirname = path.resolve();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// app.use("/api", function(req, res, next){
-//     if(1) {
-//         res.send('asdsad')
-//     }
-//     next();
-// })
+app.use("/api/check-permission", function(req, res, next){
+    let resParent = res
+    const config = {
+        headers: { Authorization: req.headers.authorization },
+    };
+    axios.post(`http://192.168.61.116/api/check-permission`,req.body, config )
+    .then(res=>{
+        if(res.data === true){
+            resParent.send(res.data)
+            next();
+        } else {
+            resParent.send(res.data)
+        }
+    })
+    .catch(err=>{
+        console.log("err")
+        // console.log(err)
+    })
+})
 app.use("/api", userController);
 app.use("/api", formBuilderController);
 
