@@ -97,7 +97,6 @@ router.post("/document/store", async (req, res) => {
     `${process.env.apiEmployee}/api/fe/profiles/users/${user_id}`,
     config
   );
-
   dep_idUser = data.data.department.data.dep_id;
   pos_idUser = data.data.department.data.pos_id;
   let target = [];
@@ -137,6 +136,7 @@ router.post("/document/store", async (req, res) => {
   axios
     .post(`${process.env.apiWorkflow}/api/issue/store`, paramsIssue)
     .then((res1) => {
+      // console.log("res1", res1)
       let dataForm = {
         type_id: document_type_id,
         user_id: user_id,
@@ -147,15 +147,17 @@ router.post("/document/store", async (req, res) => {
         pos_id: data.data.department.data.pos_id,
         pos_name: data.data.department.data.pos_name,
       };
+
       dataForm.issue_id = res1.data.id;
+      console.log(dataForm)
       axios
         .post(`${process.env.apiFormBuilder}/api/document/store`, dataForm)
         .then((res) => {
+          console.log(res.data)
           let params = {
             document_id: res.data.id,
             issue_id: res1.data.id,
           };
-
           axios
             .post(
               `${process.env.apiFormBuilder}/api/document-process/store`,
@@ -163,6 +165,7 @@ router.post("/document/store", async (req, res) => {
             )
             .then((res3) => {
               // console.log("success2");
+              
               resEnd.send("success");
             })
             .catch((err) => {
@@ -171,6 +174,7 @@ router.post("/document/store", async (req, res) => {
             });
         })
         .catch((err) => {
+          // console.log(err)
           resEnd.send("failed 2");
           // console.log("err")
         });

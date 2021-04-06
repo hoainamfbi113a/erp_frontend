@@ -77,7 +77,7 @@ class TablePermission extends Component {
   };
   onSubmit = async () => {
     let {
-      service_management_id,
+      table_management_id,
       name,
       uri,
       method,
@@ -88,7 +88,7 @@ class TablePermission extends Component {
       status,
     } = this.state;
     let params = {
-      service_management_id,
+      table_management_id,
       name,
       uri,
       method,
@@ -329,7 +329,7 @@ class TablePermission extends Component {
             method="post"
           >
             <ul style={{ marginLeft: "23px" }}>
-              <li className="tabs-main-left-li">
+              {/* <li className="tabs-main-left-li">
                 <span className="tabs-user-infor-top">Chọn Service</span>
                 <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal ">
                   <Select
@@ -340,7 +340,32 @@ class TablePermission extends Component {
                     {this.renderServiceManager()}
                   </Select>
                 </div>
+              </li> */}
+              <li className="tabs-main-left-li">
+                <span className="tabs-user-infor-top">Chọn Service</span>
+                <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal ">
+                  <Select
+                    value={this.state.service_manager_id}
+                    style={{ width: 120 }}
+                    onChange={this.handleChangeFeature}
+                  >
+                    {this.renderServiceManager()}
+                  </Select>
+                </div>
               </li>
+              <li className="tabs-main-left-li">
+                <span className="tabs-user-infor-top">Chọn table</span>
+                <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal ">
+                  <Select
+                    value={this.state.table_management_id}
+                    style={{ width: 120 }}
+                    onChange={this.handleChangeTable}
+                  >
+                    {this.renderTableManager()}
+                  </Select>
+                </div>
+              </li>
+
               <li className="tabs-main-left-li">
                 <span className="tabs-user-infor-top">Tên permission</span>
                 <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
