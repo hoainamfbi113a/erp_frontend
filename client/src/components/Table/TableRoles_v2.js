@@ -78,8 +78,8 @@ export default class TableRoles_v2 extends Component {
       pos_idUpdate: pos_id,
       disabledSelected: true,
     });
-    let dataRight = [];
-    console.log(this.state.dataRoles)
+    let dataRight;
+    console.log(this.state.dataRoles);
     await axiosConfig
       .get(
         `/api/permission/departments/positions?dep_id=${dep_id}&pos_id=${pos_id}`
@@ -88,16 +88,30 @@ export default class TableRoles_v2 extends Component {
         dataRight = res;
       });
     let ArrSelected = [];
-    for (let item of dataRight) {
-      for (let itemChild of item.permissions) {
-        ArrSelected.push(itemChild.id);
+    // console.log(dataRight)
+    // // for (let item of dataRight) {
+    //   for (const property in dataRight) {
+    //     // console.log(property)
+    //     // console.log(`${property}: ${dataRight[property]}`);
+    //   for (let itemChild of dataRight[property]) {
+    //     console.log(itemChild)
+    //   //   for(let itemChild1 of itemChild.permissions)
+    //   //   ArrSelected.push(itemChild1.id);
+    //   }
+    // }
+    for (const property in dataRight) {
+      for (const item of dataRight[property].groups) {
+        for (const itemChild of item.permissions) {
+          ArrSelected.push(itemChild.id);
+        }
       }
     }
+    console.log(ArrSelected);
     this.setState({
       selected: ArrSelected,
-      selectedBegin:ArrSelected,
+      selectedBegin: ArrSelected,
     });
-    console.log(this.state.selected)
+    console.log(this.state.selected);
     // await axiosConfig
     //   .get("/api/list/permission/actions")
     //   .then((res) => {
@@ -162,7 +176,7 @@ export default class TableRoles_v2 extends Component {
     await axiosConfig
       .get("/api/permission?page=all")
       .then((res) => {
-        console.log(res)
+        console.log(res);
         this.setState({
           dataPermission: res.data,
         });
@@ -278,36 +292,40 @@ export default class TableRoles_v2 extends Component {
       // console.log(differenceDelete)
       // let arrPerActionAdd = this.customSelected(differenceAdd);
       // let arrPerActionDelete = this.customSelected(differenceDelete);
-      console.log(this.state.pos_idUpdate)
-      
+      console.log(this.state.pos_idUpdate);
+
       if (differenceAdd.length !== 0) {
         const params = {
           dep_id: this.state.dep_idUpdate,
           permissions: differenceAdd,
         };
         axiosConfig
-        .post(`/api/position/permission/${this.state.pos_idUpdate}`, params)
-        .then((res) => {
-          // if (res.message === "Success!. Stored") {
-          alert("Chỉnh sửa quyền chức vụ thành công");
-          this.handleCancel();
-          // }
-        })
-        .catch((err) => {
-          alert("Gán quyền cho chức vụ thất bại");
-          this.handleCancel();
-          console.log(err);
-        });
+          .post(`/api/position/permission/${this.state.pos_idUpdate}`, params)
+          .then((res) => {
+            // if (res.message === "Success!. Stored") {
+            alert("Chỉnh sửa quyền chức vụ thành công");
+            this.handleCancel();
+            // }
+          })
+          .catch((err) => {
+            alert("Gán quyền cho chức vụ thất bại");
+            this.handleCancel();
+            console.log(err);
+          });
       }
 
       if (differenceDelete.length !== 0) {
         const params = {
           dep_id: this.state.dep_idUpdate,
-          permission_id: differenceDelete,
+          permissions: differenceDelete,
         };
         axiosConfig
           .post(`/api/position/permissiond/${this.state.pos_idUpdate}`, params)
-          .then((res) => {})
+          .then((res) => {
+            if(res.message == "Success!. Removed") {
+              this.handleCancel();
+            }
+          })
           .catch((err) => {
             alert("Xoá cho chức vụ thất bại");
             this.handleCancel();
