@@ -1,8 +1,8 @@
 const CheckDeleteDepartment = {
-    "uri" : "api/departments/{department}",
-    "slug_service_management" : "profile-service",
+    "uri" : "api/personal-histories/{personal_history}",
+    "slug_table_management" : "personal-history",
     "method" : "DELETE"
-}
+    }
 export {
     CheckDeleteDepartment 
 }
