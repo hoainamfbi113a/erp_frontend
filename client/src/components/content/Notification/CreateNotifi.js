@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import { Button, Pagination } from "antd";
 import { Popconfirm, Space, Tag } from "antd";
 import "./notification.css";
-import proposal from "assets/images/proposal.svg";
-import put from "assets/images/put.svg";
+import history from "assets/images/history.svg";
+import put from "assets/images/icon/phone.png";
 import takeleave from "assets/images/takeleave.svg";
 import vote from "assets/images/vote.svg";
+import logologin from "assets/images/logologin.png";
 import ProposalForm from "components/Modal/ProposalForm";
 import docCookies from "doc-cookies";
 import axios from "axios";
@@ -148,7 +149,7 @@ export default class CreateNotifi extends Component {
         return (
           <tr>
             <td>
-              <img src={proposal}></img>
+              <img src={history}></img>
             </td>
             <td
               onClick={() => {
@@ -234,9 +235,9 @@ export default class CreateNotifi extends Component {
                   <th>Ngày</th>
                 </tr>
                 {this.renderHistoryCreate()}
-                {/* <tr>
+                <tr>
                   <td>
-                    <img src={proposal}></img>
+                    <img src={logologin}></img>
                   </td>
                   <td className="content-notification-unread">
                     Phiếu đề xuất, đề xuất mua Iphone, Ipad cho nhân ...
@@ -265,7 +266,7 @@ export default class CreateNotifi extends Component {
                   </td>
                   <td>10h</td>
                   <td>09:15</td>
-                </tr> */}
+                </tr>
               </tbody>
             </table>
             <div className="content-bottom-pagination">

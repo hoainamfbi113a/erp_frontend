@@ -149,11 +149,9 @@ router.post("/document/store", async (req, res) => {
       };
 
       dataForm.issue_id = res1.data.id;
-      console.log(dataForm)
       axios
         .post(`${process.env.apiFormBuilder}/api/document/store`, dataForm)
         .then((res) => {
-          console.log(res.data)
           let params = {
             document_id: res.data.id,
             issue_id: res1.data.id,
@@ -171,8 +169,9 @@ router.post("/document/store", async (req, res) => {
                 status: "pass",
                 note: "",
               };
+              console.log(body)
               axios
-                .post("/api/document-process/process", body)
+                .post(`${process.env.apiFormBuilder}/api/document-process/process`, body)
                 .then((res) => {
                   console.log("create document success");
                   resEnd.send("success");
