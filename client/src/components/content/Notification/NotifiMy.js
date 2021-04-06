@@ -95,7 +95,7 @@ const NotifiMy = (props) => {
   };
 
   const renderNotifyItemDocument = () => {
-    // let dataNotify = noti;
+    let dataNotify = noti;
     if (dataNotify) {
       return dataNotify.map((item) => {
         let bi = item.process.status;
