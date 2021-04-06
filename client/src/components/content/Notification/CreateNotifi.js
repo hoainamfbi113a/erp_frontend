@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Button, Pagination } from "antd";
 import { Popconfirm, Space, Tag } from "antd";
 import "./notification.css";
-import history from "assets/images/history.svg";
+import history from "assets/images/history.png";
 import put from "assets/images/icon/phone.png";
 import takeleave from "assets/images/takeleave.svg";
 import vote from "assets/images/vote.svg";
