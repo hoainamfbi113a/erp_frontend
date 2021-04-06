@@ -82,7 +82,8 @@ const deletePermissionForPos = async (req, res) => {
       `${process.env.apiEmployee}/api/position/permission/${id}`,
       { data: req.body, headers: { Authorization: req.headers.authorization } }
     );
-    // res.send(data.data);
+    res.send(data.data);
+
   } catch (error) {
     res.send(error);
     console.log(error);
