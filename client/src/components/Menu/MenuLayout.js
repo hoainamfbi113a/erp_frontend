@@ -91,22 +91,22 @@ const MenuLayout = (props) => {
           </div>
         </Link>
         <Menu mode="inline" className="menulayout-main">
-            <Menu.Item key="1">
-              <Link to="/notification-general">Thông báo chung</Link>
+            <Menu.Item className="ant-menu-submenu-title" key="1" >
+              <Link  to="/notification-general">Thông báo chung</Link>
             </Menu.Item>
-            <Menu.Item key="2">
+            <Menu.Item className="ant-menu-submenu-title" key="2">
               <Link to="/notification-my">Thông báo của tôi</Link>
             </Menu.Item>
-            <Menu.Item key="3">
+            <Menu.Item className="ant-menu-submenu-title" key="3">
               <Link to="/notification-department">Thông tin phòng ban</Link>
             </Menu.Item>
-            <Menu.Item key="4">
+            <Menu.Item className="ant-menu-submenu-title" key="4">
               <Link to="/notification-my-work">Việc của tôi</Link>
             </Menu.Item>
-            <Menu.Item key="5">
+            <Menu.Item className="ant-menu-submenu-title" key="5">
               <Link to="/edit-information">Cập nhật thông tin</Link>
             </Menu.Item>
-            <Menu.Item key="6">
+            <Menu.Item style={{borderBottom: '2px solid'}} className="ant-menu-submenu-title" key="6">
               <Link to="/notification-create">Tạo loại tài liệu</Link>
             </Menu.Item>     
           {renderMenu()}
