@@ -33,7 +33,9 @@ import { addWorkObject, updateWorkObject } from "apis/workObjectsApi";
 import { listUser } from "apis/authenticationApi";
 import { validateInputFormUser } from "helpers/FuncHelper";
 import { showLoading, hideLoading} from "reduxToolkit/features/uiLoadingSlice"
+import PermissionContext from "../../../context/PermissionContext";
 const { Option } = Select;
+
 const { Step } = Steps;
 const { RangePicker } = DatePicker;
 const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
@@ -129,7 +131,7 @@ class addInformationUser extends Component {
     this.handleSearchPart = this.handleSearchPart.bind(this);
   }
   componentDidMount = async () => {
-    
+    console.log(this.context)
   };
   functionSearch = async (prevProps, prevState) => {
     if (prevState.searchDepartment !== this.state.searchDepartment) {
@@ -1539,5 +1541,8 @@ const mapDispatchToProps = (dispatch) => ({
   uiActionCreatorsS: bindActionCreators(showLoading, dispatch),
   uiActionCreatorsH: bindActionCreators(hideLoading, dispatch),
 });
+
+addInformationUser.contextType = PermissionContext;
+
 const ShowTheLocationWithRouter = withRouter(addInformationUser);
 export default connect(null, mapDispatchToProps)(ShowTheLocationWithRouter);

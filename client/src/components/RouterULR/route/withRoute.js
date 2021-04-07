@@ -1,6 +1,7 @@
 import React, { Fragment, useContext } from "react";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
-import { PermissionContext } from "../RouterUrl";
+import PermissionContext from "../../../context/PermissionContext";
+import NotFound from "../../NotFound";
 
 const withRoute = (Component) => (props) => {
   const { routes } = props;
@@ -23,6 +24,7 @@ const withRoute = (Component) => (props) => {
             })
           : null}
         <Route exact path={path} render={() => <Component {...props} />} />
+        <Route component={NotFound}/>
       </Switch>
     </Fragment>
   );
