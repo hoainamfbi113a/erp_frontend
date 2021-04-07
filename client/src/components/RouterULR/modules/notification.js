@@ -6,7 +6,7 @@ import NotifiMyWord from "components/content//Notification/NotifiMyWord";
 import CreateNotifi from "components/content//Notification/CreateNotifi";
 import EditInformationUser from "components/employee/EditInformationUser";
 
-export default [
+export default [ 
   {
     path: "/notification-general",
     component: NotifiGenaral,

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import "../../App/App.css";
 import "./Table.css";
@@ -12,6 +12,7 @@ const { Content } = Layout;
 const TableSix = (props) => {
 
   const dispatch = useDispatch();
+  const { path } = useRouteMatch();
   const lastValue = usePrevious(props.valueSearch);
   const [dataUser, setDataUser] = useState(null);
   const [dataDepart, setDataDepart] = useState([{
@@ -185,7 +186,7 @@ const TableSix = (props) => {
               Ẩn
             </Tag>
           </Popconfirm>
-          <Link to={`/edituser/${text}`}>
+          <Link to={`${path}/update/${text}`}>
             <Tag
               color="geekblue"
               className="table-action"
