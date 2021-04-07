@@ -16,6 +16,7 @@
 .menulayout-main {
     background-color: #3C9CFF;
 }
+
 .ant-menu-item a{
     color: #fff;
 }
@@ -70,4 +71,8 @@ ant-menu-submenu-active, ant-menu-submenu-selected{
 .dropdown-menu{
  position: initial !important;
  z-index: 0 i !important;
+}
+.ant-menu-item .ant-menu-item-only-child .sub-item {
+    background-color: #208EFF;
+    color:#fff;
 }

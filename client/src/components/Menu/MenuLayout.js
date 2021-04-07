@@ -60,13 +60,12 @@ const MenuLayout = (props) => {
     if(permissions.length) {
       return (
         <Fragment>
-          <SubMenu key="sub2" icon={<UserOutlined />} title="Nghiệp vụ">
           {
             permissions.map((subMenu) => (
               <SubMenu key={subMenu.name} title={subMenu.name}>
                 {
                   subMenu.groups.map((menu) => (
-                    <Menu.Item key={menu.name}>
+                    <Menu.Item className="sub-item" key={menu.name}>
                       <Link to={`/${subMenu.slug}/${menu.slug}`}>{menu.name}</Link>
                     </Menu.Item>
                   ))
@@ -74,31 +73,7 @@ const MenuLayout = (props) => {
               </SubMenu>
             ))
           }
-          </SubMenu>
         </Fragment>
-        // <SubMenu
-        //   key="sub2"
-        //   icon={<UserOutlined />}
-        //   title="Nghiệp vụ"
-        //   icon={<ShopOutlined />}
-        // >
-        //   {
-        //     [
-        //       <Menu.Item key="7">
-        //         <Link to="/profile-service/profile">Nhân sự </Link>
-        //       </Menu.Item>,
-        //       <Menu.Item key="8">
-        //         <Link to="/profile-service/department">Phòng ban </Link>
-        //       </Menu.Item>,
-        //       <Menu.Item key="9">
-        //         <Link to="/profile-service/part">Tổ</Link>
-        //       </Menu.Item>,
-        //       <Menu.Item key="10">
-        //         <Link to="/profile-service/position">Chức vụ</Link>
-        //       </Menu.Item>
-        //     ]
-        //   }
-        // </SubMenu>
 
       );
     }
@@ -116,7 +91,6 @@ const MenuLayout = (props) => {
           </div>
         </Link>
         <Menu mode="inline" className="menulayout-main">
-          <SubMenu key="sub1" title="Thông tin cá nhân" icon={<UserOutlined />}>
             <Menu.Item key="1">
               <Link to="/notification-general">Thông báo chung</Link>
             </Menu.Item>
@@ -134,8 +108,7 @@ const MenuLayout = (props) => {
             </Menu.Item>
             <Menu.Item key="6">
               <Link to="/notification-create">Tạo loại tài liệu</Link>
-            </Menu.Item>
-          </SubMenu>
+            </Menu.Item>     
           {renderMenu()}
 
           {renderAdmin()}
