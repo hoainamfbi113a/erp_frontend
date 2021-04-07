@@ -15,8 +15,6 @@ import "./RouterUrl.css";
 import { useDispatch, useSelector } from "react-redux";
 import ServiceRoute from "./route/ServiceRoute";
 
-export const PermissionContext = createContext({ permissions: [] });
-
 const RouterUrl = () => {
   const dispatch = useDispatch();
   const permissions = useSelector((state) => state.permission);
