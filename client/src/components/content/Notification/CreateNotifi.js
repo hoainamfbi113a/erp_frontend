@@ -9,12 +9,15 @@ import vote from "assets/images/vote.svg";
 import logologin from "assets/images/logologin.png";
 import ProposalForm from "components/Modal/ProposalForm";
 import docCookies from "doc-cookies";
+import { bindActionCreators } from 'redux'
 import axios from "axios";
+import { getPermission } from "reduxToolkit/features/permissionSlice"
+import { connect } from "react-redux";
 import { Collapse } from "antd";
 
 const { Panel } = Collapse;
 import { Tree } from "antd";
-export default class CreateNotifi extends Component {
+class CreateNotifi extends Component {
   constructor() {
     super();
     this.state = {
@@ -89,6 +92,7 @@ export default class CreateNotifi extends Component {
   componentDidMount = () => {
     this.getDataDocumentType();
     this.getDataDocumentListUser();
+    this.props.dispatchPermission();
   };
   onSelect = (id) => {
     if (id) {
@@ -196,6 +200,7 @@ export default class CreateNotifi extends Component {
     let treeData = this.state.treeData;
     return (
       <div className="create-notifi">
+        {console.log(this.props.permissionsUser)}
         <div className="content-background2">
           <div style={{ minHeight: "70vh" }} className="content-main">
             <div className="content-top content-top-create-notif">
@@ -297,8 +302,14 @@ export default class CreateNotifi extends Component {
 // const mapDispatchToProps = (dispatch) =({
 
 // })
-// const mapDispatchToProps = (dispatch) => ({
-//   uiActionCreatorsS: bindActionCreators(showLoading, dispatch),
-//   uiActionCreatorsH: bindActionCreators(hideLoading, dispatch),
-// });
-// export default connect(null, mapDispatchToProps)(Create);
+const mapStateToProps = (state) => {
+  return {
+      permissionsUser:state.permission
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+     dispatchPermission:bindActionCreators(getPermission , dispatch)
+  }
+}
+export default connect (mapStateToProps, mapDispatchToProps)(CreateNotifi)
