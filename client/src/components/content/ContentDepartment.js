@@ -3,15 +3,15 @@ import { Input, Button } from "antd";
 import TableDepartment from "components/Table/TableDepartment";
 const { Search } = Input;
 import "./Content.css";
-import { PermissionContext } from "../RouterULR/RouterUrl";
+import withRoute from "../RouterULR/route/withRoute";
+import PermissionContext from "../../context/PermissionContext";
 
 const ContentDepartment = () => {
   const [value, setValue] = useState("");
   const [visible, setVisible] = useState(false);
   const [total, setTotal] = useState(0);
   const {permissions,domain} = useContext(PermissionContext)
-  console.log(permissions)
-
+  
   const showModal = () => {
 
     setVisible(true);
@@ -50,4 +50,4 @@ const ContentDepartment = () => {
     </div>
   );
 };
-export default ContentDepartment;
+export default withRoute(ContentDepartment);

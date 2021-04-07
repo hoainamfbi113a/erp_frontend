@@ -22,6 +22,7 @@ const ServiceRoute = ({ service }) => {
                     value={{
                       permissions: group.permissions,
                       domain: service.domain,
+                      slug: group.slug
                     }}
                   >
                     <Component routes={slug.routes}  />

@@ -14,7 +14,7 @@ export const getProfile = (id) =>{
 
 export const addProfile = (params) =>{
     return axiosConfig
-    .post(`/api/profiles`, params)
+    .post(`/api/Pokemon`, params)
     .then(data=>{
         return data;
     })

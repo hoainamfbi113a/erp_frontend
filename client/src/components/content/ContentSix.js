@@ -14,7 +14,7 @@ const ContentSix = () => {
   const [value, setValue] = useState("");
   const [total, setTotal] = useState(0);
   let { path } = useRouteMatch();
-  const {permissions} = useContext(PermissionContext)
+  const {permissions} = useContext(PermissionContext);
   return (
     <div>
       <div className="content-top">
