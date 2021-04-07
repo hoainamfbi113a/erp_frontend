@@ -1,16 +1,21 @@
-import React, { useState } from "react";
+import React, { useState , useContext } from "react";
 import { Input } from "antd";
 import { Button } from "antd";
 
-import { Link } from "react-router-dom";
+import { Link ,useRouteMatch } from "react-router-dom";
 import TableSix from "components/Table/TableSix";
 const { Search } = Input;
 
 import "./Content.css";
+import { PermissionContext } from "../RouterULR/RouterUrl";
+import withRoute from "../RouterULR/route/withRoute";
 
-export default function ContentSix() {
+const ContentSix = () => {
   const [value, setValue] = useState("");
   const [total, setTotal] = useState(0);
+  let { path } = useRouteMatch();
+  const {permissions} = useContext(PermissionContext)
+  
   return (
     <div>
       <div className="content-top">
@@ -25,7 +30,7 @@ export default function ContentSix() {
           />
         </div>
         <div className="content-top-right">
-          <Link to={`/adduser`}>
+          <Link to={`${path}/create`}>
             <Button className="btn-add-user-six">Thêm hồ sơ nhân viên</Button>
           </Link>
         </div>
@@ -34,3 +39,5 @@ export default function ContentSix() {
     </div>
   );
 }
+
+export default withRoute(ContentSix)
