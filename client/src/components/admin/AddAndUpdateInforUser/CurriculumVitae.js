@@ -551,7 +551,7 @@ class addInformationUser extends Component {
           pro_id_saved: proId,
         });
         // await this.fetchData();
-        this.props.history.push(`/edituser/${userId}`);
+        this.props.history.push(`/profile-service/profile/update/${userId}`);
         this.props.handleReloadComponent();
       } else {
         message.error("Thêm thông tin nhân sự thất bại");
