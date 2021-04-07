@@ -1,15 +1,19 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import { Input, Button } from "antd";
 import TableDepartment from "components/Table/TableDepartment";
 const { Search } = Input;
 import "./Content.css";
+import { PermissionContext } from "../RouterULR/RouterUrl";
 
 const ContentDepartment = () => {
   const [value, setValue] = useState("");
   const [visible, setVisible] = useState(false);
   const [total, setTotal] = useState(0);
+  const {permissions,domain} = useContext(PermissionContext)
+  console.log(permissions)
 
   const showModal = () => {
+
     setVisible(true);
   };
 

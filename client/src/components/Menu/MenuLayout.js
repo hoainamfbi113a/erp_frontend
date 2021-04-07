@@ -71,16 +71,16 @@ const MenuLayout = (props) => {
           {checkPermission("profile-service", "Create") ? (
             [
               <Menu.Item key="7">
-                <Link to="/user">Nhân sự </Link>
+                <Link to="/profile-service/profile">Nhân sự </Link>
               </Menu.Item>,
               <Menu.Item key="8">
-                <Link to="/department">Phòng ban </Link>
+                <Link to="/profile-service/department">Phòng ban </Link>
               </Menu.Item>,
               <Menu.Item key="9">
-                <Link to="/parts">Tổ</Link>
+                <Link to="/profile-service/part">Tổ</Link>
               </Menu.Item>,
               <Menu.Item key="10">
-                <Link to="/position">Chức vụ</Link>
+                <Link to="/profile-service/position">Chức vụ</Link>
               </Menu.Item>
             ]) : ""
           }
