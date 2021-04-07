@@ -147,7 +147,6 @@ router.post("/document/store", async (req, res) => {
         pos_id: data.data.department.data.pos_id,
         pos_name: data.data.department.data.pos_name,
       };
-
       dataForm.issue_id = res1.data.id;
       axios
         .post(`${process.env.apiFormBuilder}/api/document/store`, dataForm)
@@ -163,15 +162,16 @@ router.post("/document/store", async (req, res) => {
             )
             .then((res3) => {
               // user create document 
+              // console.log(res3)
+              resEnd.send("success");
               let body = {
-                process_id: +res3.id,
                 user_id: +user_id,
                 status: "pass",
                 note: "",
               };
               console.log(body)
               axios
-                .post(`${process.env.apiFormBuilder}/api/document-process/process`, body)
+                .post(`${process.env.apiFormBuilder}/api/document-process/update/${+res3.data.id}`, body)
                 .then((res) => {
                   console.log("create document success");
                   resEnd.send("success");
@@ -294,8 +294,14 @@ router.get("/document-process/get", async (req, res) => {
 
 router.post("/document-process/process", async (req, res) => {
   try {
+    let  { process_id, user_id ,status ,note } = req.body;
+    let customBody = {
+      user_id,
+      status,
+      note
+    }
     let { data } = await axios.post(
-      `${process.env.apiFormBuilder}/api/document-process/process`,req.body
+      `${process.env.apiFormBuilder}/api/document-process/update/${process_id}`,customBody
     );
     res.send(data);
   } catch (error) {

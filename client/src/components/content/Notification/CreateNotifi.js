@@ -36,64 +36,64 @@ export default class CreateNotifi extends Component {
       visible: false,
     });
   };
-  getDataDocumentType = () =>{
+  getDataDocumentType = () => {
     axios
-    .get("/api/document-type/get-document-types")
-    .then((res) => {
-      this.setState({
-        dataDocumentType: res.data,
-      });
-      let treeData = [];
-      for (let item of this.state.dataDocumentType) {
-        let treeDataStudent = [];
-        for (let itemChild of item.children) {
-          const treeNodeChild = {
-            title: itemChild.display_name,
-            key: itemChild.id,
-            id: itemChild.id,
-            template_id: itemChild.template_id,
+      .get("/api/document-type/get-document-types")
+      .then((res) => {
+        this.setState({
+          dataDocumentType: res.data,
+        });
+        let treeData = [];
+        for (let item of this.state.dataDocumentType) {
+          let treeDataStudent = [];
+          for (let itemChild of item.children) {
+            const treeNodeChild = {
+              title: itemChild.display_name,
+              key: itemChild.id,
+              id: itemChild.id,
+              template_id: itemChild.template_id,
+            };
+            treeDataStudent.push(treeNodeChild);
+          }
+          const treeNode = {
+            title: item.display_name,
+            key: item.id,
+            children: treeDataStudent,
           };
-          treeDataStudent.push(treeNodeChild);
+          treeData.push(treeNode);
         }
-        const treeNode = {
-          title: item.display_name,
-          key: item.id,
-          children: treeDataStudent,
-        };
-        treeData.push(treeNode);
-      }
-      this.setState({
-        treeData,
+        this.setState({
+          treeData,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  }
-  getDataDocumentListUser = () =>{
+  };
+  getDataDocumentListUser = () => {
     axios
-    .get(
-      `/api/document/list?page=1&per_page=1000&user_id=${docCookies.getItem("user_id")}`
-    )
-    .then((res) => {
-      this.setState({
-        dataDocumentUser: res.data.data,
+      .get(
+        `/api/document/list?page=1&per_page=1000&user_id=${docCookies.getItem(
+          "user_id"
+        )}`
+      )
+      .then((res) => {
+        this.setState({
+          dataDocumentUser: res.data.data,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  }
+  };
   componentDidMount = () => {
-    this.getDataDocumentType()
+    this.getDataDocumentType();
     this.getDataDocumentListUser();
   };
   onSelect = (id) => {
     if (id) {
       axios
-        .get(
-          `/api/document-template/get?type_id=${id}`
-        )
+        .get(`/api/document-template/get?type_id=${id}`)
         .then((data) => {
           if (data.data === "") {
             alert("Template chưa được tạo");
@@ -112,7 +112,7 @@ export default class CreateNotifi extends Component {
     axios
       .delete(`https://document.tuoitre.vn/api/document/delete/${id}`)
       .then((res) => {
-        console.log(res)
+        console.log(res);
         if (res.data.message === "success") {
           alert("Xoá tài liệu thành công");
           this.getDataDocumentListUser();
@@ -126,22 +126,25 @@ export default class CreateNotifi extends Component {
   handleViewDocument = (id) => {
     this.props.history.push(`/form-document-view/${id}`);
   };
-  renderPanel = () =>{
-    let dataDocumentType = this.state.dataDocumentType
-    if(dataDocumentType){
-      return dataDocumentType.map((item)=>{
+  checkPermission = () => {};
+  renderPanel = () => {
+    let dataDocumentType = this.state.dataDocumentType;
+    if (dataDocumentType) {
+      return dataDocumentType.map((item) => {
         return (
           <Panel header={item.display_name} key={item.id}>
-                {item.children.map((itemChild)=>{
-                  return (
-                    <p onClick ={()=>this.onSelect(itemChild.id)}>{itemChild.display_name}</p>
-                  )
-                })}
+            {item.children.map((itemChild) => {
+              return (
+                <p onClick={() => this.onSelect(itemChild.id)}>
+                  {itemChild.display_name}
+                </p>
+              );
+            })}
           </Panel>
-        )
-      })
+        );
+      });
     }
-  }
+  };
   renderHistoryCreate = () => {
     let data = this.state.dataDocumentUser;
     if (data) {
@@ -188,7 +191,7 @@ export default class CreateNotifi extends Component {
   };
   callback = (key) => {
     console.log(key);
-  }
+  };
   render() {
     let treeData = this.state.treeData;
     return (
@@ -211,7 +214,10 @@ export default class CreateNotifi extends Component {
               defaultExpandAll
               onSelect={this.onSelect}
             /> */}
-            <Collapse className="create-notification-collapse" onChange={this.callback}>
+            <Collapse
+              className="create-notification-collapse"
+              onChange={this.callback}
+            >
               {this.renderPanel()}
             </Collapse>
             <div className="create-notifi-content"></div>
@@ -283,3 +289,16 @@ export default class CreateNotifi extends Component {
     );
   }
 }
+// const mapStateToProps = (state) => {
+//   return {
+
+//   }
+// }
+// const mapDispatchToProps = (dispatch) =({
+
+// })
+// const mapDispatchToProps = (dispatch) => ({
+//   uiActionCreatorsS: bindActionCreators(showLoading, dispatch),
+//   uiActionCreatorsH: bindActionCreators(hideLoading, dispatch),
+// });
+// export default connect(null, mapDispatchToProps)(Create);
