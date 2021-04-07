@@ -139,7 +139,7 @@ class CreateNotifi extends Component {
           <Panel header={item.display_name} key={item.id}>
             {item.children.map((itemChild) => {
               return (
-                <p onClick={() => this.onSelect(itemChild.id)}>
+                <p style={{cursor:"pointer"}} onClick={() => this.onSelect(itemChild.id)}>
                   {itemChild.display_name}
                 </p>
               );
@@ -156,7 +156,7 @@ class CreateNotifi extends Component {
         return (
           <tr>
             <td>
-              <img src={history}></img>
+              <img style={{width:"29px"}} src={history}></img>
             </td>
             <td
               onClick={() => {
@@ -248,7 +248,7 @@ class CreateNotifi extends Component {
                 {this.renderHistoryCreate()}
                 <tr>
                   <td>
-                    <img src={logologin}></img>
+                    <img style={{width:"29px"}} src={history}></img>
                   </td>
                   <td className="content-notification-unread">
                     Phiếu đề xuất, đề xuất mua Iphone, Ipad cho nhân ...
@@ -257,7 +257,7 @@ class CreateNotifi extends Component {
                 </tr>
                 <tr>
                   <td>
-                    <img src={takeleave}></img>
+                    <img style={{width:"29px"}} src={history}></img>
                   </td>
                   <td className="content-notification-unread">
                     Đơn xin nghĩ phép, Mộc Lan xin nghĩ phép 10 ngày ...
@@ -266,14 +266,14 @@ class CreateNotifi extends Component {
                 </tr>
                 <tr>
                   <td>
-                    <img src={put}></img>
+                    <img style={{width:"29px"}} src={history}></img>
                   </td>
                   <td>Đặt phòng họp, Đặt phòng hop 2B họp dự án abc ...</td>
                   <td>09:15</td>
                 </tr>
                 <tr>
                   <td>
-                    <img src={takeleave}></img>
+                    <img style={{width:"29px"}} src={history}></img>
                   </td>
                   <td>10h</td>
                   <td>09:15</td>

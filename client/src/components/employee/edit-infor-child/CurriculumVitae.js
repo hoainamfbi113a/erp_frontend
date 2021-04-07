@@ -166,7 +166,7 @@ class CurriculumVitae extends Component {
     if (
       !this.state.valid_pro_name.isValid &&
       !this.state.valid_phone.isValid &&
-      !this.state.valid_part.isValid &&
+      // !this.state.valid_part.isValid &&
       !this.state.valid_department.isValid &&
       !this.state.valid_position.isValid
     ) {

@@ -428,7 +428,7 @@ class addInformationUser extends Component {
       !this.state.valid_pro_name.isValid &&
       !this.state.valid_email.isValid &&
       !this.state.valid_phone.isValid &&
-      !this.state.valid_part.isValid &&
+      // !this.state.valid_part.isValid &&
       !this.state.valid_department.isValid &&
       !this.state.valid_position.isValid
     ) {
