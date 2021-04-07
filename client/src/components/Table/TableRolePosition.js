@@ -77,10 +77,12 @@ const TablePosition = (props) => {
         for (const item of res[property].groups) {
           for (const itemChild of item.permissions) {
             // ArrSelected.push(itemChild.id);
+            console.log(itemChild.id)
             arrPermission.push(itemChild.id)
           }
         }
       }
+      console.log(arrPermission)
       setPermissionExist(arrPermission)
       setSelected(arrPermission);
     })
