@@ -24,7 +24,7 @@ const RouterUrl = () => {
   const permissions = useSelector((state) => state.permission);
 
   useEffect(async () => {
-    await dispatch(getPermission("1"));
+    await dispatch(getPermission(docCookies.getItem("user_id")));
   }, [dispatch]);
 
   const checkPermission = (itemMenu, action) => {
