@@ -32,25 +32,64 @@ const __dirname = path.resolve();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api/check-permission", function(req, res, next){
-    let resParent = res
+// app.use("/api/check-permission", function(req, res, next){
+//     let resParent = res
+//     const config = {
+//         headers: { Authorization: req.headers.authorization },
+//     };
+//     axios.post(`http://192.168.61.116/api/check-permission`,req.body, config )
+//     .then(res=>{
+//         if(res.data === true){
+//             resParent.send(res.data)
+//             next();
+//         } else {
+//             resParent.send(res.data)
+//         }
+//     })
+//     .catch(err=>{
+//         console.log("err")
+//         // console.log(err)
+//     })
+// })
+app.use("/api/pokemon", function(req, res, next){
+    console.log("123")
     const config = {
         headers: { Authorization: req.headers.authorization },
     };
-    axios.post(`http://192.168.61.116/api/check-permission`,req.body, config )
+    let resParent = res
+    console.log(req.body.objCheck)
+    axios.post(`http://192.168.61.116/api/check-permission`,req.body.objCheck, config )
     .then(res=>{
+        console.log(res.data)
         if(res.data === true){
-            resParent.send(res.data)
-            next();
+            // resParent.send(res.data)
+            apiMain(req,resParent)
         } else {
-            resParent.send(res.data)
+            // resParent.send(res.data)
         }
     })
     .catch(err=>{
         console.log("err")
         // console.log(err)
     })
-})
+}
+)
+const apiMain =(req,resParent) =>{
+    let url = `${req.body.domain}/${req.body.objCheck.uri}/${req.body.id ? req.body.id : ""}`
+    console.log( url.replace("{department}/",""))
+    
+    // console.log(`${req.body.domain}/${req.body.objCheck.uri}/${req.body.id ? req.body.id : ""}`)
+    axios({
+        method:req.body.objCheck.method,
+        url: url.replace("{department}/",""),
+        data: req.body.depart,
+        headers: { Authorization: req.headers.authorization }
+    })
+    .then(function (response) {
+        resParent.send(response.data)
+        console.log(response.data)
+      });
+}
 app.use("/api", userController);
 app.use("/api", formBuilderController);
 
@@ -64,7 +103,7 @@ app.post("/api/user-degrees", addUserDegrees);
 app.post("/api/work-objects", addWorkObjects);
 
 app.put("/api/profiles/:id", updateProfile);
-app.post("/api/profiles", addProfile);
+//app.post("/api/profiles", addProfile);
 app.put("/api/profiles/departments/:id", updateProfileDepartments);
 app.put("/api/journalist-cards/:id", updateJournalistCards);
 app.put("/api/user-degrees/:id", updateUserDegrees);

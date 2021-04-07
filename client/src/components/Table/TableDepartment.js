@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useDispatch } from "react-redux";
 import "../../App/App.css";
 import "./Table.css";
@@ -22,9 +22,11 @@ import {
   deleteDepartment,
 } from "../../apis/departmentApi";
 import usePrevious from "../../hooks/usePrevious";
+import PermissionContext from "../../context/PermissionContext";
 
 const TableDepartment = (props) => {
   const dispatch = useDispatch();
+  const {permissions, domain, slug} = useContext(PermissionContext);
   const lastValue = usePrevious(props.valueSearch);
   const [id, setId] = useState("");
   const [data, setData] = useState(null);
@@ -101,7 +103,19 @@ const TableDepartment = (props) => {
           message.error("Thêm phòng ban thất bại");
         }
       } else {
-        let res = await updateDepartment(depart, id);
+        let paramCheck = permissions.filter((permission) => permission.action === "update" && permission.uri === "api/departments/{department}");
+        let objCheck = {
+          uri: paramCheck[0].uri,
+          method: paramCheck[0].method,
+          slug_table_management: slug,
+        }
+        let obj = {
+          objCheck,
+          depart,
+          domain,
+          id
+        }
+        let res = await updateDepartment(obj);
         setId("");
         if (res.message === "Success!. Updated") {
           message.success("Cập nhật phòng ban thành công");

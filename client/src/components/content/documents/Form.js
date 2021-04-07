@@ -11,8 +11,9 @@ import docCookies from "doc-cookies";
 import axiosConfig from "apis/axios";
 import { bindActionCreators } from "redux";
 import { Modal, Button } from "antd";
-import { Comment, Tooltip, Avatar } from "antd";
-import { Input } from "antd";
+import { Comment, List } from "antd";
+import { Input, Form } from "antd";
+const { TextArea } = Input;
 class Create extends Component {
   constructor(props) {
     super(props);
@@ -341,6 +342,21 @@ class Create extends Component {
     });
   };
   render() {
+    const data = [
+      {
+        author: "Trưởng phòng: Nguyễn Văn A",
+        avatar:
+          "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+        content: <p>Đi chơi vui vẻ em nhé</p>,
+      },
+      {
+        author: "Nhân sự: Nguyễn A",
+        avatar:
+          "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+        content: <p>Anh đi chơi vui vẻ (còn 10 ngày phép nữa ạ)</p>,
+      },
+    ];
+
     const { listInputs, inputsData, currentProcessStep } = this.state;
     return (
       <div>
@@ -409,7 +425,6 @@ class Create extends Component {
                 </span>
               </div>
             )}
-
             {this.state.create === false && (
               <div
                 style={{
@@ -480,12 +495,30 @@ class Create extends Component {
                     Trở về
                   </span>
                 </div>
+                <TextArea rows={4}
+              // onChange={onChange} value={value}
+                />
               </div>
             )}
+          
           </div>
-          Ghi chú
-          <li>
-          <Comment
+          <List
+            className="comment-list"
+            header={`${data.length} replies`}
+            itemLayout="horizontal"
+            dataSource={data}
+            renderItem={(item) => (
+              <li>
+                <Comment
+                  actions={item.actions}
+                  author={item.author}
+                  avatar={item.avatar}
+                  content={item.content}
+                />
+              </li>
+            )}
+          />
+          {/* <Comment
             // actions={actions}
             author={<a>Trưởng phòng: Nguyễn Trưởng Phòng</a>}
             avatar={
@@ -517,8 +550,7 @@ class Create extends Component {
               />
             }
             content={<p>We supply a series of design principles</p>}
-          />
-          </li>
+          /> */}
         </div>
         <Modal
           title="Basic Modal"

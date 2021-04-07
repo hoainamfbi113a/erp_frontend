@@ -55,12 +55,12 @@ export const addDepartment = (params) => {
     });
 };
 
-export const updateDepartment = (params, id) => {
+export const updateDepartment = (params) => {
   return axiosConfig
-    .put(`/api/departments/${id}`, params)
+    .put(`/api/pokemon`, params)
     .then(handleResponse)
     .then((data) => {
-      console.log(data)
+      // console.log(data)
       return data;
     })
     .catch((err) => {
