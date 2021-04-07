@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, Fragment } from "react";
 import { Link } from "react-router-dom";
-import { getPermissionUser } from "apis/authenticationApi";
 import logomall from "assets/images/logoPage.png";
 import { Menu, Layout } from "antd";
 import { withRouter } from "react-router";
 import { UserOutlined, ShopOutlined, LockOutlined } from "@ant-design/icons";
+import { getPermission } from "reduxToolkit/features/permissionSlice";
+import { useDispatch, useSelector } from "react-redux";
 import docCookies from "doc-cookies";
 import "./Menu.css";
 const { SubMenu } = Menu;
@@ -12,17 +13,12 @@ const { Sider } = Layout;
 
 const MenuLayout = (props) => {
 
-  const [dataPermission, setDataPer] = useState(null);
+  const dispatch = useDispatch();
+  const permissions = useSelector((state) => state.permission);
 
-  useEffect(() => {
-    fetchPermission();
-  }, [])
-
-  const fetchPermission = async () => {
-    const user_id = docCookies.getItem("user_id");
-    const data = await getPermissionUser(user_id);
-    setDataPer(data);
-  };
+  useEffect(async () => {
+    await dispatch(getPermission(docCookies.getItem("user_id")));
+  }, [dispatch]);
 
   const checkPermission = (itemMenu, action) => {
     if (dataPermission && dataPermission.permissions)
@@ -61,44 +57,51 @@ const MenuLayout = (props) => {
     }
   };
   const renderMenu = () => {
+    if(permissions.length) {
       return (
-        <SubMenu
-          key="sub2"
-          icon={<UserOutlined />}
-          title="Nghiệp vụ"
-          icon={<ShopOutlined />}
-        >
-          {checkPermission("profile-service", "Create") ? (
-            [
-              <Menu.Item key="7">
-                <Link to="/profile-service/profile">Nhân sự </Link>
-              </Menu.Item>,
-              <Menu.Item key="8">
-                <Link to="/profile-service/department">Phòng ban </Link>
-              </Menu.Item>,
-              <Menu.Item key="9">
-                <Link to="/profile-service/part">Tổ</Link>
-              </Menu.Item>,
-              <Menu.Item key="10">
-                <Link to="/profile-service/position">Chức vụ</Link>
-              </Menu.Item>
-            ]) : ""
+        <Fragment>
+          <SubMenu key="sub2" icon={<UserOutlined />} title="Nghiệp vụ">
+          {
+            permissions.map((subMenu) => (
+              <SubMenu key={subMenu.name} title={subMenu.name}>
+                {
+                  subMenu.groups.map((menu) => (
+                    <Menu.Item key={menu.name}>
+                      <Link to={`/${subMenu.slug}/${menu.slug}`}>{menu.name}</Link>
+                    </Menu.Item>
+                  ))
+                }
+              </SubMenu>
+            ))
           }
-          {checkPermission("workflow-service", "Create") === true ? (
-            <Menu.Item key="11">
-              <Link to="/workflow">Workflow</Link>
-            </Menu.Item>
-            ) : ""
-          }
-          {checkPermission("document-service", "Create") === true ? (
-          <Menu.Item key="12">
-            <Link to="/form-builder">Form builder</Link>
-          </Menu.Item>
-            ) : ""
-          }
-          
-        </SubMenu>
+          </SubMenu>
+        </Fragment>
+        // <SubMenu
+        //   key="sub2"
+        //   icon={<UserOutlined />}
+        //   title="Nghiệp vụ"
+        //   icon={<ShopOutlined />}
+        // >
+        //   {
+        //     [
+        //       <Menu.Item key="7">
+        //         <Link to="/profile-service/profile">Nhân sự </Link>
+        //       </Menu.Item>,
+        //       <Menu.Item key="8">
+        //         <Link to="/profile-service/department">Phòng ban </Link>
+        //       </Menu.Item>,
+        //       <Menu.Item key="9">
+        //         <Link to="/profile-service/part">Tổ</Link>
+        //       </Menu.Item>,
+        //       <Menu.Item key="10">
+        //         <Link to="/profile-service/position">Chức vụ</Link>
+        //       </Menu.Item>
+        //     ]
+        //   }
+        // </SubMenu>
+
       );
+    }
   }
   return (
     <div className="bbbb">
@@ -124,7 +127,7 @@ const MenuLayout = (props) => {
               <Link to="/notification-department">Thông tin phòng ban</Link>
             </Menu.Item>
             <Menu.Item key="4">
-              <Link to="/notification-myword">Việc của tôi</Link>
+              <Link to="/notification-my-work">Việc của tôi</Link>
             </Menu.Item>
             <Menu.Item key="5">
               <Link to="/edit-information">Cập nhật thông tin</Link>
