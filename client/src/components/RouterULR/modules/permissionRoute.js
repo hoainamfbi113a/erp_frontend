@@ -3,6 +3,7 @@ import ContentSix from "components/content/ContentSix";
 import ContentParts from "components/content/ContentParts";
 import ContentPosition from "components/content/ContentPosition";
 import AddAndUpdateInforUser from "components/admin/AddAndUpdateInforUser";
+import Workflow from "components/admin/workflow/Workflow";
 
 export default {
   "profile-service": {
@@ -32,5 +33,11 @@ export default {
       path:"/position",
       component: ContentPosition,
     },
+  },
+  "workflow-service": {
+    "workflow": {
+      path: "/workflow",
+      component: Workflow
+    }
   }
 };

@@ -65,7 +65,7 @@ const MenuLayout = (props) => {
               <SubMenu key={subMenu.name} title={subMenu.name}>
                 {
                   subMenu.groups.map((menu) => (
-                    <Menu.Item key={menu.name}>
+                    <Menu.Item className="sub-item" key={menu.name}>
                       <Link to={`/${subMenu.slug}/${menu.slug}`}>{menu.name}</Link>
                     </Menu.Item>
                   ))
@@ -74,29 +74,6 @@ const MenuLayout = (props) => {
             ))
           }
         </Fragment>
-        // <SubMenu
-        //   key="sub2"
-        //   icon={<UserOutlined />}
-        //   title="Nghiệp vụ"
-        //   icon={<ShopOutlined />}
-        // >
-        //   {
-        //     [
-        //       <Menu.Item key="7">
-        //         <Link to="/profile-service/profile">Nhân sự </Link>
-        //       </Menu.Item>,
-        //       <Menu.Item key="8">
-        //         <Link to="/profile-service/department">Phòng ban </Link>
-        //       </Menu.Item>,
-        //       <Menu.Item key="9">
-        //         <Link to="/profile-service/part">Tổ</Link>
-        //       </Menu.Item>,
-        //       <Menu.Item key="10">
-        //         <Link to="/profile-service/position">Chức vụ</Link>
-        //       </Menu.Item>
-        //     ]
-        //   }
-        // </SubMenu>
 
       );
     }

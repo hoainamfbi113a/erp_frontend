@@ -20,7 +20,7 @@ export default [
     component: NotifiDepartment,
   },
   {
-    path: "/notification-myword",
+    path: "/notification-my-work",
     component: NotifiMyWord,
   },
   {

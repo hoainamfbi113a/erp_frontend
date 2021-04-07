@@ -1,10 +1,8 @@
 import docCookies from "doc-cookies";
 import React, { useEffect, createContext } from "react";
 import { Route, Switch } from "react-router-dom";
-import { getPermissionUser } from "apis/authenticationApi";
 import Workflow from "components/admin/workflow/Workflow";
 import FormBuilder from "components/admin/FormBuilder/FormBuilder";
-import AddAndUpdateInforUser from "components/admin/AddAndUpdateInforUser";
 import ContentPermission from "components/content/ContentPermission";
 import ContentRoles from "components/content/ContentRoles";
 import ContentRolesAction from "components/admin/Roles/ManergerRole";
