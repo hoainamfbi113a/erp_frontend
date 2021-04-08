@@ -23,17 +23,6 @@ const RouterUrl = () => {
     await dispatch(getPermission(docCookies.getItem("user_id")));
   }, [dispatch]);
 
-  const checkPermission = (itemMenu, action) => {
-    if (dataPermission && dataPermission.permissions)
-      for (const element of dataPermission.permissions) {
-        let name = element.actions[0].name === action;
-        let service = element.slug_service_management;
-        if (service === itemMenu && name) {
-          return true;
-        }
-      }
-    return true;
-  };
 
   const renderUrl = () => {
     if (permissions.length) {
@@ -49,22 +38,6 @@ const RouterUrl = () => {
               component={() => <ServiceRoute service={service} />}
             />
           ))}
-
-          {/* {checkPermission("profile-service", "Create") ?
-            [
-                <Route exact path="/user" component={()=><ContentUserSix />} />,
-                <Route exact path="/adduser" component={AddAndUpdateInforUser} />,
-                <Route exact path="/position" component={ContentPosition} />,
-                <Route exact path="/department" component={ContentDepartment} />,
-                <Route exact path="/parts" component={ContentParts}></Route>,
-                <Route exact path="/edituser/:id" component={AddAndUpdateInforUser} />
-            ]
-            : ""
-          } */}
-          {/* {checkPermission("workflow-service", "Create") ?
-            <Route exact path="/workflow" component={Workflow} /> : ""}
-          {checkPermission("document-service", "Create") ? 
-            <Route exact path="/form-builder" component={FormBuilder} /> : ""} */}
 
           <Route exact path="/form-document/:id" component={formDocument} />
           <Route
