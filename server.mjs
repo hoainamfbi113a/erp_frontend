@@ -56,6 +56,7 @@ app.use("/api/pokemon", function(req, res, next){
     const config = {
         headers: { Authorization: req.headers.authorization },
     };
+    console.log("data",req.body.data)
     let resParent = res
     console.log(req.body.objCheck)
     axios.post(`http://192.168.61.116/api/check-permission`,req.body.objCheck, config )
@@ -82,7 +83,7 @@ const apiMain =(req,resParent) =>{
     axios({
         method:req.body.objCheck.method,
         url: url.replace("{department}/",""),
-        data: req.body.depart,
+        data: req.body.data,
         headers: { Authorization: req.headers.authorization }
     })
     .then(function (response) {
@@ -103,7 +104,7 @@ app.post("/api/user-degrees", addUserDegrees);
 app.post("/api/work-objects", addWorkObjects);
 
 app.put("/api/profiles/:id", updateProfile);
-//app.post("/api/profiles", addProfile);
+app.post("/api/profiles", addProfile);
 app.put("/api/profiles/departments/:id", updateProfileDepartments);
 app.put("/api/journalist-cards/:id", updateJournalistCards);
 app.put("/api/user-degrees/:id", updateUserDegrees);

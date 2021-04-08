@@ -68,6 +68,8 @@ router.get("/document-type/get-document-types", async (req, res) => {
   }
 });
 let getTarget = async (pos_id, dep_id, step_id, action_id) => {
+  console.log("dep_id", dep_id);
+  console.log("pos_id", pos_id);
   let target = [];
   let { data } = await axios.get(
     `${process.env.apiEmployee}/api/departments/positions/list-user/${dep_id}?order=asc&pos_id=${pos_id}`
@@ -133,6 +135,7 @@ router.post("/document/store", async (req, res) => {
     user_id,
     targets: target,
   };
+  console.log(paramsIssue)
   axios
     .post(`${process.env.apiWorkflow}/api/issue/store`, paramsIssue)
     .then((res1) => {

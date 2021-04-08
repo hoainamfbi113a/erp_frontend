@@ -35,6 +35,9 @@ class Create extends Component {
       isProcessed: false,
       isModalVisible: false,
       status: "pass",
+      step_history: null,
+      dataComment: [],
+      valueNote:"",
     };
   }
   getDetailIssue = (type_id) => {
@@ -78,6 +81,10 @@ class Create extends Component {
         axios
           .get(`/api/document-process/get?id=${process_id}`)
           .then((res) => {
+            this.renderComment(res.data.step_history);
+            // this.setState({
+            //   step_history:res.data.step_history
+            // })
             let arrTarget = res.data.targets;
             let userLogin = docCookies.getItem("user_id");
             for (let item of arrTarget) {
@@ -299,33 +306,55 @@ class Create extends Component {
     }
   };
   handleAccept = (value) => {
-    if (this.state.user_id == docCookies.getItem("user_id")) {
-      this.handleOk();
+    if(this.state.valueNote =="") {
+      alert("Bạn chưa nhập phản hồi");
     } else {
-      this.setState({
-        isModalVisible: true,
+      let body = {
+        process_id: +this.props.match.params.process_id,
+        user_id: +docCookies.getItem("user_id"),
         status: value,
-      });
+        note: this.state.valueNote,
+      };
+      axiosConfig
+        .post("/api/document-process/process", body)
+        .then((res) => {
+          console.log(res);
+          alert("Xác nhận thành công");
+          this.setState({ isModalVisible: false });
+          this.props.history.goBack();
+        })
+        .catch((err) => {
+          console.log("err");
+        });
     }
+    
+    // if (this.state.user_id == docCookies.getItem("user_id")) {
+    //   this.handleOk();
+    // } else {
+    //   this.setState({
+    //     isModalVisible: true,
+    //     status: value,
+    //   });
+    // }
   };
   handleOk = () => {
-    let body = {
-      process_id: +this.props.match.params.process_id,
-      user_id: +docCookies.getItem("user_id"),
-      status: this.state.status,
-      note: this.state.note,
-    };
-    axiosConfig
-      .post("/api/document-process/process", body)
-      .then((res) => {
-        console.log(res);
-        alert("Xác nhận thành công");
-        this.setState({ isModalVisible: false });
-        this.props.history.goBack();
-      })
-      .catch((err) => {
-        console.log("err");
-      });
+    // let body = {
+    //   process_id: +this.props.match.params.process_id,
+    //   user_id: +docCookies.getItem("user_id"),
+    //   status: this.state.status,
+    //   note: this.state.note,
+    // };
+    // axiosConfig
+    //   .post("/api/document-process/process", body)
+    //   .then((res) => {
+    //     console.log(res);
+    //     alert("Xác nhận thành công");
+    //     this.setState({ isModalVisible: false });
+    //     this.props.history.goBack();
+    //   })
+    //   .catch((err) => {
+    //     console.log("err");
+    //   });
   };
   renderWorkflow = () => {
     if (this.state.stepDataFlow) {
@@ -341,21 +370,53 @@ class Create extends Component {
       note: e.target.value,
     });
   };
+  renderComment = (value) => {
+    let data = [];
+    let step_history = value;
+    if (step_history) {
+      for(let itemParent of step_history)
+      {
+        for (let item of itemParent.targets) {
+          if (item.note !== null && item.note !=="") {
+            let obj = {
+              author: item.target_name,
+              avatar:
+                "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+              content: <p>{item.note}</p>,
+            };
+            data.push(obj);
+          }
+        }
+      }
+      
+    }
+    console.log(data);
+    this.setState({
+      dataComment: data,
+    });
+  };
+  onChangeNote = (e) =>{
+    // console.log(e.target.value)
+    this.setState({
+      valueNote:e.target.value
+    })
+  }
   render() {
-    const data = [
-      {
-        author: "Trưởng phòng: Nguyễn Văn A",
-        avatar:
-          "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-        content: <p>Đi chơi vui vẻ em nhé</p>,
-      },
-      {
-        author: "Nhân sự: Nguyễn A",
-        avatar:
-          "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-        content: <p>Anh đi chơi vui vẻ (còn 10 ngày phép nữa ạ)</p>,
-      },
-    ];
+    const data = this.state.dataComment;
+    // [
+    //   {
+    //     author: "Trưởng phòng: Nguyễn Văn A",
+    //     avatar:
+    //       "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+    //     content: <p>Đi chơi vui vẻ em nhé</p>,
+    //   },
+    //   {
+    //     author: "Nhân sự: Nguyễn A",
+    //     avatar:
+    //       "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+    //     content: <p>Anh đi chơi vui vẻ (còn 10 ngày phép nữa ạ)</p>,
+    //   },
+    // ];
 
     const { listInputs, inputsData, currentProcessStep } = this.state;
     return (
@@ -381,7 +442,6 @@ class Create extends Component {
                 if (data !== undefined) {
                   value = data.value;
                 }
-
                 return (
                   <div
                     className={classes({ preview: false })}
@@ -408,9 +468,28 @@ class Create extends Component {
                 );
               })}
           </div>
-              <TextArea style= {{marginTop:"199px", width:"60%"}} rows={4}
-              // onChange={onChange} value={value}
-                />
+           {(()=>{
+             if(this.state.create === false && this.state.user_id!=docCookies.getItem("user_id") && this.state.view === false) {
+                return (
+                  <TextArea
+                  placeholder="Nhập nội dung phản hồi"
+                  style={{ marginTop: "199px", width: "60%" }}
+                  rows={4}
+                  onChange = {this.onChangeNote}
+                  value = {this.state.valueNote}
+                  // onChange={onChange} value={value}
+                />)
+             }
+           })()}
+
+          {/* this.state.user_id!=docCookies.getItem("user_id") */}
+          
+          {/* {this.state.create === false && (   <TextArea
+            placeholder="Nhập nội dung phản hồi"
+            style={{ marginTop: "199px", width: "60%" }}
+            rows={4}
+            // onChange={onChange} value={value}
+          />)} */}
           <div style={{ width: "100%" }}>
             {this.state.create === true && (
               <div style={{ display: "flex", justifyContent: "center" }}>
@@ -462,33 +541,37 @@ class Create extends Component {
                 </div>
               </div>
             )} */}
-                {this.state.view === false && (
-                  <div>
-                    <span
-                      className="btn-add-user"
-                      onClick={(e) => this.handleAccept("pass")}
-                    >
-                      Xác nhận
-                    </span>
-                    <span
-                      className="btn-add-user"
-                      onClick={(e) => this.handleAccept("reject")}
-                    >
-                      Từ chối
-                    </span>
-                  </div>
-                )}
+            {this.state.user_id!=docCookies.getItem("user_id") ?(
+             <div>  {this.state.view === false && (
+                <div>
+                  <span
+                    className="btn-add-user"
+                    onClick={(e) => this.handleAccept("pass")}
+                  >
+                    Xác nhận
+                  </span>
+                  <span
+                    className="btn-add-user"
+                    onClick={(e) => this.handleAccept("reject")}
+                  >
+                    Từ chối
+                  </span>
+                </div>
+              )}
 
-                {this.state.view === true && (
-                  <div>
-                    <span style={{ opacity: ".5" }} className="btn-add-user">
-                      Xác nhận
-                    </span>
-                    <span style={{ opacity: ".5" }} className="btn-add-user">
-                      Từ chối
-                    </span>
-                  </div>
-                )}
+              {this.state.view === true && (
+                <div>
+                  <span style={{ opacity: ".5" }} className="btn-add-user">
+                    Xác nhận
+                  </span>
+                  <span style={{ opacity: ".5" }} className="btn-add-user">
+                    Từ chối
+                  </span>
+                </div>
+              )}
+              </div>):""
+          }
+               
 
                 <div>
                   <span
@@ -500,24 +583,7 @@ class Create extends Component {
                 </div>
               </div>
             )}
-          
           </div>
-          <List
-            className="comment-list"
-            header={`${data.length} replies`}
-            itemLayout="horizontal"
-            dataSource={data}
-            renderItem={(item) => (
-              <li>
-                <Comment
-                  actions={item.actions}
-                  author={item.author}
-                  avatar={item.avatar}
-                  content={item.content}
-                />
-              </li>
-            )}
-          />
           {/* <Comment
             // actions={actions}
             author={<a>Trưởng phòng: Nguyễn Trưởng Phòng</a>}
@@ -552,6 +618,24 @@ class Create extends Component {
             content={<p>We supply a series of design principles</p>}
           /> */}
         </div>
+        {data.length !== 0 && (
+            <List
+              className="comment-list"
+              header={`${data.length} replies`}
+              itemLayout="horizontal"
+              dataSource={data}
+              renderItem={(item) => (
+                <li>
+                  <Comment
+                    actions={item.actions}
+                    author={item.author}
+                    avatar={item.avatar}
+                    content={item.content}
+                  />
+                </li>
+              )}
+            />
+          )}
         <Modal
           title="Basic Modal"
           visible={this.state.isModalVisible}

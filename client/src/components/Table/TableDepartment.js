@@ -110,7 +110,7 @@ const TableDepartment = (props) => {
             method: paramCheck[0].method,
             slug_table_management: slug
           },
-          depart,
+          data: depart,
           domain,
           id
         }
