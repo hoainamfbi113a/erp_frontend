@@ -44,10 +44,12 @@ router.put("/:id", async (req, res) => {
 
 router.post("/delete", async (req, res) => {
     const { id } = req.body;
+    // console.log(req.body)
     const config = {
         headers: { Authorization: req.headers.authorization },
     };
     let { data } = await axios.delete(`${process.env.apiEmployee}/api/permission/${id}`, config);
+    console.log(data)
     res.send(data);
 });
 router.get("/departments/positions", async (req, res) => {

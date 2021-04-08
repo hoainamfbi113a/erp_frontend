@@ -142,10 +142,24 @@ class TablePermission extends Component {
     });
   };
 
-  confirm = (e) => {
-    const { userSixActionCreators } = this.props;
-    const { deleteUserSix } = userSixActionCreators;
-    deleteUserSix(e);
+  confirm = (id) => {
+    axiosConfig.post("/api/permission/delete",{id})
+    .then(res=>{
+      console.log(res)
+      if(res.message === "Success!. Deleted") {
+        this.fetchData();
+        alert("Xoá quyền thành công")
+      } else {
+        alert("Xoá quyền thất bại")
+      }
+    })
+    .catch(err=>{
+      console.log(err)
+    })
+
+    // const { userSixActionCreators } = this.props;
+    // const { deleteUserSix } = userSixActionCreators;
+    // deleteUserSix(e);
   };
 
   cancel = (e) => {
