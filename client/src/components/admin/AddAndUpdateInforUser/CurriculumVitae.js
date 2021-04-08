@@ -449,13 +449,6 @@ class addInformationUser extends Component {
         userId = resRegister.detail.id;
       }
       if (userId !== 0) {
-        let paramCheck = this.context.permissions.filter((permission) => permission.action === "create" && permission.uri === "api/profiles");
-        let objCheck = {
-          uri: paramCheck[0].uri,
-          method: paramCheck[0].method,
-          slug_table_management: this.context.slug,
-        }
-        let domain = this.context.domain;
         let params = {
           user_id: userId,
           pro_name: this.state.pro_name,
@@ -477,8 +470,6 @@ class addInformationUser extends Component {
           pro_note: this.state.pro_note,
           button: value,
           action: "create",
-          objCheck,
-          domain,
         };
 
         let resAddProfile = await addProfile(params);

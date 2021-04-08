@@ -96,7 +96,7 @@ const NotifiMy = (props) => {
 
   const renderNotifyItemDocument = () => {
     let dataNotify = noti;
-    if (dataNotify) {
+    if (dataNotify &&dataNotify.document_type) {
       return dataNotify.map((item) => {
         let bi = item.process.status;
         let status = false;
