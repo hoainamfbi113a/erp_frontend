@@ -17,8 +17,14 @@
     background-color: #3C9CFF;
 }
 
+.ant-layout-sider-dark {
+    width: 14.375rem !important;
+    min-width: 14.375rem !important;
+}
+
 .ant-menu-item a{
     color: #fff;
+    text-decoration: none;
 }
 .ant-menu-item span{
     color: #fff;
@@ -26,15 +32,27 @@
 .ant-menu-submenu-title{
     background-color: #208EFF;
     color:#fff;
+    width: calc(100%) !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    height: 50px !important;
+    line-height: 50px !important;
+}
+.ant-menu-submenu-title svg {
+    margin-right: 10px !important;
+}
+.ant-menu-submenu-title span {
+    margin-right: 0px !important;
 }
 .ant-menu-inline{
     background-color:#3C9CFF !important;
 }
-ant-menu-submenu-active, ant-menu-submenu-selected{
-    color: #fff;
-}
+
 .bbbb{
     background-color: #3C9CFF;
+    height: 100vh;
+    position: fixed;
+    overflow: scroll;
 }
 .ant-menu-item-only-child:hover, .ant-menu-submenu-title:hover{
     color:#555;
@@ -67,12 +85,16 @@ ant-menu-submenu-active, ant-menu-submenu-selected{
 }
 .ant-menu-submenu-title:hover .ant-menu-submenu-arrow:after{
     background:#000 !important;
+    text-decoration: none !important;
 }
 .dropdown-menu{
- position: initial !important;
- z-index: 0 i !important;
+    position: initial !important;
+    z-index: 0 i !important;
 }
-.ant-menu-item .ant-menu-item-only-child .sub-item {
-    background-color: #208EFF;
-    color:#fff;
+.spacing {
+    height: 40px;
+}
+.ant-menu-inline {
+    border: none;
+    width: calc(100%) !important;
 }

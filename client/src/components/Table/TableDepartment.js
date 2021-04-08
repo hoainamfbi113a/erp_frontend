@@ -104,13 +104,12 @@ const TableDepartment = (props) => {
         }
       } else {
         let paramCheck = permissions.filter((permission) => permission.action === "update" && permission.uri === "api/departments/{department}");
-        let objCheck = {
-          uri: paramCheck[0].uri,
-          method: paramCheck[0].method,
-          slug_table_management: slug,
-        }
         let obj = {
-          objCheck,
+          objCheck: {
+            uri: paramCheck[0].uri,
+            method: paramCheck[0].method,
+            slug_table_management: slug
+          },
           depart,
           domain,
           id

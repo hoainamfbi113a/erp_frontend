@@ -6,7 +6,7 @@ import RouterUrl from "../RouterULR/RouterUrl"
 import { Route } from 'react-router-dom';
 import { Layout } from "antd";
 import "../RouterULR/RouterUrl.css"
-
+import "./Erp.css"
 const { Footer } = Layout;
 export default class Erp extends React.Component {
   state = {
@@ -18,6 +18,12 @@ export default class Erp extends React.Component {
     });
   };
   render() {
+    const style = {
+      textAlign: "center",
+      width: "100%",
+      bottom: "0",
+      "margin-top": "auto",
+    }
     return (
       <div >
         <Layout>
@@ -25,7 +31,7 @@ export default class Erp extends React.Component {
           <Layout>
             <HeaderLayout collapsed={this.collapsed} />
             <Route path="/" component = {RouterUrl}></Route>
-            <Footer style={{ textAlign: "center" }} className="layout-footer">
+            <Footer style={style} className="layout-footer">
               Ant Design ©2020 Created by TuoiTre
             </Footer>
           </Layout>

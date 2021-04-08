@@ -3,13 +3,23 @@ import { Link } from "react-router-dom";
 import logomall from "assets/images/logoPage.png";
 import { Menu, Layout } from "antd";
 import { withRouter } from "react-router";
-import { UserOutlined, ShopOutlined, LockOutlined } from "@ant-design/icons";
+import { LockOutlined, MinusOutlined } from "@ant-design/icons";
+import { AiOutlineNotification } from "react-icons/ai"
+import { RiMessage3Line, RiInformationLine } from "react-icons/ri"
+import { CgWorkAlt, CgFileDocument } from "react-icons/cg"
+import { FiEdit } from "react-icons/fi"
+import { MdPeopleOutline } from "react-icons/md"
+import { TiFlowSwitch } from "react-icons/ti"
 import { getPermission } from "reduxToolkit/features/permissionSlice";
 import { useDispatch, useSelector } from "react-redux";
 import docCookies from "doc-cookies";
 import "./Menu.css";
 const { SubMenu } = Menu;
 const { Sider } = Layout;
+const icons = [
+  <MdPeopleOutline />,
+  <TiFlowSwitch />,
+]
 
 const MenuLayout = (props) => {
 
@@ -19,18 +29,6 @@ const MenuLayout = (props) => {
   useEffect(async () => {
     await dispatch(getPermission(docCookies.getItem("user_id")));
   }, [dispatch]);
-
-  const checkPermission = (itemMenu, action) => {
-    if (dataPermission && dataPermission.permissions)
-      for (const element of dataPermission.permissions) {
-        let name = element.actions[0].name === action;
-        let service = element.slug_service_management;
-        if (service === itemMenu  && name) {
-          return true;
-        }
-      }
-      return true;
-  };
 
   const renderAdmin = () => {
     if (docCookies.getItem("user_id") === "1") {
@@ -61,11 +59,11 @@ const MenuLayout = (props) => {
       return (
         <Fragment>
           {
-            permissions.map((subMenu) => (
-              <SubMenu key={subMenu.name} title={subMenu.name}>
+            permissions.map((subMenu, idx) => (
+              <SubMenu icon={icons[idx]} key={subMenu.name} title={subMenu.name}>
                 {
                   subMenu.groups.map((menu) => (
-                    <Menu.Item className="sub-item" key={menu.name}>
+                    <Menu.Item icon={<MinusOutlined />} className="sub-item" key={menu.name}>
                       <Link to={`/${subMenu.slug}/${menu.slug}`}>{menu.name}</Link>
                     </Menu.Item>
                   ))
@@ -91,24 +89,25 @@ const MenuLayout = (props) => {
           </div>
         </Link>
         <Menu mode="inline" className="menulayout-main">
-            <Menu.Item className="ant-menu-submenu-title" key="1" >
-              <Link  to="/notification-general">Thông báo chung</Link>
+            <Menu.Item icon={<AiOutlineNotification />} className="ant-menu-submenu-title" key="1" >
+              <Link to="/notification-general">Thông báo chung</Link>
             </Menu.Item>
-            <Menu.Item className="ant-menu-submenu-title" key="2">
+            <Menu.Item icon={<RiMessage3Line />} className="ant-menu-submenu-title" key="2">
               <Link to="/notification-my">Thông báo của tôi</Link>
             </Menu.Item>
-            <Menu.Item className="ant-menu-submenu-title" key="3">
+            <Menu.Item icon={<RiInformationLine />} className="ant-menu-submenu-title" key="3">
               <Link to="/notification-department">Thông tin phòng ban</Link>
             </Menu.Item>
-            <Menu.Item className="ant-menu-submenu-title" key="4">
+            <Menu.Item icon={<CgWorkAlt />} className="ant-menu-submenu-title" key="4">
               <Link to="/notification-my-work">Việc của tôi</Link>
             </Menu.Item>
-            <Menu.Item className="ant-menu-submenu-title" key="5">
+            <Menu.Item icon={<FiEdit />} className="ant-menu-submenu-title" key="5">
               <Link to="/edit-information">Cập nhật thông tin</Link>
             </Menu.Item>
-            <Menu.Item style={{borderBottom: '2px solid'}} className="ant-menu-submenu-title" key="6">
+            <Menu.Item icon={<CgFileDocument />} className="ant-menu-submenu-title" key="6">
               <Link to="/notification-create">Tạo loại tài liệu</Link>
-            </Menu.Item>     
+            </Menu.Item>
+            <li className="spacing"></li>
           {renderMenu()}
 
           {renderAdmin()}
