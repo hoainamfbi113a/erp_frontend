@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Link, useRouteMatch } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import "../../App/App.css";
@@ -8,25 +8,35 @@ import user from "assets/images/user2.png";
 import { listUser } from "apis/authenticationApi";
 import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 import usePrevious from "../../hooks/usePrevious";
+import { checkVisible } from "helpers/FuncHelper";
+import { checkPermission } from "../../apis/checkPermission";
+import PermissionContext from "../../context/PermissionContext";
 const { Content } = Layout;
-const TableSix = (props) => {
 
+const TableSix = (props) => {
   const dispatch = useDispatch();
+  const { permissions } = useContext(PermissionContext);
   const { path } = useRouteMatch();
   const lastValue = usePrevious(props.valueSearch);
   const [dataUser, setDataUser] = useState(null);
-  const [dataDepart, setDataDepart] = useState([{
-    text: "", value: ""
-  }]);
-  const [dataPos, setDataPos] = useState([{
-    text: "", value: ""
-  }]);
+  const [dataDepart, setDataDepart] = useState([
+    {
+      text: "",
+      value: "",
+    },
+  ]);
+  const [dataPos, setDataPos] = useState([
+    {
+      text: "",
+      value: "",
+    },
+  ]);
 
   useEffect(() => {
     fetchData("all");
   }, []);
 
-  useEffect(async() => {
+  useEffect(async () => {
     //async function searchValue() {
     if (props.valueSearch !== lastValue) {
       dispatch(showLoading());
@@ -39,29 +49,29 @@ const TableSix = (props) => {
         );
       });
       let obj = {
-          pagination: listUserSearch.length,
-          data: listUserSearch,
+        pagination: listUserSearch.length,
+        data: listUserSearch,
       };
       setDataUser(obj);
-      props.totalEmploy(obj.pagination)
+      props.totalEmploy(obj.pagination);
       dispatch(hideLoading());
     }
     //}
     //searchValue();
   }, [props.valueSearch]);
 
-  const fetchData = async(page) => {
+  const fetchData = async (page) => {
     let data = await listUser(page);
     let container = [];
     let positionData = [];
-    const depart = data.data.map(item => item.department.data.dep_name);
-    for(let i of depart) {
-      container.push({text: i, value: i})
+    const depart = data.data.map((item) => item.department.data.dep_name);
+    for (let i of depart) {
+      container.push({ text: i, value: i });
     }
-    
+
     const filterValue = (array) => {
-      const filteredArr = (array).reduce((acc, current) => {
-        const x = acc.find(item => item.text === current.text);
+      const filteredArr = array.reduce((acc, current) => {
+        const x = acc.find((item) => item.text === current.text);
         if (!x) {
           return acc.concat([current]);
         } else {
@@ -69,17 +79,17 @@ const TableSix = (props) => {
         }
       }, []);
       return filteredArr;
-    }
+    };
     setDataDepart(filterValue(container));
 
-    const position = data.data.map(item => item.department.data.pos_name);
-    for(let i of position) {
-      positionData.push({text: i, value: i})
+    const position = data.data.map((item) => item.department.data.pos_name);
+    for (let i of position) {
+      positionData.push({ text: i, value: i });
     }
     setDataPos(filterValue(positionData));
     // setDataUser(data);
     // props.totalEmploy(data.pagination.total)
-  }
+  };
 
   const confirm = (e) => {
     const { userSixActionCreators } = props;
@@ -95,7 +105,7 @@ const TableSix = (props) => {
     dispatch(showLoading());
     let resListUser = await listUser(pagination);
     if (!resListUser.err) {
-      setDataUser(resListUser)
+      setDataUser(resListUser);
     } else {
       message.error("get user failed");
     }
@@ -131,9 +141,10 @@ const TableSix = (props) => {
       dataIndex: "department",
       key: "position",
       filters: dataPos,
-      render: department => `${department.data.pos_name}`,
+      render: (department) => `${department.data.pos_name}`,
       //ilteredValue: filter ? filter.department : null,
-      onFilter: (value, record) => record.department.data.pos_name.includes(value),
+      onFilter: (value, record) =>
+        record.department.data.pos_name.includes(value),
       // sorter: (a, b) => a.full_name.length - b.full_name.length,
     },
     {
@@ -141,9 +152,10 @@ const TableSix = (props) => {
       dataIndex: "department",
       key: "department",
       filters: dataDepart,
-      render: department => `${department.data.dep_name}`,
+      render: (department) => `${department.data.dep_name}`,
       //filteredValue: filter ? filter.department : null,
-      onFilter: (value, record) => record.department.data.dep_name.includes(value),
+      onFilter: (value, record) =>
+        record.department.data.dep_name.includes(value),
       // sorter: (a, b) => a.full_name.length - b.full_name.length,
     },
     {
@@ -151,7 +163,7 @@ const TableSix = (props) => {
       width: 120,
       dataIndex: "profile",
       key: "profile",
-      render: profile => `${profile.data.pro_birth_day}`,
+      render: (profile) => `${profile.data.pro_birth_day}`,
       // sorter: (a, b) => a.full_name.length - b.full_name.length,
     },
     {
@@ -186,14 +198,17 @@ const TableSix = (props) => {
               Ẩn
             </Tag>
           </Popconfirm>
-          <Link to={`${path}/update/${text}`}>
-            <Tag
-              color="geekblue"
-              className="table-action"
-            >
-              Sửa và duyệt
-            </Tag>
-          </Link>
+          {checkVisible(
+            permissions,
+            "update",
+            "api/profiles/{profile}"
+          ) && (
+            <Link to={`${path}/update/${text}`}>
+              <Tag color="geekblue" className="table-action">
+                Sửa và duyệt
+              </Tag>
+            </Link>
+          )}
         </Space>
       ),
     },
@@ -220,5 +235,5 @@ const TableSix = (props) => {
       </Content>
     </div>
   );
-}
+};
 export default TableSix;

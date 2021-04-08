@@ -13,20 +13,21 @@ import {
   message,
 } from "antd";
 import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
-import { ValidateField, ValidateNumber } from "helpers/FuncHelper";
-const { Content } = Layout;
 import {
-  getListDepartment,
-  addDepartment,
-  updateDepartment,
-  deleteDepartment,
-} from "../../apis/departmentApi";
+  ValidateField,
+  ValidateNumber,
+  objCheckPermission,
+  checkVisible,
+} from "helpers/FuncHelper";
+const { Content } = Layout;
+import { getListDepartment } from "../../apis/departmentApi";
 import usePrevious from "../../hooks/usePrevious";
+import { checkPermission } from "../../apis/checkPermission";
 import PermissionContext from "../../context/PermissionContext";
 
 const TableDepartment = (props) => {
   const dispatch = useDispatch();
-  const {permissions, domain, slug} = useContext(PermissionContext);
+  const { permissions, domain, slug } = useContext(PermissionContext);
   const lastValue = usePrevious(props.valueSearch);
   const [id, setId] = useState("");
   const [data, setData] = useState(null);
@@ -71,11 +72,12 @@ const TableDepartment = (props) => {
   const fetchData = async (page) => {
     try {
       let res = await getListDepartment(page);
-      if(!res.err) {
+      if (!res.err) {
         setData(res);
         props.totalDepartment(res.meta.pagination.total);
       } else {
-        cmessage.error("get list department failed");ons
+        cmessage.error("get list department failed");
+        ons;
       }
     } catch (error) {
       console.log(error);
@@ -85,7 +87,11 @@ const TableDepartment = (props) => {
   const onSubmit = async () => {
     let err_name = await ValidateField(depart.dep_name, 8, 50, "Tên");
     let err_address = await ValidateField(depart.dep_address, 8, 50, "Địa chỉ");
-    let err_phone = await ValidateNumber(depart.dep_phone, 9, 11, "Số điện thoại"
+    let err_phone = await ValidateNumber(
+      depart.dep_phone,
+      9,
+      11,
+      "Số điện thoại"
     );
     if (err_name || err_address || err_phone) {
       setErr({ err_name, err_address, err_phone });
@@ -95,7 +101,18 @@ const TableDepartment = (props) => {
       hideModal();
       dispatch(showLoading());
       if (id === "") {
-        let res = await addDepartment(depart);
+        let res = await checkPermission(
+          objCheckPermission(
+            permissions,
+            slug,
+            domain,
+            "create",
+            "api/departments",
+            null,
+            depart,
+            null
+          )
+        );
         if (res.message === "Success!. Stored") {
           message.success("Thêm phòng ban thành công");
           fetchData();
@@ -103,18 +120,18 @@ const TableDepartment = (props) => {
           message.error("Thêm phòng ban thất bại");
         }
       } else {
-        let paramCheck = permissions.filter((permission) => permission.action === "update" && permission.uri === "api/departments/{department}");
-        let obj = {
-          objCheck: {
-            uri: paramCheck[0].uri,
-            method: paramCheck[0].method,
-            slug_table_management: slug
-          },
-          data: depart,
-          domain,
-          id
-        }
-        let res = await updateDepartment(obj);
+        let res = await checkPermission(
+          objCheckPermission(
+            permissions,
+            slug,
+            domain,
+            "update",
+            "api/departments/{department}",
+            "{department}",
+            depart,
+            id
+          )
+        );
         setId("");
         if (res.message === "Success!. Updated") {
           message.success("Cập nhật phòng ban thành công");
@@ -161,10 +178,18 @@ const TableDepartment = (props) => {
 
   const confirm = async (id) => {
     dispatch(showLoading());
-    const params = {
-      id,
-    };
-    let res = await deleteDepartment(params);
+    let res = await checkPermission(
+      objCheckPermission(
+        permissions,
+        slug,
+        domain,
+        "delete",
+        "api/departments/{department}",
+        "{department}",
+        "",
+        id
+      )
+    );
     if (res.message === "Success!. Deleted") {
       fetchData();
       message.success("Ẩn phòng ban thành công");
@@ -183,8 +208,8 @@ const TableDepartment = (props) => {
   };
 
   const onChange = (e) => {
-    setDepart({ ...depart, [e.target.name]: e.target.value})
-  }
+    setDepart({ ...depart, [e.target.name]: e.target.value });
+  };
 
   const columns = [
     {
@@ -212,34 +237,47 @@ const TableDepartment = (props) => {
       dataIndex: "created_at",
       key: "created_at",
     },
-    {
-      title: "Hành động",
-      key: "operation",
-      dataIndex: "id",
-      fixed: "right",
-      render: (text, row) => (
-        <Space size="middle">
-          <Popconfirm
-            title="Bạn có muốn Ẩn không?"
-            onConfirm={() => confirm(text)}
-            onCancel={cancel}
-            okText="Có"
-            cancelText="Không"
-          >
-            <Tag color="volcano" className="table-action">
-              Ẩn
-            </Tag>
-          </Popconfirm>
-          <Tag
-            onClick={() => showModal(text)}
-            color="geekblue"
-            className="table-action"
-          >
-            Cập nhật
-          </Tag>
-        </Space>
-      ),
-    },
+    checkVisible(permissions, "delete", "api/departments/{department}") ||
+      checkVisible(permissions, "update", "api/departments/{department}") ? {
+        title: "Hành động",
+        key: "operation",
+        dataIndex: "id",
+        fixed: "right",
+        render: (text, row) => (
+          <Space size="middle">
+            <Popconfirm
+              title="Bạn có muốn Ẩn không?"
+              onConfirm={() => confirm(text)}
+              onCancel={cancel}
+              okText="Có"
+              cancelText="Không"
+            >
+              {checkVisible(
+                permissions,
+                "delete",
+                "api/departments/{department}"
+              ) && (
+                <Tag color="volcano" className="table-action">
+                  Ẩn
+                </Tag>
+              )}
+            </Popconfirm>
+            {checkVisible(
+              permissions,
+              "update",
+              "api/departments/{department}"
+            ) && (
+              <Tag
+                onClick={() => showModal(text)}
+                color="geekblue"
+                className="table-action"
+              >
+                Cập nhật
+              </Tag>
+            )}
+          </Space>
+        ),
+      } : {},
   ];
   return (
     <div>

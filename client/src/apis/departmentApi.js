@@ -43,51 +43,6 @@ export const getListIdDepartment = () => {
     });
 };
 
-export const addDepartment = (params) => {
-  return axiosConfig
-    .post(`/api/departments`, params)
-    .then(handleResponse)
-    .then((data) => {
-      return data;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
-
-export const updateDepartment = (params) => {
-  return axiosConfig
-    .put(`/api/pokemon`, params)
-    .then(handleResponse)
-    .then((data) => {
-      // console.log(data)
-      return data;
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-};
-
-export const deleteDepartment = async (params, paramsCheckApi) => {
-  const data = await checkApi(paramsCheckApi);
-  console.log(data)
-  if(data === true) {
-    return axiosConfig
-    .post(`/api/departments/delete`, params)
-    .then(handleResponse)
-    .then((data) => {
-      return data;
-    })
-    .catch((err) => {
-      console.log(err);
-      return {
-        err: "error",
-      };
-    });
-  } 
-  return 
-
-};
 export const searchDepartment = (name) => {
   return axiosConfig
     .get(`/api/search/departments?name=${name}&per_page=10`)

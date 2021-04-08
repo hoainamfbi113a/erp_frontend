@@ -1,23 +1,33 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useDispatch } from "react-redux";
-import { ValidateField } from "helpers/FuncHelper";
+import {
+  ValidateField,
+  objCheckPermission,
+  checkVisible,
+} from "helpers/FuncHelper";
 import usePrevious from "../../hooks/usePrevious";
 import "../../App/App.css";
 import "./Table.css";
-import {  } from "antd";
-import { Layout, Table, Space, Tag, Input, Modal, Popconfirm, message } from "antd";
-import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
+import {} from "antd";
 import {
-  getListPosition,
-  addPosition,
-  updatePosition,
-  deletePosition,
-} from "apis/positionApi";
+  Layout,
+  Table,
+  Space,
+  Tag,
+  Input,
+  Modal,
+  Popconfirm,
+  message,
+} from "antd";
+import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
+import { getListPosition } from "apis/positionApi";
+import { checkPermission } from "../../apis/checkPermission";
+import PermissionContext from "../../context/PermissionContext";
 const { Content } = Layout;
 
 const TablePosition = (props) => {
-
   const dispatch = useDispatch();
+  const { permissions, domain, slug } = useContext(PermissionContext);
   const lastValue = usePrevious(props.valueSearch);
   const [isCreate, setIsCreate] = useState(false);
   const [id, setId] = useState("");
@@ -28,9 +38,9 @@ const TablePosition = (props) => {
 
   useEffect(() => {
     fetchData();
-  }, [])
+  }, []);
 
-  useEffect(async() => {
+  useEffect(async () => {
     if (props.valueSearch !== lastValue) {
       dispatch(showLoading());
       let resListPos = await getListPosition("all");
@@ -51,11 +61,11 @@ const TablePosition = (props) => {
       props.totalPosition(obj.meta.pagination);
       dispatch(hideLoading());
     }
-  }, [props.valueSearch])
+  }, [props.valueSearch]);
 
   const fetchData = async () => {
     let data = await getListPosition(1);
-    setData(data)
+    setData(data);
     props.totalPosition(data.meta.pagination.total);
   };
 
@@ -67,7 +77,18 @@ const TablePosition = (props) => {
       dispatch(showLoading());
       if (id === "") {
         hideModal();
-        let res = await addPosition({pos_name, pos_note});
+        let res = await checkPermission(
+          objCheckPermission(
+            permissions,
+            slug,
+            domain,
+            "create",
+            "api/positions",
+            null,
+            { pos_name, pos_note },
+            null
+          )
+        );
         if (res.message === "Success!. Stored") {
           message.success("Thêm chức vụ thành công");
           fetchData();
@@ -76,7 +97,18 @@ const TablePosition = (props) => {
         }
       } else {
         hideModal();
-        let res = await updatePosition({pos_name, pos_note}, id);
+        let res = await checkPermission(
+          objCheckPermission(
+            permissions,
+            slug,
+            domain,
+            "update",
+            "api/positions/{position}",
+            "{position}",
+            { pos_name, pos_note },
+            id
+          )
+        );
         setId("");
         if (res.message === "Success!. Updated") {
           message.success("Cập nhật chức vụ thành công");
@@ -100,7 +132,7 @@ const TablePosition = (props) => {
       return item.id == id;
     });
     setIsCreate(true);
-    setId(position[0].id)
+    setId(position[0].id);
     setPosName(position[0].pos_name);
     setPosNote(position[0].pos_note);
     props.showModal();
@@ -108,10 +140,18 @@ const TablePosition = (props) => {
 
   const confirm = async (id) => {
     dispatch(showLoading());
-    const params = {
-      id,
-    };
-    let res = await deletePosition(params);
+    let res = await checkPermission(
+      objCheckPermission(
+        permissions,
+        slug,
+        domain,
+        "delete",
+        "api/positions/{position}",
+        "{position}",
+        "",
+        id
+      )
+    );
     if (res.message === "Success!. Deleted") {
       fetchData();
       message.success("Ẩn chức vụ thành công");
@@ -129,7 +169,6 @@ const TablePosition = (props) => {
     setData(data);
   };
 
-  
   const columns = [
     {
       title: "Tên chức vụ",
@@ -164,35 +203,49 @@ const TablePosition = (props) => {
       dataIndex: "created_at",
       key: "created",
     },
-
-    {
-      title: "Hành động",
-      key: "operation",
-      dataIndex: "id",
-      fixed: "right",
-      render: (text, row) => (
-        <Space size="middle">
-          <Popconfirm
-            title="Bạn có muốn ẩn không?"
-            onConfirm={() => confirm(text)}
-            onCancel={cancel}
-            okText="Có"
-            cancelText="Không"
-          >
-            <Tag color="volcano" className="table-action">
-              Ẩn
-            </Tag>
-          </Popconfirm>
-          <Tag
-            onClick={() => showModal(text)}
-            color="geekblue"
-            className="table-action"
-          >
-            Cập nhật
-          </Tag>
-        </Space>
-      ),
-    },
+    checkVisible(permissions, "delete", "api/positions/{position}") ||
+    checkVisible(permissions, "update", "api/positions/{position}")
+      ? {
+          title: "Hành động",
+          key: "operation",
+          dataIndex: "id",
+          fixed: "right",
+          render: (text, row) => (
+            <Space size="middle">
+              <Popconfirm
+                title="Bạn có muốn ẩn không?"
+                onConfirm={() => confirm(text)}
+                onCancel={cancel}
+                okText="Có"
+                cancelText="Không"
+              >
+                {checkVisible(
+                  permissions,
+                  "delete",
+                  "api/positions/{position}"
+                ) && (
+                  <Tag color="volcano" className="table-action">
+                    Ẩn
+                  </Tag>
+                )}
+              </Popconfirm>
+              {checkVisible(
+                permissions,
+                "update",
+                "api/positions/{position}"
+              ) && (
+                <Tag
+                  onClick={() => showModal(text)}
+                  color="geekblue"
+                  className="table-action"
+                >
+                  Cập nhật
+                </Tag>
+              )}
+            </Space>
+          ),
+        }
+      : {},
   ];
   return (
     <div>
@@ -250,7 +303,8 @@ const TablePosition = (props) => {
                   }}
                 >
                   {err}
-                </span>) : null}
+                </span>
+              ) : null}
             </li>
             <li className="tabs-main-left-li">
               <span className="tabs-user-infor-top">Ghi chú chức vụ</span>
@@ -267,6 +321,6 @@ const TablePosition = (props) => {
       </Modal>
     </div>
   );
-}
+};
 
 export default TablePosition;
