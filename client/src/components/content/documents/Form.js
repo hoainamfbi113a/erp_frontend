@@ -69,96 +69,96 @@ class Create extends Component {
       });
   };
   componentDidMount = () => {
-    // this.props.uiActionCreatorsS();
-    // const id = this.props.match.params.id;
-    // try {
-    //   // update
-    //   if (this.state.create === false) {
-    //     const process_id = this.props.match.params.process_id;
-    //     axios
-    //       .get(`/api/document-process/get?id=${process_id}`)
-    //       .then((res) => {
-    //         let arrTarget = res.data.targets;
-    //         let userLogin = docCookies.getItem("user_id");
-    //         for (let item of arrTarget) {
-    //           if (item.target_id == userLogin) {
-    //             this.setState({
-    //               view: false,
-    //             });
-    //             break;
-    //           }
-    //         }
-    //         if (res.data.status === "processed") {
-    //           this.setState({
-    //             view: true,
-    //             isProcessed: true,
-    //           });
-    //         }
-    //         if (res.data.status === "processed") {
-    //           this.setState({
-    //             isProcessed: true,
-    //             currentProcess: res.data.current_step.id,
-    //           });
-    //         } else {
-    //           this.setState({
-    //             currentProcess: res.data.current_step.id,
-    //           });
-    //         }
-    //       })
-    //       .catch((err) => {});
-    //     axios
-    //       .get(`/api/document/get?id=${id}`)
-    //       .then((res) => {
-    //         this.setState({
-    //           listInputs: res.data.inputs,
-    //           inputsData: res.data.inputs,
-    //           user_id: res.data.user_id,
-    //         });
-    //         this.getDetailIssue(res.data.document_type.id);
-    //         axios
-    //           .get(`/api/workflow/detail?type_id=${res.data.document_type.id}`)
-    //           .then((res) => {
-    //             this.setState({
-    //               dataWorkFlow: res.data,
-    //             });
-    //             this.props.uiActionCreatorsH();
-    //           })
-    //           .catch((err) => {});
-    //       })
-    //       .catch((err) => {
-    //         console.log(err);
-    //       });
-    //     // create
-    //   } else {
-    //     let params = {
-    //       type_id: 2,
-    //     };
-    //     axios
-    //       .get(`/api/document-template/get?type_id=${id}`)
-    //       .then((data) => {
-    //         if (data.data.inputs.length === 0) {
-    //           alert("Template chưa được tạo");
-    //           this.props.history.push(`/notification/create`);
-    //         }
-    //         this.setState({
-    //           listInputs: data.data.inputs,
-    //         });
-    //         this.getDetailIssue(data.data.document_type.id);
-    //         axios
-    //           .get(`/api/workflow/detail?type_id=${data.data.document_type.id}`)
-    //           .then((res) => {
-    //             this.setState({
-    //               dataWorkFlow: res.data,
-    //             });
-    //             this.props.uiActionCreatorsH();
-    //           })
-    //           .catch((err) => {});
-    //       })
-    //       .catch((err) => {
-    //         console.log(err);
-    //       });
-    //   }
-    // } catch (error) {}
+    this.props.uiActionCreatorsS();
+    const id = this.props.match.params.id;
+    try {
+      // update
+      if (this.state.create === false) {
+        const process_id = this.props.match.params.process_id;
+        axios
+          .get(`/api/document-process/get?id=${process_id}`)
+          .then((res) => {
+            let arrTarget = res.data.targets;
+            let userLogin = docCookies.getItem("user_id");
+            for (let item of arrTarget) {
+              if (item.target_id == userLogin) {
+                this.setState({
+                  view: false,
+                });
+                break;
+              }
+            }
+            if (res.data.status === "processed") {
+              this.setState({
+                view: true,
+                isProcessed: true,
+              });
+            }
+            if (res.data.status === "processed") {
+              this.setState({
+                isProcessed: true,
+                currentProcess: res.data.current_step.id,
+              });
+            } else {
+              this.setState({
+                currentProcess: res.data.current_step.id,
+              });
+            }
+          })
+          .catch((err) => {});
+        axios
+          .get(`/api/document/get?id=${id}`)
+          .then((res) => {
+            this.setState({
+              listInputs: res.data.inputs,
+              inputsData: res.data.inputs,
+              user_id: res.data.user_id,
+            });
+            this.getDetailIssue(res.data.document_type.id);
+            axios
+              .get(`/api/workflow/detail?type_id=${res.data.document_type.id}`)
+              .then((res) => {
+                this.setState({
+                  dataWorkFlow: res.data,
+                });
+                this.props.uiActionCreatorsH();
+              })
+              .catch((err) => {});
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        // create
+      } else {
+        let params = {
+          type_id: 2,
+        };
+        axios
+          .get(`/api/document-template/get?type_id=${id}`)
+          .then((data) => {
+            if (data.data.inputs.length === 0) {
+              alert("Template chưa được tạo");
+              this.props.history.push(`/notification/create`);
+            }
+            this.setState({
+              listInputs: data.data.inputs,
+            });
+            this.getDetailIssue(data.data.document_type.id);
+            axios
+              .get(`/api/workflow/detail?type_id=${data.data.document_type.id}`)
+              .then((res) => {
+                this.setState({
+                  dataWorkFlow: res.data,
+                });
+                this.props.uiActionCreatorsH();
+              })
+              .catch((err) => {});
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    } catch (error) {}
   };
   handleCheckboxChange = (e, inputId) => {
     const stateInputsData = this.state.inputsData;
@@ -408,6 +408,9 @@ class Create extends Component {
                 );
               })}
           </div>
+              <TextArea style= {{marginTop:"199px", width:"60%"}} rows={4}
+              // onChange={onChange} value={value}
+                />
           <div style={{ width: "100%" }}>
             {this.state.create === true && (
               <div style={{ display: "flex", justifyContent: "center" }}>
@@ -495,9 +498,6 @@ class Create extends Component {
                     Trở về
                   </span>
                 </div>
-                <TextArea rows={4}
-              // onChange={onChange} value={value}
-                />
               </div>
             )}
           
