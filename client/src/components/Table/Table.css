@@ -26,14 +26,10 @@
 
 .ant-layout {
     background: #fff;
-    z-index: 2;
 }
 .table-content {
     border-radius: 12px;
     box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
-}
-.layout-content {
-    /* margin-top: -51px; */
 }
 .layout-footer {
     /* margin-top: 10px; */

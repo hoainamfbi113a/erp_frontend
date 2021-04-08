@@ -73,15 +73,6 @@ const HeaderLayout = () => {
           </Dropdown>
         </div>
       </Header>
-      {/* <div className="example">
-          {this.state.ishow == true ? <Spin /> : ""}
-        </div> */}
-      <Breadcrumb separator=">>" className="breadcrumb-main">
-        <Breadcrumb.Item>Home</Breadcrumb.Item>
-        <Breadcrumb.Item href="">Application Center</Breadcrumb.Item>
-        <Breadcrumb.Item href="">Application List</Breadcrumb.Item>
-        <Breadcrumb.Item>An Application</Breadcrumb.Item>
-      </Breadcrumb>
     </div>
   );
 };
