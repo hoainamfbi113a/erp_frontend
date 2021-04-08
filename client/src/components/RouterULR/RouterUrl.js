@@ -89,6 +89,7 @@ const RouterUrl = () => {
             component={ContentRolesAction}
           ></Route>
           <Route exact path="/permission" component={ContentPermission}></Route>
+          <Route exact path="/form-builder" component={FormBuilder}></Route>
         </Switch>
       );
     }

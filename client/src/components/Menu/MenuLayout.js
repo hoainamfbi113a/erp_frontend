@@ -112,6 +112,10 @@ const MenuLayout = (props) => {
           {renderMenu()}
 
           {renderAdmin()}
+          <Menu.Item key="13">
+            <Link to="/form-builder">Form builder</Link>
+          </Menu.Item>
+
         </Menu>
       </Sider>
     </div>
