@@ -12,7 +12,7 @@ const ValidateEmail = (value, length) => {
     msg = "";
   }
   return msg;
-}; 
+};
 const ValidateField = (value, min, max, field) => {
   let msg = "";
   if (value.length == 0) {
@@ -28,28 +28,28 @@ const ValidateField = (value, min, max, field) => {
 };
 const ValidateNumber = (value, min, max, field) => {
   let msg = "";
-  if(value.length == 0) {
+  if (value.length == 0) {
     msg = `${field} không được để trống`;
-  } else if(isNaN(value)) {
-    msg = `${field} không hợp lệ`
-  } else if(value.length < min) {
+  } else if (isNaN(value)) {
+    msg = `${field} không hợp lệ`;
+  } else if (value.length < min) {
     msg = `${field} không được nhỏ hơn ${min} ký tự!`;
-  } else if(value.length > max) {
+  } else if (value.length > max) {
     msg = `${field} không được lớn hơn ${max} ký tự!`;
   } else {
     msg = "";
   }
   return msg;
-}
+};
 const notNull = (value, field) => {
   let msg = "";
-  if(value.length == 0) {
+  if (value.length == 0) {
     msg = `Bạn chưa chọn ${field}`;
   } else {
     msg = "";
   }
   return msg;
-}
+};
 const getIdActionByName = (actionName, arrayId) => {
   for (let item of arrayId) {
     if (item.name == actionName) return arrayId.id;
@@ -154,12 +154,37 @@ const validateInputFormUser = (type, checkingText, listUser) => {
     errorMessage: errorMessage,
   };
 };
-
-const simpleDate = date => {
+const simpleDate = (date) => {
   let a = date.split(" ");
   let b = a[0].split("-");
-  let c = b[2].concat('/',b[1], '/').concat(b[0]);
+  let c = b[2].concat("/", b[1], "/").concat(b[0]);
   return c;
+};
+const objCheckPermission = (arr, slug, domain, action_check, uri_check, replace, dataIn, id) => {
+  let paramCheck = arr.filter(
+    (permission) =>
+      permission.action === action_check &&
+      permission.uri === uri_check
+  );
+  let obj = {
+    objCheck: {
+      uri: paramCheck[0].uri,
+      method: paramCheck[0].method,
+      slug_table_management: slug,
+    },
+    uri: paramCheck[0].uri.replace(replace, ""),
+    data: dataIn,
+    domain,
+    id,
+  };
+  return obj
+};
+const checkVisible = (arr, action_check, uri_check) => {
+  let bdd = arr.filter(permiss => 
+    permiss.action === action_check && permiss.uri === uri_check
+  )
+  if(bdd.length)
+    return true
 }
 
 const sleep = (m) => new Promise((r) => setTimeout(r, m));
@@ -172,5 +197,7 @@ export {
   getIdActionByName,
   validateInputFormUser,
   simpleDate,
-  sleep
+  sleep,
+  objCheckPermission,
+  checkVisible
 };

@@ -1,24 +1,37 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { useDispatch } from "react-redux";
 import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
-import { ValidateField, notNull } from "helpers/FuncHelper";
+import {
+  ValidateField,
+  notNull,
+  objCheckPermission,
+  checkVisible,
+} from "helpers/FuncHelper";
 import "../../App/App.css";
 import "./Table.css";
-import {  } from "antd";
-import { Layout, Table, Space, Tag, Popconfirm, message, Input, Modal, Select } from "antd";
+import {} from "antd";
 import {
-  getListParts,
-  addParts,
-  updateParts,
-  deleteParts,
-} from "apis/partsApi";
-import { getListIdDepartment } from "apis/departmentApi"
+  Layout,
+  Table,
+  Space,
+  Tag,
+  Popconfirm,
+  message,
+  Input,
+  Modal,
+  Select,
+} from "antd";
+import { getListParts } from "apis/partsApi";
+import { getListIdDepartment } from "apis/departmentApi";
+import { checkPermission } from "../../apis/checkPermission";
+import PermissionContext from "../../context/PermissionContext";
 import usePrevious from "../../hooks/usePrevious";
 const { Option } = Select;
 const { Content } = Layout;
 
 const TableParts = (props) => {
   const dispatch = useDispatch();
+  const { permissions, domain, slug } = useContext(PermissionContext);
   const lastValue = usePrevious(props.valueSearch);
   const [id, setId] = useState("");
   const [dataDepart, setDataDepart] = useState(null);
@@ -26,20 +39,20 @@ const TableParts = (props) => {
   const [part, setPart] = useState({
     dep_id: "",
     part_name: "",
-    part_note: ""
+    part_note: "",
   });
   const [err, setErr] = useState({
     err_dep: "",
-    err_name: ""
+    err_name: "",
   });
   const [isCreate, setIsCreate] = useState(false);
 
   useEffect(async () => {
     fetchData(1);
     fetchDepartment();
-  }, [])
+  }, []);
 
-  useEffect(async() => {
+  useEffect(async () => {
     if (props.valueSearch !== lastValue) {
       dispatch(showLoading());
       let resListPart = await getListParts("all");
@@ -60,7 +73,7 @@ const TableParts = (props) => {
       props.totalPart(obj.meta.pagination);
       dispatch(hideLoading());
     }
-  }, [props.valueSearch])
+  }, [props.valueSearch]);
 
   const fetchData = async (page) => {
     let res = await getListParts(page);
@@ -72,27 +85,38 @@ const TableParts = (props) => {
     }
   };
 
-  const fetchDepartment = async() => {
+  const fetchDepartment = async () => {
     let res = await getListIdDepartment();
-    if(!res.err) {
+    if (!res.err) {
       setDataDepart(res.data);
     } else {
       message.error("err");
     }
   };
-  
+
   const onSubmit = async () => {
     let err_name = await ValidateField(part.part_name, 2, 50, "Tổ");
     let err_dep = await notNull(part.dep_id, "Phòng ban");
 
     if (err_name || err_dep) {
-      setErr({err_dep, err_name})
+      setErr({ err_dep, err_name });
     }
     if (err_dep === "" && err_name === "") {
       hideModal();
       dispatch(showLoading());
       if (id === "") {
-        let res = await addParts(part);
+        let res = await checkPermission(
+          objCheckPermission(
+            permissions,
+            slug,
+            domain,
+            "create",
+            "api/parts",
+            null,
+            part,
+            null
+          )
+        );
         if (res.message === "Success!. Stored") {
           message.success("Thêm tổ thành công");
           fetchData();
@@ -100,7 +124,18 @@ const TableParts = (props) => {
           message.error("Thêm tổ thất bại");
         }
       } else {
-        let res = await updateParts(id, part);
+        let res = await checkPermission(
+          objCheckPermission(
+            permissions,
+            slug,
+            domain,
+            "update",
+            "api/parts/{part}",
+            "{part}",
+            part,
+            id
+          )
+        );
         if (res.message === "Success!. Updated") {
           message.success("Cập nhật tổ thành công");
           setId("");
@@ -120,11 +155,11 @@ const TableParts = (props) => {
       dep_id: "",
       part_name: "",
       part_note: "",
-    })
+    });
     setErr({
       err_dep: "",
       err_name: "",
-    })
+    });
   };
 
   const showModal = (id) => {
@@ -137,20 +172,28 @@ const TableParts = (props) => {
       dep_id: parts[0].dep_id,
       part_name: parts[0].part_name,
       part_note: parts[0].part_note,
-    })
+    });
     props.showModal();
   };
 
   const onChange = (e) => {
-    setPart({...part, [e.target.name]: e.target.value})
+    setPart({ ...part, [e.target.name]: e.target.value });
   };
 
   confirm = async (id) => {
     dispatch(showLoading());
-    const params = {
-      id,
-    };
-    let res = await deleteParts(params);
+    let res = await checkPermission(
+      objCheckPermission(
+        permissions,
+        slug,
+        domain,
+        "delete",
+        "api/parts/{part}",
+        "{part}",
+        "",
+        id
+      )
+    );
     if (res.message === "Success!. Deleted") {
       fetchData();
       message.success("Ẩn tổ thành công");
@@ -165,8 +208,8 @@ const TableParts = (props) => {
   };
 
   const handleChangeDepart = (value) => {
-    setPart({...part, dep_id: value})
-  }
+    setPart({ ...part, dep_id: value });
+  };
 
   const renderDepartment = () => {
     if (dataDepart !== null) {
@@ -239,35 +282,49 @@ const TableParts = (props) => {
       dataIndex: "created_at",
       key: "created",
     },
-
-    {
-      title: "Hành động",
-      key: "operation",
-      dataIndex: "id",
-      fixed: "right",
-      render: (text, row) => (
-        <Space size="middle">
-          <Popconfirm
-            title="Bạn có muốn ẩn không?"
-            onConfirm={() => confirm(text)}
-            onCancel={cancel}
-            okText="Có"
-            cancelText="Không"
-          >
-            <Tag color="volcano" className="table-action">
-              Ẩn
-            </Tag>
-          </Popconfirm>
-          <Tag
-            onClick={() => showModal(text)}
-            color="geekblue"
-            className="table-action"
-          >
-            Cập nhật
-          </Tag>
-        </Space>
-      ),
-    },
+    checkVisible(permissions, "delete", "api/parts/{part}") ||
+    checkVisible(permissions, "update", "api/parts/{part}")
+      ? {
+          title: "Hành động",
+          key: "operation",
+          dataIndex: "id",
+          fixed: "right",
+          render: (text, row) => (
+            <Space size="middle">
+              <Popconfirm
+                title="Bạn có muốn ẩn không?"
+                onConfirm={() => confirm(text)}
+                onCancel={cancel}
+                okText="Có"
+                cancelText="Không"
+              >
+                {checkVisible(
+                  permissions,
+                  "delete",
+                  "api/parts/{part}"
+                ) && (
+                  <Tag color="volcano" className="table-action">
+                    Ẩn
+                  </Tag>
+                )}
+              </Popconfirm>
+              {checkVisible(
+                permissions,
+                "update",
+                "api/parts/{part}"
+              ) && (
+                <Tag
+                  onClick={() => showModal(text)}
+                  color="geekblue"
+                  className="table-action"
+                >
+                  Cập nhật
+                </Tag>
+              )}
+            </Space>
+          ),
+        }
+      : {},
   ];
   return (
     <div>
@@ -366,5 +423,5 @@ const TableParts = (props) => {
       </Modal>
     </div>
   );
-}
+};
 export default TableParts;

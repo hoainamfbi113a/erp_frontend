@@ -1,19 +1,19 @@
-import React, { useState,useContext } from "react";
+import React, { useState, useContext } from "react";
 import { Input, Button } from "antd";
 import TableDepartment from "components/Table/TableDepartment";
 const { Search } = Input;
 import "./Content.css";
 import withRoute from "../RouterULR/route/withRoute";
 import PermissionContext from "../../context/PermissionContext";
+import { checkVisible } from "../../helpers/FuncHelper";
 
 const ContentDepartment = () => {
   const [value, setValue] = useState("");
   const [visible, setVisible] = useState(false);
   const [total, setTotal] = useState(0);
-  const {permissions,domain} = useContext(PermissionContext)
-  
-  const showModal = () => {
+  const { permissions } = useContext(PermissionContext);
 
+  const showModal = () => {
     setVisible(true);
   };
 
@@ -34,11 +34,13 @@ const ContentDepartment = () => {
             className="table-btn-search"
           />
         </div>
-        <div className="content-top-right">
-          <Button onClick={showModal} className="btn-add-user-six">
-            Thêm Department
-          </Button>
-        </div>
+        {checkVisible(permissions, "create", "api/departments") && (
+          <div className="content-top-right">
+            <Button onClick={showModal} className="btn-add-user-six">
+              Thêm Department
+            </Button>
+          </div>
+        )}
       </div>
       <TableDepartment
         valueSearch={value}
