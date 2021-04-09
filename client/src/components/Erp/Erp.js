@@ -24,7 +24,7 @@ export default class Erp extends React.Component {
       bottom: "0",
       "margin-top": "auto",
       "z-index": "2",
-      padding: "6px",
+      padding: "20px",
     }
     return (
       <div >

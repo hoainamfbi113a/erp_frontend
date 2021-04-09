@@ -43,27 +43,29 @@ const TableDepartment = (props) => {
     err_address: "",
     err_phone: "",
   });
-
+  console.log("12345")
   useEffect(async () => {
-    if (props.valueSearch !== lastValue) {
+    console.log("123")
+    // if (props.valueSearch !== lastValue) {
       let resListDepart = await getListDepartment("all");
-      let listDepartSearch = resListDepart.data.filter((depart) => {
-        return (
-          depart.dep_name
-            .toLowerCase()
-            .indexOf(props.valueSearch.toLowerCase()) !== -1
-        );
-      });
-      let obj = {
-        meta: {
-          pagination: listDepartSearch.length,
-        },
-        data: listDepartSearch,
-      };
-      setData(obj);
-      props.totalDepartment(obj.meta.pagination);
-    }
-  }, [props.valueSearch]);
+      // let listDepartSearch = resListDepart.data.filter((depart) => {
+      //   return (
+      //     depart.dep_name
+      //       .toLowerCase()
+      //       .indexOf(props.valueSearch.toLowerCase()) !== -1
+      //   );
+      // });
+      // let obj = {
+      //   meta: {
+      //     pagination: listDepartSearch.length,
+      //   },
+      //   data: listDepartSearch,
+      // };
+      // setData(obj);
+      // props.totalDepartment(obj.meta.pagination);
+    // }
+  },[123]); 
+  // [props.valueSearch]);
 
   const fetchData = async (page) => {
     try {
