@@ -7,9 +7,9 @@ const FormBuilderComponent = () => {
   return (
     <FormBuilder urls={
       {
-          getListTypes: 'http://document.tuoitre.vn/api/document-type/get-document-types',
-          getDocumentTemplate: 'http://document.tuoitre.vn/api/document-template/get',
-          saveDocumentTemplate: 'http://document.tuoitre.vn/api/document-template/store'
+          getListTypes: 'https://document.tuoitre.vn/api/document-type/get-document-types',
+          getDocumentTemplate: 'https://document.tuoitre.vn/api/document-template/get',
+          saveDocumentTemplate: 'https://document.tuoitre.vn/api/document-template/store'
       }
   }
   />
