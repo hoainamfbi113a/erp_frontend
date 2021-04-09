@@ -59,8 +59,8 @@ const MenuLayout = (props) => {
     if (permissions.length !== 0) {
       return (
         <Fragment>
-          {permissions.map((subMenu, idx) => (
-            <SubMenu icon={icons[idx]} key={subMenu.name} title={subMenu.name}>
+          {permissions.map((subMenu) => (
+            <SubMenu icon={icons[subMenu.slug]} key={subMenu.name} title={subMenu.name}>
               {subMenu.groups.map((menu) => (
                 <Menu.Item
                   icon={<MinusOutlined />}
