@@ -44,10 +44,6 @@ const TableDepartment = (props) => {
     err_phone: "",
   });
 
-  useEffect(() => {
-    fetchData(1);
-  }, []);
-
   useEffect(async () => {
     if (props.valueSearch !== lastValue) {
       let resListDepart = await getListDepartment("all");

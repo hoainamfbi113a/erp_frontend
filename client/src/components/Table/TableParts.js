@@ -48,7 +48,6 @@ const TableParts = (props) => {
   const [isCreate, setIsCreate] = useState(false);
 
   useEffect(async () => {
-    fetchData(1);
     fetchDepartment();
   }, []);
 
