@@ -60,9 +60,6 @@ const Logins = () => {
   const respLogin = useSelector((state) => state.authen);
   useEffect(async () => {
     if (respLogin && respLogin.message === "Đăng nhập thành công!") {
-      if (emailUser === "manager@gmail.com") {
-        localStorage.setItem("0", "0");
-      }
       await sleep(1000);
       dispatch(hideLoading());
       push("/");

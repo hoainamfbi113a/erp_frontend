@@ -4,25 +4,21 @@ import logomall from "assets/images/logoPage.png";
 import { Menu, Layout } from "antd";
 import { withRouter } from "react-router";
 import { LockOutlined, MinusOutlined } from "@ant-design/icons";
-import { AiOutlineNotification } from "react-icons/ai"
-import { RiMessage3Line, RiInformationLine } from "react-icons/ri"
-import { CgWorkAlt, CgFileDocument } from "react-icons/cg"
-import { FiEdit } from "react-icons/fi"
-import { MdPeopleOutline } from "react-icons/md"
-import { TiFlowSwitch } from "react-icons/ti"
+import { AiOutlineNotification } from "react-icons/ai";
+import { RiMessage3Line, RiInformationLine } from "react-icons/ri";
+import { CgWorkAlt, CgFileDocument } from "react-icons/cg";
+import { FiEdit } from "react-icons/fi";
+import { MdPeopleOutline } from "react-icons/md";
+import { TiFlowSwitch } from "react-icons/ti";
 import { getPermission } from "reduxToolkit/features/permissionSlice";
 import { useDispatch, useSelector } from "react-redux";
 import docCookies from "doc-cookies";
 import "./Menu.css";
 const { SubMenu } = Menu;
 const { Sider } = Layout;
-const icons = [
-  <MdPeopleOutline />,
-  <TiFlowSwitch />,
-]
+const icons = [<MdPeopleOutline />, <TiFlowSwitch />];
 
 const MenuLayout = (props) => {
-
   const dispatch = useDispatch();
   const permissions = useSelector((state) => state.permission);
 
@@ -33,11 +29,7 @@ const MenuLayout = (props) => {
   const renderAdmin = () => {
     if (docCookies.getItem("user_id") === "1") {
       return (
-        <SubMenu
-          key="sub3"
-          icon={<LockOutlined />}
-          title="Vai trò & Quyền"
-        >
+        <SubMenu key="sub3" icon={<LockOutlined />} title="Vai trò & Quyền">
           <Menu.Item key="13">
             <Link to="/permission"> Quyền </Link>
           </Menu.Item>
@@ -55,27 +47,26 @@ const MenuLayout = (props) => {
     }
   };
   const renderMenu = () => {
-    if(permissions.length) {
+    if (permissions.length !== 0) {
       return (
         <Fragment>
-          {
-            permissions.map((subMenu, idx) => (
-              <SubMenu icon={icons[idx]} key={subMenu.name} title={subMenu.name}>
-                {
-                  subMenu.groups.map((menu) => (
-                    <Menu.Item icon={<MinusOutlined />} className="sub-item" key={menu.name}>
-                      <Link to={`/${subMenu.slug}/${menu.slug}`}>{menu.name}</Link>
-                    </Menu.Item>
-                  ))
-                }
-              </SubMenu>
-            ))
-          }
+          {permissions.map((subMenu, idx) => (
+            <SubMenu icon={icons[idx]} key={subMenu.name} title={subMenu.name}>
+              {subMenu.groups.map((menu) => (
+                <Menu.Item
+                  icon={<MinusOutlined />}
+                  className="sub-item"
+                  key={menu.name}
+                >
+                  <Link to={`/${subMenu.slug}/${menu.slug}`}>{menu.name}</Link>
+                </Menu.Item>
+              ))}
+            </SubMenu>
+          ))}
         </Fragment>
-
       );
     }
-  }
+  };
   return (
     <div className="bbbb">
       <Sider collapsed={props.collapsed}>
@@ -89,35 +80,58 @@ const MenuLayout = (props) => {
           </div>
         </Link>
         <Menu mode="inline" className="menulayout-main">
-            <Menu.Item icon={<AiOutlineNotification />} className="ant-menu-submenu-title" key="1" >
-              <Link to="/notification-general">Thông báo chung</Link>
-            </Menu.Item>
-            <Menu.Item icon={<RiMessage3Line />} className="ant-menu-submenu-title" key="2">
-              <Link to="/notification-my">Thông báo của tôi</Link>
-            </Menu.Item>
-            <Menu.Item icon={<RiInformationLine />} className="ant-menu-submenu-title" key="3">
-              <Link to="/notification-department">Thông tin phòng ban</Link>
-            </Menu.Item>
-            <Menu.Item icon={<CgWorkAlt />} className="ant-menu-submenu-title" key="4">
-              <Link to="/notification-my-work">Việc của tôi</Link>
-            </Menu.Item>
-            <Menu.Item icon={<FiEdit />} className="ant-menu-submenu-title" key="5">
-              <Link to="/edit-information">Cập nhật thông tin</Link>
-            </Menu.Item>
-            <Menu.Item icon={<CgFileDocument />} className="ant-menu-submenu-title" key="6">
-              <Link to="/notification-create">Tạo loại tài liệu</Link>
-            </Menu.Item>
-            <li className="spacing"></li>
+          <Menu.Item
+            icon={<AiOutlineNotification />}
+            className="ant-menu-submenu-title"
+            key="1"
+          >
+            <Link to="/notification-general">Thông báo chung</Link>
+          </Menu.Item>
+          <Menu.Item
+            icon={<RiMessage3Line />}
+            className="ant-menu-submenu-title"
+            key="2"
+          >
+            <Link to="/notification-my">Thông báo của tôi</Link>
+          </Menu.Item>
+          <Menu.Item
+            icon={<RiInformationLine />}
+            className="ant-menu-submenu-title"
+            key="3"
+          >
+            <Link to="/notification-department">Thông tin phòng ban</Link>
+          </Menu.Item>
+          <Menu.Item
+            icon={<CgWorkAlt />}
+            className="ant-menu-submenu-title"
+            key="4"
+          >
+            <Link to="/notification-my-work">Việc của tôi</Link>
+          </Menu.Item>
+          <Menu.Item
+            icon={<FiEdit />}
+            className="ant-menu-submenu-title"
+            key="5"
+          >
+            <Link to="/edit-information">Cập nhật thông tin</Link>
+          </Menu.Item>
+          <Menu.Item
+            icon={<CgFileDocument />}
+            className="ant-menu-submenu-title"
+            key="6"
+          >
+            <Link to="/notification-create">Tạo loại tài liệu</Link>
+          </Menu.Item>
+          <li className="spacing"></li>
           {renderMenu()}
 
           {renderAdmin()}
           <Menu.Item key="13">
             <Link to="/form-builder">Form builder</Link>
           </Menu.Item>
-
         </Menu>
       </Sider>
     </div>
   );
-}
+};
 export default withRouter(MenuLayout);
