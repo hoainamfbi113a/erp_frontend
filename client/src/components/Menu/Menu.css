@@ -52,7 +52,7 @@
     background-color: #3C9CFF;
     height: 100vh;
     position: fixed;
-    overflow: scroll;
+    overflow-y: auto;
 }
 .ant-menu-item-only-child:hover, .ant-menu-submenu-title:hover{
     color:#555;
