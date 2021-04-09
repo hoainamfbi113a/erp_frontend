@@ -8,21 +8,14 @@ import ContentRoles from "components/content/ContentRoles";
 import ContentRolesAction from "components/admin/Roles/ManergerRole";
 import ContentRolePosition from "components/content/ContentRolePosition";
 import notiRoute from "./modules/notification";
-import { getPermission } from "reduxToolkit/features/permissionSlice";
 
 import formDocument from "components/content/documents/Form";
 import "./RouterUrl.css";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import ServiceRoute from "./route/ServiceRoute";
 
 const RouterUrl = () => {
-  const dispatch = useDispatch();
   const permissions = useSelector((state) => state.permission);
-
-  useEffect(async () => {
-    await dispatch(getPermission(docCookies.getItem("user_id")));
-  }, [dispatch]);
-
 
   const renderUrl = () => {
     if (permissions.length) {
