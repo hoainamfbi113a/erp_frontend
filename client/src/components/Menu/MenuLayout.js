@@ -5,7 +5,12 @@ import { Menu, Layout } from "antd";
 import { withRouter } from "react-router";
 import { LockOutlined, MinusOutlined } from "@ant-design/icons";
 import { AiOutlineNotification } from "react-icons/ai";
-import { RiMessage3Line, RiInformationLine } from "react-icons/ri";
+import {
+  RiMessage3Line,
+  RiInformationLine,
+  RiBuilding3Line,
+  RiBook2Line
+} from "react-icons/ri";
 import { CgWorkAlt, CgFileDocument } from "react-icons/cg";
 import { FiEdit } from "react-icons/fi";
 import { MdPeopleOutline } from "react-icons/md";
@@ -16,7 +21,11 @@ import docCookies from "doc-cookies";
 import "./Menu.css";
 const { SubMenu } = Menu;
 const { Sider } = Layout;
-const icons = [<MdPeopleOutline />, <TiFlowSwitch />];
+const icons = {
+          "profile-service": <MdPeopleOutline />, 
+          "workflow-service": <TiFlowSwitch />, 
+          "document-service": <RiBook2Line />
+        };
 
 const MenuLayout = (props) => {
   const dispatch = useDispatch();
