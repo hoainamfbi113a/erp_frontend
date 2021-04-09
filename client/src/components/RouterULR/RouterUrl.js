@@ -25,6 +25,7 @@ const RouterUrl = () => {
           {notiRoute.map((route) => (
             <Route exact path={route.path} component={route.component} />
           ))}
+          {console.log("goi 2 lan")}
           {permissions.map((service) => (
             <Route
               key={service.slug}
