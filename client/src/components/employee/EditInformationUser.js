@@ -67,12 +67,6 @@ class EditInformationUser extends Component {
       return <Social />;
     }
   };
-  async componentDidMount() {
-    //  this.props.uiActionCreatorsS()
-     this.fetProfile();
-     this.fetchWorkflowProfile();
-
-  }
   fetProfile = async () => {
     let tokenID = docCookies.getItem("user_id");
     let resGetProfile = await getProfile(tokenID);
@@ -102,7 +96,8 @@ class EditInformationUser extends Component {
     
   };
   handleReloadComponent = () => {
-    this.componentDidMount();
+    this.fetProfile();
+    this.fetchWorkflowProfile();
   };
   render() {
     let value = 0;
