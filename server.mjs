@@ -58,11 +58,7 @@ const apiMain =(req,resParent) =>{
     let path = `${req.body.domain}/${req.body.uri}${req.body.id ? req.body.id : ""}`
     axios({
         method:req.body.objCheck.method,
-<<<<<<< HEAD
-        url: path,
-=======
         url: url.replace("{department}/",""),
->>>>>>> 90b5ce6faba8ad41528cf98227df387206365d67
         data: req.body.data,
         headers: { Authorization: req.headers.authorization }
     })
