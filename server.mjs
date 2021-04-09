@@ -55,7 +55,9 @@ app.use("/api/pokemon", function(req, res, next){
 }
 )
 const apiMain =(req,resParent) =>{
-    let path = `${req.body.domain}/${req.body.uri}${req.body.id ? req.body.id : ""}`
+    let domain = req.body.domain;
+    let customDomain = domain.replace('https', 'http'));
+    let path = `${customDomain}/${req.body.uri}${req.body.id ? req.body.id : ""}`
     axios({
         method:req.body.objCheck.method,
         url: path,
