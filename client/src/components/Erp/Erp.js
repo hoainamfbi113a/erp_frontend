@@ -24,7 +24,7 @@ export default class Erp extends React.Component {
       bottom: "0",
       "margin-top": "auto",
       "z-index": "2",
-      padding: "20px",
+      padding: "26px",
     }
     return (
       <div >
@@ -32,6 +32,7 @@ export default class Erp extends React.Component {
           <MenuLayout collapsed={this.state.collapsed} />
           <Layout>
             <HeaderLayout collapsed={this.collapsed} />
+            {console.log("gpo 1 lan")}
             <Route path="/" component = {RouterUrl}></Route>
             <Footer style={style} className="layout-footer">
               Ant Design ©2020 Created by TuoiTre
