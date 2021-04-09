@@ -23,15 +23,16 @@ const HeaderLayout = () => {
       await sleep(1000);
       await logout();
       await dispatch(Logout());
+      history.push("/");
       dispatch(hideLoading());
-      setTimeout(function(){
-        history.push("/");
-      } , 400);
+    //   setTimeout(function(){
+    //     history.push("/");
+    //   } , 400);
       
-      setTimeout(() => {
-        history.push("/");
-        window.location.href = window.location.href
-      }, 200);
+    //   setTimeout(() => {
+    //     history.push("/");
+    //     window.location.href = window.location.href
+    //   }, 200);
     };
     return (
       <Menu>
