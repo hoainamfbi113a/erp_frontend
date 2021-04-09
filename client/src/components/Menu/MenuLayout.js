@@ -9,7 +9,7 @@ import {
   RiMessage3Line,
   RiInformationLine,
   RiBuilding3Line,
-  RiBook2Line
+  RiBook2Line,
 } from "react-icons/ri";
 import { CgWorkAlt, CgFileDocument } from "react-icons/cg";
 import { FiEdit } from "react-icons/fi";
@@ -22,10 +22,10 @@ import "./Menu.css";
 const { SubMenu } = Menu;
 const { Sider } = Layout;
 const icons = {
-          "profile-service": <MdPeopleOutline />, 
-          "workflow-service": <TiFlowSwitch />, 
-          "document-service": <RiBook2Line />
-        };
+  "profile-service": <MdPeopleOutline />,
+  "workflow-service": <TiFlowSwitch />,
+  "document-service": <RiBook2Line />,
+};
 
 const MenuLayout = (props) => {
   const dispatch = useDispatch();
@@ -137,6 +137,9 @@ const MenuLayout = (props) => {
           {renderAdmin()}
           <Menu.Item key="13">
             <Link to="/form-builder">Form builder</Link>
+          </Menu.Item>
+          <Menu.Item key="14">
+            <Link to="/document-type">DocumentType</Link>
           </Menu.Item>
         </Menu>
       </Sider>

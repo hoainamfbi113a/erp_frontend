@@ -3,6 +3,7 @@ import React, { useEffect, createContext } from "react";
 import { Route, Switch } from "react-router-dom";
 import Workflow from "components/admin/workflow/Workflow";
 import FormBuilder from "components/admin/FormBuilder/FormBuilder";
+import DocumentType from "components/admin/FormBuilder/DocumentType";
 import ContentPermission from "components/content/ContentPermission";
 import ContentRoles from "components/content/ContentRoles";
 import ContentRolesAction from "components/admin/Roles/ManergerRole";
@@ -56,6 +57,7 @@ const RouterUrl = () => {
           ></Route>
           <Route exact path="/permission" component={ContentPermission}></Route>
           <Route exact path="/form-builder" component={FormBuilder}></Route>
+          <Route exact path="/document-type" component={DocumentType}></Route>
         </Switch>
       );
     }
