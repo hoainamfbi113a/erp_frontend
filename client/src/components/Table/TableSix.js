@@ -32,10 +32,6 @@ const TableSix = (props) => {
     },
   ]);
 
-  useEffect(() => {
-    fetchData("all");
-  }, []);
-
   useEffect(async () => {
     //async function searchValue() {
     if (props.valueSearch !== lastValue) {
@@ -56,40 +52,7 @@ const TableSix = (props) => {
       props.totalEmploy(obj.pagination);
       dispatch(hideLoading());
     }
-    //}
-    //searchValue();
   }, [props.valueSearch]);
-
-  const fetchData = async (page) => {
-    let data = await listUser(page);
-    let container = [];
-    let positionData = [];
-    const depart = data.data.map((item) => item.department.data.dep_name);
-    for (let i of depart) {
-      container.push({ text: i, value: i });
-    }
-
-    const filterValue = (array) => {
-      const filteredArr = array.reduce((acc, current) => {
-        const x = acc.find((item) => item.text === current.text);
-        if (!x) {
-          return acc.concat([current]);
-        } else {
-          return acc;
-        }
-      }, []);
-      return filteredArr;
-    };
-    setDataDepart(filterValue(container));
-
-    const position = data.data.map((item) => item.department.data.pos_name);
-    for (let i of position) {
-      positionData.push({ text: i, value: i });
-    }
-    setDataPos(filterValue(positionData));
-    // setDataUser(data);
-    // props.totalEmploy(data.pagination.total)
-  };
 
   const confirm = (e) => {
     const { userSixActionCreators } = props;
