@@ -135,11 +135,17 @@ const MenuLayout = (props) => {
           {renderMenu()}
 
           {renderAdmin()}
-          <Menu.Item key="13">
-            <Link to="/form-builder">Form builder</Link>
-          </Menu.Item>
-          <Menu.Item key="14">
-            <Link to="/document-type">DocumentType</Link>
+          
+          <SubMenu key="sub4" icon={<RiBook2Line />} title="Tài liệu">
+            <Menu.Item key="13">
+              <Link to="/form-builder">Form builder</Link>
+            </Menu.Item>
+            <Menu.Item key="14">
+              <Link to="/document-type">DocumentType</Link>
+            </Menu.Item>
+          </SubMenu>
+          <Menu.Item key="12" icon={<TiFlowSwitch />} className="ant-menu-submenu-title">
+            <Link to="/workflow">Workflow</Link>
           </Menu.Item>
         </Menu>
       </Sider>
