@@ -32,32 +32,11 @@ const __dirname = path.resolve();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// app.use("/api/check-permission", function(req, res, next){
-//     let resParent = res
-//     const config = {
-//         headers: { Authorization: req.headers.authorization },
-//     };
-//     axios.post(`http://192.168.61.116/api/check-permission`,req.body, config )
-//     .then(res=>{
-//         if(res.data === true){
-//             resParent.send(res.data)
-//             next();
-//         } else {
-//             resParent.send(res.data)
-//         }
-//     })
-//     .catch(err=>{
-//         console.log("err")
-//         // console.log(err)
-//     })
-// })
 app.use("/api/pokemon", function(req, res, next){
-    console.log("123")
     const config = {
         headers: { Authorization: req.headers.authorization },
     };
     let resParent = res
-    console.log(req.body.objCheck)
     axios.post(`http://192.168.61.116/api/check-permission`,req.body.objCheck, config )
     .then(res=>{
         console.log(res.data)
@@ -75,14 +54,11 @@ app.use("/api/pokemon", function(req, res, next){
 }
 )
 const apiMain =(req,resParent) =>{
-    let url = `${req.body.domain}/${req.body.objCheck.uri}/${req.body.id ? req.body.id : ""}`
-    console.log( url.replace("{department}/",""))
-    
-    // console.log(`${req.body.domain}/${req.body.objCheck.uri}/${req.body.id ? req.body.id : ""}`)
+    let path = `${req.body.domain}/${req.body.uri}${req.body.id ? req.body.id : ""}`
     axios({
         method:req.body.objCheck.method,
-        url: url.replace("{department}/",""),
-        data: req.body.depart,
+        url: path,
+        data: req.body.data,
         headers: { Authorization: req.headers.authorization }
     })
     .then(function (response) {
