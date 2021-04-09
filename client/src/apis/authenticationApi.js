@@ -124,5 +124,4 @@ export const logout = () => {
   document.cookie = "usertoken" +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
   document.cookie = "user_id" +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
   document.cookie = "email" +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-  localStorage.removeItem("0")
 };

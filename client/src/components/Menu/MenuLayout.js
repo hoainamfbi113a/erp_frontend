@@ -56,11 +56,11 @@ const MenuLayout = (props) => {
     }
   };
   const renderMenu = () => {
-    if (permissions.length) {
+    if (permissions.length !== 0) {
       return (
         <Fragment>
-          {permissions.map((subMenu) => (
-            <SubMenu icon={icons[subMenu.slug]} key={subMenu.name} title={subMenu.name}>
+          {permissions.map((subMenu, idx) => (
+            <SubMenu icon={icons[idx]} key={subMenu.name} title={subMenu.name}>
               {subMenu.groups.map((menu) => (
                 <Menu.Item
                   icon={<MinusOutlined />}
@@ -132,15 +132,12 @@ const MenuLayout = (props) => {
             <Link to="/notification-create">Tạo loại tài liệu</Link>
           </Menu.Item>
           <li className="spacing"></li>
-          {renderMenu()}         
-          <Menu.Item
-            icon={<RiBuilding3Line />}
-            className="ant-menu-submenu-title"
-            key="13"
-          >
+          {renderMenu()}
+
+          {renderAdmin()}
+          <Menu.Item key="13">
             <Link to="/form-builder">Form builder</Link>
           </Menu.Item>
-          {renderAdmin()}
         </Menu>
       </Sider>
     </div>
