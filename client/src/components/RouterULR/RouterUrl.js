@@ -56,9 +56,9 @@ const RouterUrl = () => {
             component={ContentRolesAction}
           ></Route>
           <Route exact path="/permission" component={ContentPermission}></Route>
-          <Route exact path="/form-builder" component={FormBuilder}></Route>
+          {/* <Route exact path="/form-builder" component={FormBuilder}></Route>
           <Route exact path="/document-type" component={DocumentType}></Route>
-          <Route exact path="/workflow" component={Workflow}></Route>
+          <Route exact path="/workflow" component={Workflow}></Route> */}
         </Switch>
       );
     }
