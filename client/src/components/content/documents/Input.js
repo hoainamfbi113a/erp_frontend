@@ -31,8 +31,9 @@ function RenderInputPreview(props) {
       case Constant.INPUT_TYPE_TEXTFIELD:
         data = (
           <div className="form-group">
-            <label className="control-label">{props.data.label}</label>
-            <Input
+            <label className="control-label">{props.data.label}: </label>
+            {props.create == false && <span style={{fontWeight:'bold'}}> {props.value}</span>}
+            {props.create == true && <Input
               disabled = {props.create == false ? true: false}
               type="text"
               name={props.data.name}
@@ -40,7 +41,8 @@ function RenderInputPreview(props) {
               className="form-control"
               onChange={(event) => props.handleChange(event, props.data.id)}
               value={props.value}
-            />
+            />}
+            
           </div>
         );
         break;
@@ -48,7 +50,8 @@ function RenderInputPreview(props) {
         data = (
           <div className="form-group">
             <label className="control-label">{props.data.label}</label>
-            <TextArea
+            {props.create == false && <span style={{fontWeight:'bold'}}> {props.value}</span>}
+            {props.create == true &&  <TextArea
               disabled = {props.create == false ? true: false}
               rows="5"
               value={props.value}
@@ -56,7 +59,7 @@ function RenderInputPreview(props) {
               name={props.data.name}
               placeholder={props.data.placeHolder}
               className="form-control"
-            />
+            />}
           </div>
         );
         break;
@@ -183,6 +186,8 @@ function RenderInputPreview(props) {
         data = (
           <div className="form-group">
             <label className="control-label">{props.data.label}</label>
+            {props.create == false && <span style={{fontWeight:'bold'}}> {props.value}</span>}
+            {props.create == true &&
             <input
               type="date"
               onChange={(event) => props.handleChange(event, props.data.id)}
@@ -190,7 +195,7 @@ function RenderInputPreview(props) {
               value ={props.data.value}
               disabled = {props.create == false ? true: false}
               className="form-control"
-            />
+            />}
           </div>
         );
         break;
