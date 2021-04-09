@@ -1,14 +1,14 @@
 import docCookies from "doc-cookies";
-import React, { useEffect, createContext } from "react";
+import React from "react";
 import { Route, Switch } from "react-router-dom";
 import Workflow from "components/admin/workflow/Workflow";
 import FormBuilder from "components/admin/FormBuilder/FormBuilder";
-import DocumentType from "components/admin/FormBuilder/DocumentType";
 import ContentPermission from "components/content/ContentPermission";
 import ContentRoles from "components/content/ContentRoles";
 import ContentRolesAction from "components/admin/Roles/ManergerRole";
 import ContentRolePosition from "components/content/ContentRolePosition";
 import notiRoute from "./modules/notification";
+import DocumentType from "components/admin/FormBuilder/DocumentType";
 
 import formDocument from "components/content/documents/Form";
 import "./RouterUrl.css";
@@ -58,6 +58,7 @@ const RouterUrl = () => {
           <Route exact path="/permission" component={ContentPermission}></Route>
           <Route exact path="/form-builder" component={FormBuilder}></Route>
           <Route exact path="/document-type" component={DocumentType}></Route>
+          <Route exact path="/workflow" component={Workflow}></Route>
         </Switch>
       );
     }
