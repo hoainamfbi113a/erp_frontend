@@ -31,9 +31,9 @@ const MenuLayout = (props) => {
   const dispatch = useDispatch();
   const permissions = useSelector((state) => state.permission);
 
-  useEffect(async () => {
-    await dispatch(getPermission(docCookies.getItem("user_id")));
-  }, [dispatch]);
+  // useEffect(async () => {
+  //   await dispatch(getPermission(docCookies.getItem("user_id")));
+  // }, [dispatch]);
 
   const renderAdmin = () => {
     if (docCookies.getItem("user_id") === "1") {
