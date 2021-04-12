@@ -92,7 +92,7 @@ class CreateNotifi extends Component {
   componentDidMount = () => {
     this.getDataDocumentType();
     this.getDataDocumentListUser();
-    this.props.dispatchPermission();
+    // this.props.dispatchPermission();
   };
   onSelect = (id) => {
     if (id) {
@@ -200,7 +200,6 @@ class CreateNotifi extends Component {
     let treeData = this.state.treeData;
     return (
       <div className="create-notifi">
-        {console.log(this.props.permissionsUser)}
         <div className="content-background2">
           <div style={{ minHeight: "70vh" }} className="content-main">
             <div className="content-top content-top-create-notif">
@@ -312,4 +311,4 @@ const mapDispatchToProps = (dispatch) => {
      dispatchPermission:bindActionCreators(getPermission , dispatch)
   }
 }
-export default connect (mapStateToProps, mapDispatchToProps)(CreateNotifi)
+export default connect (null, null)(CreateNotifi)
