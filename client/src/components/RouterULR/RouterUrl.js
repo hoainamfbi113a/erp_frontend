@@ -1,5 +1,5 @@
 import docCookies from "doc-cookies";
-import React from "react";
+import React, {useEffect} from "react";
 import { Route, Switch } from "react-router-dom";
 import Workflow from "components/admin/workflow/Workflow";
 import FormBuilder from "components/admin/FormBuilder/FormBuilder";
@@ -17,15 +17,15 @@ import ServiceRoute from "./route/ServiceRoute";
 
 const RouterUrl = () => {
   const permissions = useSelector((state) => state.permission);
-
+  useEffect(() => {
+  }, [permissions])
   const renderUrl = () => {
-    if (permissions.length) {
+    // if (permissions.length) {
       return (
         <Switch>
           {notiRoute.map((route) => (
             <Route exact path={route.path} component={route.component} />
           ))}
-          {console.log("goi 2 lan")}
           {permissions.map((service) => (
             <Route
               key={service.slug}
@@ -62,7 +62,7 @@ const RouterUrl = () => {
           <Route exact path="/workflow" component={Workflow}></Route>
         </Switch>
       );
-    }
+    // }
     return <div>Loading...</div>;
   };
 

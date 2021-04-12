@@ -33,6 +33,7 @@ class Create extends Component {
       user_id: "",
       view: true,
       isProcessed: false,
+      canceled:false,
       isModalVisible: false,
       status: "pass",
       step_history: null,
@@ -81,7 +82,7 @@ class Create extends Component {
         axios
           .get(`/api/document-process/get?id=${process_id}`)
           .then((res) => {
-            this.renderComment(res.data.step_history);
+            this.renderComment(res.data.step_history, res.data.targets);
             // this.setState({
             //   step_history:res.data.step_history
             // })
@@ -94,6 +95,13 @@ class Create extends Component {
                 });
                 break;
               }
+            }
+            
+            if (res.data.status === "canceled") {
+              this.setState({
+                view: true,
+                canceled: true,
+              });
             }
             if (res.data.status === "processed") {
               this.setState({
@@ -370,9 +378,10 @@ class Create extends Component {
       note: e.target.value,
     });
   };
-  renderComment = (value) => {
+  renderComment = (value1, value2) => {
     let data = [];
-    let step_history = value;
+    let step_history = value1;
+    let targets = value2;
     if (step_history) {
       for(let itemParent of step_history)
       {
@@ -387,10 +396,23 @@ class Create extends Component {
             data.push(obj);
           }
         }
-      }
-      
+      } 
     }
-    console.log(data);
+    if(targets) {
+      for(let item of targets) {
+        if(item.note!==null && item.note!==""){
+          let obj = {
+            author: item.target_name,
+            avatar:
+              "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+            content: <p>{item.note}</p>,
+          };
+          data.push(obj);
+        }
+        
+      }
+    }
+    // console.log(data);
     this.setState({
       dataComment: data,
     });
@@ -422,7 +444,9 @@ class Create extends Component {
     return (
       <div>
         <div className="row">
-          <Steps
+          {this.state.canceled === true ? (
+            <Steps
+            status="error"
             current={currentProcessStep}
             size="small"
             className="process-work-flow"
@@ -430,6 +454,15 @@ class Create extends Component {
             {this.renderWorkflow()}
             <Step title="Tài liệu đã duyệt hoàn tất" />
           </Steps>
+          ): (  <Steps
+            current={currentProcessStep}
+            size="small"
+            className="process-work-flow"
+          >
+            {this.renderWorkflow()}
+            <Step title="Tài liệu đã duyệt hoàn tất" />
+          </Steps>)}
+        
 
           <div className="col-md-8"></div>
         </div>
@@ -618,6 +651,7 @@ class Create extends Component {
             content={<p>We supply a series of design principles</p>}
           /> */}
         </div>
+        {console.log(data)}
         {data.length !== 0 && (
             <List
               className="comment-list"

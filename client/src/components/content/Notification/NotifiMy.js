@@ -20,7 +20,6 @@ const NotifiMy = (props) => {
     axiosConfig
       .get(`/api/notification/list?user_id=${user_id}`)
       .then((res) => {
-        console.log(res);
         setNoti(res.data);
       })
       .catch((err) => {
@@ -96,13 +95,12 @@ const NotifiMy = (props) => {
 
   const renderNotifyItemDocument = () => {
     let dataNotify = noti;
-    if (dataNotify &&dataNotify.document_type) {
+    if (dataNotify) {
       return dataNotify.map((item) => {
         let bi = item.process.status;
         let status = false;
         if(item.user_id.toString() !== docCookies.getItem("user_id")) {
           for(let e of item.process.targets) {
-            console.log(e.status);
             if(e.target_id.toString() === docCookies.getItem("user_id") && e.status === "pass") {
               status = true;
             }

@@ -102,8 +102,10 @@ router.post("/document/store", async (req, res) => {
   dep_idUser = data.data.department.data.dep_id;
   pos_idUser = data.data.department.data.pos_id;
   let target = [];
+  let count = 0;
   for (let item of (dataWorkFlow && dataWorkFlow.steps) ) {
-      if(item.actions[0].department_id == null &&  item.actions[0].position_id == null) {
+    count++;
+      if(count === 1) {
         let targetBegin = {
           target_id: user_id,
           target_name: data.data.pro_name,
