@@ -5,13 +5,18 @@ import {
   Redirect,
   Switch,
 } from "react-router-dom";
-import { Provider } from "react-redux";
 import docCookies from "doc-cookies"
 import Logins from "components/Login/Logins";
 import Erp from "components/Erp/Erp";
 import NotFound from "components/NotFound";
 import Globading from "components/Loading/Globading";
-import PersonalPage from "components/employee/personalPage/PersonalPage"
+import { bindActionCreators } from 'redux'
+import { getPermission } from "reduxToolkit/features/permissionSlice";
+import { getUser } from "reduxToolkit/features/userSlice";
+import { getUserProfile } from "reduxToolkit/features/userProfileSlice";
+import { connect } from "react-redux";
+import { setUser } from "../reduxToolkit/features/userSlice";
+
 const PrivateRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}
@@ -21,21 +26,65 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
     }
   />
 );
-export default class App extends Component {
+class App extends Component {
+
+  constructor() {
+    super()
+      this.state= {
+        init: null,
+        id:null
+      }
+  }
+  async componentDidMount() {
+    // const id = docCookies.getItem("user_id");
+    this.setState({
+      id:docCookies.getItem("user_id")
+    })
+    if(this.state.id){
+      await this.props.dispatchPermission(this.state.id);
+      await this.props.dispatchUser(this.state.id);
+      await this.props.dispatchProfileUser(this.state.id);
+      this.setState({init:"z"})
+    }
+  }
+
+
   render() {
+    if(this.state.id) {
+      return (
+        <div>
+          
+          <Globading />
+          <Router>
+            <Switch>
+              {/* <Route exact path="/" component={Login} /> */}
+              {/* <Route exact path="/" render={()=>docCookies.getItem("usertoken") ? : <Logins/>} /> */}
+              <Route path="/" render={()=> docCookies.getItem("user_id") ? <Erp/> : <Logins/>} /> 
+              <Route component={NotFound}/>
+            </Switch>
+          </Router>
+          </div>
+      );
+    }
     return (
-      <div>
-        
-        <Globading />
-        <Router>
-          <Switch>
-            {/* <Route exact path="/" component={Login} /> */}
-            <Route exact path="/" component={()=>docCookies.getItem("usertoken") ?<PersonalPage/> : <Logins/>} />
-            <PrivateRoute path="/" component={Erp} />
-            <Route component={NotFound}/>
-          </Switch>
-        </Router>
-        </div>
-    );
+      <div>Loading...</div>
+    )
+    
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    user : state.user
+  }
+}
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setUser : bindActionCreators(setUser,dispatch),
+    dispatchPermission: bindActionCreators(getPermission, dispatch),
+    dispatchUser: bindActionCreators(getUser, dispatch),
+    dispatchProfileUser : bindActionCreators(getUserProfile, dispatch)
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App)

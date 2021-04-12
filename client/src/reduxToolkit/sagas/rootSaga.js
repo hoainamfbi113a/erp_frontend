@@ -5,10 +5,10 @@ import authenSaga from "./authenSaga";
 import permissionSaga from "./permissionSaga";
 export function* rootSaga () {
     yield all([
+        permissionSaga(),
         userSaga(),
         userProfileSaga(),
-        authenSaga(),
-        permissionSaga(),
+        authenSaga(),  
     ])
 }
 // export default rootSaga;

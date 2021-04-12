@@ -4,6 +4,8 @@ import ContentParts from "components/content/ContentParts";
 import ContentPosition from "components/content/ContentPosition";
 import AddAndUpdateInforUser from "components/admin/AddAndUpdateInforUser";
 import Workflow from "components/admin/workflow/Workflow";
+import FormBuilder from "components/admin/FormBuilder/FormBuilder";
+import DocumentType from "components/admin/FormBuilder/DocumentType";
 
 export default {
   "profile-service": {
@@ -41,9 +43,13 @@ export default {
     }
   },
   "document-service": {
-    "workflow": {
-      path: "document-template",
-      component: Workflow
+    "document-type": {
+      path: "/document-type",
+      component: DocumentType,
+    },
+    "document-template": {
+      path: "/document-template",
+      component: FormBuilder,
     }
   }
 };

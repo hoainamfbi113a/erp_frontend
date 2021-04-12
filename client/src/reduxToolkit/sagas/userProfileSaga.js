@@ -15,3 +15,4 @@ function* fetchUserProfile (action) {
         console.log(error)
     }
 }
+ 

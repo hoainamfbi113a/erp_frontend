@@ -14,6 +14,7 @@ import formDocument from "components/content/documents/Form";
 import "./RouterUrl.css";
 import { useSelector } from "react-redux";
 import ServiceRoute from "./route/ServiceRoute";
+import PersonalPage from "../employee/personalPage/PersonalPage";
 
 const RouterUrl = () => {
   const permissions = useSelector((state) => state.permission);
@@ -23,6 +24,7 @@ const RouterUrl = () => {
     // if (permissions.length) {
       return (
         <Switch>
+          <Route exact path={"/"} component={PersonalPage} />
           {notiRoute.map((route) => (
             <Route exact path={route.path} component={route.component} />
           ))}
@@ -57,9 +59,9 @@ const RouterUrl = () => {
             component={ContentRolesAction}
           ></Route>
           <Route exact path="/permission" component={ContentPermission}></Route>
-          <Route exact path="/form-builder" component={FormBuilder}></Route>
+          {/* <Route exact path="/form-builder" component={FormBuilder}></Route>
           <Route exact path="/document-type" component={DocumentType}></Route>
-          <Route exact path="/workflow" component={Workflow}></Route>
+          <Route exact path="/workflow" component={Workflow}></Route> */}
         </Switch>
       );
     // }

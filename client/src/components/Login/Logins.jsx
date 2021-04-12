@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { Spin } from "antd";
 import { ValidateEmail, ValidateField } from "helpers/FuncHelper";
 import { message } from "antd";
 import {sleep} from "helpers/FuncHelper"
@@ -11,8 +10,13 @@ import background from "assets/images/bgd.jpg";
 import { useForm } from "react-hook-form";
 import { getLogin } from "reduxToolkit/features/authencationSlice";
 import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
+import { getPermission } from "reduxToolkit/features/permissionSlice";
+import { getUserProfile } from "reduxToolkit/features/userProfileSlice";
+import { setUser } from "reduxToolkit/features/userSlice";
+
 let emailUser = "";
 const Logins = () => {
+  
   const dispatch = useDispatch();
   const { push } = useHistory();
   const [activeErrEmail, setActiveErrEmail] = useState(false);
@@ -60,16 +64,16 @@ const Logins = () => {
   const respLogin = useSelector((state) => state.authen);
   useEffect(async () => {
     if (respLogin && respLogin.message === "Đăng nhập thành công!") {
-      await sleep(1000);
+      await dispatch(setUser(respLogin.detail));
+      await dispatch(getPermission(respLogin.detail.id));
+      await dispatch(getUserProfile(respLogin.detail.id));
       dispatch(hideLoading());
-      push("/");
     } else if (
       respLogin &&
       respLogin.message === "Email hoặc mật khẩu không đúng!"
     ) {
       setActiveErrEmail(false);
       setActiveErrPassWord(false);
-      await sleep(1000);
       dispatch(hideLoading());
       message.error("Email hoặc mật khẩu không đúng!");
     }
