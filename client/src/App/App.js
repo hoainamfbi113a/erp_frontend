@@ -31,26 +31,22 @@ class App extends Component {
   constructor() {
     super()
       this.state= {
-        init: null,
-        id:null
+        init: false
       }
   }
   async componentDidMount() {
-    // const id = docCookies.getItem("user_id");
-    this.setState({
-      id:docCookies.getItem("user_id")
-    })
-    if(this.state.id){
-      await this.props.dispatchPermission(this.state.id);
-      await this.props.dispatchUser(this.state.id);
-      await this.props.dispatchProfileUser(this.state.id);
-      this.setState({init:"z"})
+    const id = docCookies.getItem("user_id");
+    if(id){
+      await this.props.dispatchPermission(id);
+      await this.props.dispatchUser(id);
+      await this.props.dispatchProfileUser(id);
     }
+    this.setState({init:true})
   }
 
 
   render() {
-    if(this.state.id) {
+    if(this.state.init) {
       return (
         <div>
           
