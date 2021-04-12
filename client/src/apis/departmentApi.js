@@ -33,7 +33,6 @@ export const getListIdDepartment = () => {
     .get(`/api/departments?per_page=30`)
     .then(handleResponse)
     .then((data) => {
-      console.log(data)
       return data;
     })
     .catch((err) => {
