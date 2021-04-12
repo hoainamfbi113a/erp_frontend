@@ -28,20 +28,29 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 );
 class App extends Component {
 
-  componentDidMount() {
-    const id = docCookies.getItem("user_id");
-    if(id){
-      this.props.dispatchPermission(id);
-      this.props.dispatchUser(id);
-      this.props.dispatchProfileUser(id);
-    }else{
-      this.props.setUser({})
+  constructor() {
+    super()
+      this.state= {
+        init: null,
+        id:null
+      }
+  }
+  async componentDidMount() {
+    // const id = docCookies.getItem("user_id");
+    this.setState({
+      id:docCookies.getItem("user_id")
+    })
+    if(this.state.id){
+      await this.props.dispatchPermission(this.state.id);
+      await this.props.dispatchUser(this.state.id);
+      await this.props.dispatchProfileUser(this.state.id);
+      this.setState({init:"z"})
     }
   }
 
 
   render() {
-    if( this.props.user) {
+    if(this.state.id) {
       return (
         <div>
           
@@ -50,7 +59,7 @@ class App extends Component {
             <Switch>
               {/* <Route exact path="/" component={Login} /> */}
               {/* <Route exact path="/" render={()=>docCookies.getItem("usertoken") ? : <Logins/>} /> */}
-              <Route path="/" render={()=> this.props.user.id ? <Erp/> : <Logins/>} /> 
+              <Route path="/" render={()=> docCookies.getItem("user_id") ? <Erp/> : <Logins/>} /> 
               <Route component={NotFound}/>
             </Switch>
           </Router>

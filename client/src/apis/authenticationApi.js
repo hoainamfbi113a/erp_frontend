@@ -1,5 +1,6 @@
 import axios from "axios";
 import docCookies from "doc-cookies";
+import cookie from 'react-cookies'
 import axiosConfig from "./axios";
 import { handleResponse } from './handleResponse';
 export const login = (params) => {
@@ -10,6 +11,9 @@ export const login = (params) => {
         docCookies.setItem("usertoken", res.data.access_token, 10000);
         docCookies.setItem("user_id", res.data.detail.id, 10000);
         docCookies.setItem("email", res.data.detail.email, 10000);
+        // cookie.save('usertoken', res.data.access_token, { path: '/' })
+        // cookie.save('user_id', res.data.detail.id, { path: '/' })
+        // cookie.save('email', res.data.detail.email, { path: '/' })
       }
       return res.data;
     })

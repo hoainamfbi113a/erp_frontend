@@ -19,27 +19,10 @@ import { CameraOutlined } from '@ant-design/icons';
 const { Footer } = Layout;
 import "./PersonalPage.css";
 const PersonalPage = () => {
-  let idUser = docCookies.getItem("user_id");
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getUser(idUser));
-    dispatch(getUserProfile(idUser));
-  }, [dispatch]);
   const dataUser = useSelector((state) => state.user);
   const dataProfile = useSelector((state) => state.userProfile);
-  useEffect(() => {
-    fetchData();
-  }, []);
-  const fetchData = async () => {
-    const user_id = docCookies.getItem("user_id");
-    // setDataProfile(await getProfile(user_id));
-  };
   return (
-    <Layout>
-      <MenuLayout />
-      <Layout>
-        <HeaderLayout />
-        <div style={{ background: "#EEEFF3" }}>
+    <div style={{ background: "#EEEFF3" }}>
           <div className="container">
             <div className="personal-page-top">
               {/* <LazyLoad height={1000}> */}
@@ -164,11 +147,6 @@ const PersonalPage = () => {
             </div>
           </div>
         </div>
-        <Footer style={{ textAlign: "center" }} className="layout-footer">
-          Ant Design ©2020 Created by TuoiTre
-        </Footer>
-      </Layout>
-    </Layout>
   );
 };
 
