@@ -39,5 +39,11 @@ export default {
       path: "/workflow",
       component: Workflow
     }
+  },
+  "document-service": {
+    "workflow": {
+      path: "document-template",
+      component: Workflow
+    }
   }
 };
