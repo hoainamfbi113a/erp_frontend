@@ -5,6 +5,7 @@ import ContentPosition from "components/content/ContentPosition";
 import AddAndUpdateInforUser from "components/admin/AddAndUpdateInforUser";
 import Workflow from "components/admin/workflow/Workflow";
 
+
 export default {
   "profile-service": {
     "profile": {
@@ -34,10 +35,16 @@ export default {
       component: ContentPosition,
     },
   },
-  "workflow-service": {
-    "workflow": {
-      path: "/workflow",
-      component: Workflow
-    }
-  }
+  // "workflow-service": {
+  //   "workflow": {
+  //     path: "/workflow",
+  //     component: Workflow
+  //   }
+  // },
+  // "document-service": {
+  //   "document-type": {
+  //     path: "/document-type",
+  //     component: DocumentType
+  //   }
+  // }
 };
