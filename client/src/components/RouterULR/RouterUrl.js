@@ -11,6 +11,7 @@ import "./RouterUrl.css";
 import { useSelector } from "react-redux";
 import ServiceRoute from "./route/ServiceRoute";
 import PersonalPage from "../employee/personalPage/PersonalPage";
+import Workflow from "../admin/workflow/Workflow";
 
 const RouterUrl = () => {
   const permissions = useSelector((state) => state.permission);
@@ -60,8 +61,8 @@ const RouterUrl = () => {
           ></Route>
           <Route key="8" exact path="/permission" component={ContentPermission}></Route>
           {/* <Route exact path="/form-builder" component={FormBuilder}></Route>
-          <Route exact path="/document-type" component={DocumentType}></Route>
-          <Route exact path="/workflow" component={Workflow}></Route> */}
+          <Route exact path="/document-type" component={DocumentType}></Route> */}
+          <Route exact path="/workflow" component={Workflow}></Route>
         </Switch>
       );
   };
