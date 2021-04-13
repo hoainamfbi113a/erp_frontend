@@ -97,6 +97,7 @@ import {
   Switch,
 } from "react-router-dom";
 import docCookies from "doc-cookies"
+import { Spin } from "antd";
 import Logins from "components/Login/Logins";
 import Erp from "components/Erp/Erp";
 import NotFound from "components/NotFound";
@@ -140,7 +141,11 @@ const App = () => {
               if(statePermission.length && stateUser.id) {
                 return <Erp/>
               } else if(id) {
-                return <Globading />
+                return (
+                  <div className="GlobalLoading">
+                  <Spin className="icon" size="large" />
+                </div>
+                )
               } else {
                 return <Logins/>
               }
