@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import LazyLoad from "react-lazyload";
 import { useSelector, useDispatch } from "react-redux";
 import coverimg from "assets/images/coverimg.png";
-import avatar from "assets/images/avatar.png";
+import avatar from "assets/images/avatar.jpeg";
 import HeaderLayout from "components/Header/Header";
 import MenuLayout from "components/Menu/MenuLayout";
 import { Button } from "antd";
