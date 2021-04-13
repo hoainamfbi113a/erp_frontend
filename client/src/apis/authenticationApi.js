@@ -8,9 +8,9 @@ export const login = (params) => {
     .post("/api/login", params)
     .then((res) => {
       if (res.data.message === "Đăng nhập thành công!") {
-        docCookies.setItem("usertoken", res.data.access_token, 10000);
-        docCookies.setItem("user_id", res.data.detail.id, 10000);
-        docCookies.setItem("email", res.data.detail.email, 10000);
+        docCookies.setItem("usertoken", res.data.access_token, 2592000,"/");
+        docCookies.setItem("user_id", res.data.detail.id, 2592000,"/");
+        docCookies.setItem("email", res.data.detail.email, 2592000,"/");
         // cookie.save('usertoken', res.data.access_token, { path: '/' })
         // cookie.save('user_id', res.data.detail.id, { path: '/' })
         // cookie.save('email', res.data.detail.email, { path: '/' })
@@ -130,7 +130,7 @@ export const checkApi = (params) => {
 //   document.cookie = "email" +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 // };
 export const logout = () => {
-  docCookies.removeItem("usertoken");
-  docCookies.removeItem("user_id");
-  docCookies.removeItem("email");
+  docCookies.removeItem("usertoken","/");
+  docCookies.removeItem("user_id","/");
+  docCookies.removeItem("email","/");
 };
