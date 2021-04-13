@@ -116,7 +116,6 @@ class CreateNotifi extends Component {
     axios
       .delete(`https://document.tuoitre.vn/api/document/delete/${id}`)
       .then((res) => {
-        console.log(res);
         if (res.data.message === "success") {
           alert("Xoá tài liệu thành công");
           this.getDataDocumentListUser();
@@ -194,13 +193,12 @@ class CreateNotifi extends Component {
     }
   };
   callback = (key) => {
-    console.log(key);
+    //console.log(key);
   };
   render() {
     let treeData = this.state.treeData;
     return (
       <div className="create-notifi">
-        {console.log(this.props.permissionsUser)}
         <div className="content-background2">
           <div style={{ minHeight: "70vh" }} className="content-main">
             <div className="content-top content-top-create-notif">

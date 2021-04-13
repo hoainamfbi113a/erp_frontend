@@ -6,6 +6,24 @@ import { simpleDate } from "../../../helpers/FuncHelper";
 import { Pagination, Tag } from "antd";
 import { CheckCircleOutlined, SyncOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import "./notification.css";
+
+const checkStatus = {
+  "processed": {
+    icon: <CheckCircleOutlined />,
+    color: "success",
+    tag: "Đã duyệt"
+  },
+  "processing": {
+    icon: <SyncOutlined spin/>,
+    color: "processing",
+    tag: "Đang chờ duyệt"
+  },
+  "canceled": {
+    icon: <CloseCircleOutlined />,
+    color: "error",
+    tag: "Đã hủy"
+  } 
+}
 const app_id = 99;
 const slug = "profile";
 const per_page = 15;
@@ -94,11 +112,10 @@ const NotifiMy = (props) => {
   };
 
   const renderNotifyItemDocument = () => {
-    let dataNotify = noti;
-    if (dataNotify) {
-      return dataNotify.map((item) => {
+    if (noti) {
+      return noti.map((item) => {
         let bi = item.process.status;
-        let status = "";
+        let status = "processing";
         if(item.user_id.toString() !== docCookies.getItem("user_id")) {
           for(let e of item.process.targets) {
             if(e.target_id.toString() === docCookies.getItem("user_id") && e.status === "pass") {
@@ -145,11 +162,14 @@ const NotifiMy = (props) => {
               {item.document_type.display_name}
             </td>
             <td>
-              <Tag
+              {/* <Tag
                 icon={status === "processed" ? <CheckCircleOutlined /> : status === "canceled" ? <CloseCircleOutlined /> : <SyncOutlined spin />}
                 color={status === "processed" ? "success" : status === "canceled" ? "error" : "processing"}
               >
                 {status === "processed" ? `Đã duyệt` : status === "canceled" ? `Đã hủy` : `Đang chờ duyệt`}
+              </Tag> */}
+              <Tag icon={checkStatus[status].icon} color={checkStatus[status].color} >
+                {checkStatus[status].tag}
               </Tag>
             </td>
             {/* {console.log()} */}
