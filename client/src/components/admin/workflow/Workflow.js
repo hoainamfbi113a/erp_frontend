@@ -4,6 +4,8 @@ import '@tuoitre/flowchart-builder/dist/index.css'
 import { TTFlow } from '@tuoitre/flowchart-builder'
 
 const Workflow = () => {
+  const { permissions } = useContext(PermissionContext);
+  console.log(permissions)
   return <TTFlow urls={{
     // get_list_document_types: 'https://document.tuoitre.vn/api/document-type/get-document-types',
     // get_one_document_type: 'https://document.tuoitre.vn/api/document-type/get',
@@ -21,7 +23,7 @@ const Workflow = () => {
     get_list_positions: '/api/positions?page=all',
     get_list_actions_by_post_dep: 'https://employee.tuoitre.vn/api/permission/departments/positions',
     get_list_actions_by_post: 'https://employee.tuoitre.vn/api/list/permission/work-formality',
-  }}tableId={11} />
+  }} tableId={11} permissions={permissions} />
 }
 
 export default Workflow

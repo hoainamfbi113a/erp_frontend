@@ -20,7 +20,6 @@ const FormBuilderComponent = () => {
 //     "updated_at": "2021-04-12 13:39:15"
 // }];
 const { permissions } = useContext(PermissionContext);
-// console.log(permissions)
   return (
     <div>
     <FormBuilder urls={
