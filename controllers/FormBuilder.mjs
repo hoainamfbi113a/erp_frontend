@@ -83,8 +83,8 @@ let getTarget = async (pos_id, dep_id, step_id, action_id) => {
       action_id,
     };
     target.push(obj);
+    return target;
   }
-  return target;
 };
 
 router.post("/document/store", async (req, res) => {
