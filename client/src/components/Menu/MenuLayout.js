@@ -144,9 +144,9 @@ const MenuLayout = (props) => {
               <Link to="/document-type">DocumentType</Link>
             </Menu.Item>
           </SubMenu> */}
-          <Menu.Item key="12" icon={<TiFlowSwitch />} className="ant-menu-submenu-title">
+          {/* <Menu.Item key="12" icon={<TiFlowSwitch />} className="ant-menu-submenu-title">
             <Link to="/workflow">Workflow</Link>
-          </Menu.Item>
+          </Menu.Item> */}
         </Menu>
       </Sider>
     </div>
