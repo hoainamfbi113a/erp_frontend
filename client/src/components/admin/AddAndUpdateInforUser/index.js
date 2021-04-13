@@ -36,6 +36,7 @@ const AddAndUpdateInforUser = (props) => {
   const [workflow, setWorkflowProfile] = useState(null);
   const [profile, setProfile] = useState({})
   const dataProfile = useSelector((state) => state.userProfile);
+  const dataUser = useSelector((state) => state.user);
   // console.log(profile)
   const renderMenuLeft = () => {
     if (activeLink === 1) {
@@ -81,14 +82,17 @@ const AddAndUpdateInforUser = (props) => {
   };
 
   useEffect(() => {
-    
     (async function fetchTransfer() {
+      let id = props.match.params.id
       dispatch(showLoading())
       let dataWorkflowProfile = await workflowProfile(20);
       setWorkflowProfile(dataWorkflowProfile);
+      // console.log(dataProfile)
+      
       setProfile(dataProfile)
-      if(props.match.params.id){
-        await dispatch(getUserProfile(props.match.params.id)); // get id profile
+      if( id && id !== dataProfile.user_id ){
+      // if(id){
+        await dispatch(getUserProfile(id)); // get id profile
         if(Object.keys(dataProfile).length != 0){
             let dataTransfersProfile = {}
             dataTransfersProfile = await transfersProfile(dataProfile.id);

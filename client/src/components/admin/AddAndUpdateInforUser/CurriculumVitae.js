@@ -131,9 +131,9 @@ class addInformationUser extends Component {
     this.handleSearchPart = this.handleSearchPart.bind(this);
   }
   componentDidMount = async () => {
-    console.log(this.context)
-    let alo = this.context.permissions.filter((permission) => permission.action === "create" && permission.uri === "api/profiles")
-    console.log(alo)
+    // console.log(this.context)
+    // let alo = this.context.permissions.filter((permission) => permission.action === "create" && permission.uri === "api/profiles")
+    // console.log(alo)
   };
   functionSearch = async (prevProps, prevState) => {
     if (prevState.searchDepartment !== this.state.searchDepartment) {
