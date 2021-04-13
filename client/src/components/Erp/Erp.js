@@ -22,8 +22,8 @@ export default class Erp extends React.Component {
       textAlign: "center",
       width: "100%",
       bottom: "0",
-      "margin-top": "auto",
-      "z-index": "2",
+      marginTop: "auto",
+      zIindex : "2",
       padding: "26px",
     }
     return (

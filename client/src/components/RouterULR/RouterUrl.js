@@ -1,14 +1,10 @@
-import docCookies from "doc-cookies";
 import React, {useEffect} from "react";
 import { Route, Switch } from "react-router-dom";
-import Workflow from "components/admin/workflow/Workflow";
-import FormBuilder from "components/admin/FormBuilder/FormBuilder";
 import ContentPermission from "components/content/ContentPermission";
 import ContentRoles from "components/content/ContentRoles";
 import ContentRolesAction from "components/admin/Roles/ManergerRole";
 import ContentRolePosition from "components/content/ContentRolePosition";
 import notiRoute from "./modules/notification";
-import DocumentType from "components/admin/FormBuilder/DocumentType";
 
 import formDocument from "components/content/documents/Form";
 import "./RouterUrl.css";
@@ -24,9 +20,9 @@ const RouterUrl = () => {
     // if (permissions.length) {
       return (
         <Switch>
-          <Route exact path={"/"} component={PersonalPage} />
+          <Route key="1" exact path={"/"} component={PersonalPage} />
           {notiRoute.map((route) => (
-            <Route exact path={route.path} component={route.component} />
+            <Route key={route.path} exact path={route.path} component={route.component} />
           ))}
           {permissions.map((service) => (
             <Route
@@ -36,36 +32,38 @@ const RouterUrl = () => {
             />
           ))}
 
-          <Route exact path="/form-document/:id" component={formDocument} />
+          <Route key="2" exact path="/form-document/:id" component={formDocument} />
           <Route
+            key="3"
             exact
             path="/form-document-view/:id"
             component={formDocument}
           />
           <Route
+            key="4"
             exact
             path="/form-document-view/:id/:process_id"
             component={formDocument}
           />
-          <Route exact path="/roles" component={ContentRoles}></Route>
+          <Route key="5" exact path="/roles" component={ContentRoles}></Route>
           <Route
+            key="6"
             exact
             path="/roles-position"
             component={ContentRolePosition}
           ></Route>
           <Route
+            key="7"
             exact
             path="/roles-action"
             component={ContentRolesAction}
           ></Route>
-          <Route exact path="/permission" component={ContentPermission}></Route>
+          <Route key="8" exact path="/permission" component={ContentPermission}></Route>
           {/* <Route exact path="/form-builder" component={FormBuilder}></Route>
           <Route exact path="/document-type" component={DocumentType}></Route>
           <Route exact path="/workflow" component={Workflow}></Route> */}
         </Switch>
       );
-    // }
-    return <div>Loading...</div>;
   };
 
   return (
