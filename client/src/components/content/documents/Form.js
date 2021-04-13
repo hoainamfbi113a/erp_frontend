@@ -651,7 +651,6 @@ class Create extends Component {
             content={<p>We supply a series of design principles</p>}
           /> */}
         </div>
-        {console.log(data)}
         {data.length !== 0 && (
             <List
               className="comment-list"
