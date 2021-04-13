@@ -43,9 +43,7 @@ const TableDepartment = (props) => {
     err_address: "",
     err_phone: "",
   });
-  console.log("12345")
   useEffect(async () => {
-    console.log("123")
     // if (props.valueSearch !== lastValue) {
       let resListDepart = await getListDepartment("all");
       // let listDepartSearch = resListDepart.data.filter((depart) => {
