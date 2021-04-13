@@ -47,7 +47,7 @@ const App = () => {
             
             <Route path="/" render={()=> {
               //  (statePermission.length && stateUser.id) ? <Erp/> : <Logins/>}
-              if(statePermission.length && stateUser.id && stateUserProfile.id) {
+              if(statePermission.length && stateUser && stateUserProfile) {
                 return <Erp/>
               } else if(id) {
                 return (
