@@ -4,7 +4,7 @@ import { updateStatusNotify, listNotify } from "apis/notificationApi";
 import axiosConfig from "apis/axios";
 import { simpleDate } from "../../../helpers/FuncHelper";
 import { Pagination, Tag } from "antd";
-import { CheckCircleOutlined, SyncOutlined } from "@ant-design/icons";
+import { CheckCircleOutlined, SyncOutlined, CloseCircleOutlined } from "@ant-design/icons";
 import "./notification.css";
 const app_id = 99;
 const slug = "profile";
@@ -98,18 +98,24 @@ const NotifiMy = (props) => {
     if (dataNotify) {
       return dataNotify.map((item) => {
         let bi = item.process.status;
-        let status = false;
+        let status = "";
         if(item.user_id.toString() !== docCookies.getItem("user_id")) {
           for(let e of item.process.targets) {
             if(e.target_id.toString() === docCookies.getItem("user_id") && e.status === "pass") {
-              status = true;
+              status = "processed";
+            } else if(e.target_id.toString() === docCookies.getItem("user_id") && e.status === "reject") {
+              status = "canceled";
             }
           }
         } else {
           if(bi === "processed") {
-            status = true;
+            status = "processed";
+          } 
+          else if(bi === "canceled") {
+            status = "canceled";
           }
         }
+        console.log(item);
         // if(bi === "processed" && item.user_id.toString() === docCookies.getItem("user_id")) {
         //   status = true;
         // } else status = false;
@@ -140,10 +146,10 @@ const NotifiMy = (props) => {
             </td>
             <td>
               <Tag
-                icon={status ? <CheckCircleOutlined /> : <SyncOutlined spin />}
-                color={status ? "success" : "processing"}
+                icon={status === "processed" ? <CheckCircleOutlined /> : status === "canceled" ? <CloseCircleOutlined /> : <SyncOutlined spin />}
+                color={status === "processed" ? "success" : status === "canceled" ? "error" : "processing"}
               >
-                {status ? `Đã duyệt` : `Đang chờ duyệt`}
+                {status === "processed" ? `Đã duyệt` : status === "canceled" ? `Đã hủy` : `Đang chờ duyệt`}
               </Tag>
             </td>
             {/* {console.log()} */}
