@@ -3,7 +3,6 @@ import "../../App/App.css";
 import HeaderLayout from "../Header/Header"
 import MenuLayout from "../Menu/MenuLayout";
 import RouterUrl from "../RouterULR/RouterUrl"
-import { Route } from 'react-router-dom';
 import { Layout } from "antd";
 import "../RouterULR/RouterUrl.css"
 import "./Erp.css"
@@ -23,8 +22,7 @@ export default class Erp extends React.Component {
       width: "100%",
       bottom: "0",
       marginTop: "auto",
-      zIindex : "2",
-      padding: "26px",
+      zIndex : "2",
     }
     return (
       <div >

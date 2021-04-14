@@ -5,7 +5,7 @@ import {
   Redirect,
   Switch,
 } from "react-router-dom";
-import docCookies from "doc-cookies"
+import docCookies from "doc-cookies";
 import { Spin } from "antd";
 import Logins from "components/Login/Logins";
 import Erp from "components/Erp/Erp";
@@ -19,49 +19,46 @@ import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 import { useSelector, useDispatch } from "react-redux";
 
 const App = () => {
-  const stateUser = useSelector((state) => 
-    state.user
-  )
-  const statePermission = useSelector((state) => 
-    state.permission
-  )
-  const stateUserProfile = useSelector((state) => 
-    state.userProfile
-  )
-  const dispatch = useDispatch()
+  const stateUser = useSelector((state) => state.user);
+  const statePermission = useSelector((state) => state.permission);
+  const stateUserProfile = useSelector((state) => state.userProfile);
+  const dispatch = useDispatch();
   const id = docCookies.getItem("user_id");
   useEffect(() => {
-    if(id && !stateUser && !Object.keys(stateUserProfile).length){
-    dispatch(getUserProfile(id))
-    dispatch(getPermission(id))
-    dispatch(getUser(id))
+    if (id && !stateUser ) {
+      dispatch(getPermission(id));
+      dispatch(getUser(id));
+      dispatch(getUserProfile(id));
+
+      // dispatch(hideLoading());
     }
-  }, [])
-    return (
-      <div>
-        <Globading />
-        <Router>
-          {/* {console.log(stateUserProfile)} */}
-          <Switch>
-            
-            <Route path="/" render={()=> {
+  }, []);
+  return (
+    <div>
+      <Globading />
+      <Router>
+        <Switch>
+          <Route
+            path="/"
+            render={() => {
               //  (statePermission.length && stateUser.id) ? <Erp/> : <Logins/>}
-              if(statePermission.length && stateUser && Object.keys(stateUserProfile).length) {
-                return <Erp/>
-              } else if(id) {
+              if (statePermission.length && stateUser && Object.keys(stateUserProfile).length) {
+                return <Erp />;
+              } else if (id) {
                 return (
                   <div className="GlobalLoading">
-                  <Spin className="icon" size="large" />
-                </div>
-                )
+                    <Spin className="icon" size="large" />
+                  </div>
+                );
               } else {
-                return <Logins/>
+                return <Logins />;
               }
-            }} /> 
-            <Route component={NotFound}/>
-          </Switch>
-        </Router>
-        </div>
-    );
+            }}
+          />
+          <Route component={NotFound} />
+        </Switch>
+      </Router>
+    </div>
+  );
 };
 export default App;
