@@ -398,7 +398,8 @@ class Create extends Component {
         }
       } 
     }
-    if(targets && status!=="processed") {
+    // console.log(status)
+    if(targets && value3!=="processed") {
       for(let item of targets) {
         if(item.note!==null && item.note!==""){
           let obj = {
