@@ -321,62 +321,20 @@ class CurriculumVitae extends Component {
   fetchData = async () => {
     this.props.uiActionCreatorsS();
     await this.fetchDataUser();
-    await this.fetchDepartment();
-    await this.fetchPosition();
-    await this.fetchPart();
     this.props.uiActionCreatorsH();
-  };
-  fetchPart = async () => {
-    let res = await getListParts();
-    if (!res.err) {
-      this.setState({
-        dataParts: res.data,
-      });
-    } else {
-      message.error("get list parts failed");
-    }
-  };
-  fetchPosition = async () => {
-    let res = await getListPosition(1);
-    if (!res.err) {
-      this.setState({
-        dataPosition: res.data,
-      });
-    } else {
-      message.error("get list position failed");
-    }
-  };
-  fetchDepartment = async () => {
-    let res = await getListDepartment(1);
-    if (!res.err) {
-      this.setState({
-        dataDepartment: res.data,
-      });
-    } else {
-      message.error("failed get permission");
-    }
   };
   fetchDataUser = async () => {
     let idUser = docCookies.getItem("user_id");
     this.setState({
       user_id: idUser,
     });
-    let dataUser = null;
-    let pro_id = 0;
-    let resGetUser = await getUser(idUser);
-    if (!resGetUser.err) {
-      this.setState({
-        full_name: resGetUser.data.full_name,
-        phone: resGetUser.data.phone,
-        email: resGetUser.data.email,
-      });
-    } else {
-      message.error("get user failed");
-    }
-    let resGetProfile = await getProfile(idUser);
-    dataUser = resGetProfile.data;
-    pro_id = resGetProfile.data.id;
-    const data = dataUser;
+    const user = this.props.userState;
+    this.setState({
+      full_name: user.full_name,
+      phone: user.phone,
+      email: user.email,
+    });
+    const data = this.props.userProfileState;
     this.setState({
       pro_id: data.id,
       user_id: data.user_id,
@@ -1301,8 +1259,15 @@ class CurriculumVitae extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    userState: state.user,
+    userProfileState: state.userProfile
+  }
+}
+
 const mapDispatchToProps = (dispatch) => ({
   uiActionCreatorsS: bindActionCreators(showLoading, dispatch),
   uiActionCreatorsH: bindActionCreators(hideLoading, dispatch),
 });
-export default connect(null, mapDispatchToProps)(CurriculumVitae);
+export default connect(mapStateToProps, mapDispatchToProps)(CurriculumVitae);

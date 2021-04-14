@@ -68,11 +68,8 @@ class EditInformationUser extends Component {
     }
   };
   fetProfile = async () => {
-    let tokenID = docCookies.getItem("user_id");
-    let resGetProfile = await getProfile(tokenID);
-    const data = resGetProfile.data;
-    let pro_id = data.id;
-    let dataTransfersProfile = await transfersProfile(pro_id);
+    const userProfile = this.props.userProfileState;
+    let dataTransfersProfile = await transfersProfile(userProfile.id);
     this.setState({
       STATUS_PROFILE: dataTransfersProfile.data.after_status,
       step_id: dataTransfersProfile.data.next_step_id,
@@ -204,8 +201,14 @@ class EditInformationUser extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    userProfileState: state.userProfile
+  }
+}
+
 const mapDispatchToProps = (dispatch) => ({
   uiActionCreatorsS: bindActionCreators(showLoading, dispatch),
   uiActionCreatorsH: bindActionCreators(hideLoading, dispatch),
 });
-export default connect(null, mapDispatchToProps)(EditInformationUser);
+export default connect(mapStateToProps, mapDispatchToProps)(EditInformationUser);
