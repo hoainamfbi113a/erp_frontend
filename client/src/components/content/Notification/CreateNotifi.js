@@ -1,22 +1,14 @@
 import React, { Component } from "react";
 import { Button, Pagination } from "antd";
-import { Popconfirm, Space, Tag } from "antd";
 import "./notification.css";
 import history from "assets/images/history.png";
-import put from "assets/images/icon/phone.png";
-import takeleave from "assets/images/takeleave.svg";
-import vote from "assets/images/vote.svg";
-import logologin from "assets/images/logologin.png";
 import ProposalForm from "components/Modal/ProposalForm";
 import docCookies from "doc-cookies";
-import { bindActionCreators } from 'redux'
 import axios from "axios";
-import { getPermission } from "reduxToolkit/features/permissionSlice"
 import { connect } from "react-redux";
 import { Collapse } from "antd";
 
 const { Panel } = Collapse;
-import { Tree } from "antd";
 class CreateNotifi extends Component {
   constructor() {
     super();
@@ -92,7 +84,6 @@ class CreateNotifi extends Component {
   componentDidMount = () => {
     this.getDataDocumentType();
     this.getDataDocumentListUser();
-    this.props.dispatchPermission();
   };
   onSelect = (id) => {
     if (id) {
@@ -302,12 +293,7 @@ class CreateNotifi extends Component {
 // })
 const mapStateToProps = (state) => {
   return {
-      permissionsUser:state.permission
+      permissionsUser: state.permission
   }
 }
-const mapDispatchToProps = (dispatch) => {
-  return {
-     dispatchPermission:bindActionCreators(getPermission , dispatch)
-  }
-}
-export default connect (mapStateToProps, mapDispatchToProps)(CreateNotifi)
+export default connect (mapStateToProps, null)(CreateNotifi)

@@ -53,6 +53,7 @@
     height: 100vh;
     position: fixed;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 .ant-menu-item-only-child:hover, .ant-menu-submenu-title:hover{
     color:#555;
