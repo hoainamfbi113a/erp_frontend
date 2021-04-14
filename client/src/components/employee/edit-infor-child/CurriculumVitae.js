@@ -361,6 +361,8 @@ class CurriculumVitae extends Component {
     this.setState({
       user_id: idUser,
     });
+    console.log(this.props.userState)
+    console.log(this.props.userProfileState)
     let dataUser = null;
     let pro_id = 0;
     let resGetUser = await getUser(idUser);
@@ -1301,8 +1303,15 @@ class CurriculumVitae extends Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+  return {
+    userState: state.user,
+    userProfileState: state.userProfile
+  }
+}
+
 const mapDispatchToProps = (dispatch) => ({
   uiActionCreatorsS: bindActionCreators(showLoading, dispatch),
   uiActionCreatorsH: bindActionCreators(hideLoading, dispatch),
 });
-export default connect(null, mapDispatchToProps)(CurriculumVitae);
+export default connect(mapStateToProps, mapDispatchToProps)(CurriculumVitae);

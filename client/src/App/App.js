@@ -30,24 +30,23 @@ const App = () => {
   )
   const dispatch = useDispatch()
   const id = docCookies.getItem("user_id");
-  // dispatch(showLoading());
   useEffect(() => {
-    if(id && !stateUser){
+    if(id && !stateUser && !Object.keys(stateUserProfile).length){
+    dispatch(getUserProfile(id))
     dispatch(getPermission(id))
     dispatch(getUser(id))
-    dispatch(getUserProfile(id))
-    // dispatch(hideLoading());
     }
   }, [])
     return (
       <div>
         <Globading />
         <Router>
+          {/* {console.log(stateUserProfile)} */}
           <Switch>
             
             <Route path="/" render={()=> {
               //  (statePermission.length && stateUser.id) ? <Erp/> : <Logins/>}
-              if(statePermission.length && stateUser && stateUserProfile) {
+              if(statePermission.length && stateUser && Object.keys(stateUserProfile).length) {
                 return <Erp/>
               } else if(id) {
                 return (

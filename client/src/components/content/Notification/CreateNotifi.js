@@ -26,6 +26,7 @@ class CreateNotifi extends Component {
       dataDocumentType: null,
       dataDocumentUser: null,
       treeData: null,
+      arrPermissionUser:[]
     };
   }
   showModal = (value) => {
@@ -92,14 +93,28 @@ class CreateNotifi extends Component {
   componentDidMount = () => {
     this.getDataDocumentType();
     this.getDataDocumentListUser();
-    // this.props.dispatchPermission();
-    // console.log(this.props.permissionsUser)
-  };
-  checkPermission = () =>{
-    let permission = this.props.permissionsUser;
-    for(let item of permission) {
-      
+    let { permissionsUser } = this.props;
+    let arrPermission = []
+    for (const property in permissionsUser) {
+      for (const item of permissionsUser[property].groups) {
+        for (const itemChild of item.permissions) {
+          arrPermission.push(itemChild.id);
+          this.setState({
+            arrPermissionUser:arrPermission,
+          })
+        }
+      }
     }
+  };
+  checkPermissionUser = (idPermission) =>{
+    let permission = this.state.arrPermissionUser;
+    // console.log(permission)
+    for(let item of permission) {
+      if(item == idPermission){
+        return true;
+      }
+    }
+    return false
     // for
   }
   onSelect = (id) => {
@@ -137,7 +152,6 @@ class CreateNotifi extends Component {
   handleViewDocument = (id) => {
     this.props.history.push(`/form-document-view/${id}`);
   };
-  checkPermission = () => {};
   renderPanel = () => {
     let dataDocumentType = this.state.dataDocumentType;
     if (dataDocumentType) {
@@ -145,11 +159,14 @@ class CreateNotifi extends Component {
         return (
           <Panel header={item.display_name} key={item.id}>
             {item.children.map((itemChild) => {
-              return (
-                <p style={{cursor:"pointer"}} onClick={() => this.onSelect(itemChild.id)}>
-                  {itemChild.display_name}
-                </p>
-              );
+              if(this.checkPermissionUser(itemChild.id)){
+                return (
+                  <p style={{cursor:"pointer"}} onClick={() => this.onSelect(itemChild.id)}>
+                    {itemChild.display_name}
+                  </p>
+                );
+              }
+              return ;
             })}
           </Panel>
         );
