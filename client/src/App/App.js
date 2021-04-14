@@ -24,7 +24,6 @@ const App = () => {
   const stateUserProfile = useSelector((state) => state.userProfile);
   const dispatch = useDispatch();
   const id = docCookies.getItem("user_id");
-  // dispatch(showLoading());
   useEffect(() => {
     if (id && !stateUser ) {
       dispatch(getPermission(id));
