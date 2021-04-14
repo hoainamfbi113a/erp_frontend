@@ -82,7 +82,7 @@ class Create extends Component {
         axios
           .get(`/api/document-process/get?id=${process_id}`)
           .then((res) => {
-            this.renderComment(res.data.step_history, res.data.targets);
+            this.renderComment(res.data.step_history, res.data.targets, res.data.status);
             // this.setState({
             //   step_history:res.data.step_history
             // })
@@ -378,7 +378,7 @@ class Create extends Component {
       note: e.target.value,
     });
   };
-  renderComment = (value1, value2) => {
+  renderComment = (value1, value2, value3) => {
     let data = [];
     let step_history = value1;
     let targets = value2;
@@ -398,7 +398,7 @@ class Create extends Component {
         }
       } 
     }
-    if(targets) {
+    if(targets && status!=="processed") {
       for(let item of targets) {
         if(item.note!==null && item.note!==""){
           let obj = {
