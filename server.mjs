@@ -58,6 +58,9 @@ const apiMain =(req,resParent) =>{
     let domain = req.body.domain;
     let customDomain = domain.replace('https', 'http');
     let path = `${customDomain}/${req.body.uri}${req.body.id ? req.body.id : ""}`
+    console.log(path)
+    console.log(req.body.data)
+    console.log(req.body.objCheck.method)
     axios({
         method:req.body.objCheck.method,
         url: path,
@@ -65,8 +68,9 @@ const apiMain =(req,resParent) =>{
         headers: { Authorization: req.headers.authorization }
     })
     .then(function (response) {
-        resParent.send(response.data)
-        console.log(response.data)
+        console.log(response)
+        // resParent.send(response.data)
+        // console.log(response.data)
       });
 }
 app.use("/api", userController);

@@ -164,6 +164,7 @@ function RenderInputPreview(props) {
               name={props.data.name}
               placeholder={props.data.placeHolder}
               className="form-control"
+              value={props.data.value}
             />
           </div>
         );
