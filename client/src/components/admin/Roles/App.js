@@ -14,7 +14,7 @@ function App(props) {
   const [currentComponent, setCurrentComponent] = useState('Service')
   const [isShow, setIsShow] = useState(false)
 
-  const listComponents = ['Service', 'Table', 'Action']
+  const listComponents = ['Service', 'Table']
   const urlGetListAction = props.urlGetListAction
   const urlGetListService = props.urlGetListService
   const urlGetListTable = props.urlGetListTable
@@ -51,9 +51,9 @@ function App(props) {
                     </Breadcrumb.Item>
                   )
                 })}
-              <Breadcrumb.Item onClick={(e) => handleShow(e)}>
+              {/* <Breadcrumb.Item onClick={(e) => handleShow(e)}>
                 Gán Action Cho Table
-              </Breadcrumb.Item>
+              </Breadcrumb.Item> */}
             </Breadcrumb>
           </Col>
         </Row>
