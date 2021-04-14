@@ -92,8 +92,16 @@ class CreateNotifi extends Component {
   componentDidMount = () => {
     this.getDataDocumentType();
     this.getDataDocumentListUser();
-    this.props.dispatchPermission();
+    // this.props.dispatchPermission();
+    // console.log(this.props.permissionsUser)
   };
+  checkPermission = () =>{
+    let permission = this.props.permissionsUser;
+    for(let item of permission) {
+      
+    }
+    // for
+  }
   onSelect = (id) => {
     if (id) {
       axios
