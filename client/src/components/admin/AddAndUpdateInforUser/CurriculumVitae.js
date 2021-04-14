@@ -478,13 +478,13 @@ class addInformationUser extends Component {
         } else {
           messageErr = 2;
         }
-        if (value === "send") {
-          let resUpdateProfile = await updateProfile(proId, params);
-          if (resUpdateProfile.message == "Success!. Updated") {
-          } else {
-            messageErr = 2;
-          }
-        }
+        // if (value === "send") {
+        //   let resUpdateProfile = await updateProfile(proId, params);
+        //   if (resUpdateProfile.message == "Success!. Updated") {
+        //   } else {
+        //     messageErr = 2;
+        //   }
+        // }
       }
       if (userId !== 0 && proId !== 0) {
         let paramsDepartment = {

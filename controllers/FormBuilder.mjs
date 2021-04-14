@@ -137,7 +137,6 @@ router.post("/document/store", async (req, res) => {
     user_id,
     targets: target,
   };
-  console.log(paramsIssue)
   axios
     .post(`${process.env.apiWorkflow}/api/issue/store`, paramsIssue)
     .then((res1) => {
@@ -154,11 +153,12 @@ router.post("/document/store", async (req, res) => {
       };
       dataForm.issue_id = res1.data.id;
       axios
-        .post(`${process.env.apiFormBuilder}/api/document/store`, dataForm)
+        .post(`${process.env.apiFormBuilder}/api/document/store/${document_type_id}`, dataForm)
         .then((res) => {
           let params = {
             document_id: res.data.id,
             issue_id: res1.data.id,
+            user_id,
           };
           axios
             .post(
@@ -174,7 +174,6 @@ router.post("/document/store", async (req, res) => {
                 status: "pass",
                 note: "",
               };
-              console.log(body)
               axios
                 .post(`${process.env.apiFormBuilder}/api/document-process/update/${+res3.data.id}`, body)
                 .then((res) => {
@@ -191,14 +190,14 @@ router.post("/document/store", async (req, res) => {
             });
         })
         .catch((err) => {
-          // console.log(err)
+          console.log("failed .5")
           resEnd.send("failed 2");
+
           // console.log("err")
         });
     })
     .catch((err) => {
       resEnd.send("failed 1");
-      console.log(err);
     });
   // console.log(isSuccess);
   // if (isSuccess === true) {
