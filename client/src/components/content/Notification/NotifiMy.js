@@ -114,29 +114,25 @@ const NotifiMy = (props) => {
   const renderNotifyItemDocument = () => {
     if (noti) {
       return noti.map((item) => {
-        let bi = item.process.status;
+        const ips = item.process.status;
         let status = "processing";
         if(item.user_id.toString() !== docCookies.getItem("user_id")) {
           for(let e of item.process.targets) {
-            if(e.target_id.toString() === docCookies.getItem("user_id") && e.status === "pass") {
+            let checkTargetId = e.target_id.toString() === docCookies.getItem("user_id");
+            if(checkTargetId && e.status === "pass") {
               status = "processed";
-            } else if(e.target_id.toString() === docCookies.getItem("user_id") && e.status === "reject") {
+            } else if(checkTargetId && e.status === "reject") {
               status = "canceled";
             }
           }
         } else {
-          if(bi === "processed") {
+          if(ips === "processed") {
             status = "processed";
           } 
-          else if(bi === "canceled") {
+          else if(ips === "canceled") {
             status = "canceled";
           }
         }
-        console.log(item);
-        // if(bi === "processed" && item.user_id.toString() === docCookies.getItem("user_id")) {
-        //   status = true;
-        // } else status = false;
-        //const status = item.process.status === "processed";
         return (
           <tr
             className={
@@ -159,20 +155,10 @@ const NotifiMy = (props) => {
             <td>{item.user_name}</td>
             <td>{item.department_name}</td>
             <td>
-              {item.document_type.display_name}
-            </td>
-            <td>
-              {/* <Tag
-                icon={status === "processed" ? <CheckCircleOutlined /> : status === "canceled" ? <CloseCircleOutlined /> : <SyncOutlined spin />}
-                color={status === "processed" ? "success" : status === "canceled" ? "error" : "processing"}
-              >
-                {status === "processed" ? `Đã duyệt` : status === "canceled" ? `Đã hủy` : `Đang chờ duyệt`}
-              </Tag> */}
               <Tag icon={checkStatus[status].icon} color={checkStatus[status].color} >
                 {checkStatus[status].tag}
               </Tag>
             </td>
-            {/* {console.log()} */}
             <td>{simpleDate(item.created_at)}</td>
           </tr>
         );
@@ -222,61 +208,9 @@ const NotifiMy = (props) => {
               <th>Đơn</th>
               <th>Người gửi</th>
               <th>Phòng ban</th>
-              <th>Nội dung</th>
               <th>Trạng thái</th>
               <th>Ngày</th>
             </tr>
-            {/* <tr>
-              <td>
-                <div className="content-notification-table-btn content-notification-table-btn__paycheck">
-                  Phiếu lương
-                </div>
-              </td>
-              <td className="content-notification-unread">
-                Gửi Vinh, Phiếu lương tháng 11/2020...
-              </td>
-              <td>09:15</td>
-            </tr>
-            <tr>
-              <td>
-                <div className="content-notification-table-btn">Họp</div>
-              </td>
-              <td className="content-notification-unread">
-                Gửi Vinh, Họp phòng CNTT...
-              </td>
-              <td>09:15</td>
-            </tr>
-            <tr>
-              <td>
-                <div className="content-notification-table-btn">Họp</div>
-              </td>
-              <td className="content-notification-unread">
-                Gửi Vinh, Họp chi đoàn tòa soạn.
-              </td>
-              <td>09:15</td>
-            </tr>
-            <tr>
-              <td>
-                <div className="content-notification-table-btn">Họp</div>
-              </td>
-              <td>
-                Gửi các bạn phòng CNTT, 2:00 PM Phòng CNTT sẽ có cuộc hơp về
-                dự án A với sự miêu tả của anh B. Mong các bạn đến đúng
-                giờ....
-              </td>
-              <td>09:15</td>
-            </tr>
-            <tr>
-              <td>
-                <div className="content-notification-table-btn">Họp</div>
-              </td>
-              <td>
-                Gửi các bạn phòng CNTT, 2:00 PM Phòng CNTT sẽ có cuộc hơp về
-                dự án A với sự miêu tả của anh B. Mong các bạn đến đúng
-                giờ....
-              </td>
-              <td>09:15</td>
-            </tr> */}
             {renderNotifyItem()}
             {renderNotifyItemDocument()}
           </tbody>
