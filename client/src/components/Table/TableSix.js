@@ -104,10 +104,19 @@ const TableSix = (props) => {
       dataIndex: "department",
       key: "position",
       filters: dataPos,
-      render: (department) => `${department.data.pos_name}`,
+      render: (department) => {
+        return department ?
+         `${department.data.pos_name}`
+        :  ""
+      } ,
       //ilteredValue: filter ? filter.department : null,
-      onFilter: (value, record) =>
-        record.department.data.pos_name.includes(value),
+      onFilter: (value, record) =>{
+        return record.department ?
+        record.department.data.pos_name.includes(value)
+        :""
+      },
+      // onFilter: (value, record) =>
+      //   record.department.data.pos_name.includes(value),
       // sorter: (a, b) => a.full_name.length - b.full_name.length,
     },
     {
@@ -115,10 +124,19 @@ const TableSix = (props) => {
       dataIndex: "department",
       key: "department",
       filters: dataDepart,
-      render: (department) => `${department.data.dep_name}`,
+      // render: (department) => `${department.data.dep_name}`,
+      render: (department) => {
+        return department ?
+         `${department.data.dep_name}`
+        :  ""
+      } ,
       //filteredValue: filter ? filter.department : null,
-      onFilter: (value, record) =>
-        record.department.data.dep_name.includes(value),
+      onFilter: (value, record) => {
+        return record.department ? record.department.data.dep_name.includes(value):""
+      },
+        
+      // onFilter: (value, record) =>
+      //   record.department.data.dep_name.includes(value),
       // sorter: (a, b) => a.full_name.length - b.full_name.length,
     },
     {
