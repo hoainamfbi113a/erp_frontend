@@ -15,7 +15,7 @@ function RenderInputPreview(props) {
         data = (
           <div className="form-group">
             {/* <Title level={props.data.subtype.slice(1, 2)}> */}
-            <Title level={5}>
+            <Title style={{textAlign:`center`}} level={3}>
               {props.data.label}
             </Title>
           </div>
@@ -49,7 +49,7 @@ function RenderInputPreview(props) {
       case Constant.INPUT_TYPE_AREA:
         data = (
           <div className="form-group">
-            <label className="control-label">{props.data.label}</label>
+            <label className="control-label">{props.data.label}: </label>
             {props.create == false && <span style={{fontWeight:'bold'}}> {props.value}</span>}
             {props.create == true &&  <TextArea
               disabled = {props.create == false ? true: false}
@@ -94,6 +94,7 @@ function RenderInputPreview(props) {
         data = (
           <div className="form-group">
             <label className="control-label">{props.data.label} </label>
+            {console.log(props.data.value)}
             <Radio.Group
               style={{ display: "block" }}
               name={props.data.name}
@@ -114,7 +115,7 @@ function RenderInputPreview(props) {
       case Constant.INPUT_TYPE_CHECKBOX:
         data = (
           <div className="form-group">
-            <label className="control-label">{props.data.label}</label>
+            <label className="control-label">{props.data.label}: </label>
             {typeof props.data.values !== "undefined" &&
               props.data.values.length > 0 &&
               props.data.values.map((item, index) => (
@@ -157,16 +158,29 @@ function RenderInputPreview(props) {
       case Constant.INPUT_TYPE_NUMBER:
         data = (
           <div className="form-group">
-            <label className="control-label">{props.data.label}</label>
-            <input
+          <label className="control-label">{props.data.label}: </label>
+          {props.create == false && <span style={{fontWeight:'bold'}}> {props.value}</span>}
+          {props.create == true &&
+              <input
               type="number"
               onChange={(event) => props.handleChange(event, props.data.id)}
               name={props.data.name}
               placeholder={props.data.placeHolder}
               className="form-control"
               value={props.data.value}
-            />
-          </div>
+          />}
+        </div>
+          // <div className="form-group">
+          //   <label className="control-label">{props.data.label}: </label>
+          //   <input
+          //     type="number"
+          //     onChange={(event) => props.handleChange(event, props.data.id)}
+          //     name={props.data.name}
+          //     placeholder={props.data.placeHolder}
+          //     className="form-control"
+          //     value={props.data.value}
+          //   />
+          // </div>
         );
         break;
       case Constant.INPUT_TYPE_PASSWORD:
@@ -186,7 +200,7 @@ function RenderInputPreview(props) {
       case Constant.INPUT_TYPE_DATE:
         data = (
           <div className="form-group">
-            <label className="control-label">{props.data.label}</label>
+            <label className="control-label">{props.data.label}: </label>
             {props.create == false && <span style={{fontWeight:'bold'}}> {props.value}</span>}
             {props.create == true &&
             <input
