@@ -59,3 +59,20 @@ element.style {
   background: #f3f6f9;
   border-color: #777;
 }
+.GlobalLoading{
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.03);
+  padding-left: 14.375rem;
+}
+.icon{
+  position: fixed;
+  margin-left: auto;
+  margin-right: auto;
+  left: 50%;
+  top: 46%;
+}

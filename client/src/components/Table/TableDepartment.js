@@ -45,6 +45,7 @@ const TableDepartment = (props) => {
   });
   useEffect(async () => {
     if (props.valueSearch !== lastValue) {
+      dispatch(showLoading());
       let resListDepart = await getListDepartment("all");
       let listDepartSearch = resListDepart.data.filter((depart) => {
         return (
@@ -61,6 +62,7 @@ const TableDepartment = (props) => {
       };
       setData(obj);
       props.totalDepartment(obj.meta.pagination);
+      dispatch(hideLoading());
     }
   },[props.valueSearch]); 
   // [props.valueSearch]);

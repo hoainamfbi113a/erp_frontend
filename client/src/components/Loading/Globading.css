@@ -6,6 +6,7 @@
     bottom: 0;
     z-index: 9999;
     background: rgba(0, 0, 0, 0.03);
+    padding-left: 14.375rem;
 }
 .icon{
     position: fixed;
@@ -13,4 +14,9 @@
     margin-right: auto;
     left: 50%;
     top: 46%;
+}
+.icon2{
+    display: block;
+    line-height: 100vh;
+    width: 100%;
 }
