@@ -100,6 +100,7 @@ class CreateNotifi extends Component {
   };
   checkPermissionUser = (idPermission) =>{
     let permission = this.state.arrPermissionUser;
+    console.log(idPermission)
     // console.log(permission)
     for(let item of permission) {
       if(item == idPermission){
@@ -151,7 +152,7 @@ class CreateNotifi extends Component {
         return (
           <Panel header={item.display_name} key={item.id}>
             {item.children.map((itemChild) => {
-              if(this.checkPermissionUser(itemChild.id)){
+              if(this.checkPermissionUser(itemChild.permission)){
                 return (
                   <p style={{cursor:"pointer"}} onClick={() => this.onSelect(itemChild.id)}>
                     {itemChild.display_name}
