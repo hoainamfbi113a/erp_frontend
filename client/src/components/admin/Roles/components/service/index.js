@@ -118,7 +118,7 @@ function Index(props) {
                               <td>{item.updated_at}</td>
                               <td>
                                   <Button variant='success' onClick={(e) => handleShowEdit(e, item)}>Sửa</Button>
-                                  <Button onClick={(e) => handleRemove(e, item.id)} variant='danger'>Xoá</Button>
+                                  {/* <Button onClick={(e) => handleRemove(e, item.id)} variant='danger'>Xoá</Button> */}
                               </td>
                           </tr>
                       )
