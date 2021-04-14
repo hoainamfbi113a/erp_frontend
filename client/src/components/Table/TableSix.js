@@ -105,15 +105,13 @@ const TableSix = (props) => {
       key: "position",
       filters: dataPos,
       render: (department) => {
-        return department ?
-         `${department.data.pos_name}`
-        :  ""
-      } ,
+        return department ? `${department.data.pos_name}` : "";
+      },
       //ilteredValue: filter ? filter.department : null,
-      onFilter: (value, record) =>{
-        return record.department ?
-        record.department.data.pos_name.includes(value)
-        :""
+      onFilter: (value, record) => {
+        return record.department
+          ? record.department.data.pos_name.includes(value)
+          : "";
       },
       // onFilter: (value, record) =>
       //   record.department.data.pos_name.includes(value),
@@ -126,15 +124,15 @@ const TableSix = (props) => {
       filters: dataDepart,
       // render: (department) => `${department.data.dep_name}`,
       render: (department) => {
-        return department ?
-         `${department.data.dep_name}`
-        :  ""
-      } ,
+        return department ? `${department.data.dep_name}` : "";
+      },
       //filteredValue: filter ? filter.department : null,
       onFilter: (value, record) => {
-        return record.department ? record.department.data.dep_name.includes(value):""
+        return record.department
+          ? record.department.data.dep_name.includes(value)
+          : "";
       },
-        
+
       // onFilter: (value, record) =>
       //   record.department.data.dep_name.includes(value),
       // sorter: (a, b) => a.full_name.length - b.full_name.length,
@@ -179,11 +177,7 @@ const TableSix = (props) => {
               Ẩn
             </Tag>
           </Popconfirm>
-          {checkVisible(
-            permissions,
-            "update",
-            "api/profiles/{profile}"
-          ) && (
+          {checkVisible(permissions, "update", "api/profiles/{profile}") && (
             <Link to={`${path}/update/${text}`}>
               <Tag color="geekblue" className="table-action">
                 Sửa và duyệt
