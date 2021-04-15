@@ -132,7 +132,7 @@ app.use("/api/search", searchController);
 app.use("/api/service-management",servicemanagerController)
 app.use("/api/step", stepController)
 
-//không theo trật tự
+// không theo trật tự
 app.get("/api/list/permission/actions",listPermissionAction)
 // if (process.env.NODE_ENV === "production") {
 // Serve any static files
