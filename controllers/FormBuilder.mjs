@@ -153,7 +153,7 @@ router.post("/document/store", async (req, res) => {
       };
       
       dataForm.issue_id = res1.data.id;
-      // console.log(dataForm)
+      console.log(dataForm)
       // console.log(document_type_id)
       axios
         .post(`${process.env.apiFormBuilder}/api/document/store/${document_type_id}`, dataForm)
