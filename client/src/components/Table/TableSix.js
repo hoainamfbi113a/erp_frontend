@@ -194,17 +194,19 @@ const TableSix = (props) => {
       <Content>
         <div className="layout-content">
           <div style={{ padding: 24, minHeight: 200 }}>
-            <Table
-              columns={columns}
-              dataSource={dataUser ? dataUser.data : []}
-              className="table-content"
-              rowKey="id"
-              pagination={{
-                onChange: handlePagination,
-                pageSize: 15,
-                total: dataUser ? dataUser.pagination.total : 0,
-              }}
-            />
+            {checkVisible(permissions, "list", "api/profiles") ? (
+              <Table
+                columns={columns}
+                dataSource={dataUser ? dataUser.data : []}
+                className="table-content"
+                rowKey="id"
+                pagination={{
+                  onChange: handlePagination,
+                  pageSize: 15,
+                  total: dataUser ? dataUser.pagination.total : 0,
+                }}
+              />
+            ) : ""}
           </div>
         </div>
       </Content>

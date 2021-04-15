@@ -252,18 +252,22 @@ const TablePosition = (props) => {
       <Content>
         <div className="layout-content">
           <div style={{ padding: 24, minHeight: 200 }}>
-            <Table
-              style={{ minHeight: "70vh" }}
-              dataSource={data ? data.data : ""}
-              columns={columns}
-              className="table-content"
-              rowKey="id"
-              pagination={{
-                onChange: handlePagination,
-                pageSize: 15,
-                total: data ? data.meta.pagination.total : 0,
-              }}
-            />
+            {checkVisible(permissions, "list", "api/positions") ? (
+              <Table
+                style={{ minHeight: "70vh" }}
+                dataSource={data ? data.data : ""}
+                columns={columns}
+                className="table-content"
+                rowKey="id"
+                pagination={{
+                  onChange: handlePagination,
+                  pageSize: 15,
+                  total: data ? data.meta.pagination.total : 0,
+                }}
+              />
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </Content>
