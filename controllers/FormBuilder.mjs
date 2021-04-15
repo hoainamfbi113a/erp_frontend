@@ -251,10 +251,12 @@ router.post("/api/document/update", async (req, res) => {
   }
 });
 
-router.delete("/api/document/delete", async (req, res) => {
+router.post("/document/delete", async (req, res) => {
+  // console.log("body",req.body.id)
+  let { id } = req.body
   try {
     let { data } = await axios.delete(
-      `${process.env.apiWorkflow}/api/document/delete`,
+      `${process.env.apiFormBuilder}/api/document/delete/${id}`,
       req.body
     );
     res.send(data);
@@ -315,5 +317,6 @@ router.post("/document-process/process", async (req, res) => {
     console.log(error);
   }
 });
+
 
 export default router;
