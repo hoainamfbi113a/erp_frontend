@@ -10,7 +10,7 @@ import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 import docCookies from "doc-cookies";
 import axiosConfig from "apis/axios";
 import { bindActionCreators } from "redux";
-import { Modal, Button } from "antd";
+import { Modal, message } from "antd";
 import { Comment, List } from "antd";
 import { Input, Form } from "antd";
 const { TextArea } = Input;
@@ -152,7 +152,7 @@ class Create extends Component {
           .get(`/api/document-template/get?type_id=${id}`)
           .then((data) => {
             if (data.data.inputs.length === 0) {
-              alert("Template chưa được tạo");
+              message.info('Template chưa được tạo');
               this.props.history.push(`/notification/create`);
             }
             this.setState({
@@ -280,9 +280,9 @@ class Create extends Component {
         .then((data) => {
           this.props.uiActionCreatorsH();
           if (data === "success") {
-            alert("gửi tài liệu thành công");
+            message.success("Gửi tài liệu thành công");
           } else {
-            alert("gửi tài liệu thất bại");
+            message.error("Gửi tài liệu thất bại");
           }
           this.props.history.goBack();
         })
@@ -321,8 +321,11 @@ class Create extends Component {
   };
   handleAccept = (value) => {
     if(this.state.valueNote =="") {
-      alert("Bạn chưa nhập phản hồi");
-    } else {
+      message.info('Bạn chưa nhập nội dung');
+    } else if(this.state.valueNote.length >= 30){
+      message.info('Nội dung bạn nhập quá dài');
+    }
+     else {
       let body = {
         process_id: +this.props.match.params.process_id,
         user_id: +docCookies.getItem("user_id"),
@@ -333,7 +336,7 @@ class Create extends Component {
         .post("/api/document-process/process", body)
         .then((res) => {
           console.log(res);
-          alert("Xác nhận thành công");
+          
           this.setState({ isModalVisible: false });
           this.props.history.goBack();
         })
@@ -432,21 +435,6 @@ class Create extends Component {
   }
   render() {
     const data = this.state.dataComment;
-    // [
-    //   {
-    //     author: "Trưởng phòng: Nguyễn Văn A",
-    //     avatar:
-    //       "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-    //     content: <p>Đi chơi vui vẻ em nhé</p>,
-    //   },
-    //   {
-    //     author: "Nhân sự: Nguyễn A",
-    //     avatar:
-    //       "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-    //     content: <p>Anh đi chơi vui vẻ (còn 10 ngày phép nữa ạ)</p>,
-    //   },
-    // ];
-
     const { listInputs, inputsData, currentProcessStep } = this.state;
     return (
       <div>
@@ -473,7 +461,9 @@ class Create extends Component {
 
           <div className="col-md-8"></div>
         </div>
-        <div className="row" style={{ justifyContent: "center" }}>
+        {/* <h1 style={{textAlign:"center"}}>Đơn tài Liệu</h1> */}
+        <div className="row" style={{ justifyContent: "space-around" }}>
+
           <div className="col-md-7 form-builder-area card gridify tiny dropTarget">
             {listInputs.length > 0 &&
               listInputs.map((item, index) => {
@@ -508,12 +498,14 @@ class Create extends Component {
                 );
               })}
           </div>
+          <div>
+          <div>
            {(()=>{
              if(this.state.create === false && this.state.user_id!=docCookies.getItem("user_id") && this.state.view === false) {
                 return (
                   <TextArea
+                  style={{marginBottom:"20px"}}
                   placeholder="Nhập nội dung phản hồi"
-                  style={{ marginTop: "199px", width: "60%" }}
                   rows={4}
                   onChange = {this.onChangeNote}
                   value = {this.state.valueNote}
@@ -521,15 +513,6 @@ class Create extends Component {
                 />)
              }
            })()}
-
-          {/* this.state.user_id!=docCookies.getItem("user_id") */}
-          
-          {/* {this.state.create === false && (   <TextArea
-            placeholder="Nhập nội dung phản hồi"
-            style={{ marginTop: "199px", width: "60%" }}
-            rows={4}
-            // onChange={onChange} value={value}
-          />)} */}
           <div style={{ width: "100%" }}>
             {this.state.create === true && (
               <div style={{ display: "flex", justifyContent: "center" }}>
@@ -552,35 +535,8 @@ class Create extends Component {
                 style={{
                   display: "flex",
                   justifyContent: "center",
-                  margin: "20px",
                 }}
               >
-                {/* {this.state.view === false && (
-                  <div>
-                    <span
-                      className="btn-add-user"
-                      onClick={(e) => this.handleAccept("pass")}
-                    >
-                      Xác nhận
-                    </span>
-                    <span
-                      className="btn-add-user"
-                      onClick={(e) => this.handleAccept("reject")}
-                    >
-                      Từ chối
-                    </span>
-                  </div>
-                )}
-                <div>
-                  <span
-                    className="btn-add-user"
-                    onClick={() => this.props.history.goBack()}
-                  >
-                    Trở về
-                  </span>
-                </div>
-              </div>
-            )} */}
             {this.state.user_id!=docCookies.getItem("user_id") ?(
              <div>  {this.state.view === false && (
                 <div>
@@ -624,44 +580,12 @@ class Create extends Component {
               </div>
             )}
           </div>
-          {/* <Comment
-            // actions={actions}
-            author={<a>Trưởng phòng: Nguyễn Trưởng Phòng</a>}
-            avatar={
-              <Avatar
-                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                alt="Han Solo"
-              />
-            }
-            content={<p>Đi chơi vui vẻ nhé</p>}
-          />
-          <Comment
-            // actions={actions}
-            author={<a>Nhân sự: Nguyễn Nhân Sự</a>}
-            avatar={
-              <Avatar
-                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                alt="Han Solo"
-              />
-            }
-            content={<p>Chúc bạn đi chơi vui vẻ (Bạn còn 20 ngày phép)</p>}
-          />
-          <Comment
-            // actions={actions}
-            author={<a>Han Solo</a>}
-            avatar={
-              <Avatar
-                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
-                alt="Han Solo"
-              />
-            }
-            content={<p>We supply a series of design principles</p>}
-          /> */}
         </div>
         {data.length !== 0 && (
             <List
+              style ={{marginLeft:"10px", marginTop:"20px"}}
               className="comment-list"
-              header={`${data.length} replies`}
+              header={`${data.length} Phản hồi`}
               itemLayout="horizontal"
               dataSource={data}
               renderItem={(item) => (
@@ -676,6 +600,8 @@ class Create extends Component {
               )}
             />
           )}
+          </div>
+          </div>
         <Modal
           title="Basic Modal"
           visible={this.state.isModalVisible}

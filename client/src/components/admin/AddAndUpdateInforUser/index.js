@@ -115,7 +115,6 @@ const AddAndUpdateInforUser = (props) => {
       notify_content: "xac nhan ho so hoan tat",
     };
     let resUpdateProfile = await updateProfile(dataProfile.id, params);
-    alert(resUpdateProfile.message)
     if (resUpdateProfile.message) {
       message.success("Duyệt thông tin nhân sự thành công");
       window.location.reload();

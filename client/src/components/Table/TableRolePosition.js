@@ -167,7 +167,7 @@ const TablePosition = (props) => {
     if(differenceAdd.length!==0) {
       axiosConfig.post("/api/work-formality/permission",bodyAdd)
       .then(res=>{
-        alert("gan quyen thanh cong")
+        message.success("Gán quyền thành công")
         setIsShowModal(false)
       })
       .catch(err=>{
@@ -177,7 +177,7 @@ const TablePosition = (props) => {
     if(differenceDelete.length!==0) {
       axiosConfig.post("/api/work-formality/permissiond",bodyDelete)
       .then(res=>{
-        alert("go quyen thanh cong")
+        message.success("Gỡ quyền thành công")
         setIsShowModal(false)
       })
       .catch(err=>{

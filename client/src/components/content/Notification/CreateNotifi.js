@@ -6,7 +6,7 @@ import ProposalForm from "components/Modal/ProposalForm";
 import docCookies from "doc-cookies";
 import axios from "axios";
 import { connect } from "react-redux";
-import { Collapse } from "antd";
+import { Collapse, message } from "antd";
 
 const { Panel } = Collapse;
 class CreateNotifi extends Component {
@@ -116,7 +116,7 @@ class CreateNotifi extends Component {
         .get(`/api/document-template/get?type_id=${id}`)
         .then((data) => {
           if (data.data === "") {
-            alert("Template chưa được tạo");
+            message.info("Template chưa được tạo")
           } else {
             this.props.history.push(`/form-document/${id}`);
           }
@@ -133,12 +133,12 @@ class CreateNotifi extends Component {
       .delete(`https://document.tuoitre.vn/api/document/delete/${id}`)
       .then((res) => {
         if (res.data.message === "success") {
-          alert("Xoá tài liệu thành công");
+          message.success("Xoá tài liệu thành công")
           this.getDataDocumentListUser();
         }
       })
       .catch((err) => {
-        alert("Xoá tài liệu thất bại");
+        message.error("Xóa tài liệu thất bại")
         console.log(err);
       });
   };
