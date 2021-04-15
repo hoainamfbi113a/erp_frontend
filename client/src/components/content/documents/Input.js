@@ -69,7 +69,7 @@ function RenderInputPreview(props) {
             <label className="control-label">{props.data.label}</label>
             <select
               value={props.value}
-              onChange={(event) => props.handleChange(event, props.data.id)}
+              onChange={(event) => props.handleChange(event, props.data.id,"special")}
               className="form-control"
               name={props.data.name}
             >
@@ -99,7 +99,7 @@ function RenderInputPreview(props) {
               style={{ display: "block" }}
               name={props.data.name}
               defaultValue={props.data.value ? props.data.value.toString():""}
-              onChange={(event) => props.handleChange(event, props.data.id)}
+              onChange={(event) => props.handleChange(event, props.data.id,"special")}
             >
               {typeof props.data.values !== "undefined" &&
                 props.data.values.length > 0 &&

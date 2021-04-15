@@ -221,10 +221,16 @@ class Create extends Component {
       });
     }
   };
-  handleChange = (e, inputId) => {
+  handleChange = (e, inputId, special) => {
     this.setState({ [e.target.name]: e.target.value });
     const stateInputsData = this.state.inputsData;
     var index = stateInputsData.findIndex((x) => x.id === inputId);
+    let value = e.target.value;
+    if(special === "special"){
+      let arrTemp = []
+      arrTemp.push(value);
+      value = arrTemp
+    }
     if (index != -1) {
       // tìm thấy
       this.setState({
@@ -232,7 +238,7 @@ class Create extends Component {
           ...stateInputsData.slice(0, index),
           {
             id: inputId,
-            value: e.target.value,
+            value: value,
           },
           ...stateInputsData.slice(index + 1),
         ],
@@ -243,7 +249,7 @@ class Create extends Component {
           ...stateInputsData,
           {
             id: inputId,
-            value: e.target.value,
+            value: value,
           },
         ],
       });
