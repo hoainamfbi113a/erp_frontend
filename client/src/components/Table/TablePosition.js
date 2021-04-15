@@ -58,7 +58,7 @@ const TablePosition = (props) => {
         data: listPosSearch,
       };
       setData(obj);
-      props.totalPosition(obj.meta.pagination);
+      props.total(obj.meta.pagination);
       dispatch(hideLoading());
     }
   }, [props.valueSearch]);
@@ -66,7 +66,7 @@ const TablePosition = (props) => {
   const fetchData = async () => {
     let data = await getListPosition(1);
     setData(data);
-    props.totalPosition(data.meta.pagination.total);
+    props.total(data.meta.pagination.total);
   };
 
   const onSubmit = async () => {
@@ -273,7 +273,7 @@ const TablePosition = (props) => {
       </Content>
       <Modal
         title={!isCreate ? "Tạo chức vụ" : "Cập nhật chức vụ"}
-        visible={props.showModalPosition}
+        visible={props.showModalData}
         onOk={onSubmit}
         onCancel={hideModal}
         okText="OK"
