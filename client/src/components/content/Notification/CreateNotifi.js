@@ -1,72 +1,76 @@
-import React, { Component } from "react";
-import { Button, Pagination } from "antd";
+import React, { useEffect, useState } from "react";
+import { Button, Pagination, Space, Popconfirm, Tag } from "antd";
 import "./notification.css";
 import history from "assets/images/history.png";
 import ProposalForm from "components/Modal/ProposalForm";
 import docCookies from "doc-cookies";
 import axios from "axios";
-import { connect } from "react-redux";
 import { Collapse, message } from "antd";
+import { useSelector } from "react-redux";
+import { simpleDate } from "../../../helpers/FuncHelper";
 
 const { Panel } = Collapse;
-class CreateNotifi extends Component {
-  constructor() {
-    super();
-    this.state = {
-      visible: false,
-      title: "",
-      dataDocumentType: null,
-      dataDocumentUser: null,
-      treeData: null,
-      arrPermissionUser:[]
-    };
-  }
-  showModal = (value) => {
-    this.setState({
-      visible: true,
-      title: value,
-    });
+const CreateNotifi = (props) => {
+
+  const [visible, setVisible] = useState(false);
+  const [title, setTitle] = useState("");
+  const [dataDocumentType, setDataDocuType] = useState(null);
+  const [dataDocumentUser, setDataDocuUser] = useState(null);
+  const [treeData, setTreeData] = useState(null);
+  const [arrPermission, setArrPermission] = useState([]);
+  const permissionUser = useSelector(state => state.permission);
+
+  const showModal = (value) => {
+    setVisible(true);
+    setTitle(value);
   };
-  hideModal = () => {
-    this.setState({
-      visible: false,
-    });
+  const hideModal = () => {
+    setVisible(false);
   };
-  getDataDocumentType = () => {
+  useEffect(() => {
+    getDataDocumentType();
+    getDataDocumentListUser();
+    let arr = []
+    for (const property in permissionUser) {
+      for (const item of permissionUser[property].groups) {
+        for (const itemChild of item.permissions) {
+          arr.push(itemChild.id);
+        }
+      }
+    }
+    setArrPermission(arr);
+  }, [])
+  const getDataDocumentType = () => {
     axios
       .get("/api/document-type/get-document-types")
-      .then((res) => {
-        this.setState({
-          dataDocumentType: res.data,
-        });
-        let treeData = [];
-        for (let item of this.state.dataDocumentType) {
-          let treeDataStudent = [];
-          for (let itemChild of item.children) {
-            const treeNodeChild = {
-              title: itemChild.display_name,
-              key: itemChild.id,
-              id: itemChild.id,
-              template_id: itemChild.template_id,
+        .then((res) => {
+          setDataDocuType(res.data);
+          let data = [];
+          for (let item of dataDocumentType) {
+            let treeDataStudent = [];
+            for (let itemChild of item.children) {
+              const treeNodeChild = {
+                title: itemChild.display_name,
+                key: itemChild.id,
+                id: itemChild.id,
+                template_id: itemChild.template_id,
+              };
+              treeDataStudent.push(treeNodeChild);
+            }
+            const treeNode = {
+              title: item.display_name,
+              key: item.id,
+              children: treeDataStudent,
             };
-            treeDataStudent.push(treeNodeChild);
+            data.push(treeNode);
           }
-          const treeNode = {
-            title: item.display_name,
-            key: item.id,
-            children: treeDataStudent,
-          };
-          treeData.push(treeNode);
-        }
-        this.setState({
-          treeData,
+          setTreeData(data);
+        })
+        .catch((err) => {
+          console.log(err);
         });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   };
-  getDataDocumentListUser = () => {
+  const getDataDocumentListUser = () => {
     axios
       .get(
         `/api/document/list?page=1&per_page=1000&user_id=${docCookies.getItem(
@@ -74,43 +78,21 @@ class CreateNotifi extends Component {
         )}`
       )
       .then((res) => {
-        this.setState({
-          dataDocumentUser: res.data.data,
-        });
+        setDataDocuUser(res.data.data);
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  componentDidMount = () => {
-    this.getDataDocumentType();
-    this.getDataDocumentListUser();
-    let { permissionsUser } = this.props;
-    let arrPermission = []
-    for (const property in permissionsUser) {
-      for (const item of permissionsUser[property].groups) {
-        for (const itemChild of item.permissions) {
-          arrPermission.push(itemChild.id);
-          this.setState({
-            arrPermissionUser:arrPermission,
-          })
-        }
-      }
-    }
-  };
-  checkPermissionUser = (idPermission) =>{
-    let permission = this.state.arrPermissionUser;
-    console.log(idPermission)
-    // console.log(permission)
-    for(let item of permission) {
+  const checkPermissionUser = (idPermission) =>{
+    for(let item of arrPermission) {
       if(item == idPermission){
         return true;
       }
     }
     return false
-    // for
   }
-  onSelect = (id) => {
+  const onSelect = (id) => {
     if (id) {
       axios
         .get(`/api/document-template/get?type_id=${id}`)
@@ -118,7 +100,7 @@ class CreateNotifi extends Component {
           if (data.data === "") {
             message.info("Template chưa được tạo")
           } else {
-            this.props.history.push(`/form-document/${id}`);
+            props.history.push(`/form-document/${id}`);
           }
         })
         .catch((err) => {
@@ -128,7 +110,7 @@ class CreateNotifi extends Component {
       return;
     }
   };
-  confirm = (id) => {
+  const confirm = (id) => {
     axios
       .delete(`https://document.tuoitre.vn/api/document/delete/${id}`)
       .then((res) => {
@@ -142,19 +124,18 @@ class CreateNotifi extends Component {
         console.log(err);
       });
   };
-  handleViewDocument = (id) => {
-    this.props.history.push(`/form-document-view/${id}`);
+  const handleViewDocument = (id) => {
+    props.history.push(`/form-document-view/${id}`);
   };
-  renderPanel = () => {
-    let dataDocumentType = this.state.dataDocumentType;
+  const renderPanel = () => {
     if (dataDocumentType) {
       return dataDocumentType.map((item) => {
         return (
           <Panel header={item.display_name} key={item.id}>
             {item.children.map((itemChild) => {
-              if(this.checkPermissionUser(itemChild.permission)){
+              if(checkPermissionUser(itemChild.permission)){
                 return (
-                  <p style={{cursor:"pointer"}} onClick={() => this.onSelect(itemChild.id)}>
+                  <p style={{cursor:"pointer"}} onClick={() => onSelect(itemChild.id)}>
                     {itemChild.display_name}
                   </p>
                 );
@@ -166,10 +147,9 @@ class CreateNotifi extends Component {
       });
     }
   };
-  renderHistoryCreate = () => {
-    let data = this.state.dataDocumentUser;
-    if (data) {
-      return data.map((item) => {
+  const renderHistoryCreate = () => {
+    if (dataDocumentUser) {
+      return dataDocumentUser.map((item) => {
         return (
           <tr>
             <td>
@@ -177,23 +157,23 @@ class CreateNotifi extends Component {
             </td>
             <td
               onClick={() => {
-                this.handleViewDocument(item.id);
+              handleViewDocument(item.id);
               }}
               className="content-notification-unread"
             >
               {item.document_type.display_name}
             </td>
-            <td>{item.updated_at}</td>
-            {/* <td>
+            <td>{simpleDate(item.updated_at)}</td>
+            <td>
               <Space size="middle">
                 <Popconfirm
-                  onConfirm={() => this.confirm(item.id)}
-                  title="Are you sure hide this user?"
-                  okText="Yes"
-                  cancelText="No"
+                  onConfirm={() => confirm(item.id)}
+                  title="Bạn có muốn thu hồi không?"
+                  okText="Có"
+                  cancelText="Không"
                 >
                   <Tag color="volcano" className="table-action">
-                    Xoá
+                    Thu hồi
                   </Tag>
                 </Popconfirm>
                 <Tag
@@ -201,126 +181,70 @@ class CreateNotifi extends Component {
                   className="table-action"
                   onClick={() => this.handleViewDocument(item.id)}
                 >
-                  Update
+                  Sửa
                 </Tag>
               </Space>
-            </td> */}
+            </td>
           </tr>
         );
       });
     }
   };
-  callback = (key) => {
-    //console.log(key);
-  };
-  render() {
-    let treeData = this.state.treeData;
-    return (
-      <div className="create-notifi">
-        <div className="content-background2">
-          <div style={{ minHeight: "70vh" }} className="content-main">
-            <div className="content-top content-top-create-notif">
-              <div className="content-top-left content-notification content-notification-create-notif">
-                <div className="content-top-left-sum-item">
-                  Tạo loại tài liệu
-                </div>
-                <Button className="btn-notification" type="primary">
-                  ...
-                </Button>
+  return (
+    <div className="create-notifi">
+      <div className="content-background2">
+        <div style={{ minHeight: "70vh" }} className="content-main">
+          <div className="content-top content-top-create-notif">
+            <div className="content-top-left content-notification content-notification-create-notif">
+              <div className="content-top-left-sum-item">
+                Tạo loại tài liệu
               </div>
             </div>
-            {/* <Tree
-              treeData={treeData}
-              // height={233}
-              defaultExpandAll
-              onSelect={this.onSelect}
-            /> */}
-            <Collapse
-              className="create-notification-collapse"
-              onChange={this.callback}
-            >
-              {this.renderPanel()}
-            </Collapse>
-            <div className="create-notifi-content"></div>
           </div>
+          {/* <Tree
+            treeData={treeData}
+            // height={233}
+            defaultExpandAll
+            onSelect={this.onSelect}
+          /> */}
+          <Collapse
+            className="create-notification-collapse"
+            //onChange={this.callback}
+          >
+            {renderPanel()}
+          </Collapse>
+          <div className="create-notifi-content"></div>
         </div>
-        <div className="content-background2">
-          <div style={{ minHeight: "70vh" }} className="content-main">
-            <div className="content-top content-top-create-notif">
-              <div className="content-top-left content-notification content-notification-create-notif">
-                <div className="content-top-left-sum-item">Lịch sử tạo</div>
-                <Button className="btn-notification" type="primary">
-                  ...
-                </Button>
-              </div>
-            </div>
-            <table className="content-notification-table content-notification-table-create">
-              <tbody>
-                <tr>
-                  <th>Tin</th>
-                  <th>Nội dung</th>
-                  <th>Ngày</th>
-                </tr>
-                {this.renderHistoryCreate()}
-                <tr>
-                  <td>
-                    <img style={{width:"29px"}} src={history}></img>
-                  </td>
-                  <td className="content-notification-unread">
-                    Phiếu đề xuất, đề xuất mua Iphone, Ipad cho nhân ...
-                  </td>
-                  <td>09:15</td>
-                </tr>
-                <tr>
-                  <td>
-                    <img style={{width:"29px"}} src={history}></img>
-                  </td>
-                  <td className="content-notification-unread">
-                    Đơn xin nghĩ phép, Mộc Lan xin nghĩ phép 10 ngày ...
-                  </td>
-                  <td>09:15</td>
-                </tr>
-                <tr>
-                  <td>
-                    <img style={{width:"29px"}} src={history}></img>
-                  </td>
-                  <td>Đặt phòng họp, Đặt phòng hop 2B họp dự án abc ...</td>
-                  <td>09:15</td>
-                </tr>
-                <tr>
-                  <td>
-                    <img style={{width:"29px"}} src={history}></img>
-                  </td>
-                  <td>10h</td>
-                  <td>09:15</td>
-                </tr>
-              </tbody>
-            </table>
-            <div className="content-bottom-pagination">
-              <Pagination defaultCurrent={1} total={50} />
-            </div>
-          </div>
-        </div>
-        <ProposalForm
-          title={this.state.title}
-          showProposal={this.state.visible}
-          hideModal={this.hideModal}
-        ></ProposalForm>
       </div>
-    );
-  }
+      <div className="content-background2">
+        <div style={{ minHeight: "70vh" }} className="content-main">
+          <div className="content-top content-top-create-notif">
+            <div className="content-top-left content-notification content-notification-create-notif">
+              <div className="content-top-left-sum-item">Lịch sử tạo</div>
+            </div>
+          </div>
+          <table className="content-notification-table content-notification-table-create">
+            <tbody>
+              <tr>
+                <th>Tin</th>
+                <th>Nội dung</th>
+                <th>Ngày</th>
+                <th>Hành động</th>
+              </tr>
+              {renderHistoryCreate()}
+            </tbody>
+          </table>
+          <div className="content-bottom-pagination">
+            <Pagination defaultCurrent={1} total={50} />
+          </div>
+        </div>
+      </div>
+      <ProposalForm
+        title={title}
+        showProposal={visible}
+        hideModal={hideModal}
+      ></ProposalForm>
+    </div>
+  );
 }
-// const mapStateToProps = (state) => {
-//   return {
-
-//   }
-// }
-// const mapDispatchToProps = (dispatch) =({
-
-// })
-const mapStateToProps = (state) => {
-  return {
-      permissionsUser: state.permission
-  }
-}
-export default connect (mapStateToProps, null)(CreateNotifi)
+export default CreateNotifi;
