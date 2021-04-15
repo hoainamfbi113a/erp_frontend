@@ -69,7 +69,6 @@ export default class TableRoles_v2 extends Component {
     });
   };
   showModalAssign = async (dep_id, pos_id, dep_name, pos_name) => {
-    // alert("123")
     this.props.showModal();
     this.setState({
       dep_id: dep_name,
@@ -303,12 +302,12 @@ export default class TableRoles_v2 extends Component {
           .post(`/api/position/permission/${this.state.pos_idUpdate}`, params)
           .then((res) => {
             // if (res.message === "Success!. Stored") {
-            alert("Chỉnh sửa quyền chức vụ thành công");
+            message.success("Chỉnh sửa quyền chức vụ thành công");
             this.handleCancel();
             // }
           })
           .catch((err) => {
-            alert("Gán quyền cho chức vụ thất bại");
+            message.error("Gán quyền cho chức vụ thất bại");
             this.handleCancel();
             console.log(err);
           });
@@ -323,11 +322,12 @@ export default class TableRoles_v2 extends Component {
           .post(`/api/position/permissiond/${this.state.pos_idUpdate}`, params)
           .then((res) => {
             if(res.message == "Success!. Removed") {
+              message.success("Xoá quyền chức vụ thành công");
               this.handleCancel();
             }
           })
           .catch((err) => {
-            alert("Xoá cho chức vụ thất bại");
+            message.error("Xoá cho chức vụ thất bại");
             this.handleCancel();
             console.log(err);
           });
@@ -345,13 +345,13 @@ export default class TableRoles_v2 extends Component {
         .post(`/api/position/permission/${this.state.pos_id}`, params)
         .then((res) => {
           if (res.message === "Success!. Stored") {
-            alert("gán quyền cho chức vụ thành công");
+            message.success("Gán quyền cho chức vụ thành công");
             this.fetchData();
             this.handleCancel();
           }
         })
         .catch((err) => {
-          alert("Gán quyền cho chức vụ thất bại");
+          message.error("Gán quyền cho chức vụ thất bại");
           this.handleCancel();
           console.log(err);
         });

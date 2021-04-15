@@ -17,6 +17,7 @@ import lodash from "lodash";
 import axiosConfig from "apis/axios";
 const { Option } = Select;
 const { Content } = Layout;
+
 class TablePermission extends Component {
   state = {
       collapsed: false,
@@ -72,7 +73,7 @@ class TablePermission extends Component {
         data: res,
       });
     } else {
-      alert("get list permission failed");
+      message.error("Get list permission failed")
     }
   };
   onSubmit = async () => {
@@ -148,9 +149,9 @@ class TablePermission extends Component {
       console.log(res)
       if(res.message === "Success!. Deleted") {
         this.fetchData();
-        alert("Xoá quyền thành công")
+        message.success("Xoá quyền thành công")
       } else {
-        alert("Xoá quyền thất bại")
+        message.error("Xoá quyền thất bại")
       }
     })
     .catch(err=>{

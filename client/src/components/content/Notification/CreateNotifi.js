@@ -5,7 +5,7 @@ import history from "assets/images/history.png";
 import ProposalForm from "components/Modal/ProposalForm";
 import docCookies from "doc-cookies";
 import axios from "axios";
-import { Collapse } from "antd";
+import { Collapse, message } from "antd";
 import { useSelector } from "react-redux";
 import { simpleDate } from "../../../helpers/FuncHelper";
 
@@ -98,7 +98,7 @@ const CreateNotifi = (props) => {
         .get(`/api/document-template/get?type_id=${id}`)
         .then((data) => {
           if (data.data === "") {
-            alert("Template chưa được tạo");
+            message.info("Template chưa được tạo")
           } else {
             props.history.push(`/form-document/${id}`);
           }
@@ -115,12 +115,12 @@ const CreateNotifi = (props) => {
       .delete(`https://document.tuoitre.vn/api/document/delete/${id}`)
       .then((res) => {
         if (res.data.message === "success") {
-          alert("Xoá tài liệu thành công");
-          getDataDocumentListUser();
+          message.success("Xoá tài liệu thành công")
+          this.getDataDocumentListUser();
         }
       })
       .catch((err) => {
-        alert("Xoá tài liệu thất bại");
+        message.error("Xóa tài liệu thất bại")
         console.log(err);
       });
   };

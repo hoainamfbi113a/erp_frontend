@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import StepWizard from "react-step-wizard";
 import Step from "./Step";
-import { Modal, Button } from "react-bootstrap";
+import { Modal, Button, message } from "react-bootstrap";
 import axios from "axios";
 
 export default function ModalForm(props) {
@@ -55,12 +55,12 @@ export default function ModalForm(props) {
             axios
               .post("/api/document-process/store", params)
               .then((res3) => {
-                alert("Tạo tài liệu thành công!");
+                message.success("Tạo tài liệu thành công!")
                 props.hideModal();
               })
               .catch((err) => {
                 console.log(err);
-                alert("Tạo tài liệu thất bại!");
+                message.error("Tạo tài liệu thất bại");
                 props.hideModal();
               });
           })
