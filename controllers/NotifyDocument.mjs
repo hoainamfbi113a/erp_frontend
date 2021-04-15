@@ -30,6 +30,7 @@ router.put("/status/:id", async (req,res)=>{
     .then(response=>{
         res.send(response.data)
     })
+    
     .catch(err=>{
         console.log(err);
     })
