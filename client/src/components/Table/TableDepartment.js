@@ -61,7 +61,7 @@ const TableDepartment = (props) => {
         data: listDepartSearch,
       };
       setData(obj);
-      props.totalDepartment(obj.meta.pagination);
+      props.total(obj.meta.pagination);
       dispatch(hideLoading());
     }
   }, [props.valueSearch]);
@@ -72,7 +72,7 @@ const TableDepartment = (props) => {
       let res = await getListDepartment(page);
       if (!res.err) {
         setData(res);
-        props.totalDepartment(res.meta.pagination.total);
+        props.total(res.meta.pagination.total);
       } else {
         cmessage.error("get list department failed");
         ons;
@@ -307,7 +307,7 @@ const TableDepartment = (props) => {
       </Content>
       <Modal
         title={isCreate ? "Tạo phòng ban" : "Cập nhật phòng ban"}
-        visible={props.showModalDepartment}
+        visible={props.showModalData}
         onOk={onSubmit}
         onCancel={hideModal}
         okText="OK"

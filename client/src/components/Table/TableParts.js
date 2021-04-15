@@ -69,7 +69,7 @@ const TableParts = (props) => {
         data: listPartSearch,
       };
       setData(obj);
-      props.totalPart(obj.meta.pagination);
+      props.total(obj.meta.pagination);
       dispatch(hideLoading());
     }
   }, [props.valueSearch]);
@@ -78,7 +78,7 @@ const TableParts = (props) => {
     let res = await getListParts(page);
     if (!res.err) {
       setData(res);
-      props.totalPart(res.meta.pagination.total);
+      props.total(res.meta.pagination.total);
     } else {
       message.error("get list parts failed");
     }
@@ -330,7 +330,9 @@ const TableParts = (props) => {
       <Content>
         <div className="layout-content">
           <div style={{ padding: 24, minHeight: 200 }}>
-            <Table
+            {
+              checkVisible(permissions, "list", "api/parts") ? (
+                <Table
               style={{ minHeight: "70vh" }}
               dataSource={data ? data.data : ""}
               columns={columns}
@@ -342,12 +344,15 @@ const TableParts = (props) => {
                 total: data ? data.meta.pagination.total : 0,
               }}
             />
+              ) : ""
+            }
+            
           </div>
         </div>
       </Content>
       <Modal
         title={isCreate ? "Tạo tổ" : "Cập nhật tổ"}
-        visible={props.showModalParts}
+        visible={props.showModalData}
         onOk={onSubmit}
         onCancel={hideModal}
         okText="OK"
