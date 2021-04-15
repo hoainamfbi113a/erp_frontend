@@ -336,7 +336,11 @@ class Create extends Component {
         .post("/api/document-process/process", body)
         .then((res) => {
           console.log(res);
-          
+          if(value === "pass")
+          message.success("Xác nhận thành công ")
+          else {
+            message.success("Từ chối thành công")
+          }
           this.setState({ isModalVisible: false });
           this.props.history.goBack();
         })
