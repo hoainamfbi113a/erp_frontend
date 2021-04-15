@@ -151,7 +151,10 @@ router.post("/document/store", async (req, res) => {
         pos_id: data.data.department.data.pos_id,
         pos_name: data.data.department.data.pos_name,
       };
+      
       dataForm.issue_id = res1.data.id;
+      // console.log(dataForm)
+      // console.log(document_type_id)
       axios
         .post(`${process.env.apiFormBuilder}/api/document/store/${document_type_id}`, dataForm)
         .then((res) => {
