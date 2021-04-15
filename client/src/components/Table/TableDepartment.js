@@ -64,7 +64,7 @@ const TableDepartment = (props) => {
       props.totalDepartment(obj.meta.pagination);
       dispatch(hideLoading());
     }
-  },[props.valueSearch]); 
+  }, [props.valueSearch]);
   // [props.valueSearch]);
 
   const fetchData = async (page) => {
@@ -236,64 +236,71 @@ const TableDepartment = (props) => {
       key: "created_at",
     },
     checkVisible(permissions, "delete", "api/departments/{department}") ||
-      checkVisible(permissions, "update", "api/departments/{department}") ? {
-        title: "Hành động",
-        key: "operation",
-        dataIndex: "id",
-        fixed: "right",
-        render: (text, row) => (
-          <Space size="middle">
-            <Popconfirm
-              title="Bạn có muốn Ẩn không?"
-              onConfirm={() => confirm(text)}
-              onCancel={cancel}
-              okText="Có"
-              cancelText="Không"
-            >
+    checkVisible(permissions, "update", "api/departments/{department}")
+      ? {
+          title: "Hành động",
+          key: "operation",
+          dataIndex: "id",
+          fixed: "right",
+          render: (text, row) => (
+            <Space size="middle">
+              <Popconfirm
+                title="Bạn có muốn Ẩn không?"
+                onConfirm={() => confirm(text)}
+                onCancel={cancel}
+                okText="Có"
+                cancelText="Không"
+              >
+                {checkVisible(
+                  permissions,
+                  "delete",
+                  "api/departments/{department}"
+                ) && (
+                  <Tag color="volcano" className="table-action">
+                    Ẩn
+                  </Tag>
+                )}
+              </Popconfirm>
               {checkVisible(
                 permissions,
-                "delete",
+                "update",
                 "api/departments/{department}"
               ) && (
-                <Tag color="volcano" className="table-action">
-                  Ẩn
+                <Tag
+                  onClick={() => showModal(text)}
+                  color="geekblue"
+                  className="table-action"
+                >
+                  Cập nhật
                 </Tag>
               )}
-            </Popconfirm>
-            {checkVisible(
-              permissions,
-              "update",
-              "api/departments/{department}"
-            ) && (
-              <Tag
-                onClick={() => showModal(text)}
-                color="geekblue"
-                className="table-action"
-              >
-                Cập nhật
-              </Tag>
-            )}
-          </Space>
-        ),
-      } : {},
+            </Space>
+          ),
+        }
+      : {},
   ];
   return (
     <div>
       <Content>
         <div className="layout-content">
           <div style={{ padding: 24, minHeight: 200 }}>
-            <Table
-              style={{ minHeight: "70vh" }}
-              dataSource={data ? data.data : ""}
-              columns={columns}
-              className="table-content"
-              rowKey="id"
-              pagination={{
-                onChange: handlePagination,
-                pageSize: 15,
-                total: data ? data.meta.pagination.total : 0,
-              }}
-            />
+            {checkVisible(permissions, "list", "api/departments") ? (
+              <Table
+                style={{ minHeight: "70vh" }}
+                dataSource={data ? data.data : ""}
+                columns={columns}
+                className="table-content"
+                rowKey="id"
+                pagination={{
+                  onChange: handlePagination,
+                  pageSize: 15,
+                  total: data ? data.meta.pagination.total : 0,
+                }}
+              />
+            ) : (
+              ""
+            )}
+
             {/* {!data ? "ko co data" : "co data"} */}
           </div>
         </div>
