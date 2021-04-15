@@ -6,4 +6,3 @@ data.json
 data1.json
 yarn.lock
 /client/.env
-.env
