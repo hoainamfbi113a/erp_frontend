@@ -114,6 +114,7 @@ const CreateNotifi = (props) => {
     axios
       .delete(`https://document.tuoitre.vn/api/document/delete/${id}`)
       .then((res) => {
+        console.log(res);
         if (res.data.message === "success") {
           alert("Xoá tài liệu thành công");
           getDataDocumentListUser();
