@@ -115,6 +115,7 @@ const CreateNotifi = (props) => {
     axios
       .post(`/api/document/delete`,{id})
       .then((res) => {
+        console.log(res);
         if (res.data.message === "success") {
           message.success("Xoá tài liệu thành công")
           this.getDataDocumentListUser();
