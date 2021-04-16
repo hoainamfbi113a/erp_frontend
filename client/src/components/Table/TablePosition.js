@@ -36,10 +36,6 @@ const TablePosition = (props) => {
   const [pos_note, setPosNote] = useState("");
   const [err, setErr] = useState("");
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   useEffect(async () => {
     if (props.valueSearch !== lastValue) {
       dispatch(showLoading());

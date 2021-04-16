@@ -4,26 +4,30 @@ import { updateStatusNotify, listNotify } from "apis/notificationApi";
 import axiosConfig from "apis/axios";
 import { simpleDate } from "../../../helpers/FuncHelper";
 import { Pagination, Tag } from "antd";
-import { CheckCircleOutlined, SyncOutlined, CloseCircleOutlined } from "@ant-design/icons";
+import {
+  CheckCircleOutlined,
+  SyncOutlined,
+  CloseCircleOutlined,
+} from "@ant-design/icons";
 import "./notification.css";
 
 const checkStatus = {
-  "processed": {
+  processed: {
     icon: <CheckCircleOutlined />,
     color: "success",
-    tag: "Đã duyệt"
+    tag: "Đã duyệt",
   },
-  "processing": {
-    icon: <SyncOutlined spin/>,
+  processing: {
+    icon: <SyncOutlined />,
     color: "processing",
-    tag: "Đang chờ duyệt"
+    tag: "Đang chờ duyệt",
   },
-  "canceled": {
+  canceled: {
     icon: <CloseCircleOutlined />,
     color: "error",
-    tag: "Đã hủy"
-  } 
-}
+    tag: "Đã hủy",
+  },
+};
 const app_id = 99;
 const slug = "profile";
 const per_page = 15;
@@ -33,7 +37,7 @@ const NotifiMy = (props) => {
   const [pagination, setPage] = useState(1);
   const [noti, setNoti] = useState(null);
 
-  useEffect(() => {
+  useEffect(async () => {
     const user_id = docCookies.getItem("user_id");
     axiosConfig
       .get(`/api/notification/list?user_id=${user_id}`)
@@ -116,20 +120,20 @@ const NotifiMy = (props) => {
       return noti.map((item) => {
         const ips = item.process.status;
         let status = "processing";
-        if(item.user_id.toString() !== docCookies.getItem("user_id")) {
-          for(let e of item.process.targets) {
-            let checkTargetId = e.target_id.toString() === docCookies.getItem("user_id");
-            if(checkTargetId && e.status === "pass") {
+        if (item.user_id.toString() !== docCookies.getItem("user_id")) {
+          for (let e of item.process.targets) {
+            let checkTargetId =
+              e.target_id.toString() === docCookies.getItem("user_id");
+            if (checkTargetId && e.status === "pass") {
               status = "processed";
-            } else if(checkTargetId && e.status === "reject") {
+            } else if (checkTargetId && e.status === "reject") {
               status = "canceled";
             }
           }
         } else {
-          if(ips === "processed") {
+          if (ips === "processed") {
             status = "processed";
-          } 
-          else if(ips === "canceled") {
+          } else if (ips === "canceled") {
             status = "canceled";
           }
         }
@@ -154,11 +158,16 @@ const NotifiMy = (props) => {
             </td>
             <td>{item.user_name}</td>
             <td>{item.department_name}</td>
+            <td>{simpleDate(item.created_at)}</td>
             <td>
-              <Tag icon={checkStatus[status].icon} color={checkStatus[status].color} >
+              <Tag
+                icon={checkStatus[status].icon}
+                color={checkStatus[status].color}
+              >
                 {checkStatus[status].tag}
               </Tag>
             </td>
+            <td>{item.content}</td>
             <td>{simpleDate(item.created_at)}</td>
           </tr>
         );
@@ -208,8 +217,9 @@ const NotifiMy = (props) => {
               <th>Đơn</th>
               <th>Người gửi</th>
               <th>Phòng ban</th>
-              <th>Trạng thái</th>
+              <th>Nội dung</th>
               <th>Ngày</th>
+              <th>Trạng thái</th>
             </tr>
             {renderNotifyItem()}
             {renderNotifyItemDocument()}
