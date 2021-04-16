@@ -14,7 +14,7 @@ const checkStatus = {
     tag: "Đã duyệt"
   },
   "processing": {
-    icon: <SyncOutlined spin/>,
+    icon: <SyncOutlined />,
     color: "processing",
     tag: "Đang chờ duyệt"
   },
@@ -159,6 +159,7 @@ const NotifiMy = (props) => {
                 {checkStatus[status].tag}
               </Tag>
             </td>
+            <td>{item.content}</td>
             <td>{simpleDate(item.created_at)}</td>
           </tr>
         );
@@ -208,6 +209,7 @@ const NotifiMy = (props) => {
               <th>Đơn</th>
               <th>Người gửi</th>
               <th>Phòng ban</th>
+              <th>Nội dung</th>
               <th>Trạng thái</th>
               <th>Ngày</th>
             </tr>
