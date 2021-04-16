@@ -1,23 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { ValidateField } from "helpers/FuncHelper";
-import usePrevious from "../../hooks/usePrevious";
 import "../../App/App.css";
 import "./Table.css";
-import {  } from "antd";
-import { Layout, Table, Space, Tag, Input, Modal, Popconfirm, message } from "antd";
+import {} from "antd";
+import {
+  Layout,
+  Table,
+  Space,
+  Tag,
+  Modal,
+  message,
+} from "antd";
 import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 import DualListBox from "react-dual-listbox";
 import "react-dual-listbox/lib/react-dual-listbox.css";
-import {
-  getListPosition,
-} from "apis/positionApi";
+import { getListPosition } from "apis/positionApi";
+import { getListPermission } from "apis/permissionApi";
 import axiosConfig from "apis/axios";
 const { Content } = Layout;
 import { RightOutlined, LeftOutlined, DoubleLeftOutlined, DoubleRightOutlined } from "@ant-design/icons";
 import axios from 'axios'
 const TablePosition = (props) => {
-
   const dispatch = useDispatch();
   const [data, setData] = useState(null);
   const [dataPermission, setDataPermission] = useState(null);
@@ -28,9 +31,17 @@ const TablePosition = (props) => {
   const [id, setId] = useState("");
 
   useEffect(() => {
-    fetchData();
-  }, [])
-  const fetchData = async () => {
+    fetchDataPosition("all");
+    fetchDataPermission("all");
+  }, []);
+  const fetchDataPosition = async (page) => {
+    let data = await getListPosition(page);
+    if(!data.err) {
+      setData(data);
+    }
+  };
+
+  const fetchDataPermission = async (page) => {
     let arrOption = [];
     let data = await getListPosition(1);
     console.log(data)
@@ -62,26 +73,6 @@ const TablePosition = (props) => {
         console.log("err");
       });
       setArrOption(arrOption)
-    // await axiosConfig
-    //   .get("/api/permission?page=all")
-    //   .then((res) => {
-    //     setDataPermission(res.data)
-    //     let arrOption = [];
-    //     for (let item of res.data) {
-    //       let obj = {
-    //         label: item.name,
-    //         value: item.id,
-    //       };
-    //       arrOption.push(obj);
-    //     }
-    //     setArrOption(arrOption)
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-    // let dataPermission = await getListPosition(1);
-    setData(data)
-    // props.totalPosition(data.meta.pagination.total);
   };
 
   const handlePagination = async (pagination) => {
@@ -89,42 +80,32 @@ const TablePosition = (props) => {
     setData(data);
   };
 
-  const showModal = (id) =>{
+  const showModal = (id) => {
     setId(id);
-    //get exist permission
-    axiosConfig.get(`/api/list/permission/work-formality/${id}`)
-    .then(res=>{
-      setPermissionExist(res.data)
-      console.log(res)
-      let arrPermission = [];
-      // for(let item of res) {
-      //   for(let itemChild of item.groups) {
-      //     for(let itemChild2 of itemChild.permissions) {
-      //       arrPermission.push(itemChild2.id)
-      //     }
-      //   }
-      // }
-      for (const property in res) {
-        for (const item of res[property].groups) {
-          for (const itemChild of item.permissions) {
-            // ArrSelected.push(itemChild.id);
-            console.log(itemChild.id)
-            arrPermission.push(itemChild.id)
+    axiosConfig
+      .get(`/api/list/permission/work-formality/${id}`)
+      .then((res) => {
+        let arrPermission = [];
+        for (const property in res) {
+          for (const item of res[property].groups) {
+            for (const itemChild of item.permissions) {
+              // ArrSelected.push(itemChild.id);
+              console.log(itemChild.id);
+              arrPermission.push(itemChild.id);
+            }
           }
         }
-      }
-      console.log(arrPermission)
-      setPermissionExist(arrPermission)
-      setSelected(arrPermission);
-    })
-    .catch(err=>{
-      console.log(err)
-    })
+        setPermissionExist(arrPermission);
+        setSelected(arrPermission);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     setIsShowModal(true);
-  }
-  const handleCancel = () =>{
-    setIsShowModal(false)
-  }
+  };
+  const handleCancel = () => {
+    setIsShowModal(false);
+  };
   const columns = [
     {
       title: "Tên chức vụ",
@@ -178,50 +159,51 @@ const TablePosition = (props) => {
       ),
     },
   ];
-  const handleOk = () =>{
+  const handleOk = () => {
     let arr1 = permissionExist;
     let arr2 = selected;
-  
+
     let differenceDelete = arr1.filter((x) => !arr2.includes(x));
-    console.log(differenceDelete)
+    console.log(differenceDelete);
     let differenceAdd = arr2.filter((x) => !arr1.includes(x));
-    console.log(differenceAdd)
+    console.log(differenceAdd);
     let bodyAdd = {
       id: id,
-      permissions:differenceAdd
-    }
+      permissions: differenceAdd,
+    };
     let bodyDelete = {
-      id:id,
-      permissions:differenceDelete
+      id: id,
+      permissions: differenceDelete,
+    };
+    console.log(bodyAdd);
+    if (differenceAdd.length !== 0) {
+      axiosConfig
+        .post("/api/work-formality/permission", bodyAdd)
+        .then((res) => {
+          message.success("Gán quyền thành công");
+          setIsShowModal(false);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-    console.log(bodyAdd)
-    if(differenceAdd.length!==0) {
-      axiosConfig.post("/api/work-formality/permission",bodyAdd)
-      .then(res=>{
-        message.success("Gán quyền thành công")
-        setIsShowModal(false)
-      })
-      .catch(err=>{
-        console.log(err)
-      })
+    if (differenceDelete.length !== 0) {
+      axiosConfig
+        .post("/api/work-formality/permissiond", bodyDelete)
+        .then((res) => {
+          message.success("Gỡ quyền thành công");
+          setIsShowModal(false);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
-    if(differenceDelete.length!==0) {
-      axiosConfig.post("/api/work-formality/permissiond",bodyDelete)
-      .then(res=>{
-        message.success("Gỡ quyền thành công")
-        setIsShowModal(false)
-      })
-      .catch(err=>{
-        console.log(err)
-      })
-    }
-    console.log(selected)
-  }
-  const onChange = (selected) =>{
-    setSelected(selected)
-  }
-  const options = arrOption;
-    // const { selected } = this.state;
+    console.log(selected);
+  };
+  const onChange = (selected) => {
+    setSelected(selected);
+  };
+
   return (
     <div>
       <Content>
@@ -245,16 +227,15 @@ const TablePosition = (props) => {
           destroyOnClose={true}
           width={800}
           title="Gán quyền cho chức vụ phòng ban"
-          visible = {isShowModal}
+          visible={isShowModal}
           // visible={this.props.showModalRoles}
           onOk={handleOk}
           onCancel={handleCancel}
           //   className="modal-transfer-grant-permission"
         >
-          <div className="select-grant-role">
-          </div>
+          <div className="select-grant-role"></div>
           <DualListBox
-            options={options}
+            options={arrOption}
             selected={selected}
             onChange={onChange}
             icons={{
@@ -274,6 +255,6 @@ const TablePosition = (props) => {
       </Content>
     </div>
   );
-}
+};
 
 export default TablePosition;
