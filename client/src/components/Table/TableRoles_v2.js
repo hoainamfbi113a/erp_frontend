@@ -6,9 +6,6 @@ import {
   Space,
   Table,
   Tag,
-  Transfer,
-  Tree,
-  Button,
 } from "antd";
 import axiosConfig from "apis/axios";
 import { getListAllPosition } from "apis/positionApi";
@@ -24,6 +21,7 @@ const { Option } = Select;
 const { Content } = Layout;
 import DualListBox from "react-dual-listbox";
 import "react-dual-listbox/lib/react-dual-listbox.css";
+import { RightOutlined, LeftOutlined, DoubleLeftOutlined, DoubleRightOutlined } from "@ant-design/icons";
 export default class TableRoles_v2 extends Component {
   constructor(props) {
     super(props);
@@ -460,6 +458,18 @@ export default class TableRoles_v2 extends Component {
             options={options}
             selected={selected}
             onChange={this.onChange}
+            icons={{
+              moveLeft:  <LeftOutlined />,
+              moveAllLeft: [
+                  <DoubleLeftOutlined />,
+                  <span key={1} className="fa fa-chevron-left" />,
+              ],
+              moveRight: <RightOutlined />,
+              moveAllRight: [
+                <DoubleRightOutlined />,
+                  <span key={1} className="fa fa-chevron-right" />,
+              ],
+          }}
           />
         </Modal>
       </div>
