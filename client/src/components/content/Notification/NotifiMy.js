@@ -222,8 +222,8 @@ const NotifiMy = (props) => {
               <th>Người gửi</th>
               <th>Phòng ban</th>
               <th>Nội dung</th>
-              <th>Ngày</th>
               <th>Trạng thái</th>
+              <th>Ngày</th>
             </tr>
             {renderNotifyItem()}
             {renderNotifyItemDocument()}
