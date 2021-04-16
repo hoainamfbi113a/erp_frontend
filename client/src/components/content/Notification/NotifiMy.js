@@ -158,7 +158,7 @@ const NotifiMy = (props) => {
             </td>
             <td>{item.user_name}</td>
             <td>{item.department_name}</td>
-            <td>{simpleDate(item.created_at)}</td>
+            <td>{item.content}</td>
             <td>
               <Tag
                 icon={checkStatus[status].icon}
@@ -167,7 +167,6 @@ const NotifiMy = (props) => {
                 {checkStatus[status].tag}
               </Tag>
             </td>
-            <td>{item.content}</td>
             <td>{simpleDate(item.created_at)}</td>
           </tr>
         );
