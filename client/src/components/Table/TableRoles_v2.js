@@ -3,6 +3,7 @@ import axiosConfig from "apis/axios";
 import { getListAllPosition } from "apis/positionApi";
 import { getListAllDepartment } from "apis/departmentApi";
 import { getListRole } from "apis/roleApi";
+import { allPermission } from "apis/permissionApi";
 import axios from "axios";
 import lodash from "lodash";
 import React, { Component } from "react";
@@ -168,12 +169,8 @@ export default class TableRoles_v2 extends Component {
       disabledSelected: false,
     });
     let arrOption = [];
-    axios
-      .get(
-        "/api/permission/positions/except"
-      )
-      .then((res) => {
-        let dataPermission = res.data;
+    let data = await allPermission()
+        let dataPermission = data;
         for (let item of dataPermission) {
           for (let itemGroup of item.groups) {
             let arrOptionChild = [];
@@ -192,10 +189,6 @@ export default class TableRoles_v2 extends Component {
           }
         }
         console.log(arrOption)
-      })
-      .catch((err) => {
-        console.log("err");
-      });
     this.setState({
       dataOptions: arrOption,
     });
