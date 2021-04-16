@@ -100,7 +100,6 @@ function AssignAction(props) {
                 ]
             )
         }
-        // console.log(e.target.value)
     }
 
     const convertListActions = (actions) => {

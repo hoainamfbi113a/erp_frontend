@@ -131,9 +131,6 @@ class addInformationUser extends Component {
     this.handleSearchPart = this.handleSearchPart.bind(this);
   }
   componentDidMount = async () => {
-    // console.log(this.context)
-    // let alo = this.context.permissions.filter((permission) => permission.action === "create" && permission.uri === "api/profiles")
-    // console.log(alo)
   };
   functionSearch = async (prevProps, prevState) => {
     if (prevState.searchDepartment !== this.state.searchDepartment) {
@@ -201,7 +198,6 @@ class addInformationUser extends Component {
         user_id: data.user_id,
         pro_name: data.pro_name,
         pro_pen_name: data.pro_pen_name,
-        // pro_birth_day: data.pro_birth_day.indexOf("1970-01-01") == 0 ? null:data.pro_birth_day ,
         pro_birth_day: data.pro_birth_day == null ? null:data.pro_birth_day ,
         pro_gender: data.pro_gender,
         pro_birth_place: data.pro_birth_place,
@@ -213,19 +209,12 @@ class addInformationUser extends Component {
         pro_background_origin: data.pro_background_origin,
         pro_occupation: data.pro_occupation,
         pro_identity_card: data.pro_identity_card,
-        // pro_identity_card_when: data.pro_identity_card_when.indexOf("1970-01-01") == 0? null:data.pro_identity_card_when ,
         pro_identity_card_when: data.pro_identity_card_when==null? null:this.formatDate(data.pro_identity_card_when.toString().slice(0,10)) ,
         pro_identity_card_where: data.pro_identity_card_where,
         pro_note: data.pro_note,
         dep_id: data.department ? data.department.data.dep_id : "",
         pos_id: data.department ? data.department.data.pos_id : "",
         par_id: data.department ? data.department.data.part_id : "",
-        // appointment_date:
-        // data.department && data.department.data.appointment_date.indexOf("1970-01-01") !=0 ? 
-        // data.department.data.appointment_date : null,
-        // data.department && data.department.data.appointment_date ==null ? null:
-        // data.department.data.appointment_date ,
-
         deg_type: data.userDegree ? data.userDegree.data.deg_type : "",
         deg_diploma: data.userDegree ? data.userDegree.data.deg_diploma : "",
         deg_majors: data.userDegree ? data.userDegree.data.deg_majors : "",
@@ -334,7 +323,6 @@ class addInformationUser extends Component {
       message.error("Duyệt hồ sơ thất bại");
     }
   };
-  // nhân sự từ chối
   handleReject = async () => {
     this.setState({
       modalNotify: true,
@@ -425,14 +413,12 @@ class addInformationUser extends Component {
     await this.handleInputValid("pro_name", this.state.pro_name);
     await this.handleInputValid("email", this.state.email);
     await this.handleInputValid("phone", this.state.phone);
-    // await this.handleInputValid("part", this.state.par_id);
     await this.handleInputValid("department", this.state.dep_id);
     await this.handleInputValid("position", this.state.pos_id);
     if (
       !this.state.valid_pro_name.isValid &&
       !this.state.valid_email.isValid &&
       !this.state.valid_phone.isValid &&
-      // !this.state.valid_part.isValid &&
       !this.state.valid_department.isValid &&
       !this.state.valid_position.isValid
     ) {
@@ -478,13 +464,7 @@ class addInformationUser extends Component {
         } else {
           messageErr = 2;
         }
-        // if (value === "send") {
-        //   let resUpdateProfile = await updateProfile(proId, params);
-        //   if (resUpdateProfile.message == "Success!. Updated") {
-        //   } else {
-        //     messageErr = 2;
-        //   }
-        // }
+
       }
       if (userId !== 0 && proId !== 0) {
         let paramsDepartment = {
@@ -526,7 +506,6 @@ class addInformationUser extends Component {
         };
         let resAddWorkObject = await addWorkObject(paramsWorkObjects);
         if (resAddWorkObject.message == "Success!. Stored") {
-          // message;
         } else {
           messageErr = 8;
         }
@@ -555,7 +534,6 @@ class addInformationUser extends Component {
           idSaved: userId,
           pro_id_saved: proId,
         });
-        // await this.fetchData();
         this.props.history.push(`/profile-service/profile/update/${userId}`);
         this.props.handleReloadComponent();
       } else {
@@ -619,7 +597,6 @@ class addInformationUser extends Component {
         button: value,
         action: "create",
       };
-      // console.log(params)
       let resUpdateProfile = await updateProfile(pro_id, params);
       if (resUpdateProfile && resUpdateProfile.message == "Success!. Updated") {
       } else {
@@ -671,7 +648,6 @@ class addInformationUser extends Component {
         paramsWorkObjects
       );
       if (resUpdateWorkObject.message == "Success!. Updated") {
-        // message;
       } else {
         messageErr = 8;
       }
@@ -716,7 +692,6 @@ class addInformationUser extends Component {
         return <Step key={item.id} title={item.description} />;
       });
     }
-    // return ""
   };
   confirm = () => {
     this.handleSend();
@@ -799,7 +774,6 @@ class addInformationUser extends Component {
         >
           <span
             className="btn-add-user"
-            // onClick={this.handleSend}
           >
             Xác nhận
           </span>
@@ -1011,7 +985,6 @@ class addInformationUser extends Component {
                       <div className="tabs-user-infor-bottom">
                         <Input
                           name="xxxx"
-                          // value={this.state.pro_home_town}
                           onChange={this.onChange}
                           placeholder="Nơi sinh"
                         />
@@ -1104,7 +1077,6 @@ class addInformationUser extends Component {
                               ? null
                               : moment(
                                   this.state.pro_identity_card_when,
-                                  // "2020-09-08",
                                   dateFormatList[0]
                                 )
                           }
@@ -1161,7 +1133,6 @@ class addInformationUser extends Component {
                         <Select
                           defaultValue={0}
                           showSearch
-                          // optionFilterProp="children"
                           value={this.state.dep_id}
                           name="depart"
                           style={{ width: "100%" }}

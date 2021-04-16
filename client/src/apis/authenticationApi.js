@@ -11,9 +11,6 @@ export const login = (params) => {
         docCookies.setItem("usertoken", res.data.access_token, 2592000,"/");
         docCookies.setItem("user_id", res.data.detail.id, 2592000,"/");
         docCookies.setItem("email", res.data.detail.email, 2592000,"/");
-        // cookie.save('usertoken', res.data.access_token, { path: '/' })
-        // cookie.save('user_id', res.data.detail.id, { path: '/' })
-        // cookie.save('email', res.data.detail.email, { path: '/' })
       }
       return res.data;
     })
@@ -124,11 +121,6 @@ export const checkApi = (params) => {
     })
   })
 }
-// export const logout = () => {
-//   document.cookie = "usertoken" +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-//   document.cookie = "user_id" +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-//   document.cookie = "email" +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
-// };
 export const logout = () => {
   docCookies.removeItem("usertoken","/");
   docCookies.removeItem("user_id","/");

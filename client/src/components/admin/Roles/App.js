@@ -51,9 +51,6 @@ function App(props) {
                     </Breadcrumb.Item>
                   )
                 })}
-              {/* <Breadcrumb.Item onClick={(e) => handleShow(e)}>
-                Gán Action Cho Table
-              </Breadcrumb.Item> */}
             </Breadcrumb>
           </Col>
         </Row>

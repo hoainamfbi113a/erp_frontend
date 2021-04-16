@@ -11,10 +11,10 @@ const DocumentTypeComponent = () => {
     <div>
         <DocumentType urls={
             {
-                getListTypes: 'https://document.tuoitre.vn/api/document-type/get-document-types',
-                saveType: 'https://document.tuoitre.vn/api/document-type/store',
-                updateType: 'https://document.tuoitre.vn/api/document-type/update',
-                deleteType: 'https://document.tuoitre.vn/api/document-type/delete'
+                getListTypes: '/api/document-type/get-document-types',
+                saveType: '/api/document-type/store',
+                updateType: '/api/document-type/update',
+                deleteType: '/api/document-type/delete'
             }
         }
         permissions={permissions}

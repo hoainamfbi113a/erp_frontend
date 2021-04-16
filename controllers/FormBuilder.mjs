@@ -140,7 +140,6 @@ router.post("/document/store", async (req, res) => {
   axios
     .post(`${process.env.apiWorkflow}/api/issue/store`, paramsIssue)
     .then((res1) => {
-      // console.log("res1", res1)
       let dataForm = {
         type_id: document_type_id,
         user_id: user_id,
@@ -154,7 +153,6 @@ router.post("/document/store", async (req, res) => {
       
       dataForm.issue_id = res1.data.id;
       console.log(dataForm)
-      // console.log(document_type_id)
       axios
         .post(`${process.env.apiFormBuilder}/api/document/store/${document_type_id}`, dataForm)
         .then((res) => {
@@ -169,8 +167,6 @@ router.post("/document/store", async (req, res) => {
               params
             )
             .then((res3) => {
-              // user create document 
-              // console.log(res3)
               resEnd.send("success");
               let body = {
                 user_id: +user_id,
@@ -195,19 +191,11 @@ router.post("/document/store", async (req, res) => {
         .catch((err) => {
           console.log("failed .5")
           resEnd.send("failed 2");
-
-          // console.log("err")
         });
     })
     .catch((err) => {
       resEnd.send("failed 1");
     });
-  // console.log(isSuccess);
-  // if (isSuccess === true) {
-  //   res.send("success");
-  // } else {
-  //   res.send("failed");
-  // }
 });
 const recursiveFactorial = (data, arr) => {
   if(data && !data.next_pass){
@@ -252,7 +240,6 @@ router.post("/api/document/update", async (req, res) => {
 });
 
 router.post("/document/delete", async (req, res) => {
-  // console.log("body",req.body.id)
   let { id } = req.body
   try {
     let { data } = await axios.delete(
@@ -281,6 +268,18 @@ router.delete("/document-type/delete", async (req, res) => {
   try {
     let { data } = await axios.delete(
       `${process.env.apiWorkflow}/api/document-type/delete`,
+      req.body
+    );
+    res.send(data);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.put("/api/document-type/update", async (req, res) => {
+  try {
+    let { data } = await axios.put(
+      `${process.env.apiWorkflow}/api/document-type/update`,
       req.body
     );
     res.send(data);

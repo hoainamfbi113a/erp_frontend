@@ -42,15 +42,14 @@ app.use("/api/pokemon", function(req, res, next){
     .then(res=>{
         console.log(res.data)
         if(res.data === true){
-            // resParent.send(res.data)
             apiMain(req,resParent)
         } else {
-            // resParent.send(res.data)
+            resParent.send("error")
         }
     })
     .catch(err=>{
+        resParent.send("error")
         console.log("err")
-        // console.log(err)
     })
 }
 )
@@ -69,8 +68,7 @@ const apiMain =(req,resParent) =>{
     })
     .then(function (response) {
         console.log(response)
-        // resParent.send(response.data)
-        // console.log(response.data)
+        resParent.send(response.data)
       });
 }
 app.use("/api", userController);

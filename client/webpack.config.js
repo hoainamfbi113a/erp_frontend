@@ -33,7 +33,6 @@ module.exports = (env, agrv) => {
       new webpack.DefinePlugin({
         "process.env": JSON.stringify(dotenv.parsed),
       }),
-      // ['import', { libraryName: 'antd', libraryDirectory: 'lib', style: true }],
     ],
 
     module: {

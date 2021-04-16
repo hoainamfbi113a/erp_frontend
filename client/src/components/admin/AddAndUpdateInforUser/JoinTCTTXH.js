@@ -114,8 +114,7 @@ const JoinTCTTXH = () => {
             <form
               style={{ width: "100%" }}
               className="tabs-main"
-              noValidate
-              // onSubmit={this.onSubmit}
+
               method="post"
             >
               <ul>
