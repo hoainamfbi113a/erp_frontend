@@ -18,18 +18,21 @@ const CreateNotifi = (props) => {
   const [dataDocumentUser, setDataDocuUser] = useState(null);
   const [treeData, setTreeData] = useState(null);
   const [arrPermission, setArrPermission] = useState([]);
+  const [totalPage, setTotalPage] = useState(null);
   const permissionUser = useSelector(state => state.permission);
 
   const showModal = (value) => {
     setVisible(true);
     setTitle(value);
   };
+
   const hideModal = () => {
     setVisible(false);
   };
+
   useEffect(() => {
     getDataDocumentType();
-    getDataDocumentListUser();
+    getDataDocumentListUser(1);
     let arr = []
     for (const property in permissionUser) {
       for (const item of permissionUser[property].groups) {
@@ -39,7 +42,8 @@ const CreateNotifi = (props) => {
       }
     }
     setArrPermission(arr);
-  }, [])
+  }, []);
+
   const getDataDocumentType = () => {
     axios
       .get("/api/document-type/get-document-types")
@@ -70,20 +74,27 @@ const CreateNotifi = (props) => {
           console.log(err);
         });
   };
-  const getDataDocumentListUser = () => {
+
+  const getDataDocumentListUser = (page) => {
     axios
       .get(
-        `/api/document/list?page=1&per_page=1000&user_id=${docCookies.getItem(
+        `/api/document/list?page=${page}&per_page=10&user_id=${docCookies.getItem(
           "user_id"
         )}`
       )
       .then((res) => {
         setDataDocuUser(res.data.data);
+        setTotalPage(res.data.total);
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  const handlePagination = (pagination) => {
+    getDataDocumentListUser(pagination);
+  }
+
   const checkPermissionUser = (idPermission) =>{
     for(let item of arrPermission) {
       if(item == idPermission){
@@ -110,6 +121,7 @@ const CreateNotifi = (props) => {
       return;
     }
   };
+
   const confirm = (id) => {
 
     axios
@@ -118,7 +130,7 @@ const CreateNotifi = (props) => {
         console.log(res);
         if (res.data.message === "success") {
           message.success("Xoá tài liệu thành công")
-          this.getDataDocumentListUser();
+          getDataDocumentListUser(1);
         }
       })
       .catch((err) => {
@@ -129,6 +141,7 @@ const CreateNotifi = (props) => {
   const handleViewDocument = (id) => {
     props.history.push(`/form-document-view/${id}`);
   };
+
   const renderPanel = () => {
     if (dataDocumentType) {
       return dataDocumentType.map((item) => {
@@ -149,6 +162,7 @@ const CreateNotifi = (props) => {
       });
     }
   };
+
   const renderHistoryCreate = () => {
     if (dataDocumentUser) {
       return dataDocumentUser.map((item) => {
@@ -181,7 +195,7 @@ const CreateNotifi = (props) => {
                 <Tag
                   color="geekblue"
                   className="table-action"
-                  onClick={() => this.handleViewDocument(item.id)}
+                  onClick={() => handleViewDocument(item.id)}
                 >
                   Sửa
                 </Tag>
@@ -192,6 +206,7 @@ const CreateNotifi = (props) => {
       });
     }
   };
+
   return (
     <div className="create-notifi">
       <div className="content-background2">
@@ -237,7 +252,7 @@ const CreateNotifi = (props) => {
             </tbody>
           </table>
           <div className="content-bottom-pagination">
-            <Pagination defaultCurrent={1} total={50} />
+            <Pagination onChange={handlePagination} total={totalPage} />
           </div>
         </div>
       </div>

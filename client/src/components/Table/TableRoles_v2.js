@@ -1,12 +1,4 @@
-import {
-  Layout,
-  message,
-  Modal,
-  Select,
-  Space,
-  Table,
-  Tag,
-} from "antd";
+import { Layout, message, Modal, Select, Space, Table, Tag } from "antd";
 import axiosConfig from "apis/axios";
 import { getListAllPosition } from "apis/positionApi";
 import { getListAllDepartment } from "apis/departmentApi";
@@ -21,7 +13,12 @@ const { Option } = Select;
 const { Content } = Layout;
 import DualListBox from "react-dual-listbox";
 import "react-dual-listbox/lib/react-dual-listbox.css";
-import { RightOutlined, LeftOutlined, DoubleLeftOutlined, DoubleRightOutlined } from "@ant-design/icons";
+import {
+  RightOutlined,
+  LeftOutlined,
+  DoubleLeftOutlined,
+  DoubleRightOutlined,
+} from "@ant-design/icons";
 export default class TableRoles_v2 extends Component {
   constructor(props) {
     super(props);
@@ -29,9 +26,9 @@ export default class TableRoles_v2 extends Component {
       dataDepartment: null,
       dataRoles: null,
       dep_id: null,
-      dos_id: null,
+      pos_id: null,
       dep_idUpdate: null,
-      dos_idUpdate: null,
+      pos_idUpdate: null,
       modalAssign: false,
       id: "",
       idPosition: "",
@@ -170,25 +167,35 @@ export default class TableRoles_v2 extends Component {
     this.setState({
       disabledSelected: false,
     });
-    await axiosConfig
-      .get("/api/permission?page=all")
+    let arrOption = [];
+    axios
+      .get(
+        "/api/permission/positions/except"
+      )
       .then((res) => {
-        console.log(res);
-        this.setState({
-          dataPermission: res.data,
-        });
+        let dataPermission = res.data;
+        for (let item of dataPermission) {
+          for (let itemGroup of item.groups) {
+            let arrOptionChild = [];
+            for (let itemPermission of itemGroup.permissions) {
+              let objP = {
+                label: itemPermission.name,
+                value: itemPermission.id,
+              };
+              arrOptionChild.push(objP);
+            }
+            let obj = {
+              label: itemGroup.name,
+              options: arrOptionChild,
+            };
+            arrOption.push(obj)
+          }
+        }
+        console.log(arrOption)
       })
       .catch((err) => {
-        console.log(err);
+        console.log("err");
       });
-    let arrOption = [];
-    for (let item of this.state.dataPermission) {
-      let obj = {
-        label: item.name,
-        value: item.id,
-      };
-      arrOption.push(obj);
-    }
     this.setState({
       dataOptions: arrOption,
     });
@@ -279,6 +286,7 @@ export default class TableRoles_v2 extends Component {
     return arrayPerAction;
   };
   handleOk = () => {
+    console.log(this.state.pos_idUpdate);
     if (this.state.dep_idUpdate !== null && this.state.pos_idUpdate !== null) {
       let arr1 = this.state.selectedBegin;
       let arr2 = this.state.selected;
@@ -319,7 +327,7 @@ export default class TableRoles_v2 extends Component {
         axiosConfig
           .post(`/api/position/permissiond/${this.state.pos_idUpdate}`, params)
           .then((res) => {
-            if(res.message == "Success!. Removed") {
+            if (res.message == "Success!. Removed") {
               message.success("Xoá quyền chức vụ thành công");
               this.handleCancel();
             }
@@ -459,17 +467,17 @@ export default class TableRoles_v2 extends Component {
             selected={selected}
             onChange={this.onChange}
             icons={{
-              moveLeft:  <LeftOutlined />,
+              moveLeft: <LeftOutlined />,
               moveAllLeft: [
-                  <DoubleLeftOutlined />,
-                  <span key={1} className="fa fa-chevron-left" />,
+                <DoubleLeftOutlined />,
+                <span key={1} className="fa fa-chevron-left" />,
               ],
               moveRight: <RightOutlined />,
               moveAllRight: [
                 <DoubleRightOutlined />,
-                  <span key={1} className="fa fa-chevron-right" />,
+                <span key={1} className="fa fa-chevron-right" />,
               ],
-          }}
+            }}
           />
         </Modal>
       </div>
