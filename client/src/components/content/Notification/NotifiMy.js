@@ -34,20 +34,26 @@ const per_page = 15;
 
 const NotifiMy = (props) => {
   const [data, setData] = useState(null);
-  const [pagination, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(null);
   const [noti, setNoti] = useState(null);
 
   useEffect(async () => {
+    fetchNotiDocument(1)
+  }, []);
+
+  const fetchNotiDocument = (page) => {
     const user_id = docCookies.getItem("user_id");
     axiosConfig
-      .get(`/api/notification/list?user_id=${user_id}`)
+      .get(`/api/notification/list?page=${page}&per_page=10&user_id=${user_id}`)
       .then((res) => {
         setNoti(res.data);
+        setTotalPage(res.total);
+        console.log(res.total);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }
 
   const fetchNotify = async (value) => {
     const user_id = docCookies.getItem("user_id");
@@ -70,13 +76,12 @@ const NotifiMy = (props) => {
     };
     let resUpdateStatusNotify = await updateStatusNotify(id, params);
     if (resUpdateStatusNotify.message === "Success!. Updated") {
-      fetchNotify(pagination);
+      fetchNotify(1);
     }
   };
 
-  const onChangePagination = (page) => {
-    setPage(page);
-    fetchNotify(page);
+  const onChangePagination = (pagination) => {
+    fetchNotiDocument(pagination);
   };
 
   const changeStatusNotiDocument = (item_id, document_id, process_id) => {
@@ -226,8 +231,7 @@ const NotifiMy = (props) => {
         </table>
         <div>
           <Pagination
-            defaultCurrent={1}
-            total={50}
+            total={totalPage}
             onChange={onChangePagination}
           />
         </div>
