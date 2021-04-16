@@ -85,7 +85,6 @@ router.get("/user/permission/:id", async (req, res) => {
     );
     res.send(data);
   } catch (error) {
-    // console.log(error);
   }
 });
 
@@ -128,8 +127,6 @@ router.get('/document-type/get',async (req,res)=>{
       headers: { Authorization: req.headers.authorization },
     };
   let { data } = await axios.get(`${process.env.apiFormBuilder}/api/document-type/get`);
-  // req.method="NONE";
-    // res.send(data);
   res.set('etag', 'strong')
   res.status(204).json(data);
 })

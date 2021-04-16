@@ -151,7 +151,6 @@ const Social = () => {
           style={{ width: "100%" }}
           className="tabs-main"
           noValidate
-          // onSubmit={this.onSubmit}
           method="post"
         >
           <ul>
@@ -178,7 +177,6 @@ const Social = () => {
                   style={{ width: "100%" }}
                   name="pro_religion"
                   value={dataItem.name}
-                  // defaultValue={ state.pro_religion }
                   placeholder="Họ và tên"
                 />
               </div>
@@ -190,7 +188,6 @@ const Social = () => {
                   style={{ width: "100%" }}
                   name="pro_religion"
                   value={dataItem.job}
-                  // defaultValue={ state.pro_religion }
                   placeholder="Nghề nghiệp"
                 />
               </div>

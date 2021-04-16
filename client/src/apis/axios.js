@@ -1,6 +1,5 @@
 import axios from "axios";
 import docCookies from "doc-cookies"
-// import {logout} from ""
 const axiosConfig = axios.create({
   headers: {
     "content-type": "application/json",
@@ -21,7 +20,6 @@ axiosConfig.interceptors.response.use(
     return response;
   },
   (error) => {
-    // window.location.href ="/404"
     throw error;
   }
 );

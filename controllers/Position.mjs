@@ -2,9 +2,6 @@ import axios from "axios";
 const listPosition = async (req, res) => {
   try {
     const { page } = req.query;
-    // const config = {
-    //   headers: { Authorization: req.headers.authorization },
-    // };
     if(page === "all") {
       let { data } = await axios.get(
         `${process.env.apiEmployee}/api/positions?per_page=100`

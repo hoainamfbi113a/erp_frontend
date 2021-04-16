@@ -23,8 +23,8 @@ const Workflow = () => {
     store_work_flow: '/api/workflow/store',
     get_list_departments: '/api/departments?page=all',
     get_list_positions: '/api/positions?page=all',
-    get_list_actions_by_post_dep: 'https://employee.tuoitre.vn/api/permission/departments/positions',
-    get_list_actions_by_post: 'https://employee.tuoitre.vn/api/list/permission/work-formality',
+    get_list_actions_by_post_dep: '/api/permission/departments/positions',
+    get_list_actions_by_post: '/api/list/permission/work-formality',
   }} tableId={11} permissions={permissions} />
 }
 

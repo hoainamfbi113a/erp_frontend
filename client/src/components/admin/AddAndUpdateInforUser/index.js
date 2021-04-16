@@ -37,7 +37,6 @@ const AddAndUpdateInforUser = (props) => {
   const [profile, setProfile] = useState({})
   const dataProfile = useSelector((state) => state.userProfile);
   const dataUser = useSelector((state) => state.user);
-  // console.log(profile)
   const renderMenuLeft = () => {
     if (activeLink === 1) {
       return <CurriculumVitae idUser={props.match.params.id} value = {value}
@@ -78,7 +77,6 @@ const AddAndUpdateInforUser = (props) => {
     } else {
 
     }
-    // return ""
   };
 
   useEffect(() => {
@@ -87,11 +85,9 @@ const AddAndUpdateInforUser = (props) => {
       dispatch(showLoading())
       let dataWorkflowProfile = await workflowProfile(20);
       setWorkflowProfile(dataWorkflowProfile);
-      // console.log(dataProfile)
       
       setProfile(dataProfile)
       if( id && id !== dataProfile.user_id ){
-      // if(id){
         await dispatch(getUserProfile(id)); // get id profile
         if(Object.keys(dataProfile).length != 0){
             let dataTransfersProfile = {}
@@ -101,7 +97,6 @@ const AddAndUpdateInforUser = (props) => {
       }
     })
     ();
-    // dispatch(hideLoading())
   }, [dataProfile.id]);
   const handleReject = () =>{
     setModalNotify(true);

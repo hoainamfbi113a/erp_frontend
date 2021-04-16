@@ -182,7 +182,6 @@ const Family = () => {
           style={{ width: "100%" }}
           className="tabs-main"
           noValidate
-          // onSubmit={this.onSubmit}
           method="post"
         >
           <ul style = {{width:"100%"}}>
@@ -193,7 +192,6 @@ const Family = () => {
                   value = {dataItem1.title} 
                   name="pro_religion"
                   style={{ width: "100%" }}
-                  // defaultValue={ state.pro_religion }
                   placeholder=""
                 />
               </div>
@@ -225,7 +223,6 @@ const Family = () => {
           style={{ width: "100%" }}
           className="tabs-main"
           noValidate
-          // onSubmit={this.onSubmit}
           method="post"
         >
           <ul>
@@ -234,11 +231,9 @@ const Family = () => {
               <div className="tabs-user-infor-bottom">
                 <Select
                   onChange={handleChange}
-                  // value={dataItem2.title == "Con" ? "Con": "Vợ"}
                   value={valueS}
                   className="modal-selection"
                   style={{ width: 527 }}
-                  // onChange={handleChange}
                 >
                   <Option value="Chồng">Chồng </Option>
                   <Option value="Vợ">Vợ </Option>
@@ -253,7 +248,6 @@ const Family = () => {
                   style={{ width: "100%" }}
                   name="pro_religion"
                   value = {dataItem2.name}
-                  // defaultValue={ state.pro_religion }
                   placeholder="Họ và tên"
                 />
               </div>
@@ -265,7 +259,6 @@ const Family = () => {
                   style={{ width: "100%" }}
                   name="pro_religion"
                   value = {dataItem2.job}
-                  // defaultValue={ state.pro_religion }
                   placeholder="Nghề nghiệp"
                 />
               </div>

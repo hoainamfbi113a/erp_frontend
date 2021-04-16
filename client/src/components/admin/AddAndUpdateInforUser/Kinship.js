@@ -202,7 +202,6 @@ const Family = () => {
               <span className="tabs-user-infor-top">Thông tin</span>
               <div className="tabs-user-infor-bottom">
                 <Select
-                  // value={value}
                   value={value}
                   className="modal-selection"
                   style={{ width: 527 }}
@@ -229,7 +228,6 @@ const Family = () => {
                   style={{ width: "100%" }}
                   name="pro_religion"
                   value={dataItem.name}
-                  // defaultValue={ state.pro_religion }
                   placeholder="Họ và tên"
                 />
               </div>
@@ -241,7 +239,6 @@ const Family = () => {
                   style={{ width: "100%" }}
                   name="pro_religion"
                   value={dataItem.job}
-                  // defaultValue={ state.pro_religion }
                   placeholder="Nghề nghiệp"
                 />
               </div>

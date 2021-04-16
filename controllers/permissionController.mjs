@@ -44,7 +44,6 @@ router.put("/:id", async (req, res) => {
 
 router.post("/delete", async (req, res) => {
     const { id } = req.body;
-    // console.log(req.body)
     const config = {
         headers: { Authorization: req.headers.authorization },
     };
@@ -54,9 +53,9 @@ router.post("/delete", async (req, res) => {
 });
 router.get("/departments/positions", async (req, res) => {
     const { dep_id, pos_id } = req.query;
-
+    console.log("object")
     const config = {
-        headers: { Authorization: req.headers.authorization },
+        headers: { Authorization: req.headers.authorization ? req.headers.authorization:"" },
     };
     let { data } = await axios.get(
         `${process.env.apiEmployee}/api/permission/departments/positions?dep_id=${dep_id}&pos_id=${pos_id}`,

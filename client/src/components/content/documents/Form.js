@@ -480,13 +480,6 @@ class Create extends Component {
                   <div
                     className={classes({ preview: false })}
                     key={item.id}
-                    // style={{
-                    //   width: "200px",
-                    //   position: "absolute",
-                    //   zIndex: 3,
-                    //   top: item.y,
-                    //   left: item.x,
-                    // }}
                     data-index={index}
                   >
                     <RenderInputPreview
@@ -503,7 +496,7 @@ class Create extends Component {
               })}
           </div>
           <div>
-          <div>
+          <div style={{minWidth:"400px"}}>
            {(()=>{
              if(this.state.create === false && this.state.user_id!=docCookies.getItem("user_id") && this.state.view === false) {
                 return (
@@ -525,12 +518,6 @@ class Create extends Component {
                   onClick={(e) => this.handleSubmit(e)}
                 >
                   Gửi tài liệu
-                </span>
-                <span
-                  className="btn-add-user"
-                  onClick={() => this.props.history.goBack()}
-                >
-                  Trở về
                 </span>
               </div>
             )}
@@ -574,12 +561,6 @@ class Create extends Component {
                
 
                 <div>
-                  <span
-                    className="btn-add-user"
-                    onClick={() => this.props.history.goBack()}
-                  >
-                    Trở về
-                  </span>
                 </div>
               </div>
             )}
@@ -623,12 +604,6 @@ class Create extends Component {
             placeholder="Nhập phản hồi của bạn"
           />
         </Modal>
-        {/* <ModalForm dataForm = {this.state.dataForm} idWorkflow ={this.props.match.params.id} show ={this.state.showModal} hideModal = {()=>{
-          this.setState({
-            showModal:false
-          })
-        }}
-        /> */}
       </div>
     );
   }

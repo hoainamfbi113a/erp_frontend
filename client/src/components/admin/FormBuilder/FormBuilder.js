@@ -24,9 +24,9 @@ const { permissions } = useContext(PermissionContext);
     <div>
     <FormBuilder urls={
         {
-            getListTypes: 'https://document.tuoitre.vn/api/document-type/get-document-types',
-            getDocumentTemplate: 'https://document.tuoitre.vn/api/document-template/get',
-            saveDocumentTemplate: 'https://document.tuoitre.vn/api/document-template/store'
+            getListTypes: '/api/document-type/get-document-types',
+            getDocumentTemplate: '"/api/document-template/get',
+            saveDocumentTemplate: '/api/document-template/store'
         }
     }
      permissions={permissions}

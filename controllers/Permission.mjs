@@ -26,11 +26,6 @@ const addPermission = async (req, res) => {
     const config = {
         headers: { Authorization: req.headers.authorization },
     };
-    // console.log(req.body)
-    // console.log("123")
-    // let { data } = await axios.post(`${process.env.apiEmployee}/api/permission`, req.body, config);
-    // console.log(data);
-    // res.send(data);
 };
 
 const updatePermission = async (req, res) => {
@@ -55,14 +50,11 @@ const deletePermission = async (req, res) => {
     res.send(data);
 };
 const existPermission = async (req, res) => {
-    // console.log("123")
     const config = {
-        headers: { Authorization: req.headers.authorization },
+        headers: { Authorization: req.headers.authorization ? req.headers.authorization:"" },
     };
     let {id } = req.params;
-    // console.log(id)
     let { data } = await axios.get(`${process.env.apiEmployee}/api/list/permission/work-formality/${id}`, config);
-    // console.log(data)
     res.send(data);
 }
 const addPermissionToPermission = async (req, res) => {

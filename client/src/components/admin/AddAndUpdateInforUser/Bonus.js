@@ -183,7 +183,6 @@ const Bonus = (props) => {
           style={{ width: "100%" }}
           className="tabs-main"
           noValidate
-          // onSubmit={onSubmit}
           method="post"
         >
           <ul>
@@ -195,7 +194,6 @@ const Bonus = (props) => {
                   className="modal-selection"
                   value={dataItem.category == 1 ? "1" : "2"}
                   style={{ width: 527 }}
-                  // onChange={handleChange}
                 >
                   <Option value="1">Khen thưởng</Option>
                   <Option value="2">Kỷ luật</Option>
