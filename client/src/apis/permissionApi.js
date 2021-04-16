@@ -40,7 +40,19 @@ export const updatePermission = (id, params) =>{
         })
     })
 }
-
+export const allPermission = () =>{
+    return axiosConfig
+    .get("/api/permission/positions/except")
+    .then(data=>{
+        return data;
+    })
+    .catch(err=>{
+        console.log(err)
+        return ({
+            err:"error"
+        })
+    })
+}
 // export const deletePosition = (params) =>{
 //     return axiosConfig
 //     .post(`/api/positionsd`,params)

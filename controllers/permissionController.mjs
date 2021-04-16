@@ -64,7 +64,6 @@ router.get("/departments/positions", async (req, res) => {
 });
 
 router.get("/positions/except", async (req, res) => {
-    console.log("123")
     const config = {
         headers: { Authorization: req.headers.authorization ? req.headers.authorization:"" },
     };

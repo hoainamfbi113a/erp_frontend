@@ -15,7 +15,7 @@ import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 import DualListBox from "react-dual-listbox";
 import "react-dual-listbox/lib/react-dual-listbox.css";
 import { getListPosition } from "apis/positionApi";
-import { getListPermission } from "apis/permissionApi";
+import { allPermission } from "apis/permissionApi";
 import axiosConfig from "apis/axios";
 const { Content } = Layout;
 import { RightOutlined, LeftOutlined, DoubleLeftOutlined, DoubleRightOutlined } from "@ant-design/icons";
@@ -43,14 +43,8 @@ const TablePosition = (props) => {
 
   const fetchDataPermission = async (page) => {
     let arrOption = [];
-    let data = await getListPosition(1);
-    console.log(data)
-    axios
-      .get(
-        "/api/permission/positions/except"
-      )
-      .then((res) => {
-        let dataPermission = res.data;
+    let data = await allPermission()
+        let dataPermission = data;
         for (let item of dataPermission) {
           for (let itemGroup of item.groups) {
             let arrOptionChild = [];
@@ -68,10 +62,6 @@ const TablePosition = (props) => {
             arrOption.push(obj)
           }
         }
-      })
-      .catch((err) => {
-        console.log("err");
-      });
       setArrOption(arrOption)
   };
 
