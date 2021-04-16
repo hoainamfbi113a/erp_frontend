@@ -2,8 +2,8 @@ import axios from "axios";
 import express from "express";
 const router = express.Router();
 router.get("/list", async (req, res) => {
-    let {user_id} = req.query;
-    let { data } = await axios.get(`${process.env.apiFormBuilder}/api/notification/list?user_id=${user_id}`);
+    let {user_id, page, per_page} = req.query;
+    let { data } = await axios.get(`${process.env.apiFormBuilder}/api/notification/list?&page=${page}&per_page=${per_page}&user_id=${user_id}`);
     // console.log(data)
     res.send(data);
 });
