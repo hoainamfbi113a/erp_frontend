@@ -14,6 +14,7 @@ import {
 } from "apis/positionApi";
 import axiosConfig from "apis/axios";
 const { Content } = Layout;
+import { RightOutlined, LeftOutlined, DoubleLeftOutlined, DoubleRightOutlined } from "@ant-design/icons";
 
 const TablePosition = (props) => {
 
@@ -226,6 +227,18 @@ const TablePosition = (props) => {
             options={options}
             selected={selected}
             onChange={onChange}
+            icons={{
+              moveLeft:  <LeftOutlined />,
+              moveAllLeft: [
+                  <DoubleLeftOutlined />,
+                  <span key={1} className="fa fa-chevron-left" />,
+              ],
+              moveRight: <RightOutlined />,
+              moveAllRight: [
+                <DoubleRightOutlined />,
+                  <span key={1} className="fa fa-chevron-right" />,
+              ],
+          }}
           />
         </Modal>
       </Content>
