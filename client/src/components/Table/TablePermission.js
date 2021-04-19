@@ -16,6 +16,7 @@ import { Select } from "antd";
 import axios from "axios";
 import lodash from "lodash";
 import axiosConfig from "apis/axios";
+import { simpleDate } from "../../helpers/FuncHelper";
 import { AllPermissionGroup } from "../../helpers/DataHelper";
 const { Option } = Select;
 const { Content } = Layout;
@@ -246,32 +247,57 @@ class TablePermission extends Component {
     });
   };
 
-  NestedTable() {
+  NestedTable () {
     let data = "";
     if (this.state.data) {
       data = this.state.data;
-      console.log(data);
+      console.log(data)
       const expandedRow = row => {
+        //total = this.state.data.meta.pagination.total;
+
         const columnsExpand = [
           { title: "Quyền", dataIndex: "label", key: "label" },
+          { title: "Ngày tạo", dataIndex: "created_at",
+          key: "created_at"},
           {
             title: "Hành động",
-            dataIndex: "operation",
             key: "operation",
-            render: () => (
+            dataIndex: "value",
+            fixed: "right",
+            render: (value, row) => (
               <Space size="middle">
-                <a>Pause</a>
-                <a>Stop</a>
+                {console.log(value)}
+                <Popconfirm
+                  title="Bạn có muốn ẩn không?"
+                  onConfirm={() => this.confirm(value)}
+                  onCancel={this.cancel}
+                  okText="Yes"
+                  cancelText="No"
+                >
+                  <Tag color="volcano" className="table-action">
+                    Ẩn
+                  </Tag>
+                </Popconfirm>
+                <Tag
+                  onClick={() => this.showModal(text)}
+                  color="geekblue"
+                  className="table-action"
+                >
+                  Cập nhật
+                </Tag>
               </Space>
             ),
           },
+    
         ];
 
         return (
           <Table
+            style={{ paddingLeft: "2rem" }}
             columns={columnsExpand}
             dataSource={
-              data.find(item=> item.key===row.key).options
+              //data[1].options
+              (data.find(group => group.key === row.key)).options
             }
             pagination={false}
           />
