@@ -20,6 +20,7 @@ import axiosConfig from "apis/axios";
 const { Content } = Layout;
 import { RightOutlined, LeftOutlined, DoubleLeftOutlined, DoubleRightOutlined } from "@ant-design/icons";
 import axios from 'axios'
+import { AllPermissionGroup } from "../../helpers/DataHelper";
 const TablePosition = (props) => {
   const dispatch = useDispatch();
   const [data, setData] = useState(null);
@@ -42,27 +43,8 @@ const TablePosition = (props) => {
   };
 
   const fetchDataPermission = async (page) => {
-    let arrOption = [];
-    let data = await allPermission()
-        let dataPermission = data;
-        for (let item of dataPermission) {
-          for (let itemGroup of item.groups) {
-            let arrOptionChild = [];
-            for (let itemPermission of itemGroup.permissions) {
-              let objP = {
-                label: itemPermission.name,
-                value: itemPermission.id,
-              };
-              arrOptionChild.push(objP);
-            }
-            let obj = {
-              label: itemGroup.name,
-              options: arrOptionChild,
-            };
-            arrOption.push(obj)
-          }
-        }
-      setArrOption(arrOption)
+    let data = await allPermission()      
+    setArrOption(AllPermissionGroup(data))
   };
 
   const handlePagination = async (pagination) => {

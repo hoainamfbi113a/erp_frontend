@@ -4,10 +4,8 @@ import { getListAllPosition } from "apis/positionApi";
 import { getListAllDepartment } from "apis/departmentApi";
 import { getListRole } from "apis/roleApi";
 import { allPermission } from "apis/permissionApi";
-import axios from "axios";
 import lodash from "lodash";
 import React, { Component } from "react";
-import { connect } from "react-redux";
 import "../../App/App.css";
 import "./Table.css";
 const { Option } = Select;
@@ -20,6 +18,7 @@ import {
   DoubleLeftOutlined,
   DoubleRightOutlined,
 } from "@ant-design/icons";
+import { AllPermissionGroup } from "../../helpers/DataHelper";
 export default class TableRoles_v2 extends Component {
   constructor(props) {
     super(props);
@@ -51,7 +50,6 @@ export default class TableRoles_v2 extends Component {
   componentDidMount = () => {
     this.fetchData();
     this.getMock();
-    // this.props.setClick(this.showModalAssign);
   };
   fetchData = async () => {
     let data = await getListAllPosition();
@@ -82,17 +80,6 @@ export default class TableRoles_v2 extends Component {
         dataRight = res;
       });
     let ArrSelected = [];
-    // console.log(dataRight)
-    // // for (let item of dataRight) {
-    //   for (const property in dataRight) {
-    //     // console.log(property)
-    //     // console.log(`${property}: ${dataRight[property]}`);
-    //   for (let itemChild of dataRight[property]) {
-    //     console.log(itemChild)
-    //   //   for(let itemChild1 of itemChild.permissions)
-    //   //   ArrSelected.push(itemChild1.id);
-    //   }
-    // }
     for (const property in dataRight) {
       for (const item of dataRight[property].groups) {
         for (const itemChild of item.permissions) {
@@ -100,50 +87,16 @@ export default class TableRoles_v2 extends Component {
         }
       }
     }
-    console.log(ArrSelected);
     this.setState({
       selected: ArrSelected,
       selectedBegin: ArrSelected,
     });
-    console.log(this.state.selected);
-    // await axiosConfig
-    //   .get("/api/list/permission/actions")
-    //   .then((res) => {
-    //     this.setState({
-    //       dataPermission: res,
-    //     });
-    //   })
-    //   .catch((er) => {
-    //     console.log(err);
-    //   });
-    //   console.log(this.state.dataPermission)
-    // let arrOption = [];
-    // for (let item of this.state.dataPermission) {
-    //   let arrAction = [];
-    //   for (let itemChild of item.actions) {
-    //     let objChild = {
-    //       label: itemChild.note,
-    //       value: `${item.id}_${itemChild.id}`,
-    //     };
-    //     arrAction.push(objChild);
-    //   }
-    //   let obj = {
-    //     label: item.name,
-    //     options: arrAction,
-    //   };
-    //   arrOption.push(obj);
-    // }
-    // this.setState({
-    //   dataOptions: arrOption,
-    // });
+    
   };
   handleChangePosition = (value) => {
     this.setState({
       pos_id: value,
     });
-    // if (this.state.dep_id != null && value != null) {
-    //   this.getMock(this.state.dep_id, value);
-    // }
   };
   handleFocusPosition = () => {
     this.setState({
@@ -154,9 +107,6 @@ export default class TableRoles_v2 extends Component {
     this.setState({
       dep_id: value,
     });
-    // if (value != null && this.state.pos_id != null) {
-    //   this.getMock(value, this.state.pos_id);
-    // }
   };
   handleFocusDepartment = () => {
     this.setState({
@@ -167,30 +117,13 @@ export default class TableRoles_v2 extends Component {
     this.setState({
       disabledSelected: false,
     });
-    let arrOption = [];
-    let data = await allPermission()
-        let dataPermission = data;
-        for (let item of dataPermission) {
-          for (let itemGroup of item.groups) {
-            let arrOptionChild = [];
-            for (let itemPermission of itemGroup.permissions) {
-              let objP = {
-                label: itemPermission.name,
-                value: itemPermission.id,
-              };
-              arrOptionChild.push(objP);
-            }
-            let obj = {
-              label: itemGroup.name,
-              options: arrOptionChild,
-            };
-            arrOption.push(obj)
-          }
-        }
-        console.log(arrOption)
-    this.setState({
-      dataOptions: arrOption,
-    });
+    let data = await allPermission();
+    console.log(data);
+    if (!data.err) {
+      this.setState({
+        dataOptions: AllPermissionGroup(data),
+      });
+    }
   };
   handleCancel = () => {
     this.props.hideModal();
@@ -202,8 +135,6 @@ export default class TableRoles_v2 extends Component {
       selected: [],
       selectedBegin: [],
       disabledSelected: false,
-      // dataPermission: null,
-      // data:null,
     });
   };
   showDepartment = () => {
@@ -285,10 +216,6 @@ export default class TableRoles_v2 extends Component {
       let differenceDelete = arr1.filter((x) => !arr2.includes(x));
 
       let differenceAdd = arr2.filter((x) => !arr1.includes(x));
-      // console.log(differenceAdd)
-      // console.log(differenceDelete)
-      // let arrPerActionAdd = this.customSelected(differenceAdd);
-      // let arrPerActionDelete = this.customSelected(differenceDelete);
       console.log(this.state.pos_idUpdate);
 
       if (differenceAdd.length !== 0) {
@@ -331,9 +258,6 @@ export default class TableRoles_v2 extends Component {
           });
       }
     } else {
-      // let data = this.state.selected;
-      // console.log(this.state.selected)
-      // let arrPerAction = this.customSelected(data);
 
       const params = {
         dep_id: this.state.dep_id,
