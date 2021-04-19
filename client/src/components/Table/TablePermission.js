@@ -10,34 +10,36 @@ import {
   getListPermission,
   addPermission,
   updatePermission,
+  allPermission,
 } from "apis/permissionApi";
 import { Select } from "antd";
 import axios from "axios";
 import lodash from "lodash";
 import axiosConfig from "apis/axios";
+import { AllPermissionGroup } from "../../helpers/DataHelper";
 const { Option } = Select;
 const { Content } = Layout;
 
 class TablePermission extends Component {
   state = {
-      collapsed: false,
-      data: null,
-      loading: false,
-      id: "",
-      app_id: "99",
-      table_management_id: "",
-      name: "",
-      uri: "",
-      method: "",
-      action: "",
-      param: "",
-      body: "",
-      option: "",
-      status: 1,
-      dataTableManager: null,
-      service_management_id: "",
-      dataService: null,
-      listAction: null,
+    collapsed: false,
+    data: null,
+    loading: false,
+    id: "",
+    app_id: "99",
+    table_management_id: "",
+    name: "",
+    uri: "",
+    method: "",
+    action: "",
+    param: "",
+    body: "",
+    option: "",
+    status: 1,
+    dataTableManager: null,
+    service_management_id: "",
+    dataService: null,
+    listAction: null,
   };
   componentDidMount = () => {
     this.fetchData();
@@ -56,11 +58,19 @@ class TablePermission extends Component {
       });
   };
   fetchData = async () => {
-    let res = await getListPermission(1);
+    let data = await allPermission();
+    console.log(data);
+    if (!data.err) {
+      this.setState({
+        data: AllPermissionGroup(data),
+      });
+    } else {
+      message.error("Get list permission failed");
+    }
     axios
       .get("https://employee.tuoitre.vn/api/service-management")
       .then((res) => {
-        console.log(res.data)
+        console.log(res.data);
         this.setState({
           dataService: res.data.data,
         });
@@ -68,13 +78,6 @@ class TablePermission extends Component {
       .catch((err) => {
         console.log(err);
       });
-    if (!res.err) {
-      this.setState({
-        data: res,
-      });
-    } else {
-      message.error("Get list permission failed")
-    }
   };
   onSubmit = async () => {
     let {
@@ -102,12 +105,12 @@ class TablePermission extends Component {
     if (this.state.id === "") {
       this.hideModal();
       let res = await addPermission(params);
-          if (res.message === "Success!. Stored") {
-            message.success("Thêm permission thành công");
-            this.fetchData();
-          } else {
-              message.error("Thêm permission thất bại");
-          }
+      if (res.message === "Success!. Stored") {
+        message.success("Thêm permission thành công");
+        this.fetchData();
+      } else {
+        message.error("Thêm permission thất bại");
+      }
     } else {
       this.hideModal();
       let res = await updatePermission(id, params);
@@ -144,19 +147,20 @@ class TablePermission extends Component {
   };
 
   confirm = (id) => {
-    axiosConfig.post("/api/permission/delete",{id})
-    .then(res=>{
-      console.log(res)
-      if(res.message === "Success!. Deleted") {
-        this.fetchData();
-        message.success("Xoá quyền thành công")
-      } else {
-        message.error("Xoá quyền thất bại")
-      }
-    })
-    .catch(err=>{
-      console.log(err)
-    })
+    axiosConfig
+      .post("/api/permission/delete", { id })
+      .then((res) => {
+        console.log(res);
+        if (res.message === "Success!. Deleted") {
+          this.fetchData();
+          message.success("Xoá quyền thành công");
+        } else {
+          message.error("Xoá quyền thất bại");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
 
     // const { userSixActionCreators } = this.props;
     // const { deleteUserSix } = userSixActionCreators;
@@ -170,16 +174,17 @@ class TablePermission extends Component {
     this.setState({ selectedRowKeys });
   };
   handleChangeFeature = (value) => {
-    axiosConfig.get(`/api/service-management/table-management/${value}`)
-    .then(res=>{
-      console.log(res)
-      this.setState({
-        dataTableManager: res,
+    axiosConfig
+      .get(`/api/service-management/table-management/${value}`)
+      .then((res) => {
+        console.log(res);
+        this.setState({
+          dataTableManager: res,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
       });
-    })
-    .catch(err=>{
-      console.log(err)
-    })
     this.setState({
       service_management_id: value,
     });
@@ -201,7 +206,6 @@ class TablePermission extends Component {
     }
   };
   renderServiceManager = () => {
-    console.log(this.state.dataService)
     if (this.state.dataService) {
       return this.state.dataService.map((item) => {
         return <Option value={item.id}>{item.name}</Option>;
@@ -219,11 +223,11 @@ class TablePermission extends Component {
   };
   renderTableManager = () => {
     if (this.state.dataService && this.state.dataTableManager) {
-       return this.state.dataTableManager.map(item=>{
-          // if (this.state.service_management_id == item.service_management_id) {
-           return  <Option value={item.id}>{item.name}</Option>;
+      return this.state.dataTableManager.map((item) => {
+        // if (this.state.service_management_id == item.service_management_id) {
+        return <Option value={item.id}>{item.name}</Option>;
         //  }
-        })
+      });
     }
   };
   handleServiceManager = (value) => {
@@ -241,89 +245,99 @@ class TablePermission extends Component {
       method: value,
     });
   };
-  render() {
-    let data = "";
-    let total = 0;
-    if (this.state.data) {
-      data = this.state.data.data;
-      total = this.state.data.meta.pagination.total;
-    }
-    const columns = [
-      {
-        title: "Tên quyền",
-        dataIndex: "name",
-        key: "name",
-      },
-      {
-        title: "Trạng thái",
-        dataIndex: "status",
-        key: "status",
-        render: (text) => {
-          if (text == 1)
-            return (
-              <Tag color="geekblue" className="table-action">
-                ACTIVE
-              </Tag>
-            );
-          return (
-            <Tag color="geekblue" className="table-action">
-              HIDE
-            </Tag>
-          );
-        },
-      },
-      {
-        title: "Ngày tạo",
-        dataIndex: "created_at",
-        key: "created_at",
-      },
 
-      {
-        title: "Hành động",
-        key: "operation",
-        dataIndex: "id",
-        fixed: "right",
-        render: (text, row) => (
-          <Space size="middle">
-            <Popconfirm
-              title="Are you sure hide this user?"
-              onConfirm={() => this.confirm(text)}
-              onCancel={this.cancel}
-              okText="Yes"
-              cancelText="No"
-            >
-              <Tag color="volcano" className="table-action">
-                Ẩn
-              </Tag>
-            </Popconfirm>
-            {/* <Tag
-              onClick={() => this.showModal(text)}
-              color="geekblue"
-              className="table-action"
-            >
-              Cập nhật
-            </Tag> */}
-          </Space>
-        ),
-      },
-    ];
+  NestedTable() {
+    let data = "";
+    if (this.state.data) {
+      data = this.state.data;
+      console.log(data);
+      const expandedRow = (row) => {
+        //total = this.state.data.meta.pagination.total;
+
+        for (let i of data) {
+          let arr = [];
+          for (let a of i.options) {
+            arr.push(a.label);
+          }
+        }
+        const columnsExpand = [
+          { title: "Quyền", dataIndex: "label", key: "label" },
+          {
+            title: "Hành động",
+            dataIndex: "operation",
+            key: "operation",
+            render: () => (
+              <Space size="middle">
+                <a>Pause</a>
+                <a>Stop</a>
+              </Space>
+            ),
+          },
+        ];
+
+        return (
+          <Table
+            columns={columnsExpand}
+            dataSource={
+              data[1].options
+            }
+            pagination={false}
+          />
+        );
+      };
+
+      const columns = [
+        {
+          title: "Nhóm quyền",
+          dataIndex: "label",
+          key: "key",
+        },
+      ];
+
+      return (
+        <Table
+          style={{ minHeight: "70vh" }}
+          className="table-content"
+          //rowKey="id"
+          columns={columns}
+          expandedRowRender={ expandedRow }
+          dataSource={data}
+          // pagination={{
+          //   onChange: this.handlePagination,
+          //   pageSize: 15,
+          //   total: total,
+          // }}
+        />
+      );
+    }
+  }
+
+  render() {
     return (
       <div>
         <Content>
           <div className="layout-content">
             <div style={{ padding: 24, minHeight: 200 }}>
-              <Table
+              {/* <Table
                 style={{ minHeight: "70vh" }}
                 dataSource={data}
                 columns={columns}
                 className="table-content"
+                expandable={
+                  <Table
+                    columns={expandColumns}
+                    dataSource={datas}
+                    pagination={false}
+                  />
+                }
                 rowKey="id"
                 pagination={{
                   onChange: this.handlePagination,
                   pageSize: 15,
                   total: total,
                 }}
-              />
+              /> */}
+              {this.NestedTable()}
             </div>
           </div>
         </Content>
@@ -340,22 +354,9 @@ class TablePermission extends Component {
             style={{ width: "100%" }}
             className="tabs-main tabs-main-modal"
             noValidate
-            // onSubmit={this.onSubmit}
             method="post"
           >
             <ul style={{ marginLeft: "23px" }}>
-              {/* <li className="tabs-main-left-li">
-                <span className="tabs-user-infor-top">Chọn Service</span>
-                <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal ">
-                  <Select
-                    value={this.state.service_management_id}
-                    style={{ width: 120 }}
-                    onChange={this.handleServiceManager}
-                  >
-                    {this.renderServiceManager()}
-                  </Select>
-                </div>
-              </li> */}
               <li className="tabs-main-left-li">
                 <span className="tabs-user-infor-top">Chọn Service</span>
                 <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal ">
@@ -458,14 +459,6 @@ class TablePermission extends Component {
                   />
                 </div>
               </li>
-              {/* <li className="tabs-main-left-li">
-                <span className="tabs-user-infor-top">Trạng thái</span>
-                <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
-                  <Select defaultValue="1" style={{ width: 120 }}>
-                    <Option value="1">Action</Option>
-                  </Select>
-                </div>
-              </li> */}
             </ul>
           </form>
         </Modal>
