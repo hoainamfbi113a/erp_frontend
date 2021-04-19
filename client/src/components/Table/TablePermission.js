@@ -251,6 +251,7 @@ class TablePermission extends Component {
     let data = "";
     if (this.state.data) {
       data = this.state.data;
+      console.log(data)
       const expandedRow = row => {
         //total = this.state.data.meta.pagination.total;
 
@@ -261,13 +262,14 @@ class TablePermission extends Component {
           {
             title: "Hành động",
             key: "operation",
-            dataIndex: "id",
+            dataIndex: "value",
             fixed: "right",
-            render: (text, row) => (
+            render: (value, row) => (
               <Space size="middle">
+                {console.log(value)}
                 <Popconfirm
                   title="Bạn có muốn ẩn không?"
-                  onConfirm={() => this.confirm(text)}
+                  onConfirm={() => this.confirm(value)}
                   onCancel={this.cancel}
                   okText="Yes"
                   cancelText="No"
