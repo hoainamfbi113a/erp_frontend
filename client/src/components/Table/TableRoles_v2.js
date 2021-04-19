@@ -33,7 +33,6 @@ export default class TableRoles_v2 extends Component {
       modalAssign: false,
       id: "",
       idPosition: "",
-      app_id: "99",
       name: "",
       status: 1,
       data: null,
