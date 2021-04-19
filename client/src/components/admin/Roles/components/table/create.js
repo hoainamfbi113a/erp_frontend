@@ -14,6 +14,7 @@ function Create(props) {
             })
     },[])
     const handleSubmit = (e) => {
+        console.log(data)
         ApiHelper.callAxios(props.urlGetListTable, 'POST', {}, data)
             .then(res => {
                 props.handleAfterSubmit(e, res.data);
@@ -38,6 +39,12 @@ function Create(props) {
         setData({
             ...data,
             service_management_id: e.target.value
+        });
+    }
+    const handleIsDisplay = (e) => {
+        setData({
+            ...data,
+            id_display: +e.target.value
         });
     }
     return (
@@ -70,7 +77,7 @@ function Create(props) {
                     </Form.Group>
                     <Form.Group >
                         <Form.Label>Hiện*</Form.Label>
-                        <Form.Control onChange={(e) => handleChange(e)} as="select">
+                        <Form.Control onChange={(e) => handleIsDisplay(e)} as="select">
                             <option value="1" selected={data.is_display === "1" ? true: false } >TRUE</option>
                             <option value="0" selected={data.is_display === "1" ? true: false } >FALSE</option>
                         </Form.Control>
