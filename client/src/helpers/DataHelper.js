@@ -1,3 +1,5 @@
+import { simpleDate } from "./FuncHelper";
+
 const AllPermissionGroup = data => {
   let arrOption = [];
   data.map((item) =>
@@ -5,6 +7,7 @@ const AllPermissionGroup = data => {
       let arrOt = [];
       itemGr.permissions.map((itemPer) => {
         let objPer = {
+          created_at: simpleDate(itemPer.created_at),
           label: itemPer.name,
           value: itemPer.id,
         };
