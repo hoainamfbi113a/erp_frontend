@@ -264,11 +264,10 @@ router.post("/document-type/store", async (req, res) => {
   }
 });
 
-router.delete("/document-type/delete", async (req, res) => {
+router.delete("/document-type/delete/:id", async (req, res) => {
   try {
     let { data } = await axios.delete(
-      `${process.env.apiFormBuilder}/api/document-type/delete`,
-      req.body
+      `${process.env.apiFormBuilder}/api/document-type/delete/${req.params.id}`
     );
     res.send(data);
   } catch (error) {
@@ -276,11 +275,10 @@ router.delete("/document-type/delete", async (req, res) => {
   }
 });
 
-router.put("/api/document-type/update", async (req, res) => {
+router.post("/document-type/update/:id", async (req, res) => {
   try {
-    let { data } = await axios.put(
-      `${process.env.apiFormBuilder}/api/document-type/update`,
-      req.body
+    let { data } = await axios.post(
+      `${process.env.apiFormBuilder}/api/document-type/update/${req.params.id}`, req.body
     );
     res.send(data);
   } catch (error) {
