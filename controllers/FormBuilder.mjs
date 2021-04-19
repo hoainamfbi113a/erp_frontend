@@ -255,7 +255,7 @@ router.post("/document/delete", async (req, res) => {
 router.post("/document-type/store", async (req, res) => {
   try {
     let { data } = await axios.post(
-      `${process.env.apiWorkflow}/api/document-type/store`,
+      `${process.env.apiFormBuilder}/api/document-type/store`,
       req.body
     );
     res.send(data);
@@ -267,7 +267,7 @@ router.post("/document-type/store", async (req, res) => {
 router.delete("/document-type/delete", async (req, res) => {
   try {
     let { data } = await axios.delete(
-      `${process.env.apiWorkflow}/api/document-type/delete`,
+      `${process.env.apiFormBuilder}/api/document-type/delete`,
       req.body
     );
     res.send(data);
@@ -279,7 +279,7 @@ router.delete("/document-type/delete", async (req, res) => {
 router.put("/api/document-type/update", async (req, res) => {
   try {
     let { data } = await axios.put(
-      `${process.env.apiWorkflow}/api/document-type/update`,
+      `${process.env.apiFormBuilder}/api/document-type/update`,
       req.body
     );
     res.send(data);
