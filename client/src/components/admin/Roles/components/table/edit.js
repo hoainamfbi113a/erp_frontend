@@ -5,14 +5,17 @@ import Form from 'react-bootstrap/Form'
 import * as ApiHelper from '../../Helper';
 
 function Create(props) {
+    console.log(props)
     const [data, setData] = useState({});
     const [listService, setListService] = useState({});
     const [id, setId] = useState({});
     useEffect(function () {
+        let { name, slug, service_management_id, status } = props.data
         setData({
-            name: props.data.name,
-            slug: props.data.slug,
-            service_management_id: props.data.service_management_id,
+            name,
+            slug,
+            service_management_id,
+            status,
         })
         ApiHelper.callAxios(props.urlGetListService,'GET', {})
             .then(data => {
@@ -47,6 +50,13 @@ function Create(props) {
             service_management_id: e.target.value
         });
     }
+    const handleChange = (e)=>{
+        // console.log(e.target.value)
+        setData({
+            ...data,
+            status:+e.target.value
+        })
+    }
     return (
         <Modal show={props.isShowEdit} onHide={props.handleClose}>
             <Modal.Header closeButton>
@@ -56,6 +66,8 @@ function Create(props) {
                 <Form>
                     <Form.Group controlId="formBasicEmail">
                         <Form.Label>Tên*</Form.Label>
+                        {/* {console.log(data.status)} */}
+                        {/* {console.log(data.name)} */}
                         <Form.Control onChange={(e) => handleNameChange(e)} value={data.name} type="text" placeholder="Nhập tên service" />
                     </Form.Group>
                     <Form.Group controlId="formBasicEmail">
@@ -72,6 +84,13 @@ function Create(props) {
                                     )
                                 })
                             }
+                        </Form.Control>
+                    </Form.Group>
+                    <Form.Group >
+                        <Form.Label>Hiện*</Form.Label>
+                        <Form.Control onChange={(e) => handleChange(e)} as="select">
+                            <option value="1" selected={data.status === "1" ? true: false } >TRUE</option>
+                            <option value="0" selected={data.status === "1" ? true: false } >FALSE</option>
                         </Form.Control>
                     </Form.Group>
                     <Button variant="primary" onClick={(e) => handleSubmitEdit(e)}>
