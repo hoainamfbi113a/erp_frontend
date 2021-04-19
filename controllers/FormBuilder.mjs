@@ -102,10 +102,8 @@ router.post("/document/store", async (req, res) => {
   dep_idUser = data.data.department.data.dep_id;
   pos_idUser = data.data.department.data.pos_id;
   let target = [];
-  let count = 0;
   for (let item of (dataWorkFlow && dataWorkFlow.steps) ) {
-    count++;
-      if(count === 1) {
+      if(item.current_process_user_is_target === true) {
         let targetBegin = {
           target_id: user_id,
           target_name: data.data.pro_name,
@@ -167,7 +165,7 @@ router.post("/document/store", async (req, res) => {
               params
             )
             .then((res3) => {
-              resEnd.send("success");
+              // resEnd.send("success");
               let body = {
                 user_id: +user_id,
                 status: "pass",
@@ -180,6 +178,7 @@ router.post("/document/store", async (req, res) => {
                   resEnd.send("success");
                 })
                 .catch((err) => {
+                  console.log(err)
                   console.log("err");
                 });
             })
@@ -189,6 +188,7 @@ router.post("/document/store", async (req, res) => {
             });
         })
         .catch((err) => {
+          console.log(err)
           console.log("failed .5")
           resEnd.send("failed 2");
         });
