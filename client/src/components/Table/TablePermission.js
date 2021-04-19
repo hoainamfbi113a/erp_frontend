@@ -251,15 +251,7 @@ class TablePermission extends Component {
     if (this.state.data) {
       data = this.state.data;
       console.log(data);
-      const expandedRow = (row) => {
-        //total = this.state.data.meta.pagination.total;
-
-        for (let i of data) {
-          let arr = [];
-          for (let a of i.options) {
-            arr.push(a.label);
-          }
-        }
+      const expandedRow = row => {
         const columnsExpand = [
           { title: "Quyền", dataIndex: "label", key: "label" },
           {
@@ -279,7 +271,7 @@ class TablePermission extends Component {
           <Table
             columns={columnsExpand}
             dataSource={
-              data[1].options
+              data.find(item=> item.key===row.key).options
             }
             pagination={false}
           />
