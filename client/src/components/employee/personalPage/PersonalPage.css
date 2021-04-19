@@ -1,98 +1,100 @@
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
-.personal-page-top {
-    display: flex;
-    position: relative;
-}
-.personal-page-top-cover {
-    width: 97%;
-    object-fit: cover;
-    margin: 0 auto;
-}
-.personal-page-content {
-    display: flex;
-    position: relative;
+.emp-profile{
+    padding: 3%;
+    margin-top: 3%;
+    margin-bottom: 3%;
+    border-radius: 0.5rem;
     background: #fff;
-    width: 97%;
-    margin: 0 auto;
 }
-.personal-page-bottom {
-    background: #fff;
-    width: 97%;
-    margin: 0 auto;
-    margin-top: -31px;
-    z-index: 1;
+.profile-img{
+    text-align: center;
+}
+.profile-img img{
+    width: 70%;
+    height: 100%;
+}
+.profile-img .file {
     position: relative;
+    overflow: hidden;
+    margin-top: -20%;
+    width: 70%;
+    border: none;
+    border-radius: 0;
+    font-size: 15px;
+    background: #212529b8;
 }
-.personal-page-bottom ul {
-    margin-left: 59px;
-    list-style-type: none;
+.profile-img .file input {
+    position: absolute;
+    opacity: 0;
+    right: 0;
+    top: 0;
 }
-.personal-page-bottom .personal-page-timeline {
-    margin-left: 2px;
+.profile-head h5{
+    color: #333;
 }
-.personal-page-bottom > ul li {
-    display: flex;
-    margin-bottom: 20px;
+.profile-head h6{
+    color: #0062cc;
 }
-.personal-page-bottom-left {
-    width: 197px;
-    font-weight: bold;
-    font-size: 20px;
-    line-height: 23px;
-    color: #3f4254;
+.profile-edit-btn{
+    border: none;
+    border-radius: 1.5rem;
+    width: 70%;
+    padding: 2%;
+    font-weight: 600;
+    color: #6c757d;
+    cursor: pointer;
 }
-.personal-page-bottom-right {
-    font-weight: normal;
-    font-size: 20px;
-    line-height: 23px;
-    margin-left: 15px;
-    color: #7e8299;
+.proile-rating{
+    font-size: 12px;
+    color: #818182;
+    margin-top: 5%;
 }
-.lazyload-wrapper {
-    width: 215px;
-    height: 215px;
+.proile-rating span{
+    color: #495057;
+    font-size: 15px;
+    font-weight: 600;
 }
-.personal-page-content-avatar {
-    top: -70px;
-    left: 60px;
-    position: relative;
+.profile-head .nav-tabs{
+    margin-bottom:5%;
 }
-.personal-page-content-infor-primary {
-    margin: 17px 0 0 92px;
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
+.profile-head .nav-tabs .nav-link{
+    font-weight:600;
+    border: none;
 }
-.personal-page-primary-infor {
-    padding-left: 25px;
+.profile-head .nav-tabs .nav-link.active{
+    border: none;
+    border-bottom:2px solid #0062cc;
 }
-.infor-primary-name {
-    font-size: 28px;
-    line-height: 33px;
-    color: #3f4254;
-    padding-top: 10px;
+.profile-work{
+    padding: 14%;
+    margin-top: -15%;
 }
-.infor-primary-department {
-    font-weight: 500;
-    font-size: 20px;
-    line-height: 23px;
-    margin-top: 10px;
-    color: #7e8299;
-    padding-top: 10px;
+.profile-work p{
+    font-size: 12px;
+    color: #818182;
+    font-weight: 600;
+    margin-top: 10%;
 }
-.infor-primary-contact {
-    font-weight: normal;
-    font-size: 20px;
-    line-height: 23px;
-    color: #b5b5c3;
-    display: flex;
-    padding-top: 10px;
-    width: 100%;
+.profile-work a{
+    text-decoration: none;
+    color: #495057;
+    font-weight: 600;
+    font-size: 14px;
 }
+.profile-work ul{
+    list-style: none;
+}
+.profile-tab label{
+    font-weight: 600;
+}
+.profile-tab p{
+    font-weight: 600;
+    color: #0062cc;
+}
+
 .infor-primary-contact img {
     margin-top: 10px;
     width: 18px;
@@ -107,53 +109,4 @@
 .infor-primary-contact ul li {
     margin-right: 31px;
     margin-top: 10px;
-}
-.personal-page-history-list li {
-    display: flex;
-    flex-direction: column;
-}
-.ant-timeline-item-tail {
-    height: calc(100% +3px);
-}
-.ant-timeline-item-content .personal-history-time:before {
-    border-left: 0px;
-}
-.personal-history-time,
-.personal-history-content {
-    font-size: 18px;
-}
-.btn-edit-user {
-    margin-right: 30px;
-}
-.infor-primary-contact {
-    font-size: 20px;
-}
-.personal-page-hr {
-    z-index: 2;
-    position: relative;
-    top: -46px;
-    width: 90%;
-    margin: 0 auto;
-    opacity: 0.3;
-}
-.btn-img-background-profile{
-    position: absolute;
-    right: 21px;
-    top: 251px;
-}
-.btn-img-profile{
-    position: absolute;
-    left: 170px;
-    top: 191px;
-}
-.btn-img-profile .ant-btn{
-    border-radius: 50%;
-    width: 100%;
-    height: 100%;
-    width: 47px;
-    height: 45px;
-    background: #eee;
-}
-.ant-upload-list-text{
-    display: none;
 }
