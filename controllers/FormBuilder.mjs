@@ -69,13 +69,19 @@ router.get("/document-type/get-document-types", async (req, res) => {
   }
 });
 let getTarget = async (pos_id, dep_id, step_id, action_id) => {
-  console.log("dep_id", dep_id);
-  console.log("pos_id", pos_id);
   let target = [];
-  let { data } = await axios.get(
-    `${process.env.apiEmployee}/api/departments/positions/list-user/${dep_id}?order=asc&pos_id=${pos_id}`
-  );
-  const object = data;
+  let object;
+  if(dep_id === null) {
+    let { data } = await axios.get(
+      `${process.env.apiEmployee}/api/positions/list-user/${pos_id}?order=desc&page=1&per_page=20`
+    );
+    object = data
+  } else {
+    let { data } = await axios.get(
+      `${process.env.apiEmployee}/api/departments/positions/list-user/${dep_id}?order=asc&pos_id=${pos_id}`
+    );
+    object = data
+  }
   for (const property in object.data) {
     let obj = {
       target_id: object.data[property].id,
@@ -112,7 +118,11 @@ router.post("/document/store", async (req, res) => {
           action_id: item.actions[0].id,
         };
         target.push(targetBegin);
-      } else {
+      } else if(item.position_not_part_of_department === true) {
+        let arrChild = await getTarget(item.actions[0].position_id, null, item.id, item.actions[0].id)
+        target = [...target, ...arrChild]
+      } 
+       else {
           let pos_id, dep_id;
           dep_id =
             item.actions[0].department_id == null

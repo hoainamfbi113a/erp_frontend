@@ -36,11 +36,11 @@ app.use("/api/pokemon", function(req, res, next){
     const config = {
         headers: { Authorization: req.headers.authorization },
     };
-    console.log("data",req.body.data)
+    // console.log("data",req.body.data)
     let resParent = res
     axios.post(`http://192.168.61.116/api/check-permission`,req.body.objCheck, config )
     .then(res=>{
-        console.log(res.data)
+        // console.log(res.data)
         if(res.data === true){
             apiMain(req,resParent)
         } else {
@@ -57,9 +57,9 @@ const apiMain =(req,resParent) =>{
     let domain = req.body.domain;
     let customDomain = domain.replace('https', 'http');
     let path = `${customDomain}/${req.body.uri}${req.body.id ? req.body.id : ""}`
-    console.log(path)
-    console.log(req.body.data)
-    console.log(req.body.objCheck.method)
+    // console.log(path)
+    // console.log(req.body.data)
+    // console.log(req.body.objCheck.method)
     axios({
         method:req.body.objCheck.method,
         url: path,
@@ -69,7 +69,10 @@ const apiMain =(req,resParent) =>{
     .then(function (response) {
         console.log(response)
         resParent.send(response.data)
-      });
+      })
+    .catch(err=>{
+        console.log(err)
+    })
 }
 app.use("/api", userController);
 app.use("/api", formBuilderController);

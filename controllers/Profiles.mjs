@@ -15,16 +15,19 @@ const getProfile = async (req, res) => {
   })
 };
 const updateProfile = async (req, res) => {
-  const config = {
-    headers: { Authorization: req.headers.authorization }
-  };
-  let id = req.params.id
-  let { data } = await Axios.put(
-    `${process.env.apiEmployee}/api/profiles/${id}`,req.body,config
-  );
+  try {
+    const config = {
+      headers: { Authorization: req.headers.authorization }
+    };
+    let id = req.params.id
+    let { data } = await Axios.put(
+      `${process.env.apiEmployee}/api/profiles/${id}`,req.body,config
+    );
+    res.send(data);
   
-  res.send(data);
-
+  } catch (error) {
+    console.log(error)
+  }
 };
 const addProfile = async (req, res) => {
   const config = {
