@@ -25,7 +25,7 @@ const { permissions } = useContext(PermissionContext);
     <FormBuilder urls={
         {
             getListTypes: '/api/document-type/get-document-types',
-            getDocumentTemplate: '"/api/document-template/get',
+            getDocumentTemplate: '/api/document-template/get',
             saveDocumentTemplate: '/api/document-template/store'
         }
     }
