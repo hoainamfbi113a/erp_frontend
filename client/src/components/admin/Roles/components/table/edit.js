@@ -10,12 +10,13 @@ function Create(props) {
     const [listService, setListService] = useState({});
     const [id, setId] = useState({});
     useEffect(function () {
-        let { name, slug, service_management_id, status } = props.data
+        let { name, slug, service_management_id, status, is_display } = props.data
         setData({
             name,
             slug,
             service_management_id,
             status,
+            is_display
         })
         ApiHelper.callAxios(props.urlGetListService,'GET', {})
             .then(data => {
@@ -95,8 +96,9 @@ function Create(props) {
                     <Form.Group >
                         <Form.Label>Hiện*</Form.Label>
                         <Form.Control onChange={(e) => handleIsDisplay(e)} as="select">
-                            <option value="1" selected={data.is_display === "1" ? true: false } >TRUE</option>
-                            <option value="0" selected={data.is_display === "1" ? true: false } >FALSE</option>
+                            {console.log(data.is_display)}
+                            <option value="1" selected={data.is_display == "1" ? true: false } >TRUE</option>
+                            <option value="0" selected={data.is_display == "0" ? true: false } >FALSE</option>
                         </Form.Control>
                     </Form.Group>
                     <Button variant="primary" onClick={(e) => handleSubmitEdit(e)}>

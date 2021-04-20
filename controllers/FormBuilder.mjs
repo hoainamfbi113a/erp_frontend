@@ -22,10 +22,11 @@ router.get("/document-template/get", async (req, res) => {
     console.log(error);
   }
 });
-router.post("/document-template/store", async (req, res) => {
+router.post("/document-template/store/:id", async (req, res) => {
+  let { id } = req.query
   try {
     let { data } = await axios.post(
-      `${process.env.apiFormBuilder}/api/document-template/store`,
+      `${process.env.apiFormBuilder}/api/document-template/store/${id}`,
       req.body
     );
     res.send(data);
