@@ -78,8 +78,8 @@ function Create(props) {
                     <Form.Group >
                         <Form.Label>Hiện*</Form.Label>
                         <Form.Control onChange={(e) => handleIsDisplay(e)} as="select">
-                            <option value="1" selected={data.is_display === "1" ? true: false } >TRUE</option>
-                            <option value="0" selected={data.is_display === "1" ? true: false } >FALSE</option>
+                            <option value="1" selected={data.is_display == "1" ? true: false } >TRUE</option>
+                            <option value="0" selected={data.is_display == "1" ? true: false } >FALSE</option>
                         </Form.Control>
                     </Form.Group>
                     <Button variant="primary" onClick={(e) => handleSubmit(e)}>
