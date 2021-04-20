@@ -30,7 +30,7 @@ export const getListAllDepartment = (page) => {
 
 export const getListIdDepartment = () => {
   return axiosConfig
-    .get(`/api/departments?per_page=30`)
+    .get(`/api/departments?page=all`)
     .then(handleResponse)
     .then((data) => {
       return data;
