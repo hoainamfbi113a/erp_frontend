@@ -87,7 +87,7 @@ const TableParts = (props) => {
   };
 
   const fetchDepartment = async () => {
-    let res = await getListIdDepartment();
+    let res = await getListIdDepartment("all");
     if (!res.err) {
       setDataDepart(res.data);
     } else {
