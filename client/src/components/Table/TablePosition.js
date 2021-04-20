@@ -23,6 +23,7 @@ import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 import { getListPosition } from "apis/positionApi";
 import { checkPermission } from "../../apis/checkPermission";
 import PermissionContext from "../../context/PermissionContext";
+import { simpleDate } from "../../helpers/FuncHelper";
 const { Content } = Layout;
 
 const TablePosition = (props) => {
@@ -243,6 +244,13 @@ const TablePosition = (props) => {
         }
       : {},
   ];
+  useEffect(() => {
+    if (data && data.data) {
+      data.data.map(el => {
+          el.created_at = simpleDate(el.created_at);
+        })
+    }
+  }, [data])
   return (
     <div>
       <Content>

@@ -19,7 +19,10 @@ import {
   DoubleRightOutlined,
 } from "@ant-design/icons";
 import { AllPermissionGroup } from "../../helpers/DataHelper";
-export default class TableRoles_v2 extends Component {
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { showLoading, hideLoading} from "reduxToolkit/features/uiLoadingSlice"
+class TableRoles_v2 extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -62,7 +65,8 @@ export default class TableRoles_v2 extends Component {
     });
   };
   showModalAssign = async (dep_id, pos_id, dep_name, pos_name) => {
-    this.props.showModal();
+    this.props.uiActionCreatorsS();
+    
     this.setState({
       dep_id: dep_name,
       pos_id: pos_name,
@@ -71,7 +75,6 @@ export default class TableRoles_v2 extends Component {
       disabledSelected: true,
     });
     let dataRight;
-    console.log(this.state.dataRoles);
     await axiosConfig
       .get(
         `/api/permission/departments/positions?dep_id=${dep_id}&pos_id=${pos_id}`
@@ -91,6 +94,8 @@ export default class TableRoles_v2 extends Component {
       selected: ArrSelected,
       selectedBegin: ArrSelected,
     });
+    this.props.showModal();
+    this.props.uiActionCreatorsH();
     
   };
   handleChangePosition = (value) => {
@@ -400,3 +405,10 @@ export default class TableRoles_v2 extends Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  uiActionCreatorsS: bindActionCreators(showLoading, dispatch),
+  uiActionCreatorsH: bindActionCreators(hideLoading, dispatch),
+});
+
+export default connect(null, mapDispatchToProps)(TableRoles_v2);

@@ -24,6 +24,7 @@ import { getListDepartment } from "../../apis/departmentApi";
 import usePrevious from "../../hooks/usePrevious";
 import { checkPermission } from "../../apis/checkPermission";
 import PermissionContext from "../../context/PermissionContext";
+import { simpleDate } from "../../helpers/FuncHelper";
 
 const TableDepartment = (props) => {
   const dispatch = useDispatch();
@@ -232,7 +233,7 @@ const TableDepartment = (props) => {
     },
     {
       title: "Ngày tạo",
-      dataIndex: "created_at",
+      dataIndex: `created_at`,
       key: "created_at",
     },
     checkVisible(permissions, "delete", "api/departments/{department}") ||
@@ -279,14 +280,28 @@ const TableDepartment = (props) => {
         }
       : {},
   ];
+
+  useEffect(() => {
+    if (data && data.data) {
+      data.data.map(el => {
+          el.created_at = simpleDate(el.created_at);
+        })
+    }
+  }, [data])
+
   return (
     <div>
       <Content>
         <div className="layout-content">
           <div style={{ padding: 24, minHeight: 200 }}>
             {checkVisible(permissions, "list", "api/departments") ? (
+              // data ? data.data.map(el => {
+              //   el.created_at = "asd"
+              // }) : null,
+
               <Table
                 style={{ minHeight: "70vh" }}
+                //dataSource={data ? data.data : ""}
                 dataSource={data ? data.data : ""}
                 columns={columns}
                 className="table-content"
@@ -404,4 +419,5 @@ const TableDepartment = (props) => {
     </div>
   );
 };
+
 export default TableDepartment;
