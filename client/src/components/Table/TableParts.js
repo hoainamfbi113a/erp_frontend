@@ -26,6 +26,7 @@ import { getListIdDepartment } from "apis/departmentApi";
 import { checkPermission } from "../../apis/checkPermission";
 import PermissionContext from "../../context/PermissionContext";
 import usePrevious from "../../hooks/usePrevious";
+import { simpleDate } from "../../helpers/FuncHelper";
 const { Option } = Select;
 const { Content } = Layout;
 
@@ -69,6 +70,7 @@ const TableParts = (props) => {
         data: listPartSearch,
       };
       setData(obj);
+      console.log(obj.data);
       props.total(obj.meta.pagination);
       dispatch(hideLoading());
     }
@@ -279,7 +281,7 @@ const TableParts = (props) => {
     {
       title: "Ngày tạo",
       dataIndex: "created_at",
-      key: "created",
+      key: "created_at",
     },
     checkVisible(permissions, "delete", "api/parts/{part}") ||
     checkVisible(permissions, "update", "api/parts/{part}")
@@ -325,6 +327,15 @@ const TableParts = (props) => {
         }
       : {},
   ];
+
+  useEffect(() => {
+    if (data && data.data) {
+      data.data.map(el => {
+          el.created_at = simpleDate(el.created_at);
+        })
+    }
+  }, [data])
+
   return (
     <div>
       <Content>
