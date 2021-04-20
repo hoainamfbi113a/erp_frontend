@@ -67,7 +67,7 @@ const TablePosition = (props) => {
   };
 
   const onSubmit = async () => {
-    let err_name = await ValidateField(pos_name, 8, 50, "Chức vụ");
+    let err_name = await ValidateField(pos_name, 5, 50, "Chức vụ");
     setErr(err_name);
     if (err_name === "") {
       hideModal();
