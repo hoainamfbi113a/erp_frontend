@@ -144,7 +144,7 @@ const Family = () => {
         onCancel={hideModal}
         okText="OK"
         cancelText="Cancel"
-        width={577}
+        width={631}
       >
         <form
           style={{ width: "100%" }}
