@@ -3,7 +3,6 @@ import docCookies from "doc-cookies";
 import { updateStatusNotify, listNotify } from "apis/notificationApi";
 import axiosConfig from "apis/axios";
 import { simpleDate } from "../../../helpers/FuncHelper";
-import datata from "./data.json";
 import { Pagination, Tag } from "antd";
 import {
   CheckCircleOutlined,
