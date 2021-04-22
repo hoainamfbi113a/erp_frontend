@@ -68,7 +68,7 @@ router.get("/document-type/get-document-types", async (req, res) => {
     console.log(error);
   }
 });
-let getTarget = async (pos_id, dep_id, step_id, action_id) => {
+let getTarget = async (pos_id, dep_id, step_id, action_id, dep_name, pos_name) => {
   let target = [];
   let object;
   if(dep_id === null) {
@@ -84,10 +84,14 @@ let getTarget = async (pos_id, dep_id, step_id, action_id) => {
   }
   for (const property in object.data) {
     let obj = {
-      target_id: object.data[property].id,
-      target_name: object.data[property].full_name,
       step_id,
       action_id,
+      id: object.data[property].id,
+      name: object.data[property].full_name,
+      department_id: dep_id,
+      department_name: dep_name,
+      position_id: pos_id,
+      position_name: pos_name,
     };
     target.push(obj);
     return target;
@@ -96,26 +100,28 @@ let getTarget = async (pos_id, dep_id, step_id, action_id) => {
 
 router.post("/document/store", async (req, res) => {
   let resEnd = res;
-  let { document_type_id, user_id, dataWorkFlow, inputsData } = req.body;
+  let { document_type_id, profile, dataWorkFlow, inputsData} = req.body;
+  let { user_id, pro_name, department } = profile;
   const config = {
     headers: { Authorization: req.headers.authorization },
   };
-  let pos_idUser, dep_idUser;
-
-  let { data } = await axios.get(
-    `${process.env.apiEmployee}/api/fe/profiles/users/${user_id}`,
-    config
-  );
-  dep_idUser = data.data.department.data.dep_id;
-  pos_idUser = data.data.department.data.pos_id;
+  let pos_idUser, dep_idUser, dep_nameUser, pos_nameUser;
+  dep_idUser = department.data.dep_id;
+  dep_nameUser = department.data.dep_name,
+  pos_idUser = department.data.pos_id;
+  pos_nameUser = department.data.pos_name;
   let target = [];
   for (let item of (dataWorkFlow && dataWorkFlow.steps) ) {
       if(item.current_process_user_is_target === true) {
         let targetBegin = {
-          target_id: user_id,
-          target_name: data.data.pro_name,
           step_id: item.id,
           action_id: item.actions[0].id,
+          id: user_id,
+          name: pro_name,
+          department_id: department.data.dep_id,
+          department_name: department.data.dep_name,
+          position_id: department.data.pos_id,
+          position_name: department.data.pos_name,
         };
         target.push(targetBegin);
       } else if(item.position_not_part_of_department === true) {
@@ -123,27 +129,37 @@ router.post("/document/store", async (req, res) => {
         target = [...target, ...arrChild]
       } 
        else {
-          let pos_id, dep_id;
+          let dep_id, dep_name, pos_id, pos_name;
           dep_id =
             item.actions[0].department_id == null
               ? dep_idUser
               : item.actions[0].department_id;
+          dep_name = item.actions[0].department_name == null
+              ? dep_nameUser
+              : item.actions[0].department_name;
           pos_id =
             item.actions[0].position_id == null
               ? pos_idUser
               : item.actions[0].position_id;
+          pos_name =
+            item.actions[0].position_name == null
+              ? pos_nameUser
+              : item.actions[0].position_name;
           let arrChild = await getTarget(
             pos_id,
             dep_id,
             item.id,
-            item.actions[0].id
+            item.actions[0].id,
+            dep_name,
+            pos_name,
           );
           target = [...target, ...arrChild];
       }
   }
   let paramsIssue = {
     document_type_id,
-    user_id,
+    created_by_name: dataWorkFlow.created_by_name,
+    created_by_id: dataWorkFlow.created_by_id,
     targets: target,
   };
   axios
@@ -153,11 +169,11 @@ router.post("/document/store", async (req, res) => {
         type_id: document_type_id,
         user_id: user_id,
         inputs: inputsData,
-        user_name: data.data.pro_name,
-        dep_id: data.data.department.data.dep_id,
-        dep_name: data.data.department.data.dep_name,
-        pos_id: data.data.department.data.pos_id,
-        pos_name: data.data.department.data.pos_name,
+        user_name: pro_name,
+        dep_id: department.data.dep_id,
+        dep_name: department.data.dep_name,
+        pos_id: department.data.pos_id,
+        pos_name: department.data.pos_name,
       };
       
       dataForm.issue_id = res1.data.id;
@@ -205,6 +221,7 @@ router.post("/document/store", async (req, res) => {
         });
     })
     .catch((err) => {
+      console.log(err)
       resEnd.send("failed 1");
     });
 });

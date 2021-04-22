@@ -270,9 +270,10 @@ class Create extends Component {
       this.props.uiActionCreatorsS();
       let params = {
         document_type_id: this.props.match.params.id,
-        user_id: docCookies.getItem("user_id"),
+        // user_id: docCookies.getItem("user_id"),
         dataWorkFlow: this.state.dataWorkFlow,
         inputsData: this.state.inputsData,
+        profile: this.props.userState
         // targets: targets,
       };
       axiosConfig
@@ -348,15 +349,7 @@ class Create extends Component {
           console.log("err");
         });
     }
-    
-    // if (this.state.user_id == docCookies.getItem("user_id")) {
-    //   this.handleOk();
-    // } else {
-    //   this.setState({
-    //     isModalVisible: true,
-    //     status: value,
-    //   });
-    // }
+
   };
   handleOk = () => {
     // let body = {
@@ -443,6 +436,7 @@ class Create extends Component {
     return (
       <div>
         <div className="row">
+          {console.log(this.props.userState)}
           {this.state.canceled === true ? (
             <Steps
             status="error"
@@ -608,8 +602,11 @@ class Create extends Component {
     );
   }
 }
+const mapStateToProps = (state) =>({
+  userState:state.userProfile
+})
 const mapDispatchToProps = (dispatch) => ({
   uiActionCreatorsS: bindActionCreators(showLoading, dispatch),
   uiActionCreatorsH: bindActionCreators(hideLoading, dispatch),
 });
-export default connect(null, mapDispatchToProps)(Create);
+export default connect(mapStateToProps, mapDispatchToProps)(Create);
