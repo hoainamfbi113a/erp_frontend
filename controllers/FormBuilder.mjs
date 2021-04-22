@@ -17,9 +17,11 @@ router.get("/document-template/get", async (req, res) => {
     let { data } = await axios.get(
       `${process.env.apiFormBuilder}/api/document-template/get?type_id=${type_id}`
     );
-    console.log("123")
-    res.status(204).json(data)
-    // res.send(data);
+    if(data.status == 204){
+      res.status(204).json(data)
+    } else {
+      res.send(data);
+    }
   } catch (error) {
     console.log(error);
   }
