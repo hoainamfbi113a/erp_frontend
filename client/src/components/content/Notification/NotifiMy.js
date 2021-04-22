@@ -3,6 +3,7 @@ import docCookies from "doc-cookies";
 import { updateStatusNotify, listNotify } from "apis/notificationApi";
 import axiosConfig from "apis/axios";
 import { simpleDate } from "../../../helpers/FuncHelper";
+import datata from "./data.json";
 import { Pagination, Tag } from "antd";
 import {
   CheckCircleOutlined,
@@ -38,7 +39,7 @@ const NotifiMy = (props) => {
   const [noti, setNoti] = useState(null);
 
   useEffect(async () => {
-    fetchNotiDocument(1)
+    fetchNotiDocument(1);
   }, []);
 
   const fetchNotiDocument = (page) => {
@@ -48,12 +49,11 @@ const NotifiMy = (props) => {
       .then((res) => {
         setNoti(res.data);
         setTotalPage(res.total);
-        console.log(res.total);
       })
       .catch((err) => {
         console.log(err);
       });
-  }
+  };
 
   const fetchNotify = async (value) => {
     const user_id = docCookies.getItem("user_id");
@@ -122,26 +122,27 @@ const NotifiMy = (props) => {
 
   const renderNotifyItemDocument = () => {
     if (noti) {
+      console.log(noti);
       return noti.map((item) => {
-        const ips = item.process.status;
-        let status = "processing";
-        if (item.user_id.toString() !== docCookies.getItem("user_id")) {
-          for (let e of item.process.targets) {
-            let checkTargetId =
-              e.target_id.toString() === docCookies.getItem("user_id");
-            if (checkTargetId && e.status === "pass") {
-              status = "processed";
-            } else if (checkTargetId && e.status === "reject") {
-              status = "canceled";
-            }
-          }
-        } else {
-          if (ips === "processed") {
-            status = "processed";
-          } else if (ips === "canceled") {
-            status = "canceled";
-          }
-        }
+        //const ips = item.process.status;
+        // let status = "processing";
+        // if (item.user_id.toString() !== docCookies.getItem("user_id")) {
+        //   for (let e of item.process.targets) {
+        //     let checkTargetId =
+        //       e.target_id.toString() === docCookies.getItem("user_id");
+        //     if (checkTargetId && e.status === "pass") {
+        //       status = "processed";
+        //     } else if (checkTargetId && e.status === "reject") {
+        //       status = "canceled";
+        //     }
+        //   }
+        // } else {
+        //   if (ips === "processed") {
+        //     status = "processed";
+        //   } else if (ips === "canceled") {
+        //     status = "canceled";
+        //   }
+        // }
         return (
           <tr
             className={
@@ -150,8 +151,8 @@ const NotifiMy = (props) => {
             onClick={() => {
               changeStatusNotiDocument(
                 item.id,
-                item.process.document_id,
-                item.process.id
+                item.document.id,
+                item.process_id
               );
             }}
             key={item.id}
@@ -161,17 +162,9 @@ const NotifiMy = (props) => {
                 {item.document_type.display_name}
               </div>
             </td>
-            <td>{item.user_name}</td>
-            <td>{item.department_name}</td>
-            <td>{item.content}</td>
-            <td>
-              <Tag
-                icon={checkStatus[status].icon}
-                color={checkStatus[status].color}
-              >
-                {checkStatus[status].tag}
-              </Tag>
-            </td>
+            <td>{item.from_users ? item.from_users[0].target_name : ""}</td>
+            <td>{item.from_users ? item.from_users[0].department_name : ""}</td>
+            <td>{item.title}</td>
             <td>{simpleDate(item.created_at)}</td>
           </tr>
         );
@@ -230,10 +223,7 @@ const NotifiMy = (props) => {
           </tbody>
         </table>
         <div>
-          <Pagination
-            total={totalPage}
-            onChange={onChangePagination}
-          />
+          <Pagination total={totalPage} onChange={onChangePagination} />
         </div>
       </div>
     </div>
