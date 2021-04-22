@@ -162,8 +162,7 @@ const NotifiMy = (props) => {
                 {item.document_type.display_name}
               </div>
             </td>
-            <td>{item.from_users ? item.from_users[0].target_name : ""}</td>
-            <td>{item.from_users ? item.from_users[0].department_name : ""}</td>
+            <td>{item.from_users ? item.from_users[0].target_name + " - " + item.from_users[0].department_name: ""}</td>
             <td>{item.title}</td>
             <td>{simpleDate(item.created_at)}</td>
           </tr>
@@ -213,9 +212,7 @@ const NotifiMy = (props) => {
             <tr>
               <th>Đơn</th>
               <th>Người gửi</th>
-              <th>Phòng ban</th>
               <th>Nội dung</th>
-              <th>Trạng thái</th>
               <th>Ngày</th>
             </tr>
             {renderNotifyItem()}
