@@ -86,8 +86,8 @@ let getTarget = async (pos_id, dep_id, step_id, action_id, dep_name, pos_name) =
     let obj = {
       step_id,
       action_id,
-      id: object.data[property].id,
-      name: object.data[property].full_name,
+      target_id: object.data[property].id,
+      target_name: object.data[property].full_name,
       department_id: dep_id,
       department_name: dep_name,
       position_id: pos_id,
@@ -116,8 +116,8 @@ router.post("/document/store", async (req, res) => {
         let targetBegin = {
           step_id: item.id,
           action_id: item.actions[0].id,
-          id: user_id,
-          name: pro_name,
+          target_id: user_id,
+          target_name: pro_name,
           department_id: department.data.dep_id,
           department_name: department.data.dep_name,
           position_id: department.data.pos_id,
@@ -158,8 +158,7 @@ router.post("/document/store", async (req, res) => {
   }
   let paramsIssue = {
     document_type_id,
-    created_by_name: dataWorkFlow.created_by_name,
-    created_by_id: dataWorkFlow.created_by_id,
+    user_id,
     targets: target,
   };
   axios
