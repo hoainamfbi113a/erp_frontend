@@ -14,13 +14,15 @@ router.get("/document-type/get-document-types", async (req, res) => {
 router.get("/document-template/get", async (req, res) => {
   let { type_id } = req.query;
   try {
-    let { data } = await axios.get(
+    let  data  = await axios.get(
       `${process.env.apiFormBuilder}/api/document-template/get?type_id=${type_id}`
     );
+    // console.log(data.status)
+  //   console.log(data.status)
     if(data.status == 204){
-      res.status(204).json(data)
+      res.status(204).json(data.data)
     } else {
-      res.send(data);
+      res.send(data.data);
     }
   } catch (error) {
     console.log(error);
@@ -72,6 +74,7 @@ router.get("/document-type/get-document-types", async (req, res) => {
     console.log(error);
   }
 });
+
 let getTarget = async (pos_id, dep_id, step_id, action_id, dep_name, pos_name) => {
   let target = [];
   let object;
@@ -104,7 +107,7 @@ let getTarget = async (pos_id, dep_id, step_id, action_id, dep_name, pos_name) =
 
 router.post("/document/store", async (req, res) => {
   let resEnd = res;
-  let { document_type_id, profile, dataWorkFlow, inputsData} = req.body;
+  let { document_type_id, profile, dataWorkFlow, inputsData, arrTarget} = req.body;
   let { user_id, pro_name, department } = profile;
   const config = {
     headers: { Authorization: req.headers.authorization },
@@ -128,11 +131,17 @@ router.post("/document/store", async (req, res) => {
           position_name: department.data.pos_name,
         };
         target.push(targetBegin);
-      } else if(item.position_not_part_of_department === true) {
+        // item.required_to_select_specific_target === true
+      }
+      else if (item.required_to_select_specific_target === true) {
+        target = [...target, ...arrTarget]
+      }
+      else if(item.position_not_part_of_department === true) {
+        console.log(item.id)
         let arrChild = await getTarget(item.actions[0].position_id, null, item.id, item.actions[0].id)
         target = [...target, ...arrChild]
       } 
-       else {
+      else {
           let dep_id, dep_name, pos_id, pos_name;
           dep_id =
             item.actions[0].department_id == null
@@ -160,6 +169,8 @@ router.post("/document/store", async (req, res) => {
           target = [...target, ...arrChild];
       }
   }
+  console.log("target",target);
+  return ;
   let paramsIssue = {
     document_type_id,
     user_id,

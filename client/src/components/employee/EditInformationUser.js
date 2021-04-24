@@ -75,6 +75,13 @@ class EditInformationUser extends Component {
       step_id: dataTransfersProfile.data.next_step_id,
     });
   };
+  async componentDidMount() {
+    //  this.props.uiActionCreatorsS()
+     this.fetProfile();
+     this.fetchWorkflowProfile();
+
+  }
+
   fetchWorkflowProfile = async () => {
     
     let dataWorkflowProfile = await workflowProfile(20);
