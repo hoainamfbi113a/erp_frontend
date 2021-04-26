@@ -170,7 +170,7 @@ router.post("/document/store", async (req, res) => {
       }
   }
   console.log("target",target);
-  return ;
+  // return ;
   let paramsIssue = {
     document_type_id,
     user_id,
