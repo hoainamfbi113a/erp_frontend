@@ -83,21 +83,32 @@ const AddAndUpdateInforUser = (props) => {
     (async function fetchTransfer() {
       let id = props.match.params.id
       dispatch(showLoading())
-      let dataWorkflowProfile = await workflowProfile(20);
+      let dataWorkflowProfile = await workflowProfile(4);
       setWorkflowProfile(dataWorkflowProfile);
       
       setProfile(dataProfile)
+      
       if( id && id !== dataProfile.user_id ){
+        // console.log("profile_id", dataProfile.id)
+        // console.log(object)
         await dispatch(getUserProfile(id)); // get id profile
-        if(Object.keys(dataProfile).length != 0){
-            let dataTransfersProfile = {}
-            dataTransfersProfile = await transfersProfile(dataProfile.id);
-            setStep_id(dataTransfersProfile.data.next_step_id)
+            
         }
-      }
+      // }
     })
     ();
-  }, [dataProfile.id]);
+  }, [dataProfile, dispatch]);
+  useEffect(()=>{
+    let dataTransfersProfile = {}
+    console.log(dataProfile)
+
+    let fetch = async () =>{
+      console.log(dataProfile.id)
+      dataTransfersProfile = await transfersProfile(dataProfile.id);
+      setStep_id(dataTransfersProfile.data.next_step_id)
+    }
+    fetch();
+  },[])
   const handleReject = () =>{
     setModalNotify(true);
   }
