@@ -84,7 +84,7 @@ class EditInformationUser extends Component {
 
   fetchWorkflowProfile = async () => {
     
-    let dataWorkflowProfile = await workflowProfile(20);
+    let dataWorkflowProfile = await workflowProfile(4);
     this.setState({
       dataWorkflow: dataWorkflowProfile,
     });
