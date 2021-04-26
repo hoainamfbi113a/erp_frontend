@@ -20,7 +20,6 @@ router.get("/user/:id", async (req, res) => {
   res.send(data);
 });
 router.get("/userpagin", async (req, res) => {
-  console.log("123")
   const { page } = req.query;
   const config = {
     headers: { Authorization: req.headers.authorization },

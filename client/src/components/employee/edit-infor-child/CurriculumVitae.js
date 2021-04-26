@@ -72,6 +72,9 @@ class CurriculumVitae extends Component {
       idJou: null,
       dataDepartment: null,
       dataPosition: null,
+      dataDep_name:"",
+      dataPos_name:"",
+      dataPart_name:"",
       dataParts: null,
       valid_pro_name: {
         isValid: true,
@@ -363,6 +366,9 @@ class CurriculumVitae extends Component {
       dep_id: data.department.data.dep_id,
       pos_id: data.department.data.pos_id,
       par_id: data.department.data.part_id,
+      dataDep_name: data.department.data.dep_name,
+      dataPos_name: data.department.data.pos_name,
+      dataPart_name: data.department.data.part_name,
       appointment_date:
         data.department &&
         data.department.data.appointment_date.indexOf("1970-01-01") != 0
@@ -866,24 +872,11 @@ class CurriculumVitae extends Component {
                         Chọn phòng ban:
                       </span>
                       <div className="tabs-user-infor-bottom">
-                        <Select
-                          disabled={true}
-                          showSearch
-                          value={this.state.dep_id}
-                          style={{ width: "100%" }}
-                          onChange={this.handleChangeDepartment}
-                          onSearch={this.handleSearchDepartment}
-                          onFocus={this.handFocusDepartment}
-                          filterOption={(input, option) =>
-                            option.children
-                              .toString()
-                              .toLowerCase()
-                              .indexOf(input.toLowerCase()) >= 0
-                          }
-                          ref={this.typingRef}
-                        >
-                          {this.renderDepartment()}
-                        </Select>
+                      <Input
+                          name="pro_note"
+                          value={this.state.dataDep_name}
+                          placeholder="Ghi chú thông tin căn bản"
+                        />
                       </div>
                       {this.state.valid_department.isValid ? (
                         <span
@@ -899,23 +892,11 @@ class CurriculumVitae extends Component {
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">Tổ: </span>
                       <div className="tabs-user-infor-bottom">
-                        <Select
-                          disabled={true}
-                          showSearch
-                          value={this.state.par_id}
-                          onChange={this.handleChangeParts}
-                          onSearch={this.handleSearchPart}
-                          onFocus={this.handFocusPart}
-                          filterOption={(input, option) =>
-                            option.children
-                              .toString()
-                              .toLowerCase()
-                              .indexOf(input.toLowerCase()) >= 0
-                          }
-                          ref={this.typingRef}
-                        >
-                          {this.renderParts()}
-                        </Select>
+                      <Input
+                          name="pro_note"
+                          value={this.state.dataPart_name}
+                          placeholder="Ghi chú thông tin căn bản"
+                        />
                       </div>
                       {this.state.valid_part.isValid ? (
                         <span
@@ -931,23 +912,11 @@ class CurriculumVitae extends Component {
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">Chức vụ:</span>
                       <div className="tabs-user-infor-bottom">
-                        <Select
-                          disabled={true}
-                          showSearch
-                          value={this.state.pos_id}
-                          onChange={this.handleChangePosition}
-                          onSearch={this.handleSearchPosition}
-                          onFocus={this.handFocusPosition}
-                          filterOption={(input, option) =>
-                            option.children
-                              .toString()
-                              .toLowerCase()
-                              .indexOf(input.toLowerCase()) >= 0
-                          }
-                          ref={this.typingRef}
-                        >
-                          {this.renderPosition()}
-                        </Select>
+                      <Input
+                          name="pro_note"
+                          value={this.state.dataPos_name}
+                          placeholder="Ghi chú thông tin căn bản"
+                        />
                       </div>
                       {this.state.valid_position.isValid ? (
                         <span
