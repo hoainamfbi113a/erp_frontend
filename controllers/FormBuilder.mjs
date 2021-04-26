@@ -76,8 +76,6 @@ router.get("/document-type/get-document-types", async (req, res) => {
 });
 
 let getTarget = async (pos_id, dep_id, step_id, action_id, dep_name, pos_name) => {
-  console.log("pos_id", pos_id)
-  console.log("dep_id", dep_id)
   let target = [];
   let object;
   if(dep_id === null) {
@@ -219,7 +217,6 @@ router.post("/document/store", async (req, res) => {
       };
       
       dataForm.issue_id = res1.data.id;
-      console.log(dataForm)
       axios
         .post(`${process.env.apiFormBuilder}/api/document/store/${document_type_id}`, dataForm)
         .then((res) => {
@@ -240,6 +237,8 @@ router.post("/document/store", async (req, res) => {
                 status: "pass",
                 note: "",
               };
+              // console.log("id", res3.data.id)
+              // console.log("body", body)
               axios
                 .post(`${process.env.apiFormBuilder}/api/document-process/update/${+res3.data.id}`, body)
                 .then((res) => {

@@ -433,8 +433,8 @@ class Create extends Component {
             target_name: itemS.full_name,
             step_id: stepSpecial,
             action_id: actionSpecial,
-            department_id: "",
-            department_name: "",
+            department_id: itemS.department.id,
+            department_name: itemS.department.dep_name,
             position_id: positionSpecial.position_id,
             position_name: positionSpecial.position_name,
           };
