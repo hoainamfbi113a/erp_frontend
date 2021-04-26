@@ -5,13 +5,11 @@ import React, {
   useCallback,
   useMemo,
 } from "react";
-import {
-  message,
-} from "antd";
+import { message } from "antd";
 import { useSelector, useDispatch } from "react-redux";
 import { transfersProfile } from "apis/transfersApi";
 import { workflowProfile } from "apis/workflowApi";
-import {updateProfile } from "apis/profileApi";
+import { updateProfile, getProfile } from "apis/profileApi";
 import CurriculumVitae from "./CurriculumVitae";
 import PersonalHistory from "./PersonalHistory";
 import JoinTCTTXH from "./JoinTCTTXH";
@@ -23,26 +21,28 @@ import Kinship from "./Kinship";
 import Social from "./Social";
 import Notify from "components/Modal/Notify";
 import { getUserProfile } from "reduxToolkit/features/userProfileSlice";
-import { showLoading, hideLoading} from "reduxToolkit/features/uiLoadingSlice"
-import {
-    Steps,
-  } from "antd";
-  const { Step } = Steps;
+import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
+import { Steps } from "antd";
+const { Step } = Steps;
 const AddAndUpdateInforUser = (props) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [activeLink, setActiveLink] = useState(1);
-  const [modalNotify,setModalNotify] = useState(false);
+  const [modalNotify, setModalNotify] = useState(false);
   const [step_id, setStep_id] = useState(0);
   const [workflow, setWorkflowProfile] = useState(null);
-  const [profile, setProfile] = useState({})
+  const [profile, setProfile] = useState({});
   const dataProfile = useSelector((state) => state.userProfile);
   const dataUser = useSelector((state) => state.user);
   const renderMenuLeft = () => {
     if (activeLink === 1) {
-      return <CurriculumVitae idUser={props.match.params.id} value = {value}
-        handleReloadComponent={handleReloadComponent}
-        dataProfile = {profile}
-         />;
+      return (
+        <CurriculumVitae
+          idUser={props.match.params.id}
+          value={value}
+          handleReloadComponent={handleReloadComponent}
+          dataProfile={profile}
+        />
+      );
     }
     if (activeLink === 2) {
       return <PersonalHistory />;
@@ -75,43 +75,25 @@ const AddAndUpdateInforUser = (props) => {
         return <Step key={item.id} title={item.description} />;
       });
     } else {
-
     }
   };
 
   useEffect(() => {
     (async function fetchTransfer() {
-      let id = props.match.params.id
-      dispatch(showLoading())
+      let id = props.match.params.id;
+      dispatch(showLoading());
       let dataWorkflowProfile = await workflowProfile(4);
       setWorkflowProfile(dataWorkflowProfile);
-      
-      setProfile(dataProfile)
-      
-      if( id && id !== dataProfile.user_id ){
-        // console.log("profile_id", dataProfile.id)
-        // console.log(object)
-        await dispatch(getUserProfile(id)); // get id profile
-            
-        }
-      // }
-    })
-    ();
+      let { data } = await getProfile(id);
+      setProfile(data);
+      let dataTransfersProfile = await transfersProfile(data.id);
+      console.log(dataTransfersProfile);
+      setStep_id(dataTransfersProfile.data.next_step_id);
+    })();
   }, [dataProfile, dispatch]);
-  useEffect(()=>{
-    let dataTransfersProfile = {}
-    console.log(dataProfile)
-
-    let fetch = async () =>{
-      console.log(dataProfile.id)
-      dataTransfersProfile = await transfersProfile(dataProfile.id);
-      setStep_id(dataTransfersProfile.data.next_step_id)
-    }
-    fetch();
-  },[])
-  const handleReject = () =>{
+  const handleReject = () => {
     setModalNotify(true);
-  }
+  };
   const handleConfirm = async () => {
     let idUser = props.match.params.id;
     let params = {
@@ -128,56 +110,56 @@ const AddAndUpdateInforUser = (props) => {
       message.error("Duyệt hồ sơ thất bại");
     }
   };
-  const handleReloadComponent = async () =>{
-   
+  const handleReloadComponent = async () => {
     let dataWorkflowProfile = await workflowProfile();
     setWorkflowProfile(dataWorkflowProfile);
-    if(props.match.params.id){
+    if (props.match.params.id) {
       await dispatch(getUserProfile(props.match.params.id)); // get id profile
-      if(Object.keys(dataProfile).length != 0){
-          let dataTransfersProfile = {}
-          dataTransfersProfile = await transfersProfile(dataProfile.id);
-          setStep_id(dataTransfersProfile.data.next_step_id)
+      if (Object.keys(dataProfile).length != 0) {
+        let dataTransfersProfile = {};
+        dataTransfersProfile = await transfersProfile(dataProfile.id);
+        setStep_id(dataTransfersProfile.data.next_step_id);
       }
     }
-  }
+  };
   let value = 0;
+  console.log(step_id)
   if (step_id === 1) {
-      value = 0;
+    value = 0;
   } else if (step_id === 2) {
-      value = 1;
+    value = 1;
   } else if (step_id === 3) {
-      value = 2;
+    value = 2;
   } else if (step_id === null) {
-      value = 3;
+    value = 3;
   }
   const [, forceUpdate] = React.useState(0);
   return (
     <div className="content-background2" style={{ width: "100%" }}>
       <Steps current={value} size="small" className="process-work-flow">
-            {renderWorkflow()}
-            <Step title="Hồ sơ sẵn sàng" />
-        </Steps>
-        {value == 2 ? (
-            <li className="tabs-main-left-li btn-confirm-reject ">
-                <span
-                    onClick={handleReject}
-                    className="btn-confirm btn-add-user"
-                    style={{ marginBottom: "10px", width: "140px" }}
-                >
-                    Không duyệt
-                </span>
-                <span
-                    onClick={handleConfirm}
-                    className="btn-no-confirm btn-add-user"
-                    style={{ marginBottom: "10px", width: "140px" }}
-                >
-                    Duyệt
-                </span>
-            </li>
-        ) : (
-            ""
-        )}
+        {renderWorkflow()}
+        <Step title="Hồ sơ sẵn sàng" />
+      </Steps>
+      {value == 2 ? (
+        <li className="tabs-main-left-li btn-confirm-reject ">
+          <span
+            onClick={handleReject}
+            className="btn-confirm btn-add-user"
+            style={{ marginBottom: "10px", width: "140px" }}
+          >
+            Không duyệt
+          </span>
+          <span
+            onClick={handleConfirm}
+            className="btn-no-confirm btn-add-user"
+            style={{ marginBottom: "10px", width: "140px" }}
+          >
+            Duyệt
+          </span>
+        </li>
+      ) : (
+        ""
+      )}
       <div style={{ minHeight: "70vh" }} className="edit-infor">
         <div className="edit-infor-tabs">
           <ul>
@@ -193,64 +175,79 @@ const AddAndUpdateInforUser = (props) => {
                 Lịch sử bản thân
               </span>
             </li>
-            <li onClick={() => {
-              setActiveLink(3)
-              window.scrollTo(0, 0)
-            }}>
+            <li
+              onClick={() => {
+                setActiveLink(3);
+                window.scrollTo(0, 0);
+              }}
+            >
               <div className={activeLink === 3 ? "active" : ""}>3</div>
               <span className={activeLink === 3 ? "active" : ""}>
                 Gia nhập Đảng Cộng Sản Việt Nam
               </span>
             </li>
-            <li onClick={() => {
-              setActiveLink(4)
-              window.scrollTo(0, 0)
-            }}>
+            <li
+              onClick={() => {
+                setActiveLink(4);
+                window.scrollTo(0, 0);
+              }}
+            >
               <div className={activeLink === 4 ? "active" : ""}>4</div>
               <span className={activeLink === 4 ? "active" : ""}>
                 Tham gia các tổ chức chính trị, xã hội, các nghề nghiệp
               </span>
             </li>
-            <li onClick={() => {
-              setActiveLink(5)
-              window.scrollTo(0, 0)
-            }}>
+            <li
+              onClick={() => {
+                setActiveLink(5);
+                window.scrollTo(0, 0);
+              }}
+            >
               <div className={activeLink === 5 ? "active" : ""}>5</div>
               <span className={activeLink === 5 ? "active" : ""}>
                 Đào tạo, bồi dưỡng về chuyên môn, nghiệp vụ, lý luận chính trị
                 ngoại ngữ
               </span>
             </li>
-            <li onClick={() => {
-              setActiveLink(6)
-              window.scrollTo(0, 0)
-            }}>
+            <li
+              onClick={() => {
+                setActiveLink(6);
+                window.scrollTo(0, 0);
+              }}
+            >
               <div className={activeLink === 6 ? "active" : ""}>6</div>
               <span className={activeLink === 6 ? "active" : ""}>
                 Khen thưởng, kỷ luật
               </span>
             </li>
-            <li onClick={() => {setActiveLink(7)
-            window.scrollTo(0, 0)
-            }}>
+            <li
+              onClick={() => {
+                setActiveLink(7);
+                window.scrollTo(0, 0);
+              }}
+            >
               <div className={activeLink === 7 ? "active" : ""}>7</div>
               <span className={activeLink === 7 ? "active" : ""}>
                 Hoàn cảnh kinh tế, quan hệ gia đình
               </span>
             </li>
-            <li onClick={() => {
-              setActiveLink(8)
-              window.scrollTo(0, 0)
-            }}>
+            <li
+              onClick={() => {
+                setActiveLink(8);
+                window.scrollTo(0, 0);
+              }}
+            >
               <div className={activeLink === 8 ? "active" : ""}>8</div>
               <span className={activeLink === 8 ? "active" : ""}>
                 Quan hệ gia đình, thân tộc
               </span>
             </li>
-            <li onClick={() => {
-              setActiveLink(9)
-              window.scrollTo(0, 0)
-            }}>
+            <li
+              onClick={() => {
+                setActiveLink(9);
+                window.scrollTo(0, 0);
+              }}
+            >
               <div className={activeLink === 9 ? "active" : ""}>9</div>
               <span className={activeLink === 9 ? "active" : ""}>
                 Quan hệ xã hội
@@ -262,11 +259,13 @@ const AddAndUpdateInforUser = (props) => {
         {renderMenuLeft()}
       </div>
       <Notify
-            actionModal={modalNotify}
-            pro_id={dataProfile.id}
-            closeDeny={()=>{setModalNotify(false)}}
-            handleReloadComponent={()=>handleReloadComponent}
-        />
+        actionModal={modalNotify}
+        pro_id={dataProfile.id}
+        closeDeny={() => {
+          setModalNotify(false);
+        }}
+        handleReloadComponent={() => handleReloadComponent}
+      />
     </div>
   );
 };
