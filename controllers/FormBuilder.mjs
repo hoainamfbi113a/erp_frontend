@@ -76,6 +76,8 @@ router.get("/document-type/get-document-types", async (req, res) => {
 });
 
 let getTarget = async (pos_id, dep_id, step_id, action_id, dep_name, pos_name) => {
+  console.log("pos_id", pos_id)
+  console.log("dep_id", dep_id)
   let target = [];
   let object;
   if(dep_id === null) {
@@ -136,37 +138,63 @@ router.post("/document/store", async (req, res) => {
       else if (item.required_to_select_specific_target === true) {
         target = [...target, ...arrTarget]
       }
+      else if(item.actions[0].department_id !==null && item.actions[0].position_id !==null) {
+        let dep_id, dep_name, pos_id, pos_name;
+        dep_id =
+          item.actions[0].department_id == null
+            ? dep_idUser
+            : item.actions[0].department_id;
+        dep_name = item.actions[0].department_name == null
+            ? dep_nameUser
+            : item.actions[0].department_name;
+        pos_id =
+          item.actions[0].position_id == null
+            ? pos_idUser
+            : item.actions[0].position_id;
+        pos_name =
+          item.actions[0].position_name == null
+            ? pos_nameUser
+            : item.actions[0].position_name;
+        let arrChild = await getTarget(
+          pos_id,
+          dep_id,
+          item.id,
+          item.actions[0].id,
+          dep_name,
+          pos_name,
+        );
+        target = [...target, ...arrChild];
+      }
       else if(item.position_not_part_of_department === true) {
-        console.log(item.id)
-        let arrChild = await getTarget(item.actions[0].position_id, null, item.id, item.actions[0].id)
+        let arrChild = await getTarget(item.actions[0].position_id, null, item.id, item.actions[0].id, item.actions[0].department_name, item.actions[0].position_name  )
         target = [...target, ...arrChild]
       } 
       else {
-          let dep_id, dep_name, pos_id, pos_name;
-          dep_id =
-            item.actions[0].department_id == null
-              ? dep_idUser
-              : item.actions[0].department_id;
-          dep_name = item.actions[0].department_name == null
-              ? dep_nameUser
-              : item.actions[0].department_name;
-          pos_id =
-            item.actions[0].position_id == null
-              ? pos_idUser
-              : item.actions[0].position_id;
-          pos_name =
-            item.actions[0].position_name == null
-              ? pos_nameUser
-              : item.actions[0].position_name;
-          let arrChild = await getTarget(
-            pos_id,
-            dep_id,
-            item.id,
-            item.actions[0].id,
-            dep_name,
-            pos_name,
-          );
-          target = [...target, ...arrChild];
+        let dep_id, dep_name, pos_id, pos_name;
+        dep_id =
+          item.actions[0].department_id == null
+            ? dep_idUser
+            : item.actions[0].department_id;
+        dep_name = item.actions[0].department_name == null
+            ? dep_nameUser
+            : item.actions[0].department_name;
+        pos_id =
+          item.actions[0].position_id == null
+            ? pos_idUser
+            : item.actions[0].position_id;
+        pos_name =
+          item.actions[0].position_name == null
+            ? pos_nameUser
+            : item.actions[0].position_name;
+        let arrChild = await getTarget(
+          pos_id,
+          dep_id,
+          item.id,
+          item.actions[0].id,
+          dep_name,
+          pos_name,
+        );
+        target = [...target, ...arrChild];
       }
   }
   console.log("target",target);
