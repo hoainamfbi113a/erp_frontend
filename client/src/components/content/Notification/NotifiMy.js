@@ -3,31 +3,18 @@ import docCookies from "doc-cookies";
 import { updateStatusNotify, listNotify } from "apis/notificationApi";
 import axiosConfig from "apis/axios";
 import { simpleDate } from "../../../helpers/FuncHelper";
-import { Pagination, Tag } from "antd";
-import {
-  CheckCircleOutlined,
-  SyncOutlined,
-  CloseCircleOutlined,
-} from "@ant-design/icons";
+import { Pagination, Select, Tabs } from "antd";
+
+const { TabPane } = Tabs;
+const { Option } = Select;
 import "./notification.css";
 
-const checkStatus = {
-  processed: {
-    icon: <CheckCircleOutlined />,
-    color: "success",
-    tag: "Đã duyệt",
-  },
-  processing: {
-    icon: <SyncOutlined />,
-    color: "processing",
-    tag: "Đang chờ duyệt",
-  },
-  canceled: {
-    icon: <CloseCircleOutlined />,
-    color: "error",
-    tag: "Đã hủy",
-  },
+const status = {
+  all: 'all' , 
+  unconfirmed: 'unconfirmed' , 
+  confirmed: 'confirmed'
 };
+
 const app_id = 99;
 const slug = "profile";
 const per_page = 15;
@@ -35,19 +22,35 @@ const per_page = 15;
 const NotifiMy = (props) => {
   const [data, setData] = useState(null);
   const [totalPage, setTotalPage] = useState(null);
-  const [noti, setNoti] = useState(null);
+  const [totalPage2, setTotalPage2] = useState(null);
+  const [totalPage3, setTotalPage3] = useState(null);
+  const [notiAll, setNotiAll] = useState(null);
+  const [notiUnconf, setNotiUnconf] = useState(null);
+  const [notiConf, setNotiConf] = useState(null);
 
   useEffect(async () => {
-    fetchNotiDocument(1);
+    fetchNotiDocument(1, "all");
+    fetchNotiDocument(1, "unconfirmed");
+    fetchNotiDocument(1, "confirmed");
   }, []);
 
-  const fetchNotiDocument = (page) => {
+  const fetchNotiDocument = (page, status) => {
     const user_id = docCookies.getItem("user_id");
     axiosConfig
-      .get(`/api/notification/list?page=${page}&per_page=10&user_id=${user_id}`)
+      .get(
+        `/api/notification/list?page=${page}&per_page=10&user_id=${user_id}&status=${status}`
+      )
       .then((res) => {
-        setNoti(res.data);
-        setTotalPage(res.total);
+        if (status === "all") {
+          setNotiAll(res.data);
+          setTotalPage(res.total);
+        } else if (status === "unconfirmed") {
+          setNotiUnconf(res.data);
+          setTotalPage2(res.total);
+        } else {
+          setNotiConf(res.data);
+          setTotalPage3(res.total);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -119,29 +122,9 @@ const NotifiMy = (props) => {
     props.history.push(`/form-document-view/${document_id}/${process_id}`);
   };
 
-  const renderNotifyItemDocument = () => {
-    if (noti) {
-      console.log(noti);
-      return noti.map((item) => {
-        //const ips = item.process.status;
-        // let status = "processing";
-        // if (item.user_id.toString() !== docCookies.getItem("user_id")) {
-        //   for (let e of item.process.targets) {
-        //     let checkTargetId =
-        //       e.target_id.toString() === docCookies.getItem("user_id");
-        //     if (checkTargetId && e.status === "pass") {
-        //       status = "processed";
-        //     } else if (checkTargetId && e.status === "reject") {
-        //       status = "canceled";
-        //     }
-        //   }
-        // } else {
-        //   if (ips === "processed") {
-        //     status = "processed";
-        //   } else if (ips === "canceled") {
-        //     status = "canceled";
-        //   }
-        // }
+  const renderNotifyItemDocument = (value) => {
+    if (value) {
+      return value.map((item) => {
         return (
           <tr
             className={
@@ -161,13 +144,38 @@ const NotifiMy = (props) => {
                 {item.document_type.display_name}
               </div>
             </td>
-            <td>{item.from_users ? item.from_users[0].target_name + " - " + item.from_users[0].department_name: ""}</td>
+            <td>
+              {item.from_users
+                ? item.from_users[0].target_name +
+                  " - " +
+                  item.from_users[0].department_name
+                : ""}
+            </td>
             <td>{item.title}</td>
             <td>{simpleDate(item.created_at)}</td>
           </tr>
         );
       });
     }
+  };
+
+  const renderTable = (value, total) => {
+    return (
+      <table className="content-notification-table">
+        <tbody>
+          <tr>
+            <th>Đơn</th>
+            <th>Người gửi</th>
+            <th>Nội dung</th>
+            <th>Ngày</th>
+          </tr>
+          {renderNotifyItemDocument(value)}
+        </tbody>
+        <div>
+          <Pagination total={total} onChange={onChangePagination} />
+        </div>
+      </table>
+    );
   };
 
   const renderNotifyItem = () => {
@@ -206,21 +214,17 @@ const NotifiMy = (props) => {
             <div className="content-top-left-sum-item">Thông báo của tôi</div>
           </div>
         </div>
-        <table className="content-notification-table">
-          <tbody>
-            <tr>
-              <th>Đơn</th>
-              <th>Người gửi</th>
-              <th>Nội dung</th>
-              <th>Ngày</th>
-            </tr>
-            {renderNotifyItem()}
-            {renderNotifyItemDocument()}
-          </tbody>
-        </table>
-        <div>
-          <Pagination total={totalPage} onChange={onChangePagination} />
-        </div>
+        <Tabs defaultActiveKey="1">
+          <TabPane tab="Tất cả" key="1">
+            {renderTable(notiAll, totalPage)}
+          </TabPane>
+          <TabPane tab="Đơn chưa duyệt" key="2">
+            {renderTable(notiUnconf, totalPage2)}
+          </TabPane>
+          <TabPane tab="Đơn đã duyệt" key="3">
+            {renderTable(notiConf, totalPage3)}
+          </TabPane>
+        </Tabs>
       </div>
     </div>
   );
