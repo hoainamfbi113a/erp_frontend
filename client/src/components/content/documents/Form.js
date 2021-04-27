@@ -576,8 +576,8 @@ class Create extends Component {
                 ) {
                   return (
                     <TextArea
-                      style={{ marginBottom: "20px" }}
-                      placeholder="Nhập nội dung phản hồi"
+                      style={{ marginBottom: "20px", fontSize: "20px" }}
+                      placeholder="Nhập nội dung ghi chú"
                       rows={4}
                       onChange={this.onChangeNote}
                       value={this.state.valueNote}
