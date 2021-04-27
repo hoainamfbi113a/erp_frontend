@@ -24,6 +24,7 @@ const { Option } = Select;
 import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 import { bindActionCreators } from "redux";
 import {sleep} from "helpers/FuncHelper";
+import { getUserProfile } from "reduxToolkit/features/userProfileSlice";
 const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
 class CurriculumVitae extends Component {
   constructor(props) {
@@ -278,12 +279,14 @@ class CurriculumVitae extends Component {
       } else {
         messageErr = 10;
       }
-      await this.fetchData();
-      console.log(messageErr);
+
       this.props.uiActionCreatorsH();
       if (messageErr == 0) {
+        await this.props.getUserProfileActionCreatorsH(this.state.user_id)
         message.success("Cập nhât thông tin thành công");
+        // await this.fetchData();
         this.props.handleReloadComponent();
+        window.location.reload();
       } else {
         message.error("Cập nhật thất bại");
       }
@@ -1238,5 +1241,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   uiActionCreatorsS: bindActionCreators(showLoading, dispatch),
   uiActionCreatorsH: bindActionCreators(hideLoading, dispatch),
+  getUserProfileActionCreatorsH: bindActionCreators(getUserProfile, dispatch),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(CurriculumVitae);

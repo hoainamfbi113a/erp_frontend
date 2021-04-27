@@ -131,6 +131,7 @@ class addInformationUser extends Component {
     this.handleSearchPart = this.handleSearchPart.bind(this);
   }
   componentDidMount = async () => {
+    this.fetchData()
   };
   functionSearch = async (prevProps, prevState) => {
     if (prevState.searchDepartment !== this.state.searchDepartment) {
@@ -192,7 +193,7 @@ class addInformationUser extends Component {
   componentDidUpdate = (prevProps, prevState) => {
     if (this.props.dataProfile !== prevProps.dataProfile) {
       let data = this.props.dataProfile
-      if(Object.keys(data).length !== 0 && this.props.idUser)
+      if(data)
       this.setState({
         pro_id: data.id,
         user_id: data.user_id,
@@ -673,7 +674,8 @@ class addInformationUser extends Component {
       this.props.uiActionCreatorsH();
       if (messageErr == 0) {
         message.success("Cập nhât thông tin thành công");
-        this.props.handleReloadComponent();
+        window.location.reload();
+        // this.props.handleReloadComponent();
       } else {
         message.error("Cập nhật thất bại");
       }
