@@ -82,9 +82,15 @@
 .create-notifi{
     display: flex;
 }
+.create-notifi-my{
+    display: flex;
+}
 .create-notifi > div{
     margin: 10px;
     padding: 20px;
+}
+.create-notifi-my > div{
+    margin-top: 10px;
 }
 .content-top-create-notif{
     padding-top:0;

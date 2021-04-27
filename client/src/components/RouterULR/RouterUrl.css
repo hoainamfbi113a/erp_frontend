@@ -8,6 +8,14 @@
     background-color: #fff;
     border-radius:12px;
 }
+.content-background2-left{
+    width: 70%;
+    background-color: #fff;
+}
+.content-background2-right{
+    width: 30%;
+    background-color: #fff;
+}
 .content-main{
     width: 95%;
     min-height: 73vh;

@@ -5,13 +5,13 @@ import history from "assets/images/history.png";
 import ProposalForm from "components/Modal/ProposalForm";
 import docCookies from "doc-cookies";
 import axios from "axios";
-import { Collapse, message } from "antd";
+import { Collapse, message, Tabs } from "antd";
 import { useSelector } from "react-redux";
 import { simpleDate } from "../../../helpers/FuncHelper";
 
+const { TabPane } = Tabs;
 const { Panel } = Collapse;
 const CreateNotifi = (props) => {
-
   const [visible, setVisible] = useState(false);
   const [title, setTitle] = useState("");
   const [dataDocumentType, setDataDocuType] = useState(null);
@@ -19,7 +19,7 @@ const CreateNotifi = (props) => {
   const [treeData, setTreeData] = useState(null);
   const [arrPermission, setArrPermission] = useState([]);
   const [totalPage, setTotalPage] = useState(null);
-  const permissionUser = useSelector(state => state.permission);
+  const permissionUser = useSelector((state) => state.permission);
 
   const showModal = (value) => {
     setVisible(true);
@@ -33,7 +33,7 @@ const CreateNotifi = (props) => {
   useEffect(() => {
     getDataDocumentType();
     getDataDocumentListUser(1);
-    let arr = []
+    let arr = [];
     for (const property in permissionUser) {
       for (const item of permissionUser[property].groups) {
         for (const itemChild of item.permissions) {
@@ -47,32 +47,32 @@ const CreateNotifi = (props) => {
   const getDataDocumentType = () => {
     axios
       .get("/api/document-type/get-document-types")
-        .then((res) => {
-          setDataDocuType(res.data);
-          let data = [];
-          for (let item of dataDocumentType) {
-            let treeDataStudent = [];
-            for (let itemChild of item.children) {
-              const treeNodeChild = {
-                title: itemChild.display_name,
-                key: itemChild.id,
-                id: itemChild.id,
-                template_id: itemChild.template_id,
-              };
-              treeDataStudent.push(treeNodeChild);
-            }
-            const treeNode = {
-              title: item.display_name,
-              key: item.id,
-              children: treeDataStudent,
+      .then((res) => {
+        setDataDocuType(res.data);
+        let data = [];
+        for (let item of dataDocumentType) {
+          let treeDataStudent = [];
+          for (let itemChild of item.children) {
+            const treeNodeChild = {
+              title: itemChild.display_name,
+              key: itemChild.id,
+              id: itemChild.id,
+              template_id: itemChild.template_id,
             };
-            data.push(treeNode);
+            treeDataStudent.push(treeNodeChild);
           }
-          setTreeData(data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+          const treeNode = {
+            title: item.display_name,
+            key: item.id,
+            children: treeDataStudent,
+          };
+          data.push(treeNode);
+        }
+        setTreeData(data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const getDataDocumentListUser = (page) => {
@@ -93,23 +93,23 @@ const CreateNotifi = (props) => {
 
   const handlePagination = (pagination) => {
     getDataDocumentListUser(pagination);
-  }
+  };
 
-  const checkPermissionUser = (idPermission) =>{
-    for(let item of arrPermission) {
-      if(item == idPermission){
+  const checkPermissionUser = (idPermission) => {
+    for (let item of arrPermission) {
+      if (item == idPermission) {
         return true;
       }
     }
-    return false
-  }
+    return false;
+  };
   const onSelect = (id) => {
     if (id) {
       axios
         .get(`/api/document-template/get?type_id=${id}`)
         .then((data) => {
           if (data.data === "") {
-            message.info("Template chưa được tạo")
+            message.info("Template chưa được tạo");
           } else {
             props.history.push(`/form-document/${id}`);
           }
@@ -123,18 +123,17 @@ const CreateNotifi = (props) => {
   };
 
   const confirm = (id) => {
-
     axios
-      .post(`/api/document/delete`,{id})
+      .post(`/api/document/delete`, { id })
       .then((res) => {
         console.log(res);
         if (res.data.message === "success") {
-          message.success("Xoá tài liệu thành công")
+          message.success("Xoá tài liệu thành công");
           getDataDocumentListUser(1);
         }
       })
       .catch((err) => {
-        message.error("Xóa tài liệu thất bại")
+        message.error("Xóa tài liệu thất bại");
         console.log(err);
       });
   };
@@ -148,14 +147,17 @@ const CreateNotifi = (props) => {
         return (
           <Panel header={item.display_name} key={item.id}>
             {item.children.map((itemChild) => {
-              if(checkPermissionUser(itemChild.permission)){
+              if (checkPermissionUser(itemChild.permission)) {
                 return (
-                  <p style={{cursor:"pointer"}} onClick={() => onSelect(itemChild.id)}>
+                  <p
+                    style={{ cursor: "pointer" }}
+                    onClick={() => onSelect(itemChild.id)}
+                  >
                     {itemChild.display_name}
                   </p>
                 );
               }
-              return ;
+              return;
             })}
           </Panel>
         );
@@ -169,11 +171,11 @@ const CreateNotifi = (props) => {
         return (
           <tr>
             <td>
-              <img style={{width:"29px"}} src={history}></img>
+              <img style={{ width: "29px" }} src={history}></img>
             </td>
             <td
               onClick={() => {
-              handleViewDocument(item.id);
+                handleViewDocument(item.id);
               }}
               className="content-notification-unread"
             >
@@ -209,13 +211,61 @@ const CreateNotifi = (props) => {
 
   return (
     <div className="create-notifi">
-      <div className="content-background2">
+      <div
+        className="content-background2-left"
+        style={{
+          margin: "0",
+          marginTop: "10px",
+          padding: "0",
+          paddingTop: "20px",
+        }}
+      >
         <div style={{ minHeight: "70vh" }} className="content-main">
           <div className="content-top content-top-create-notif">
             <div className="content-top-left content-notification content-notification-create-notif">
-              <div className="content-top-left-sum-item">
-                Tạo loại tài liệu
-              </div>
+              <div className="content-top-left-sum-item" style={{marginLeft: "0"}}>Lịch sử tạo</div>
+            </div>
+          </div>
+          <Tabs defaultActiveKey="1">
+            <TabPane tab="Tất cả" key="1">
+              <table className="content-notification-table content-notification-table-create" style={{marginTop: "0"}}>
+                <tbody>
+                  <tr>
+                    <th>Tin</th>
+                    <th>Nội dung</th>
+                    <th>Ngày</th>
+                    <th>Hành động</th>
+                  </tr>
+                  {renderHistoryCreate()}
+                </tbody>
+              </table>
+            </TabPane>
+            <TabPane tab="Đơn chưa duyệt" key="2">
+              Đơn chưa duyệt
+            </TabPane>
+            <TabPane tab="Đơn đã duyệt" key="3">
+              Đơn đã duyệt
+            </TabPane>
+          </Tabs>
+
+          <div className="content-bottom-pagination">
+            <Pagination onChange={handlePagination} total={totalPage} />
+          </div>
+        </div>
+      </div>
+      <div
+        className="content-background2-right"
+        style={{
+          margin: "0",
+          marginTop: "10px",
+          padding: "0",
+          paddingTop: "20px",
+        }}
+      >
+        <div style={{ minHeight: "70vh" }} className="content-main">
+          <div className="content-top content-top-create-notif">
+            <div className="content-top-left content-notification content-notification-create-notif">
+              <div className="content-top-left-sum-item">Tạo loại tài liệu</div>
             </div>
           </div>
           {/* <Tree
@@ -233,29 +283,6 @@ const CreateNotifi = (props) => {
           <div className="create-notifi-content"></div>
         </div>
       </div>
-      <div className="content-background2">
-        <div style={{ minHeight: "70vh" }} className="content-main">
-          <div className="content-top content-top-create-notif">
-            <div className="content-top-left content-notification content-notification-create-notif">
-              <div className="content-top-left-sum-item">Lịch sử tạo</div>
-            </div>
-          </div>
-          <table className="content-notification-table content-notification-table-create">
-            <tbody>
-              <tr>
-                <th>Tin</th>
-                <th>Nội dung</th>
-                <th>Ngày</th>
-                <th>Hành động</th>
-              </tr>
-              {renderHistoryCreate()}
-            </tbody>
-          </table>
-          <div className="content-bottom-pagination">
-            <Pagination onChange={handlePagination} total={totalPage} />
-          </div>
-        </div>
-      </div>
       <ProposalForm
         title={title}
         showProposal={visible}
@@ -263,5 +290,5 @@ const CreateNotifi = (props) => {
       ></ProposalForm>
     </div>
   );
-}
+};
 export default CreateNotifi;
