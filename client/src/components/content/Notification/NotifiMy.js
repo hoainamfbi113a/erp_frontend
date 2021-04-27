@@ -124,6 +124,7 @@ const NotifiMy = (props) => {
 
   const renderNotifyItemDocument = (value) => {
     if (value) {
+      //console.log(value);
       return value.map((item) => {
         return (
           <tr
@@ -133,8 +134,8 @@ const NotifiMy = (props) => {
             onClick={() => {
               changeStatusNotiDocument(
                 item.id,
-                item.document.id,
-                item.process_id
+                item.document.document_id,
+                item.process.id
               );
             }}
             key={item.id}
