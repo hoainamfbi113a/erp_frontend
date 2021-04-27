@@ -391,7 +391,7 @@ class Create extends Component {
   handleAccept = (value) => {
     if (this.state.valueNote == "") {
       message.info("Bạn chưa nhập nội dung");
-    } else if (this.state.valueNote.length >= 30) {
+    } else if (this.state.valueNote.length >= 300) {
       message.info("Nội dung bạn nhập quá dài");
     } else {
       let body = {
