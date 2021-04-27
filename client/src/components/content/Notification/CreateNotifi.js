@@ -8,6 +8,29 @@ import axios from "axios";
 import { Collapse, message, Tabs } from "antd";
 import { useSelector } from "react-redux";
 import { simpleDate } from "../../../helpers/FuncHelper";
+import {
+  CheckCircleOutlined,
+  SyncOutlined,
+  CloseCircleOutlined,
+} from "@ant-design/icons";
+
+const checkStatus = {
+  processed: {
+    icon: <CheckCircleOutlined />,
+    color: "success",
+    tag: "Đã duyệt",
+  },
+  processing: {
+    icon: <SyncOutlined />,
+    color: "processing",
+    tag: "Đang chờ duyệt",
+  },
+  canceled: {
+    icon: <CloseCircleOutlined />,
+    color: "error",
+    tag: "Đã hủy",
+  },
+};
 
 const { TabPane } = Tabs;
 const { Panel } = Collapse;
@@ -83,6 +106,7 @@ const CreateNotifi = (props) => {
         )}`
       )
       .then((res) => {
+        console.log(res.data.data);
         setDataDocuUser(res.data.data);
         setTotalPage(res.data.total);
       })
@@ -170,9 +194,6 @@ const CreateNotifi = (props) => {
       return dataDocumentUser.map((item) => {
         return (
           <tr>
-            <td>
-              <img style={{ width: "29px" }} src={history}></img>
-            </td>
             <td
               onClick={() => {
                 handleViewDocument(item.id);
@@ -180,6 +201,11 @@ const CreateNotifi = (props) => {
               className="content-notification-unread"
             >
               {item.document_type.display_name}
+            </td>
+            <td>
+              <Tag icon={checkStatus[item.process.status].icon} color={checkStatus[item.process.status].color}>
+              {checkStatus[item.process.status].tag}
+              </Tag>
             </td>
             <td>{simpleDate(item.updated_at)}</td>
             <td>
@@ -194,13 +220,6 @@ const CreateNotifi = (props) => {
                     Thu hồi
                   </Tag>
                 </Popconfirm>
-                <Tag
-                  color="geekblue"
-                  className="table-action"
-                  onClick={() => handleViewDocument(item.id)}
-                >
-                  Sửa
-                </Tag>
               </Space>
             </td>
           </tr>
@@ -223,30 +242,29 @@ const CreateNotifi = (props) => {
         <div style={{ minHeight: "70vh" }} className="content-main">
           <div className="content-top content-top-create-notif">
             <div className="content-top-left content-notification content-notification-create-notif">
-              <div className="content-top-left-sum-item" style={{marginLeft: "0"}}>Lịch sử tạo</div>
+              <div
+                className="content-top-left-sum-item"
+                style={{ marginLeft: "0" }}
+              >
+                Lịch sử tạo
+              </div>
             </div>
           </div>
-          <Tabs defaultActiveKey="1">
-            <TabPane tab="Tất cả" key="1">
-              <table className="content-notification-table content-notification-table-create" style={{marginTop: "0"}}>
-                <tbody>
-                  <tr>
-                    <th>Tin</th>
-                    <th>Nội dung</th>
-                    <th>Ngày</th>
-                    <th>Hành động</th>
-                  </tr>
-                  {renderHistoryCreate()}
-                </tbody>
-              </table>
-            </TabPane>
-            <TabPane tab="Đơn chưa duyệt" key="2">
-              Đơn chưa duyệt
-            </TabPane>
-            <TabPane tab="Đơn đã duyệt" key="3">
-              Đơn đã duyệt
-            </TabPane>
-          </Tabs>
+
+          <table
+            className="content-notification-table content-notification-table-create"
+            style={{ marginTop: "0" }}
+          >
+            <tbody>
+              <tr>
+                <th>Nội dung</th>
+                <th>Trạng thái</th>
+                <th>Ngày</th>
+                <th>Hành động</th>
+              </tr>
+              {renderHistoryCreate()}
+            </tbody>
+          </table>
 
           <div className="content-bottom-pagination">
             <Pagination onChange={handlePagination} total={totalPage} />
