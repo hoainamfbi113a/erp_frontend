@@ -15,7 +15,7 @@ router.get("/user/:id", async (req, res) => {
   let { id } = req.params;
   let { data } = await axios.get(
     `${process.env.apiEmployee}/api/user/${id}`,
-    config
+    config 
   );
   res.send(data);
 });
