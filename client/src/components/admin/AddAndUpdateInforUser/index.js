@@ -11,7 +11,7 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { transfersProfile } from "apis/transfersApi";
 import { workflowProfile } from "apis/workflowApi";
-import {updateProfile } from "apis/profileApi";
+import {updateProfile, getProfile } from "apis/profileApi";
 import CurriculumVitae from "./CurriculumVitae";
 import PersonalHistory from "./PersonalHistory";
 import JoinTCTTXH from "./JoinTCTTXH";
@@ -82,16 +82,16 @@ const AddAndUpdateInforUser = (props) => {
   useEffect(() => {
     (async function fetchTransfer() {
       let id = props.match.params.id
-      dispatch(showLoading())
+      // dispatch(showLoading())
       let dataWorkflowProfile = await workflowProfile(4);
       setWorkflowProfile(dataWorkflowProfile);
-      
-      setProfile(dataProfile)
       if( id && id !== dataProfile.user_id ){
-        await dispatch(getUserProfile(id)); // get id profile
-        if(Object.keys(dataProfile).length != 0){
+        // await dispatch(getUserProfile(id)); // get id profile
+        let {data } = await getProfile(id);    
+        setProfile(data)
+        if(Object.keys(data).length != 0){
             let dataTransfersProfile = {}
-            dataTransfersProfile = await transfersProfile(dataProfile.id);
+            dataTransfersProfile = await transfersProfile(data.id);
             setStep_id(dataTransfersProfile.data.next_step_id)
         }
       }
@@ -118,16 +118,16 @@ const AddAndUpdateInforUser = (props) => {
     }
   };
   const handleReloadComponent = async () =>{
-   
     let dataWorkflowProfile = await workflowProfile();
     setWorkflowProfile(dataWorkflowProfile);
     if(props.match.params.id){
-      await dispatch(getUserProfile(props.match.params.id)); // get id profile
-      if(Object.keys(dataProfile).length != 0){
+      // if(Object.keys(dataProfile).length != 0){
           let dataTransfersProfile = {}
-          dataTransfersProfile = await transfersProfile(dataProfile.id);
+          let {data } = getProfile(props.match.params.id);    
+          dataTransfersProfile = await transfersProfile(data.id);
+          setProfile(data)
           setStep_id(dataTransfersProfile.data.next_step_id)
-      }
+      // }
     }
   }
   let value = 0;
@@ -252,7 +252,7 @@ const AddAndUpdateInforUser = (props) => {
       </div>
       <Notify
             actionModal={modalNotify}
-            pro_id={dataProfile.id}
+            pro_id={profile.id}
             closeDeny={()=>{setModalNotify(false)}}
             handleReloadComponent={()=>handleReloadComponent}
         />
