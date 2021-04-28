@@ -46,13 +46,13 @@ const PersonalHistory = (props) => {
     setVisible(false);
   };
 
-  // Xóa
-  // const confirmDelete = async (id) => {
-  //   const params = {
-  //     id,
-  //   };
+  //Xóa
+  const confirmDelete = async (id) => {
+    const params = {
+      id,
+    };
 
-  // }
+  }
 
   const onDateSubmit = (value) => {
     setDate(value);
