@@ -26,13 +26,13 @@ router.get("/userpagin", async (req, res) => {
   };
   if (page ==='all') {
     let { data } = await axios.get(
-      `${process.env.apiEmployee}/api/profiles?order=asc&page=1&per_page=80`,
+      `${process.env.apiEmployee}/api/profiles?order=desc&page=1&per_page=80`,
       config
     );
     res.send(data);
   } else {
     let { data } = await axios.get(
-      `${process.env.apiEmployee}/api/profiles?order=asc&page=${page}`,
+      `${process.env.apiEmployee}/api/profiles?order=desc&page=${page}`,
       config
     );
     res.send(data);
