@@ -5,7 +5,7 @@ import history from "assets/images/history.png";
 import ProposalForm from "components/Modal/ProposalForm";
 import docCookies from "doc-cookies";
 import axios from "axios";
-import { Collapse, message, Tabs } from "antd";
+import { Collapse, message, Tabs, Select } from "antd";
 import { useSelector } from "react-redux";
 import { simpleDate } from "../../../helpers/FuncHelper";
 import {
@@ -14,6 +14,8 @@ import {
   CloseCircleOutlined,
   ClockCircleOutlined,
 } from "@ant-design/icons";
+
+const { Option } = Select;
 
 const checkStatus = {
   processed: {
@@ -162,8 +164,8 @@ const CreateNotifi = (props) => {
         console.log(err);
       });
   };
-  const handleViewDocument = (id) => {
-    props.history.push(`/form-document-view/${id}`);
+  const handleViewDocument = (doc_id, process_id) => {
+    props.history.push(`/form-document-view/${doc_id}/${process_id}`);
   };
 
   const renderPanel = () => {
@@ -197,7 +199,7 @@ const CreateNotifi = (props) => {
           <tr>
             <td
               onClick={() => {
-                handleViewDocument(item.id);
+                handleViewDocument(item.id, item.process.id);
               }}
               className="content-notification-unread"
             >
@@ -246,6 +248,12 @@ const CreateNotifi = (props) => {
     }
   };
 
+  const handleChangeFilter = (value) => {
+    
+  }
+
+
+
   return (
     <div className="create-notifi">
       <div
@@ -268,8 +276,31 @@ const CreateNotifi = (props) => {
               </div>
             </div>
           </div>
-
-          <Tabs defaultActiveKey="1">
+          <Select
+            defaultValue="Tất cả"
+            style={{ width: 200 }}
+            onChange={handleChangeFilter}
+          >
+            <Option value="all">Tất cả</Option>
+            <Option value="unconfirmed">Đơn chưa duyệt</Option>
+            <Option value="confirmed">Đơn đã duyệt</Option>
+            <Option value="watched">Đơn chưa xem</Option>
+          </Select>
+          <table
+            className="content-notification-table content-notification-table-create"
+            style={{ marginTop: "0" }}
+          >
+            <tbody>
+              <tr>
+                <th>Nội dung</th>
+                <th>Trạng thái</th>
+                <th>Ngày</th>
+                <th>Hành động</th>
+              </tr>
+              {renderHistoryCreate()}
+            </tbody>
+          </table>
+          {/* <Tabs defaultActiveKey="1">
             <TabPane tab="Tất cả" key="1">
               <table
                 className="content-notification-table content-notification-table-create"
@@ -295,7 +326,7 @@ const CreateNotifi = (props) => {
             <TabPane tab="Đơn chưa xem" key="4">
               Đơn chưa xem
             </TabPane>
-          </Tabs>
+          </Tabs> */}
 
           <div className="content-bottom-pagination">
             <Pagination onChange={handlePagination} total={totalPage} />
