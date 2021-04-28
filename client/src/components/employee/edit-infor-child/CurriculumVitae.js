@@ -279,14 +279,13 @@ class CurriculumVitae extends Component {
       } else {
         messageErr = 10;
       }
-
+      await this.fetchData();
       this.props.uiActionCreatorsH();
       if (messageErr == 0) {
         await this.props.getUserProfileActionCreatorsH(this.state.user_id)
         message.success("Cập nhât thông tin thành công");
-        // await this.fetchData();
-        this.props.handleReloadComponent();
-        // window.location.reload();
+        window.location.reload();
+        // this.props.handleReloadComponent();
       } else {
         message.error("Cập nhật thất bại");
       }
@@ -1238,9 +1237,9 @@ const mapStateToProps = (state) => {
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
+const mapDispatchToProps =  (dispatch) => ({
   uiActionCreatorsS: bindActionCreators(showLoading, dispatch),
   uiActionCreatorsH: bindActionCreators(hideLoading, dispatch),
-  getUserProfileActionCreatorsH:()=> (bindActionCreators(getUserProfile, dispatch)),
+  getUserProfileActionCreatorsH: bindActionCreators(getUserProfile, dispatch),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(CurriculumVitae);
