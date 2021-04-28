@@ -12,6 +12,7 @@ import {
   CheckCircleOutlined,
   SyncOutlined,
   CloseCircleOutlined,
+  ClockCircleOutlined,
 } from "@ant-design/icons";
 
 const checkStatus = {
@@ -203,24 +204,41 @@ const CreateNotifi = (props) => {
               {item.document_type.display_name}
             </td>
             <td>
-              <Tag icon={checkStatus[item.process.status].icon} color={checkStatus[item.process.status].color}>
-              {checkStatus[item.process.status].tag}
-              </Tag>
+              {!item.eviction ? (
+                <Tag
+                  icon={checkStatus[item.process.status].icon}
+                  color={checkStatus[item.process.status].color}
+                >
+                  {checkStatus[item.process.status].tag}
+                </Tag>
+              ) : (
+                <Tag icon={<ClockCircleOutlined />} color="warning">
+                  Chưa xem
+                </Tag>
+              )}
             </td>
             <td>{simpleDate(item.updated_at)}</td>
             <td>
-              <Space size="middle">
-                <Popconfirm
-                  onConfirm={() => confirm(item.id)}
-                  title="Bạn có muốn thu hồi không?"
-                  okText="Có"
-                  cancelText="Không"
-                >
-                  <Tag color="volcano" className="table-action">
-                    Thu hồi
-                  </Tag>
-                </Popconfirm>
-              </Space>
+              {item.eviction ? (
+                <Space size="middle">
+                  <Popconfirm
+                    onConfirm={() => confirm(item.id)}
+                    title="Bạn có muốn thu hồi không?"
+                    okText="Có"
+                    cancelText="Không"
+                  >
+                    <Tag
+                      visible="false"
+                      color="volcano"
+                      className="table-action"
+                    >
+                      Thu hồi
+                    </Tag>
+                  </Popconfirm>
+                </Space>
+              ) : (
+                ""
+              )}
             </td>
           </tr>
         );
@@ -251,20 +269,33 @@ const CreateNotifi = (props) => {
             </div>
           </div>
 
-          <table
-            className="content-notification-table content-notification-table-create"
-            style={{ marginTop: "0" }}
-          >
-            <tbody>
-              <tr>
-                <th>Nội dung</th>
-                <th>Trạng thái</th>
-                <th>Ngày</th>
-                <th>Hành động</th>
-              </tr>
-              {renderHistoryCreate()}
-            </tbody>
-          </table>
+          <Tabs defaultActiveKey="1">
+            <TabPane tab="Tất cả" key="1">
+              <table
+                className="content-notification-table content-notification-table-create"
+                style={{ marginTop: "0" }}
+              >
+                <tbody>
+                  <tr>
+                    <th>Nội dung</th>
+                    <th>Trạng thái</th>
+                    <th>Ngày</th>
+                    <th>Hành động</th>
+                  </tr>
+                  {renderHistoryCreate()}
+                </tbody>
+              </table>
+            </TabPane>
+            <TabPane tab="Đơn chưa duyệt" key="2">
+              Đơn chưa duyệt
+            </TabPane>
+            <TabPane tab="Đơn đã duyệt" key="3">
+              Đơn đã duyệt
+            </TabPane>
+            <TabPane tab="Đơn chưa xem" key="4">
+              Đơn chưa xem
+            </TabPane>
+          </Tabs>
 
           <div className="content-bottom-pagination">
             <Pagination onChange={handlePagination} total={totalPage} />

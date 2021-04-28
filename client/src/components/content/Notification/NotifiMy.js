@@ -42,6 +42,7 @@ const NotifiMy = (props) => {
       )
       .then((res) => {
         if (status === "all") {
+          console.log(res.data);
           setNotiAll(res.data);
           setTotalPage(res.total);
         } else if (status === "unconfirmed") {
@@ -138,7 +139,7 @@ const NotifiMy = (props) => {
                 item.process.id
               );
             }}
-            key={item.id}
+            // key={item.id}
           >
             <td>
               <div className="content-notification-table-btn">
