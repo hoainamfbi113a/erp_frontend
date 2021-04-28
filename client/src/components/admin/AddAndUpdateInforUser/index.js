@@ -109,10 +109,12 @@ const AddAndUpdateInforUser = (props) => {
       action: "confirm",
       notify_content: "xac nhan ho so hoan tat",
     };
-    let resUpdateProfile = await updateProfile(dataProfile.id, params);
+    let resUpdateProfile = await updateProfile(profile.id, params);
     if (resUpdateProfile.message) {
       message.success("Duyệt thông tin nhân sự thành công");
-      window.location.reload();
+      setTimeout(()=>{
+        window.location.reload();
+      },300)
     } else {
       message.error("Duyệt hồ sơ thất bại");
     }
