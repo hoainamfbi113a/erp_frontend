@@ -69,6 +69,7 @@ class EditInformationUser extends Component {
   };
   fetProfile = async () => {
     const userProfile = this.props.userProfileState;
+    console.log(userProfile)
     let dataTransfersProfile = await transfersProfile(userProfile.id);
     this.setState({
       STATUS_PROFILE: dataTransfersProfile.data.after_status,
@@ -76,19 +77,15 @@ class EditInformationUser extends Component {
     });
   };
   async componentDidMount() {
-    //  this.props.uiActionCreatorsS()
      this.fetProfile();
      this.fetchWorkflowProfile();
-
   }
 
   fetchWorkflowProfile = async () => {
-    
     let dataWorkflowProfile = await workflowProfile(4);
     this.setState({
       dataWorkflow: dataWorkflowProfile,
     });
-    // this.props.uiActionCreatorsH()
   };
   renderWorkflow = () => {
     if (this.state.dataWorkflow && this.state.dataWorkflow.steps) {
@@ -101,7 +98,7 @@ class EditInformationUser extends Component {
   };
   handleReloadComponent = () => {
     this.fetProfile();
-    this.fetchWorkflowProfile();
+    // this.fetchWorkflowProfile();
   };
   render() {
     let value = 0;

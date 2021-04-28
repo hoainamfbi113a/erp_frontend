@@ -286,7 +286,7 @@ class CurriculumVitae extends Component {
         message.success("Cập nhât thông tin thành công");
         // await this.fetchData();
         this.props.handleReloadComponent();
-        window.location.reload();
+        // window.location.reload();
       } else {
         message.error("Cập nhật thất bại");
       }
@@ -1241,6 +1241,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => ({
   uiActionCreatorsS: bindActionCreators(showLoading, dispatch),
   uiActionCreatorsH: bindActionCreators(hideLoading, dispatch),
-  getUserProfileActionCreatorsH: bindActionCreators(getUserProfile, dispatch),
+  getUserProfileActionCreatorsH:()=> (bindActionCreators(getUserProfile, dispatch)),
 });
 export default connect(mapStateToProps, mapDispatchToProps)(CurriculumVitae);
