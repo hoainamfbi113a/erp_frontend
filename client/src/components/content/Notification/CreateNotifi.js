@@ -169,19 +169,19 @@ const CreateNotifi = (props) => {
   };
 
   const renderPanel = () => {
-    let arr = [];
-    for(let item of dataDocumentType) {
-      for(let itemChild of item.children) {
-        let arr1 = [];
-        if(checkPermissionUser(itemChild.permission)){
-          let obj = {
-            id: itemChild.id,
-            name: itemChild.display_name
-          }
-          arr1.push()
-        }
-      }
-    }
+    // let arr = [];
+    // for(let item of dataDocumentType) {
+    //   for(let itemChild of item.children) {
+    //     let arr1 = [];
+    //     if(checkPermissionUser(itemChild.permission)){
+    //       let obj = {
+    //         id: itemChild.id,
+    //         name: itemChild.display_name
+    //       }
+    //       arr1.push()
+    //     }
+    //   }
+    // }
     if (dataDocumentType) {
       return dataDocumentType.map((item) => {
         return (
