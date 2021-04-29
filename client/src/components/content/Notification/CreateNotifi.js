@@ -169,25 +169,35 @@ const CreateNotifi = (props) => {
   };
 
   const renderPanel = () => {
-    // let arr = [];
-    // for(let item of dataDocumentType) {
-    //   for(let itemChild of item.children) {
-    //     let arr1 = [];
-    //     if(checkPermissionUser(itemChild.permission)){
-    //       let obj = {
-    //         id: itemChild.id,
-    //         name: itemChild.display_name
-    //       }
-    //       arr1.push()
-    //     }
-    //   }
-    // }
+    let arr = [];
     if (dataDocumentType) {
-      return dataDocumentType.map((item) => {
+      for (let item of dataDocumentType) {
+        let arrChild = [];
+        for (let itemChild of item.children) {
+          if (checkPermissionUser(itemChild.permission)) {
+            let objChild = {
+              id: itemChild.id,
+              display_name: itemChild.display_name,
+            };
+            arrChild.push(objChild);
+          }
+        }
+        if (arrChild.length !== 0) {
+          let obj = {
+            children: arrChild,
+            id: item.id,
+            display_name: item.display_name,
+          };
+          arr.push(obj);
+        }
+      }
+    }
+    // console.log("arr", arr)
+    // if (dataDocumentType) {
+      return arr.map((item) => {
         return (
           <Panel header={item.display_name} key={item.id}>
             {item.children.map((itemChild) => {
-              if (checkPermissionUser(itemChild.permission)) {
                 return (
                   <p
                     style={{ cursor: "pointer" }}
@@ -196,13 +206,11 @@ const CreateNotifi = (props) => {
                     {itemChild.display_name}
                   </p>
                 );
-              }
-              return;
             })}
           </Panel>
         );
       });
-    }
+    // }
   };
 
   const renderHistoryCreate = () => {
@@ -261,11 +269,7 @@ const CreateNotifi = (props) => {
     }
   };
 
-  const handleChangeFilter = (value) => {
-    
-  }
-
-
+  const handleChangeFilter = (value) => {};
 
   return (
     <div className="create-notifi">
