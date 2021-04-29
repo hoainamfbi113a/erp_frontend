@@ -109,7 +109,7 @@ const CreateNotifi = (props) => {
         )}`
       )
       .then((res) => {
-        console.log(res.data.data);
+        console.log(res.data);
         setDataDocuUser(res.data.data);
         setTotalPage(res.data.total);
       })
@@ -199,7 +199,7 @@ const CreateNotifi = (props) => {
           <tr>
             <td
               onClick={() => {
-                handleViewDocument(item.id, item.process.id);
+                handleViewDocument(item.id, item.process);
               }}
               className="content-notification-unread"
             >
@@ -213,9 +213,13 @@ const CreateNotifi = (props) => {
                 >
                   {checkStatus[item.process.status].tag}
                 </Tag>
-              ) : (
+              ) : item.deleted_at === null ? (
                 <Tag icon={<ClockCircleOutlined />} color="warning">
                   Chưa xem
+                </Tag>
+              ) : (
+                <Tag icon={<ClockCircleOutlined />} color="warning">
+                  Đã thu hồi
                 </Tag>
               )}
             </td>
@@ -248,11 +252,7 @@ const CreateNotifi = (props) => {
     }
   };
 
-  const handleChangeFilter = (value) => {
-    
-  }
-
-
+  const handleChangeFilter = (value) => {};
 
   return (
     <div className="create-notifi">
