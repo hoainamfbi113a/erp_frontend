@@ -142,7 +142,7 @@ const TableSix = (props) => {
       width: 120,
       dataIndex: "profile",
       key: "profile",
-      render: (profile) => `${profile.data.pro_birth_day}`,
+      render: (profile) => `${profile && profile.data.pro_birth_day}`,
       // sorter: (a, b) => a.full_name.length - b.full_name.length,
     },
     {
