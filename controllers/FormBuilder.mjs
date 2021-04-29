@@ -296,8 +296,8 @@ router.post("/api/document/update", async (req, res) => {
 router.post("/document/delete", async (req, res) => {
   let { id } = req.body
   try {
-    let { data } = await axios.delete(
-      `${process.env.apiFormBuilder}/api/document/delete/${id}`,
+    let { data } = await axios.post(
+      `${process.env.apiFormBuilder}/api/document/eviction/${id}`,
       req.body
     );
     res.send(data);
