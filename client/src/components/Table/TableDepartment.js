@@ -84,8 +84,8 @@ const TableDepartment = (props) => {
   };
 
   const onSubmit = async () => {
-    let err_name = await ValidateField(depart.dep_name, 8, 50, "Tên");
-    let err_address = await ValidateField(depart.dep_address, 8, 50, "Địa chỉ");
+    let err_name = await ValidateField(depart.dep_name, 5, 50, "Tên");
+    let err_address = await ValidateField(depart.dep_address, 5, 50, "Địa chỉ");
     let err_phone = await ValidateNumber(
       depart.dep_phone,
       9,
