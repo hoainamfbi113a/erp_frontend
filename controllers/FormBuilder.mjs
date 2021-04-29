@@ -232,24 +232,8 @@ router.post("/document/store", async (req, res) => {
               params
             )
             .then((res3) => {
-              // resEnd.send("success");
-              let body = {
-                user_id: +user_id,
-                status: "pass",
-                note: "",
-              };
-              // console.log("id", res3.data.id)
-              // console.log("body", body)
-              axios
-                .post(`${process.env.apiFormBuilder}/api/document-process/update/${+res3.data.id}`, body)
-                .then((res) => {
-                  console.log("create document success");
-                  resEnd.send("success");
-                })
-                .catch((err) => {
-                  console.log(err)
-                  console.log("err");
-                });
+              console.log("create document success");
+              resEnd.send("success");
             })
             .catch((err) => {
               console.log("err1");
