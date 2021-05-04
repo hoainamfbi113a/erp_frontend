@@ -48,6 +48,7 @@ const CreateNotifi = (props) => {
   const [treeData, setTreeData] = useState(null);
   const [arrPermission, setArrPermission] = useState([]);
   const [totalPage, setTotalPage] = useState(null);
+  const [pageType, setPageType] = useState("all");
   const permissionUser = useSelector((state) => state.permission);
 
   const showModal = (value) => {
@@ -61,7 +62,7 @@ const CreateNotifi = (props) => {
 
   useEffect(() => {
     getDataDocumentType();
-    getDataDocumentListUser(1);
+    getDataDocumentListUser(1, "all");
     let arr = [];
     for (const property in permissionUser) {
       for (const item of permissionUser[property].groups) {
@@ -104,13 +105,13 @@ const CreateNotifi = (props) => {
       });
   };
 
-  const getDataDocumentListUser = (page) => {
+  const getDataDocumentListUser = (page, status) => {
     dispatch(showLoading());
     axios
       .get(
         `/api/document/list?page=${page}&per_page=10&user_id=${docCookies.getItem(
           "user_id"
-        )}`
+        )}&status=${status}`
       )
       .then((res) => {
         console.log(res.data);
@@ -124,7 +125,7 @@ const CreateNotifi = (props) => {
   };
 
   const handlePagination = (pagination) => {
-    getDataDocumentListUser(pagination);
+    getDataDocumentListUser(pagination, pageType);
   };
 
   const checkPermissionUser = (idPermission) => {
@@ -159,11 +160,11 @@ const CreateNotifi = (props) => {
     axios
       .post(`/api/document/delete`, { id })
       .then((res) => {
-        console.log(res);
         if (res.data.message === "success") {
           message.success("Xoá tài liệu thành công");
           setTimeout(() => {
-            getDataDocumentListUser(1);
+            console.log(pageType);
+            getDataDocumentListUser(1, pageType);
           }, 1000)
           dispatch(hideLoading());
         }
@@ -283,7 +284,10 @@ const CreateNotifi = (props) => {
     }
   };
 
-  const handleChangeFilter = (value) => {};
+  const handleChangeFilter = (value) => {
+    getDataDocumentListUser(1, value);
+    setPageType(value);
+  };
 
   return (
     <div className="create-notifi">
@@ -313,10 +317,10 @@ const CreateNotifi = (props) => {
             onChange={handleChangeFilter}
           >
             <Option value="all">Tất cả</Option>
-            <Option value="unconfirmed">Đơn chưa duyệt</Option>
-            <Option value="confirmed">Đơn đã duyệt</Option>
+            <Option value="processing">Đơn chưa duyệt</Option>
+            <Option value="processed">Đơn đã duyệt</Option>
             <Option value="canceled">Đơn đã hủy</Option>
-            <Option value="watched">Đơn chưa xem</Option>
+            <Option value="evicted">Đơn thu hồi</Option>
           </Select>
           <table
             className="content-notification-table content-notification-table-create"
