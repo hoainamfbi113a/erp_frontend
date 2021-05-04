@@ -167,8 +167,7 @@ const CreateNotifi = (props) => {
   const handleViewDocument = (doc_id, process_id) => {
     props.history.push(`/form-document-view/${doc_id}/${process_id}`);
   };
-
-  const renderPanel = () => {
+  const formatDataDocumentType = (dataDocumentType) => {
     let arr = [];
     if (dataDocumentType) {
       for (let item of dataDocumentType) {
@@ -192,30 +191,33 @@ const CreateNotifi = (props) => {
         }
       }
     }
-    // console.log("arr", arr)
-    // if (dataDocumentType) {
-      return arr.map((item) => {
-        return (
-          <Panel header={item.display_name} key={item.id}>
-            {item.children.map((itemChild) => {
-                return (
-                  <p
-                    style={{ cursor: "pointer" }}
-                    onClick={() => onSelect(itemChild.id)}
-                  >
-                    {itemChild.display_name}
-                  </p>
-                );
-            })}
-          </Panel>
-        );
-      });
+    return arr;
+  };
+  const renderPanel = () => {
+    let arr = formatDataDocumentType(dataDocumentType);
+    return arr.map((item) => {
+      return (
+        <Panel header={item.display_name} key={item.id}>
+          {item.children.map((itemChild) => {
+            return (
+              <p
+                style={{ cursor: "pointer" }}
+                onClick={() => onSelect(itemChild.id)}
+              >
+                {itemChild.display_name}
+              </p>
+            );
+          })}
+        </Panel>
+      );
+    });
     // }
   };
 
   const renderHistoryCreate = () => {
     if (dataDocumentUser) {
       return dataDocumentUser.map((item) => {
+        if(!item.deleted_at)
         return (
           <tr>
             <td
