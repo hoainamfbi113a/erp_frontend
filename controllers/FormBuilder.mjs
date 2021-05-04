@@ -53,10 +53,10 @@ router.get("/document/get", async (req, res) => {
 });
 
 router.get("/document/list", async (req, res) => {
-  let { page, per_page, user_id } = req.query;
+  let { page, per_page, user_id, status } = req.query;
   try {
     let { data } = await axios.get(
-      `${process.env.apiFormBuilder}/api/document/list?page=${page}&per_page=${per_page}&user_id=${user_id}`
+      `${process.env.apiFormBuilder}/api/document/list?page=${page}&per_page=${per_page}&user_id=${user_id}&status=${status}`
     );
     res.send(data);
   } catch (error) {
