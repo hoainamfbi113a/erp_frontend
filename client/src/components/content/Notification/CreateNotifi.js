@@ -6,7 +6,7 @@ import ProposalForm from "components/Modal/ProposalForm";
 import docCookies from "doc-cookies";
 import axios from "axios";
 import { Collapse, message, Tabs, Select } from "antd";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { simpleDate } from "../../../helpers/FuncHelper";
 import {
   CheckCircleOutlined,
@@ -14,6 +14,7 @@ import {
   CloseCircleOutlined,
   ClockCircleOutlined,
 } from "@ant-design/icons";
+import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 
 const { Option } = Select;
 
@@ -37,7 +38,9 @@ const checkStatus = {
 
 const { TabPane } = Tabs;
 const { Panel } = Collapse;
+
 const CreateNotifi = (props) => {
+  const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const [title, setTitle] = useState("");
   const [dataDocumentType, setDataDocuType] = useState(null);
@@ -102,6 +105,7 @@ const CreateNotifi = (props) => {
   };
 
   const getDataDocumentListUser = (page) => {
+    dispatch(showLoading());
     axios
       .get(
         `/api/document/list?page=${page}&per_page=10&user_id=${docCookies.getItem(
@@ -112,6 +116,7 @@ const CreateNotifi = (props) => {
         console.log(res.data);
         setDataDocuUser(res.data.data);
         setTotalPage(res.data.total);
+        dispatch(hideLoading());
       })
       .catch((err) => {
         console.log(err);
@@ -150,19 +155,23 @@ const CreateNotifi = (props) => {
   };
 
   const confirm = (id) => {
+    dispatch(showLoading());
     axios
       .post(`/api/document/delete`, { id })
       .then((res) => {
         console.log(res);
         if (res.data.message === "success") {
           message.success("Xoá tài liệu thành công");
-          getDataDocumentListUser(1);
+          setTimeout(() => {
+            getDataDocumentListUser(1);
+          }, 1000)
+          dispatch(hideLoading());
         }
       })
       .catch((err) => {
         message.error("Xóa tài liệu thất bại");
         console.log(err);
-      });
+      });   
   };
   const handleViewDocument = (doc_id, process_id) => {
     props.history.push(`/form-document-view/${doc_id}/${process_id}`);
@@ -217,7 +226,6 @@ const CreateNotifi = (props) => {
   const renderHistoryCreate = () => {
     if (dataDocumentUser) {
       return dataDocumentUser.map((item) => {
-        if(!item.deleted_at)
         return (
           <tr>
             <td
@@ -229,7 +237,7 @@ const CreateNotifi = (props) => {
               {item.document_type.display_name}
             </td>
             <td>
-              {!item.eviction ? (
+              {!item.eviction && item.deleted_at === null ? (
                 <Tag
                   icon={checkStatus[item.process.status].icon}
                   color={checkStatus[item.process.status].color}
@@ -241,7 +249,7 @@ const CreateNotifi = (props) => {
                   Chưa xem
                 </Tag>
               ) : (
-                <Tag icon={<ClockCircleOutlined />} color="warning">
+                <Tag icon={<ClockCircleOutlined />} color="purple">
                   Đã thu hồi
                 </Tag>
               )}
@@ -307,6 +315,7 @@ const CreateNotifi = (props) => {
             <Option value="all">Tất cả</Option>
             <Option value="unconfirmed">Đơn chưa duyệt</Option>
             <Option value="confirmed">Đơn đã duyệt</Option>
+            <Option value="canceled">Đơn đã hủy</Option>
             <Option value="watched">Đơn chưa xem</Option>
           </Select>
           <table
