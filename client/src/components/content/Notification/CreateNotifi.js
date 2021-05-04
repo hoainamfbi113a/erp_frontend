@@ -222,7 +222,7 @@ const CreateNotifi = (props) => {
           <tr>
             <td
               onClick={() => {
-                handleViewDocument(item.id, item.process);
+                handleViewDocument(item.id, item.process.id);
               }}
               className="content-notification-unread"
             >
