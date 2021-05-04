@@ -22,6 +22,7 @@ import Family from "./Family";
 import Kinship from "./Kinship";
 import Social from "./Social";
 import Notify from "components/Modal/Notify";
+import axiosConfig from "apis/axios";
 import { getUserProfile } from "reduxToolkit/features/userProfileSlice";
 import { showLoading, hideLoading} from "reduxToolkit/features/uiLoadingSlice"
 import {
@@ -70,21 +71,37 @@ const AddAndUpdateInforUser = (props) => {
     }
   };
   const renderWorkflow = () => {
-    if (workflow && workflow.steps) {
-      return workflow.steps.map((item) => {
-        return <Step key={item.id} title={item.description} />;
+    // console.log(workflow)
+    if (workflow ) {
+      return workflow.map((item) => {
+        return <Step key={item.id} title={item.name} />;
       });
     } else {
 
     }
   };
-
+  const fetchFlowProfile = () => {
+    let params = {
+      type_id:"4",
+      nested: "1",
+    };
+    axiosConfig
+      .get("/api/issue/detail", { params })
+      .then((res) => {
+        console.log(res)
+        setWorkflowProfile(res)
+      })
+      .catch(err=>{
+        console.log(err)
+      })
+  }
   useEffect(() => {
     (async function fetchTransfer() {
       let id = props.match.params.id
       // dispatch(showLoading())
-      let dataWorkflowProfile = await workflowProfile(4);
-      setWorkflowProfile(dataWorkflowProfile);
+      // let dataWorkflowProfile = await workflowProfile(4);
+      // setWorkflowProfile(dataWorkflowProfile);
+      fetchFlowProfile();
       if( id && id !== dataProfile.user_id ){
         // await dispatch(getUserProfile(id)); // get id profile
         let {data } = await getProfile(id);    

@@ -18,7 +18,8 @@ import { transfersProfile } from "apis/transfersApi";
 import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import {sleep} from "helpers/FuncHelper";
+import { sleep } from "helpers/FuncHelper";
+import axiosConfig from "apis/axios";
 const { Step } = Steps;
 class EditInformationUser extends Component {
   constructor(props) {
@@ -69,7 +70,7 @@ class EditInformationUser extends Component {
   };
   fetProfile = async () => {
     const userProfile = this.props.userProfileState;
-    console.log(userProfile)
+    console.log(userProfile);
     let dataTransfersProfile = await transfersProfile(userProfile.id);
     this.setState({
       STATUS_PROFILE: dataTransfersProfile.data.after_status,
@@ -77,24 +78,33 @@ class EditInformationUser extends Component {
     });
   };
   async componentDidMount() {
-     this.fetProfile();
-     this.fetchWorkflowProfile();
+    this.fetProfile();
+    this.fetchWorkflowProfile();
   }
 
   fetchWorkflowProfile = async () => {
-    let dataWorkflowProfile = await workflowProfile(4);
-    this.setState({
-      dataWorkflow: dataWorkflowProfile,
-    });
+    let params = {
+      type_id: "4",
+      nested: "1",
+    };
+    axiosConfig
+      .get("/api/issue/detail", { params })
+      .then((res) => {
+        this.setState({
+          dataWorkflow: res,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   renderWorkflow = () => {
-    if (this.state.dataWorkflow && this.state.dataWorkflow.steps) {
+    if (this.state.dataWorkflow) {
       const workflowProfile = this.state.dataWorkflow;
-      return workflowProfile.steps.map((item) => {
-        return <Step key={item.id} title={item.description} />;
+      return workflowProfile.map((item) => {
+        return <Step key={item.id} title={item.name} />;
       });
     }
-    
   };
   handleReloadComponent = () => {
     this.fetProfile();
@@ -207,12 +217,15 @@ class EditInformationUser extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    userProfileState: state.userProfile
-  }
-}
+    userProfileState: state.userProfile,
+  };
+};
 
 const mapDispatchToProps = (dispatch) => ({
   uiActionCreatorsS: bindActionCreators(showLoading, dispatch),
   uiActionCreatorsH: bindActionCreators(hideLoading, dispatch),
 });
-export default connect(mapStateToProps, mapDispatchToProps)(EditInformationUser);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EditInformationUser);

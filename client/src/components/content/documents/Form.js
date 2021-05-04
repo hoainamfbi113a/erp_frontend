@@ -63,6 +63,7 @@ class Create extends Component {
     axiosConfig
       .get("/api/issue/detail", { params })
       .then((res) => {
+        console.log(res)
         this.setState({
           stepDataFlow: res,
         });
@@ -445,6 +446,7 @@ class Create extends Component {
     this.handleCreateDocument(arrTarget)
   };
   renderWorkflow = () => {
+    // console.log(this.state.stepDataFlow)
     if (this.state.stepDataFlow) {
       return this.state.stepDataFlow.map((item) => {
         return <Step key={item.id} title={item.name} />;
