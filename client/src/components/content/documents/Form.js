@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import classes from "classnames";
 
+import "./document.css";
 import axios from "axios";
 import { Steps } from "antd";
 const { Step } = Steps;
@@ -52,7 +53,7 @@ class Create extends Component {
       actionSpecial: "",
       positionSpecial: {},
       arrTarget: [],
-      titleStep:"",
+      titleStep: "",
     };
   }
   getDetailIssue = (type_id) => {
@@ -63,7 +64,7 @@ class Create extends Component {
     axiosConfig
       .get("/api/issue/detail", { params })
       .then((res) => {
-        console.log(res)
+        console.log(res);
         this.setState({
           stepDataFlow: res,
         });
@@ -312,7 +313,7 @@ class Create extends Component {
               actionSpecial: item.actions[0].id,
               arrUser: data,
               children: arrChild,
-              titleStep:item.name
+              titleStep: item.name,
             });
           })
           .catch((err) => {
@@ -358,7 +359,7 @@ class Create extends Component {
     let check = this.checkSpecialStep();
 
     if (this.state.create === true && check === false) {
-      this.handleCreateDocument()
+      this.handleCreateDocument();
     } else {
       // let arrValueInput = [];
       // for (let item of this.state.inputsData) {
@@ -443,7 +444,7 @@ class Create extends Component {
         }
       }
     }
-    this.handleCreateDocument(arrTarget)
+    this.handleCreateDocument(arrTarget);
   };
   renderWorkflow = () => {
     // console.log(this.state.stepDataFlow)
@@ -653,7 +654,11 @@ class Create extends Component {
             </div>
             {data.length !== 0 && (
               <List
-                style={{ marginLeft: "10px", marginTop: "20px" }}
+                style={{
+                  marginLeft: "10px",
+                  marginTop: "20px",
+                  fontSize: "x-large",
+                }}
                 className="comment-list"
                 header={`${data.length} Phản hồi`}
                 itemLayout="horizontal"
