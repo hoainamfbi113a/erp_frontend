@@ -5,7 +5,6 @@ import {
   objCheckPermission,
   checkVisible,
 } from "helpers/FuncHelper";
-import usePrevious from "../../hooks/usePrevious";
 import "../../App/App.css";
 import "./Table.css";
 import {} from "antd";
@@ -20,7 +19,7 @@ import {
   message,
 } from "antd";
 import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
-import { getListPosition } from "apis/positionApi";
+import { getListPosition, searchPosition } from "apis/positionApi";
 import { checkPermission } from "../../apis/checkPermission";
 import PermissionContext from "../../context/PermissionContext";
 import { simpleDate } from "../../helpers/FuncHelper";
@@ -29,7 +28,6 @@ const { Content } = Layout;
 const TablePosition = (props) => {
   const dispatch = useDispatch();
   const { permissions, domain, slug } = useContext(PermissionContext);
-  const lastValue = usePrevious(props.valueSearch);
   const [isCreate, setIsCreate] = useState(false);
   const [id, setId] = useState("");
   const [data, setData] = useState(null);
@@ -38,32 +36,35 @@ const TablePosition = (props) => {
   const [err, setErr] = useState("");
 
   useEffect(async () => {
-    if (props.valueSearch !== lastValue) {
+    if(props.valueSearch !== "") {
       dispatch(showLoading());
-      let resListPos = await getListPosition("all");
-      let listPosSearch = resListPos.data.filter((pos) => {
-        return (
-          pos.pos_name
-            .toLowerCase()
-            .indexOf(props.valueSearch.toLowerCase()) !== -1
-        );
-      });
-      let obj = {
-        meta: {
-          pagination: listPosSearch.length,
-        },
-        data: listPosSearch,
-      };
-      setData(obj);
-      props.total(obj.meta.pagination);
-      dispatch(hideLoading());
+      fetchSearch(1);
+    } else {
+      fetchData(1);
     }
-  }, [props.valueSearch]);
+  }, [props.valueSearch])
 
-  const fetchData = async () => {
-    let data = await getListPosition(1);
-    setData(data);
-    props.total(data.meta.pagination.total);
+  const fetchSearch = async (page) => {
+    let data = await searchPosition(props.valueSearch, page);
+    if (!data.err) {
+      setData(data);
+      props.total(data.meta.pagination.total);
+      dispatch(hideLoading());
+    } else {
+      message.error("search fail");
+    }
+  }
+
+  const fetchData = async (page) => {
+    dispatch(showLoading());
+    let data = await getListPosition(page);
+    if (!data.err) {
+      setData(data);
+      props.total(data.meta.pagination.total);
+    } else {
+      message.error("search fail");
+    }
+    dispatch(hideLoading());
   };
 
   const onSubmit = async () => {
@@ -161,9 +162,13 @@ const TablePosition = (props) => {
   const cancel = (e) => {
     message.error("Không ẩn");
   };
+
   const handlePagination = async (pagination) => {
-    let data = await getListPosition(pagination);
-    setData(data);
+    if(props.valueSearch === "") {
+      fetchData(pagination);
+    } else {
+      fetchSearch(pagination)
+    }
   };
 
   const columns = [
@@ -265,7 +270,8 @@ const TablePosition = (props) => {
                 rowKey="id"
                 pagination={{
                   onChange: handlePagination,
-                  pageSize: 15,
+                  current: data ? data.meta.pagination.current_page : 1,
+                  pageSize: 10,
                   total: data ? data.meta.pagination.total : 0,
                 }}
               />

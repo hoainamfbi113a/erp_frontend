@@ -5,7 +5,8 @@ import "../../App/App.css";
 import "./Table.css";
 import { Layout, Table, Space, Tag, Avatar, Popconfirm, message } from "antd";
 import user from "assets/images/user2.png";
-import { listUser } from "apis/authenticationApi";
+import { listUser, listUserDepartFilter } from "apis/authenticationApi";
+import { getListIdDepartment } from "apis/departmentApi";
 import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 import usePrevious from "../../hooks/usePrevious";
 import { checkVisible } from "helpers/FuncHelper";
@@ -31,6 +32,11 @@ const TableSix = (props) => {
       value: "",
     },
   ]);
+
+  useEffect(async () => {
+    let departUserFilter = await listUserDepartFilter(329, 1);
+    console.log(departUserFilter.data);
+  }, []);
 
   useEffect(async () => {
     //async function searchValue() {

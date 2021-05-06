@@ -69,13 +69,13 @@ export const deleteParts = (params) =>{
     })
   })
 }
-export const searchParts =(dep_id, name) =>{
+export const searchParts = (name, page) =>{
   return axiosConfig
-  .get(`/api/search/parts/departments?name=${name}&per_page=10&dep_id=${dep_id}`)
-  .then(data=>{
+  .get(`/api/search/parts?name=${name}&page=${page}&per_page=10`)
+  .then((data) => {
       return data
   })
-  .catch(err=>{
+  .catch((err )=> {
       console.log(err);
       return ({
           err:"error"

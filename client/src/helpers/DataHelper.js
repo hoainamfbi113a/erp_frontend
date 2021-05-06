@@ -1,4 +1,7 @@
 import { simpleDate } from "./FuncHelper";
+import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 const AllPermissionGroup = data => {
   let arrOption = [];
@@ -24,4 +27,28 @@ const AllPermissionGroup = data => {
   return arrOption;
 };
 
-export { AllPermissionGroup };
+const fetchSearch = async (page, searchFunc) => {
+  let data = await searchFunc(props.valueSearch, page);
+    if (!data.err) {
+      setData(data);
+      props.total(data.meta.pagination.total);
+    } else {
+      message.error("search fail");
+    }
+  }
+
+const fetchData = async (page, getListFunc) => {
+  try {
+    let data = await getListFunc(page);
+    if (!data.err) {
+      setData(data);
+      props.total(data.meta.pagination.total);
+    } else {
+      message.error("get list department failed");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { AllPermissionGroup, fetchSearch, fetchData };

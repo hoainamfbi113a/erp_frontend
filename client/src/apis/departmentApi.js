@@ -42,9 +42,9 @@ export const getListIdDepartment = () => {
     });
 };
 
-export const searchDepartment = (name) => {
+export const searchDepartment = (name, page) => {
   return axiosConfig
-    .get(`/api/search/departments?name=${name}&per_page=10`)
+    .get(`/api/search/departments?name=${name}&page=${page}&per_page=10`)
     .then((data) => {
       return data;
     })

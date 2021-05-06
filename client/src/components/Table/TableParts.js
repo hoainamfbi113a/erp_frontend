@@ -21,11 +21,10 @@ import {
   Modal,
   Select,
 } from "antd";
-import { getListParts } from "apis/partsApi";
+import { getListParts,searchParts } from "apis/partsApi";
 import { getListIdDepartment } from "apis/departmentApi";
 import { checkPermission } from "../../apis/checkPermission";
 import PermissionContext from "../../context/PermissionContext";
-import usePrevious from "../../hooks/usePrevious";
 import { simpleDate } from "../../helpers/FuncHelper";
 const { Option } = Select;
 const { Content } = Layout;
@@ -33,7 +32,6 @@ const { Content } = Layout;
 const TableParts = (props) => {
   const dispatch = useDispatch();
   const { permissions, domain, slug } = useContext(PermissionContext);
-  const lastValue = usePrevious(props.valueSearch);
   const [id, setId] = useState("");
   const [dataDepart, setDataDepart] = useState(null);
   const [data, setData] = useState(null);
@@ -53,28 +51,24 @@ const TableParts = (props) => {
   }, []);
 
   useEffect(async () => {
-    if (props.valueSearch !== lastValue) {
+    if(props.valueSearch !== "") {
       dispatch(showLoading());
-      let resListPart = await getListParts("all");
-      let listPartSearch = resListPart.data.filter((part) => {
-        return (
-          part.part_name
-            .toLowerCase()
-            .indexOf(props.valueSearch.toLowerCase()) !== -1
-        );
-      });
-      let obj = {
-        meta: {
-          pagination: listPartSearch.length,
-        },
-        data: listPartSearch,
-      };
-      setData(obj);
-      console.log(obj.data);
-      props.total(obj.meta.pagination);
-      dispatch(hideLoading());
+      fetchSearch(1);
+    } else {
+      fetchData(1);
     }
-  }, [props.valueSearch]);
+  }, [props.valueSearch])
+
+  const fetchSearch = async (page) => {
+    let data = await searchParts(props.valueSearch, page);
+    if (!data.err) {
+      setData(data);
+      props.total(data.meta.pagination.total);
+      dispatch(hideLoading());
+    } else {
+      message.error("search fail");
+    }
+  }
 
   const fetchData = async (page) => {
     let res = await getListParts(page);
@@ -224,11 +218,10 @@ const TableParts = (props) => {
     } else return "";
   };
   const handlePagination = async (pagination) => {
-    try {
-      let res = await getListParts(pagination);
-      setData(res);
-    } catch (error) {
-      console.log("False to load API", error);
+    if(props.valueSearch === "") {
+      fetchData(pagination);
+    } else {
+      fetchSearch(pagination)
     }
   };
   //let data = ""
@@ -351,7 +344,8 @@ const TableParts = (props) => {
               rowKey="id"
               pagination={{
                 onChange: handlePagination,
-                pageSize: 15,
+                current: data ? data.meta.pagination.current_page : 1,
+                pageSize: 10,
                 total: data ? data.meta.pagination.total : 0,
               }}
             />
