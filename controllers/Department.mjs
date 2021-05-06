@@ -8,7 +8,7 @@ router.get("/", async (req, res) => {
             let { data } = await axios.get(`${process.env.apiEmployee}/api/departments?per_page=100`);
             res.send(data);
         } else {
-            let { data } = await axios.get(`${process.env.apiEmployee}/api/departments?page=${page}`);
+            let { data } = await axios.get(`${process.env.apiEmployee}/api/departments?page=${page}&per_page=10`);
             res.send(data);
         }
     } catch (error) {

@@ -1,22 +1,24 @@
 import axios from "axios";
 const listPosition = async (req, res) => {
+  const { page } = req.query;
+  const config = {
+    headers: { Authorization: req.headers.authorization }
+  };
   try {
-    const { page } = req.query;
     if(page === "all") {
       let { data } = await axios.get(
-        `${process.env.apiEmployee}/api/positions?per_page=100`
+        `${process.env.apiEmployee}/api/positions?per_page=100`, config
       );
       res.send(data);
     } else {
       let { data } = await axios.get(
-        `${process.env.apiEmployee}/api/positions?page=${page}`
+        `${process.env.apiEmployee}/api/positions?page=${page}&per_page=10`, config
       );
       res.send(data);
     }
   } catch (error) {
     console.log(error)
   }
- 
 };
 
 const addPosition = async (req, res) => {

@@ -20,8 +20,7 @@ import {
   checkVisible,
 } from "helpers/FuncHelper";
 const { Content } = Layout;
-import { getListDepartment } from "../../apis/departmentApi";
-import usePrevious from "../../hooks/usePrevious";
+import { getListDepartment, searchDepartment } from "../../apis/departmentApi";
 import { checkPermission } from "../../apis/checkPermission";
 import PermissionContext from "../../context/PermissionContext";
 import { simpleDate } from "../../helpers/FuncHelper";
@@ -29,7 +28,6 @@ import { simpleDate } from "../../helpers/FuncHelper";
 const TableDepartment = (props) => {
   const dispatch = useDispatch();
   const { permissions, domain, slug } = useContext(PermissionContext);
-  const lastValue = usePrevious(props.valueSearch);
   const [id, setId] = useState("");
   const [data, setData] = useState(null);
   const [isCreate, setIsCreate] = useState(false);
@@ -44,43 +42,41 @@ const TableDepartment = (props) => {
     err_address: "",
     err_phone: "",
   });
+
   useEffect(async () => {
-    if (props.valueSearch !== lastValue) {
+    if(props.valueSearch !== "") {
       dispatch(showLoading());
-      let resListDepart = await getListDepartment("all");
-      let listDepartSearch = resListDepart.data.filter((depart) => {
-        return (
-          depart.dep_name
-            .toLowerCase()
-            .indexOf(props.valueSearch.toLowerCase()) !== -1
-        );
-      });
-      let obj = {
-        meta: {
-          pagination: listDepartSearch.length,
-        },
-        data: listDepartSearch,
-      };
-      setData(obj);
-      props.total(obj.meta.pagination);
-      dispatch(hideLoading());
+      fetchSearch(1);
+    } else {
+      fetchData(1);
     }
   }, [props.valueSearch]);
-  // [props.valueSearch]);
+
+  const fetchSearch = async (page) => {
+    let data = await searchDepartment(props.valueSearch, page);
+      if (!data.err) {
+        setData(data);
+        props.total(data.meta.pagination.total);
+        dispatch(hideLoading());
+      } else {
+        message.error("search fail");
+      }
+  }
 
   const fetchData = async (page) => {
+    dispatch(showLoading());
     try {
-      let res = await getListDepartment(page);
-      if (!res.err) {
-        setData(res);
-        props.total(res.meta.pagination.total);
+      let data = await getListDepartment(page);
+      if (!data.err) {
+        setData(data);
+        props.total(data.meta.pagination.total);
       } else {
-        cmessage.error("get list department failed");
-        ons;
+        message.error("get list department failed");
       }
     } catch (error) {
       console.log(error);
     }
+    dispatch(hideLoading());
   };
 
   const onSubmit = async () => {
@@ -203,7 +199,11 @@ const TableDepartment = (props) => {
   };
 
   const handlePagination = async (pagination) => {
-    fetchData(pagination);
+    if(props.valueSearch === "") {
+      fetchData(pagination);
+    } else {
+      fetchSearch(pagination)
+    }
   };
 
   const onChange = (e) => {
@@ -283,11 +283,11 @@ const TableDepartment = (props) => {
 
   useEffect(() => {
     if (data && data.data) {
-      data.data.map(el => {
-          el.created_at = simpleDate(el.created_at);
-        })
+      data.data.map((el) => {
+        el.created_at = simpleDate(el.created_at);
+      });
     }
-  }, [data])
+  }, [data]);
 
   return (
     <div>
@@ -308,7 +308,8 @@ const TableDepartment = (props) => {
                 rowKey="id"
                 pagination={{
                   onChange: handlePagination,
-                  pageSize: 15,
+                  pageSize: 10,
+                  current: data ? data.meta.pagination.current_page : 1,
                   total: data ? data.meta.pagination.total : 0,
                 }}
               />

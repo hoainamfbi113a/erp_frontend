@@ -108,6 +108,19 @@ export const listUser = (pagination) =>{
     })
   })
 }
+export const listUserDepartFilter = (id,pagination) =>{
+  return axiosConfig
+  .get(`/api/userpagin/filter-dep/${id}?page=${pagination}`)
+  .then(data=>{
+    return data
+  })
+  .catch(err=>{
+    console.log(err);
+    return ({
+      err:"error"
+    })
+  })
+}
 export const checkApi = (params) => {
   return axiosConfig.post("/api/check-permission", params)
   .then(data=>{

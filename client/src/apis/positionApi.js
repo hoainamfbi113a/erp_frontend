@@ -74,9 +74,9 @@ export const deletePosition = (params) =>{
     })
 }
 
-export const searchPosition = name =>{
+export const searchPosition = (name, page) =>{
     return axiosConfig
-    .get(`/api/search/positions?name=${name}&per_page=10`)
+    .get(`/api/search/positions?name=${name}&page=${page}&per_page=10`)
     .then(data=>{
         return data
     })
