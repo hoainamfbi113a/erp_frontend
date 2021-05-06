@@ -38,6 +38,16 @@ router.get("/userpagin", async (req, res) => {
     res.send(data);
   }
 });
+router.get("/userpagin/filter-dep/:id", async(req, res) => {
+  try{
+      const { page } = req.query;
+      const { id } = req.params;
+      let { data } = await axios.get(`${process.env.apiEmployee}/api/departments/list-user/${id}?order=desc&page=${page}`);
+      res.send(data);
+  } catch (error) {
+      console.log(error);
+  }
+});
 
 router.post("/login", async (req, res) => {
   await axios

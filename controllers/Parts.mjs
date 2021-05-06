@@ -9,7 +9,7 @@ const listParts = async (req, res) => {
       let { data } = await axios.get(`${process.env.apiEmployee}/api/parts?per_page=100`,config);
       res.send(data);
     } else {
-      let { data } = await axios.get(`${process.env.apiEmployee}/api/parts?page=${page}`,config);
+      let { data } = await axios.get(`${process.env.apiEmployee}/api/parts?page=${page}&per_page=10`,config);
       res.send(data);
     }
   } catch (error) {
