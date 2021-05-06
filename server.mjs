@@ -1,6 +1,7 @@
 import express from "express";
 import path from "path";
 import dotenv from "dotenv";
+import formidable from 'express-formidable';
 import userController from "./controllers/User.mjs";
 import departmentsController from "./controllers/Department.mjs";
 import searchController from "./controllers/Search.mjs";
@@ -21,6 +22,7 @@ import notificationController from "./controllers/NotifyDocument.mjs"
 import { listAction, addAction, updateAction, deleteAction } from "./controllers/Action.mjs";
 import workflowController from "./controllers/workflow.mjs";
 import formBuilderController from "./controllers/FormBuilder.mjs";
+import resourceController from "./controllers/Resources.mjs";
 import servicemanagerController from "./controllers/servicemanagerController.mjs"
 import  stepController  from "./controllers/stepController.mjs" 
 import { addPermissionForPos ,deletePermissionForPos} from "./controllers/Position.mjs";
@@ -31,7 +33,7 @@ const port = process.env.PORT || 5001;
 const __dirname = path.resolve();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
+// app.use(formidable());
 app.use("/api/pokemon", function(req, res, next){
     const config = {
         headers: { Authorization: req.headers.authorization },
@@ -73,6 +75,7 @@ const apiMain =(req,resParent) =>{
 }
 app.use("/api", userController);
 app.use("/api", formBuilderController);
+app.use("/api", resourceController);
 
 app.get("/api/transfers", transfers);
 app.get("/api/transfers/profiles/:id", profileTransfers);
