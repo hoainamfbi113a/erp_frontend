@@ -1,7 +1,6 @@
 import express from "express";
 import path from "path";
 import dotenv from "dotenv";
-import formidable from 'express-formidable';
 import userController from "./controllers/User.mjs";
 import departmentsController from "./controllers/Department.mjs";
 import searchController from "./controllers/Search.mjs";
@@ -33,7 +32,6 @@ const port = process.env.PORT || 5001;
 const __dirname = path.resolve();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use(formidable());
 app.use("/api/pokemon", function(req, res, next){
     const config = {
         headers: { Authorization: req.headers.authorization },
