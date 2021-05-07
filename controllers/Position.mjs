@@ -1,9 +1,10 @@
 import axios from "axios";
 const listPosition = async (req, res) => {
   const { page } = req.query;
-  const config = {
-    headers: { Authorization: req.headers.authorization }
-  };
+  // const config = {
+  //   headers: { Authorization: req.headers.authorization }
+  // };
+  const config = {}
   try {
     if(page === "all") {
       let { data } = await axios.get(
