@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import LazyLoad from "react-lazyload";
 import { useSelector } from "react-redux";
 import coverimg from "assets/images/coverimg.png";
@@ -13,96 +13,136 @@ import phone from "assets/images/icon/phone.png";
 import email from "assets/images/icon/email.png";
 import { Upload, message } from "antd";
 import { CameraOutlined } from "@ant-design/icons";
+// import LazyLoad from 'react-lazyload';
 import docCookies from "doc-cookies";
 import "./PersonalPage.css";
 import axios from "axios";
+const placeHolder = "R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
 const PersonalPage = () => {
   const dataUser = useSelector((state) => state.user);
   const dataProfile = useSelector((state) => state.userProfile);
-  const [avatarCoverImg, setAvatarCoverImg] = useState("")
-  const [dataImg, setDataImg] = useState("")
+  const [avatarCoverImg, setAvatarCoverImg] = useState(placeHolder);
+  const [dataImg, setDataImg] = useState(placeHolder);
   useEffect(() => {
     fetChImg();
-  },[])
-  const fetChImg = () =>{
-    axios.get("/api/user/resources/1")
-    .then(res=>{
-      console.log(res.data)
-      let resImg = res.data
-      let i = -1;
-      for(let item of resImg ) {
-        i++;
-        if(item.resource_type === "avatar") {
-          let arrImg = res.data[i].resource_content;
-          setDataImg(arrImg[arrImg.length - 1].content)
-        } 
-        if(item.resource_type === "cover"){
-          let arrImg = res.data[i].resource_content;
-          setAvatarCoverImg(arrImg[arrImg.length - 1].content)
+  }, []);
+  const fetChImg = () => {
+    axios
+      .get(`/api/user/resources/${docCookies.getItem("user_id")}`)
+      .then((res) => {
+        console.log(res.data);
+        let resImg = res.data;
+        let i = -1;
+        for (let item of resImg) {
+          i++;
+          if (item.resource_type === "avatar") {
+            let arrImg = res.data[i].resource_content;
+            setDataImg(arrImg.content);
+          }
+          if (item.resource_type === "cover") {
+            let arrImg = res.data[i].resource_content;
+            setAvatarCoverImg(arrImg.content);
+          }
         }
-      }
-    })
-    .catch(err=>{
-      console.log(err)
-    })
-  }
-  const onChangeCover = (e) =>{
-    const formData = new FormData()
-    formData.append('resource_type', "image");
-    formData.append('user_resource_type', "cover");
-    formData.append('user_id', docCookies.getItem(
-      "user_id"
-    ));
-    formData.append('file', e.target.files[0]);
-    axios.post("/api/user/resources", formData)
-    .then(res=>{
-      if(res.data.message === "Successfully"){
-        message.success("Cập nhật ảnh bìa thành công")
-        fetChImg();
-      } else {
-        message.error("Cập nhật ảnh bìa thất bại")
-      }
-    })
-    .catch(err=>{
-      console.log(err);
-    })
-  }
-  const onChange = (e) =>{
-    const formData = new FormData()
-    formData.append('resource_type', "image");
-    formData.append('user_resource_type', "avatar");
-    formData.append('user_id', docCookies.getItem(
-      "user_id"
-    ));
-    formData.append('file', e.target.files[0]);
-    axios.post("/api/user/resources", formData)
-    .then(res=>{
-      if(res.data.message === "Successfully"){
-        message.success("Cập nhật ảnh đại diện thành công")
-        fetChImg();
-      } else {
-        message.error("Cập nhật ảnh đại diện thất bại")
-      }
-    })
-    .catch(err=>{
-      console.log(err);
-    })
-  }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const onChangeCover = (e) => {
+    const formData = new FormData();
+    formData.append("resource_type", "image");
+    formData.append("user_resource_type", "cover");
+    formData.append("user_id", docCookies.getItem("user_id"));
+    formData.append("file", e.target.files[0]);
+    axios
+      .post("/api/user/resources", formData)
+      .then((res) => {
+        if (res.data.message === "Successfully") {
+          message.success("Cập nhật ảnh bìa thành công");
+          fetChImg();
+        } else {
+          message.error("Cập nhật ảnh bìa thất bại");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  const onChange = (e) => {
+    const formData = new FormData();
+    formData.append("resource_type", "image");
+    formData.append("user_resource_type", "avatar");
+    formData.append("user_id", docCookies.getItem("user_id"));
+    formData.append("file", e.target.files[0]);
+    axios
+      .post("/api/user/resources", formData)
+      .then((res) => {
+        if (res.data.message === "Successfully") {
+          message.success("Cập nhật ảnh đại diện thành công");
+          fetChImg();
+        } else {
+          message.error("Cập nhật ảnh đại diện thất bại");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   return (
     <div style={{ background: "#EEEFF3" }}>
       <div className="container-fluid emp-profile">
         <div className="row">
           <div className="col-12 thumbnail">
             <div className="thumb_1 div-img-cover">
-            <img className="img-cover" src={`data:image/jpeg;base64,${avatarCoverImg}`} alt="" />
+              <LazyLoad height={200}>
+                <img
+                  className="img-cover"
+                  src={`data:image/jpeg;base64,${avatarCoverImg}`}
+                  alt=""
+                />
+              </LazyLoad>
             </div>
             {/* <Upload className="d-block"> */}
-              {/* <Button icon={<CameraOutlined />}>Chỉnh sửa ảnh bìa</Button> */}
-              <input
-                 name="selectedFile"
-                 onChange={onChangeCover}
-                type="file" name="file" />
-            {/* </Upload> */}
+            {/* <Button icon={<CameraOutlined />}>Chỉnh sửa ảnh bìa</Button> */}
+            <div
+              style={{ position: "absolute", right: "15px", bottom: "10px" }}
+            >
+              <div class="file-input">
+                <input
+                  type="file"
+                  name="selectedFile"
+                  onChange={onChangeCover}
+                  id="file-input"
+                  class="file-input__input"
+                />
+                <label class="file-input__label" for="file-input">
+                  <svg
+                    aria-hidden="true"
+                    focusable="false"
+                    data-prefix="fas"
+                    data-icon="upload"
+                    class="svg-inline--fa fa-upload fa-w-16"
+                    role="img"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 512 512"
+                  >
+                    <path
+                      fill="currentColor"
+                      d="M296 384h-80c-13.3 0-24-10.7-24-24V192h-87.7c-17.8 0-26.7-21.5-14.1-34.1L242.3 5.7c7.5-7.5 19.8-7.5 27.3 0l152.2 152.2c12.6 12.6 3.7 34.1-14.1 34.1H320v168c0 13.3-10.7 24-24 24zm216-8v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h136v8c0 30.9 25.1 56 56 56h80c30.9 0 56-25.1 56-56v-8h136c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"
+                    ></path>
+                  </svg>
+                  <span>Upload file</span>
+                </label>
+              </div>
+              {/* <input
+                className="custom-upload"
+                name="selectedFile"
+                onChange={onChangeCover}
+                type="file"
+                name="file"
+              /> */}
+            </div>
           </div>
         </div>
         <div className="row mt-3">
@@ -112,9 +152,11 @@ const PersonalPage = () => {
               <div className="file btn btn-lg btn-primary">
                 Change Photo
                 <input
-                 name="selectedFile"
-                 onChange={onChange}
-                type="file" name="file" />
+                  name="selectedFile"
+                  onChange={onChange}
+                  type="file"
+                  name="file"
+                />
               </div>
             </div>
             <div className="row">

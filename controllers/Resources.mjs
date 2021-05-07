@@ -24,7 +24,7 @@ router.get("/user/resources/:id", async (req, res) => {
   const { id } = req.params
   try {
     let { data } = await axios.get(
-      `${process.env.apiEmployee}/api/user/resources/${id}`
+      `${process.env.apiEmployee}/api/user/resources/${id}?mode=one`
     );
     res.send(data);
   } catch (error) {
