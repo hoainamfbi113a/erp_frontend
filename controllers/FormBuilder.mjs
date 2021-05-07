@@ -267,7 +267,7 @@ router.get("/issue/detail", async (req, res) => {
   try {
     let params = req.query;
     let { data } = await axios.get(
-      `${process.env.apiWorkflow}/api/workflow/detail`, {params}
+      `${process.env.apiWorkflow}/api/issue/detail`, {params}
     );
     let arr = []
     let obj = {

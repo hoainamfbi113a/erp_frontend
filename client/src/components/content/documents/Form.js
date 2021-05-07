@@ -56,9 +56,9 @@ class Create extends Component {
       titleStep: "",
     };
   }
-  getDetailIssue = (type_id) => {
+  getDetailIssue = (issue_id) => {
     let params = {
-      type_id,
+      issue_id,
       nested: "1",
     };
     axiosConfig
@@ -129,6 +129,7 @@ class Create extends Component {
                 isProcessed: true,
               });
             }
+            console.log(res.data.current_step.id)
             if (res.data.status === "processed") {
               this.setState({
                 isProcessed: true,
@@ -149,7 +150,7 @@ class Create extends Component {
               inputsData: res.data.inputs,
               user_id: res.data.user_id,
             });
-            this.getDetailIssue(res.data.document_type.id);
+            this.getDetailIssue(res.data.issue_id);
             axios
               .get(`/api/workflow/detail?type_id=${res.data.document_type.id}`)
               .then((res) => {
@@ -178,7 +179,7 @@ class Create extends Component {
             this.setState({
               listInputs: data.data.inputs,
             });
-            this.getDetailIssue(data.data.document_type.id);
+            this.getDetailIssue(data.data.issue_id);
             axios
               .get(`/api/workflow/detail?type_id=${data.data.document_type.id}`)
               .then((res) => {
@@ -447,7 +448,6 @@ class Create extends Component {
     this.handleCreateDocument(arrTarget);
   };
   renderWorkflow = () => {
-    // console.log(this.state.stepDataFlow)
     if (this.state.stepDataFlow) {
       return this.state.stepDataFlow.map((item) => {
         return <Step key={item.id} title={item.name} />;
@@ -513,7 +513,8 @@ class Create extends Component {
   };
   render() {
     const data = this.state.dataComment;
-    const { listInputs, inputsData, currentProcessStep } = this.state;
+    let { listInputs, inputsData, currentProcessStep } = this.state;
+    console.log(currentProcessStep)
     return (
       <div>
         <div className="row">
