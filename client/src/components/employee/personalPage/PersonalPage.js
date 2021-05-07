@@ -24,7 +24,7 @@ const PersonalPage = () => {
   useEffect(() => {
     axios.get("/api/user/resources/1")
     .then(res=>{
-      setDataImg(res.data[0].resource_content[0].content)
+      setDataImg(res.data[0].resource_content[7].content)
       // console.log()
     })
     .catch(err=>{
@@ -32,6 +32,26 @@ const PersonalPage = () => {
     })
   },[])
   let data = "123"
+  const onChangeCover = (e) =>{
+    const formData = new FormData()
+    formData.append('resource_type', "image");
+    formData.append('user_resource_type', "image");
+    formData.append('user_id', docCookies.getItem(
+      "user_id"
+    ));
+    formData.append('file', e.target.files[0]);
+    axios.post("/api/user/resources", formData)
+    .then(res=>{
+      if(req.data.message === "Successfully"){
+        message.success("Cập nhật ảnh bìa thành công")
+      } else {
+        message.error("Cập nhật ảnh bìa thất bại")
+      }
+    })
+    .catch(err=>{
+      console.log(err);
+    })
+  }
   const onChange = (e) =>{
     const formData = new FormData()
     formData.append('resource_type', "image");
@@ -40,10 +60,13 @@ const PersonalPage = () => {
       "user_id"
     ));
     formData.append('file', e.target.files[0]);
-    console.log(e.target.files[0])
     axios.post("/api/user/resources", formData)
     .then(res=>{
-      console.log(res);
+      if(req.data.message === "Successfully"){
+        message.success("Cập nhật ảnh đại diện thành công")
+      } else {
+        message.error("Cập nhật ảnh đại diện thất bại")
+      }
     })
     .catch(err=>{
       console.log(err);
