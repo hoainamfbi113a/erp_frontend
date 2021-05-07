@@ -19,31 +19,46 @@ import axios from "axios";
 const PersonalPage = () => {
   const dataUser = useSelector((state) => state.user);
   const dataProfile = useSelector((state) => state.userProfile);
-  const [avatarImg, setAvatarImg] = useState("")
+  const [avatarCoverImg, setAvatarCoverImg] = useState("")
   const [dataImg, setDataImg] = useState("")
   useEffect(() => {
+    fetChImg();
+  },[])
+  const fetChImg = () =>{
     axios.get("/api/user/resources/1")
     .then(res=>{
-      setDataImg(res.data[0].resource_content[7].content)
-      // console.log()
+      console.log(res.data)
+      let resImg = res.data
+      let i = -1;
+      for(let item of resImg ) {
+        i++;
+        if(item.resource_type === "avatar") {
+          let arrImg = res.data[i].resource_content;
+          setDataImg(arrImg[arrImg.length - 1].content)
+        } 
+        if(item.resource_type === "cover"){
+          let arrImg = res.data[i].resource_content;
+          setAvatarCoverImg(arrImg[arrImg.length - 1].content)
+        }
+      }
     })
     .catch(err=>{
       console.log(err)
     })
-  },[])
-  let data = "123"
+  }
   const onChangeCover = (e) =>{
     const formData = new FormData()
     formData.append('resource_type', "image");
-    formData.append('user_resource_type', "image");
+    formData.append('user_resource_type', "cover");
     formData.append('user_id', docCookies.getItem(
       "user_id"
     ));
     formData.append('file', e.target.files[0]);
     axios.post("/api/user/resources", formData)
     .then(res=>{
-      if(req.data.message === "Successfully"){
+      if(res.data.message === "Successfully"){
         message.success("Cập nhật ảnh bìa thành công")
+        fetChImg();
       } else {
         message.error("Cập nhật ảnh bìa thất bại")
       }
@@ -62,8 +77,9 @@ const PersonalPage = () => {
     formData.append('file', e.target.files[0]);
     axios.post("/api/user/resources", formData)
     .then(res=>{
-      if(req.data.message === "Successfully"){
+      if(res.data.message === "Successfully"){
         message.success("Cập nhật ảnh đại diện thành công")
+        fetChImg();
       } else {
         message.error("Cập nhật ảnh đại diện thất bại")
       }
@@ -78,11 +94,15 @@ const PersonalPage = () => {
         <div className="row">
           <div className="col-12 thumbnail">
             <div className="thumb_1 div-img-cover">
-            <img className="img-cover" src={`data:image/jpeg;base64,${dataImg}`} alt="" />
+            <img className="img-cover" src={`data:image/jpeg;base64,${avatarCoverImg}`} alt="" />
             </div>
-            <Upload className="d-block">
-              <Button icon={<CameraOutlined />}>Chỉnh sửa ảnh bìa</Button>
-            </Upload>
+            {/* <Upload className="d-block"> */}
+              {/* <Button icon={<CameraOutlined />}>Chỉnh sửa ảnh bìa</Button> */}
+              <input
+                 name="selectedFile"
+                 onChange={onChangeCover}
+                type="file" name="file" />
+            {/* </Upload> */}
           </div>
         </div>
         <div className="row mt-3">
