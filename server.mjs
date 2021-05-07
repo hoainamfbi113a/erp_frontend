@@ -26,12 +26,14 @@ import servicemanagerController from "./controllers/servicemanagerController.mjs
 import  stepController  from "./controllers/stepController.mjs" 
 import { addPermissionForPos ,deletePermissionForPos} from "./controllers/Position.mjs";
 import axios from "axios";
+import formidable  from 'express-formidable';
 dotenv.config();
 const app = express();
 const port = process.env.PORT || 5001;
 const __dirname = path.resolve();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+// app.use(formidable());
 app.use("/api/pokemon", function(req, res, next){
     const config = {
         headers: { Authorization: req.headers.authorization },

@@ -40,6 +40,7 @@ const PersonalPage = () => {
       "user_id"
     ));
     formData.append('file', e.target.files[0]);
+    console.log(e.target.files[0])
     axios.post("/api/user/resources", formData)
     .then(res=>{
       console.log(res);
