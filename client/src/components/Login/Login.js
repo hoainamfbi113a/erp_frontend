@@ -44,15 +44,15 @@ class Login extends Component {
       if (data) {
         if (data.message === "Đăng nhập thành công!") {
           this.setState({ ishow: !this.state.ishow });
+          localStorage.setItem("0","0")
           setTimeout(() => {
             this.setState({
               activeErrEmail: false,
               activeErrPassWord: false,
             });
-            if(this.state.email === ""){
-              localStorage.setItem("0","0")
-            }
-            localStorage.setItem("0","0")
+            // if(this.state.email === ""){
+            //   localStorage.setItem("0","0")
+            // }
             this.props.history.push("/");
             this.setState({ ishow: !this.state.ishow });
           }, 600);

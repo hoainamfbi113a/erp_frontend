@@ -36,7 +36,7 @@ const MenuLayout = (props) => {
   // }, [dispatch]);
 
   const renderAdmin = () => {
-    if (docCookies.getItem("user_id") === "1") {
+    // if (docCookies.getItem("user_id") === "1") {
       return (
         <SubMenu key="sub3" icon={<LockOutlined />} title="Vai trò & Quyền">
           <Menu.Item key="13">
@@ -53,7 +53,7 @@ const MenuLayout = (props) => {
           </Menu.Item>
         </SubMenu>
       );
-    }
+    // }
   };
   const renderMenu = () => {
     if (permissions.length !== 0) {
