@@ -220,10 +220,10 @@ const NotifiMy = (props) => {
           <TabPane tab="Tất cả" key="1">
             {renderTable(notiAll, totalPage)}
           </TabPane>
-          <TabPane tab="Đơn chưa duyệt" key="2">
+          <TabPane tab="Đơn chưa thực hiện" key="2">
             {renderTable(notiUnconf, totalPage2)}
           </TabPane>
-          <TabPane tab="Đơn đã duyệt" key="3">
+          <TabPane tab="Đơn đã thực hiện" key="3">
             {renderTable(notiConf, totalPage3)}
           </TabPane>
         </Tabs>

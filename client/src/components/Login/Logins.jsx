@@ -32,7 +32,7 @@ const Logins = () => {
     let errPassword = ValidateField(formData.password, 6, 18, "Mật khẩu");
     if (errEmail == "" && errPassword == "") {
       const params = {
-        email: formData.email, 
+        username: formData.email, 
         password: formData.password,
         user_ip: "123",
         user_agent: navigator.userAgent,
@@ -70,13 +70,14 @@ const Logins = () => {
       dispatch(hideLoading());
     } else if (
       respLogin &&
-      respLogin.message === "Email hoặc mật khẩu không đúng!"
+      respLogin.message === "Tài khoản hoặc mật khẩu không đúng!"
     ) {
       setActiveErrEmail(false);
       setActiveErrPassWord(false);
       dispatch(hideLoading());
-      message.error("Email hoặc mật khẩu không đúng!");
+      message.error("Tài khoản hoặc mật khẩu không đúng!");
     }
+    // dispatch(hideLoading());
   }, [respLogin]);
   const { register, handleSubmit, errors, watch } = useForm();
   return (
