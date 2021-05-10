@@ -12,7 +12,6 @@ import {
   Modal,
   message,
 } from "antd";
-import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 import {
   ValidateField,
   ValidateNumber,
@@ -26,7 +25,8 @@ import PermissionContext from "../../context/PermissionContext";
 import { simpleDate } from "../../helpers/FuncHelper";
 
 const TableDepartment = (props) => {
-  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+  const [sizeOpt, setSizeOt] = useState(10);
   const { permissions, domain, slug } = useContext(PermissionContext);
   const [id, setId] = useState("");
   const [data, setData] = useState(null);
@@ -45,28 +45,29 @@ const TableDepartment = (props) => {
 
   useEffect(async () => {
     if(props.valueSearch !== "") {
-      dispatch(showLoading());
-      fetchSearch(1);
+      console.log(sizeOpt);
+      setLoading(true);
+      fetchSearch(1, sizeOpt);
     } else {
-      fetchData(1);
+      fetchData(1,10);
     }
   }, [props.valueSearch]);
 
-  const fetchSearch = async (page) => {
-    let data = await searchDepartment(props.valueSearch, page);
+  const fetchSearch = async (page, per_page) => {
+    let data = await searchDepartment(props.valueSearch, page, per_page);
       if (!data.err) {
         setData(data);
         props.total(data.meta.pagination.total);
-        dispatch(hideLoading());
+        setLoading(false);
       } else {
         message.error("search fail");
       }
   }
 
-  const fetchData = async (page) => {
-    dispatch(showLoading());
+  const fetchData = async (page, per_page) => {
+    setLoading(true);
     try {
-      let data = await getListDepartment(page);
+      let data = await getListDepartment(page, per_page);
       if (!data.err) {
         setData(data);
         props.total(data.meta.pagination.total);
@@ -76,7 +77,7 @@ const TableDepartment = (props) => {
     } catch (error) {
       console.log(error);
     }
-    dispatch(hideLoading());
+    setLoading(false);
   };
 
   const onSubmit = async () => {
@@ -94,7 +95,7 @@ const TableDepartment = (props) => {
 
     if (err_name === "" && err_address === "" && err_phone === "") {
       hideModal();
-      dispatch(showLoading());
+      setLoading(true);
       if (id === "") {
         let res = await checkPermission(
           objCheckPermission(
@@ -135,7 +136,7 @@ const TableDepartment = (props) => {
           message.error("Cập nhật phòng ban thất bại");
         }
       }
-      dispatch(hideLoading());
+      setLoading(false);
     }
   };
 
@@ -172,7 +173,7 @@ const TableDepartment = (props) => {
   };
 
   const confirm = async (id) => {
-    dispatch(showLoading());
+    setLoading(true);
     let res = await checkPermission(
       objCheckPermission(
         permissions,
@@ -191,24 +192,34 @@ const TableDepartment = (props) => {
     } else {
       message.error("Ẩn phòng ban thất bại");
     }
-    dispatch(hideLoading());
+    setLoading(false);
   };
 
   const cancel = (e) => {
     message.error("Không ẩn");
   };
 
-  const handlePagination = async (pagination) => {
+  const handlePagination = (page, pageSize) => {
+    setSizeOt(pageSize);
     if(props.valueSearch === "") {
-      fetchData(pagination);
+      fetchData(page, pageSize);
     } else {
-      fetchSearch(pagination)
+      fetchSearch(page, pageSize)
     }
   };
 
   const onChange = (e) => {
     setDepart({ ...depart, [e.target.name]: e.target.value });
   };
+
+  // const onSizeChange = (current, size) => {
+  //   setSizeOt()
+  //   if(props.valueSearch === "") {
+  //     fetchData(1, size);
+  //   } else {
+  //     fetchSearch(1, size)
+  //   }
+  // }
 
   const columns = [
     {
@@ -295,22 +306,19 @@ const TableDepartment = (props) => {
         <div className="layout-content">
           <div style={{ padding: 24, minHeight: 200 }}>
             {checkVisible(permissions, "list", "api/departments") ? (
-              // data ? data.data.map(el => {
-              //   el.created_at = "asd"
-              // }) : null,
-
               <Table
                 style={{ minHeight: "70vh" }}
-                //dataSource={data ? data.data : ""}
+                loading={loading}
                 dataSource={data ? data.data : ""}
                 columns={columns}
                 className="table-content"
                 rowKey="id"
                 pagination={{
                   onChange: handlePagination,
-                  pageSize: 10,
+                  //pageSize: 10,
                   current: data ? data.meta.pagination.current_page : 1,
                   total: data ? data.meta.pagination.total : 0,
+                  showSizeChanger: true
                 }}
               />
             ) : (

@@ -41,6 +41,7 @@ const { Panel } = Collapse;
 
 const CreateNotifi = (props) => {
   const dispatch = useDispatch();
+  const [sizeOpt, setSizeOt] = useState(10);
   const [visible, setVisible] = useState(false);
   const [title, setTitle] = useState("");
   const [dataDocumentType, setDataDocuType] = useState(null);
@@ -48,7 +49,25 @@ const CreateNotifi = (props) => {
   const [treeData, setTreeData] = useState(null);
   const [arrPermission, setArrPermission] = useState([]);
   const [totalPage, setTotalPage] = useState(null);
+  const [currentPage, setCurrentPage] = useState(null);
   const [pageType, setPageType] = useState("all");
+  const [pagi, setPagi] = useState({
+    all: {
+      page: 1,
+    },
+    processing: {
+      page: 1,
+    },
+    processed: {
+      page: 1,
+    },
+    canceled: {
+      page: 1,
+    },
+    evicted: {
+      page: 1,
+    },
+  });
   const permissionUser = useSelector((state) => state.permission);
 
   const showModal = (value) => {
@@ -62,7 +81,7 @@ const CreateNotifi = (props) => {
 
   useEffect(() => {
     getDataDocumentType();
-    getDataDocumentListUser(1, "all");
+    getDataDocumentListUser(1, 10, "all");
     let arr = [];
     for (const property in permissionUser) {
       for (const item of permissionUser[property].groups) {
@@ -105,11 +124,11 @@ const CreateNotifi = (props) => {
       });
   };
 
-  const getDataDocumentListUser = (page, status) => {
+  const getDataDocumentListUser = (page, per_page, status) => {
     dispatch(showLoading());
     axios
       .get(
-        `/api/document/list?page=${page}&per_page=10&user_id=${docCookies.getItem(
+        `/api/document/list?page=${page}&per_page=${per_page}&user_id=${docCookies.getItem(
           "user_id"
         )}&status=${status}`
       )
@@ -117,6 +136,7 @@ const CreateNotifi = (props) => {
         console.log(res.data);
         setDataDocuUser(res.data.data);
         setTotalPage(res.data.total);
+        setPagi({ ...pagi, [status]: { page: res.data.page } });
         dispatch(hideLoading());
       })
       .catch((err) => {
@@ -124,8 +144,9 @@ const CreateNotifi = (props) => {
       });
   };
 
-  const handlePagination = (pagination) => {
-    getDataDocumentListUser(pagination, pageType);
+  const handlePagination = (page, pageSize) => {
+    setSizeOt(pageSize);
+    getDataDocumentListUser(page, pageSize, pageType);
   };
 
   const checkPermissionUser = (idPermission) => {
@@ -164,15 +185,15 @@ const CreateNotifi = (props) => {
           message.success("Xoá tài liệu thành công");
           setTimeout(() => {
             console.log(pageType);
-            getDataDocumentListUser(1, pageType);
-          }, 1000)
+            getDataDocumentListUser(1, sizeOpt, pageType);
+          }, 1000);
           dispatch(hideLoading());
         }
       })
       .catch((err) => {
         message.error("Xóa tài liệu thất bại");
         console.log(err);
-      });   
+      });
   };
   const handleViewDocument = (doc_id, process_id) => {
     props.history.push(`/form-document-view/${doc_id}/${process_id}`);
@@ -285,7 +306,12 @@ const CreateNotifi = (props) => {
   };
 
   const handleChangeFilter = (value) => {
-    getDataDocumentListUser(1, value);
+    getDataDocumentListUser(
+      pagi[value].page ? pagi[value].page : 1,
+      sizeOpt,
+      value
+    );
+    //setCurrentPage(null);
     setPageType(value);
   };
 
@@ -365,7 +391,12 @@ const CreateNotifi = (props) => {
           </Tabs> */}
 
           <div className="content-bottom-pagination">
-            <Pagination onChange={handlePagination} total={totalPage} />
+            <Pagination
+              onChange={handlePagination}
+              current={pagi[pageType].page}
+              total={totalPage}
+              showSizeChanger={true}
+            />
           </div>
         </div>
       </div>

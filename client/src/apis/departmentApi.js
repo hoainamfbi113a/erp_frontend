@@ -1,9 +1,8 @@
 import axiosConfig from "./axios";
 import { handleResponse } from "./handleResponse";
-import { checkApi } from "apis/authenticationApi"
-export const getListDepartment = (page) => {
+export const getListDepartment = (page, per_page) => {
   return axiosConfig
-    .get(`/api/departments?page=${page}`)
+    .get(`/api/departments?page=${page}&per_page=${per_page}`)
     .then(handleResponse)
     .then((data) => {
       return data;
@@ -42,9 +41,9 @@ export const getListIdDepartment = () => {
     });
 };
 
-export const searchDepartment = (name, page) => {
+export const searchDepartment = (name, page, per_page) => {
   return axiosConfig
-    .get(`/api/search/departments?name=${name}&page=${page}&per_page=10`)
+    .get(`/api/search/departments?name=${name}&page=${page}&per_page=${per_page}`)
     .then((data) => {
       return data;
     })

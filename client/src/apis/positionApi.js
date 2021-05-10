@@ -1,9 +1,9 @@
 import { data } from "jquery";
 import axiosConfig from "./axios";
 import { handleResponse } from "./handleResponse";
-export const getListPosition = (page) => {
+export const getListPosition = (page, per_page) => {
   return axiosConfig
-    .get(`/api/positions?page=${page}`)
+    .get(`/api/positions?page=${page}&per_page=${per_page}`)
     .then(handleResponse)
     .then((data) => {
       return data;
@@ -74,9 +74,9 @@ export const deletePosition = (params) =>{
     })
 }
 
-export const searchPosition = (name, page) =>{
+export const searchPosition = (name, page, per_page) =>{
     return axiosConfig
-    .get(`/api/search/positions?name=${name}&page=${page}&per_page=10`)
+    .get(`/api/search/positions?name=${name}&page=${page}&per_page=${per_page}`)
     .then(data=>{
         return data
     })

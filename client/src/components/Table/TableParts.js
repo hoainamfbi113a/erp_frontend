@@ -31,6 +31,7 @@ const { Content } = Layout;
 
 const TableParts = (props) => {
   const dispatch = useDispatch();
+  const [sizeOpt, setSizeOt] = useState(10);
   const { permissions, domain, slug } = useContext(PermissionContext);
   const [id, setId] = useState("");
   const [dataDepart, setDataDepart] = useState(null);
@@ -53,14 +54,14 @@ const TableParts = (props) => {
   useEffect(async () => {
     if(props.valueSearch !== "") {
       dispatch(showLoading());
-      fetchSearch(1);
+      fetchSearch(1, sizeOpt);
     } else {
-      fetchData(1);
+      fetchData(1, 10);
     }
   }, [props.valueSearch])
 
-  const fetchSearch = async (page) => {
-    let data = await searchParts(props.valueSearch, page);
+  const fetchSearch = async (page, per_page) => {
+    let data = await searchParts(props.valueSearch, page, per_page);
     if (!data.err) {
       setData(data);
       props.total(data.meta.pagination.total);
@@ -70,8 +71,8 @@ const TableParts = (props) => {
     }
   }
 
-  const fetchData = async (page) => {
-    let res = await getListParts(page);
+  const fetchData = async (page, per_page) => {
+    let res = await getListParts(page, per_page);
     if (!res.err) {
       setData(res);
       props.total(res.meta.pagination.total);
@@ -217,11 +218,12 @@ const TableParts = (props) => {
       });
     } else return "";
   };
-  const handlePagination = async (pagination) => {
+  const handlePagination = async (page, pageSize) => {
+    setSizeOt(pageSize)
     if(props.valueSearch === "") {
-      fetchData(pagination);
+      fetchData(page, pageSize);
     } else {
-      fetchSearch(pagination)
+      fetchSearch(page, pageSize)
     }
   };
   //let data = ""
@@ -345,8 +347,8 @@ const TableParts = (props) => {
               pagination={{
                 onChange: handlePagination,
                 current: data ? data.meta.pagination.current_page : 1,
-                pageSize: 10,
                 total: data ? data.meta.pagination.total : 0,
+                showSizeChanger: true
               }}
             />
               ) : ""

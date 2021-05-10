@@ -10,9 +10,9 @@ const { Option } = Select;
 import "./notification.css";
 
 const status = {
-  all: 'all' , 
-  unconfirmed: 'unconfirmed' , 
-  confirmed: 'confirmed'
+  all: "all",
+  unconfirmed: "unconfirmed",
+  confirmed: "confirmed",
 };
 
 const app_id = 99;
@@ -20,6 +20,7 @@ const slug = "profile";
 const per_page = 15;
 
 const NotifiMy = (props) => {
+  const [active_key, setActiveKey] = useState("1");
   const [data, setData] = useState(null);
   const [totalPage, setTotalPage] = useState(null);
   const [totalPage2, setTotalPage2] = useState(null);
@@ -29,16 +30,16 @@ const NotifiMy = (props) => {
   const [notiConf, setNotiConf] = useState(null);
 
   useEffect(async () => {
-    fetchNotiDocument(1, "all");
-    fetchNotiDocument(1, "unconfirmed");
-    fetchNotiDocument(1, "confirmed");
+      await fetchNotiDocument(1, 10, "all");
+      await fetchNotiDocument(1, 10, "unconfirmed");
+      await fetchNotiDocument(1, 10, "confirmed");
   }, []);
 
-  const fetchNotiDocument = (page, status) => {
+  const fetchNotiDocument = (page, per_page, status) => {
     const user_id = docCookies.getItem("user_id");
     axiosConfig
       .get(
-        `/api/notification/list?page=${page}&per_page=10&user_id=${user_id}&status=${status}`
+        `/api/notification/list?page=${page}&per_page=${per_page}&user_id=${user_id}&status=${status}`
       )
       .then((res) => {
         if (status === "all") {
@@ -48,7 +49,7 @@ const NotifiMy = (props) => {
         } else if (status === "unconfirmed") {
           setNotiUnconf(res.data);
           setTotalPage2(res.total);
-        } else {
+        } else  if (status === "confirmed") {
           setNotiConf(res.data);
           setTotalPage3(res.total);
         }
@@ -83,9 +84,21 @@ const NotifiMy = (props) => {
     }
   };
 
-  const onChangePagination = (pagination) => {
-    fetchNotiDocument(pagination);
+  const onChangePagination = (page, pageSize) => {
+    
+    if(active_key === "1") {
+      fetchNotiDocument(page, pageSize, "all");
+    } else if(active_key === "2") {
+      fetchNotiDocument(page, pageSize, "unconfirmed");
+    } else if(active_key === "3") {
+      fetchNotiDocument(page, pageSize, "confirmed");
+    }
+    
   };
+
+  const onChangeTab = (activeKey) => {
+    setActiveKey(activeKey)
+  }
 
   const changeStatusNotiDocument = (item_id, document_id, process_id) => {
     axiosConfig
@@ -174,7 +187,11 @@ const NotifiMy = (props) => {
           {renderNotifyItemDocument(value)}
         </tbody>
         <div>
-          <Pagination total={total} onChange={onChangePagination} />
+          <Pagination
+            total={total}
+            onChange={onChangePagination}
+            showSizeChanger= {true}
+          />
         </div>
       </table>
     );
@@ -216,8 +233,8 @@ const NotifiMy = (props) => {
             <div className="content-top-left-sum-item">Thông báo của tôi</div>
           </div>
         </div>
-        <Tabs defaultActiveKey="1">
-          <TabPane tab="Tất cả" key="1">
+        <Tabs defaultActiveKey="1" onChange={onChangeTab}>
+          <TabPane tab="Tất cả" key="1" >
             {renderTable(notiAll, totalPage)}
           </TabPane>
           <TabPane tab="Đơn chưa duyệt" key="2">
