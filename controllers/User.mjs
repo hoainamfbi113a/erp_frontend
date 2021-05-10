@@ -50,9 +50,8 @@ router.get("/userpagin/filter-dep/:id", async(req, res) => {
 });
 
 router.post("/login", async (req, res) => {
-  console.log("đâsda")
   await axios
-    .post(`${process.env.apiEmployee}/api/login`, req.body)
+    .post(`${process.env.apiEmployee}/api/login/v2`, req.body)
     .then((err) => {
       res.send(err.data);
     })

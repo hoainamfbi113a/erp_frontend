@@ -1,14 +1,16 @@
 const ValidateEmail = (value, length) => {
   let msg = "";
   let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,24})+$/;
-  let isEmail = regex.test(value);
+  // let isEmail = regex.test(value);
   if (value.length == 0) {
     msg = "Email không được để trống!";
   } else if (value.length < length) {
     msg = `Email không được nhỏ ${length} kí tự!`;
-  } else if (isEmail == false) {
-    msg = "Email không đúng định dạng!";
-  } else {
+  } 
+  // else if (isEmail == false) {
+  //   msg = "Email không đúng định dạng!";
+  // }
+   else {
     msg = "";
   }
   return msg;
