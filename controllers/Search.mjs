@@ -3,8 +3,8 @@ import axios from "axios";
 const router = express.Router();
 
 router.get("/departments", async (req, res) => {
-    const { name, page } = req.query;
-    const url = encodeURI(`name=${name}&page=${page}&per_page=10`);
+    const { name, page, per_page } = req.query;
+    const url = encodeURI(`name=${name}&page=${page}&per_page=${per_page}`);
     const config = {
         headers: { Authorization: req.headers.authorization },
     };
@@ -16,8 +16,8 @@ router.get("/departments", async (req, res) => {
 });
 
 router.get("/positions", async (req, res) => {
-    const { name, page } = req.query;
-    const url = encodeURI(`name=${name}&page=${page}&per_page=10`);
+    const { name, page, per_page } = req.query;
+    const url = encodeURI(`name=${name}&page=${page}&per_page=${per_page}`);
     const config = {
         headers: { Authorization: req.headers.authorization },
     };
@@ -29,8 +29,8 @@ router.get("/positions", async (req, res) => {
 });
 
 router.get("/parts", async (req, res) => {
-    const { name, page } = req.query;
-    const url = encodeURI(`name=${name}&page=${page}&per_page=10`);
+    const { name, page, per_page } = req.query;
+    const url = encodeURI(`name=${name}&page=${page}&per_page=${per_page}`);
     const config = {
         headers: { Authorization: req.headers.authorization },
     };

@@ -1,6 +1,6 @@
 import axios from "axios";
 const listPosition = async (req, res) => {
-  const { page } = req.query;
+  const { page, per_page } = req.query;
   // const config = {
   //   headers: { Authorization: req.headers.authorization }
   // };
@@ -13,7 +13,7 @@ const listPosition = async (req, res) => {
       res.send(data);
     } else {
       let { data } = await axios.get(
-        `${process.env.apiEmployee}/api/positions?page=${page}&per_page=10`, config
+        `${process.env.apiEmployee}/api/positions?page=${page}&per_page=${per_page}`, config
       );
       res.send(data);
     }

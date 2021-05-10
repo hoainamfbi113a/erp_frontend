@@ -3,12 +3,12 @@ import express from "express";
 const router = express.Router();
 router.get("/", async (req, res) => {
     try {
-        const { page } = req.query;
+        const { page, per_page } = req.query;
         if(page == "all") {
             let { data } = await axios.get(`${process.env.apiEmployee}/api/departments?per_page=100`);
             res.send(data);
         } else {
-            let { data } = await axios.get(`${process.env.apiEmployee}/api/departments?page=${page}&per_page=10`);
+            let { data } = await axios.get(`${process.env.apiEmployee}/api/departments?page=${page}&per_page=${per_page}`);
             res.send(data);
         }
     } catch (error) {

@@ -1,6 +1,6 @@
 import axios from "axios";
 const listParts = async (req, res) => {
-  const { page } = req.query;
+  const { page, per_page } = req.query;
   const config = {
     headers: { Authorization: req.headers.authorization }
   };
@@ -9,7 +9,7 @@ const listParts = async (req, res) => {
       let { data } = await axios.get(`${process.env.apiEmployee}/api/parts?per_page=100`,config);
       res.send(data);
     } else {
-      let { data } = await axios.get(`${process.env.apiEmployee}/api/parts?page=${page}&per_page=10`,config);
+      let { data } = await axios.get(`${process.env.apiEmployee}/api/parts?page=${page}&per_page=${per_page}`,config);
       res.send(data);
     }
   } catch (error) {

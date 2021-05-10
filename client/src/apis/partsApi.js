@@ -1,8 +1,8 @@
 import axiosConfig from "./axios";
 import { handleResponse } from "./handleResponse";
-export const getListParts = (page) => {
+export const getListParts = (page, per_page) => {
   return axiosConfig
-    .get(`/api/parts?page=${page}`)
+    .get(`/api/parts?page=${page}&per_page=${per_page}`)
     .then((data) => {
       return data;
     })
@@ -69,9 +69,9 @@ export const deleteParts = (params) =>{
     })
   })
 }
-export const searchParts = (name, page) =>{
+export const searchParts = (name, page, per_page) =>{
   return axiosConfig
-  .get(`/api/search/parts?name=${name}&page=${page}&per_page=10`)
+  .get(`/api/search/parts?name=${name}&page=${page}&per_page=${per_page}`)
   .then((data) => {
       return data
   })
