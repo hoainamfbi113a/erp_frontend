@@ -56,7 +56,7 @@ const TableParts = (props) => {
       dispatch(showLoading());
       fetchSearch(1, sizeOpt);
     } else {
-      fetchData(1, 10);
+      fetchData(1, sizeOpt);
     }
   }, [props.valueSearch])
 
@@ -115,7 +115,7 @@ const TableParts = (props) => {
         );
         if (res.message === "Success!. Stored") {
           message.success("Thêm tổ thành công");
-          fetchData();
+          fetchData(1, sizeOpt);
         } else {
           message.error("Thêm tổ thất bại");
         }
@@ -135,7 +135,7 @@ const TableParts = (props) => {
         if (res.message === "Success!. Updated") {
           message.success("Cập nhật tổ thành công");
           setId("");
-          fetchData();
+          fetchData(1, sizeOpt);
         } else {
           message.error("Update permission thất bại");
         }
@@ -191,7 +191,7 @@ const TableParts = (props) => {
       )
     );
     if (res.message === "Success!. Deleted") {
-      fetchData();
+      fetchData(1, sizeOpt);
       message.success("Ẩn tổ thành công");
     } else {
       message.error("Ẩn tổ thất bại");

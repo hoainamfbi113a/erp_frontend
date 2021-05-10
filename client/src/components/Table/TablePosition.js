@@ -41,7 +41,7 @@ const TablePosition = (props) => {
       dispatch(showLoading());
       fetchSearch(1, sizeOpt);
     } else {
-      fetchData(1, 10);
+      fetchData(1, sizeOpt);
     }
   }, [props.valueSearch])
 
@@ -90,7 +90,7 @@ const TablePosition = (props) => {
         );
         if (res.message === "Success!. Stored") {
           message.success("Thêm chức vụ thành công");
-          fetchData();
+          fetchData(1, sizeOpt);
         } else {
           message.error("Thêm chức vụ thất bại");
         }
@@ -111,7 +111,7 @@ const TablePosition = (props) => {
         setId("");
         if (res.message === "Success!. Updated") {
           message.success("Cập nhật chức vụ thành công");
-          fetchData();
+          fetchData(1, sizeOpt);
         } else {
           message.error("Cập nhật chức vụ thất bại");
         }
@@ -152,7 +152,7 @@ const TablePosition = (props) => {
       )
     );
     if (res.message === "Success!. Deleted") {
-      fetchData();
+      fetchData(1, sizeOpt);
       message.success("Ẩn chức vụ thành công");
     } else {
       message.error("Ẩn chức vụ thất bại");

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import { useDispatch } from "react-redux";
 import "../../App/App.css";
 import "./Table.css";
 import {
@@ -45,11 +44,10 @@ const TableDepartment = (props) => {
 
   useEffect(async () => {
     if(props.valueSearch !== "") {
-      console.log(sizeOpt);
       setLoading(true);
       fetchSearch(1, sizeOpt);
     } else {
-      fetchData(1,10);
+      fetchData(1, sizeOpt);
     }
   }, [props.valueSearch]);
 
@@ -109,9 +107,10 @@ const TableDepartment = (props) => {
             null
           )
         );
+        console.log(res);
         if (res.message === "Success!. Stored") {
           message.success("Thêm phòng ban thành công");
-          fetchData();
+          fetchData(1, sizeOpt);
         } else {
           message.error("Thêm phòng ban thất bại");
         }
@@ -131,7 +130,7 @@ const TableDepartment = (props) => {
         setId("");
         if (res.message === "Success!. Updated") {
           message.success("Cập nhật phòng ban thành công");
-          fetchData();
+          fetchData(1, sizeOpt);
         } else {
           message.error("Cập nhật phòng ban thất bại");
         }
@@ -187,7 +186,7 @@ const TableDepartment = (props) => {
       )
     );
     if (res.message === "Success!. Deleted") {
-      fetchData();
+      fetchData(1, sizeOpt);
       message.success("Ẩn phòng ban thành công");
     } else {
       message.error("Ẩn phòng ban thất bại");
