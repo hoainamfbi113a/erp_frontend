@@ -32,6 +32,7 @@ class Create extends Component {
       showModal: false,
       dataForm: null,
       dataWorkFlow: null,
+      dataWorkFLowM:null,
       stepDataFlow: [],
       currentProcess: 0,
       currentProcessStep: 0,
@@ -156,6 +157,7 @@ class Create extends Component {
               .then((res) => {
                 this.setState({
                   dataWorkFlow: res.data,
+                  dataWorkFLowM:res.data.steps
                 });
                 this.props.uiActionCreatorsH();
               })
@@ -184,6 +186,7 @@ class Create extends Component {
               .get(`/api/workflow/detail?type_id=${data.data.document_type.id}`)
               .then((res) => {
                 this.setState({
+                  dataWorkFLowM:res.data.steps,
                   dataWorkFlow: res.data,
                 });
                 this.props.uiActionCreatorsH();
@@ -448,12 +451,24 @@ class Create extends Component {
     this.handleCreateDocument(arrTarget);
   };
   renderWorkflow = () => {
-    if (this.state.stepDataFlow) {
-      return this.state.stepDataFlow.map((item) => {
-        return <Step key={item.id} title={item.name} />;
-      });
-    } else {
+    if(this.state.create === true){
+      console.log(this.state.dataWorkFLowM)
+      if (this.state.dataWorkFLowM) {
+        return this.state.dataWorkFLowM.map((item) => {
+          return <Step key={item.id} title={item.name} />;
+        });
+      } else {
+      }
     }
+    else{
+      if (this.state.stepDataFlow) {
+        return this.state.stepDataFlow.map((item) => {
+          return <Step key={item.id} title={item.name} />;
+        });
+      } else {
+      }
+    }
+
     // return ""
   };
   onChange = (e) => {
