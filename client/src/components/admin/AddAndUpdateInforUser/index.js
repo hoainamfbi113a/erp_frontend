@@ -82,14 +82,13 @@ const AddAndUpdateInforUser = (props) => {
   };
   const fetchFlowProfile = () => {
     let params = {
-      type_id:"4",
-      nested: "1",
+      type_id:"5",
     };
     axiosConfig
-      .get("/api/issue/detail", { params })
+      .get("/api/workflow/detail", { params })
       .then((res) => {
-        console.log(res)
-        setWorkflowProfile(res)
+        console.log(res.steps)
+        setWorkflowProfile(res.steps)
       })
       .catch(err=>{
         console.log(err)
