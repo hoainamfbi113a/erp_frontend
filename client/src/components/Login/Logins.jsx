@@ -110,7 +110,7 @@ const Logins = () => {
                   <label>Tên đăng nhập</label>
                 </div>
                 <input
-                  placeholder="Email đăng nhập"
+                  placeholder="Tên đăng nhập"
                   type="text"
                   className={
                     "form__input " +
