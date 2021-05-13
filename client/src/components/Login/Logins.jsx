@@ -28,7 +28,7 @@ const Logins = () => {
   const onSubmitForm = async (formData) => {
     // dispatch(showLoading())
     emailUser = formData.email;
-    let errEmail = ValidateEmail(formData.email, 5);
+    let errEmail = ValidateEmail(formData.email, 4);
     let errPassword = ValidateField(formData.password, 6, 18, "Mật khẩu");
     if (errEmail == "" && errPassword == "") {
       const params = {
