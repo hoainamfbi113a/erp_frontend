@@ -143,8 +143,11 @@ const NotifiMy = (props) => {
         return (
           <tr
             className={
-              item.read_at === null ? "content-notification-unread" : ""
+              item.read_at === null ? "zA content-notification-unread" : "zA"
             }
+            style={{
+
+            }}
             onClick={() => {
               changeStatusNotiDocument(
                 item.id,
