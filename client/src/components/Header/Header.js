@@ -38,11 +38,11 @@ const HeaderLayout = () => {
     };
     return (
       <Menu>
-        <Menu.Item icon={<RollbackOutlined />}>
+        {/* <Menu.Item icon={<RollbackOutlined />}>
           <a target="_blank" rel="noopener noreferrer">
             Đổi mật khẩu
           </a>
-        </Menu.Item>
+        </Menu.Item> */}
         <Menu.Item icon={<LogoutOutlined />} onClick={logOut}>
           <a>Đăng xuất</a>
         </Menu.Item>

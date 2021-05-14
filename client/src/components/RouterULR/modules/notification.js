@@ -2,7 +2,7 @@ import ContentNotification from "components/content/Notification/ContentNotifica
 import NotifiGenaral from "components/content//Notification/NotifiGenaral";
 import NotifiMy from "components/content//Notification/NotifiMy";
 import NotifiDepartment from "components/content//Notification/NotifiDepartment";
-import NotifiMyWord from "components/content//Notification/NotifiMyWord";
+import NotifiMyWork from "components/content//Notification/NotifiMyWork";
 import CreateNotifi from "components/content//Notification/CreateNotifi";
 import EditInformationUser from "components/employee/EditInformationUser";
 
@@ -21,7 +21,7 @@ export default [
   },
   {
     path: "/notification-my-work",
-    component: NotifiMyWord,
+    component: NotifiMyWork,
   },
   {
     path: "/notification-create",
