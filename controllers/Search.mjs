@@ -43,7 +43,9 @@ router.get("/parts", async (req, res) => {
 
 router.get("/users", async (req, res) => {
   const { full_name, page, per_page } = req.query;
-  const url = encodeURI(`full_name=${full_name}&page=${page}&per_page=${per_page}`);
+  const url = encodeURI(
+    `full_name=${full_name}&page=${page}&per_page=${per_page}`
+  );
   const config = {
     headers: { Authorization: req.headers.authorization },
   };

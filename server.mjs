@@ -25,6 +25,7 @@ import resourceController from "./controllers/Resources.mjs";
 import servicemanagerController from "./controllers/servicemanagerController.mjs"
 import  stepController  from "./controllers/stepController.mjs" 
 import { addPermissionForPos ,deletePermissionForPos} from "./controllers/Position.mjs";
+import userProfile from "./controllers/userProfile.mjs";
 import axios from "axios";
 // import formidable  from 'express-formidable';
 dotenv.config();
@@ -130,8 +131,11 @@ app.use("/api/notifications", notificationsController);
 app.use("/api/notification", notificationController);
 app.use("/api/search", searchController);
 
-app.use("/api/service-management",servicemanagerController)
-app.use("/api/step", stepController)
+app.use("/api/service-management",servicemanagerController);
+app.use("/api/step", stepController);
+
+// User Profile
+app.use("/api/user-profile", userProfile);
 
 // không theo trật tự
 app.get("/api/list/permission/actions",listPermissionAction)
