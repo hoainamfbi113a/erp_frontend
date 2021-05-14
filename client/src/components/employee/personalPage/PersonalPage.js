@@ -159,27 +159,6 @@ const PersonalPage = () => {
                 />
               </div>
             </div>
-            <div className="row">
-              <div className="col-md-12">
-                <div className="profile-work">
-                  <p>Quan hệ</p>
-                  <a href="">...</a>
-                  <br />
-                  <a href="">...</a>
-                  <br />
-                  <a href="">....</a>
-                  <p>Khen thưởng</p>
-                  <a href="">...</a>
-                  <br />
-                  <a href="">...</a>
-                  <br />
-                  <a href="">...</a>
-                  <br />
-                  <a href="">...</a>
-                  <br />
-                </div>
-              </div>
-            </div>
           </div>
           <div className="col-md-8">
             <div className="profile-head">
@@ -327,6 +306,24 @@ const PersonalPage = () => {
                     </p>
                   </Timeline.Item>
                 </Timeline>
+              </TabPane>
+              <TabPane tab={<span>Quan hệ</span>} key="3">
+                <a href="">...</a>
+                <br />
+                <a href="">...</a>
+                <br />
+                <a href="">...</a>
+                <br />
+                <a href="">...</a>
+              </TabPane>
+              <TabPane tab={<span>Khen thưởng</span>} key="4">
+                <a href="">...</a>
+                <br />
+                <a href="">...</a>
+                <br />
+                <a href="">...</a>
+                <br />
+                <a href="">...</a>
               </TabPane>
             </Tabs>
           </div>

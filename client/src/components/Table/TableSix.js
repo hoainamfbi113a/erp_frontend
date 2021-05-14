@@ -12,10 +12,12 @@ import usePrevious from "../../hooks/usePrevious";
 import { checkVisible } from "helpers/FuncHelper";
 import { checkPermission } from "../../apis/checkPermission";
 import PermissionContext from "../../context/PermissionContext";
+import { searchUser } from "../../apis/authenticationApi";
 const { Content } = Layout;
 
 const TableSix = (props) => {
   const dispatch = useDispatch();
+  const [sizeOpt, setSizeOt] = useState(10);
   const { permissions } = useContext(PermissionContext);
   const { path } = useRouteMatch();
   const lastValue = usePrevious(props.valueSearch);
@@ -33,32 +35,62 @@ const TableSix = (props) => {
     },
   ]);
 
-  useEffect(async () => {
-    let departUserFilter = await listUserDepartFilter(329, 1);
-    console.log(departUserFilter.data);
-  }, []);
+  // useEffect(async () => {
+  //   let departUserFilter = await listUserDepartFilter(329, 1);
+  //   console.log(departUserFilter.data);
+  // }, []);
+
+  // useEffect(async () => {
+  //   //async function searchValue() {
+  //   if (props.valueSearch !== lastValue) {
+  //     dispatch(showLoading());
+  //     let resListUser = await listUser("all");
+  //     let listUserSearch = resListUser.data.filter((user) => {
+  //       return (
+  //         user.full_name
+  //           .toLowerCase()
+  //           .indexOf(props.valueSearch.toLowerCase()) !== -1
+  //       );
+  //     });
+  //     let obj = {
+  //       pagination: listUserSearch.length,
+  //       data: listUserSearch,
+  //     };
+  //     setDataUser(obj);
+  //     props.totalEmploy(obj.pagination);
+  //     dispatch(hideLoading());
+  //   }
+  // }, [props.valueSearch]);
 
   useEffect(async () => {
-    //async function searchValue() {
-    if (props.valueSearch !== lastValue) {
+    if (props.valueSearch !== "") {
       dispatch(showLoading());
-      let resListUser = await listUser("all");
-      let listUserSearch = resListUser.data.filter((user) => {
-        return (
-          user.full_name
-            .toLowerCase()
-            .indexOf(props.valueSearch.toLowerCase()) !== -1
-        );
-      });
-      let obj = {
-        pagination: listUserSearch.length,
-        data: listUserSearch,
-      };
-      setDataUser(obj);
-      props.totalEmploy(obj.pagination);
-      dispatch(hideLoading());
+      fetchSearch(1, sizeOpt);
+    } else {
+      fetchData(1, sizeOpt);
     }
   }, [props.valueSearch]);
+
+  const fetchData = async (page, per_page) => {
+    let res = await listUser(page, per_page);
+    if (!res.err) {
+      setDataUser(res);
+      props.totalEmploy(res.pagination.total);
+    } else {
+      message.error("get list parts failed");
+    }
+  };
+
+  const fetchSearch = async (page, per_page) => {
+    let res = await searchUser(props.valueSearch, page, per_page);
+    if (!res.err) {
+      setDataUser(res);
+      props.totalEmploy(res.pagination.total);
+      dispatch(hideLoading());
+    } else {
+      message.error("search fail");
+    }
+  };
 
   const confirm = (e) => {
     const { userSixActionCreators } = props;
@@ -70,13 +102,13 @@ const TableSix = (props) => {
     message.error("Không ẩn");
   };
 
-  const handlePagination = async (pagination) => {
+  const handlePagination = async (page, pageSize) => {
+    setSizeOt(pageSize)
     dispatch(showLoading());
-    let resListUser = await listUser(pagination);
-    if (!resListUser.err) {
-      setDataUser(resListUser);
+    if(props.valueSearch === "") {
+      fetchData(page, pageSize);
     } else {
-      message.error("get user failed");
+      fetchSearch(page, pageSize)
     }
     dispatch(hideLoading());
   };
@@ -208,11 +240,14 @@ const TableSix = (props) => {
                 rowKey="id"
                 pagination={{
                   onChange: handlePagination,
-                  pageSize: 15,
+                  current: dataUser ? dataUser.pagination.current_page : 1,
                   total: dataUser ? dataUser.pagination.total : 0,
+                  showSizeChanger: true
                 }}
               />
-            ) : ""}
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </Content>
