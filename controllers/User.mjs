@@ -20,7 +20,7 @@ router.get("/user/:id", async (req, res) => {
   res.send(data);
 });
 router.get("/userpagin", async (req, res) => {
-  const { page } = req.query;
+  const { page, per_page } = req.query;
   const config = {
     headers: { Authorization: req.headers.authorization },
   };
@@ -32,7 +32,7 @@ router.get("/userpagin", async (req, res) => {
     res.send(data);
   } else {
     let { data } = await axios.get(
-      `${process.env.apiEmployee}/api/profiles?order=desc&page=${page}`,
+      `${process.env.apiEmployee}/api/profiles?order=desc&page=${page}&per_page=${per_page}`,
       config
     );
     res.send(data);

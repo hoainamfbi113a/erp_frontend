@@ -1,8 +1,7 @@
 import axios from "axios";
 import docCookies from "doc-cookies";
-import cookie from 'react-cookies'
 import axiosConfig from "./axios";
-import { handleResponse } from './handleResponse';
+
 export const login = (params) => {
   return axios
     .post("/api/login", params)
@@ -95,9 +94,9 @@ export const register = (paramUser) =>{
     }
   })
 }
-export const listUser = (pagination) =>{
+export const listUser = (page, per_page) =>{
   return axiosConfig
-  .get(`/api/userpagin?page=${pagination}`)
+  .get(`/api/userpagin?page=${page}&per_page=${per_page}`)
   .then(data=>{
     return data
   })
@@ -108,7 +107,20 @@ export const listUser = (pagination) =>{
     })
   })
 }
-export const listUserDepartFilter = (id,pagination) =>{
+export const searchUser = (name, page, per_page) => {
+  return axiosConfig
+    .get(`/api/search/users?full_name=${name}&page=${page}&per_page=${per_page}`)
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      console.log(err);
+      return {
+        err: "error",
+      };
+    });
+}
+export const listUserDepartFilter = (id,pagination) => {
   return axiosConfig
   .get(`/api/userpagin/filter-dep/${id}?page=${pagination}`)
   .then(data=>{
