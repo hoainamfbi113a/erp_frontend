@@ -104,7 +104,7 @@ const MenuLayout = (props) => {
             className="ant-menu-submenu-title"
             key="2"
           >
-            <Link to="/notification-my">Thông báo của tôi</Link>
+            <Link to="/notification-my">Việc của tôi</Link>
           </Menu.Item>
           <Menu.Item
             icon={<RiInformationLine />}
@@ -118,7 +118,7 @@ const MenuLayout = (props) => {
             className="ant-menu-submenu-title"
             key="4"
           >
-            <Link to="/notification-my-work">Việc của tôi</Link>
+            <Link to="/notification-my-work">Thông báo của tôi</Link>
           </Menu.Item>
           <Menu.Item
             icon={<FiEdit />}
