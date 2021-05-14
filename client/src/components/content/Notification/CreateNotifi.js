@@ -249,16 +249,19 @@ const CreateNotifi = (props) => {
     if (dataDocumentUser) {
       return dataDocumentUser.map((item) => {
         return (
-          <tr>
+          <tr className="zA">
             <td
               onClick={() => {
                 handleViewDocument(item.id, item.process.id);
               }}
-              className="content-notification-unread"
             >
               {item.document_type.display_name}
             </td>
-            <td>
+            <td
+              onClick={() => {
+                handleViewDocument(item.id, item.process.id);
+              }}
+            >
               {!item.eviction && item.deleted_at === null ? (
                 <Tag
                   icon={checkStatus[item.process.status].icon}
@@ -276,8 +279,14 @@ const CreateNotifi = (props) => {
                 </Tag>
               )}
             </td>
-            <td>{simpleDate(item.updated_at)}</td>
-            <td>
+            <td
+              onClick={() => {
+                handleViewDocument(item.id, item.process.id);
+              }}
+            >
+              {simpleDate(item.updated_at)}
+            </td>
+            <td className="zX">
               {item.eviction ? (
                 <Space size="middle">
                   <Popconfirm
