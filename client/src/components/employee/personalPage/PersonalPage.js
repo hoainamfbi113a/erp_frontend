@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import coverimg from "assets/images/coverimg.png";
 import avatar from "assets/images/avatar.jpg";
 import { Button, Tabs } from "antd";
-import { InfoCircleOutlined, CarOutlined } from "@ant-design/icons";
+import { InfoCircleOutlined, CarOutlined, IdcardOutlined, SmileOutlined } from "@ant-design/icons";
 const { TabPane } = Tabs;
 import { Timeline } from "antd";
 import { Layout } from "antd";
@@ -307,7 +307,7 @@ const PersonalPage = () => {
                   </Timeline.Item>
                 </Timeline>
               </TabPane>
-              <TabPane tab={<span>Quan hệ</span>} key="3">
+              <TabPane tab={<span><IdcardOutlined /> Quan hệ</span>} key="3">
                 <a href="">...</a>
                 <br />
                 <a href="">...</a>
@@ -316,7 +316,7 @@ const PersonalPage = () => {
                 <br />
                 <a href="">...</a>
               </TabPane>
-              <TabPane tab={<span>Khen thưởng</span>} key="4">
+              <TabPane tab={<span> <SmileOutlined />Khen thưởng</span>} key="4">
                 <a href="">...</a>
                 <br />
                 <a href="">...</a>
