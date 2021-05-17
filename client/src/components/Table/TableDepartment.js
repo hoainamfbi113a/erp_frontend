@@ -43,8 +43,8 @@ const TableDepartment = (props) => {
   });
 
   useEffect(async () => {
+    setLoading(true);
     if(props.valueSearch !== "") {
-      setLoading(true);
       fetchSearch(1, sizeOpt);
     } else {
       fetchData(1, sizeOpt);
@@ -69,6 +69,7 @@ const TableDepartment = (props) => {
       if (!data.err) {
         setData(data);
         props.total(data.meta.pagination.total);
+        setLoading(false);
       } else {
         message.error("get list department failed");
       }
@@ -200,6 +201,7 @@ const TableDepartment = (props) => {
 
   const handlePagination = (page, pageSize) => {
     setSizeOt(pageSize);
+    setLoading(true);
     if(props.valueSearch === "") {
       fetchData(page, pageSize);
     } else {

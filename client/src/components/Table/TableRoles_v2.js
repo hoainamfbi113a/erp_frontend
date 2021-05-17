@@ -10,7 +10,7 @@ import "../../App/App.css";
 import "./Table.css";
 const { Option } = Select;
 const { Content } = Layout;
-import DualListBox from "react-dual-listbox";
+import DualListBox from "react-dual-listbox"; 
 import "react-dual-listbox/lib/react-dual-listbox.css";
 import {
   RightOutlined,
@@ -63,6 +63,7 @@ class TableRoles_v2 extends Component {
       dataDepartment,
       dataRoles,
     });
+    //this.props.total(dataRoles.meta.pagination.total);
   };
   showModalAssign = async (dep_id, pos_id, dep_name, pos_name) => {
     this.props.uiActionCreatorsS();
@@ -354,7 +355,7 @@ class TableRoles_v2 extends Component {
           destroyOnClose={true}
           width={800}
           title="Gán quyền cho chức vụ phòng ban"
-          visible={this.props.showModalRoles}
+          visible={this.props.showModalData}
           onOk={this.handleOk}
           onCancel={this.handleCancel}
           //   className="modal-transfer-grant-permission"

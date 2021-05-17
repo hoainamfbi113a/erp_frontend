@@ -46,7 +46,7 @@ const Content = (props) => {
             className="table-btn-search"
           />
         </div>
-        {checkVisible(permissions, "create", `api/${props.service}`) && (
+        { checkVisible(permissions, "create", `api/${props.service}`) && (
           <div className="content-top-right">
             <Button onClick={showModal} className="btn-add-user-six">
               Thêm {props.name}

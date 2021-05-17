@@ -7,7 +7,6 @@ import { Layout, Table, Space, Tag, Avatar, Popconfirm, message } from "antd";
 import user from "assets/images/user2.png";
 import { listUser, listUserDepartFilter } from "apis/authenticationApi";
 import { getListIdDepartment } from "apis/departmentApi";
-import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 import usePrevious from "../../hooks/usePrevious";
 import { checkVisible } from "helpers/FuncHelper";
 import { checkPermission } from "../../apis/checkPermission";
@@ -16,7 +15,7 @@ import { searchUser } from "../../apis/authenticationApi";
 const { Content } = Layout;
 
 const TableSix = (props) => {
-  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const [sizeOpt, setSizeOt] = useState(10);
   const { permissions } = useContext(PermissionContext);
   const { path } = useRouteMatch();
@@ -40,31 +39,9 @@ const TableSix = (props) => {
   //   console.log(departUserFilter.data);
   // }, []);
 
-  // useEffect(async () => {
-  //   //async function searchValue() {
-  //   if (props.valueSearch !== lastValue) {
-  //     dispatch(showLoading());
-  //     let resListUser = await listUser("all");
-  //     let listUserSearch = resListUser.data.filter((user) => {
-  //       return (
-  //         user.full_name
-  //           .toLowerCase()
-  //           .indexOf(props.valueSearch.toLowerCase()) !== -1
-  //       );
-  //     });
-  //     let obj = {
-  //       pagination: listUserSearch.length,
-  //       data: listUserSearch,
-  //     };
-  //     setDataUser(obj);
-  //     props.totalEmploy(obj.pagination);
-  //     dispatch(hideLoading());
-  //   }
-  // }, [props.valueSearch]);
-
   useEffect(async () => {
+    setLoading(true);
     if (props.valueSearch !== "") {
-      dispatch(showLoading());
       fetchSearch(1, sizeOpt);
     } else {
       fetchData(1, sizeOpt);
@@ -76,6 +53,7 @@ const TableSix = (props) => {
     if (!res.err) {
       setDataUser(res);
       props.totalEmploy(res.pagination.total);
+      setLoading(false);
     } else {
       message.error("get list parts failed");
     }
@@ -86,7 +64,7 @@ const TableSix = (props) => {
     if (!res.err) {
       setDataUser(res);
       props.totalEmploy(res.pagination.total);
-      dispatch(hideLoading());
+      setLoading(false);
     } else {
       message.error("search fail");
     }
@@ -104,13 +82,12 @@ const TableSix = (props) => {
 
   const handlePagination = async (page, pageSize) => {
     setSizeOt(pageSize)
-    dispatch(showLoading());
+    setLoading(true);
     if(props.valueSearch === "") {
       fetchData(page, pageSize);
     } else {
       fetchSearch(page, pageSize)
     }
-    dispatch(hideLoading());
   };
 
   const columns = [
@@ -234,6 +211,7 @@ const TableSix = (props) => {
           <div style={{ padding: 24, minHeight: 200 }}>
             {checkVisible(permissions, "list", "api/profiles") ? (
               <Table
+                loading={loading}
                 columns={columns}
                 dataSource={dataUser ? dataUser.data : []}
                 className="table-content"
