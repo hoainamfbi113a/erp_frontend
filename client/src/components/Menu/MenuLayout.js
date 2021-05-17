@@ -31,12 +31,8 @@ const MenuLayout = (props) => {
   const dispatch = useDispatch();
   const permissions = useSelector((state) => state.permission);
 
-  // useEffect(async () => {
-  //   await dispatch(getPermission(docCookies.getItem("user_id")));
-  // }, [dispatch]);
-
   const renderAdmin = () => {
-    // if (docCookies.getItem("user_id") === "1") {
+    if (permissions[0].groups[8].permissions[0].id === 56) {
       return (
         <SubMenu key="sub3" icon={<LockOutlined />} title="Vai trò & Quyền">
           <Menu.Item key="13">
@@ -53,25 +49,32 @@ const MenuLayout = (props) => {
           </Menu.Item>
         </SubMenu>
       );
-    // }
+    }
   };
   const renderMenu = () => {
     if (permissions.length !== 0) {
       return (
         <Fragment>
           {permissions.map((subMenu) => (
-            <SubMenu icon={icons[subMenu.slug]} key={subMenu.name} title={subMenu.name}>
-              {subMenu.groups.map((menu) =>{
-                if(menu.is_display === 1){
-                  return    (<Menu.Item
-                  icon={<MinusOutlined />}
-                  className="sub-item"
-                  key={menu.name}
-                >
-                  <Link to={`/${subMenu.slug}/${menu.slug}`}>{menu.name}</Link>
-                </Menu.Item>)
+            <SubMenu
+              icon={icons[subMenu.slug]}
+              key={subMenu.name}
+              title={subMenu.name}
+            >
+              {subMenu.groups.map((menu) => {
+                if (menu.is_display === 1) {
+                  return (
+                    <Menu.Item
+                      icon={<MinusOutlined />}
+                      className="sub-item"
+                      key={menu.name}
+                    >
+                      <Link to={`/${subMenu.slug}/${menu.slug}`}>
+                        {menu.name}
+                      </Link>
+                    </Menu.Item>
+                  );
                 }
-              
               })}
             </SubMenu>
           ))}
@@ -136,20 +139,7 @@ const MenuLayout = (props) => {
           </Menu.Item>
           <li className="spacing"></li>
           {renderMenu()}
-
           {renderAdmin()}
-          
-          {/* <SubMenu key="sub4" icon={<RiBook2Line />} title="Tài liệu">
-            <Menu.Item key="13">
-              <Link to="/form-builder">Form builder</Link>
-            </Menu.Item>
-            <Menu.Item key="14">
-              <Link to="/document-type">DocumentType</Link>
-            </Menu.Item>
-          </SubMenu>
-          <Menu.Item key="12" icon={<TiFlowSwitch />} className="ant-menu-submenu-title">
-            <Link to="/workflow">Workflow</Link>
-          </Menu.Item> */}
         </Menu>
       </Sider>
     </div>
