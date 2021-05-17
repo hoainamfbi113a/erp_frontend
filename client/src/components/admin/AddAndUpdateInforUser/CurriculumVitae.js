@@ -275,8 +275,6 @@ class addInformationUser extends Component {
   fetchDataUser = async () => {
     if (this.props.idUser) {
       let idUser = this.props.idUser;
-      let dataUser = null;
-      let pro_id = 0;
       let resGetUser = await getUser(idUser);
       this.setState({
         full_name: resGetUser.data.full_name,
@@ -546,13 +544,11 @@ class addInformationUser extends Component {
   handleEdit = async (value) => {
     await this.handleInputValid("pro_name", this.state.pro_name);
     await this.handleInputValid("phone", this.state.phone);
-    // await this.handleInputValid("part", this.state.par_id);
     await this.handleInputValid("department", this.state.dep_id);
     await this.handleInputValid("position", this.state.pos_id);
     if (
       !this.state.valid_pro_name.isValid &&
       !this.state.valid_phone.isValid &&
-      // !this.state.valid_part.isValid &&
       !this.state.valid_department.isValid &&
       !this.state.valid_position.isValid
     ) {

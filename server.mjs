@@ -62,7 +62,6 @@ const apiMain =(req,resParent) =>{
     let path = `${customDomain}/${req.body.uri}${req.body.id ? req.body.id : ""}`
     console.log(path)
     console.log(req.body.data)
-    // console.log(req.body.objCheck.method)
     axios({
         method:req.body.objCheck.method,
         url: path,
