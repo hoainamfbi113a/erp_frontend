@@ -12,14 +12,16 @@ import { checkVisible } from "helpers/FuncHelper";
 import { checkPermission } from "../../apis/checkPermission";
 import PermissionContext from "../../context/PermissionContext";
 import { searchUser } from "../../apis/authenticationApi";
+import lodash from "lodash";
 const { Content } = Layout;
 
 const TableSix = (props) => {
   const [loading, setLoading] = useState(false);
+  const [keySearch, setKeySearch] = useState("");
+  const [autoSuggest, setAutoSuggest] = useState([]);
   const [sizeOpt, setSizeOt] = useState(10);
   const { permissions } = useContext(PermissionContext);
   const { path } = useRouteMatch();
-  const lastValue = usePrevious(props.valueSearch);
   const [dataUser, setDataUser] = useState(null);
   const [dataDepart, setDataDepart] = useState([
     {
@@ -42,7 +44,12 @@ const TableSix = (props) => {
   useEffect(async () => {
     setLoading(true);
     if (props.valueSearch !== "") {
-      fetchSearch(1, sizeOpt);
+      //fetchSearch(1, sizeOpt);
+      //suggestSearch(1, sizeOpt);
+      // fetch(props.valueSearch, (autoSuggest) => {
+      //   setAutoSuggest(autoSuggest)
+      //   console.log(autoSuggest);
+      // });
     } else {
       fetchData(1, sizeOpt);
     }
@@ -58,6 +65,18 @@ const TableSix = (props) => {
       message.error("get list parts failed");
     }
   };
+
+  const suggestSearch = async (page, per_page) => {
+    let res = await searchUser(props.valueSearch, page, per_page);
+    if (!res.err) {
+      res.data.map((item) => console.log(item.full_name));
+      
+    } else {
+      message.error("get list parts failed");
+    }
+  }
+
+  
 
   const fetchSearch = async (page, per_page) => {
     let res = await searchUser(props.valueSearch, page, per_page);
