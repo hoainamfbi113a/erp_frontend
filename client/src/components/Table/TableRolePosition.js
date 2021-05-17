@@ -11,18 +11,18 @@ import {
   Modal,
   message,
 } from "antd";
-import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 import DualListBox from "react-dual-listbox";
 import "react-dual-listbox/lib/react-dual-listbox.css";
-import { getListPosition } from "apis/positionApi";
+import { getListPosition, searchPosition } from "apis/positionApi";
 import { allPermission } from "apis/permissionApi";
 import axiosConfig from "apis/axios";
 const { Content } = Layout;
 import { RightOutlined, LeftOutlined, DoubleLeftOutlined, DoubleRightOutlined } from "@ant-design/icons";
-import axios from 'axios'
 import { AllPermissionGroup } from "../../helpers/DataHelper";
 const TablePosition = (props) => {
   const dispatch = useDispatch();
+  const [sizeOpt, setSizeOt] = useState(10);
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState(null);
   const [dataPermission, setDataPermission] = useState(null);
   const [arrOption, setArrOption] = useState(null);
@@ -32,13 +32,37 @@ const TablePosition = (props) => {
   const [id, setId] = useState("");
 
   useEffect(() => {
-    fetchDataPosition("all");
     fetchDataPermission("all");
   }, []);
-  const fetchDataPosition = async (page) => {
-    let data = await getListPosition(page);
-    if(!data.err) {
+
+  useEffect(async () => {
+    setLoading(true);
+    if(props.valueSearch !== "") {
+      fetchSearch(1, sizeOpt);
+    } else {
+      fetchData(1, sizeOpt);
+    }
+  }, [props.valueSearch])
+
+  const fetchSearch = async (page, per_page) => {
+    let data = await searchPosition(props.valueSearch, page, per_page);
+    if (!data.err) {
       setData(data);
+      props.total(data.meta.pagination.total);
+      setLoading(false);
+    } else {
+      message.error("search fail");
+    }
+  }
+
+  const fetchData = async (page, per_page) => {
+    let data = await getListPosition(page,per_page);
+    if (!data.err) {
+      setData(data);
+      props.total(data.meta.pagination.total);
+      setLoading(false);
+    } else {
+      message.error("search fail");
     }
   };
 
@@ -47,9 +71,14 @@ const TablePosition = (props) => {
     setArrOption(AllPermissionGroup(data))
   };
 
-  const handlePagination = async (pagination) => {
-    let data = await getListPosition(pagination);
-    setData(data);
+  const handlePagination = async (page, pageSize) => {
+    setSizeOt(pageSize);
+    setLoading(true);
+    if(props.valueSearch === "") {
+      fetchData(page, pageSize);
+    } else {
+      fetchSearch(page, pageSize)
+    }
   };
 
   const showModal = (id) => {
@@ -131,7 +160,9 @@ const TablePosition = (props) => {
       ),
     },
   ];
+
   const handleOk = () => {
+    setLoading(true);
     let arr1 = permissionExist;
     let arr2 = selected;
 
@@ -154,6 +185,7 @@ const TablePosition = (props) => {
         .then((res) => {
           message.success("Gán quyền thành công");
           setIsShowModal(false);
+          setLoading(false);
         })
         .catch((err) => {
           console.log(err);
@@ -165,6 +197,7 @@ const TablePosition = (props) => {
         .then((res) => {
           message.success("Gỡ quyền thành công");
           setIsShowModal(false);
+          setLoading(false);
         })
         .catch((err) => {
           console.log(err);
@@ -182,6 +215,7 @@ const TablePosition = (props) => {
         <div className="layout-content">
           <div style={{ padding: 24, minHeight: 200 }}>
             <Table
+              loading={loading}
               style={{ minHeight: "70vh" }}
               dataSource={data ? data.data : ""}
               columns={columns}
@@ -189,8 +223,9 @@ const TablePosition = (props) => {
               rowKey="id"
               pagination={{
                 onChange: handlePagination,
-                pageSize: 15,
-                total: data ? data.meta.pagination.total : 0,
+                  current: data ? data.meta.pagination.current_page : 1,
+                  total: data ? data.meta.pagination.total : 0,
+                  showSizeChanger: true
               }}
             />
           </div>
@@ -200,10 +235,8 @@ const TablePosition = (props) => {
           width={800}
           title="Gán quyền cho chức vụ phòng ban"
           visible={isShowModal}
-          // visible={this.props.showModalRoles}
           onOk={handleOk}
           onCancel={handleCancel}
-          //   className="modal-transfer-grant-permission"
         >
           <div className="select-grant-role"></div>
           <DualListBox

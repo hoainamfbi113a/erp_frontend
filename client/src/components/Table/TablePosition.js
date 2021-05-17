@@ -26,6 +26,7 @@ import { simpleDate } from "../../helpers/FuncHelper";
 const { Content } = Layout;
 
 const TablePosition = (props) => {
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const [sizeOpt, setSizeOt] = useState(10);
   const { permissions, domain, slug } = useContext(PermissionContext);
@@ -37,8 +38,8 @@ const TablePosition = (props) => {
   const [err, setErr] = useState("");
 
   useEffect(async () => {
+    setLoading(true);
     if(props.valueSearch !== "") {
-      dispatch(showLoading());
       fetchSearch(1, sizeOpt);
     } else {
       fetchData(1, sizeOpt);
@@ -50,18 +51,18 @@ const TablePosition = (props) => {
     if (!data.err) {
       setData(data);
       props.total(data.meta.pagination.total);
-      dispatch(hideLoading());
+      setLoading(false);
     } else {
       message.error("search fail");
     }
   }
 
   const fetchData = async (page, per_page) => {
-    dispatch(showLoading());
     let data = await getListPosition(page,per_page);
     if (!data.err) {
       setData(data);
       props.total(data.meta.pagination.total);
+      setLoading(false);
     } else {
       message.error("search fail");
     }
@@ -73,7 +74,7 @@ const TablePosition = (props) => {
     setErr(err_name);
     if (err_name === "") {
       hideModal();
-      dispatch(showLoading());
+      setLoading(true);
       if (id === "") {
         hideModal();
         let res = await checkPermission(
@@ -116,7 +117,6 @@ const TablePosition = (props) => {
           message.error("Cập nhật chức vụ thất bại");
         }
       }
-      dispatch(hideLoading());
     }
   };
   const hideModal = () => {
@@ -138,7 +138,7 @@ const TablePosition = (props) => {
   };
 
   const confirm = async (id) => {
-    dispatch(showLoading());
+    setLoading(true);
     let res = await checkPermission(
       objCheckPermission(
         permissions,
@@ -157,7 +157,7 @@ const TablePosition = (props) => {
     } else {
       message.error("Ẩn chức vụ thất bại");
     }
-    dispatch(hideLoading());
+    setLoading(false);
   };
 
   const cancel = (e) => {
@@ -166,6 +166,7 @@ const TablePosition = (props) => {
 
   const handlePagination = async (page, pageSize) => {
     setSizeOt(pageSize);
+    setLoading(true);
     if(props.valueSearch === "") {
       fetchData(page, pageSize);
     } else {
@@ -265,6 +266,7 @@ const TablePosition = (props) => {
           <div style={{ padding: 24, minHeight: 200 }}>
             {checkVisible(permissions, "list", "api/positions") ? (
               <Table
+                loading={loading}
                 style={{ minHeight: "70vh" }}
                 dataSource={data ? data.data : ""}
                 columns={columns}

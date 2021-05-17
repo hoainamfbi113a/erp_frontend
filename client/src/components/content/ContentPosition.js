@@ -1,8 +1,8 @@
-import React, { useState, useContext } from "react";
+import React from "react";
 import TablePosition from "components/Table/TablePosition";
 import Content from "./Content";
 
-const ContentDepartment = () => {
+const ContentPosition = () => {
   const obj = {
     name: "Chức vụ",
     service: "positions", 
@@ -12,4 +12,4 @@ const ContentDepartment = () => {
     <Content {...obj}/>
   )
 };
-export default ContentDepartment;
+export default ContentPosition;

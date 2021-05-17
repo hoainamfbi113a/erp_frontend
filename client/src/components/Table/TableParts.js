@@ -21,7 +21,7 @@ import {
   Modal,
   Select,
 } from "antd";
-import { getListParts,searchParts } from "apis/partsApi";
+import { getListParts, searchParts } from "apis/partsApi";
 import { getListIdDepartment } from "apis/departmentApi";
 import { checkPermission } from "../../apis/checkPermission";
 import PermissionContext from "../../context/PermissionContext";
@@ -31,6 +31,7 @@ const { Content } = Layout;
 
 const TableParts = (props) => {
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const [sizeOpt, setSizeOt] = useState(10);
   const { permissions, domain, slug } = useContext(PermissionContext);
   const [id, setId] = useState("");
@@ -52,30 +53,32 @@ const TableParts = (props) => {
   }, []);
 
   useEffect(async () => {
-    if(props.valueSearch !== "") {
+    setLoading(true);
+    if (props.valueSearch !== "") {
       dispatch(showLoading());
       fetchSearch(1, sizeOpt);
     } else {
       fetchData(1, sizeOpt);
     }
-  }, [props.valueSearch])
+  }, [props.valueSearch]);
 
   const fetchSearch = async (page, per_page) => {
     let data = await searchParts(props.valueSearch, page, per_page);
     if (!data.err) {
       setData(data);
       props.total(data.meta.pagination.total);
-      dispatch(hideLoading());
+      setLoading(false);
     } else {
       message.error("search fail");
     }
-  }
+  };
 
   const fetchData = async (page, per_page) => {
     let res = await getListParts(page, per_page);
     if (!res.err) {
       setData(res);
       props.total(res.meta.pagination.total);
+      setLoading(false);
     } else {
       message.error("get list parts failed");
     }
@@ -99,7 +102,7 @@ const TableParts = (props) => {
     }
     if (err_dep === "" && err_name === "") {
       hideModal();
-      dispatch(showLoading());
+      setLoading(true);
       if (id === "") {
         let res = await checkPermission(
           objCheckPermission(
@@ -140,7 +143,6 @@ const TableParts = (props) => {
           message.error("Update permission thất bại");
         }
       }
-      dispatch(hideLoading());
     }
   };
 
@@ -177,7 +179,7 @@ const TableParts = (props) => {
   };
 
   confirm = async (id) => {
-    dispatch(showLoading());
+    setLoading(true);
     let res = await checkPermission(
       objCheckPermission(
         permissions,
@@ -196,7 +198,7 @@ const TableParts = (props) => {
     } else {
       message.error("Ẩn tổ thất bại");
     }
-    dispatch(hideLoading());
+    setLoading(false);
   };
 
   const cancel = (e) => {
@@ -219,11 +221,12 @@ const TableParts = (props) => {
     } else return "";
   };
   const handlePagination = async (page, pageSize) => {
-    setSizeOt(pageSize)
-    if(props.valueSearch === "") {
+    setSizeOt(pageSize);
+    setLoading(true);
+    if (props.valueSearch === "") {
       fetchData(page, pageSize);
     } else {
-      fetchSearch(page, pageSize)
+      fetchSearch(page, pageSize);
     }
   };
   //let data = ""
@@ -294,21 +297,13 @@ const TableParts = (props) => {
                 okText="Có"
                 cancelText="Không"
               >
-                {checkVisible(
-                  permissions,
-                  "delete",
-                  "api/parts/{part}"
-                ) && (
+                {checkVisible(permissions, "delete", "api/parts/{part}") && (
                   <Tag color="volcano" className="table-action">
                     Ẩn
                   </Tag>
                 )}
               </Popconfirm>
-              {checkVisible(
-                permissions,
-                "update",
-                "api/parts/{part}"
-              ) && (
+              {checkVisible(permissions, "update", "api/parts/{part}") && (
                 <Tag
                   onClick={() => showModal(text)}
                   color="geekblue"
@@ -325,35 +320,35 @@ const TableParts = (props) => {
 
   useEffect(() => {
     if (data && data.data) {
-      data.data.map(el => {
-          el.created_at = simpleDate(el.created_at);
-        })
+      data.data.map((el) => {
+        el.created_at = simpleDate(el.created_at);
+      });
     }
-  }, [data])
+  }, [data]);
 
   return (
     <div>
       <Content>
         <div className="layout-content">
           <div style={{ padding: 24, minHeight: 200 }}>
-            {
-              checkVisible(permissions, "list", "api/parts") ? (
-                <Table
-              style={{ minHeight: "70vh" }}
-              dataSource={data ? data.data : ""}
-              columns={columns}
-              className="table-content"
-              rowKey="id"
-              pagination={{
-                onChange: handlePagination,
-                current: data ? data.meta.pagination.current_page : 1,
-                total: data ? data.meta.pagination.total : 0,
-                showSizeChanger: true
-              }}
-            />
-              ) : ""
-            }
-            
+            {checkVisible(permissions, "list", "api/parts") ? (
+              <Table
+                loading={loading}
+                style={{ minHeight: "70vh" }}
+                dataSource={data ? data.data : ""}
+                columns={columns}
+                className="table-content"
+                rowKey="id"
+                pagination={{
+                  onChange: handlePagination,
+                  current: data ? data.meta.pagination.current_page : 1,
+                  total: data ? data.meta.pagination.total : 0,
+                  showSizeChanger: true,
+                }}
+              />
+            ) : (
+              ""
+            )}
           </div>
         </div>
       </Content>

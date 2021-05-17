@@ -2,7 +2,7 @@ import React, { useState, useContext } from "react";
 import TableParts from "components/Table/TableParts";
 import Content from "./Content";
 
-const ContentDepartment = () => {
+const ContentPart = () => {
   const obj = {
     name: "Tổ",
     service: "parts", 
@@ -12,4 +12,4 @@ const ContentDepartment = () => {
     <Content {...obj}/>
   )
 };
-export default ContentDepartment;
+export default ContentPart;

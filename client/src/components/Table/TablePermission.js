@@ -14,7 +14,7 @@ import {
 } from "apis/permissionApi";
 import { Select } from "antd";
 import axios from "axios";
-import lodash from "lodash";
+import lodash, { forEach } from "lodash";
 import axiosConfig from "apis/axios";
 import { simpleDate } from "../../helpers/FuncHelper";
 import { AllPermissionGroup } from "../../helpers/DataHelper";
@@ -25,7 +25,7 @@ class TablePermission extends Component {
   state = {
     collapsed: false,
     data: null,
-    loading: false,
+    loading: true,
     id: "",
     app_id: "99",
     table_management_id: "",
@@ -43,8 +43,9 @@ class TablePermission extends Component {
     listAction: null,
   };
   componentDidMount = () => {
-    this.fetchData();
+    this.setState({ loading: true });
     this.fetchAction();
+    this.fetchData();
   };
   fetchAction = () => {
     axiosConfig
@@ -60,20 +61,20 @@ class TablePermission extends Component {
   };
   fetchData = async () => {
     let data = await allPermission();
-    console.log(data);
     if (!data.err) {
       this.setState({
         data: AllPermissionGroup(data),
       });
+      console.log(this.state.data);
     } else {
       message.error("Get list permission failed");
     }
     axios
       .get("https://employee.tuoitre.vn/api/service-management")
       .then((res) => {
-        console.log(res.data);
         this.setState({
           dataService: res.data.data,
+          loading: false,
         });
       })
       .catch((err) => {
@@ -81,6 +82,7 @@ class TablePermission extends Component {
       });
   };
   onSubmit = async () => {
+    this.setState({ loading: true });
     let {
       table_management_id,
       name,
@@ -130,15 +132,22 @@ class TablePermission extends Component {
     this.props.hideModal();
   };
   showModal = (id) => {
-    let permission = this.state.data.data.filter((item) => {
-      return item.id == id;
-    });
-    this.setState({
-      id: permission[0].id,
-      table_management_id: permission[0].table_management_id,
-      name: permission[0].name,
-      status: permission[0].status,
-    });
+    console.log(id);
+    let permiss
+    const data = this.state.data;
+    for(let i in data) {
+      for(let j in data[i].options) {
+        if(data[i].options[j].value === id) {
+          this.setState({
+            id: data[i].options[j].value,
+            table_management_id: data[i].options[j].table_management_id,
+            name: data[i].options[j].label,
+            status: data[i].options[j].status,
+          });
+        }
+      }
+    }
+    
     this.props.showModal();
   };
   onChange = (e) => {
@@ -148,6 +157,7 @@ class TablePermission extends Component {
   };
 
   confirm = (id) => {
+    this.setState({ loading: true });
     axiosConfig
       .post("/api/permission/delete", { id })
       .then((res) => {
@@ -162,18 +172,16 @@ class TablePermission extends Component {
       .catch((err) => {
         console.log(err);
       });
-
-    // const { userSixActionCreators } = this.props;
-    // const { deleteUserSix } = userSixActionCreators;
-    // deleteUserSix(e);
   };
 
   cancel = (e) => {
     message.error("Không ẩn");
   };
+
   onSelectChange = (selectedRowKeys) => {
     this.setState({ selectedRowKeys });
   };
+
   handleChangeFeature = (value) => {
     axiosConfig
       .get(`/api/service-management/table-management/${value}`)
@@ -190,11 +198,13 @@ class TablePermission extends Component {
       service_management_id: value,
     });
   };
+
   handleChangeTable = (value) => {
     this.setState({
       table_management_id: value,
     });
   };
+
   handlePagination = async (pagination) => {
     let res = await getListPermission(pagination);
     if (!res.err) {
@@ -206,6 +216,7 @@ class TablePermission extends Component {
       console.log("False to load API", error);
     }
   };
+
   renderServiceManager = () => {
     if (this.state.dataService) {
       return this.state.dataService.map((item) => {
@@ -213,6 +224,7 @@ class TablePermission extends Component {
       });
     }
   };
+
   renderAction = () => {
     // console.log(this.state.listAction);
     // let { data } = this.state.listAction;
@@ -222,6 +234,7 @@ class TablePermission extends Component {
       });
     }
   };
+
   renderTableManager = () => {
     if (this.state.dataService && this.state.dataTableManager) {
       return this.state.dataTableManager.map((item) => {
@@ -231,34 +244,35 @@ class TablePermission extends Component {
       });
     }
   };
+
   handleServiceManager = (value) => {
     this.setState({
       service_management_id: value,
     });
   };
+
   handleChangeAction = (value) => {
     this.setState({
       action: value,
     });
   };
+
   handleChangeMethod = (value) => {
     this.setState({
       method: value,
     });
   };
 
-  NestedTable () {
+  NestedTable() {
     let data = "";
     if (this.state.data) {
       data = this.state.data;
-      console.log(data)
-      const expandedRow = row => {
+      const expandedRow = (row) => {
         //total = this.state.data.meta.pagination.total;
 
         const columnsExpand = [
           { title: "Quyền", dataIndex: "label", key: "label" },
-          { title: "Ngày tạo", dataIndex: "created_at",
-          key: "created_at"},
+          { title: "Ngày tạo", dataIndex: "created_at", key: "created_at" },
           {
             title: "Hành động",
             key: "operation",
@@ -266,7 +280,6 @@ class TablePermission extends Component {
             fixed: "right",
             render: (value, row) => (
               <Space size="middle">
-                {console.log(value)}
                 <Popconfirm
                   title="Bạn có muốn ẩn không?"
                   onConfirm={() => this.confirm(value)}
@@ -279,7 +292,7 @@ class TablePermission extends Component {
                   </Tag>
                 </Popconfirm>
                 <Tag
-                  onClick={() => this.showModal(text)}
+                  onClick={() => this.showModal(value)}
                   color="geekblue"
                   className="table-action"
                 >
@@ -288,16 +301,16 @@ class TablePermission extends Component {
               </Space>
             ),
           },
-    
         ];
 
         return (
           <Table
+            loading={this.state.loading}
             style={{ paddingLeft: "2rem" }}
             columns={columnsExpand}
             dataSource={
               //data[1].options
-              (data.find(group => group.key === row.key)).options
+              data.find((group) => group.key === row.key).options
             }
             pagination={false}
           />
@@ -314,11 +327,12 @@ class TablePermission extends Component {
 
       return (
         <Table
+          loading={this.state.loading}
           style={{ minHeight: "70vh" }}
           className="table-content"
           //rowKey="id"
           columns={columns}
-          expandedRowRender={ expandedRow }
+          expandedRowRender={expandedRow}
           dataSource={data}
           // pagination={{
           //   onChange: this.handlePagination,
