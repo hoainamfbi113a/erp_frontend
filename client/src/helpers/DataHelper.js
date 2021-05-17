@@ -11,8 +11,10 @@ const AllPermissionGroup = data => {
       itemGr.permissions.map((itemPer) => {
         let objPer = {
           created_at: simpleDate(itemPer.created_at),
+          table_management_id: itemPer.table_management_id,
           label: itemPer.name,
           value: itemPer.id,
+          status: itemPer.status
         };
         arrOt.push(objPer);
       });
