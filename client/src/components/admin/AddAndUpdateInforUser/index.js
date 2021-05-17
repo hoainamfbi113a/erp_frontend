@@ -106,7 +106,7 @@ const AddAndUpdateInforUser = (props) => {
             setStep_id(dataTransfersProfile.data.next_step_id)
         }
       } else {
-        // setProfile(dataProfile)
+        setProfile(dataProfile)
       }
     })
     ();
