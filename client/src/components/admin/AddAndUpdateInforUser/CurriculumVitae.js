@@ -191,6 +191,7 @@ class addInformationUser extends Component {
     return day+'/'+month+'/'+year;
   }
   componentDidUpdate = (prevProps, prevState) => {
+    if(window.location.href.includes("create")=== false)
     if (this.props.dataProfile !== prevProps.dataProfile) {
       let data = this.props.dataProfile
       if(data)
