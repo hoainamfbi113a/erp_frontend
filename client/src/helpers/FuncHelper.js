@@ -7,9 +7,6 @@ const ValidateEmail = (value, length) => {
   } else if (value.length < length) {
     msg = `Email không được nhỏ ${length} kí tự!`;
   } 
-  // else if (isEmail == false) {
-  //   msg = "Email không đúng định dạng!";
-  // }
    else {
     msg = "";
   }
@@ -115,9 +112,18 @@ const validateInputFormUser = (type, checkingText, listUser) => {
         if (!checkingText.match(regexPhone)) {
           isValid = true;
           errorMessage = "Số điện thoại phải có 10 đến 11 chữ số";
-        } else {
+        }
+         else {
           isValid = false;
           errorMessage = "";
+        }
+        if(listUser) {
+          for (let i = 0; i < listUser.length; i++) {
+            if (listUser[i].phone == checkingText) {
+              isValid = true;
+              errorMessage = "Sdt đã được đăng ký";
+            }
+          }
         }
       }
       break;

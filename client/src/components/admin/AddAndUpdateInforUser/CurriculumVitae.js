@@ -30,7 +30,7 @@ import { addProfile, getProfile, updateProfile } from "apis/profileApi";
 import { addUserDegrees, updateUserDegree } from "apis/userDegreesApi";
 import { workflowProfile } from "apis/workflowApi";
 import { addWorkObject, updateWorkObject } from "apis/workObjectsApi";
-import { listUser } from "apis/authenticationApi";
+import { listUser, listUserCheck } from "apis/authenticationApi";
 import { validateInputFormUser } from "helpers/FuncHelper";
 import { showLoading, hideLoading} from "reduxToolkit/features/uiLoadingSlice"
 import PermissionContext from "../../../context/PermissionContext";
@@ -261,7 +261,7 @@ class addInformationUser extends Component {
     let dataPosition = await getListAllPosition();
     let dataParts = await getListAllParts();
     let dataWorkflowProfile = await workflowProfile(4);
-    let resListUser = await listUser("all");
+    let resListUser = await listUserCheck();
     this.setState({
       dataDepartment: dataDepartment.data,
       dataPosition: dataPosition.data,
@@ -857,21 +857,6 @@ class addInformationUser extends Component {
                           {this.state.valid_email.errorMessage}
                         </span>
                       ) : null}
-                    </li>
-                    <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">
-                        Mật khẩu đăng nhập:
-                        <span>*</span>
-                      </span>
-                      <div className="tabs-user-infor-bottom">
-                        <Input.Password
-                          autoComplete ="on"
-                          disabled={this.props.idUser ? true : false}
-                          name="password"
-                          onChange={this.onChange}
-                          placeholder="Mật khẩu đăng nhập"
-                        />
-                      </div>
                     </li>
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">Số điện thoại:

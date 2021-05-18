@@ -160,6 +160,13 @@ router.post('/document-process/store', async (req,res)=>{
   let { data } = await axios.post(`${process.env.apiFormBuilder}/api/document-process/store`,req.body);
     res.send(data);
 })
+router.get('/listUser',async (req,res)=>{
+  const config = {
+      headers: { Authorization: req.headers.authorization },
+    };
+  let { data } = await axios.get(`${process.env.apiEmployee}/api/user?page=1&per_page=9999`,config);
+  res.send(data);
+})
 router.get('/list/actions/dep/pos/tab',async (req,res)=>{
   const config = {
       headers: { Authorization: req.headers.authorization },
@@ -167,6 +174,7 @@ router.get('/list/actions/dep/pos/tab',async (req,res)=>{
   let { data } = await axios.get(`${process.env.apiEmployee}/api/list/actions/dep/pos/tab`,config);
   res.send(data);
 })
+
 
 
 export default router;
