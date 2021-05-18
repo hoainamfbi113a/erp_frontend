@@ -17,7 +17,7 @@ import PersonalHistory from "./PersonalHistory";
 import JoinTCTTXH from "./JoinTCTTXH";
 import JoinDCS from "./JoinDCS";
 import ProfessionalCompensation from "./ProfessionalCompensation";
-import Bonus from "./Bonus";
+import BonusContainer from "./BonusContainer";
 import Family from "./Family";
 import Kinship from "./Kinship";
 import Social from "./Social";
@@ -57,7 +57,7 @@ const AddAndUpdateInforUser = (props) => {
       return <ProfessionalCompensation />;
     }
     if (activeLink === 6) {
-      return <Bonus />;
+      return <BonusContainer idUser={props.match.params.id} dataProfile = {profile} />;
     }
     if (activeLink === 7) {
       return <Family />;

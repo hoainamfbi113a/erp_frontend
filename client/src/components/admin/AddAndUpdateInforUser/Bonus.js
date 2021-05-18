@@ -7,90 +7,18 @@ const { RangePicker } = DatePicker;
 const { Option } = Select;
 const { TextArea } = Input;
 const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
-let fakeData1 = [
-  {
-    id: 1,
-    category: 1,
-    dateStart: "05/09/1990",
-    dateEnd: "10/05/1995",
-    content: "Lao Động Tiên Tiến",
-  },
-  {
-    id: 2,
-    category: 1,
-    dateStart: "05/09/1990",
-    dateEnd: "10/05/1995",
-    content: "Lao Động Khá",
-  },
-  {
-    id: 3,
-    category: 1,
-    dateStart: "05/09/1990",
-    dateEnd: "10/05/1995",
-    content: "Lao Động Xuất Sắc",
-  },
-];
-let fakeData2 = [
-  {
-    id: 1,
-    category: 2,
-    dateStart: "05/09/1990",
-    dateEnd: "05/09/1990",
-    content: "Kỷ luật 1",
-  },
-  {
-    id: 2,
-    category: 2,
-    dateStart: "05/09/1990",
-    dateEnd: "05/09/1990",
-    content: "Kỷ luật 2",
-  },
-  {
-    id: 3,
-    category: 2,
-    dateStart: "05/09/1990",
-    dateEnd: "05/09/1990",
-    content: "Kỷ luật 3",
-  },
-];
+
 const Bonus = (props) => {
   const [visible, setVisible] = useState(false);
   const [dataItem, setDataItem] = useState({});
   const [refresh, setRefresh] = useState(true);
-  const showModal = (value) => {
-    if (value == 1) {
-      setDataItem({ category: 1 });
-    } else {
-      setDataItem({ category: 2 });
-    }
-    setVisible(true);
-  };
 
-  const hideModal = () => {
-    setVisible(false);
-  };
-  const handleUpdate = (value) => {
-    setVisible(true);
-    setDataItem(value);
-  };
-  const onChangeRange = (e, dateString, name1, name2) => {
-    dataItem.dateStart = dateString[0]
-    dataItem.dateEnd = dateString[1]
-    setDataItem(dataItem)
-    setRefresh(!refresh)
-  };
-  const handleChange = (value) =>{
-    dataItem.category = value;
-    setDataItem(dataItem);
-    console.log(dataItem)
-    setRefresh(!refresh)
-  }
   const renderData1 = () => {
-    return fakeData1.map((item) => {
+    return props.fakeData1.map((item) => {
       return (
         <li key={item.id}>
           <div className="personal-history-time">
-            {item.dateStart} - <span> {item.dateStart}</span>
+            {item.rew_time_from} - <span> {item.rew_time_to}</span>
           </div>
           <Space size="middle">
             <Popconfirm
@@ -105,18 +33,18 @@ const Bonus = (props) => {
             <Tag
               color="geekblue"
               className="table-action"
-              onClick={() => handleUpdate(item)}
+              onClick={() => props.handleUpdate(item)}
             >
               Update
             </Tag>
           </Space>
-          <p className="personal-history-content">{item.content}</p>
+          <p className="personal-history-content">{item.rew_formality}</p>
         </li>
       );
     });
   };
   const renderData2 = () => {
-    return fakeData2.map((item) => {
+    return props.fakeData2.map((item) => {
       return (
         <li key={item.id}>
           <div className="personal-history-time">
@@ -135,7 +63,7 @@ const Bonus = (props) => {
             <Tag
               color="geekblue"
               className="table-action"
-              onClick={() => handleUpdate(item)}
+              onClick={() => props.handleUpdate(item)}
             >
               Update
             </Tag>
@@ -150,7 +78,7 @@ const Bonus = (props) => {
       <div className="tabs-main personal-history">
         <div className="btn-btn-profile">
           <Button
-            onClick={()=>showModal(1)}
+            onClick={()=>props.showModal(1)}
             className="btn-add-detail"
             icon={<PlusCircleOutlined />}
           >
@@ -172,9 +100,9 @@ const Bonus = (props) => {
       </div>
       <Modal
         title="Nhập thông tin"
-        visible={visible}
-        onOk={hideModal}
-        onCancel={hideModal}
+        visible={props.visible}
+        onOk={props.hideModal}
+        onCancel={props.hideModal}
         okText="OK"
         cancelText="Cancel"
         width={631}
@@ -190,9 +118,9 @@ const Bonus = (props) => {
               <span className="tabs-user-infor-top">Thông tin</span>
               <div className="tabs-user-infor-bottom">
                 <Select
-                  onChange={handleChange}
+                  onChange={props.handleChange}
                   className="modal-selection"
-                  value={dataItem.category == 1 ? "1" : "2"}
+                  value={props.dataItem.category == 1 ? "1" : "2"}
                   style={{ width: 527 }}
                 >
                   <Option value="1">Khen thưởng</Option>
@@ -206,17 +134,17 @@ const Bonus = (props) => {
                 <RangePicker
                 placeholder = {["Từ ngày", "Đến ngày"]}
                   value={
-                    dataItem.dateStart
+                    props.dataItem.dateStart
                       ? [
-                          moment(dataItem.dateStart, dateFormatList[0]),
-                          moment(dataItem.dateEnd, dateFormatList[0]),
+                          moment(props.dataItem.dateStart, dateFormatList[0]),
+                          moment(props.dataItem.dateEnd, dateFormatList[0]),
                         ]
                       : null
                   }
                   className="modal-ranPicker"
                   format={dateFormatList}
                   onChange={(date, dateString) =>
-                    onChangeRange(
+                    props.onChangeRange(
                       date,
                       dateString,
                       "deg_begin_study",
@@ -230,7 +158,7 @@ const Bonus = (props) => {
               <span className="tabs-user-infor-top"></span>
               <div className="tabs-user-infor-bottom">
                 <TextArea
-                  value={dataItem.content}
+                  value={props.dataItem.content}
                   placeholder="Mời bạn nhập chi tiết"
                   autoSize={{ minRows: 7, maxRows: 15 }}
                 />
