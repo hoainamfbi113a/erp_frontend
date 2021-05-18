@@ -5,7 +5,6 @@ const getProfile = async (req, res) => {
     headers: { Authorization: req.headers.authorization }
   };
   let { id } = req.body;
-  console.log(`${process.env.apiEmployee}/api/fe/profiles/users/${id}`)
    Axios.get(
     `${process.env.apiEmployee}/api/fe/profiles/users/${id}`,config )
     .then(response=>{
@@ -16,6 +15,7 @@ const getProfile = async (req, res) => {
   })
 };
 const updateProfile = async (req, res) => {
+  console.log("object")
   try {
     const config = {
       headers: { Authorization: req.headers.authorization }
@@ -25,6 +25,7 @@ const updateProfile = async (req, res) => {
       `${process.env.apiEmployee}/api/profiles/${id}`,req.body,config
     );
     res.send(data);
+    console.log(data)
   
   } catch (error) {
     console.log(error)

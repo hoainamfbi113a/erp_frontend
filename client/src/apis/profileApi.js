@@ -1,5 +1,4 @@
 import axiosConfig from "./axios";
-import { handleResponse } from "./handleResponse";
 export const getProfile = (id) =>{
     return axiosConfig.post(`/api/fe/profiles/user`, {
         id,

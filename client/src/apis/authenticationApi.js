@@ -94,6 +94,19 @@ export const register = (paramUser) =>{
     }
   })
 }
+export const listUserCheck = (page, per_page) => {
+  return axiosConfig
+  .get(`/api/listUser`)
+  .then(data=>{
+    return data
+  })
+  .catch(err=>{
+    console.log(err);
+    return ({
+      err:"error"
+    })
+  })
+}
 export const listUser = (page, per_page) =>{
   return axiosConfig
   .get(`/api/userpagin?page=${page}&per_page=${per_page}`)

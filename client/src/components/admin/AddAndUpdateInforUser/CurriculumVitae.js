@@ -30,7 +30,7 @@ import { addProfile, getProfile, updateProfile } from "apis/profileApi";
 import { addUserDegrees, updateUserDegree } from "apis/userDegreesApi";
 import { workflowProfile } from "apis/workflowApi";
 import { addWorkObject, updateWorkObject } from "apis/workObjectsApi";
-import { listUser } from "apis/authenticationApi";
+import { listUser, listUserCheck } from "apis/authenticationApi";
 import { validateInputFormUser } from "helpers/FuncHelper";
 import { showLoading, hideLoading} from "reduxToolkit/features/uiLoadingSlice"
 import PermissionContext from "../../../context/PermissionContext";
@@ -261,7 +261,7 @@ class addInformationUser extends Component {
     let dataPosition = await getListAllPosition();
     let dataParts = await getListAllParts();
     let dataWorkflowProfile = await workflowProfile(4);
-    let resListUser = await listUser("all");
+    let resListUser = await listUserCheck();
     this.setState({
       dataDepartment: dataDepartment.data,
       dataPosition: dataPosition.data,

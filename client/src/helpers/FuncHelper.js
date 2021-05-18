@@ -7,9 +7,6 @@ const ValidateEmail = (value, length) => {
   } else if (value.length < length) {
     msg = `Email không được nhỏ ${length} kí tự!`;
   } 
-  // else if (isEmail == false) {
-  //   msg = "Email không đúng định dạng!";
-  // }
    else {
     msg = "";
   }
@@ -95,6 +92,7 @@ const validateInputFormUser = (type, checkingText, listUser) => {
           isValid = false;
           errorMessage = "";
         }
+        console.log(listUser)
         if (listUser) {
           for (let i = 0; i < listUser.length; i++) {
             if (listUser[i].email == checkingText) {
