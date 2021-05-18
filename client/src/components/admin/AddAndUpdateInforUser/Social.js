@@ -8,6 +8,7 @@ import { PlusCircleOutlined } from "@ant-design/icons";
 import { Space, Tag } from "antd";
 const { Option } = Select;
 import { Popconfirm } from "antd";
+import {useSelector } from "react-redux";
 const { TextArea } = Input;
 let fakeData = [
   {
@@ -47,7 +48,8 @@ const Social = () => {
     setDataItem({});
     setVisible(true);
   };
-
+  const state = useSelector(state => state)
+  console.log(state)
   const hideModal = () => {
     setVisible(false);
   };
