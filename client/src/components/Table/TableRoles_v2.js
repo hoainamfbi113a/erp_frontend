@@ -10,7 +10,7 @@ import "../../App/App.css";
 import "./Table.css";
 const { Option } = Select;
 const { Content } = Layout;
-import DualListBox from "react-dual-listbox"; 
+import DualListBox from "react-dual-listbox";
 import "react-dual-listbox/lib/react-dual-listbox.css";
 import {
   RightOutlined,
@@ -21,7 +21,7 @@ import {
 import { AllPermissionGroup } from "../../helpers/DataHelper";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { showLoading, hideLoading} from "reduxToolkit/features/uiLoadingSlice"
+import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 class TableRoles_v2 extends Component {
   constructor(props) {
     super(props);
@@ -48,26 +48,38 @@ class TableRoles_v2 extends Component {
       dataOptions: [],
       disabledSelected: false,
       selectedBegin: [],
+      optSize: 10,
+      pagination: {},
     };
   }
+
   componentDidMount = () => {
+    this.fetchRoles(1, this.state.optSize);
     this.fetchData();
     this.getMock();
   };
+
   fetchData = async () => {
     let data = await getListAllPosition();
-    let dataRoles = await getListRole();
     let dataDepartment = await getListAllDepartment();
     this.setState({
       data,
       dataDepartment,
-      dataRoles,
     });
-    //this.props.total(dataRoles.meta.pagination.total);
   };
+
+  fetchRoles = async (page, per_page) => {
+    let dataRoles = await getListRole(page, per_page);
+    this.setState({
+      dataRoles: dataRoles.data,
+      pagination: dataRoles.pagination,
+    });
+    this.props.total(dataRoles.pagination.total);
+  };
+
   showModalAssign = async (dep_id, pos_id, dep_name, pos_name) => {
     this.props.uiActionCreatorsS();
-    
+
     this.setState({
       dep_id: dep_name,
       pos_id: pos_name,
@@ -97,7 +109,6 @@ class TableRoles_v2 extends Component {
     });
     this.props.showModal();
     this.props.uiActionCreatorsH();
-    
   };
   handleChangePosition = (value) => {
     this.setState({
@@ -124,7 +135,6 @@ class TableRoles_v2 extends Component {
       disabledSelected: false,
     });
     let data = await allPermission();
-    console.log(data);
     if (!data.err) {
       this.setState({
         dataOptions: AllPermissionGroup(data),
@@ -214,6 +224,7 @@ class TableRoles_v2 extends Component {
     }
     return arrayPerAction;
   };
+
   handleOk = () => {
     console.log(this.state.pos_idUpdate);
     if (this.state.dep_idUpdate !== null && this.state.pos_idUpdate !== null) {
@@ -264,7 +275,6 @@ class TableRoles_v2 extends Component {
           });
       }
     } else {
-
       const params = {
         dep_id: this.state.dep_id,
         permissions: this.state.selected,
@@ -285,11 +295,20 @@ class TableRoles_v2 extends Component {
         });
     }
   };
+
+  handlePagination = (page, pageSize) => {
+    this.setState({ optSize: pageSize });
+    this.fetchRoles(page, pageSize);
+  };
+
   render() {
-    let data = "";
-    if (this.state.dataRoles) {
+    let data;
+    let pagi;
+    if (this.state.dataRoles && this.state.pagination) {
       data = this.state.dataRoles;
+      pagi = this.state.pagination;
     }
+    //const data = this.state.dataRoles;
     const columns = [
       {
         title: "Phòng ban",
@@ -345,7 +364,9 @@ class TableRoles_v2 extends Component {
                 rowKey="id"
                 pagination={{
                   onChange: this.handlePagination,
-                  pageSize: 15,
+                  current: pagi ? pagi.currentPage : 1,
+                  total: pagi ? pagi.total : 0,
+                  showSizeChanger: true,
                 }}
               />
             </div>

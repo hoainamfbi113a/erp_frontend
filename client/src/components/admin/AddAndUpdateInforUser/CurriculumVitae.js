@@ -859,21 +859,6 @@ class addInformationUser extends Component {
                       ) : null}
                     </li>
                     <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">
-                        Mật khẩu đăng nhập:
-                        <span>*</span>
-                      </span>
-                      <div className="tabs-user-infor-bottom">
-                        <Input.Password
-                          autoComplete ="on"
-                          disabled={this.props.idUser ? true : false}
-                          name="password"
-                          onChange={this.onChange}
-                          placeholder="Mật khẩu đăng nhập"
-                        />
-                      </div>
-                    </li>
-                    <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">Số điện thoại:
                       <span>*</span></span>
                       <div className="tabs-user-infor-bottom">
