@@ -1,13 +1,14 @@
 import axios from "axios";
 const listRole = async (req, res) => {
-  const { page } = req.query;
+  const { page, per_page } = req.query;
   const config = {
     headers: { Authorization: req.headers.authorization },
   };
   let { data } = await axios.get(
-    `${process.env.apiEmployee}/api/permission/departments/positions/list`,
+    `${process.env.apiEmployee}/api/permission/departments/positions/list?page=${page}&per_page=${per_page}`,
     config
   );
+  console.log(data);
   res.send(data);
 };
 const listPermissionAction = async (req, res) => {
