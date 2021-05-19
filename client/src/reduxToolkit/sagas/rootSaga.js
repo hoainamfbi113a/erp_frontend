@@ -3,7 +3,7 @@ import userSaga from "./userSaga";
 import userProfileSaga from "./userProfileSaga";
 import authenSaga from "./authenSaga";
 import permissionSaga from "./permissionSaga";
-import rewardSaga from "./rewardSaga";
+import rewardSaga from "./userProfile/rewardSaga";
 export function* rootSaga () {
     yield all([
         permissionSaga(),
