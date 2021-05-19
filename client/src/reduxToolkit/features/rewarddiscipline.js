@@ -8,8 +8,11 @@ const rewardDiscipline = createSlice({
         setReward(state, action){
             state = action.payload;
             return state
+        },
+        addReward(state, action){
+            state.push(action.payload)
         }
     }
 })
-export const { getReward, setReward} = rewardDiscipline.actions
+export const { getReward, setReward, addReward} = rewardDiscipline.actions
 export default rewardDiscipline.reducer
