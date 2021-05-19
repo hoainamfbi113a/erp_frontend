@@ -21,12 +21,19 @@ const createReward = async (req, res) => {
   const config = {
     headers: { Authorization: req.headers.authorization },
   };
-  const { data } = await axios.post(
-    `${process.env.apiEmployee}/api/reward-discipline`,
-    req.body,
-    config
-  );
-  res.send(data);
+  try {
+    console.log(req.body)
+    const { data } = await axios.post(
+      `${process.env.apiEmployee}/api/reward-discipline`,
+      req.body,
+      config
+    );
+    console.log(data)
+    res.send(data);
+  } catch (error) {
+    // console.log("error",error)
+  }
+
 };
 
 export { getReward, createReward };

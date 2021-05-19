@@ -16,36 +16,13 @@ import Bonus from "./Bonus";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import { getReward } from "reduxToolkit/features/rewarddiscipline";
+import { getReward, addReward } from "reduxToolkit/features/rewarddiscipline";
 const { RangePicker } = DatePicker;
 
 const { Option } = Select;
 const { TextArea } = Input;
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 
-let fakeData1 = [
-  {
-    id: 1,
-    category: 1,
-    dateStart: "05/09/1990",
-    dateEnd: "10/05/1995",
-    content: "Lao Động Tiên Tiến",
-  },
-  {
-    id: 2,
-    category: 1,
-    dateStart: "05/09/1990",
-    dateEnd: "10/05/1995",
-    content: "Lao Động Khá",
-  },
-  {
-    id: 3,
-    category: 1,
-    dateStart: "05/09/1990",
-    dateEnd: "10/05/1995",
-    content: "Lao Động Xuất Sắc",
-  },
-];
 let fakeData2 = [
   {
     id: 1,
@@ -70,13 +47,21 @@ let fakeData2 = [
   },
 ];
 const BonusContainer = (props) => {
+  const [type, setType] = useState(1);
+  const [rew_formality, setRew_formality] = useState("");
+  const [rew_time_from, setRew_time_from] = useState(null);
+  const [rew_time_to, setRew_time_to] = useState(null);
+  const [rew_note, setRew_note] = useState(null);
+  // const [rew, setRew] = useState({
+
+  // });
+
   const [visible, setVisible] = useState(false);
   const [dataItem, setDataItem] = useState({});
   const [refresh, setRefresh] = useState(true);
   const dispatch = useDispatch();
   const dataReward = useSelector((state) => state.rewarddiscipline);
   useEffect(() => {
-    console.log("Nguyen Hoai Nam");
     dispatch(getReward());
   }, [dispatch]);
   const showModal = (value) => {
@@ -98,26 +83,46 @@ const BonusContainer = (props) => {
   const onChangeRange = (e, dateString, name1, name2) => {
     dataItem.dateStart = dateString[0];
     dataItem.dateEnd = dateString[1];
-    setDataItem(dataItem);
+    setRew_time_from(dateString[0]);
+    setRew_time_to(dateString[1]);
+    // setDataItem(dataItem);
     setRefresh(!refresh);
   };
   const handleChange = (value) => {
     dataItem.category = value;
-    setDataItem(dataItem);
-    console.log(dataItem);
+    setType(value);
+
+    
     setRefresh(!refresh);
   };
-  const datareward = []
-  if(dataReward.length!==0){
-    for(let item of dataReward) {
-      if(item.type === 1){
+  const onChange = (e) => {
+    // console.log('Change:', e.target.value);
+    setRew_formality(e.target.value);
+  };
+  const datareward = [];
+  if (dataReward.length !== 0) {
+    for (let item of dataReward) {
+      if (item.type === 1) {
         datareward.push(item);
       }
     }
   }
+  const handleOk = () => {
+    let params = {
+      pro_id: "196",
+      user_id: "3",
+      rew_formality,
+      type,
+      rew_time_from,
+      rew_time_to,
+      rew_note
+    };
+    // console.log(params);
+    dispatch(addReward(params));
+    setVisible(false);
+  };
   return (
     <div>
-      {/* {console.log(dataReward)} */}
       <Bonus
         fakeData1={datareward}
         fakeData2={fakeData2}
@@ -125,9 +130,11 @@ const BonusContainer = (props) => {
         visible={visible}
         showModal={showModal}
         hideModal={hideModal}
+        handleOk={handleOk}
         handleUpdate={handleUpdate}
         onChangeRange={onChangeRange}
         handleChange={handleChange}
+        onChange={onChange}
       />
     </div>
   );

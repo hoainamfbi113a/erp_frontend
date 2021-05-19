@@ -9,10 +9,6 @@ const { TextArea } = Input;
 const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
 
 const Bonus = (props) => {
-  const [visible, setVisible] = useState(false);
-  const [dataItem, setDataItem] = useState({});
-  const [refresh, setRefresh] = useState(true);
-
   const renderData1 = () => {
     return props.fakeData1.map((item) => {
       return (
@@ -101,7 +97,7 @@ const Bonus = (props) => {
       <Modal
         title="Nhập thông tin"
         visible={props.visible}
-        onOk={props.hideModal}
+        onOk={props.handleOk}
         onCancel={props.hideModal}
         okText="OK"
         cancelText="Cancel"
@@ -158,6 +154,7 @@ const Bonus = (props) => {
               <span className="tabs-user-infor-top"></span>
               <div className="tabs-user-infor-bottom">
                 <TextArea
+                  onChange={props.onChange}
                   value={props.dataItem.content}
                   placeholder="Mời bạn nhập chi tiết"
                   autoSize={{ minRows: 7, maxRows: 15 }}

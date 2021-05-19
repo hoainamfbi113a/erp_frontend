@@ -1,6 +1,6 @@
 import axiosConfig from "../axios";
 
-export const getRewardFamily = (id) => {
+export const getRewardApi = (id) => {
   return axiosConfig
     .get(`/api/user-profile/reward-discipline/users/3`)
     .then((data) => {
@@ -14,9 +14,10 @@ export const getRewardFamily = (id) => {
     });
 };
 
-export const addRewardFamily = (params) => {
+export const addRewardApi = (params) => {
+  console.log(params)
   return axiosConfig
-    .post(`/api/user-profile/family/add`, params)
+    .post(`/api/user-profile/reward-discipline`, params)
     .then((data) => {
       return data;
     })
