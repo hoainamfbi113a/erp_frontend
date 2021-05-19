@@ -13,7 +13,11 @@ const rewardSlice = createSlice({
         addReward(state, action){
             return [...state]
         },
+        
         removeReward(state, action) {
+            return [...state]
+        },
+        removeRewardSuccess(state, action) {
             const  rewards  = current(state);
             const { id } = action.payload;
             const existingReward = rewards.find((reward)=>
@@ -25,8 +29,12 @@ const rewardSlice = createSlice({
                     reward.id != id
                 )
             }
-        }
+        },
+        removeRewardFailed(state, action) {
+          return [...state];  
+        },
+
     }
 })
-export const { getReward, setReward, addReward, removeReward} = rewardSlice.actions
+export const { getReward, setReward, addReward, removeReward, removeRewardSuccess, removeRewardFailed} = rewardSlice.actions
 export default rewardSlice.reducer
