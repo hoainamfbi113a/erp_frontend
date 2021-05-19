@@ -1,22 +1,14 @@
-import { PlusCircleOutlined } from "@ant-design/icons";
 import {
-  Button,
   DatePicker,
   Input,
-  Modal,
-  Popconfirm,
-  Select,
-  Space,
-  Tag,
+
+
+  Select
 } from "antd";
-import { data } from "jquery";
-import moment from "moment";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addReward, getReward } from "reduxToolkit/features/userProfile/rewardSlice";
 import Bonus from "./Bonus";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { useEffect } from "react";
-import { getReward, addReward } from "reduxToolkit/features/rewarddiscipline";
 const { RangePicker } = DatePicker;
 
 const { Option } = Select;

@@ -1,5 +1,5 @@
 import { all, call, takeLatest, put } from "redux-saga/effects";
-import { getReward, setReward, addReward } from "reduxToolkit/features/rewarddiscipline";
+import { getReward, setReward, addReward } from "reduxToolkit/features/userProfile/rewardSlice";
 import { getRewardApi, addRewardApi } from "apis/UserProfile/rewardApi"
 export default function* rewardSaga() {
   yield all([yield takeLatest(getReward, fetchRewardSaga)]);
