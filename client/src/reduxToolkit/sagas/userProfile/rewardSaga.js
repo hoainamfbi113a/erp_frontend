@@ -7,7 +7,7 @@ import {
 export default function* rewardSaga() {
   yield all([yield takeLatest(getReward, fetchRewardSaga)]);
   yield all([yield takeLatest(addReward, addRewardSaga)]);
-  yield all([yield takeLatest(removeReward, removeRewardSaga)]);
+  // yield all([yield takeLatest(removeReward, removeRewardSaga)]);
 }
 function* fetchRewardSaga(action) {
   try {
@@ -33,16 +33,16 @@ function * addRewardSaga(action) {
     message.error("Thêm khen thưởng thất bại")
   }
 }
-function * removeRewardSaga(action){
-  try {
-    const resp = yield call(removeRewardApi, action.payload);
-    console.log(action.payload)
-    if(resp.message === "Success!. Stored") {
-      message.success("Xoá khen thưởng thành công")
-    } else {
-      message.error("Xoá khen thưởng thất bại")
-    }
-  } catch (error) {
-    message.error("Thêm khen thưởng thất bại")
-  }
-}
+// function * removeRewardSaga(action){
+//   try {
+//     const resp = yield call(removeRewardApi, action.payload);
+//     console.log(action.payload)
+//     if(resp.message === "Success!. Stored") {
+//       message.success("Xoá khen thưởng thành công")
+//     } else {
+//       message.error("Xoá khen thưởng thất bại")
+//     }
+//   } catch (error) {
+//     message.error("Thêm khen thưởng thất bại")
+//   }
+// }
