@@ -4,13 +4,13 @@ import userReducer from "./userSlice";
 import userProfileReducer from "./userProfileSlice";
 import authenReducer from "./authencationSlice";
 import permissionReducer from "./permissionSlice";
-import rewarddiscipline from "./rewarddiscipline";
+import rewardSlice from "./userProfile/rewardSlice";
 const reducer = combineReducers({
      uiLoading: uiLoadingReducer,
      user: userReducer,
      userProfile: userProfileReducer,
      authen: authenReducer,
      permission: permissionReducer,
-     rewarddiscipline,
+     rewardDiscipline: rewardSlice,
 });
 export default reducer;
