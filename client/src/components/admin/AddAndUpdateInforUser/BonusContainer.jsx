@@ -1,8 +1,6 @@
 import {
   DatePicker,
   Input,
-
-
   Select
 } from "antd";
 import React, { useEffect, useState } from "react";
@@ -52,7 +50,7 @@ const BonusContainer = (props) => {
   const [dataItem, setDataItem] = useState({});
   const [refresh, setRefresh] = useState(true);
   const dispatch = useDispatch();
-  const dataReward = useSelector((state) => state.rewarddiscipline);
+  const dataReward = useSelector((state) => state.rewardDiscipline);
   useEffect(() => {
     dispatch(getReward());
   }, [dispatch]);
@@ -75,9 +73,9 @@ const BonusContainer = (props) => {
   const onChangeRange = (e, dateString, name1, name2) => {
     dataItem.dateStart = dateString[0];
     dataItem.dateEnd = dateString[1];
+    console.log(dateString);
     setRew_time_from(dateString[0]);
     setRew_time_to(dateString[1]);
-    // setDataItem(dataItem);
     setRefresh(!refresh);
   };
   const handleChange = (value) => {
@@ -100,17 +98,19 @@ const BonusContainer = (props) => {
     }
   }
   const handleOk = () => {
+    let parseRew_time_from = Date(rew_time_from)
+    let parseRew_time_to = Date(rew_time_to)
     let params = {
       pro_id: "196",
       user_id: "3",
       rew_formality,
       type,
-      rew_time_from,
-      rew_time_to,
+      rew_time_from:Date.parse(parseRew_time_from)/1000,
+      rew_time_to:Date.parse(parseRew_time_to)/1000,
       rew_note
     };
-    // console.log(params);
-    dispatch(addReward(params));
+    let a = dispatch(addReward(params));
+    console.log(a);
     setVisible(false);
   };
   return (
