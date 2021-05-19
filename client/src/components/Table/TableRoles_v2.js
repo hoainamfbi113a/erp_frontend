@@ -61,7 +61,9 @@ class TableRoles_v2 extends Component {
 
   fetchData = async () => {
     let data = await getListAllPosition();
+    console.log(data);
     let dataDepartment = await getListAllDepartment();
+    console.log(dataDepartment);
     this.setState({
       data,
       dataDepartment,

@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Input } from "antd";
 import { Button, DatePicker } from "antd";
 const { RangePicker } = DatePicker;
 import { Modal } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Select } from "antd";
+import { getUserFamily, addUserFamily} from "../../../apis/UserProfile/familyApi";
 
 import { Space, Tag } from "antd";
 const { Option } = Select;
 import { Popconfirm } from "antd";
+import docCookies from "doc-cookies";
 const { TextArea } = Input;
 let fakeData1 = [
   {
@@ -34,9 +36,22 @@ let fakeData2 = [
   },
 ];
 const Family = () => {
+  const user_id = docCookies.getItem("user_id");
   const [visible, setVisible] = useState(false);
   const [dataItem1, setDataItem1] = useState({});
   const [dataItem2, setDataItem2] = useState({});
+  const [data, setData] = useState();
+
+  useEffect(() => {
+    fetchData();
+  }, [])
+
+  const fetchData = async() => {
+    const data = await getUserFamily(user_id);
+    console.log(data.data);
+    setData(data.data)
+  }
+
   const showModal = () => {
     setVisible(true);
     setDataItem1({});
@@ -58,9 +73,11 @@ const Family = () => {
     setVisible(true);
     setDataItem2(value);
   };
+
   const hideModal1 = () => {
     setVisible1(false);
   };
+
   const renderData1 = () => {
     return fakeData1.map((item) => {
       return (
@@ -89,39 +106,78 @@ const Family = () => {
       );
     });
   };
+
+  // const renderData2 = () => {
+  //   return fakeData2.map((item) => {
+  //     return (
+  //       <li key={item.id}>
+  //         <div className="personal-history-time">
+  //           {item.title} : {item.name}
+  //         </div>
+  //         <Space size="middle">
+  //           <Popconfirm
+  //             title="Are you sure hide this user?"
+  //             okText="Yes"
+  //             cancelText="No"
+  //           >
+  //             <Tag color="volcano" className="table-action">
+  //               Xoá
+  //             </Tag>
+  //           </Popconfirm>
+  //           <Tag
+  //             color="geekblue"
+  //             className="table-action"
+  //             onClick={() => handleUpdate2(item)}
+  //           >
+  //             Update
+  //           </Tag>
+  //         </Space>
+  //         <p className="personal-history-content">
+  //           {item.job}
+  //           <p>{item.content}</p>
+  //         </p>
+  //       </li>
+  //     );
+  //   });
+  // };
+
   const renderData2 = () => {
-    return fakeData2.map((item) => {
-      return (
-        <li key={item.id}>
-          <div className="personal-history-time">
-            {item.title} : {item.name}
-          </div>
-          <Space size="middle">
-            <Popconfirm
-              title="Are you sure hide this user?"
-              okText="Yes"
-              cancelText="No"
-            >
-              <Tag color="volcano" className="table-action">
-                Xoá
+    if(data) {
+      return data.map((item) => {
+        return (
+          <li>
+            <div className="personal-history-time">
+              {item.rem_relationship} : {item.rem_full_name}
+            </div>
+            <Space size="middle">
+              <Popconfirm
+                title="Are you sure hide this user?"
+                okText="Yes"
+                cancelText="No"
+              >
+                <Tag color="volcano" className="table-action">
+                  Xoá
+                </Tag>
+              </Popconfirm>
+              <Tag
+                color="geekblue"
+                className="table-action"
+                onClick={() => handleUpdate2(item)}
+              >
+                Update
               </Tag>
-            </Popconfirm>
-            <Tag
-              color="geekblue"
-              className="table-action"
-              onClick={() => handleUpdate2(item)}
-            >
-              Update
-            </Tag>
-          </Space>
-          <p className="personal-history-content">
-            {item.job}
-            <p>{item.content}</p>
-          </p>
-        </li>
-      );
-    });
+            </Space>
+            <p className="personal-history-content">
+              {item.rem_job}
+            </p>
+          </li>
+        );
+      });
+    } else {
+      null
+    }
   };
+
   return (
     <div className="edit-infor-form">
       <div className="tabs-main personal-history">
