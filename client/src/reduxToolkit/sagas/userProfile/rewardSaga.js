@@ -1,5 +1,5 @@
 import { all, call, takeLatest, put } from "redux-saga/effects";
-import { getReward, setReward, addReward, removeReward } from "reduxToolkit/features/userProfile/rewardSlice";
+import { getReward, setReward, addReward, removeReward, removeRewardSuccess, removeRewardFailed } from "reduxToolkit/features/userProfile/rewardSlice";
 import { getRewardApi, addRewardApi, removeRewardApi } from "apis/UserProfile/rewardApi"
 import {
   message,
@@ -15,7 +15,7 @@ function* fetchRewardSaga(action) {
     // console.log(action.payload)
     if (resp.message === "Successfully") {
       yield put(setReward([...resp.data ]));
-      
+
     }
   } catch (error) {
     console.log(error);
@@ -39,8 +39,11 @@ function * removeRewardSaga(action){
     const resp = yield call(removeRewardApi, action.payload);
     if(resp.message === "Success!. Deleted") {
       message.success("Xoá khen thưởng thành công")
+      yield put(removeRewardSuccess(action.payload));
+      
     } else {
       message.error("Xoá khen thưởng thất bại")
+      yield put(removeRewardFailed(action.payload));
     }
   } catch (error) {
     message.error("Thêm khen thưởng thất bại")
