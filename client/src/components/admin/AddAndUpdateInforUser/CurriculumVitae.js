@@ -300,7 +300,6 @@ class addInformationUser extends Component {
     this.setState({
       [name]: dateString,
     });
-    console.log(dateString)
   };
   onChangeRange = (e, dateString, name1, name2) => {
     this.setState({

@@ -28,3 +28,18 @@ export const addRewardApi = (params) => {
       };
     });
 };
+//api/reward-discipline/1
+export const removeRewardApi = (params) => {
+  console.log("delete",params)
+  return axiosConfig
+    .post(`/api/user-profile/reward-disciplined`, params)
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      console.log(err);
+      return {
+        err: "error",
+      };
+    });
+};
