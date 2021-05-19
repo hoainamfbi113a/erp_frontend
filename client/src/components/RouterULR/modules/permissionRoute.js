@@ -2,7 +2,7 @@ import ContentDepartment from "components/content/ContentDepartment";
 import ContentSix from "components/content/ContentSix";
 import ContentParts from "components/content/ContentParts";
 import ContentPosition from "components/content/ContentPosition";
-import AddAndUpdateInforUser from "components/admin/AddAndUpdateInforUser";
+import InfoUser from "components/admin/AddAndUpdateInforUser/Container/indexContainer";
 import Workflow from "components/admin/workflow/Workflow";
 import FormBuilder from "components/admin/FormBuilder/FormBuilder";
 import DocumentType from "components/admin/FormBuilder/DocumentType";
@@ -15,11 +15,11 @@ export default {
       routes: {
         "create": {
           path: "/create",
-          component: AddAndUpdateInforUser
+          component: InfoUser
         },
         "update": {
           path: "/update/:id",
-          component: AddAndUpdateInforUser
+          component: InfoUser
         }
       }
     },

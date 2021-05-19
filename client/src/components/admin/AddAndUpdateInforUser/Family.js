@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { Input } from "antd";
 import { Button, DatePicker } from "antd";
-const { RangePicker } = DatePicker;
 import { Modal } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Select } from "antd";
@@ -9,66 +8,20 @@ import { Select } from "antd";
 import { Space, Tag } from "antd";
 const { Option } = Select;
 import { Popconfirm } from "antd";
-const { TextArea } = Input;
-let fakeData1 = [
-  {
-    id: 1,
-    title: "Nhà",
-    content: "123 Phạm Văn Đồng Gò Vấp giá trị 3 tỉ đồng",
-  },
-];
-let fakeData2 = [
-  {
-    id: 1,
-    title: "Vợ",
-    name: "Nguyễn Thị C",
-    job: "Giáo Viên",
-    content: "",
-  },
-  {
-    id: 2,
-    title: "Con",
-    name: "Nguyễn Thị D",
-    job: "Học sinh",
-    content: "",
-  },
-];
-const Family = () => {
-  const [visible, setVisible] = useState(false);
-  const [dataItem1, setDataItem1] = useState({});
-  const [dataItem2, setDataItem2] = useState({});
-  const [refresh, setRefresh] = useState(true);
-  const showModal = () => {
-    setVisible(true);
-    setDataItem1({});
-    setDataItem2({});
-  };
 
-  const hideModal = () => {
-    setVisible(false);
-  };
-  const [visible1, setVisible1] = useState(false);
-  const showModal1 = () => {
-    setVisible1(true);
-  };
-  const handleUpdate1 = (value) => {
-    setVisible1(true);
-    setDataItem1(value);
-  };
-  const handleUpdate2 = (value) => {
-    setVisible(true);
-    setDataItem2(value);
-  };
-  const hideModal1 = () => {
-    setVisible1(false);
-  };
-  const handleChange = (value) =>{
-    dataItem2.title = value;
-    setDataItem2(dataItem2);
-    setRefresh(!refresh)
-  }
+const { TextArea } = Input;
+
+const Family = ({
+  fakeData,
+  dataFamily,
+  showModal,
+  hideModal,
+  handleUpdate,
+  visible,
+  dataItem,
+}) => {
   const renderData1 = () => {
-    return fakeData1.map((item) => {
+    return fakeData.map((item) => {
       return (
         <li key={item.id}>
           <div className="personal-history-time">{item.title}</div>
@@ -85,7 +38,7 @@ const Family = () => {
             <Tag
               color="geekblue"
               className="table-action"
-              onClick={() => handleUpdate1(item)}
+              onClick={() => handleUpdate(item)}
             >
               Update
             </Tag>
@@ -95,52 +48,48 @@ const Family = () => {
       );
     });
   };
+
   const renderData2 = () => {
-    return fakeData2.map((item) => {
-      return (
-        <li key={item.id}>
-          <div className="personal-history-time">
-            {item.title} : {item.name}
-          </div>
-          <Space size="middle">
-            <Popconfirm
-              title="Are you sure hide this user?"
-              okText="Yes"
-              cancelText="No"
-            >
-              <Tag color="volcano" className="table-action">
-                Xoá
+    if (dataFamily) {
+      return dataFamily.map((item) => {
+        return (
+          <li key={item.id}>
+            <div className="personal-history-time">
+              {item.rem_relationship} : {item.rem_full_name}
+            </div>
+            <Space size="middle">
+              <Popconfirm
+                title="Are you sure hide this user?"
+                okText="Yes"
+                cancelText="No"
+              >
+                <Tag color="volcano" className="table-action">
+                  Xoá
+                </Tag>
+              </Popconfirm>
+              <Tag
+                color="geekblue"
+                className="table-action"
+                onClick={() => handleUpdate(item)}
+              >
+                Update
               </Tag>
-            </Popconfirm>
-            <Tag
-              color="geekblue"
-              className="table-action"
-              onClick={() => handleUpdate2(item)}
-            >
-              Update
-            </Tag>
-          </Space>
-          <p className="personal-history-content">
-            {item.job}
-            <p>{item.content}</p>
-          </p>
-        </li>
-      );
-    });
+            </Space>
+            <p className="personal-history-content">{item.rem_job}</p>
+          </li>
+        );
+      });
+    } else {
+      null;
+    }
   };
-  let valueS = "Chồng"
-  if(dataItem2.title == "Con"){
-    valueS = "Con"
-  }
-  if(dataItem2.title == "Vợ") {
-    valueS = "Vợ"
-  }
+
   return (
     <div className="edit-infor-form">
       <div className="tabs-main personal-history">
-      <div className="btn-btn-profile">
+        <div className="btn-btn-profile">
           <Button
-            onClick={showModal1}
+            onClick={showModal}
             className="btn-add-detail"
             icon={<PlusCircleOutlined />}
           >
@@ -154,7 +103,7 @@ const Family = () => {
         </div>
       </div>
       <div className="tabs-main personal-history">
-      <div className="btn-btn-profile">
+        <div className="btn-btn-profile">
           <Button
             onClick={showModal}
             className="btn-add-detail"
@@ -171,9 +120,9 @@ const Family = () => {
       </div>
       <Modal
         title="Nhập thông tin"
-        visible={visible1}
-        onOk={hideModal1}
-        onCancel={hideModal1}
+        visible={visible}
+        onOk={hideModal}
+        onCancel={hideModal}
         okText="OK"
         cancelText="Cancel"
         width={631}
@@ -182,16 +131,18 @@ const Family = () => {
           style={{ width: "100%" }}
           className="tabs-main"
           noValidate
+          // onSubmit={this.onSubmit}
           method="post"
         >
-          <ul style = {{width:"100%"}}>
+          <ul style={{ width: "100%" }}>
             <li className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row-clear">
               <span className="tabs-user-infor-top">Tên tài sản:</span>
               <div className="tabs-user-infor-bottom">
                 <Input
-                  value = {dataItem1.title} 
+                  value={dataItem.title}
                   name="pro_religion"
                   style={{ width: "100%" }}
+                  // defaultValue={ state.pro_religion }
                   placeholder=""
                 />
               </div>
@@ -200,7 +151,7 @@ const Family = () => {
               <span className="tabs-user-infor-top"></span>
               <div className="tabs-user-infor-bottom">
                 <TextArea
-                  value = {dataItem1.content} 
+                  value={dataItem.content}
                   style={{ width: "100%" }}
                   placeholder="Mời bạn nhập chi tiết"
                   autoSize={{ minRows: 7, maxRows: 15 }}
@@ -223,6 +174,7 @@ const Family = () => {
           style={{ width: "100%" }}
           className="tabs-main"
           noValidate
+          // onSubmit={this.onSubmit}
           method="post"
         >
           <ul>
@@ -230,14 +182,13 @@ const Family = () => {
               <span className="tabs-user-infor-top">Thông tin</span>
               <div className="tabs-user-infor-bottom">
                 <Select
-                  onChange={handleChange}
-                  value={valueS}
+                  value={dataItem.title == "Con" ? "2" : "1"}
                   className="modal-selection"
                   style={{ width: 527 }}
+                  // onChange={handleChange}
                 >
-                  <Option value="Chồng">Chồng </Option>
-                  <Option value="Vợ">Vợ </Option>
-                  <Option value="Con">Con</Option>
+                  <Option value="1">Vợ </Option>
+                  <Option value="2">Con</Option>
                 </Select>
               </div>
             </li>
@@ -247,7 +198,8 @@ const Family = () => {
                 <Input
                   style={{ width: "100%" }}
                   name="pro_religion"
-                  value = {dataItem2.name}
+                  value={dataItem.name}
+                  // defaultValue={ state.pro_religion }
                   placeholder="Họ và tên"
                 />
               </div>
@@ -258,7 +210,8 @@ const Family = () => {
                 <Input
                   style={{ width: "100%" }}
                   name="pro_religion"
-                  value = {dataItem2.job}
+                  value={dataItem.job}
+                  // defaultValue={ state.pro_religion }
                   placeholder="Nghề nghiệp"
                 />
               </div>
@@ -267,7 +220,7 @@ const Family = () => {
               <span className="tabs-user-infor-top"></span>
               <div className="tabs-user-infor-bottom">
                 <TextArea
-                  value = {dataItem2.content}
+                  value={dataItem.content}
                   placeholder="Mời bạn nhập chi tiết"
                   autoSize={{ minRows: 7, maxRows: 15 }}
                 />

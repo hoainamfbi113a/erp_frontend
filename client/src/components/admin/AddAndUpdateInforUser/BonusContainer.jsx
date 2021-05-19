@@ -5,14 +5,14 @@ import {
 } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addReward, getReward } from "reduxToolkit/features/userProfile/rewardSlice";
+import { addReward, getReward } from "../../../reduxToolkit/features/userProfile/rewardSlice";
 import Bonus from "./Bonus";
 const { RangePicker } = DatePicker;
 
 const { Option } = Select;
 const { TextArea } = Input;
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
-
+ 
 let fakeData2 = [
   {
     id: 1,
@@ -50,7 +50,11 @@ const BonusContainer = (props) => {
   const [dataItem, setDataItem] = useState({});
   const [refresh, setRefresh] = useState(true);
   const dispatch = useDispatch();
+<<<<<<< HEAD
+  const dataReward = useSelector((state) => state.rewardUser);
+=======
   const dataReward = useSelector((state) => state.rewardDiscipline);
+>>>>>>> b332883c383ab64280125d611d825fc3cc9ef35c
   useEffect(() => {
     dispatch(getReward());
   }, [dispatch]);
