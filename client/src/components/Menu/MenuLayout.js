@@ -32,7 +32,7 @@ const MenuLayout = (props) => {
   const permissions = useSelector((state) => state.permission);
 
   const renderAdmin = () => {
-    if (permissions[0].groups[8].permissions[0].id === 56) {
+    if (true) {
       return (
         <SubMenu key="sub3" icon={<LockOutlined />} title="Vai trò & Quyền">
           <Menu.Item key="13">
