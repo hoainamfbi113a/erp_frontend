@@ -1,22 +1,14 @@
-import { PlusCircleOutlined } from "@ant-design/icons";
 import {
-  Button,
   DatePicker,
   Input,
-  Modal,
-  Popconfirm,
-  Select,
-  Space,
-  Tag,
+
+
+  Select
 } from "antd";
-import { data } from "jquery";
-import moment from "moment";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addReward, getReward } from "reduxToolkit/features/rewarddiscipline";
 import Bonus from "./Bonus";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { useEffect } from "react";
-import { getReward, addReward } from "reduxToolkit/features/rewarddiscipline";
 const { RangePicker } = DatePicker;
 
 const { Option } = Select;
@@ -113,12 +105,12 @@ const BonusContainer = (props) => {
       user_id: "3",
       rew_formality,
       type,
-      rew_time_from,
-      rew_time_to,
+      rew_time_from:Date.parse(rew_time_from) / 1000,
+      rew_time_to:Date.parse(rew_time_to) / 1000,
       rew_note
     };
-    // console.log(params);
-    dispatch(addReward(params));
+    console.log(params);
+    // dispatch(addReward(params));
     setVisible(false);
   };
   return (
