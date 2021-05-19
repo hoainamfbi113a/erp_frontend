@@ -15,6 +15,7 @@ function* fetchRewardSaga(action) {
     // console.log(action.payload)
     if (resp.message === "Successfully") {
       yield put(setReward([...resp.data ]));
+      
     }
   } catch (error) {
     console.log(error);
@@ -36,7 +37,6 @@ function * addRewardSaga(action) {
 function * removeRewardSaga(action){
   try {
     const resp = yield call(removeRewardApi, action.payload);
-    console.log(action.payload)
     if(resp.message === "Success!. Deleted") {
       message.success("Xoá khen thưởng thành công")
     } else {
