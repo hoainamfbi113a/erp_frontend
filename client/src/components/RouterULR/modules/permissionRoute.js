@@ -37,14 +37,14 @@ export default {
     },
   },
   "workflow-service": {
-    "workflow": {
-      path: "/workflow",
+    "common": {
+      path: "/common",
       component: Workflow
     }
   },
   "document-service": {
-    "document-type": {
-      path: "/document-type",
+    "common": {
+      path: "/common",
       component: DocumentType,
     },
     "document-template": {
