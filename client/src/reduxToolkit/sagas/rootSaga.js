@@ -4,6 +4,8 @@ import userProfileSaga from "./userProfileSaga";
 import authenSaga from "./authenSaga";
 import permissionSaga from "./permissionSaga";
 import rewardSaga from "./userProfile/rewardSaga";
+import familySaga from "./userProfile/familySaga";
+
 export function* rootSaga () {
     yield all([
         permissionSaga(),
@@ -11,6 +13,7 @@ export function* rootSaga () {
         userProfileSaga(),
         authenSaga(),
         rewardSaga(), 
+        familySaga(),
     ])
 }
 // export default rootSaga;

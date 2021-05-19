@@ -7,7 +7,7 @@ const { RangePicker } = DatePicker;
 const { Option } = Select;
 const { TextArea } = Input;
 const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
-
+ 
 const Bonus = (props) => {
   const renderData1 = () => {
     return props.fakeData1.map((item) => {
