@@ -1,11 +1,11 @@
-import {
-  DatePicker,
-  Input,
-  Select
-} from "antd";
+import { DatePicker, Input, Select } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addReward, getReward } from "reduxToolkit/features/userProfile/rewardSlice";
+import {
+  addReward,
+  getReward,
+  removeReward
+} from "reduxToolkit/features/userProfile/rewardSlice";
 import Bonus from "./Bonus";
 const { RangePicker } = DatePicker;
 
@@ -82,37 +82,42 @@ const BonusContainer = (props) => {
     dataItem.category = value;
     setType(value);
 
-    
     setRefresh(!refresh);
   };
   const onChange = (e) => {
     // console.log('Change:', e.target.value);
     setRew_formality(e.target.value);
   };
+  console.log(dataReward);
   const datareward = [];
-  if (dataReward.length !== 0) {
-    for (let item of dataReward) {
+  if (dataReward.rewards.length !== 0) {
+    for (let item of dataReward.rewards) {
       if (item.type === 1) {
         datareward.push(item);
       }
     }
   }
   const handleOk = () => {
-    let parseRew_time_from = Date(rew_time_from)
-    let parseRew_time_to = Date(rew_time_to)
+    let parseRew_time_from = Date(rew_time_from);
+    let parseRew_time_to = Date(rew_time_to);
     let params = {
       pro_id: "196",
       user_id: "3",
       rew_formality,
       type,
-      rew_time_from:Date.parse(parseRew_time_from)/1000,
-      rew_time_to:Date.parse(parseRew_time_to)/1000,
-      rew_note
+      rew_time_from: Date.parse(parseRew_time_from) / 1000,
+      rew_time_to: Date.parse(parseRew_time_to) / 1000,
+      rew_note,
     };
     let a = dispatch(addReward(params));
     console.log(a);
     setVisible(false);
   };
+  const handleOkDelete = (id)=>{
+    dispatch(removeReward({
+      id,
+    }))
+  }
   return (
     <div>
       <Bonus
@@ -127,6 +132,7 @@ const BonusContainer = (props) => {
         onChangeRange={onChangeRange}
         handleChange={handleChange}
         onChange={onChange}
+        handleOkDelete={handleOkDelete}
       />
     </div>
   );

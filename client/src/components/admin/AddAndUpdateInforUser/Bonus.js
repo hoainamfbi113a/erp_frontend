@@ -21,6 +21,7 @@ const Bonus = (props) => {
               title="Are you sure hide this user?"
               okText="Yes"
               cancelText="No"
+              onConfirm={()=>props.handleOkDelete(item.id)}
             >
               <Tag color="volcano" className="table-action">
                 Xoá
@@ -48,9 +49,10 @@ const Bonus = (props) => {
           </div>
           <Space size="middle">
             <Popconfirm
-              title="Are you sure hide this user?"
+              title=""
               okText="Yes"
               cancelText="No"
+              // onConfirm={props.handleOk}
             >
               <Tag color="volcano" className="table-action">
                 Xoá

@@ -57,7 +57,7 @@ const AddAndUpdateInforUser = (props) => {
       return <ProfessionalCompensation />;
     }
     if (activeLink === 6) {
-      return <BonusContainer idUser={props.match.params.id} dataProfile = {profile} />;
+      return <BonusContainer idUser={props.match.params.id} dataProfile = {profile.id} />;
     }
     if (activeLink === 7) {
       return <Family />;
