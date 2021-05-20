@@ -6,17 +6,22 @@ import {
   removeFamily,
   removeFamilySuccess,
   removeFamilyFailed,
+  updateFamily,
+  updateFamilySuccess,
+  updateFamilyFailed
 } from "reduxToolkit/features/userProfile/familySlice";
 import {
   getUserFamilyApi,
   addUserFamilyApi,
-  removeUserFamilyApi
+  removeUserFamilyApi,
+  updateUserFamilyApi
 } from "../../../apis/UserProfile/familyApi";
 import { message } from "antd";
 export default function* rewardSaga() {
   yield all([yield takeLatest(getFamily, fetchFamilySaga)]);
   yield all([yield takeLatest(addFamily, addFamilySaga)]);
   yield all([yield takeLatest(removeFamily, removeFamilySaga)]);
+  yield all([yield takeLatest(updateFamily, updateFamilySaga)]);
 }
 
 function* fetchFamilySaga(action) {
@@ -55,6 +60,22 @@ function * removeFamilySaga(action){
       yield put(removeFamilyFailed(action.payload));
     }
   } catch (error) {
-    message.error("Thêm khen thưởng thất bại")
+    console.log(error);
+  }
+}
+
+function * updateFamilySaga (action) {
+  try {
+    const resp = yield call(updateUserFamilyApi, action.payload);
+    console.log(resp, action.payload);
+    if(resp.message === "Success!. Updated") {
+      message.success("Cập nhật quan hệ thành công")
+      yield put(updateFamilySuccess(action.payload))
+    } else {
+      message.error("Cập nhật quan hệ thất bại")
+      yield put(updateFamilyFailed(action.payload))
+    }
+  } catch (error) {
+    console.log(error)
   }
 }

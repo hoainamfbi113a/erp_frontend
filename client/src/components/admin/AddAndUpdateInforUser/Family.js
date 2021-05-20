@@ -10,7 +10,7 @@ const { Option } = Select;
 import { Popconfirm } from "antd";
 
 const { TextArea } = Input;
- 
+
 const Family = ({
   fakeData,
   dataFamily,
@@ -23,6 +23,7 @@ const Family = ({
   setRem,
   handleOk,
   handleDelete,
+  rem_relationship
 }) => {
   const renderData1 = () => {
     return fakeData.map((item) => {
@@ -189,6 +190,7 @@ const Family = ({
                 <Select
                   placeholder="Chọn quan hệ"
                   className="modal-selection"
+                  value={rem_relationship == "Vợ" ? "Vợ" : "Con"}
                   style={{ width: 527 }}
                   onChange={setRem}
                 >

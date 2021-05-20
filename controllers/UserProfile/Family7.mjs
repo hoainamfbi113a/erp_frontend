@@ -30,17 +30,29 @@ const createFamilyRelation = async (req, res) => {
 
 const deleteFamilyRelation = async (req, res) => {
   const { id } = req.params;
-  console.log(id);
   try {
     const { data } = await axios.delete(
       `${process.env.apiEmployee}/api/family-relationship/${id}`,
       config(req)
     );
-    console.log(data);
     res.send(data);
   } catch (error) {
     console.log(error);
   }
-}
+};
 
-export { getFamilyRelation, createFamilyRelation, deleteFamilyRelation };
+const updateFamilyRelation = async (req, res) => {
+  const { id } = req.body;
+  try {
+    const { data } = await axios.put(
+      `${process.env.apiEmployee}/api/family-relationship/${id}`,
+      req.body,
+      config(req)
+    );
+      res.send(data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { getFamilyRelation, createFamilyRelation, deleteFamilyRelation, updateFamilyRelation };

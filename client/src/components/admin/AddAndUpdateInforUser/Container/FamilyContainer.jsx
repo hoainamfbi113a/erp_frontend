@@ -4,6 +4,7 @@ import {
   getFamily,
   addFamily,
   removeFamily,
+  updateFamily,
 } from "../../../../reduxToolkit/features/userProfile/familySlice";
 import Family from "../Family";
 
@@ -24,6 +25,7 @@ const FamilyContainer = ({ idUser, proId }) => {
     rem_job: "",
   });
   const [rem_relationship, setRem] = useState();
+  const [idFam, setIdFam] = useState(null);
   const dataFamily = useSelector((state) => state.familyUser);
 
   useEffect(() => {
@@ -32,6 +34,7 @@ const FamilyContainer = ({ idUser, proId }) => {
 
   const handleOk = () => {
     const params = {
+      id: idFam,
       pro_id: proId,
       user_id: idUser,
       rem_relationship: rem_relationship,
@@ -39,16 +42,29 @@ const FamilyContainer = ({ idUser, proId }) => {
       rem_note: dataItem.rem_note,
       rem_job: dataItem.rem_job,
     };
-    dispatch(addFamily(params));
-    setTimeout(() => {
-      dispatch(getFamily(idUser));
-    }, 200);
+    if (idFam) {
+      console.log(params);
+      dispatch(updateFamily(params));
+    } else {
+      dispatch(addFamily(params));
+      setTimeout(() => {
+        dispatch(getFamily(idUser));
+      }, 200);
+    }
 
     setVisible(false);
   };
 
   const handleDelete = (id) => {
     dispatch(removeFamily(id));
+  };
+
+  const handleUpdate = (value) => {
+    const { id, rem_relationship } = value;
+    setVisible(true);
+    setDataItem(value);
+    setRem(rem_relationship);
+    setIdFam(id);
   };
 
   const showModal = () => {
@@ -58,11 +74,6 @@ const FamilyContainer = ({ idUser, proId }) => {
 
   const hideModal = () => {
     setVisible(false);
-  };
-
-  const handleUpdate = (value) => {
-    setVisible(true);
-    setDataItem(value);
   };
 
   const onChange = (e) => {
@@ -83,6 +94,7 @@ const FamilyContainer = ({ idUser, proId }) => {
         setRem={setRem}
         handleOk={handleOk}
         handleDelete={handleDelete}
+        rem_relationship={rem_relationship}
       />
     </div>
   );
