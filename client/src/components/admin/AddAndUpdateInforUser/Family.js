@@ -10,7 +10,7 @@ const { Option } = Select;
 import { Popconfirm } from "antd";
 
 const { TextArea } = Input;
-
+ 
 const Family = ({
   fakeData,
   dataFamily,
@@ -19,6 +19,9 @@ const Family = ({
   handleUpdate,
   visible,
   dataItem,
+  onChange,
+  setRem,
+  handleOk,
 }) => {
   const renderData1 = () => {
     return fakeData.map((item) => {
@@ -89,7 +92,7 @@ const Family = ({
       <div className="tabs-main personal-history">
         <div className="btn-btn-profile">
           <Button
-            onClick={showModal}
+            // onClick={showModal}
             className="btn-add-detail"
             icon={<PlusCircleOutlined />}
           >
@@ -164,7 +167,7 @@ const Family = ({
       <Modal
         title="Nhập thông tin"
         visible={visible}
-        onOk={hideModal}
+        onOk={handleOk}
         onCancel={hideModal}
         okText="OK"
         cancelText="Cancel"
@@ -182,13 +185,13 @@ const Family = ({
               <span className="tabs-user-infor-top">Thông tin</span>
               <div className="tabs-user-infor-bottom">
                 <Select
-                  value={dataItem.title == "Con" ? "2" : "1"}
+                  placeholder="Chọn quan hệ"
                   className="modal-selection"
                   style={{ width: 527 }}
-                  // onChange={handleChange}
+                  onChange={setRem}
                 >
-                  <Option value="1">Vợ </Option>
-                  <Option value="2">Con</Option>
+                  <Option key="1" value="Vợ">Vợ </Option>
+                  <Option key="2" value="Con">Con</Option>
                 </Select>
               </div>
             </li>
@@ -197,9 +200,9 @@ const Family = ({
               <div className="tabs-user-infor-bottom">
                 <Input
                   style={{ width: "100%" }}
-                  name="pro_religion"
-                  value={dataItem.name}
-                  // defaultValue={ state.pro_religion }
+                  onChange={onChange}
+                  name="rem_full_name"
+                  value={dataItem.rem_full_name}
                   placeholder="Họ và tên"
                 />
               </div>
@@ -209,9 +212,9 @@ const Family = ({
               <div className="tabs-user-infor-bottom">
                 <Input
                   style={{ width: "100%" }}
-                  name="pro_religion"
-                  value={dataItem.job}
-                  // defaultValue={ state.pro_religion }
+                  name="rem_job"
+                  onChange={onChange}
+                  value={dataItem.rem_job}
                   placeholder="Nghề nghiệp"
                 />
               </div>
@@ -220,7 +223,9 @@ const Family = ({
               <span className="tabs-user-infor-top"></span>
               <div className="tabs-user-infor-bottom">
                 <TextArea
-                  value={dataItem.content}
+                  name="rem_note"
+                  onChange={onChange}
+                  value={dataItem.rem_note}
                   placeholder="Mời bạn nhập chi tiết"
                   autoSize={{ minRows: 7, maxRows: 15 }}
                 />

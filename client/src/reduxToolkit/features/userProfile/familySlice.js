@@ -9,7 +9,7 @@ const familySlice = createSlice({
       return action.payload;
     },
     addFamily(state, action) {
-      state.push(action.payload);
+      return [...state]
     },
   },
 });
