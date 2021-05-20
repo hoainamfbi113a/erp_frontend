@@ -31,7 +31,7 @@ const rewardSlice = createSlice({
             }
         },
         removeRewardFailed(state, action) {
-          return [...state];  
+            return [...state];  
         },
 
     }

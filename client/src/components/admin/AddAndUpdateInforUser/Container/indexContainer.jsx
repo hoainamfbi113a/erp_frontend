@@ -24,8 +24,30 @@ const InfoUserContainer = (props) => {
   const [step_id, setStep_id] = useState(0);
   const [workflow, setWorkflowProfile] = useState(null);
   const [profile, setProfile] = useState({});
+  const [pro_id, setProId] = useState(null);
   const dataProfile = useSelector((state) => state.userProfile);
-  
+
+  useEffect(() => {
+    (async function fetchTransfer() {
+      let id = props.match.params.id;
+      fetchFlowProfile();
+      if (id && id !== dataProfile.user_id) {
+        let { data } = await getProfile(id);
+        if (data) {
+          setProfile(data);
+          setProId(data.id);
+        }
+        if (Object.keys(data).length != 0) {
+          let dataTransfersProfile = {};
+          dataTransfersProfile = await transfersProfile(data.id);
+          setStep_id(dataTransfersProfile.data.next_step_id);
+        }
+      } else {
+        setProfile(dataProfile);
+        setProId(dataProfile.id);
+      }
+    })();
+  }, []);
 
   const renderMenuLeft = () => {
     switch (activeLink) {
@@ -55,10 +77,7 @@ const InfoUserContainer = (props) => {
         );
       case 7:
         return (
-          <FamilyContainer
-            idUser={props.match.params.id}
-            dataProfile={profile}
-          />
+          <FamilyContainer idUser={props.match.params.id} proId={pro_id} />
         );
       case 8:
         return <Kinship />;
@@ -90,24 +109,6 @@ const InfoUserContainer = (props) => {
         console.log(err);
       });
   };
-
-  useEffect(() => {
-    (async function fetchTransfer() {
-      let id = props.match.params.id;
-      fetchFlowProfile();
-      if (id && id !== dataProfile.user_id) {
-        let { data } = await getProfile(id);
-        setProfile(data);
-        if (Object.keys(data).length != 0) {
-          let dataTransfersProfile = {};
-          dataTransfersProfile = await transfersProfile(data.id);
-          setStep_id(dataTransfersProfile.data.next_step_id);
-        }
-      } else {
-        setProfile(dataProfile);
-      }
-    })();
-  }, [dataProfile.id]);
 
   const handleReject = () => {
     setModalNotify(true);
@@ -145,7 +146,7 @@ const InfoUserContainer = (props) => {
       // }
     }
   };
-  
+
   let value = 0;
   if (step_id === 1) {
     value = 0;
@@ -157,7 +158,7 @@ const InfoUserContainer = (props) => {
     value = 3;
   }
 
-  return(
+  return (
     <div>
       <Index
         value={value}
@@ -172,6 +173,6 @@ const InfoUserContainer = (props) => {
         handleReloadComponent={handleReloadComponent}
       />
     </div>
-  )
+  );
 };
 export default InfoUserContainer;

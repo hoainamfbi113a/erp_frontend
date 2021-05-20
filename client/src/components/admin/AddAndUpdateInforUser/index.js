@@ -48,7 +48,7 @@ const Index = ({
         <div className="edit-infor-tabs">
           {router.path === "/profile-service/profile/create" ? (
             <ul>
-              <li onClick={() => setActiveLink(1)}>
+              <li>
                 <div className={activeLink === 1 ? "active" : ""}>1</div>
                 <span className={activeLink === 1 ? "active" : ""}>
                   Sơ yếu lý lịch
