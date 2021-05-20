@@ -1,13 +1,18 @@
 import { all, call, takeLatest, put } from "redux-saga/effects";
-import { getReward, setReward, addReward, removeReward, removeRewardSuccess, removeRewardFailed } from "reduxToolkit/features/userProfile/rewardSlice";
-import { getRewardApi, addRewardApi, removeRewardApi } from "apis/UserProfile/rewardApi"
+import { getReward, setReward, addReward,
+   removeReward, removeRewardSuccess, removeRewardFailed,
+   updateReward, updateRewardSuccess, updateRewardFailed
+  } from "reduxToolkit/features/userProfile/rewardSlice";
+import { getRewardApi, addRewardApi, removeRewardApi, updateRewardApi } from "apis/UserProfile/rewardApi"
 import {
   message,
 } from "antd";
+
 export default function* rewardSaga() {
   yield all([yield takeLatest(getReward, fetchRewardSaga)]);
   yield all([yield takeLatest(addReward, addRewardSaga)]);
   yield all([yield takeLatest(removeReward, removeRewardSaga)]);
+  yield all([yield takeLatest(updateReward, updateRewardSaga)])
 }
 function* fetchRewardSaga(action) {
   try {
@@ -47,5 +52,20 @@ function * removeRewardSaga(action){
     }
   } catch (error) {
     message.error("Thêm khen thưởng thất bại")
+  }
+}
+
+function * updateRewardSaga (action) {
+  try {
+    const resp = yield call(updateRewardApi, action.payload);
+    if(resp.message === "Success!. Updated") {
+      message.success("Cập nhật khen thưởng thành công")
+      yield put (updateRewardSuccess(action.payload))
+    } else {
+      message.error("Cập nhật khen thưởng thất bại")
+      yield put (updateRewardFailed(action.payload))
+    }
+  } catch (error) {
+    console.log(error)
   }
 }

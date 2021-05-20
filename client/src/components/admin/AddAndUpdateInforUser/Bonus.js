@@ -1,12 +1,22 @@
 import { PlusCircleOutlined } from "@ant-design/icons";
-import { Button, DatePicker, Input, Modal, Popconfirm, Select, Space, Tag } from "antd";
+import {
+  Button,
+  DatePicker,
+  Input,
+  Modal,
+  Popconfirm,
+  Select,
+  Space,
+  Tag,
+} from "antd";
 import moment from "moment";
 import React, { useState } from "react";
+import { formatDateNumber } from "../../../helpers/FuncHelper";
 const { RangePicker } = DatePicker;
 
 const { Option } = Select;
 const { TextArea } = Input;
-const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
+const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 
 const Bonus = (props) => {
   const renderData1 = () => {
@@ -14,21 +24,18 @@ const Bonus = (props) => {
       return (
         <li key={item.id}>
           <div className="personal-history-time">
-        {/* {  
-        // let date = ;
-        console.log(moment(new Date(item.rew_time_to * 1000)).format('DD-MM-YYYY'))
-      } */}
-            
-            {/* {console.log(moment(new Date(item.rew_time_to * 1000)).format('DD-MM-YYYY'))} */}
-            {/* {moment(new Date("1621420789000")).format('DD-MM-YYYY')} - <span>{moment(new Date(item.rew_time_to * 1000)).format('DD-MM-YYYY')}</span> */}
-            {item.rew_time_from*1000} - <span> {item.rew_time_to*1000}</span>
+            {formatDateNumber(item.rew_time_from, dateFormatList[0])} -{" "}
+            <span>
+              {" "}
+              {formatDateNumber(item.rew_time_to, dateFormatList[0])}
+            </span>
           </div>
           <Space size="middle">
             <Popconfirm
               title="Are you sure hide this user?"
               okText="Yes"
               cancelText="No"
-              onConfirm={()=>props.handleOkDelete(item.id)}
+              onConfirm={() => props.handleOkDelete(item.id)}
             >
               <Tag color="volcano" className="table-action">
                 Xoá
@@ -83,7 +90,7 @@ const Bonus = (props) => {
       <div className="tabs-main personal-history">
         <div className="btn-btn-profile">
           <Button
-            onClick={()=>props.showModal(1)}
+            onClick={() => props.showModal(1)}
             className="btn-add-detail"
             icon={<PlusCircleOutlined />}
           >
@@ -136,17 +143,17 @@ const Bonus = (props) => {
             <li className="tabs-main-left-li tabs-main-left-li-row">
               <span className="tabs-user-infor-top">Từ ngày</span>
               <div className="tabs-user-infor-bottom">
-                {/* {console.log(moment(new Date(1621420789000)).format('DD-MM-YYYY'))} */}
                 <RangePicker
-                placeholder = {["Từ ngày", "Đến ngày"]}
-                  // value={
-                  //   props.dataItem.rew_time_from
-                  //     ? [
-                  //       moment(new Date("1621420789000")).format('DD-MM-YYYY'),
-                  //       moment(new Date("1621420789000")).format('DD-MM-YYYY'),
-                  //       ]
-                  //     : null
-                  // }
+                  placeholder={["Từ ngày", "Đến ngày"]}
+                  value={
+                    props.dataItem.rew_time_from
+                      ? [
+                        moment(formatDateNumber(props.dataItem.rew_time_from, dateFormatList[0]),"DD-MM-YYYY"),
+                        moment(formatDateNumber(props.dataItem.rew_time_to, dateFormatList[0]), "DD-MM-YYYY")
+                      
+                        ]
+                      : null
+                  }
                   className="modal-ranPicker"
                   format={dateFormatList}
                   onChange={(date, dateString) =>
@@ -165,7 +172,7 @@ const Bonus = (props) => {
               <div className="tabs-user-infor-bottom">
                 <TextArea
                   onChange={props.onChange}
-                  value={props.dataItem.rew_formality}
+                  defaultValue={props.dataItem.rew_formality}
                   placeholder="Mời bạn nhập chi tiết"
                   autoSize={{ minRows: 7, maxRows: 15 }}
                 />

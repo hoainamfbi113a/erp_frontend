@@ -6,7 +6,7 @@ import { workflowProfile } from "apis/workflowApi";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Index from "../index";
-import BonusContainer from "../BonusContainer";
+import BonusContainer from "./BonusContainer";
 import FamilyContainer from "./FamilyContainer";
 import CurriculumVitae from "../CurriculumVitae";
 import JoinDCS from "../JoinDCS";

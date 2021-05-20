@@ -37,7 +37,6 @@ const createReward = async (req, res) => {
 };
 const deleteReward = async (req, res) => {
   const { id } = req.body;
-  console.log(id)
   try {
     const data = await axios.delete(
       `${process.env.apiEmployee}/api/reward-discipline/${id}`,
@@ -50,4 +49,18 @@ const deleteReward = async (req, res) => {
     // console.log(error);
   }
 };
-export { getReward, createReward, deleteReward };
+
+const updateReward = async (req, res) =>{
+  const {id} = req.body;
+  const config = {
+    headers: { Authorization: req.headers.authorization },
+  };
+  console.log(req.body)
+  try {
+    const data = await axios.put(`${process.env.apiEmployee}/api/reward-discipline/${id}`, req.body, config );
+    res.send(data.data);
+  } catch (error) {
+    console.log(error)
+  }
+}
+export { getReward, createReward, deleteReward, updateReward };

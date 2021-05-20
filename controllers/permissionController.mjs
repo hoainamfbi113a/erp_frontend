@@ -70,6 +70,7 @@ router.get("/positions/except", async (req, res) => {
         `${process.env.apiEmployee}/api/permission/positions/except?pos_id=1`,
         config,
     );
+    
     res.send(data);
 });
 

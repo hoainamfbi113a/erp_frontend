@@ -42,3 +42,17 @@ export const removeRewardApi = (params) => {
       };
     });
 };
+
+export const updateRewardApi = (params) =>{
+  return axiosConfig
+    .put(`/api/user-profile/reward-disciplined/users`, params)
+    .then((data =>{
+      return data
+    }))
+    .catch(err=>{
+      console.log(err);
+      return {
+        err: "error"
+      }
+    })
+}
