@@ -1,3 +1,5 @@
+import moment from "moment";
+
 const ValidateEmail = (value, length) => {
   let msg = "";
   let regex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,24})+$/;
@@ -6,8 +8,7 @@ const ValidateEmail = (value, length) => {
     msg = "Email không được để trống!";
   } else if (value.length < length) {
     msg = `Email không được nhỏ ${length} kí tự!`;
-  } 
-   else {
+  } else {
     msg = "";
   }
   return msg;
@@ -112,12 +113,11 @@ const validateInputFormUser = (type, checkingText, listUser) => {
         if (!checkingText.match(regexPhone)) {
           isValid = true;
           errorMessage = "Số điện thoại phải có 10 đến 11 chữ số";
-        }
-         else {
+        } else {
           isValid = false;
           errorMessage = "";
         }
-        if(listUser) {
+        if (listUser) {
           for (let i = 0; i < listUser.length; i++) {
             if (listUser[i].phone == checkingText) {
               isValid = true;
@@ -164,15 +164,19 @@ const validateInputFormUser = (type, checkingText, listUser) => {
 };
 const tConvert = (time) => {
   // Check correct time format and split into components
-  time = time.toString ().match (/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [time];
+  time = time.toString().match(/^([01]\d|2[0-3])(:)([0-5]\d)(:[0-5]\d)?$/) || [
+    time,
+  ];
 
-  if (time.length > 1) { // If time format correct
-    time = time.slice (1);  // Remove full string match value
-    time[5] = +time[0] < 12 ? 'AM' : 'PM'; // Set AM/PM
+  if (time.length > 1) {
+    // If time format correct
+    time = time.slice(1); // Remove full string match value
+    time[5] = +time[0] < 12 ? "AM" : "PM"; // Set AM/PM
     time[0] = +time[0] % 12 || 12; // Adjust hours
   }
-  return time.join (''); // return adjusted time or original string
-}
+  return time.join(""); // return adjusted time or original string
+};
+
 const simpleDate = (date) => {
   let a = date.split(" ");
   let b = a[0].split("-");
@@ -180,11 +184,30 @@ const simpleDate = (date) => {
   let d = c.concat(" ", tConvert(a[1]));
   return d;
 };
-const objCheckPermission = (arr, slug, domain, action_check, uri_check, replace, dataIn, id) => {
+
+const formatDateNumber = (number, type) => {
+  return moment(new Date(number * 1000)).format(type);
+};
+
+const convertFormatDate = (date, format) => {
+  let a = date.split("/");
+  let b = a[1].concat("/", a[0], "/").concat(a[2]);
+  return b;
+};
+
+const objCheckPermission = (
+  arr,
+  slug,
+  domain,
+  action_check,
+  uri_check,
+  replace,
+  dataIn,
+  id
+) => {
   let paramCheck = arr.filter(
     (permission) =>
-      permission.action === action_check &&
-      permission.uri === uri_check
+      permission.action === action_check && permission.uri === uri_check
   );
   let obj = {
     objCheck: {
@@ -197,15 +220,14 @@ const objCheckPermission = (arr, slug, domain, action_check, uri_check, replace,
     domain,
     id,
   };
-  return obj
+  return obj;
 };
 const checkVisible = (arr, action_check, uri_check) => {
-  let bdd = arr.filter(permiss => 
-    permiss.action === action_check && permiss.uri === uri_check
-  )
-  if(bdd.length)
-    return true
-}
+  let bdd = arr.filter(
+    (permiss) => permiss.action === action_check && permiss.uri === uri_check
+  );
+  if (bdd.length) return true;
+};
 
 const sleep = (m) => new Promise((r) => setTimeout(r, m));
 export {
@@ -219,5 +241,7 @@ export {
   simpleDate,
   sleep,
   objCheckPermission,
-  checkVisible
+  checkVisible,
+  formatDateNumber,
+  convertFormatDate,
 };

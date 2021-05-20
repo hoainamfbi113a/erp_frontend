@@ -1,14 +1,16 @@
 import { DatePicker, Input, Select } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addReward, getReward, removeReward } from "../../../reduxToolkit/features/userProfile/rewardSlice";
-import Bonus from "./Bonus";
+import { addReward, getReward, removeReward } from "../../../../reduxToolkit/features/userProfile/rewardSlice";
+import Bonus from "../Bonus";
+import moment from "moment";
+import { convertFormatDate } from "../../../../helpers/FuncHelper";
 const { RangePicker } = DatePicker;
 
 const { Option } = Select;
 const { TextArea } = Input;
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
- 
+
 let fakeData2 = [
   {
     id: 1,
@@ -69,8 +71,8 @@ const BonusContainer = (props) => {
   const onChangeRange = (e, dateString, name1, name2) => {
     dataItem.dateStart = dateString[0];
     dataItem.dateEnd = dateString[1];
-    setRew_time_from(dateString[0]);
-    setRew_time_to(dateString[1]);
+    setRew_time_from(convertFormatDate(dateString[0]));
+    setRew_time_to(convertFormatDate(dateString[1]));
     setRefresh(!refresh);
   };
   const handleChange = (value) => {
@@ -91,15 +93,16 @@ const BonusContainer = (props) => {
     }
   }
   const handleOk = () => {
-    let parseRew_time_from = Date(rew_time_from);
-    let parseRew_time_to = Date(rew_time_to);
+    let parseRew_time_from = Date.parse(rew_time_from) / 1000;
+    
+    let parseRew_time_to = Date.parse(rew_time_to) / 1000;
     let params = {
       pro_id: "196",
       user_id: "3",
       rew_formality,
       type,
-      rew_time_from: Date.parse(parseRew_time_from) / 1000,
-      rew_time_to: Date.parse(parseRew_time_to) / 1000,
+      rew_time_from: parseRew_time_from,
+      rew_time_to: parseRew_time_to,
       rew_note,
     };
     dispatch(addReward(params));
