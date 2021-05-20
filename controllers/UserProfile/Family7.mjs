@@ -29,13 +29,14 @@ const createFamilyRelation = async (req, res) => {
 };
 
 const deleteFamilyRelation = async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
   try {
-    const { id } = req.params;
-    const { data } = await axios.put(
+    const { data } = await axios.delete(
       `${process.env.apiEmployee}/api/family-relationship/${id}`,
       config(req)
     );
-
+    console.log(data);
     res.send(data);
   } catch (error) {
     console.log(error);

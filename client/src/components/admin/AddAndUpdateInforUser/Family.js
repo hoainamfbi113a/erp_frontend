@@ -22,6 +22,7 @@ const Family = ({
   onChange,
   setRem,
   handleOk,
+  handleDelete,
 }) => {
   const renderData1 = () => {
     return fakeData.map((item) => {
@@ -65,6 +66,7 @@ const Family = ({
                 title="Are you sure hide this user?"
                 okText="Yes"
                 cancelText="No"
+                onConfirm={() => handleDelete(item.id)}
               >
                 <Tag color="volcano" className="table-action">
                   Xoá
