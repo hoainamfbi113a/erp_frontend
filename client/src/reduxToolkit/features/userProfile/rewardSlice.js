@@ -14,6 +14,7 @@ const rewardSlice = createSlice({
             return [...state]
         },
         
+
         removeReward(state, action) {
             return [...state]
         },
@@ -32,7 +33,7 @@ const rewardSlice = createSlice({
         },
         removeRewardFailed(state, action) {
           return [...state];  
-        },
+        },        
 
     }
 })

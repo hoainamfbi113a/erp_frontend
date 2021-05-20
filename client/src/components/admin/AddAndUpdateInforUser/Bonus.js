@@ -7,14 +7,21 @@ const { RangePicker } = DatePicker;
 const { Option } = Select;
 const { TextArea } = Input;
 const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
- 
+
 const Bonus = (props) => {
   const renderData1 = () => {
     return props.fakeData1.map((item) => {
       return (
         <li key={item.id}>
           <div className="personal-history-time">
-            {item.rew_time_from} - <span> {item.rew_time_to}</span>
+        {/* {  
+        // let date = ;
+        console.log(moment(new Date(item.rew_time_to * 1000)).format('DD-MM-YYYY'))
+      } */}
+            
+            {/* {console.log(moment(new Date(item.rew_time_to * 1000)).format('DD-MM-YYYY'))} */}
+            {/* {moment(new Date("1621420789000")).format('DD-MM-YYYY')} - <span>{moment(new Date(item.rew_time_to * 1000)).format('DD-MM-YYYY')}</span> */}
+            {item.rew_time_from*1000} - <span> {item.rew_time_to*1000}</span>
           </div>
           <Space size="middle">
             <Popconfirm
@@ -129,16 +136,17 @@ const Bonus = (props) => {
             <li className="tabs-main-left-li tabs-main-left-li-row">
               <span className="tabs-user-infor-top">Từ ngày</span>
               <div className="tabs-user-infor-bottom">
+                {/* {console.log(moment(new Date(1621420789000)).format('DD-MM-YYYY'))} */}
                 <RangePicker
                 placeholder = {["Từ ngày", "Đến ngày"]}
-                  value={
-                    props.dataItem.dateStart
-                      ? [
-                          moment(props.dataItem.dateStart, dateFormatList[0]),
-                          moment(props.dataItem.dateEnd, dateFormatList[0]),
-                        ]
-                      : null
-                  }
+                  // value={
+                  //   props.dataItem.rew_time_from
+                  //     ? [
+                  //       moment(new Date("1621420789000")).format('DD-MM-YYYY'),
+                  //       moment(new Date("1621420789000")).format('DD-MM-YYYY'),
+                  //       ]
+                  //     : null
+                  // }
                   className="modal-ranPicker"
                   format={dateFormatList}
                   onChange={(date, dateString) =>
@@ -157,7 +165,7 @@ const Bonus = (props) => {
               <div className="tabs-user-infor-bottom">
                 <TextArea
                   onChange={props.onChange}
-                  value={props.dataItem.content}
+                  value={props.dataItem.rew_formality}
                   placeholder="Mời bạn nhập chi tiết"
                   autoSize={{ minRows: 7, maxRows: 15 }}
                 />

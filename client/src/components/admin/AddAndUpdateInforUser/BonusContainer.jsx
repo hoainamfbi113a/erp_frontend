@@ -91,6 +91,8 @@ const BonusContainer = (props) => {
     }
   }
   const handleOk = () => {
+    console.log(rew_time_from);
+    console.log(rew_time_to);
     let parseRew_time_from = Date(rew_time_from);
     let parseRew_time_to = Date(rew_time_to);
     let params = {
