@@ -5,7 +5,12 @@ let callAPI = async ({ url, method, data }) => {
       data
     });
   };
-
+const config = (req) => {
+  return {
+    headers: { Authorization: req.headers.authorization }
+  }
+}
 export {
-    callAPI
+    callAPI,
+    config
 }
