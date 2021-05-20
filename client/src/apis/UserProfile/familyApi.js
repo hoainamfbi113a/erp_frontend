@@ -42,4 +42,18 @@ const removeUserFamilyApi = (id) => {
     });
 };
 
-export { getUserFamilyApi, addUserFamilyApi, removeUserFamilyApi };
+const updateUserFamilyApi = (params) => {
+  return axiosConfig
+    .put(`/api/user-profile/family/update`, params)
+    .then((data =>{
+      return data
+    }))
+    .catch(err=>{
+      console.log(err);
+      return {
+        err: "error"
+      }
+    })
+}
+
+export { getUserFamilyApi, addUserFamilyApi, removeUserFamilyApi, updateUserFamilyApi };
