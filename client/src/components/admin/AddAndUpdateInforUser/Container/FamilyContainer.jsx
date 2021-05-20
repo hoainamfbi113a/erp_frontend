@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   getFamily,
   addFamily,
+  removeFamily,
 } from "../../../../reduxToolkit/features/userProfile/familySlice";
 import Family from "../Family";
 
@@ -46,6 +47,10 @@ const FamilyContainer = ({ idUser, proId }) => {
     setVisible(false);
   };
 
+  const handleDelete = (id) => {
+    dispatch(removeFamily(id));
+  };
+
   const showModal = () => {
     setVisible(true);
     setDataItem({});
@@ -77,6 +82,7 @@ const FamilyContainer = ({ idUser, proId }) => {
         onChange={onChange}
         setRem={setRem}
         handleOk={handleOk}
+        handleDelete={handleDelete}
       />
     </div>
   );

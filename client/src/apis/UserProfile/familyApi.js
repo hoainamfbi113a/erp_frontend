@@ -1,6 +1,6 @@
 import axiosConfig from "../axios";
 
-const getUserFamily = (id) => {
+const getUserFamilyApi = (id) => {
   return axiosConfig
     .get(`/api/user-profile/family/${id}`)
     .then((data) => {
@@ -14,7 +14,7 @@ const getUserFamily = (id) => {
     });
 };
 
-const addUserFamily = (params) => {
+const addUserFamilyApi = (params) => {
   return axiosConfig
     .post(`/api/user-profile/family/add`, params)
     .then((data) => {
@@ -28,9 +28,9 @@ const addUserFamily = (params) => {
     });
 };
 
-const deleteUserFamily = (id) => {
+const removeUserFamilyApi = (id) => {
   return axiosConfig
-    .get(`/api/user-profile/family/delete/${id}`)
+    .post(`/api/user-profile/family/delete/${id}`)
     .then((data) => {
       return data;
     })
@@ -42,4 +42,4 @@ const deleteUserFamily = (id) => {
     });
 };
 
-export { getUserFamily, addUserFamily, deleteUserFamily };
+export { getUserFamilyApi, addUserFamilyApi, removeUserFamilyApi };
