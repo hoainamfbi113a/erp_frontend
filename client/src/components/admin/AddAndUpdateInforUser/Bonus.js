@@ -146,10 +146,11 @@ const Bonus = (props) => {
                 <RangePicker
                   placeholder={["Từ ngày", "Đến ngày"]}
                   value={
-                    props.dataItem.dateStart
+                    props.dataItem.rew_time_from
                       ? [
-                          moment(props.dataItem.dateStart, dateFormatList[0]),
-                          moment(props.dataItem.dateEnd, dateFormatList[0]),
+                        moment(formatDateNumber(props.dataItem.rew_time_from, dateFormatList[0]),"DD-MM-YYYY"),
+                        moment(formatDateNumber(props.dataItem.rew_time_to, dateFormatList[0]), "DD-MM-YYYY")
+                      
                         ]
                       : null
                   }
@@ -171,7 +172,7 @@ const Bonus = (props) => {
               <div className="tabs-user-infor-bottom">
                 <TextArea
                   onChange={props.onChange}
-                  value={props.dataItem.content}
+                  defaultValue={props.dataItem.rew_formality}
                   placeholder="Mời bạn nhập chi tiết"
                   autoSize={{ minRows: 7, maxRows: 15 }}
                 />

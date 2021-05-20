@@ -343,7 +343,6 @@ const TableDepartment = (props) => {
           style={{ width: "100%" }}
           className="tabs-main tabs-main-modal"
           noValidate
-          // onSubmit={this.onSubmit}
           method="post"
         >
           <ul style={{ marginLeft: "23px" }}>

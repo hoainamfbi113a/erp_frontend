@@ -1,15 +1,21 @@
 import axios from "axios";
 const addUserDegrees = async (req, res) => {
-  const config = {
-    headers: { Authorization: req.headers.authorization }
-  };
-  let { data } = await axios.post(
-    `${process.env.apiEmployee}/api/user-degrees`,
-    req.body,config
-  );
-  res.send(data);
+  try {
+    const config = {
+      headers: { Authorization: req.headers.authorization }
+    };
+    let { data } = await axios.post(
+      `${process.env.apiEmployee}/api/user-degrees`,
+      req.body,config
+    );
+    res.send(data);
+  } catch (error) {
+    console.log(error)
+  }
+  
 };
 const updateUserDegrees = async (req, res) => {
+  try {
     const config = {
       headers: { Authorization: req.headers.authorization }
     };
@@ -19,5 +25,10 @@ const updateUserDegrees = async (req, res) => {
       req.body,config
     );
     res.send(data);
-  };
+  }
+   catch (error) {
+   console.log(error) 
+  }
+}
+    
 export { addUserDegrees, updateUserDegrees };

@@ -1,15 +1,9 @@
 import { DatePicker, Input, Select } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addReward, getReward, removeReward } from "../../../../reduxToolkit/features/userProfile/rewardSlice";
+import { addReward, getReward, removeReward, updateReward } from "../../../../reduxToolkit/features/userProfile/rewardSlice";
 import Bonus from "../Bonus";
-import moment from "moment";
 import { convertFormatDate } from "../../../../helpers/FuncHelper";
-const { RangePicker } = DatePicker;
-
-const { Option } = Select;
-const { TextArea } = Input;
-const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 
 let fakeData2 = [
   {
@@ -35,14 +29,12 @@ let fakeData2 = [
   },
 ];
 const BonusContainer = (props) => {
+  const [id, setId] = useState("");
   const [type, setType] = useState(1);
   const [rew_formality, setRew_formality] = useState("");
   const [rew_time_from, setRew_time_from] = useState(null);
   const [rew_time_to, setRew_time_to] = useState(null);
   const [rew_note, setRew_note] = useState(null);
-  // const [rew, setRew] = useState({
-
-  // });
 
   const [visible, setVisible] = useState(false);
   const [dataItem, setDataItem] = useState({});
@@ -66,6 +58,12 @@ const BonusContainer = (props) => {
   };
   const handleUpdate = (value) => {
     setVisible(true);
+    let { id, type, rew_formality, rew_time_from, rew_time_to } = value; 
+    setId(id);
+    setType(type)
+    setRew_formality(rew_formality) 
+    setRew_time_from(rew_time_from)
+    setRew_time_to(rew_time_to)
     setDataItem(value);
   };
   const onChangeRange = (e, dateString, name1, name2) => {
@@ -78,7 +76,6 @@ const BonusContainer = (props) => {
   const handleChange = (value) => {
     dataItem.category = value;
     setType(value);
-
     setRefresh(!refresh);
   };
   const onChange = (e) => {
@@ -93,10 +90,10 @@ const BonusContainer = (props) => {
     }
   }
   const handleOk = () => {
-    let parseRew_time_from = Date.parse(rew_time_from) / 1000;
-    
-    let parseRew_time_to = Date.parse(rew_time_to) / 1000;
-    let params = {
+    console.log(rew_time_from);
+    const parseRew_time_from = Date.parse(rew_time_from) / 1000;
+    const parseRew_time_to = Date.parse(rew_time_to) / 1000;
+    const params = {
       pro_id: "196",
       user_id: "3",
       rew_formality,
@@ -104,12 +101,19 @@ const BonusContainer = (props) => {
       rew_time_from: parseRew_time_from,
       rew_time_to: parseRew_time_to,
       rew_note,
+      id
     };
-    dispatch(addReward(params));
-    setTimeout(()=>{
-      dispatch(getReward());
-    },200)
-    
+    if(id===""){
+      dispatch(addReward(params));
+      setTimeout(()=>{
+        dispatch(getReward());
+      },200)  
+    } else {
+      console.log(params);
+      dispatch(updateReward(params));
+      setId("")
+    }
+
     setVisible(false);
   };
   const handleOkDelete = (id)=>{
