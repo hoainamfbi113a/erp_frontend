@@ -10,7 +10,7 @@ import {
 import Bonus from "../Bonus";
 import moment from "moment";
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
-
+import { formatDateNumber } from "../../../../helpers/FuncHelper";
 let fakeData2 = [
   {
     id: 1,
@@ -39,8 +39,8 @@ const BonusContainer = (props) => {
   const [reward, setReward] = useState({
     type: 1,
     rew_formality: "",
-    rew_time_from: null,
-    rew_time_to: null,
+    rew_time_from: "",
+    rew_time_to: "",
     rew_note: null,
   });
   const [visible, setVisible] = useState(false);
@@ -64,43 +64,37 @@ const BonusContainer = (props) => {
     setReward({
       type: 1,
       rew_formality: "",
-      rew_time_from: null,
-      rew_time_to: null,
+      rew_time_from: "",
+      rew_time_to: "",
       rew_note: null,
     });
     setVisible(false);
   };
   const handleUpdate = (value) => {
     setVisible(true);
-    let reward = dataReward.filter((item) => {
-      return item.id == value.id;
-    });
-    setId(reward[0].id);
-    setReward({
-      type: 1,
-      rew_formality,
-      rew_time_from,
-      rew_time_to,
-      rew_note,
+    let rewardItem = dataReward.find((item) => 
+       item.id == value.id
+    );
+    let { id, rew_formality, rew_time_from, rew_time_to, rew_note} = rewardItem;
+    let date1 = formatDateNumber(rew_time_from, dateFormatList[0])
+    let date2 = formatDateNumber(rew_time_to, dateFormatList[0])
+    setId(id);
+    setReward({ ...reward,
+       rew_formality,
+       rew_time_from:date1,
+       rew_time_to:date2,
+       rew_note
     });
   };
   const onChangeRange = (e, dateString, name1, name2) => {
-    console.log(dateString);
-    reward.rew_time_from = dateString[0];
-    reward.rew_time_to = dateString[1];
-    // dataItem.rew_time_from = moment((dateString[0], dateFormatList[0]),"DD-MM-YYYY")
-    // dataItem.rew_time_to = moment((dateString[1], dateFormatList[0]),"DD-MM-YYYY")
-    // setRew_time_from(convertFormatDate(dateString[0]));
-    // setRew_time_to(convertFormatDate(dateString[1]));
-    setRefresh(!refresh);
+    setReward({ ...reward, rew_time_from: dateString[0], rew_time_to: dateString[1] });
   };
   const handleChange = (value) => {
     setReward({ ...reward, type: value });
-    console.log(reward);
     setRefresh(!refresh);
   };
   const onChange = (e) => {
-    setRew_formality(e.target.value);
+    setReward({ ...reward, rew_formality: e.target.value });
   };
   const datareward = [];
   if (dataReward && dataReward.length !== 0) {
@@ -111,9 +105,11 @@ const BonusContainer = (props) => {
     }
   }
   const handleOk = () => {
-    console.log(rew_time_from);
-    const parseRew_time_from = Date.parse(rew_time_from) / 1000;
-    const parseRew_time_to = Date.parse(rew_time_to) / 1000;
+    let {type, rew_formality, rew_time_from, rew_time_to, rew_note} = reward;
+    let date1 = (moment(rew_time_from, "DD-MM-YYYY"))
+    let date2 = (moment(rew_time_to, "DD-MM-YYYY"))
+    const parseRew_time_from = Date.parse(date1) / 1000;
+    const parseRew_time_to = Date.parse(date2) / 1000;
     const params = {
       pro_id: "196",
       user_id: "3",
@@ -130,7 +126,6 @@ const BonusContainer = (props) => {
         dispatch(getReward());
       }, 200);
     } else {
-      console.log(params);
       dispatch(updateReward(params));
       setId("");
     }
@@ -138,7 +133,6 @@ const BonusContainer = (props) => {
     setVisible(false);
   };
   const handleOkDelete = (id) => {
-    console.log(id);
     dispatch(
       removeReward({
         id,

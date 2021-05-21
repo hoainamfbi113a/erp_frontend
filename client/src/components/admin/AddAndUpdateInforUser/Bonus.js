@@ -148,8 +148,10 @@ const Bonus = (props) => {
                   value={
                     props.reward.rew_time_from
                       ? [
-                        moment(formatDateNumber(props.reward.rew_time_from, dateFormatList[0]),"DD-MM-YYYY"),
-                        moment(formatDateNumber(props.reward.rew_time_to, dateFormatList[0]), "DD-MM-YYYY")
+                        // moment(formatDateNumber(props.reward.rew_time_from, dateFormatList[0]),"DD-MM-YYYY"),
+                        // moment(formatDateNumber(props.reward.rew_time_to, dateFormatList[0]), "DD-MM-YYYY")
+                       moment(props.reward.rew_time_from,dateFormatList[0]),
+                       moment(props.reward.rew_time_to,dateFormatList[0]),
                       
                         ]
                       : null
@@ -170,9 +172,10 @@ const Bonus = (props) => {
             <li className="tabs-main-left-li">
               <span className="tabs-user-infor-top"></span>
               <div className="tabs-user-infor-bottom">
+                {console.log(props.reward.rew_formality)}
                 <TextArea
                   onChange={props.onChange}
-                  defaultValue={props.reward.rew_formality}
+                  value={props.reward.rew_formality}
                   placeholder="Mời bạn nhập chi tiết"
                   autoSize={{ minRows: 7, maxRows: 15 }}
                 />
