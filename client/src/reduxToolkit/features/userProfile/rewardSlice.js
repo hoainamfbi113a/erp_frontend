@@ -34,11 +34,11 @@ const rewardSlice = createSlice({
     updateRewardSuccess(state, action) {
       const rewards = current(state);
       const { id, rew_formality, rew_time_from, rew_time_to } = action.payload;
-      let existingReward = rewards.find((reward) => reward.id === id);
-      if (existingReward) {
-        existingReward.rew_formality = rew_formality;
-        existingReward.rew_time_from = rew_time_from;
-        existingReward.rew_time_to = rew_time_to;
+      const index = rewards.findIndex((reward) => reward.id === id);
+      if (index >= 0) {
+        state[index].rew_formality = rew_formality
+        state[index].rew_time_from = rew_time_from
+        state[index].rew_time_to = rew_time_to
       }
     },
     updateRewardFailed(state, action) {

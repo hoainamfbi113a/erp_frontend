@@ -124,6 +124,12 @@ class addInformationUser extends Component {
       searchDepartment: "",
       searchPosition: "",
       searchPart: "",
+      deg_permanent_residence:"",
+      deg_education:"",
+      deg_politic:"",
+      deg_foreign_language:"",
+
+
     };
     this.typingRef = React.createRef(null);
     this.handleSearchDepartment = this.handleSearchDepartment.bind(this);
@@ -230,7 +236,13 @@ class addInformationUser extends Component {
         deg_end_study: data.userDegree && data.userDegree.data.deg_end_study !=null
           ? new Date(data.userDegree.data.deg_end_study * 1000)
           : null,
+        deg_permanent_residence: data.userDegree ? data.userDegree.data.deg_permanent_residence : "",
+        deg_education: data.userDegree ? data.userDegree.data.deg_education : "",
+        deg_politic: data.userDegree ? data.userDegree.data.deg_politic : "",
+        deg_foreign_language: data.userDegree ? data.userDegree.data.deg_foreign_language : "",
         deg_note: data.userDegree ? data.userDegree.data.deg_note : "",
+
+
         work_formality: data.workObject ? data.workObject.data.formality : "",
         work_note: data.workObject ? data.workObject.data.work_note : "",
         car_number: data.journalistCard
@@ -492,6 +504,10 @@ class addInformationUser extends Component {
           deg_begin_study: Date.parse(this.state.deg_begin_study) / 1000,
           deg_end_study: Date.parse(this.state.deg_end_study) / 1000,
           deg_note: this.state.deg_note,
+          deg_permanent_residence: this.state.deg_permanent_residence,
+          deg_education: this.state.deg_education,
+          deg_politic: this.state.deg_politic,
+          deg_foreign_language: this.state.deg_foreign_language,
         };
         let resAddUserDegrees = await addUserDegrees(paramsUserDegrees);
         if (resAddUserDegrees.message === "Success!. Stored") {
@@ -626,6 +642,10 @@ class addInformationUser extends Component {
         deg_begin_study: Date.parse(this.state.deg_begin_study) / 1000,
         deg_end_study: Date.parse(this.state.deg_end_study) / 1000,
         deg_note: this.state.deg_note,
+        deg_permanent_residence: this.state.deg_permanent_residence,
+        deg_education: this.state.deg_education,
+        deg_politic: this.state.deg_politic,
+        deg_foreign_language: this.state.deg_foreign_language,
       };
       let resUpdateUserDegree = await updateUserDegree(
         this.state.idUserDegree,
@@ -969,9 +989,10 @@ class addInformationUser extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
-                          name="xxxx"
+                          name="deg_permanent_residence"
+                          value={this.state.deg_permanent_residence}
                           onChange={this.onChange}
-                          placeholder="Nơi sinh"
+                          placeholder="Hộ khẩu thường trú"
                         />
                       </div>
                     </li>
@@ -1242,8 +1263,8 @@ class addInformationUser extends Component {
                       <span className="tabs-user-infor-top">Học vấn:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
-                          name="deg_diplomaxx"
-                          value="Đại học"
+                          name="deg_education"
+                          value={this.state.deg_education}
                           onChange={this.onChange}
                           placeholder="Học vấn"
                         />
@@ -1253,8 +1274,8 @@ class addInformationUser extends Component {
                       <span className="tabs-user-infor-top">Chính trị:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
-                          name="deg_diplomaxx"
-                          value="Trung cấp"
+                          name="deg_politic"
+                          value={this.state.deg_politic}
                           onChange={this.onChange}
                           placeholder="Chính trị"
                         />
@@ -1264,8 +1285,8 @@ class addInformationUser extends Component {
                       <span className="tabs-user-infor-top">Ngoại ngữ:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
-                          name="deg_diplomaxx"
-                          value="Tiếng anh bằng C"
+                          name="deg_foreign_language"
+                          value={this.state.deg_foreign_language}
                           onChange={this.onChange}
                           placeholder="Ngoại ngữ"
                         />
