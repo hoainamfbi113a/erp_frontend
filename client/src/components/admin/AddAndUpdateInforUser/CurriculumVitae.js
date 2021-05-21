@@ -560,7 +560,7 @@ class addInformationUser extends Component {
   };
   handleEdit = async (value) => {
     await this.handleInputValid("pro_name", this.state.pro_name);
-    await this.handleInputValid("phone", this.state.phone);
+    // await this.handleInputValid("phone", this.state.phone);
     await this.handleInputValid("department", this.state.dep_id);
     await this.handleInputValid("position", this.state.pos_id);
     if (

@@ -163,7 +163,7 @@ class CurriculumVitae extends Component {
     let userId = this.state.user_id;
     let messageErr = 0;
     await this.handleInputValid("pro_name", this.state.pro_name);
-    await this.handleInputValid("phone", this.state.phone);
+    // await this.handleInputValid("phone", this.state.phone);
     // await this.handleInputValid("part", this.state.par_id);
     await this.handleInputValid("department", this.state.dep_id);
     await this.handleInputValid("position", this.state.pos_id);
