@@ -1,9 +1,15 @@
 import { DatePicker, Input, Select } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addReward, getReward, removeReward, updateReward } from "../../../../reduxToolkit/features/userProfile/rewardSlice";
+import {
+  addReward,
+  getReward,
+  removeReward,
+  updateReward,
+} from "../../../../reduxToolkit/features/userProfile/rewardSlice";
 import Bonus from "../Bonus";
-import { convertFormatDate } from "../../../../helpers/FuncHelper";
+import moment from "moment";
+const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 
 let fakeData2 = [
   {
@@ -30,12 +36,13 @@ let fakeData2 = [
 ];
 const BonusContainer = (props) => {
   const [id, setId] = useState("");
-  const [type, setType] = useState(1);
-  const [rew_formality, setRew_formality] = useState("");
-  const [rew_time_from, setRew_time_from] = useState(null);
-  const [rew_time_to, setRew_time_to] = useState(null);
-  const [rew_note, setRew_note] = useState(null);
-
+  const [reward, setReward] = useState({
+    type: 1,
+    rew_formality: "",
+    rew_time_from: null,
+    rew_time_to: null,
+    rew_note: null,
+  });
   const [visible, setVisible] = useState(false);
   const [dataItem, setDataItem] = useState({});
   const [refresh, setRefresh] = useState(true);
@@ -54,28 +61,42 @@ const BonusContainer = (props) => {
   };
 
   const hideModal = () => {
+    setReward({
+      type: 1,
+      rew_formality: "",
+      rew_time_from: null,
+      rew_time_to: null,
+      rew_note: null,
+    });
     setVisible(false);
   };
   const handleUpdate = (value) => {
     setVisible(true);
-    let { id, type, rew_formality, rew_time_from, rew_time_to } = value; 
-    setId(id);
-    setType(type)
-    setRew_formality(rew_formality) 
-    setRew_time_from(rew_time_from)
-    setRew_time_to(rew_time_to)
-    setDataItem(value);
+    let reward = dataReward.filter((item) => {
+      return item.id == value.id;
+    });
+    setId(reward[0].id);
+    setReward({
+      type: 1,
+      rew_formality,
+      rew_time_from,
+      rew_time_to,
+      rew_note,
+    });
   };
   const onChangeRange = (e, dateString, name1, name2) => {
-    dataItem.dateStart = dateString[0];
-    dataItem.dateEnd = dateString[1];
-    setRew_time_from(convertFormatDate(dateString[0]));
-    setRew_time_to(convertFormatDate(dateString[1]));
+    console.log(dateString);
+    reward.rew_time_from = dateString[0];
+    reward.rew_time_to = dateString[1];
+    // dataItem.rew_time_from = moment((dateString[0], dateFormatList[0]),"DD-MM-YYYY")
+    // dataItem.rew_time_to = moment((dateString[1], dateFormatList[0]),"DD-MM-YYYY")
+    // setRew_time_from(convertFormatDate(dateString[0]));
+    // setRew_time_to(convertFormatDate(dateString[1]));
     setRefresh(!refresh);
   };
   const handleChange = (value) => {
-    dataItem.category = value;
-    setType(value);
+    setReward({ ...reward, type: value });
+    console.log(reward);
     setRefresh(!refresh);
   };
   const onChange = (e) => {
@@ -101,33 +122,35 @@ const BonusContainer = (props) => {
       rew_time_from: parseRew_time_from,
       rew_time_to: parseRew_time_to,
       rew_note,
-      id
+      id,
     };
-    if(id===""){
+    if (id === "") {
       dispatch(addReward(params));
-      setTimeout(()=>{
+      setTimeout(() => {
         dispatch(getReward());
-      },200)  
+      }, 200);
     } else {
       console.log(params);
       dispatch(updateReward(params));
-      setId("")
+      setId("");
     }
 
     setVisible(false);
   };
-  const handleOkDelete = (id)=>{
+  const handleOkDelete = (id) => {
     console.log(id);
-    dispatch(removeReward({
-      id,
-    }))
-  }
+    dispatch(
+      removeReward({
+        id,
+      })
+    );
+  };
   return (
     <div>
       <Bonus
         fakeData1={datareward}
         fakeData2={fakeData2}
-        dataItem={dataItem}
+        reward={reward}
         visible={visible}
         showModal={showModal}
         hideModal={hideModal}
