@@ -132,7 +132,7 @@ const Bonus = (props) => {
                 <Select
                   onChange={props.handleChange}
                   className="modal-selection"
-                  value={props.dataItem.category == 1 ? "1" : "2"}
+                  value={props.reward.type == 1 ? "1" : "2"}
                   style={{ width: 527 }}
                 >
                   <Option value="1">Khen thưởng</Option>
@@ -146,10 +146,10 @@ const Bonus = (props) => {
                 <RangePicker
                   placeholder={["Từ ngày", "Đến ngày"]}
                   value={
-                    props.dataItem.rew_time_from
+                    props.reward.rew_time_from
                       ? [
-                        moment(formatDateNumber(props.dataItem.rew_time_from, dateFormatList[0]),"DD-MM-YYYY"),
-                        moment(formatDateNumber(props.dataItem.rew_time_to, dateFormatList[0]), "DD-MM-YYYY")
+                        moment(formatDateNumber(props.reward.rew_time_from, dateFormatList[0]),"DD-MM-YYYY"),
+                        moment(formatDateNumber(props.reward.rew_time_to, dateFormatList[0]), "DD-MM-YYYY")
                       
                         ]
                       : null
@@ -172,7 +172,7 @@ const Bonus = (props) => {
               <div className="tabs-user-infor-bottom">
                 <TextArea
                   onChange={props.onChange}
-                  defaultValue={props.dataItem.rew_formality}
+                  defaultValue={props.reward.rew_formality}
                   placeholder="Mời bạn nhập chi tiết"
                   autoSize={{ minRows: 7, maxRows: 15 }}
                 />

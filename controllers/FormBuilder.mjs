@@ -96,10 +96,10 @@ let getTarget = async (pos_id, dep_id, step_id, action_id, dep_name, pos_name) =
       action_id,
       target_id: object.data[property].id,
       target_name: object.data[property].full_name,
-      department_id: dep_id,
-      department_name: dep_name,
-      position_id: pos_id,
-      position_name: pos_name,
+      department_id: object.data[property].department.dep_id,
+      department_name: object.data[property].department.dep_name,
+      position_id: object.data[property].department.pos_id,
+      position_name: object.data[property].department.pos_name,
     };
     target.push(obj);
   }
@@ -196,7 +196,7 @@ router.post("/document/store", async (req, res) => {
         target = [...target, ...arrChild];
       }
   }
-  console.log("target",target);
+  // console.log("target",target);
   // return ;
   let paramsIssue = {
     document_type_id,
