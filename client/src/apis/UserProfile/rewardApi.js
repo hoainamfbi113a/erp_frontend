@@ -1,8 +1,9 @@
 import axiosConfig from "../axios";
 
-export const getRewardApi = (id) => {
+export const getRewardApi = (payload) => {
+  let { id_user } = payload;
   return axiosConfig
-    .get(`/api/user-profile/reward-discipline/users/3`)
+    .get(`/api/user-profile/reward-discipline/users/${id_user}`)
     .then((data) => {
       return data;
     })
@@ -15,7 +16,7 @@ export const getRewardApi = (id) => {
 };
 
 export const addRewardApi = (params) => {
-  console.log(params)
+  // console.log(params)
   return axiosConfig
     .post(`/api/user-profile/reward-discipline`, params)
     .then((data) => {
