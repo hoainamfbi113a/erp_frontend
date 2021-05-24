@@ -49,7 +49,9 @@ const BonusContainer = (props) => {
   const dispatch = useDispatch();
   const dataReward = useSelector((state) => state.rewardUser);
   useEffect(() => {
-    dispatch(getReward());
+    dispatch(getReward({
+      id_user: props.idUser,
+    }));
   }, [dispatch]);
   const showModal = (value) => {
     if (value == 1) {
@@ -111,8 +113,8 @@ const BonusContainer = (props) => {
     const parseRew_time_from = Date.parse(date1) / 1000;
     const parseRew_time_to = Date.parse(date2) / 1000;
     const params = {
-      pro_id: "196",
-      user_id: "3",
+      pro_id: props.dataProfile.id,
+      user_id: props.idUser,
       rew_formality,
       type,
       rew_time_from: parseRew_time_from,
@@ -123,7 +125,9 @@ const BonusContainer = (props) => {
     if (id === "") {
       dispatch(addReward(params));
       setTimeout(() => {
-        dispatch(getReward());
+        dispatch(getReward({
+          id_user: props.idUser,
+        }));
       }, 200);
     } else {
       dispatch(updateReward(params));
