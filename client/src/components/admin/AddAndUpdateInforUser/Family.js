@@ -23,7 +23,8 @@ const Family = ({
   setRem,
   handleOk,
   handleDelete,
-  rem_relationship
+  rem_relationship,
+  namination,
 }) => {
   const renderData1 = () => {
     return fakeData.map((item) => {
@@ -78,7 +79,7 @@ const Family = ({
                 className="table-action"
                 onClick={() => handleUpdate(item)}
               >
-                Update
+                Cập nhật
               </Tag>
             </Space>
             <p className="personal-history-content">{item.rem_job}</p>
@@ -118,7 +119,7 @@ const Family = ({
             Thêm
           </Button>
         </div>
-        <div className="personal-history-title">Gia đình</div>
+        <div className="personal-history-title">{namination}</div>
         <div>
           <div className="edit-infr-vertical-line"></div>
           <ul className="personal-history-list">{renderData2()}</ul>
@@ -168,7 +169,7 @@ const Family = ({
         </form>
       </Modal>
       <Modal
-        title="Nhập thông tin"
+        title={!rem_relationship ? "Thêm thông tin" : "Chỉnh sửa thông tin"}
         visible={visible}
         onOk={handleOk}
         onCancel={hideModal}
@@ -187,16 +188,49 @@ const Family = ({
             <li className="tabs-main-left-li tabs-main-left-li-row">
               <span className="tabs-user-infor-top">Thông tin</span>
               <div className="tabs-user-infor-bottom">
-                <Select
-                  placeholder="Chọn quan hệ"
-                  className="modal-selection"
-                  value={rem_relationship == "Vợ" ? "Vợ" : "Con"}
-                  style={{ width: 527 }}
-                  onChange={setRem}
-                >
-                  <Option key="1" value="Vợ">Vợ </Option>
-                  <Option key="2" value="Con">Con</Option>
-                </Select>
+                {namination === "Gia đình" ? (
+                  <Select
+                    placeholder="Chọn quan hệ"
+                    className="modal-selection"
+                    value={rem_relationship}
+                    style={{ width: 527 }}
+                    onChange={setRem}
+                  >
+                    <Option key="1" value="Vợ">
+                      Vợ
+                    </Option>
+                    <Option key="2" value="Con">
+                      Con
+                    </Option>
+                  </Select>
+                ) : (
+                  <Select
+                    placeholder="Chọn quan hệ"
+                    className="modal-selection"
+                    value={rem_relationship}
+                    style={{ width: 527 }}
+                    onChange={setRem}
+                  >
+                    <Option key="1" value="Cha">
+                      Cha
+                    </Option>
+                    <Option key="2" value="Mẹ">
+                      Mẹ
+                    </Option>
+                    <Option key="3" value="Anh trai">
+                      Anh trai
+                    </Option>
+                    <Option key="4" value="Chị gái">
+                      Chị gái
+                    </Option>
+                    <Option key="5" value="Em trai">
+                      Em trai
+                    </Option>
+                    <Option key="6" value="Em gái">
+                      Em gái
+                    </Option>
+                  </Select>
+                )}
               </div>
             </li>
             <li className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row-clear">
@@ -224,7 +258,7 @@ const Family = ({
               </div>
             </li>
             <li className="tabs-main-left-li">
-              <span className="tabs-user-infor-top"></span>
+              <span className="tabs-user-infor-top">Ghi chú:</span>
               <div className="tabs-user-infor-bottom">
                 <TextArea
                   name="rem_note"

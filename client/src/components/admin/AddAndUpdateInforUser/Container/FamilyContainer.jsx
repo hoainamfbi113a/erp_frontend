@@ -16,7 +16,7 @@ const fakeData = [
   },
 ];
 
-const FamilyContainer = ({ idUser, proId }) => {
+const FamilyContainer = ({ idUser, proId, type, namination }) => {
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const [dataItem, setDataItem] = useState({
@@ -29,11 +29,20 @@ const FamilyContainer = ({ idUser, proId }) => {
   const dataFamily = useSelector((state) => state.familyUser);
 
   useEffect(() => {
-    dispatch(getFamily(idUser));
+    dispatch(getFamily({ id: idUser, type: type }));
   }, [dispatch]);
 
   const handleOk = () => {
-    const params = {
+    const paramsAdd = {
+      pro_id: proId,
+      user_id: idUser,
+      rem_relationship: rem_relationship,
+      rem_full_name: dataItem.rem_full_name,
+      rem_note: dataItem.rem_note,
+      rem_job: dataItem.rem_job,
+      rem_type: type
+    };
+    const paramsUpdate = {
       id: idFam,
       pro_id: proId,
       user_id: idUser,
@@ -41,18 +50,18 @@ const FamilyContainer = ({ idUser, proId }) => {
       rem_full_name: dataItem.rem_full_name,
       rem_note: dataItem.rem_note,
       rem_job: dataItem.rem_job,
+      rem_type: type
     };
     if (idFam) {
-      console.log(params);
-      dispatch(updateFamily(params));
+      dispatch(updateFamily(paramsUpdate));
     } else {
-      dispatch(addFamily(params));
+      dispatch(addFamily(paramsAdd));
       setTimeout(() => {
-        dispatch(getFamily(idUser));
+        dispatch(getFamily({ id: idUser, type: type }));
       }, 200);
     }
 
-    setVisible(false);
+    hideModal();
   };
 
   const handleDelete = (id) => {
@@ -74,6 +83,8 @@ const FamilyContainer = ({ idUser, proId }) => {
 
   const hideModal = () => {
     setVisible(false);
+    setRem();
+    setIdFam(null);
   };
 
   const onChange = (e) => {
@@ -95,6 +106,7 @@ const FamilyContainer = ({ idUser, proId }) => {
         handleOk={handleOk}
         handleDelete={handleDelete}
         rem_relationship={rem_relationship}
+        namination={namination}
       />
     </div>
   );
