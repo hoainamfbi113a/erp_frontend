@@ -5,7 +5,7 @@ const getFamilyRelation = async (req, res) => {
   try {
     const { id } = req.params;
     const { data } = await axios.get(
-      `${process.env.apiEmployee}/api/family-relationship/users/${id}`,
+      `${process.env.apiEmployee}/api/family-relationship/users/${id}?type=family`,
       config(req)
     );
     res.send(data);

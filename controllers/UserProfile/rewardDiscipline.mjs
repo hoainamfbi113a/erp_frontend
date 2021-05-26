@@ -7,7 +7,7 @@ const getReward = async (req, res) => {
   const { id } = req.params;
   try {
     const { data } = await axios.get(
-      `${process.env.apiEmployee}/api/reward-discipline/users/${id}`,
+      `${process.env.apiEmployee}/api/reward-discipline/users/${id}?type=1`,
       config
     );
     res.send(data);
