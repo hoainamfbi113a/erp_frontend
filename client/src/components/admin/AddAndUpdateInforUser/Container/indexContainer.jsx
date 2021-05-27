@@ -46,7 +46,7 @@ const InfoUserContainer = (props) => {
     (async function fetchTransfer() {
       fetchFlowProfile();
       if (userId && userId !== dataProfile.user_id) {
-        let { data } = await getProfile(id);
+        let { data } = await getProfile(userId);
         if (data) {
           setProfile(data);
           setProId(data.id);

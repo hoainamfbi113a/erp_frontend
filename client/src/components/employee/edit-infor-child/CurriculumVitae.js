@@ -631,6 +631,7 @@ class CurriculumVitae extends Component {
                       <span className="tabs-user-infor-top">Số điện thoại</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                          disabled={true}
                           value={this.state.phone}
                           name="phone"
                           onChange={this.onChange}
