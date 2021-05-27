@@ -49,6 +49,9 @@ const socialSlice = createSlice({
     updateSocialFailed(state, action) {
       return [...state];
     },
+    eraseSocial() {
+      return []
+    }
   },
 });
 export const {
@@ -60,6 +63,7 @@ export const {
   removeSocialFailed,
   updateSocial,
   updateSocialSuccess,
-  updateSocialFailed
+  updateSocialFailed,
+  eraseSocial
 } = socialSlice.actions;
 export default socialSlice.reducer;
