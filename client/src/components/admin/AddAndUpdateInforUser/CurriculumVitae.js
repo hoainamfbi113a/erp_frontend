@@ -565,7 +565,7 @@ class addInformationUser extends Component {
     await this.handleInputValid("position", this.state.pos_id);
     if (
       !this.state.valid_pro_name.isValid &&
-      !this.state.valid_phone.isValid &&
+      // !this.state.valid_phone.isValid &&
       !this.state.valid_department.isValid &&
       !this.state.valid_position.isValid
     ) {
@@ -884,6 +884,7 @@ class addInformationUser extends Component {
                       <span>*</span></span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                          disabled={this.props.idUser ? true : false}
                           value={this.state.phone}
                           name="phone"
                           onChange={this.onChange}
