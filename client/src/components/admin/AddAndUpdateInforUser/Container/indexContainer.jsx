@@ -10,6 +10,12 @@ import {
   removeKinship,
   updateKinship,
 } from "../../../../reduxToolkit/features/userProfile/kinshipSlice";
+import {
+  getSocial,
+  addSocial,
+  removeSocial,
+  updateSocial,
+} from "../../../../reduxToolkit/features/userProfile/socialSlice";
 import { message, Steps } from "antd";
 import axiosConfig from "apis/axios";
 import { getProfile, updateProfile } from "apis/profileApi";
@@ -23,7 +29,6 @@ import FamilyContainer from "./FamilyContainer";
 import CurriculumVitae from "../CurriculumVitae";
 import JoinDCS from "../JoinDCS";
 import JoinTCTTXH from "../JoinTCTTXH";
-import Kinship from "../Kinship";
 import PersonalHistory from "../PersonalHistory";
 import ProfessionalCompensation from "../ProfessionalCompensation";
 import Social from "../Social";
@@ -40,13 +45,14 @@ const InfoUserContainer = (props) => {
   const dataProfile = useSelector((state) => state.userProfile);
   const dataFamily = useSelector((state) => state.familyUser);
   const dataKinship = useSelector((state) => state.kinshipUser);
+  const dataSocial = useSelector((state) => state.socialUser);
   const userId = props.match.params.id;
 
   useEffect(() => {
     (async function fetchTransfer() {
       fetchFlowProfile();
       if (userId && userId !== dataProfile.user_id) {
-        let { data } = await getProfile(id);
+        let { data } = await getProfile(userId);
         if (data) {
           setProfile(data);
           setProId(data.id);
@@ -83,12 +89,7 @@ const InfoUserContainer = (props) => {
       case 5:
         return <ProfessionalCompensation />;
       case 6:
-        return (
-          <BonusContainer
-            idUser={userId}
-            dataProfile={profile}
-          />
-        );
+        return <BonusContainer idUser={userId} dataProfile={profile} />;
       case 7:
         return (
           <FamilyContainer
@@ -96,7 +97,7 @@ const InfoUserContainer = (props) => {
             proId={pro_id}
             type="family"
             namination="Gia đình"
-            getData={getFamily({ id: userId, type: "family"})}
+            getData={getFamily({ id: userId, type: "family" })}
             addData={addFamily}
             updateData={updateFamily}
             removeData={removeFamily}
@@ -110,7 +111,7 @@ const InfoUserContainer = (props) => {
             proId={pro_id}
             type="kinship"
             namination="Quan hệ thân tộc"
-            getData={getKinship({ id: userId, type: "kinship"})}
+            getData={getKinship({ id: userId, type: "kinship" })}
             addData={addKinship}
             updateData={updateKinship}
             removeData={removeKinship}
@@ -118,7 +119,19 @@ const InfoUserContainer = (props) => {
           />
         );
       case 9:
-        return <Social />;
+        return (
+          <FamilyContainer
+            idUser={userId}
+            proId={pro_id}
+            type="social"
+            namination="Quan hệ xã hội"
+            getData={getSocial({ id: userId, type: "social" })}
+            addData={addSocial}
+            updateData={updateSocial}
+            removeData={removeSocial}
+            data={dataSocial}
+          />
+        );
     }
   };
 

@@ -17,7 +17,7 @@ import {
   updateUserFamilyApi
 } from "../../../apis/UserProfile/familyApi";
 import { message } from "antd";
-export default function* rewardSaga() {
+export default function* kinshipSaga() {
   yield all([yield takeLatest(getKinship, fetchKinshipSaga)]);
   yield all([yield takeLatest(addKinship, addKinshipSaga)]);
   yield all([yield takeLatest(removeKinship, removeKinshipSaga)]);
