@@ -49,6 +49,9 @@ const kinshipSlice = createSlice({
     updateKinshipFailed(state, action) {
       return [...state];
     },
+    eraseKinship() {
+      return []
+    }
   },
 });
 export const {
@@ -60,6 +63,7 @@ export const {
   removeKinshipFailed,
   updateKinship,
   updateKinshipSuccess,
-  updateKinshipFailed
+  updateKinshipFailed,
+  eraseKinship
 } = kinshipSlice.actions;
 export default kinshipSlice.reducer;

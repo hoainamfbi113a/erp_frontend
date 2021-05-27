@@ -355,7 +355,8 @@
 .edit-infor-form-DCS {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  flex-direction: row;
 }
 .tabs-main-left-li-row {
   display: inline-block;

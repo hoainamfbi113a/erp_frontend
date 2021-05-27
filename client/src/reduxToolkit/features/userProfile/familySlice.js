@@ -49,6 +49,9 @@ const familySlice = createSlice({
     updateFamilyFailed(state, action) {
       return [...state];
     },
+    eraseFamily() {
+      return []
+    }
   },
 });
 export const {
@@ -60,6 +63,7 @@ export const {
   removeFamilyFailed,
   updateFamily,
   updateFamilySuccess,
-  updateFamilyFailed
+  updateFamilyFailed,
+  eraseFamily
 } = familySlice.actions;
 export default familySlice.reducer;

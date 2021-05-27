@@ -31,7 +31,6 @@ import JoinDCS from "../JoinDCS";
 import JoinTCTTXH from "../JoinTCTTXH";
 import PersonalHistory from "../PersonalHistory";
 import ProfessionalCompensation from "../ProfessionalCompensation";
-import Social from "../Social";
 const { Step } = Steps;
 
 const InfoUserContainer = (props) => {

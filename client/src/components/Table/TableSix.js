@@ -1,21 +1,21 @@
-import React, { useEffect, useState, useContext } from "react";
-import { Link, useRouteMatch } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import "../../App/App.css";
-import "./Table.css";
-import { Layout, Table, Space, Tag, Avatar, Popconfirm, message } from "antd";
+import { Avatar, Layout, message, Popconfirm, Space, Table, Tag } from "antd";
+import { listUser } from "apis/authenticationApi";
 import user from "assets/images/user2.png";
-import { listUser, listUserDepartFilter } from "apis/authenticationApi";
-import { getListIdDepartment } from "apis/departmentApi";
-import usePrevious from "../../hooks/usePrevious";
 import { checkVisible } from "helpers/FuncHelper";
-import { checkPermission } from "../../apis/checkPermission";
-import PermissionContext from "../../context/PermissionContext";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useRouteMatch } from "react-router-dom";
 import { searchUser } from "../../apis/authenticationApi";
-import lodash from "lodash";
+import "../../App/App.css";
+import PermissionContext from "../../context/PermissionContext";
+import "./Table.css";
+import { eraseFamily } from "../../reduxToolkit/features/userProfile/familySlice"
+import { eraseKinship } from "../../reduxToolkit/features/userProfile/kinshipSlice"
+import { eraseSocial } from "../../reduxToolkit/features/userProfile/socialSlice"
+import { useDispatch } from "react-redux";
 const { Content } = Layout;
 
 const TableSix = (props) => {
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [keySearch, setKeySearch] = useState("");
   const [autoSuggest, setAutoSuggest] = useState([]);
@@ -40,6 +40,11 @@ const TableSix = (props) => {
   //   let departUserFilter = await listUserDepartFilter(329, 1);
   //   console.log(departUserFilter.data);
   // }, []);
+  useEffect(() => {
+    dispatch(eraseFamily());
+    dispatch(eraseKinship());
+    dispatch(eraseSocial());
+  }, [])
 
   useEffect(async () => {
     setLoading(true);
