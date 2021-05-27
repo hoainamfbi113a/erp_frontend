@@ -2,14 +2,14 @@ import React, { useState, useContext } from "react";
 import { Select, Button } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { Link, useRouteMatch } from "react-router-dom";
-import TableSix from "components/Table/TableSix";
+import TableUserContainer from "../Table/container/TableUserContainer";
 import "./Content.css";
 import withRoute from "../RouterULR/route/withRoute";
 import PermissionContext from "../../context/PermissionContext";
 import { checkVisible } from "../../helpers/FuncHelper";
 import { searchUser } from "../../apis/authenticationApi";
 
-const ContentSix = () => {
+const ContentUser = () => {
   const [autoSuggest, setAutoSuggest] = useState([]);
   const [value, setValue] = useState("");
   const [total, setTotal] = useState(0);
@@ -86,9 +86,9 @@ const ContentSix = () => {
           </div>
         )}
       </div>
-      <TableSix valueSearch={value} totalEmploy={setTotal} />
+      <TableUserContainer valueSearch={value} totalEmploy={setTotal} />
     </div>
   );
 };
 
-export default withRoute(ContentSix);
+export default withRoute(ContentUser);
