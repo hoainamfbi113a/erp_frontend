@@ -7,7 +7,7 @@ import { getRewardApi, addRewardApi, removeRewardApi, updateRewardApi } from "ap
 import {
   message,
 } from "antd";
-
+import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 export default function* rewardSaga() {
   yield all([yield takeLatest(getReward, fetchRewardSaga)]);
   yield all([yield takeLatest(addReward, addRewardSaga)]);
@@ -15,6 +15,7 @@ export default function* rewardSaga() {
   yield all([yield takeLatest(updateReward, updateRewardSaga)])
 }
 function* fetchRewardSaga(action) {
+  yield put(showLoading())
   try {
     const resp = yield call(getRewardApi, action.payload);
     // console.log(action.payload)
@@ -25,8 +26,10 @@ function* fetchRewardSaga(action) {
   } catch (error) {
     console.log(error);
   }
+  yield put (hideLoading())
 }
 function * addRewardSaga(action) {
+  yield put(showLoading())
   try {
     const resp = yield call (addRewardApi, action.payload)
     if(resp.message === "Success!. Stored") {
@@ -38,8 +41,10 @@ function * addRewardSaga(action) {
   } catch (error) {
     message.error("Thêm khen thưởng thất bại")
   }
+  yield put (hideLoading())
 }
 function * removeRewardSaga(action){
+  yield put(showLoading())
   try {
     const resp = yield call(removeRewardApi, action.payload);
     if(resp.message === "Success!. Deleted") {
@@ -53,9 +58,11 @@ function * removeRewardSaga(action){
   } catch (error) {
     message.error("Thêm khen thưởng thất bại")
   }
+  yield put (hideLoading())
 }
 
 function * updateRewardSaga (action) {
+  yield put(showLoading())
   try {
     const resp = yield call(updateRewardApi, action.payload);
     if(resp.message === "Success!. Updated") {
@@ -68,4 +75,5 @@ function * updateRewardSaga (action) {
   } catch (error) {
     console.log(error)
   }
+  yield put (hideLoading())
 }

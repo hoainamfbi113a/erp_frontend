@@ -49,9 +49,11 @@ const BonusContainer = (props) => {
   const dispatch = useDispatch();
   const dataReward = useSelector((state) => state.rewardUser);
   useEffect(() => {
-    dispatch(getReward({
-      id_user: props.idUser,
-    }));
+    if(!dataReward.length){
+      dispatch(getReward({
+        id_user: props.idUser,
+      }));
+    }
   }, [dispatch]);
   const showModal = (value) => {
     if (value == 1) {
