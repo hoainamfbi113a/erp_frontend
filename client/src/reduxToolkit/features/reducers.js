@@ -6,6 +6,7 @@ import authenReducer from "./authencationSlice";
 import permissionReducer from "./permissionSlice";
 import rewardSlice from "./userProfile/rewardSlice";
 import familySlice from "./userProfile/familySlice";
+import kinshipSlice from "./userProfile/kinshipSlice";
 
 const reducer = combineReducers({
      uiLoading: uiLoadingReducer,
@@ -15,5 +16,6 @@ const reducer = combineReducers({
      permission: permissionReducer,
      rewardUser: rewardSlice,
      familyUser: familySlice,
+     kinshipUser: kinshipSlice,
 });
 export default reducer;
