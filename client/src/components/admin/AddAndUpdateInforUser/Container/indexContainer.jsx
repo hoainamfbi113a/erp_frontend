@@ -77,10 +77,12 @@ const InfoUserContainer = (props) => {
         );
       case 7:
         return (
-          <FamilyContainer idUser={props.match.params.id} proId={pro_id} />
+          <FamilyContainer idUser={props.match.params.id} proId={pro_id} type="family" namination="Gia đình" />
         );
       case 8:
-        return <Kinship />;
+        return (
+          <FamilyContainer idUser={props.match.params.id} proId={pro_id} type="kinship" namination="Quan hệ thân tộc" />
+        );
       case 9:
         return <Social />;
     }
