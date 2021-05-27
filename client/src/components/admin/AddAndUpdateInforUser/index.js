@@ -152,9 +152,9 @@ const Index = ({
 
           <div className="edit-infr-vertical-line"></div>
         </div>
-        <div className="edit-infor-form edit-infor-form-DCS">
+        {/* <div className="edit-infor-form edit-infor-form-DCS"> */}
           {renderMenuLeft()}
-        </div>
+        {/* </div> */}
       </div>
       <Notify
         actionModal={modalNotify}

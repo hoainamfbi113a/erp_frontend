@@ -8,15 +8,17 @@ import {
   removeKinshipFailed,
   updateKinship,
   updateKinshipSuccess,
-  updateKinshipFailed
+  updateKinshipFailed,
 } from "../../features/userProfile/kinshipSlice";
 import {
   getUserFamilyApi,
   addUserFamilyApi,
   removeUserFamilyApi,
-  updateUserFamilyApi
+  updateUserFamilyApi,
 } from "../../../apis/UserProfile/familyApi";
 import { message } from "antd";
+import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
+
 export default function* kinshipSaga() {
   yield all([yield takeLatest(getKinship, fetchKinshipSaga)]);
   yield all([yield takeLatest(addKinship, addKinshipSaga)]);
@@ -25,6 +27,7 @@ export default function* kinshipSaga() {
 }
 
 function* fetchKinshipSaga(action) {
+  yield put(showLoading());
   try {
     const resp = yield call(getUserFamilyApi, action.payload);
     if (resp.message === "Successfully") {
@@ -33,9 +36,11 @@ function* fetchKinshipSaga(action) {
   } catch (error) {
     console.log(error);
   }
+  yield put(hideLoading());
 }
 
 function* addKinshipSaga(action) {
+  yield put(showLoading());
   try {
     const resp = yield call(addUserFamilyApi, action.payload);
     if (resp.message === "Success!. Stored") {
@@ -46,36 +51,39 @@ function* addKinshipSaga(action) {
   } catch (error) {
     message.error("Thêm quan hệ thất bại");
   }
+  yield put(hideLoading());
 }
 
-function * removeKinshipSaga(action){
+function* removeKinshipSaga(action) {
+  yield put(showLoading());
   try {
     const resp = yield call(removeUserFamilyApi, action.payload);
-    if(resp.message === "Success!. Deleted") {
-      message.success("Xoá quan hệ thành công")
+    if (resp.message === "Success!. Deleted") {
+      message.success("Xoá quan hệ thành công");
       yield put(removeKinshipSuccess(action.payload));
-      
     } else {
-      message.error("Xoá quan hệ thất bại")
+      message.error("Xoá quan hệ thất bại");
       yield put(removeKinshipFailed(action.payload));
     }
   } catch (error) {
     console.log(error);
   }
+  yield put(hideLoading());
 }
 
-function * updateKinshipSaga (action) {
+function* updateKinshipSaga(action) {
+  yield put(showLoading());
   try {
     const resp = yield call(updateUserFamilyApi, action.payload);
     console.log(resp, action.payload);
-    if(resp.message === "Success!. Updated") {
-      message.success("Cập nhật quan hệ thành công")
-      yield put(updateKinshipSuccess(action.payload))
+    if (resp.message === "Success!. Updated") {
+      message.success("Cập nhật quan hệ thành công");
+      yield put(updateKinshipSuccess(action.payload));
     } else {
-      message.error("Cập nhật quan hệ thất bại")
-      yield put(updateKinshipFailed(action.payload))
+      message.error("Cập nhật quan hệ thất bại");
+      yield put(updateKinshipFailed(action.payload));
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 }
