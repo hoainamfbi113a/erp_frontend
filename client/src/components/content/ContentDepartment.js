@@ -1,12 +1,12 @@
-import React, { useState, useContext } from "react";
-import TableDepartment from "components/Table/TableDepartment";
+import TableDepartmentContainer from "components/Table/container/TableDepartmentContainer";
+import React from "react";
 import Content from "./Content";
 
 const ContentDepartment = () => {
   const obj = {
     name: "Phòng ban",
     service: "departments", 
-    component: TableDepartment
+    component: TableDepartmentContainer
   }
   return (
     <Content {...obj}/>

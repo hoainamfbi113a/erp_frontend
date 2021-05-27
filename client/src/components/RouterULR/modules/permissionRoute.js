@@ -1,5 +1,5 @@
 import ContentDepartment from "components/content/ContentDepartment";
-import ContentSix from "components/content/ContentSix";
+import ContentUser from "components/content/ContentUser";
 import ContentParts from "components/content/ContentParts";
 import ContentPosition from "components/content/ContentPosition";
 import InfoUser from "components/admin/AddAndUpdateInforUser/Container/indexContainer";
@@ -11,7 +11,7 @@ export default {
   "profile-service": {
     "profile": {
       path: "/profile",
-      component: ContentSix,
+      component: ContentUser,
       routes: {
         "create": {
           path: "/create",

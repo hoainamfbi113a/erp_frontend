@@ -1,20 +1,17 @@
-import { Avatar, Layout, message, Popconfirm, Space, Table, Tag } from "antd";
-import { listUser } from "apis/authenticationApi";
+import { Avatar, message, Popconfirm, Space, Tag } from "antd";
+import { listUser, searchUser } from "apis/authenticationApi";
 import user from "assets/images/user2.png";
 import { checkVisible } from "helpers/FuncHelper";
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useRouteMatch } from "react-router-dom";
-import { searchUser } from "../../apis/authenticationApi";
-import "../../App/App.css";
-import PermissionContext from "../../context/PermissionContext";
-import "./Table.css";
-import { eraseFamily } from "../../reduxToolkit/features/userProfile/familySlice"
-import { eraseKinship } from "../../reduxToolkit/features/userProfile/kinshipSlice"
-import { eraseSocial } from "../../reduxToolkit/features/userProfile/socialSlice"
 import { useDispatch } from "react-redux";
-const { Content } = Layout;
+import { Link, useRouteMatch } from "react-router-dom";
+import { eraseFamily } from "reduxToolkit/features/userProfile/familySlice";
+import { eraseKinship } from "reduxToolkit/features/userProfile/kinshipSlice";
+import { eraseSocial } from "reduxToolkit/features/userProfile/socialSlice";
+import PermissionContext from "../../../context/PermissionContext";
+import TableUser from "../TableUser";
 
-const TableSix = (props) => {
+const TableUserContainer = (props) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [keySearch, setKeySearch] = useState("");
@@ -44,7 +41,7 @@ const TableSix = (props) => {
     dispatch(eraseFamily());
     dispatch(eraseKinship());
     dispatch(eraseSocial());
-  }, [])
+  }, []);
 
   useEffect(async () => {
     setLoading(true);
@@ -75,13 +72,10 @@ const TableSix = (props) => {
     let res = await searchUser(props.valueSearch, page, per_page);
     if (!res.err) {
       res.data.map((item) => console.log(item.full_name));
-      
     } else {
       message.error("get list parts failed");
     }
-  }
-
-  
+  };
 
   const fetchSearch = async (page, per_page) => {
     let res = await searchUser(props.valueSearch, page, per_page);
@@ -105,12 +99,12 @@ const TableSix = (props) => {
   };
 
   const handlePagination = async (page, pageSize) => {
-    setSizeOt(pageSize)
+    setSizeOt(pageSize);
     setLoading(true);
-    if(props.valueSearch === "") {
+    if (props.valueSearch === "") {
       fetchData(page, pageSize);
     } else {
-      fetchSearch(page, pageSize)
+      fetchSearch(page, pageSize);
     }
   };
 
@@ -230,30 +224,14 @@ const TableSix = (props) => {
 
   return (
     <div>
-      <Content>
-        <div className="layout-content">
-          <div style={{ padding: 24, minHeight: 200 }}>
-            {checkVisible(permissions, "list", "api/profiles") ? (
-              <Table
-                loading={loading}
-                columns={columns}
-                dataSource={dataUser ? dataUser.data : []}
-                className="table-content"
-                rowKey="id"
-                pagination={{
-                  onChange: handlePagination,
-                  current: dataUser ? dataUser.pagination.current_page : 1,
-                  total: dataUser ? dataUser.pagination.total : 0,
-                  showSizeChanger: true
-                }}
-              />
-            ) : (
-              ""
-            )}
-          </div>
-        </div>
-      </Content>
+      <TableUser
+        permissions={permissions}
+        loading={loading}
+        columns={columns}
+        dataUser={dataUser}
+        handlePagination={handlePagination}
+      />
     </div>
   );
 };
-export default TableSix;
+export default TableUserContainer;

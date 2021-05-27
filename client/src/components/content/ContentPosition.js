@@ -1,12 +1,12 @@
 import React from "react";
-import TablePosition from "components/Table/TablePosition";
+import TablePositionContainer from "components/Table/container/TablePositionContainer";
 import Content from "./Content";
 
 const ContentPosition = () => {
   const obj = {
     name: "Chức vụ",
     service: "positions", 
-    component: TablePosition
+    component: TablePositionContainer
   }
   return (
     <Content {...obj}/>
