@@ -19,8 +19,8 @@ const { TextArea } = Input;
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 
 const Bonus = (props) => {
-  const renderData1 = () => {
-    return props.fakeData1.map((item) => {
+  const renderData = (data) =>{
+    return data.map((item) => {
       return (
         <li key={item.id}>
           <div className="personal-history-time">
@@ -35,7 +35,7 @@ const Bonus = (props) => {
               title="Are you sure hide this user?"
               okText="Yes"
               cancelText="No"
-              onConfirm={() => props.handleOkDelete(item.id)}
+              onConfirm={() => props.handleOkDelete(item)}
             >
               <Tag color="volcano" className="table-action">
                 Xoá
@@ -53,38 +53,7 @@ const Bonus = (props) => {
         </li>
       );
     });
-  };
-  const renderData2 = () => {
-    return props.fakeData2.map((item) => {
-      return (
-        <li key={item.id}>
-          <div className="personal-history-time">
-            {item.dateStart} - <span> {item.dateStart}</span>
-          </div>
-          <Space size="middle">
-            <Popconfirm
-              title=""
-              okText="Yes"
-              cancelText="No"
-              // onConfirm={props.handleOk}
-            >
-              <Tag color="volcano" className="table-action">
-                Xoá
-              </Tag>
-            </Popconfirm>
-            <Tag
-              color="geekblue"
-              className="table-action"
-              onClick={() => props.handleUpdate(item)}
-            >
-              Update
-            </Tag>
-          </Space>
-          <p className="personal-history-content">{item.content}</p>
-        </li>
-      );
-    });
-  };
+  }
   return (
     <div className="edit-infor-form">
       <div className="tabs-main personal-history">
@@ -100,14 +69,14 @@ const Bonus = (props) => {
         <div className="personal-history-title">Khen thưởng</div>
         <div>
           <div className="edit-infr-vertical-line"></div>
-          <ul className="personal-history-list">{renderData1()}</ul>
+          <ul className="personal-history-list">{renderData(props.dataReward)}</ul>
         </div>
       </div>
       <div className="tabs-main personal-history">
         <div className="personal-history-title">Kỷ luật:</div>
         <div>
           <div className="edit-infr-vertical-line"></div>
-          <ul className="personal-history-list">{renderData2()}</ul>
+          <ul className="personal-history-list">{renderData(props.dataDiscipline)}</ul>
         </div>
       </div>
       <Modal
@@ -148,8 +117,6 @@ const Bonus = (props) => {
                   value={
                     props.reward.rew_time_from
                       ? [
-                        // moment(formatDateNumber(props.reward.rew_time_from, dateFormatList[0]),"DD-MM-YYYY"),
-                        // moment(formatDateNumber(props.reward.rew_time_to, dateFormatList[0]), "DD-MM-YYYY")
                        moment(props.reward.rew_time_from,dateFormatList[0]),
                        moment(props.reward.rew_time_to,dateFormatList[0]),
                       
@@ -172,7 +139,6 @@ const Bonus = (props) => {
             <li className="tabs-main-left-li">
               <span className="tabs-user-infor-top"></span>
               <div className="tabs-user-infor-bottom">
-                {console.log(props.reward.rew_formality)}
                 <TextArea
                   onChange={props.onChange}
                   value={props.reward.rew_formality}

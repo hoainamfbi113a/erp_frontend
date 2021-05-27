@@ -5,6 +5,7 @@ import userProfileReducer from "./userProfileSlice";
 import authenReducer from "./authencationSlice";
 import permissionReducer from "./permissionSlice";
 import rewardSlice from "./userProfile/rewardSlice";
+import disciplineSlice from "./userProfile/disciplineSlice";
 import familySlice from "./userProfile/familySlice";
 import kinshipSlice from "./userProfile/kinshipSlice";
 import socialSlice from "./userProfile/socialSlice";
@@ -16,6 +17,7 @@ const reducer = combineReducers({
      authen: authenReducer,
      permission: permissionReducer,
      rewardUser: rewardSlice,
+     disciplineUser: disciplineSlice,
      familyUser: familySlice,
      kinshipUser: kinshipSlice,
      socialUser: socialSlice,
