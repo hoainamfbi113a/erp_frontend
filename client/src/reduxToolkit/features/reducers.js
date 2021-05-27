@@ -7,6 +7,7 @@ import permissionReducer from "./permissionSlice";
 import rewardSlice from "./userProfile/rewardSlice";
 import familySlice from "./userProfile/familySlice";
 import kinshipSlice from "./userProfile/kinshipSlice";
+import socialSlice from "./userProfile/socialSlice";
 
 const reducer = combineReducers({
      uiLoading: uiLoadingReducer,
@@ -17,5 +18,6 @@ const reducer = combineReducers({
      rewardUser: rewardSlice,
      familyUser: familySlice,
      kinshipUser: kinshipSlice,
+     socialUser: socialSlice,
 });
 export default reducer;

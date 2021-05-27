@@ -22,6 +22,7 @@ const FamilyContainer = ({
   data
 }) => {
   const dispatch = useDispatch();
+  const dispatch2 = useDispatch();
   const [visible, setVisible] = useState(false);
   const [dataItem, setDataItem] = useState({
     rem_full_name: "",
@@ -33,8 +34,9 @@ const FamilyContainer = ({
   
 
   useEffect(() => {
-    dispatch(getData);
-  }, [dispatch]);
+    if(!data.length)
+      dispatch(getData);
+  }, [type]);
 
   const handleOk = () => {
     const paramsAdd = {

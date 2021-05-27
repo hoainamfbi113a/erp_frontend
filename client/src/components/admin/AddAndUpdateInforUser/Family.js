@@ -203,7 +203,7 @@ const Family = ({
                       Con
                     </Option>
                   </Select>
-                ) : (
+                ) : namination === "Quan hệ thân tộc" ? (
                   <Select
                     placeholder="Chọn quan hệ"
                     className="modal-selection"
@@ -228,6 +228,33 @@ const Family = ({
                     </Option>
                     <Option key="6" value="Em gái">
                       Em gái
+                    </Option>
+                  </Select>
+                ) : (
+                  <Select
+                    placeholder="Chọn quan hệ"
+                    className="modal-selection"
+                    value={rem_relationship}
+                    style={{ width: 527 }}
+                    onChange={setRem}
+                  >
+                    <Option key="1" value="Ông">
+                      Ông
+                    </Option>
+                    <Option key="2" value="Bà">
+                      Bà
+                    </Option>
+                    <Option key="3" value="Cô">
+                      Cô
+                    </Option>
+                    <Option key="4" value="Dì">
+                      Dì
+                    </Option>
+                    <Option key="5" value="Chú">
+                      Chú
+                    </Option>
+                    <Option key="6" value="Bác">
+                      Bác
                     </Option>
                   </Select>
                 )}
