@@ -27,7 +27,7 @@ const Family = ({
   namination,
 }) => {
   const renderData = () => {
-    if (dataFamily) {
+    if (dataFamily.length) {
       return dataFamily.map((item) => {
         return (
           <li key={item.id}>
@@ -61,7 +61,7 @@ const Family = ({
       null;
     }
   };
-  if (dataFamily.length) {
+  // if (dataFamily.length) {
     return (
       <div className="edit-infor-form">
         <div className="tabs-main personal-history">
@@ -256,9 +256,9 @@ const Family = ({
         </Modal>
       </div>
     );
-  }
-  return (
-    null
-  );
+  // }
+  // return (
+    // null
+  // );
 };
 export default Family;

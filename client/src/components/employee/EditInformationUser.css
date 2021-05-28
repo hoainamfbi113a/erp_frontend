@@ -288,7 +288,8 @@
   line-height: 18px;
   color: #3f4254;
   margin-bottom: 10px;
-  margin-left: -31px;
+  /* margin-left: -31px; */
+  margin-right: 131px;
 }
 .personal-history-time {
   padding-left: 20px;
