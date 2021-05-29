@@ -64,6 +64,9 @@ const InfoUserContainer = (props) => {
       } else {
         setProfile(dataProfile);
         setProId(dataProfile.id);
+        let dataTransfersProfile = {};
+          dataTransfersProfile = await transfersProfile(dataProfile.id);
+          setStep_id(dataTransfersProfile.data.next_step_id);
       }
     })();
   }, []);
