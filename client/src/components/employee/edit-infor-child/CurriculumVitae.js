@@ -153,6 +153,13 @@ class CurriculumVitae extends Component {
       }
     }
   };
+  formatDate (input) {
+    var datePart = input.match(/\d+/g),
+    year = datePart[0].substring(2), // get only two digits
+    month = datePart[1], day = datePart[2];
+  
+    return day+'/'+month+'/'+year;
+  }
   componentDidUpdate = (prevProps, prevState) => {
     this.functionSearch(prevProps, prevState);
   };
@@ -169,7 +176,7 @@ class CurriculumVitae extends Component {
     await this.handleInputValid("position", this.state.pos_id);
     if (
       !this.state.valid_pro_name.isValid &&
-      !this.state.valid_phone.isValid &&
+      // !this.state.valid_phone.isValid &&
       // !this.state.valid_part.isValid &&
       !this.state.valid_department.isValid &&
       !this.state.valid_position.isValid
@@ -362,10 +369,8 @@ class CurriculumVitae extends Component {
       pro_background_origin: data.pro_background_origin,
       pro_occupation: data.pro_occupation,
       pro_identity_card: data.pro_identity_card,
-      pro_identity_card_when:
-        data.pro_identity_card_when.indexOf("1970-01-01") == 0
-          ? null
-          : data.pro_identity_card_when,
+      // pro_identity_card_when: data.pro_identity_card_when == null ? null:data.pro_identity_card_when ,
+      pro_identity_card_when: data.pro_identity_card_when==null? null:this.formatDate(data.pro_identity_card_when.toString().slice(0,10)) ,
       pro_identity_card_where: data.pro_identity_card_where,
       pro_note: data.pro_note,
       dep_id: data.department.data.dep_id,
@@ -405,7 +410,7 @@ class CurriculumVitae extends Component {
         : "",
       car_number_day:
         data.journalistCard && data.journalistCard.data.car_number_day != null
-          ? new Date(data.journalistCard.data.car_number_day)
+          ? new Date(data.journalistCard.data.car_number_day*1000)
           : null,
       car_begin:
         data.journalistCard && data.journalistCard.data.car_begin != null
