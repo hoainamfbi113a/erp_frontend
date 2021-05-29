@@ -223,6 +223,7 @@ class addInformationUser extends Component {
         dep_id: data.department ? data.department.data.dep_id : "",
         pos_id: data.department ? data.department.data.pos_id : "",
         par_id: data.department ? data.department.data.part_id : "",
+        appointment_date: data.department ? data.department.data.appointment_date : "",
         deg_type: data.userDegree ? data.userDegree.data.deg_type : "",
         deg_diploma: data.userDegree ? data.userDegree.data.deg_diploma : "",
         deg_majors: data.userDegree ? data.userDegree.data.deg_majors : "",
@@ -249,7 +250,7 @@ class addInformationUser extends Component {
           ? data.journalistCard.data.car_number
           : "",
         car_number_day: data.journalistCard && data.journalistCard.data.car_number_day !=null
-          ? new Date(data.journalistCard.data.car_number_day)
+          ? new Date(data.journalistCard.data.car_number_day*1000)
           : null,
         car_begin: data.journalistCard && data.journalistCard.data.car_begin !=null
           ? new Date(data.journalistCard.data.car_begin * 1000)
@@ -451,7 +452,9 @@ class addInformationUser extends Component {
           user_id: userId,
           pro_name: this.state.pro_name,
           pro_pen_name: this.state.pro_pen_name,
-          pro_birth_day: Date.parse(this.state.pro_birth_day) / 1000,
+          // pro_birth_day: Date.parse(this.state.pro_birth_day) / 1000,
+          pro_birth_day: Date.parse(moment(this.state.pro_birth_day, "DD-MM-YYYY"))/1000,
+          // pro_birth_day: Date.parse(this.state.pro_birth_day) / 1000,
           pro_gender: this.state.pro_gender,
           pro_birth_place: this.state.pro_birth_place,
           pro_home_town: this.state.pro_home_town,
@@ -462,8 +465,7 @@ class addInformationUser extends Component {
           pro_background_origin: this.state.pro_background_origin,
           pro_occupation: this.state.pro_occupation,
           pro_identity_card: this.state.pro_identity_card,
-          pro_identity_card_when:
-            Date.parse(this.state.pro_identity_card_when) / 1000,
+          pro_identity_card_when: Date.parse(moment(this.state.pro_identity_card_when, "DD-MM-YYYY"))/1000,
           pro_identity_card_where: this.state.pro_identity_card_where,
           pro_note: this.state.pro_note,
           button: value,
@@ -485,7 +487,8 @@ class addInformationUser extends Component {
           dep_id: this.state.dep_id,
           pos_id: this.state.pos_id,
           part_id: this.state.par_id,
-          appointment_date: Date.parse(this.state.appointment_date) / 1000,
+          // appointment_date: Date.parse(this.state.appointment_date) / 1000,
+          appointment_date: Date.parse(moment(this.state.appointment_date, "DD-MM-YYYY"))/1000,
         };
         let resAddDepartmentProfile = await addDepartmentProfile(
           paramsDepartment
@@ -501,8 +504,8 @@ class addInformationUser extends Component {
           deg_diploma: this.state.deg_diploma,
           deg_majors: this.state.deg_majors,
           deg_school_name: this.state.deg_school_name,
-          deg_begin_study: Date.parse(this.state.deg_begin_study) / 1000,
-          deg_end_study: Date.parse(this.state.deg_end_study) / 1000,
+          deg_begin_study: Date.parse(moment(this.state.deg_begin_study, "DD-MM-YYYY"))/1000,
+          deg_end_study: Date.parse(moment(this.state.deg_end_study, "DD-MM-YYYY"))/1000,
           deg_note: this.state.deg_note,
           deg_permanent_residence: this.state.deg_permanent_residence,
           deg_education: this.state.deg_education,
@@ -529,9 +532,9 @@ class addInformationUser extends Component {
           pro_id: proId,
           user_id: userId,
           car_number: this.state.car_number,
-          car_number_day: Date.parse(this.state.car_number_day) / 1000,
-          car_begin: Date.parse(this.state.car_begin) / 1000,
-          car_end: Date.parse(this.state.car_end) / 1000,
+          car_number_day: Date.parse(moment(this.state.car_number_day, "DD-MM-YYYY"))/1000,
+          car_begin: Date.parse(moment(this.state.car_begin, "DD-MM-YYYY"))/1000,
+          car_end: Date.parse(moment(this.state.car_end, "DD-MM-YYYY"))/1000,
           car_note: this.state.car_note,
         };
         let resAddJournalistCards = await addJournalistCards(
@@ -593,7 +596,7 @@ class addInformationUser extends Component {
         user_id: userId,
         pro_name: this.state.pro_name,
         pro_pen_name: this.state.pro_pen_name,
-        pro_birth_day: Date.parse(this.state.pro_birth_day) / 1000,
+        pro_birth_day: Date.parse(moment(this.state.pro_birth_day, "DD-MM-YYYY"))/1000,
         pro_gender: this.state.pro_gender,
         pro_birth_place: this.state.pro_birth_place,
         pro_home_town: this.state.pro_home_town,
@@ -604,8 +607,8 @@ class addInformationUser extends Component {
         pro_background_origin: this.state.pro_background_origin,
         pro_occupation: this.state.pro_occupation,
         pro_identity_card: this.state.pro_identity_card,
-        pro_identity_card_when:
-          Date.parse(this.state.pro_identity_card_when) / 1000,
+        pro_identity_card_when: Date.parse(moment(this.state.pro_identity_card_when, "DD-MM-YYYY"))/1000,
+          // Date.parse(this.state.pro_identity_card_when) / 1000,
         pro_identity_card_where: this.state.pro_identity_card_where,
         pro_note: this.state.pro_note,
         button: value,
@@ -622,7 +625,8 @@ class addInformationUser extends Component {
         dep_id: this.state.dep_id,
         pos_id: this.state.pos_id,
         part_id: this.state.par_id,
-        appointment_date: Date.parse(this.state.appointment_date) / 1000,
+        // appointment_date: Date.parse(this.state.appointment_date) / 1000,
+        appointment_date: Date.parse(moment(this.state.appointment_date, "DD-MM-YYYY"))/1000,
       };
       let resUpdateDepartmentProfile = await updateDepartmentProfile(
         pro_id,
@@ -639,8 +643,8 @@ class addInformationUser extends Component {
         deg_diploma: this.state.deg_diploma,
         deg_majors: this.state.deg_majors,
         deg_school_name: this.state.deg_school_name,
-        deg_begin_study: Date.parse(this.state.deg_begin_study) / 1000,
-        deg_end_study: Date.parse(this.state.deg_end_study) / 1000,
+        deg_begin_study: Date.parse(moment(this.state.deg_begin_study, "DD-MM-YYYY"))/1000,
+        deg_end_study: Date.parse(moment(this.state.deg_end_study, "DD-MM-YYYY"))/1000,
         deg_note: this.state.deg_note,
         deg_permanent_residence: this.state.deg_permanent_residence,
         deg_education: this.state.deg_education,
@@ -673,9 +677,12 @@ class addInformationUser extends Component {
         user_id: userId,
         pro_id: pro_id,
         car_number: this.state.car_number,
-        car_number_day: Date.parse(this.state.car_number_day),
-        car_begin: Date.parse(this.state.car_begin) / 1000,
-        car_end: Date.parse(this.state.car_end) / 1000,
+        // car_number_day: Date.parse(this.state.car_number_day)/1000,
+        car_number_day: Date.parse(moment(this.state.car_number_day, "DD-MM-YYYY"))/1000,
+        car_begin: Date.parse(moment(this.state.car_begin, "DD-MM-YYYY"))/1000,
+        car_end: Date.parse(moment(this.state.car_end, "DD-MM-YYYY"))/1000,
+        // car_begin: Date.parse(this.state.car_begin) / 1000,
+        // car_end: Date.parse(this.state.car_end) / 1000,
         car_note: this.state.car_note,
       };
       let resUpdateJournalistCards = await updateJournalistCards(
@@ -1436,6 +1443,7 @@ class addInformationUser extends Component {
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">Ngày cấp thẻ:</span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
+                        {console.log(this.state.car_number_day)}
                         <DatePicker
                         format={dateFormatList}
                           placeholder="Chọn ngày"
