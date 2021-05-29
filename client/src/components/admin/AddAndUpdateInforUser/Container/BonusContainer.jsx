@@ -134,6 +134,8 @@ const BonusContainer = (props) => {
     let {type, rew_formality, rew_time_from, rew_time_to, rew_note} = reward;
     let date1 = (moment(rew_time_from, "DD-MM-YYYY"))
     let date2 = (moment(rew_time_to, "DD-MM-YYYY"))
+    // let date2 = Date.parse(moment(rew_time_to, "DD-MM-YYYY"))/1000
+
     const parseRew_time_from = Date.parse(date1) / 1000;
     const parseRew_time_to = Date.parse(date2) / 1000;
     const params = {
