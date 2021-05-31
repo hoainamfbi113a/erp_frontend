@@ -46,7 +46,6 @@ const InfoUserContainer = (props) => {
   const dataKinship = useSelector((state) => state.kinshipUser);
   const dataSocial = useSelector((state) => state.socialUser);
   const userId = props.match.params.id;
-
   useEffect(() => {
     (async function fetchTransfer() {
       fetchFlowProfile();
@@ -61,7 +60,7 @@ const InfoUserContainer = (props) => {
           dataTransfersProfile = await transfersProfile(data.id);
           setStep_id(dataTransfersProfile.data.next_step_id);
         }
-      } else {
+      } else if(window.location.href.includes("create")===false) {
         setProfile(dataProfile);
         setProId(dataProfile.id);
         let dataTransfersProfile = {};
