@@ -17,29 +17,6 @@ import Bonus from "../Bonus";
 import moment from "moment";
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 import { formatDateNumber } from "../../../../helpers/FuncHelper";
-let fakeData2 = [
-  {
-    id: 1,
-    category: 2,
-    dateStart: "05/09/1990",
-    dateEnd: "05/09/1990",
-    content: "Kỷ luật 1",
-  },
-  {
-    id: 2,
-    category: 2,
-    dateStart: "05/09/1990",
-    dateEnd: "05/09/1990",
-    content: "Kỷ luật 2",
-  },
-  {
-    id: 3,
-    category: 2,
-    dateStart: "05/09/1990",
-    dateEnd: "05/09/1990",
-    content: "Kỷ luật 3",
-  },
-];
 const BonusContainer = (props) => {
   const [id, setId] = useState("");
   const [reward, setReward] = useState({
@@ -67,7 +44,6 @@ const BonusContainer = (props) => {
       }));
     
   }, [dispatch]);
-  console.log(state);
   const showModal = (value) => {
     if (value == 1) {
       setDataItem({ category: 1 });
@@ -85,6 +61,7 @@ const BonusContainer = (props) => {
       rew_time_to: "",
       rew_note: null,
     });
+    setId("")
     setVisible(false);
   };
   const handleUpdate = (value) => {
