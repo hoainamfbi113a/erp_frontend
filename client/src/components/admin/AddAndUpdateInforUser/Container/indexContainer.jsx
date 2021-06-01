@@ -26,10 +26,10 @@ import { useDispatch, useSelector } from "react-redux";
 import Index from "../index";
 import BonusContainer from "./BonusContainer";
 import FamilyContainer from "./FamilyContainer";
+import PersonalHistory from "./PersonalHistoryContainer";
 import CurriculumVitae from "../CurriculumVitae";
 import JoinDCS from "../JoinDCS";
 import JoinTCTTXH from "../JoinTCTTXH";
-import PersonalHistory from "../PersonalHistory";
 import ProfessionalCompensation from "../ProfessionalCompensation";
 const { Step } = Steps;
 
