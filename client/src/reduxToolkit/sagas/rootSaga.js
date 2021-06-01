@@ -4,7 +4,10 @@ import userProfileSaga from "./userProfileSaga";
 import authenSaga from "./authenSaga";
 import permissionSaga from "./permissionSaga";
 import rewardSaga from "./userProfile/rewardSaga";
+import disciplineSaga from "./userProfile/disciplineSaga";
 import familySaga from "./userProfile/familySaga";
+import kinshipSaga from "./userProfile/kinshipSaga";
+import socialSaga from "./userProfile/socialSaga";
 
 export function* rootSaga () {
     yield all([
@@ -12,8 +15,11 @@ export function* rootSaga () {
         userSaga(),
         userProfileSaga(),
         authenSaga(),
-        rewardSaga(), 
+        rewardSaga(),
+        disciplineSaga(),
         familySaga(),
+        kinshipSaga(),
+        socialSaga(),
     ])
 }
 // export default rootSaga;

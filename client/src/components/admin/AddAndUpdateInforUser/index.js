@@ -1,9 +1,9 @@
 import { Steps } from "antd";
 import Notify from "components/Modal/Notify";
-import React, { useState } from "react";
+import React from "react";
 import { useRouteMatch } from "react-router-dom";
 const { Step } = Steps;
-
+ 
 const Index = ({
   activeLink,
   setActiveLink,
@@ -152,7 +152,9 @@ const Index = ({
 
           <div className="edit-infr-vertical-line"></div>
         </div>
-        {renderMenuLeft()}
+        {/* <div className="edit-infor-form edit-infor-form-DCS"> */}
+          {renderMenuLeft()}
+        {/* </div> */}
       </div>
       <Notify
         actionModal={modalNotify}

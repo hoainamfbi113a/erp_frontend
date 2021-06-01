@@ -7,33 +7,16 @@ import {
   removeReward,
   updateReward,
 } from "../../../../reduxToolkit/features/userProfile/rewardSlice";
+import {
+  addDiscipline,
+  getDiscipline,
+  removeDiscipline,
+  updateDiscipline,
+} from "../../../../reduxToolkit/features/userProfile/Disciplineslice";
 import Bonus from "../Bonus";
 import moment from "moment";
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 import { formatDateNumber } from "../../../../helpers/FuncHelper";
-let fakeData2 = [
-  {
-    id: 1,
-    category: 2,
-    dateStart: "05/09/1990",
-    dateEnd: "05/09/1990",
-    content: "Kỷ luật 1",
-  },
-  {
-    id: 2,
-    category: 2,
-    dateStart: "05/09/1990",
-    dateEnd: "05/09/1990",
-    content: "Kỷ luật 2",
-  },
-  {
-    id: 3,
-    category: 2,
-    dateStart: "05/09/1990",
-    dateEnd: "05/09/1990",
-    content: "Kỷ luật 3",
-  },
-];
 const BonusContainer = (props) => {
   const [id, setId] = useState("");
   const [reward, setReward] = useState({
@@ -48,10 +31,18 @@ const BonusContainer = (props) => {
   const [refresh, setRefresh] = useState(true);
   const dispatch = useDispatch();
   const dataReward = useSelector((state) => state.rewardUser);
+  const dataDiscipline = useSelector((state) => state.disciplineUser);
+  const state = useSelector((state)=> state);
   useEffect(() => {
-    dispatch(getReward({
-      id_user: props.idUser,
-    }));
+      dispatch(getReward({
+        id_user: props.idUser,
+        type:1,
+      }));
+      dispatch(getDiscipline({
+        id_user: props.idUser,
+        type:2,
+      }));
+    
   }, [dispatch]);
   const showModal = (value) => {
     if (value == 1) {
@@ -70,14 +61,24 @@ const BonusContainer = (props) => {
       rew_time_to: "",
       rew_note: null,
     });
+    setId("")
+    
     setVisible(false);
   };
   const handleUpdate = (value) => {
     setVisible(true);
-    let rewardItem = dataReward.find((item) => 
-       item.id == value.id
-    );
-    let { id, rew_formality, rew_time_from, rew_time_to, rew_note} = rewardItem;
+    let rewardItem = {}
+    if(value.type == 1) {
+      rewardItem = dataReward.find((item) => 
+      item.id == value.id
+      );
+    } else {
+      rewardItem = dataDiscipline.find((item) => 
+      item.id == value.id
+      );
+    }
+
+    let { id, type, rew_formality, rew_time_from, rew_time_to, rew_note} = rewardItem;
     let date1 = formatDateNumber(rew_time_from, dateFormatList[0])
     let date2 = formatDateNumber(rew_time_to, dateFormatList[0])
     setId(id);
@@ -85,7 +86,8 @@ const BonusContainer = (props) => {
        rew_formality,
        rew_time_from:date1,
        rew_time_to:date2,
-       rew_note
+       rew_note,
+       type
     });
   };
   const onChangeRange = (e, dateString, name1, name2) => {
@@ -101,7 +103,7 @@ const BonusContainer = (props) => {
   const datareward = [];
   if (dataReward && dataReward.length !== 0) {
     for (let item of dataReward) {
-      if (item.type === 1) {
+      if (item.type == 1) {
         datareward.push(item);
       }
     }
@@ -110,6 +112,8 @@ const BonusContainer = (props) => {
     let {type, rew_formality, rew_time_from, rew_time_to, rew_note} = reward;
     let date1 = (moment(rew_time_from, "DD-MM-YYYY"))
     let date2 = (moment(rew_time_to, "DD-MM-YYYY"))
+    // let date2 = Date.parse(moment(rew_time_to, "DD-MM-YYYY"))/1000
+
     const parseRew_time_from = Date.parse(date1) / 1000;
     const parseRew_time_to = Date.parse(date2) / 1000;
     const params = {
@@ -122,32 +126,58 @@ const BonusContainer = (props) => {
       rew_note,
       id,
     };
-    if (id === "") {
-      dispatch(addReward(params));
+    if (id == "") {
+      if(type == 1 ) {
+        dispatch(addReward(params));
+      } else {
+        dispatch(addDiscipline(params));
+      }
+
       setTimeout(() => {
-        dispatch(getReward({
-          id_user: props.idUser,
-        }));
+        if(type == 1) {
+          dispatch(getReward({
+            id_user: props.idUser,
+            type:1,
+          }));
+        } else {
+          dispatch(getDiscipline({
+            id_user: props.idUser,
+            type:2,
+          }));
+        }
       }, 200);
     } else {
-      dispatch(updateReward(params));
+      if(type == 1) {
+        dispatch(updateReward(params));
+      } else {
+        dispatch(updateDiscipline(params));
+      }
       setId("");
     }
 
     setVisible(false);
   };
-  const handleOkDelete = (id) => {
-    dispatch(
-      removeReward({
-        id,
-      })
-    );
+  const handleOkDelete = (item) => {
+    const {type, id} =item;
+    if(type == 1){
+      dispatch(
+        removeReward({
+          id,
+        })
+      );
+    } else {
+      dispatch(
+        removeDiscipline({
+          id,
+        })
+      );
+    }
   };
   return (
     <div>
       <Bonus
-        fakeData1={datareward}
-        fakeData2={fakeData2}
+        dataReward={datareward}
+        dataDiscipline={dataDiscipline}
         reward={reward}
         visible={visible}
         showModal={showModal}

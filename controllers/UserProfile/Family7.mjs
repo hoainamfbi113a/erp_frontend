@@ -4,8 +4,9 @@ import { config } from "../../helper/FuncHelpers.mjs";
 const getFamilyRelation = async (req, res) => {
   try {
     const { id } = req.params;
+    const { type } = req.query;
     const { data } = await axios.get(
-      `${process.env.apiEmployee}/api/family-relationship/users/${id}`,
+      `${process.env.apiEmployee}/api/family-relationship/users/${id}?type=${type}`,
       config(req)
     );
     res.send(data);

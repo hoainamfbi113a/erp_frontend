@@ -1,3 +1,21 @@
+import {
+  getFamily,
+  addFamily,
+  removeFamily,
+  updateFamily,
+} from "../../../../reduxToolkit/features/userProfile/familySlice";
+import {
+  getKinship,
+  addKinship,
+  removeKinship,
+  updateKinship,
+} from "../../../../reduxToolkit/features/userProfile/kinshipSlice";
+import {
+  getSocial,
+  addSocial,
+  removeSocial,
+  updateSocial,
+} from "../../../../reduxToolkit/features/userProfile/socialSlice";
 import { message, Steps } from "antd";
 import axiosConfig from "apis/axios";
 import { getProfile, updateProfile } from "apis/profileApi";
@@ -8,13 +26,11 @@ import { useDispatch, useSelector } from "react-redux";
 import Index from "../index";
 import BonusContainer from "./BonusContainer";
 import FamilyContainer from "./FamilyContainer";
+import PersonalHistory from "./PersonalHistoryContainer";
 import CurriculumVitae from "../CurriculumVitae";
 import JoinDCS from "../JoinDCS";
 import JoinTCTTXH from "../JoinTCTTXH";
-import Kinship from "../Kinship";
-import PersonalHistory from "../PersonalHistory";
 import ProfessionalCompensation from "../ProfessionalCompensation";
-import Social from "../Social";
 const { Step } = Steps;
 
 const InfoUserContainer = (props) => {
@@ -26,13 +42,15 @@ const InfoUserContainer = (props) => {
   const [profile, setProfile] = useState({});
   const [pro_id, setProId] = useState(null);
   const dataProfile = useSelector((state) => state.userProfile);
-
+  const dataFamily = useSelector((state) => state.familyUser);
+  const dataKinship = useSelector((state) => state.kinshipUser);
+  const dataSocial = useSelector((state) => state.socialUser);
+  const userId = props.match.params.id;
   useEffect(() => {
     (async function fetchTransfer() {
-      let id = props.match.params.id;
       fetchFlowProfile();
-      if (id && id !== dataProfile.user_id) {
-        let { data } = await getProfile(id);
+      if (userId && userId !== dataProfile.user_id) {
+        let { data } = await getProfile(userId);
         if (data) {
           setProfile(data);
           setProId(data.id);
@@ -42,9 +60,12 @@ const InfoUserContainer = (props) => {
           dataTransfersProfile = await transfersProfile(data.id);
           setStep_id(dataTransfersProfile.data.next_step_id);
         }
-      } else {
+      } else if(window.location.href.includes("create")===false) {
         setProfile(dataProfile);
         setProId(dataProfile.id);
+        let dataTransfersProfile = {};
+          dataTransfersProfile = await transfersProfile(dataProfile.id);
+          setStep_id(dataTransfersProfile.data.next_step_id);
       }
     })();
   }, []);
@@ -54,7 +75,7 @@ const InfoUserContainer = (props) => {
       case 1:
         return (
           <CurriculumVitae
-            idUser={props.match.params.id}
+            idUser={userId}
             value={value}
             handleReloadComponent={handleReloadComponent}
             dataProfile={profile}
@@ -69,20 +90,49 @@ const InfoUserContainer = (props) => {
       case 5:
         return <ProfessionalCompensation />;
       case 6:
-        return (
-          <BonusContainer
-            idUser={props.match.params.id}
-            dataProfile={profile}
-          />
-        );
+        return <BonusContainer idUser={userId} dataProfile={profile} />;
       case 7:
         return (
-          <FamilyContainer idUser={props.match.params.id} proId={pro_id} />
+          <FamilyContainer
+            idUser={userId}
+            proId={pro_id}
+            type="family"
+            namination="Gia đình"
+            getData={getFamily({ id: userId, type: "family" })}
+            addData={addFamily}
+            updateData={updateFamily}
+            removeData={removeFamily}
+            data={dataFamily}
+          />
         );
       case 8:
-        return <Kinship />;
+        return (
+          <FamilyContainer
+            idUser={userId}
+            proId={pro_id}
+            type="kinship"
+            namination="Quan hệ thân tộc"
+            getData={getKinship({ id: userId, type: "kinship" })}
+            addData={addKinship}
+            updateData={updateKinship}
+            removeData={removeKinship}
+            data={dataKinship}
+          />
+        );
       case 9:
-        return <Social />;
+        return (
+          <FamilyContainer
+            idUser={userId}
+            proId={pro_id}
+            type="social"
+            namination="Quan hệ xã hội"
+            getData={getSocial({ id: userId, type: "social" })}
+            addData={addSocial}
+            updateData={updateSocial}
+            removeData={removeSocial}
+            data={dataSocial}
+          />
+        );
     }
   };
 
@@ -115,9 +165,8 @@ const InfoUserContainer = (props) => {
   };
 
   const handleConfirm = async () => {
-    let idUser = props.match.params.id;
     let params = {
-      user_id: idUser,
+      user_id: userId,
       reject: 0,
       action: "confirm",
       notify_content: "xac nhan ho so hoan tat",
@@ -136,10 +185,10 @@ const InfoUserContainer = (props) => {
   const handleReloadComponent = async () => {
     let dataWorkflowProfile = await workflowProfile();
     setWorkflowProfile(dataWorkflowProfile);
-    if (props.match.params.id) {
+    if (userId) {
       // if(Object.keys(dataProfile).length != 0){
       let dataTransfersProfile = {};
-      let { data } = getProfile(props.match.params.id);
+      let { data } = getProfile(userId);
       dataTransfersProfile = await transfersProfile(data.id);
       setProfile(data);
       setStep_id(dataTransfersProfile.data.next_step_id);

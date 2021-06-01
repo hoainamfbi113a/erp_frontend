@@ -1,8 +1,8 @@
 import axiosConfig from "../axios";
 
-const getUserFamilyApi = (id) => {
+const getUserFamilyApi = (params) => {
   return axiosConfig
-    .get(`/api/user-profile/family/${id}`)
+    .get(`/api/user-profile/family/${params.id}?type=${params.type}`)
     .then((data) => {
       return data;
     })

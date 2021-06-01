@@ -5,9 +5,10 @@ const getReward = async (req, res) => {
     headers: { Authorization: req.headers.authorization },
   };
   const { id } = req.params;
+  const { type } = req.query;
   try {
     const { data } = await axios.get(
-      `${process.env.apiEmployee}/api/reward-discipline/users/${id}`,
+      `${process.env.apiEmployee}/api/reward-discipline/users/${id}?type=${type}`,
       config
     );
     res.send(data);

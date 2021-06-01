@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getFamily,
-  addFamily,
-  removeFamily,
-  updateFamily,
-} from "../../../../reduxToolkit/features/userProfile/familySlice";
 import Family from "../Family";
 
 const fakeData = [
@@ -16,7 +10,17 @@ const fakeData = [
   },
 ];
 
-const FamilyContainer = ({ idUser, proId }) => {
+const FamilyContainer = ({
+  idUser,
+  proId,
+  type,
+  namination,
+  getData,
+  updateData,
+  addData,
+  removeData,
+  data
+}) => {
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const [dataItem, setDataItem] = useState({
@@ -26,14 +30,22 @@ const FamilyContainer = ({ idUser, proId }) => {
   });
   const [rem_relationship, setRem] = useState();
   const [idFam, setIdFam] = useState(null);
-  const dataFamily = useSelector((state) => state.familyUser);
-
   useEffect(() => {
-    dispatch(getFamily(idUser));
-  }, [dispatch]);
+    if(!data.length)
+      dispatch(getData);
+  }, [type]);
 
   const handleOk = () => {
-    const params = {
+    const paramsAdd = {
+      pro_id: proId,
+      user_id: idUser,
+      rem_relationship: rem_relationship,
+      rem_full_name: dataItem.rem_full_name,
+      rem_note: dataItem.rem_note,
+      rem_job: dataItem.rem_job,
+      rem_type: type,
+    };
+    const paramsUpdate = {
       id: idFam,
       pro_id: proId,
       user_id: idUser,
@@ -41,22 +53,22 @@ const FamilyContainer = ({ idUser, proId }) => {
       rem_full_name: dataItem.rem_full_name,
       rem_note: dataItem.rem_note,
       rem_job: dataItem.rem_job,
+      rem_type: type,
     };
     if (idFam) {
-      console.log(params);
-      dispatch(updateFamily(params));
+      dispatch(updateData(paramsUpdate));
     } else {
-      dispatch(addFamily(params));
+      dispatch(addData(paramsAdd));
       setTimeout(() => {
-        dispatch(getFamily(idUser));
+        dispatch(getData);
       }, 200);
     }
 
-    setVisible(false);
+    hideModal();
   };
 
   const handleDelete = (id) => {
-    dispatch(removeFamily(id));
+    dispatch(removeData(id));
   };
 
   const handleUpdate = (value) => {
@@ -74,6 +86,8 @@ const FamilyContainer = ({ idUser, proId }) => {
 
   const hideModal = () => {
     setVisible(false);
+    setRem();
+    setIdFam(null);
   };
 
   const onChange = (e) => {
@@ -84,7 +98,7 @@ const FamilyContainer = ({ idUser, proId }) => {
     <div>
       <Family
         fakeData={fakeData}
-        dataFamily={dataFamily}
+        dataFamily={data}
         showModal={showModal}
         hideModal={hideModal}
         handleUpdate={handleUpdate}
@@ -95,6 +109,7 @@ const FamilyContainer = ({ idUser, proId }) => {
         handleOk={handleOk}
         handleDelete={handleDelete}
         rem_relationship={rem_relationship}
+        namination={namination}
       />
     </div>
   );

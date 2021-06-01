@@ -8,16 +8,18 @@ import {
   removeFamilyFailed,
   updateFamily,
   updateFamilySuccess,
-  updateFamilyFailed
+  updateFamilyFailed,
 } from "reduxToolkit/features/userProfile/familySlice";
 import {
   getUserFamilyApi,
   addUserFamilyApi,
   removeUserFamilyApi,
-  updateUserFamilyApi
+  updateUserFamilyApi,
 } from "../../../apis/UserProfile/familyApi";
+import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 import { message } from "antd";
-export default function* rewardSaga() {
+
+export default function* familySaga() {
   yield all([yield takeLatest(getFamily, fetchFamilySaga)]);
   yield all([yield takeLatest(addFamily, addFamilySaga)]);
   yield all([yield takeLatest(removeFamily, removeFamilySaga)]);
@@ -25,6 +27,7 @@ export default function* rewardSaga() {
 }
 
 function* fetchFamilySaga(action) {
+  yield put(showLoading());
   try {
     const resp = yield call(getUserFamilyApi, action.payload);
     if (resp.message === "Successfully") {
@@ -33,9 +36,11 @@ function* fetchFamilySaga(action) {
   } catch (error) {
     console.log(error);
   }
+  yield put(hideLoading());
 }
 
 function* addFamilySaga(action) {
+  yield put(showLoading());
   try {
     const resp = yield call(addUserFamilyApi, action.payload);
     if (resp.message === "Success!. Stored") {
@@ -46,36 +51,39 @@ function* addFamilySaga(action) {
   } catch (error) {
     message.error("Thêm quan hệ thất bại");
   }
+  yield put(hideLoading());
 }
 
-function * removeFamilySaga(action){
+function* removeFamilySaga(action) {
+  yield put(showLoading());
   try {
     const resp = yield call(removeUserFamilyApi, action.payload);
-    if(resp.message === "Success!. Deleted") {
-      message.success("Xoá khen thưởng thành công")
+    if (resp.message === "Success!. Deleted") {
+      message.success("Xoá khen thưởng thành công");
       yield put(removeFamilySuccess(action.payload));
-      
     } else {
-      message.error("Xoá khen thưởng thất bại")
+      message.error("Xoá khen thưởng thất bại");
       yield put(removeFamilyFailed(action.payload));
     }
   } catch (error) {
     console.log(error);
   }
+  yield put(hideLoading());
 }
 
-function * updateFamilySaga (action) {
+function* updateFamilySaga(action) {
   try {
     const resp = yield call(updateUserFamilyApi, action.payload);
     console.log(resp, action.payload);
-    if(resp.message === "Success!. Updated") {
-      message.success("Cập nhật quan hệ thành công")
-      yield put(updateFamilySuccess(action.payload))
+    if (resp.message === "Success!. Updated") {
+      message.success("Cập nhật quan hệ thành công");
+      yield put(updateFamilySuccess(action.payload));
     } else {
-      message.error("Cập nhật quan hệ thất bại")
-      yield put(updateFamilyFailed(action.payload))
+      message.error("Cập nhật quan hệ thất bại");
+      yield put(updateFamilyFailed(action.payload));
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
+  yield put(hideLoading());
 }

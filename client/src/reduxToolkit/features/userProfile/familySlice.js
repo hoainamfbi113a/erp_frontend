@@ -30,27 +30,28 @@ const familySlice = createSlice({
       return [...state];
     },
     updateFamilySuccess(state, action) {
-      let data = current(state);
-      let {
+      const data = current(state);
+      const {
         id,
-        // rem_relationship,
+        rem_relationship,
         rem_full_name,
         rem_note,
         rem_job,
       } = action.payload;
-      let existingData = data.find((item) => item.id === id);
-      console.log("action: ", action.payload);
-      console.log("data: ", existingData);
-      if (existingData) {
-        // existingData.rem_relationship = rem_relationship;
-        existingData.rem_full_name = rem_full_name;
-        existingData.rem_note = rem_note;
-        existingData.rem_job = rem_job;
+      const index = data.findIndex((item) => item.id === id);
+      if (index >= 0) {
+        state[index].rem_relationship = rem_relationship;
+        state[index].rem_full_name = rem_full_name;
+        state[index].rem_note = rem_note;
+        state[index].rem_job = rem_job;
       }
     },
     updateFamilyFailed(state, action) {
       return [...state];
     },
+    eraseFamily() {
+      return []
+    }
   },
 });
 export const {
@@ -62,6 +63,7 @@ export const {
   removeFamilyFailed,
   updateFamily,
   updateFamilySuccess,
-  updateFamilyFailed
+  updateFamilyFailed,
+  eraseFamily
 } = familySlice.actions;
 export default familySlice.reducer;

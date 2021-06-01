@@ -1,12 +1,12 @@
-import React, { useState, useContext } from "react";
-import TableParts from "components/Table/TableParts";
+import TablePartContainer from "components/Table/container/TablePartContainer";
+import React from "react";
 import Content from "./Content";
 
 const ContentPart = () => {
   const obj = {
     name: "Tổ",
     service: "parts", 
-    component: TableParts
+    component: TablePartContainer
   }
   return (
     <Content {...obj}/>

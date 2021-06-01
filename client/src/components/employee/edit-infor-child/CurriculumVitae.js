@@ -153,6 +153,13 @@ class CurriculumVitae extends Component {
       }
     }
   };
+  formatDate (input) {
+    var datePart = input.match(/\d+/g),
+    year = datePart[0].substring(2), // get only two digits
+    month = datePart[1], day = datePart[2];
+  
+    return day+'/'+month+'/'+year;
+  }
   componentDidUpdate = (prevProps, prevState) => {
     this.functionSearch(prevProps, prevState);
   };
@@ -169,7 +176,7 @@ class CurriculumVitae extends Component {
     await this.handleInputValid("position", this.state.pos_id);
     if (
       !this.state.valid_pro_name.isValid &&
-      !this.state.valid_phone.isValid &&
+      // !this.state.valid_phone.isValid &&
       // !this.state.valid_part.isValid &&
       !this.state.valid_department.isValid &&
       !this.state.valid_position.isValid
@@ -191,7 +198,7 @@ class CurriculumVitae extends Component {
         action: "update",
         pro_name: this.state.pro_name,
         pro_pen_name: this.state.pro_pen_name,
-        pro_birth_day: Date.parse(this.state.pro_birth_day) / 1000,
+        pro_birth_day: Date.parse(moment(this.state.pro_birth_day, "DD-MM-YYYY"))/1000,
         pro_gender: this.state.pro_gender,
         pro_birth_place: this.state.pro_birth_place,
         pro_home_town: this.state.pro_home_town,
@@ -202,8 +209,7 @@ class CurriculumVitae extends Component {
         pro_background_origin: this.state.pro_background_origin,
         pro_occupation: this.state.pro_occupation,
         pro_identity_card: this.state.pro_identity_card,
-        pro_identity_card_when:
-          Date.parse(this.state.pro_identity_card_when) / 1000,
+        pro_identity_card_when: Date.parse(moment(this.state.pro_identity_card_when, "DD-MM-YYYY"))/1000,
         pro_identity_card_where: this.state.pro_identity_card_where,
         pro_note: this.state.pro_note,
       };
@@ -218,7 +224,7 @@ class CurriculumVitae extends Component {
         dep_id: this.state.dep_id,
         pos_id: this.state.pos_id,
         part_id: this.state.par_id,
-        appointment_date: Date.parse(this.state.appointment_date) / 1000,
+        appointment_date: Date.parse(moment(this.state.appointment_date, "DD-MM-YYYY"))/1000,
       };
       let resUpdateDepartmentProfile = await updateDepartmentProfile(
         this.state.pro_id,
@@ -235,8 +241,8 @@ class CurriculumVitae extends Component {
         deg_diploma: this.state.deg_diploma,
         deg_majors: this.state.deg_majors,
         deg_school_name: this.state.deg_school_name,
-        deg_begin_study: Date.parse(this.state.deg_begin_study) / 1000,
-        deg_end_study: Date.parse(this.state.deg_end_study) / 1000,
+        deg_begin_study: Date.parse(moment(this.state.deg_begin_study, "DD-MM-YYYY"))/1000,
+        deg_end_study: Date.parse(moment(this.state.deg_end_study, "DD-MM-YYYY"))/1000,
         deg_note: this.state.deg_note,
         deg_permanent_residence: this.state.deg_permanent_residence,
         deg_education: this.state.deg_education,
@@ -270,9 +276,9 @@ class CurriculumVitae extends Component {
         user_id: this.state.user_id,
         pro_id: this.state.pro_id,
         car_number: this.state.car_number,
-        car_number_day: Date.parse(this.state.car_number_day),
-        car_begin: Date.parse(this.state.car_begin) / 1000,
-        car_end: Date.parse(this.state.car_end) / 1000,
+        car_number_day: Date.parse(moment(this.state.car_number_day, "DD-MM-YYYY"))/1000,
+        car_begin: Date.parse(moment(this.state.car_begin, "DD-MM-YYYY"))/1000,
+        car_end: Date.parse(moment(this.state.car_end, "DD-MM-YYYY"))/1000,
         car_note: this.state.car_note,
       };
       let resUpdateJournalistCards = await updateJournalistCards(
@@ -363,10 +369,8 @@ class CurriculumVitae extends Component {
       pro_background_origin: data.pro_background_origin,
       pro_occupation: data.pro_occupation,
       pro_identity_card: data.pro_identity_card,
-      pro_identity_card_when:
-        data.pro_identity_card_when.indexOf("1970-01-01") == 0
-          ? null
-          : data.pro_identity_card_when,
+      // pro_identity_card_when: data.pro_identity_card_when == null ? null:data.pro_identity_card_when ,
+      pro_identity_card_when: data.pro_identity_card_when==null? null:this.formatDate(data.pro_identity_card_when.toString().slice(0,10)) ,
       pro_identity_card_where: data.pro_identity_card_where,
       pro_note: data.pro_note,
       dep_id: data.department.data.dep_id,
@@ -406,7 +410,7 @@ class CurriculumVitae extends Component {
         : "",
       car_number_day:
         data.journalistCard && data.journalistCard.data.car_number_day != null
-          ? new Date(data.journalistCard.data.car_number_day)
+          ? new Date(data.journalistCard.data.car_number_day*1000)
           : null,
       car_begin:
         data.journalistCard && data.journalistCard.data.car_begin != null
@@ -631,6 +635,7 @@ class CurriculumVitae extends Component {
                       <span className="tabs-user-infor-top">Số điện thoại</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                          disabled={true}
                           value={this.state.phone}
                           name="phone"
                           onChange={this.onChange}
