@@ -62,6 +62,7 @@ const BonusContainer = (props) => {
       rew_note: null,
     });
     setId("")
+    
     setVisible(false);
   };
   const handleUpdate = (value) => {
