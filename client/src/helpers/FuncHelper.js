@@ -191,7 +191,7 @@ const formatDateNumber = (number, type) => {
 
 const convertFormatDate = (date, format) => {
   let a = date.split("/");
-  let b = a[1].concat("/", a[0], "/").concat(a[2]);
+  let b = a[1].concat("-", a[0], "-").concat(a[2]);
   return b;
 };
 

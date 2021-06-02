@@ -9,6 +9,7 @@ import disciplineSlice from "./userProfile/disciplineSlice";
 import familySlice from "./userProfile/familySlice";
 import kinshipSlice from "./userProfile/kinshipSlice";
 import socialSlice from "./userProfile/socialSlice";
+import joinDCSSlice from "./userProfile/joinDCSSlice";
 
 const reducer = combineReducers({
      uiLoading: uiLoadingReducer,
@@ -21,5 +22,6 @@ const reducer = combineReducers({
      familyUser: familySlice,
      kinshipUser: kinshipSlice,
      socialUser: socialSlice,
+     joinDCSUser: joinDCSSlice,
 });
 export default reducer;

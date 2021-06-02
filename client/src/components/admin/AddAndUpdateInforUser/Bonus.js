@@ -111,6 +111,7 @@ const Bonus = (props) => {
             </li>
             <li className="tabs-main-left-li tabs-main-left-li-row">
               <span className="tabs-user-infor-top">Từ ngày</span>
+              {console.log(props.reward.rew_time_to)}
               <div className="tabs-user-infor-bottom">
                 <RangePicker
                   placeholder={["Từ ngày", "Đến ngày"]}
@@ -119,7 +120,6 @@ const Bonus = (props) => {
                       ? [
                        moment(props.reward.rew_time_from,dateFormatList[0]),
                        moment(props.reward.rew_time_to,dateFormatList[0]),
-                      
                         ]
                       : null
                   }

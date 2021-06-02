@@ -28,13 +28,12 @@ import BonusContainer from "./BonusContainer";
 import FamilyContainer from "./FamilyContainer";
 import PersonalHistory from "./PersonalHistoryContainer";
 import CurriculumVitae from "../CurriculumVitae";
-import JoinDCS from "../JoinDCS";
+import JoinDCS from "./JoinDCSContainer";
 import JoinTCTTXH from "../JoinTCTTXH";
 import ProfessionalCompensation from "../ProfessionalCompensation";
 const { Step } = Steps;
 
 const InfoUserContainer = (props) => {
-  const dispatch = useDispatch();
   const [activeLink, setActiveLink] = useState(1);
   const [modalNotify, setModalNotify] = useState(false);
   const [step_id, setStep_id] = useState(0);
@@ -84,7 +83,7 @@ const InfoUserContainer = (props) => {
       case 2:
         return <PersonalHistory />;
       case 3:
-        return <JoinDCS />;
+        return <JoinDCS idUser={userId} dataProfile={profile} />;
       case 4:
         return <JoinTCTTXH />;
       case 5:

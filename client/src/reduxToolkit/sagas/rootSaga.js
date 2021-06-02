@@ -8,6 +8,7 @@ import disciplineSaga from "./userProfile/disciplineSaga";
 import familySaga from "./userProfile/familySaga";
 import kinshipSaga from "./userProfile/kinshipSaga";
 import socialSaga from "./userProfile/socialSaga";
+import joinDCSSaga from "./userProfile/joinDCSSaga";
 
 export function* rootSaga () {
     yield all([
@@ -20,6 +21,7 @@ export function* rootSaga () {
         familySaga(),
         kinshipSaga(),
         socialSaga(),
+        joinDCSSaga(),
     ])
 }
 // export default rootSaga;
