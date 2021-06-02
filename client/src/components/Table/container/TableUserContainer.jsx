@@ -8,6 +8,10 @@ import { Link, useRouteMatch } from "react-router-dom";
 import { eraseFamily } from "reduxToolkit/features/userProfile/familySlice";
 import { eraseKinship } from "reduxToolkit/features/userProfile/kinshipSlice";
 import { eraseSocial } from "reduxToolkit/features/userProfile/socialSlice";
+import { eraseTraining } from "reduxToolkit/features/userProfile/trainingSlice";
+import { eraseTraining2 } from "reduxToolkit/features/userProfile/training2Slice";
+import { eraseOrganize } from "reduxToolkit/features/userProfile/organizeSlice";
+import { eraseOrganize2 } from "reduxToolkit/features/userProfile/organize2Slice";
 import PermissionContext from "../../../context/PermissionContext";
 import TableUser from "../TableUser";
 
@@ -41,6 +45,10 @@ const TableUserContainer = (props) => {
     dispatch(eraseFamily());
     dispatch(eraseKinship());
     dispatch(eraseSocial());
+    dispatch(eraseTraining());
+    dispatch(eraseTraining2());
+    dispatch(eraseOrganize());
+    dispatch(eraseOrganize2());
   }, []);
 
   useEffect(async () => {

@@ -16,6 +16,12 @@ import {
   removeSocial,
   updateSocial,
 } from "../../../../reduxToolkit/features/userProfile/socialSlice";
+import {
+  addHistory,
+  getHistory,
+  removeHistory,
+  updateHistory,
+} from "../../../../reduxToolkit/features/userProfile/historySlice";
 import { message, Steps } from "antd";
 import axiosConfig from "apis/axios";
 import { getProfile, updateProfile } from "apis/profileApi";
@@ -26,15 +32,13 @@ import { useDispatch, useSelector } from "react-redux";
 import Index from "../index";
 import BonusContainer from "./BonusContainer";
 import FamilyContainer from "./FamilyContainer";
-import PersonalHistory from "./PersonalHistoryContainer";
+import TrainingContainer from "./TrainingContainer";
 import CurriculumVitae from "../CurriculumVitae";
 import JoinDCS from "../JoinDCS";
-import JoinTCTTXH from "../JoinTCTTXH";
-import ProfessionalCompensation from "../ProfessionalCompensation";
+import OrganizeContainer from "./OrganizeContainer";
 const { Step } = Steps;
 
 const InfoUserContainer = (props) => {
-  const dispatch = useDispatch();
   const [activeLink, setActiveLink] = useState(1);
   const [modalNotify, setModalNotify] = useState(false);
   const [step_id, setStep_id] = useState(0);
@@ -45,6 +49,7 @@ const InfoUserContainer = (props) => {
   const dataFamily = useSelector((state) => state.familyUser);
   const dataKinship = useSelector((state) => state.kinshipUser);
   const dataSocial = useSelector((state) => state.socialUser);
+  const dataHistory = useSelector((state) => state.historyUser);
   const userId = props.match.params.id;
   useEffect(() => {
     (async function fetchTransfer() {
@@ -60,12 +65,12 @@ const InfoUserContainer = (props) => {
           dataTransfersProfile = await transfersProfile(data.id);
           setStep_id(dataTransfersProfile.data.next_step_id);
         }
-      } else if(window.location.href.includes("create")===false) {
+      } else if (window.location.href.includes("create") === false) {
         setProfile(dataProfile);
         setProId(dataProfile.id);
         let dataTransfersProfile = {};
-          dataTransfersProfile = await transfersProfile(dataProfile.id);
-          setStep_id(dataTransfersProfile.data.next_step_id);
+        dataTransfersProfile = await transfersProfile(dataProfile.id);
+        setStep_id(dataTransfersProfile.data.next_step_id);
       }
     })();
   }, []);
@@ -82,13 +87,23 @@ const InfoUserContainer = (props) => {
           />
         );
       case 2:
-        return <PersonalHistory />;
+        return (
+          <PersonalHistoryContainer
+            idUser={userId}
+            proId={pro_id}
+            getData={getHistory({ id: userId })}
+            addData={addHistory}
+            updateData={updateHistory}
+            removeData={removeHistory}
+            data={dataHistory}
+          />
+        );
       case 3:
         return <JoinDCS />;
       case 4:
-        return <JoinTCTTXH />;
+        return <OrganizeContainer idUser={userId} dataProfile={profile} />;
       case 5:
-        return <ProfessionalCompensation />;
+        return <TrainingContainer idUser={userId} dataProfile={profile} />;
       case 6:
         return <BonusContainer idUser={userId} dataProfile={profile} />;
       case 7:

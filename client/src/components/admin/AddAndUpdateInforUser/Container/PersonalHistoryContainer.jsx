@@ -1,63 +1,63 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import Family from "../Family";
+import { useDispatch } from "react-redux";
+import PersonalHistory from "../PersonalHistory";
+import moment from "moment";
+import { formatDateNumber } from "../../../../helpers/FuncHelper";
+const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 
-const fakeData = [
-  {
-    id: 1,
-    title: "Nhà",
-    content: "123 Phạm Văn Đồng Gò Vấp giá trị 3 tỉ đồng",
-  },
-];
-
-const FamilyContainer = ({
+const PersonalHistoryContainer = ({
   idUser,
   proId,
-  type,
-  namination,
   getData,
   updateData,
   addData,
   removeData,
-  data
+  data,
 }) => {
   const dispatch = useDispatch();
   const [visible, setVisible] = useState(false);
   const [dataItem, setDataItem] = useState({
-    rem_full_name: "",
-    rem_note: "",
-    rem_job: "",
+    his_work_place: "",
+    his_work_from: "",
+    his_work_to: "",
+    his_working_process: "",
+    his_note: "",
   });
-  const [rem_relationship, setRem] = useState();
-  const [idFam, setIdFam] = useState(null);
+  const [idHis, setIdHis] = useState(null);
+
   useEffect(() => {
-    if(!data.length)
-      dispatch(getData);
-  }, [type]);
+    if (!data.length) dispatch(getData);
+  }, []);
 
   const handleOk = () => {
+    let date1 = moment(dataItem.his_work_from, "DD-MM-YYYY");
+    let date2 = moment(dataItem.his_work_to, "DD-MM-YYYY");
+
+    const parseTimeFrom = Date.parse(date1) / 1000;
+    const parseTimeTo = Date.parse(date2) / 1000;
     const paramsAdd = {
       pro_id: proId,
       user_id: idUser,
-      rem_relationship: rem_relationship,
-      rem_full_name: dataItem.rem_full_name,
-      rem_note: dataItem.rem_note,
-      rem_job: dataItem.rem_job,
-      rem_type: type,
+      his_work_place: dataItem.his_work_place,
+      his_work_from: parseTimeFrom,
+      his_work_to: parseTimeTo,
+      his_working_process: dataItem.his_working_process,
+      his_note: dataItem.his_note,
     };
     const paramsUpdate = {
-      id: idFam,
+      id: idHis,
       pro_id: proId,
       user_id: idUser,
-      rem_relationship: rem_relationship,
-      rem_full_name: dataItem.rem_full_name,
-      rem_note: dataItem.rem_note,
-      rem_job: dataItem.rem_job,
-      rem_type: type,
+      his_work_place: dataItem.his_work_place,
+      his_work_from: parseTimeFrom,
+      his_work_to: parseTimeTo,
+      his_working_process: dataItem.his_working_process,
+      his_note: dataItem.his_note,
     };
-    if (idFam) {
+    if (idHis) {
       dispatch(updateData(paramsUpdate));
     } else {
+      console.log(paramsAdd);
       dispatch(addData(paramsAdd));
       setTimeout(() => {
         dispatch(getData);
@@ -72,11 +72,19 @@ const FamilyContainer = ({
   };
 
   const handleUpdate = (value) => {
-    const { id, rem_relationship } = value;
+    const { id, his_work_place, his_work_from, his_work_to, his_working_process, his_note } = value;
+    const date1 = formatDateNumber(his_work_from, dateFormatList[0])
+    const date2 = formatDateNumber(his_work_to, dateFormatList[0])
     setVisible(true);
-    setDataItem(value);
-    setRem(rem_relationship);
-    setIdFam(id);
+    setIdHis(id);
+    setDataItem({
+      ...dataItem,
+      his_work_place,
+      his_work_from: date1,
+      his_work_to: date2,
+      his_working_process,
+      his_note
+    });
   };
 
   const showModal = () => {
@@ -86,32 +94,37 @@ const FamilyContainer = ({
 
   const hideModal = () => {
     setVisible(false);
-    setRem();
-    setIdFam(null);
+    setIdHis(null);
   };
 
   const onChange = (e) => {
     setDataItem({ ...dataItem, [e.target.name]: e.target.value });
   };
 
+  const onChangeRange = (dateString) => {
+    setDataItem({
+      ...dataItem,
+      his_work_from: dateString[0],
+      his_work_to: dateString[1],
+    });
+  };
+
   return (
     <div>
-      <Family
-        fakeData={fakeData}
-        dataFamily={data}
+      <PersonalHistory
+        dataHistory={data}
         showModal={showModal}
         hideModal={hideModal}
         handleUpdate={handleUpdate}
         visible={visible}
         dataItem={dataItem}
         onChange={onChange}
-        setRem={setRem}
         handleOk={handleOk}
         handleDelete={handleDelete}
-        rem_relationship={rem_relationship}
-        namination={namination}
+        onChangeRange={onChangeRange}
       />
+      {/* {console.log(idHis)}; */}
     </div>
   );
 };
-export default FamilyContainer;
+export default PersonalHistoryContainer;
