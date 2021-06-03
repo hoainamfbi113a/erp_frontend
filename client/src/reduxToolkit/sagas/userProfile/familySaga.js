@@ -72,6 +72,7 @@ function* removeFamilySaga(action) {
 }
 
 function* updateFamilySaga(action) {
+  yield put(showLoading());
   try {
     const resp = yield call(updateUserFamilyApi, action.payload);
     console.log(resp, action.payload);
