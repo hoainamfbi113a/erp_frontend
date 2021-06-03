@@ -20,39 +20,41 @@ const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 
 const Organize = (props) => {
   const renderData = (data) => {
-    return data.map((item) => {
-      return (
-        <li key={item.id}>
-          <div className="personal-history-time">
-            {formatDateNumber(item.org_time_from, dateFormatList[0])} -{" "}
-            <span>
-              {" "}
-              {formatDateNumber(item.org_time_to, dateFormatList[0])}
-            </span>
-          </div>
-          <Space size="middle">
-            <Popconfirm
-              title="Bạn có muốn xóa không ?"
-              okText="Yes"
-              cancelText="No"
-              onConfirm={() => props.handleOkDelete(item)}
-            >
-              <Tag color="volcano" className="table-action">
-                Xoá
+    if(data){
+      return data.map((item) => {
+        return (
+          <li key={item.id}>
+            <div className="personal-history-time">
+              {formatDateNumber(item.org_time_from, dateFormatList[0])} -{" "}
+              <span>
+                {" "}
+                {formatDateNumber(item.org_time_to, dateFormatList[0])}
+              </span>
+            </div>
+            <Space size="middle">
+              <Popconfirm
+                title="Bạn có muốn xóa không ?"
+                okText="Yes"
+                cancelText="No"
+                onConfirm={() => props.handleOkDelete(item)}
+              >
+                <Tag color="volcano" className="table-action">
+                  Xoá
+                </Tag>
+              </Popconfirm>
+              <Tag
+                color="geekblue"
+                className="table-action"
+                onClick={() => props.handleUpdate(item)}
+              >
+                Update
               </Tag>
-            </Popconfirm>
-            <Tag
-              color="geekblue"
-              className="table-action"
-              onClick={() => props.handleUpdate(item)}
-            >
-              Update
-            </Tag>
-          </Space>
-          <p className="personal-history-content">{item.org_note}</p>
-        </li>
-      );
-    });
+            </Space>
+            <p className="personal-history-content">{item.org_note}</p>
+          </li>
+        );
+      });
+    }
   };
   return (
     <div className="edit-infor-form">

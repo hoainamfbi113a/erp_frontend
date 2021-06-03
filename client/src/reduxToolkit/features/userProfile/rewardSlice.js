@@ -12,6 +12,9 @@ const rewardSlice = createSlice({
     addReward(state, action) {
       return [...state];
     },
+    addRewardSuccess(state, action) {
+      return [...state, action.payload];
+    },
 
     removeReward(state, action) {
       return [...state];
@@ -50,6 +53,7 @@ export const {
   getReward,
   setReward,
   addReward,
+  addRewardSuccess,
   removeReward,
   removeRewardSuccess,
   removeRewardFailed,

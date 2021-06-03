@@ -1,8 +1,9 @@
-import { all, call, takeLatest, put } from "redux-saga/effects";
+import { all, call, takeLatest, put, select } from "redux-saga/effects";
 import {
   getTraining2,
   setTraining2,
   addTraining2,
+  addTraining2Success,
   removeTraining2,
   removeTraining2Success,
   removeTraining2Failed,
@@ -11,6 +12,9 @@ import {
   updateTraining2Failed,
 } from "../../../reduxToolkit/features/userProfile/training2Slice";
 import {
+  removeTrainingSuccess,
+} from "reduxToolkit/features/userProfile/trainingSlice";
+import {
   getTrainingApi,
   addTrainingApi,
   removeTrainingApi,
@@ -18,7 +22,7 @@ import {
 } from "../../../apis/UserProfile/trainingApi";
 import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 import { message } from "antd";
-
+const getProject = (state) => state.training2User
 export default function* training2Saga() {
   yield all([yield takeLatest(getTraining2, fetchTraining2Saga)]);
   yield all([yield takeLatest(addTraining2, addTraining2Saga)]);
@@ -77,7 +81,17 @@ function* updateTraining2Saga(action) {
     const resp = yield call(updateTrainingApi, action.payload);
     if (resp.message === "Success!. Updated") {
       message.success("Cập nhật thông tin thành công");
-      yield put(updateTraining2Success(action.payload));
+      // yield put(updateTraining2Success(action.payload));
+      let training2s = yield select(getProject);
+      const existingTraining2 = training2s.find((training2) => training2.id == action.payload.id);
+      if(existingTraining2) {
+        yield put(updateTraining2Success(action.payload));
+      } else {
+            alert("##")
+            yield put (removeTrainingSuccess(action.payload))
+            yield put (addTraining2Success(action.payload))
+      }
+
     } else {
       message.error("Cập nhật thông tin thất bại");
       yield put(updateTraining2Failed(action.payload));
