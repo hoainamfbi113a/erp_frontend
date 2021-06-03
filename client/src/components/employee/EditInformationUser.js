@@ -4,7 +4,7 @@ import CurriculumVitae from "./edit-infor-child/CurriculumVitae";
 import CurriculumVitaes from "./edit-infor-child/CurriculumVitaes";
 import PersonalHistory from "./edit-infor-child/PersonalHistory";
 import JoinTCTTXH from "./edit-infor-child/JoinTCTTXH";
-import JoinDCS from "./edit-infor-child/JoinDCS";
+// import JoinDCS from "./edit-infor-child/JoinDCS";
 import ProfessionalCompensation from "./edit-infor-child/ProfessionalCompensation";
 import Bonus from "./edit-infor-child/Bonus";
 import Family from "./edit-infor-child/Family";
@@ -18,8 +18,38 @@ import { transfersProfile } from "apis/transfersApi";
 import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { sleep } from "helpers/FuncHelper";
+import BonusContainer from "../admin/AddAndUpdateInforUser/Container/BonusContainer";
+import FamilyContainer from "../admin/AddAndUpdateInforUser/Container/FamilyContainer";
+import TrainingContainer from "../admin/AddAndUpdateInforUser/Container/TrainingContainer";
+// import CurriculumVitae from "../CurriculumVitae";
+import JoinDCS from "../admin/AddAndUpdateInforUser/Container/JoinDCSContainer";
+import OrganizeContainer from "../admin/AddAndUpdateInforUser/Container/OrganizeContainer";
+import PersonalHistoryContainer from "../admin/AddAndUpdateInforUser/Container/PersonalHistoryContainer";
 import axiosConfig from "apis/axios";
+import {
+  getFamily,
+  addFamily,
+  removeFamily,
+  updateFamily,
+} from "../../reduxToolkit/features/userProfile/familySlice";
+import {
+  getKinship,
+  addKinship,
+  removeKinship,
+  updateKinship,
+} from "../../reduxToolkit/features/userProfile/kinshipSlice";
+import {
+  getSocial,
+  addSocial,
+  removeSocial,
+  updateSocial,
+} from "../../reduxToolkit/features/userProfile/socialSlice";
+import {
+  addHistory,
+  getHistory,
+  removeHistory,
+  updateHistory,
+} from "../../reduxToolkit/features/userProfile/historySlice";
 const { Step } = Steps;
 class EditInformationUser extends Component {
   constructor(props) {
@@ -59,7 +89,18 @@ class EditInformationUser extends Component {
       return <Bonus />;
     }
     if (this.state.activeLink === 7) {
-      return <Family />;
+      // return <Family />;
+          <FamilyContainer
+            idUser={userId}
+            proId={pro_id}
+            type="family"
+            namination="Gia đình"
+            getData={getFamily({ id: userId, type: "family" })}
+            addData={addFamily}
+            updateData={updateFamily}
+            removeData={removeFamily}
+            data={dataFamily}
+      />
     }
     if (this.state.activeLink === 8) {
       return <Kinship />;
@@ -217,6 +258,10 @@ class EditInformationUser extends Component {
 const mapStateToProps = (state) => {
   return {
     userProfileState: state.userProfile,
+    dataFamily: state.familyUser,
+    dataKinship: state.kinshipUser,
+    dataSocial: state.socialUser,
+    dataHistory: state.historyUser
   };
 };
 
