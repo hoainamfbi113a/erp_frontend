@@ -1,4 +1,4 @@
-import { all, call, takeLatest, put } from "redux-saga/effects";
+import { all, call, takeLatest, put, select } from "redux-saga/effects";
 import {
   getTraining,
   setTraining,
@@ -11,6 +11,9 @@ import {
   updateTrainingFailed,
 } from "reduxToolkit/features/userProfile/trainingSlice";
 import {
+  removeTraining2Success,
+} from "../../../reduxToolkit/features/userProfile/training2Slice";
+import {
   getTrainingApi,
   addTrainingApi,
   removeTrainingApi,
@@ -19,6 +22,7 @@ import {
 import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 import { message } from "antd";
 
+const getProject = (state) => state.trainingUser
 export default function* trainingSaga() {
   yield all([yield takeLatest(getTraining, fetchTrainingSaga)]);
   yield all([yield takeLatest(addTraining, addTrainingSaga)]);
@@ -77,7 +81,16 @@ function* updateTrainingSaga(action) {
     const resp = yield call(updateTrainingApi, action.payload);
     if (resp.message === "Success!. Updated") {
       message.success("Cập nhật thông tin thành công");
-      yield put(updateTrainingSuccess(action.payload));
+      let trainings = yield select(getProject);
+      const existingTraining = trainings.find((training) => training.id == action.payload.id);
+      // console.log(existingTraining)
+      if(existingTraining) {
+        yield put(updateTrainingSuccess(action.payload));
+      } else {
+          alert("#")
+            yield put (removeTraining2Success(action.payload))
+            yield put (addTrainingSuccess(action.payload))
+      }
     } else {
       message.error("Cập nhật thông tin thất bại");
       yield put(updateTrainingFailed(action.payload));
