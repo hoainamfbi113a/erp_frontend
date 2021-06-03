@@ -188,7 +188,7 @@ const JoinDCS = (props) => {
                     <DatePicker
                         placeholder="Chọn ngày"
                         style={{ width: 150 }}
-                        value={ moment(date2, dateFormatList[0])}
+                        value={par_announcement_date ? moment(date2, dateFormatList[0]): null}
                         format={dateFormatList}
                         onChange={(date, dateString) =>
                           props.onChangeBirthDay(
@@ -244,7 +244,7 @@ const JoinDCS = (props) => {
                         <DatePicker
                           placeholder="Chọn ngày"
                           style={{ width: 150 }}
-                          value={ moment(date3, dateFormatList[0])}
+                          value={par_issue_date ? moment(date3, dateFormatList[0]): null}
                           format={dateFormatList}
                           onChange={(date, dateString) =>
                             props.onChangeBirthDay(
@@ -277,7 +277,7 @@ const JoinDCS = (props) => {
                       }}
                       className="btn-add-user btn-add-user-DCS"
                     >
-                      XÁC NHẬN
+                      CẬP NHẬT
                     </span>
                   </li>
                 </ul>
