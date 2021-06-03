@@ -72,7 +72,7 @@ function* updateJoinDCSSaga(action) {
   try {
     const resp = yield call(updateJoinDCSApi, action.payload);
     if (resp.message === "Success!. Updated") {
-      message.success("Cập nhật khen thưởng thành công");
+      message.success("Cập nhật DCS thành công");
       yield put(updateJoinDCSSuccess(action.payload));
     } else {
       message.error("Cập nhật khen thưởng thất bại");

@@ -16,8 +16,7 @@ const trainingSlice = createSlice({
     },
     removeTrainingSuccess(state, action) {
       const data = current(state);
-      const id = action.payload;
-      console.log(id);
+      const { id } = action.payload;
       const existingData = data.find((item) => item.id == id);
       if (existingData) {
         return data.filter((item) => item.id != id);

@@ -16,7 +16,7 @@ const training2Slice = createSlice({
     },
     removeTraining2Success(state, action) {
       const data = current(state);
-      const id = action.payload;
+      const {id} = action.payload;
       console.log(id);
       const existingData = data.find((item) => item.id == id);
       if (existingData) {

@@ -11,6 +11,9 @@ import {
   updateRewardFailed,
 } from "reduxToolkit/features/userProfile/rewardSlice";
 import {
+  addDiscipline,
+} from "reduxToolkit/features/userProfile/disciplineSlice";
+import {
   getRewardApi,
   addRewardApi,
   removeRewardApi,
@@ -69,12 +72,21 @@ function* removeRewardSaga(action) {
 }
 
 function* updateRewardSaga(action) {
+  console.log(action.payload+"asdasd")
   yield put(showLoading());
   try {
     const resp = yield call(updateRewardApi, action.payload);
     if (resp.message === "Success!. Updated") {
       message.success("Cập nhật khen thưởng thành công");
-      yield put(updateRewardSuccess(action.payload));
+      console.log(action.payload)
+      if(action.payload.id == 1) {
+        yield put(updateRewardSuccess(action.payload));
+      } else {
+        yield put (removeRewardSuccess(action.payload))
+        yield put (addDiscipline(action.payload))
+      }
+      
+      
     } else {
       message.error("Cập nhật khen thưởng thất bại");
       yield put(updateRewardFailed(action.payload));
