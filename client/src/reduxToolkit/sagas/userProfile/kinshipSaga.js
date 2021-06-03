@@ -86,4 +86,5 @@ function* updateKinshipSaga(action) {
   } catch (error) {
     console.log(error);
   }
+  yield put(hideLoading());
 }

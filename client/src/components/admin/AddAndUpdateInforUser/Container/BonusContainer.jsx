@@ -62,6 +62,7 @@ const BonusContainer = (props) => {
       rew_note: null,
     });
     setId("")
+    
     setVisible(false);
   };
   const handleUpdate = (value) => {
@@ -90,6 +91,7 @@ const BonusContainer = (props) => {
     });
   };
   const onChangeRange = (e, dateString, name1, name2) => {
+    console.log(dateString[0])
     setReward({ ...reward, rew_time_from: dateString[0], rew_time_to: dateString[1] });
   };
   const handleChange = (value) => {
