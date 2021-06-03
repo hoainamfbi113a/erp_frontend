@@ -11,6 +11,9 @@ const organizeSlice = createSlice({
     addOrganize(state, action) {
       return [...state];
     },
+    addOrganizeSuccess(state, action) {
+      return [...state, action.payload];
+    },
     removeOrganize(state, action) {
       return [...state];
     },
@@ -56,6 +59,7 @@ export const {
   getOrganize,
   setOrganize,
   addOrganize,
+  addOrganizeSuccess,
   removeOrganize,
   removeOrganizeSuccess,
   removeOrganizeFailed,

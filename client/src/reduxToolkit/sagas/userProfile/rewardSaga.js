@@ -1,8 +1,9 @@
-import { all, call, takeLatest, put } from "redux-saga/effects";
+import { all, call, takeLatest, put, select } from "redux-saga/effects";
 import {
   getReward,
   setReward,
   addReward,
+  addRewardSuccess,
   removeReward,
   removeRewardSuccess,
   removeRewardFailed,
@@ -11,7 +12,7 @@ import {
   updateRewardFailed,
 } from "reduxToolkit/features/userProfile/rewardSlice";
 import {
-  addDiscipline,
+  removeDisciplineSuccess,
 } from "reduxToolkit/features/userProfile/disciplineSlice";
 import {
   getRewardApi,
@@ -27,11 +28,12 @@ export default function* rewardSaga() {
   yield all([yield takeLatest(removeReward, removeRewardSaga)]);
   yield all([yield takeLatest(updateReward, updateRewardSaga)]);
 }
+const getProject = (state) => state.rewardUser
+
 function* fetchRewardSaga(action) {
   yield put(showLoading());
   try {
     const resp = yield call(getRewardApi, action.payload);
-    // console.log(action.payload)
     if (resp.message === "Successfully") {
       yield put(setReward([...resp.data]));
     }
@@ -71,22 +73,20 @@ function* removeRewardSaga(action) {
   yield put(hideLoading());
 }
 
-function* updateRewardSaga(action) {
-  console.log(action.payload+"asdasd")
+function* updateRewardSaga(action){
   yield put(showLoading());
   try {
     const resp = yield call(updateRewardApi, action.payload);
     if (resp.message === "Success!. Updated") {
       message.success("Cập nhật khen thưởng thành công");
-      console.log(action.payload)
-      if(action.payload.id == 1) {
+      let rewards = yield select(getProject);
+      const existingReward = rewards.find((reward) => reward.id == action.payload.id);
+      if(existingReward) {
         yield put(updateRewardSuccess(action.payload));
       } else {
-        yield put (removeRewardSuccess(action.payload))
-        yield put (addDiscipline(action.payload))
+            yield put (removeDisciplineSuccess(action.payload))
+            yield put (addRewardSuccess(action.payload))
       }
-      
-      
     } else {
       message.error("Cập nhật khen thưởng thất bại");
       yield put(updateRewardFailed(action.payload));

@@ -12,3 +12,4 @@ function* fetchDataSaga(action) {
     }
     yield put(hideLoading());
   }
+  export const getProject = (state) => state.project
