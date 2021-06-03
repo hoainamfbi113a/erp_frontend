@@ -8,6 +8,7 @@ import disciplineSaga from "./userProfile/disciplineSaga";
 import familySaga from "./userProfile/familySaga";
 import kinshipSaga from "./userProfile/kinshipSaga";
 import socialSaga from "./userProfile/socialSaga";
+import joinDCSSaga from "./userProfile/joinDCSSaga";
 import historySaga from "./userProfile/historySaga";
 import trainingSaga from "./userProfile/trainingSaga";
 import training2Saga from "./userProfile/training2Saga";
@@ -25,6 +26,7 @@ export function* rootSaga () {
         familySaga(),
         kinshipSaga(),
         socialSaga(),
+        joinDCSSaga(),
         historySaga(),
         trainingSaga(),
         training2Saga(),

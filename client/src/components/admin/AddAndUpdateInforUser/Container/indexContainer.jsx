@@ -34,8 +34,9 @@ import BonusContainer from "./BonusContainer";
 import FamilyContainer from "./FamilyContainer";
 import TrainingContainer from "./TrainingContainer";
 import CurriculumVitae from "../CurriculumVitae";
-import JoinDCS from "../JoinDCS";
+import JoinDCS from "./JoinDCSContainer";
 import OrganizeContainer from "./OrganizeContainer";
+import PersonalHistoryContainer from "./PersonalHistoryContainer";
 const { Step } = Steps;
 
 const InfoUserContainer = (props) => {
@@ -99,7 +100,7 @@ const InfoUserContainer = (props) => {
           />
         );
       case 3:
-        return <JoinDCS />;
+        return <JoinDCS idUser={userId} dataProfile={profile} />;
       case 4:
         return <OrganizeContainer idUser={userId} dataProfile={profile} />;
       case 5:
