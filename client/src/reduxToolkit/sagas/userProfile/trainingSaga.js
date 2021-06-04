@@ -3,6 +3,7 @@ import {
   getTraining,
   setTraining,
   addTraining,
+  addTrainingSuccess,
   removeTraining,
   removeTrainingSuccess,
   removeTrainingFailed,
@@ -87,7 +88,6 @@ function* updateTrainingSaga(action) {
       if(existingTraining) {
         yield put(updateTrainingSuccess(action.payload));
       } else {
-          alert("#")
             yield put (removeTraining2Success(action.payload))
             yield put (addTrainingSuccess(action.payload))
       }

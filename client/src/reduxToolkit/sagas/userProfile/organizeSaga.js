@@ -23,7 +23,7 @@ import {
 import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 import { message } from "antd";
 
-const getProject = (state) => state.organize2User
+const getProject = (state) => state.organizeUser
 export default function* organizeSaga() {
   yield all([yield takeLatest(getOrganize, fetchOrganizeSaga)]);
   yield all([yield takeLatest(addOrganize, addOrganizeSaga)]);
@@ -82,7 +82,6 @@ function* updateOrganizeSaga(action) {
     const resp = yield call(updateOrganizeApi, action.payload);
     if (resp.message === "Success!. Updated") {
       message.success("Cập nhật thông tin thành công");
-      // yield put(updateOrganizeSuccess(action.payload));
       let organizes = yield select(getProject);
       const existingOrganize = organizes.find((organize) => organize.id == action.payload.id);
       if(existingOrganize) {
