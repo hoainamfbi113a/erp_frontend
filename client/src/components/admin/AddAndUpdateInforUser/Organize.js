@@ -46,7 +46,7 @@ const Organize = (props) => {
               className="table-action"
               onClick={() => props.handleUpdate(item)}
             >
-              Update
+              Cập nhật
             </Tag>
           </Space>
           <p className="personal-history-content">{item.org_note}</p>

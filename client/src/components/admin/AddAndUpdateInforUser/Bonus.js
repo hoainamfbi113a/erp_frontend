@@ -46,7 +46,7 @@ const Bonus = (props) => {
               className="table-action"
               onClick={() => props.handleUpdate(item)}
             >
-              Update
+              Cập nhật
             </Tag>
           </Space>
           <p className="personal-history-content">{item.rew_formality}</p>

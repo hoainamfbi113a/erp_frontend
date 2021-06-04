@@ -46,7 +46,7 @@ const Training = (props) => {
               className="table-action"
               onClick={() => props.handleUpdate(item)}
             >
-              Update
+              Cập nhật
             </Tag>
           </Space>
           <p className="personal-history-content">{item.tra_note}</p>
@@ -117,6 +117,7 @@ const Training = (props) => {
               <span className="tabs-user-infor-top">Từ ngày</span>
               <div className="tabs-user-infor-bottom">
                 <RangePicker
+                  separator
                   placeholder={["Từ ngày", "Đến ngày"]}
                   value={
                     props.dataItem.tra_time_from

@@ -28,7 +28,7 @@ const organizeSlice = createSlice({
     },
     updateOrganize(state, action) {
       return [...state];
-    },
+    }, 
     updateOrganizeSuccess(state, action) {
       const data = current(state);
       const {
