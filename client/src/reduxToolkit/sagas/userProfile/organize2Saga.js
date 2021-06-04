@@ -89,6 +89,7 @@ function* updateOrganize2Saga(action) {
       if(existingOrganize2) {
         yield put(updateOrganize2Success(action.payload));
       } else {
+        alert("##")
             yield put (removeOrganizeSuccess(action.payload))
             yield put (addOrganize2Success(action.payload))
       }

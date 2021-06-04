@@ -12,6 +12,7 @@ const trainingSlice = createSlice({
       return [...state];
     },
     addTrainingSuccess(state, action) {
+      console.log(action.payload)
       return [...state, action.payload];
     },
     removeTraining(state, action) {

@@ -87,7 +87,6 @@ function* updateTraining2Saga(action) {
       if(existingTraining2) {
         yield put(updateTraining2Success(action.payload));
       } else {
-            alert("##")
             yield put (removeTrainingSuccess(action.payload))
             yield put (addTraining2Success(action.payload))
       }
