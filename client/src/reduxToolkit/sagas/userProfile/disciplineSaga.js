@@ -85,7 +85,6 @@ function* updateDisciplineSaga(action) {
       if (existingDiscipline) {
         yield put(updateDisciplineSuccess(action.payload));
       } else {
-        alert("#");
         yield put(removeRewardSuccess(action.payload));
         yield put(addDisciplineSuccess(action.payload));
       }
