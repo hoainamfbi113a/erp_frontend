@@ -1,8 +1,9 @@
-import { all, call, takeLatest, put } from "redux-saga/effects";
+import { all, call, takeLatest, put, select } from "redux-saga/effects";
 import {
   getDiscipline,
   setDiscipline,
   addDiscipline,
+  addDisciplineSuccess,
   removeDiscipline,
   removeDisciplineSuccess,
   removeDisciplineFailed,
@@ -16,8 +17,11 @@ import {
   removeRewardApi,
   updateRewardApi,
 } from "apis/UserProfile/rewardApi";
+import { removeRewardSuccess } from "reduxToolkit/features/userProfile/rewardSlice";
 import { message } from "antd";
 import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
+
+const getProject = (state) => state.disciplineUser
 export default function* disciplineSaga() {
   yield all([yield takeLatest(getDiscipline, fetchDisciplineSaga)]);
   yield all([yield takeLatest(addDiscipline, addDisciplineSaga)]);
@@ -73,8 +77,18 @@ function* updateDisciplineSaga(action) {
   try {
     const resp = yield call(updateRewardApi, action.payload);
     if (resp.message === "Success!. Updated") {
-      message.success("Cập nhật khen thưởng thành công");
-      yield put(updateDisciplineSuccess(action.payload));
+      message.success("Cập nhật kĩ luật thành công");
+      let disciplines = yield select(getProject);
+      const existingDiscipline = disciplines.find(
+        (discipline) => discipline.id == action.payload.id
+      );
+      if (existingDiscipline) {
+        yield put(updateDisciplineSuccess(action.payload));
+      } else {
+        alert("#");
+        yield put(removeRewardSuccess(action.payload));
+        yield put(addDisciplineSuccess(action.payload));
+      }
     } else {
       message.error("Cập nhật khen thưởng thất bại");
       yield put(updateDisciplineFailed(action.payload));

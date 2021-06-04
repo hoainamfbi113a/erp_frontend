@@ -12,6 +12,9 @@ const disciplineSlice = createSlice({
     addDiscipline(state, action) {
       return [...state];
     },
+    addDisciplineSuccess(state, action) {
+      return [...state, action.payload];
+    },
     
     removeDiscipline(state, action) {
       return [...state];
@@ -50,6 +53,7 @@ export const {
   getDiscipline,
   setDiscipline,
   addDiscipline,
+  addDisciplineSuccess,
   removeDiscipline,
   removeDisciplineSuccess,
   removeDisciplineFailed,

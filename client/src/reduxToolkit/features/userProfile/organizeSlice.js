@@ -11,12 +11,15 @@ const organizeSlice = createSlice({
     addOrganize(state, action) {
       return [...state];
     },
+    addOrganizeSuccess(state, action) {
+      return [...state, action.payload];
+    },
     removeOrganize(state, action) {
       return [...state];
     },
     removeOrganizeSuccess(state, action) {
       const data = current(state);
-      const id = action.payload;
+      const { id } = action.payload;
       console.log(id);
       const existingData = data.find((item) => item.id == id);
       if (existingData) {
@@ -56,6 +59,7 @@ export const {
   getOrganize,
   setOrganize,
   addOrganize,
+  addOrganizeSuccess,
   removeOrganize,
   removeOrganizeSuccess,
   removeOrganizeFailed,

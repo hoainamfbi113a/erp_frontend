@@ -41,12 +41,12 @@ function* addJoinDCSSaga(action) {
   try {
     const resp = yield call(addJoinDCSApi, action.payload);
     if (resp.message === "Success!. Stored") {
-      message.success("Thêm khen thưởng thành công");
+      message.success("Thêm thành công");
     } else {
-      message.error("Thêm khen thưởng thất bại");
+      message.error("Thêm thất bại");
     }
   } catch (error) {
-    message.error("Thêm khen thưởng thất bại");
+    message.error("Thêm thất bại");
   }
   yield put(hideLoading());
 }
@@ -72,7 +72,7 @@ function* updateJoinDCSSaga(action) {
   try {
     const resp = yield call(updateJoinDCSApi, action.payload);
     if (resp.message === "Success!. Updated") {
-      message.success("Cập nhật khen thưởng thành công");
+      message.success("Cập nhật DCS thành công");
       yield put(updateJoinDCSSuccess(action.payload));
     } else {
       message.error("Cập nhật khen thưởng thất bại");

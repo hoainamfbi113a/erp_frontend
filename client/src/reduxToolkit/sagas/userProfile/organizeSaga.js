@@ -1,8 +1,9 @@
-import { all, call, takeLatest, put } from "redux-saga/effects";
+import { all, call, takeLatest, put, select } from "redux-saga/effects";
 import {
   getOrganize,
   setOrganize,
   addOrganize,
+  addOrganizeSuccess,
   removeOrganize,
   removeOrganizeSuccess,
   removeOrganizeFailed,
@@ -10,6 +11,9 @@ import {
   updateOrganizeSuccess,
   updateOrganizeFailed,
 } from "../../../reduxToolkit/features/userProfile/organizeSlice";
+import {
+  removeOrganize2Success,
+} from "../../../reduxToolkit/features/userProfile/organize2Slice";
 import {
   getOrganizeApi,
   addOrganizeApi,
@@ -19,6 +23,7 @@ import {
 import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 import { message } from "antd";
 
+const getProject = (state) => state.organize2User
 export default function* organizeSaga() {
   yield all([yield takeLatest(getOrganize, fetchOrganizeSaga)]);
   yield all([yield takeLatest(addOrganize, addOrganizeSaga)]);
@@ -77,7 +82,15 @@ function* updateOrganizeSaga(action) {
     const resp = yield call(updateOrganizeApi, action.payload);
     if (resp.message === "Success!. Updated") {
       message.success("Cập nhật thông tin thành công");
-      yield put(updateOrganizeSuccess(action.payload));
+      // yield put(updateOrganizeSuccess(action.payload));
+      let organizes = yield select(getProject);
+      const existingOrganize = organizes.find((organize) => organize.id == action.payload.id);
+      if(existingOrganize) {
+        yield put(updateOrganizeSuccess(action.payload));
+      } else {
+            yield put (removeOrganize2Success(action.payload))
+            yield put (addOrganizeSuccess(action.payload))
+      }
     } else {
       message.error("Cập nhật thông tin thất bại");
       yield put(updateOrganizeFailed(action.payload));

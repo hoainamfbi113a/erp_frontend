@@ -11,13 +11,15 @@ const training2Slice = createSlice({
     addTraining2(state, action) {
       return [...state];
     },
+    addTraining2Success(state, action) {
+      return [...state, action.payload];
+    },
     removeTraining2(state, action) {
       return [...state];
     },
     removeTraining2Success(state, action) {
       const data = current(state);
-      const id = action.payload;
-      console.log(id);
+      const {id} = action.payload;
       const existingData = data.find((item) => item.id == id);
       if (existingData) {
         return data.filter((item) => item.id != id);
@@ -56,6 +58,7 @@ export const {
   getTraining2,
   setTraining2,
   addTraining2,
+  addTraining2Success,
   removeTraining2,
   removeTraining2Success,
   removeTraining2Failed,
