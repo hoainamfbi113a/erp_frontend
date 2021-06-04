@@ -47,30 +47,14 @@ const Organize = (props) => {
                 className="table-action"
                 onClick={() => props.handleUpdate(item)}
               >
-                Update
+                Cập nhật
               </Tag>
-<<<<<<< HEAD
-            </Popconfirm>
-            <Tag
-              color="geekblue"
-              className="table-action"
-              onClick={() => props.handleUpdate(item)}
-            >
-              Cập nhật
-            </Tag>
-          </Space>
-          <p className="personal-history-content">{item.org_note}</p>
-        </li>
-      );
-    });
-=======
             </Space>
             <p className="personal-history-content">{item.org_note}</p>
           </li>
         );
       });
     }
->>>>>>> 4f598845e9789f9b468be056d8660fd3ed2b52c8
   };
   return (
     <div className="edit-infor-form">
