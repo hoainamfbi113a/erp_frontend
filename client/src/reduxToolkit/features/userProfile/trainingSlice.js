@@ -38,14 +38,14 @@ const trainingSlice = createSlice({
       const data = current(state);
       const {
         id,
-        tra_work_from,
-        tra_work_to,
+        tra_time_from,
+        tra_time_to,
         tra_note,
       } = action.payload;
       const index = data.findIndex((item) => item.id === id);
       if (index >= 0) {
-        state[index].tra_work_from = tra_work_from;
-        state[index].tra_work_to = tra_work_to;
+        state[index].tra_time_from = tra_time_from;
+        state[index].tra_time_to = tra_time_to;
         state[index].tra_note = tra_note;
       }
     }, 

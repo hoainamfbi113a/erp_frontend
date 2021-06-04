@@ -115,7 +115,7 @@ const Family = () => {
               className="table-action"
               onClick={() => handleUpdate(item)}
             >
-              Update
+              Cập nhật
             </Tag>
           </Space>
           <p className="personal-history-content">
