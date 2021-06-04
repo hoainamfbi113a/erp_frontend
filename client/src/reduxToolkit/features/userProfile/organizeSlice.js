@@ -31,19 +31,19 @@ const organizeSlice = createSlice({
     },
     updateOrganize(state, action) {
       return [...state];
-    },
+    }, 
     updateOrganizeSuccess(state, action) {
       const data = current(state);
       const {
         id,
-        org_work_from,
-        org_work_to,
+        org_time_from,
+        org_time_to,
         org_note,
       } = action.payload;
       const index = data.findIndex((item) => item.id === id);
       if (index >= 0) {
-        state[index].org_work_from = org_work_from;
-        state[index].org_work_to = org_work_to;
+        state[index].org_time_from = org_time_from;
+        state[index].org_time_to = org_time_to;
         state[index].org_note = org_note;
       }
     }, 

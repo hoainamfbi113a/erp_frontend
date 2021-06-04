@@ -58,7 +58,7 @@ const History = ({
                 className="table-action"
                 onClick={() => handleUpdate(item)}
               >
-                Update
+                Cập nhật
               </Tag>
             </Space>
             <p className="personal-history-content">{item.his_work_place}</p>

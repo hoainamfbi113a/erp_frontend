@@ -116,7 +116,7 @@ const TrainingContainer = (props) => {
         datatraining.push(item);
       }
     }
-  }
+  } 
   const handleOk = () => {
     let { tra_type, tra_time_from, tra_time_to, tra_note } = dataItem;
     let date1 = moment(tra_time_from, "DD-MM-YYYY");
