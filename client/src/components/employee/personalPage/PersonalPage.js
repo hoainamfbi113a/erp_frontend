@@ -1,36 +1,57 @@
 import React, { useEffect, useState } from "react";
 import LazyLoad from "react-lazyload";
-import { useSelector } from "react-redux";
-import coverimg from "assets/images/coverimg.png";
-import avatar from "assets/images/avatar.jpg";
-import { Button, Tabs } from "antd";
-import { InfoCircleOutlined, CarOutlined, IdcardOutlined, SmileOutlined } from "@ant-design/icons";
-const { TabPane } = Tabs;
+import { useSelector, useDispatch } from "react-redux";
+import { getOrganize2 } from "../../../reduxToolkit/features/userProfile/organize2Slice";
+import { Tabs } from "antd";
+import {
+  InfoCircleOutlined,
+  CarOutlined,
+  SmileOutlined,
+} from "@ant-design/icons";
+import {
+  getReward,
+} from "../../../reduxToolkit/features/userProfile/rewardSlice";
 import { Timeline } from "antd";
 import { Layout } from "antd";
 import user2 from "assets/images/icon/user2.png";
 import phone from "assets/images/icon/phone.png";
 import email from "assets/images/icon/email.png";
-import { Upload, message } from "antd";
-import { CameraOutlined } from "@ant-design/icons";
-// import LazyLoad from 'react-lazyload';
+import { message } from "antd";
 import docCookies from "doc-cookies";
 import "./PersonalPage.css";
 import axios from "axios";
+import { formatDateNumber } from "../../../helpers/FuncHelper";
+const { TabPane } = Tabs;
+const id_user = docCookies.getItem("user_id");
 const placeHolder = "R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
+const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 const PersonalPage = () => {
+  const dispatch = useDispatch();
   const dataUser = useSelector((state) => state.user);
   const dataProfile = useSelector((state) => state.userProfile);
+  const dataOrgan2 = useSelector((state) => state.organize2User);
+  const dataReward = useSelector((state) => state.rewardUser);
   const [avatarCoverImg, setAvatarCoverImg] = useState(placeHolder);
   const [dataImg, setDataImg] = useState(placeHolder);
   useEffect(() => {
     fetChImg();
+    dispatch(getReward({
+      type: 2,
+      id_user,
+    }));
+    if (!dataOrgan2.length) {
+      dispatch(
+        getOrganize2({
+          type: 2,
+          id_user,
+        })
+      );
+    }
   }, []);
   const fetChImg = () => {
     axios
-      .get(`/api/user/resources/${docCookies.getItem("user_id")}`)
+      .get(`/api/user/resources/${id_user}`)
       .then((res) => {
-        console.log(res.data);
         let resImg = res.data;
         let i = -1;
         for (let item of resImg) {
@@ -89,6 +110,42 @@ const PersonalPage = () => {
         console.log(err);
       });
   };
+  const renderOrgan = () => {
+    return dataOrgan2.map((item) => {
+      return (
+        <Timeline.Item>
+          <div className="personal-history-time">
+            {formatDateNumber(item.org_time_from, dateFormatList[0])} -{" "}
+            <span>
+              {" "}
+              {formatDateNumber(item.org_time_to, dateFormatList[0])}
+            </span>
+          </div>
+          <p className="personal-history-content">
+           {item.org_note}
+          </p>
+        </Timeline.Item>
+      );
+    });
+  };
+  const renderReward = () => {
+    return dataReward.map(item=>{
+      return (
+        <Timeline.Item>
+          <div className="personal-history-time">
+          {formatDateNumber(item.rew_time_from, dateFormatList[0])} -{" "}
+            <span>
+              {" "}
+              {formatDateNumber(item.rew_time_to, dateFormatList[0])}
+            </span>
+          </div>
+          <p className="personal-history-content">
+           {item.rew_formality}
+          </p>
+        </Timeline.Item>
+      )
+    })
+  }
   return (
     <div style={{ background: "#EEEFF3" }}>
       <div className="container-fluid emp-profile">
@@ -108,21 +165,21 @@ const PersonalPage = () => {
             <div
               style={{ position: "absolute", right: "15px", bottom: "10px" }}
             >
-              <div class="file-input">
+              <div className="file-input">
                 <input
                   type="file"
                   name="selectedFile"
                   onChange={onChangeCover}
                   id="file-input"
-                  class="file-input__input"
+                  className="file-input__input"
                 />
-                <label class="file-input__label" for="file-input">
+                <label className="file-input__label" for="file-input">
                   <svg
                     aria-hidden="true"
                     focusable="false"
                     data-prefix="fas"
                     data-icon="upload"
-                    class="svg-inline--fa fa-upload fa-w-16"
+                    className="svg-inline--fa fa-upload fa-w-16"
                     role="img"
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 512 512"
@@ -258,18 +315,6 @@ const PersonalPage = () => {
                     </p>
                   </div>
                 </div>
-                <div className="row">
-                  <div className="col-md-4">
-                    <label>Địa chỉ</label>
-                  </div>
-                  <div className="col-md-8">
-                    <p>
-                      {dataProfile
-                        ? dataProfile.pro_resident
-                        : "Ấp 8 , Xã Tân An Luông, Huyện Vũng Liêm, Tỉnh Vĩnh Long"}
-                    </p>
-                  </div>
-                </div>
               </TabPane>
               <TabPane
                 tab={
@@ -281,33 +326,17 @@ const PersonalPage = () => {
                 key="2"
               >
                 <Timeline className="personal-page-timeline">
-                  <Timeline.Item>
-                    <div className="personal-history-time">
-                      05/04/2003 - 10/05/2005
-                    </div>
-                    <p className="personal-history-content">
-                      Nhân viên Công Ty TNHH Sutrix Media
-                    </p>
-                  </Timeline.Item>
-                  <Timeline.Item>
-                    <div className="personal-history-time">
-                      10/05/2005 - 10/05/2008
-                    </div>
-                    <p className="personal-history-content">
-                      Nhân viên Công Ty FPT Online
-                    </p>
-                  </Timeline.Item>
-                  <Timeline.Item>
-                    <div className="personal-history-time">
-                      10/05/2008 - đến nay
-                    </div>
-                    <p className="personal-history-content">
-                      Nhân viên Báo Tuổi Trẻ
-                    </p>
-                  </Timeline.Item>
+                  {renderOrgan()}
                 </Timeline>
               </TabPane>
-              <TabPane tab={<span><IdcardOutlined /> Quan hệ</span>} key="3">
+              {/* <TabPane
+                tab={
+                  <span>
+                    <IdcardOutlined /> Quan hệ
+                  </span>
+                }
+                key="3"
+              >
                 <a href="">...</a>
                 <br />
                 <a href="">...</a>
@@ -315,15 +344,20 @@ const PersonalPage = () => {
                 <a href="">...</a>
                 <br />
                 <a href="">...</a>
-              </TabPane>
-              <TabPane tab={<span> <SmileOutlined />Khen thưởng</span>} key="4">
-                <a href="">...</a>
-                <br />
-                <a href="">...</a>
-                <br />
-                <a href="">...</a>
-                <br />
-                <a href="">...</a>
+              </TabPane> */}
+              <TabPane
+                tab={
+                  <span>
+                    {" "}
+                    <SmileOutlined />
+                    Khen thưởng
+                  </span>
+                }
+                key="4"
+              >
+                 <Timeline className="personal-page-timeline">
+                  {renderReward()}
+                </Timeline>
               </TabPane>
             </Tabs>
           </div>
