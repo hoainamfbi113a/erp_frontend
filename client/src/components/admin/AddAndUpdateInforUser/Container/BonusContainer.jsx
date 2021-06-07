@@ -1,4 +1,3 @@
-import { DatePicker, Input, Select } from "antd";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -27,12 +26,10 @@ const BonusContainer = (props) => {
     rew_note: null,
   });
   const [visible, setVisible] = useState(false);
-  const [dataItem, setDataItem] = useState({});
   const [refresh, setRefresh] = useState(true);
   const dispatch = useDispatch();
   const dataReward = useSelector((state) => state.rewardUser);
   const dataDiscipline = useSelector((state) => state.disciplineUser);
-  const state = useSelector((state)=> state);
   useEffect(() => {
       dispatch(getReward({
         id_user: props.idUser,
