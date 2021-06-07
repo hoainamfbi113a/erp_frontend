@@ -81,6 +81,7 @@ const InfoUserContainer = (props) => {
       case 1:
         return (
           <CurriculumVitae
+            activeLink = {activeLink}
             idUser={userId}
             value={value}
             handleReloadComponent={handleReloadComponent}
