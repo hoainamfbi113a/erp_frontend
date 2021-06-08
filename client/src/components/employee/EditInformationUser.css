@@ -425,3 +425,8 @@
   padding: 18px;
   font: caption !important;
 }
+.btn-img34 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

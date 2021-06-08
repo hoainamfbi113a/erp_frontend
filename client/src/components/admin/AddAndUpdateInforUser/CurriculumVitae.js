@@ -16,7 +16,6 @@ import { getUser, register, updateUser } from "apis/authenticationApi";
 import {
   addDepartmentProfile,
   getListAllDepartment,
-  getListDepartment,
   searchDepartment,
   updateDepartmentProfile,
 } from "apis/departmentApi";
@@ -24,14 +23,16 @@ import {
   addJournalistCards,
   updateJournalistCards,
 } from "apis/journalistCardsApi";
+import axios from "axios";
 import { searchParts, getListAllParts } from "apis/partsApi";
 import { getListAllPosition, searchPosition } from "apis/positionApi";
-import { addProfile, getProfile, updateProfile } from "apis/profileApi";
+import { addProfile, updateProfile } from "apis/profileApi";
 import { addUserDegrees, updateUserDegree } from "apis/userDegreesApi";
 import { workflowProfile } from "apis/workflowApi";
 import { addWorkObject, updateWorkObject } from "apis/workObjectsApi";
-import { listUser, listUserCheck } from "apis/authenticationApi";
+import { listUserCheck } from "apis/authenticationApi";
 import { validateInputFormUser } from "helpers/FuncHelper";
+import { onChangeCoverFunc } from "helpers/changeHelper.js";
 import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 import PermissionContext from "../../../context/PermissionContext";
 const { Option } = Select;
@@ -96,6 +97,7 @@ class addInformationUser extends Component {
       idJou: null,
       modalNotify: false,
       reasonDeny: null,
+      avatar3x4:null,
       valid_pro_name: {
         isValid: true,
         errorMessage: "",
@@ -196,10 +198,11 @@ class addInformationUser extends Component {
     return day + "/" + month + "/" + year;
   }
   componentDidMount = () => {
-      this.fetchProfile();
-      this.fetchData();
+    this.fetchProfile();
+    this.fetchData();
+    this.fetChImg();
   };
-  fetchProfile = () =>{
+  fetchProfile = () => {
     let data = this.props.dataProfile;
     if (data)
       this.setState({
@@ -281,13 +284,13 @@ class addInformationUser extends Component {
         idWorkObject: data.workObject ? data.workObject.data.id : "",
         idJou: data.journalistCard ? data.journalistCard.data.id : "",
       });
-  }
+  };
   componentDidUpdate = (prevProps, prevState) => {
     if (window.location.href.includes("create") === false)
-    if (this.props.dataProfile !== prevProps.dataProfile) {
-      this.fetchProfile();
-      this.fetchData();
-    }
+      if (this.props.dataProfile !== prevProps.dataProfile) {
+        this.fetchProfile();
+        this.fetchData();
+      }
     this.functionSearch(prevProps, prevState);
   };
 
@@ -474,10 +477,8 @@ class addInformationUser extends Component {
           user_id: userId,
           pro_name: this.state.pro_name,
           pro_pen_name: this.state.pro_pen_name,
-          // pro_birth_day: Date.parse(this.state.pro_birth_day) / 1000,
           pro_birth_day:
             Date.parse(moment(this.state.pro_birth_day, "DD-MM-YYYY")) / 1000,
-          // pro_birth_day: Date.parse(this.state.pro_birth_day) / 1000,
           pro_gender: this.state.pro_gender,
           pro_birth_place: this.state.pro_birth_place,
           pro_home_town: this.state.pro_home_town,
@@ -594,12 +595,10 @@ class addInformationUser extends Component {
   };
   handleEdit = async (value) => {
     await this.handleInputValid("pro_name", this.state.pro_name);
-    // await this.handleInputValid("phone", this.state.phone);
     await this.handleInputValid("department", this.state.dep_id);
     await this.handleInputValid("position", this.state.pos_id);
     if (
       !this.state.valid_pro_name.isValid &&
-      // !this.state.valid_phone.isValid &&
       !this.state.valid_department.isValid &&
       !this.state.valid_position.isValid
     ) {
@@ -659,7 +658,6 @@ class addInformationUser extends Component {
         dep_id: this.state.dep_id,
         pos_id: this.state.pos_id,
         part_id: this.state.par_id,
-        // appointment_date: Date.parse(this.state.appointment_date) / 1000,
         appointment_date:
           Date.parse(moment(this.state.appointment_date, "DD-MM-YYYY")) / 1000,
       };
@@ -714,14 +712,11 @@ class addInformationUser extends Component {
         user_id: userId,
         pro_id: pro_id,
         car_number: this.state.car_number,
-        // car_number_day: Date.parse(this.state.car_number_day)/1000,
         car_number_day:
           Date.parse(moment(this.state.car_number_day, "DD-MM-YYYY")) / 1000,
         car_begin:
           Date.parse(moment(this.state.car_begin, "DD-MM-YYYY")) / 1000,
         car_end: Date.parse(moment(this.state.car_end, "DD-MM-YYYY")) / 1000,
-        // car_begin: Date.parse(this.state.car_begin) / 1000,
-        // car_end: Date.parse(this.state.car_end) / 1000,
         car_note: this.state.car_note,
       };
       let resUpdateJournalistCards = await updateJournalistCards(
@@ -738,8 +733,6 @@ class addInformationUser extends Component {
       if (messageErr == 0) {
         window.location.reload();
         message.success("Cập nhât thông tin thành công");
-
-        // this.props.handleReloadComponent();
       } else {
         message.error("Cập nhật thất bại");
       }
@@ -762,7 +755,6 @@ class addInformationUser extends Component {
   confirm = () => {
     this.handleSend();
   };
-  // Modal Notify
   handleInputValid = (name, value) => {
     const { isValid, errorMessage } = validateInputFormUser(
       name,
@@ -825,6 +817,29 @@ class addInformationUser extends Component {
   handleReloadComponent = () => {
     this.componentDidMount();
   };
+  onChangeCover = (e) => {
+    onChangeCoverFunc(e, this.fetChImg, "5")
+  }
+  fetChImg = () => {
+    axios
+      .get(`/api/user/resources/${this.props.idUser}`)
+      .then((res) => {
+        let resImg = res.data;
+        let i = -1;
+        for (let item of resImg) {
+          i++;
+          if (item.resource_type === "3x4") {
+            let arrImg = res.data[i].resource_content;
+            this.setState({
+              avatar3x4: arrImg.content
+            })
+          }
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   renderButton = (value) => {
     if (value === 0) {
       return (
@@ -861,6 +876,40 @@ class addInformationUser extends Component {
   render() {
     return (
       <div className="edit-infor-form">
+        <div className="file-input btn-img34">
+          <input
+            type="file"
+            name="selectedFile"
+            onChange={this.onChangeCover}
+            id="file-input"
+            className="file-input__input"
+          />
+          <label className="file-input__label" for="file-input">
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              data-prefix="fas"
+              data-icon="upload"
+              className="svg-inline--fa fa-upload fa-w-16"
+              role="img"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 512 512"
+            >
+              <path
+                fill="currentColor"
+                d="M296 384h-80c-13.3 0-24-10.7-24-24V192h-87.7c-17.8 0-26.7-21.5-14.1-34.1L242.3 5.7c7.5-7.5 19.8-7.5 27.3 0l152.2 152.2c12.6 12.6 3.7 34.1-14.1 34.1H320v168c0 13.3-10.7 24-24 24zm216-8v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h136v8c0 30.9 25.1 56 56 56h80c30.9 0 56-25.1 56-56v-8h136c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"
+              ></path>
+            </svg>
+            <span>Upload file</span>
+          </label>
+          <div className="thumb_1 div-img-cover div-img-3x4">
+                <img
+                  className="img-cover"
+                  src={`data:image/jpeg;base64,${this.state.avatar3x4}`}
+                  alt=""
+                />
+            </div>
+        </div>
         <div className="tabs-main">
           <form
             style={{ width: "100%" }}
@@ -1219,10 +1268,7 @@ class addInformationUser extends Component {
                       ) : null}
                     </li>
                     <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">
-                        Tổ:
-                        {/* <span>*</span> */}
-                      </span>
+                      <span className="tabs-user-infor-top">Tổ:</span>
                       <div className="tabs-user-infor-bottom">
                         <Select
                           defaultValue={0}
@@ -1499,7 +1545,6 @@ class addInformationUser extends Component {
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">Ngày cấp thẻ:</span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
-                        {console.log(this.state.car_number_day)}
                         <DatePicker
                           format={dateFormatList}
                           placeholder="Chọn ngày"
