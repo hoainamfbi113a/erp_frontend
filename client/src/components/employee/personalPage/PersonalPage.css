@@ -11,6 +11,9 @@
     padding-bottom: 25%;
     overflow: hidden;
 }
+.div-img-3x4 {
+    width: 20%;
+}
 .img-cover {
     object-fit: cover;
     width: 100%;
