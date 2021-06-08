@@ -12,7 +12,6 @@ import {
   getReward,
 } from "../../../reduxToolkit/features/userProfile/rewardSlice";
 import { Timeline } from "antd";
-import { Layout } from "antd";
 import user2 from "assets/images/icon/user2.png";
 import phone from "assets/images/icon/phone.png";
 import email from "assets/images/icon/email.png";
@@ -160,8 +159,6 @@ const PersonalPage = () => {
                 />
               </LazyLoad>
             </div>
-            {/* <Upload className="d-block"> */}
-            {/* <Button icon={<CameraOutlined />}>Chỉnh sửa ảnh bìa</Button> */}
             <div
               style={{ position: "absolute", right: "15px", bottom: "10px" }}
             >
@@ -192,13 +189,6 @@ const PersonalPage = () => {
                   <span>Upload file</span>
                 </label>
               </div>
-              {/* <input
-                className="custom-upload"
-                name="selectedFile"
-                onChange={onChangeCover}
-                type="file"
-                name="file"
-              /> */}
             </div>
           </div>
         </div>
