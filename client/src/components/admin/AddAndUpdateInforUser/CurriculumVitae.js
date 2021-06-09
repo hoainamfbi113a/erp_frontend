@@ -97,7 +97,7 @@ class addInformationUser extends Component {
       idJou: null,
       modalNotify: false,
       reasonDeny: null,
-      avatar3x4:null,
+      avatar3x4: null,
       valid_pro_name: {
         isValid: true,
         errorMessage: "",
@@ -234,7 +234,7 @@ class addInformationUser extends Component {
         par_id: data.department ? data.department.data.part_id : "",
         appointment_date: data.department
           ? data.department.data.appointment_date
-          : "",
+          : null,
         deg_type: data.userDegree ? data.userDegree.data.deg_type : "",
         deg_diploma: data.userDegree ? data.userDegree.data.deg_diploma : "",
         deg_majors: data.userDegree ? data.userDegree.data.deg_majors : "",
@@ -818,8 +818,8 @@ class addInformationUser extends Component {
     this.componentDidMount();
   };
   onChangeCover = (e) => {
-    onChangeCoverFunc(e, this.fetChImg, "5")
-  }
+    onChangeCoverFunc(e, this.fetChImg, "5");
+  };
   fetChImg = () => {
     axios
       .get(`/api/user/resources/${this.props.idUser}`)
@@ -831,8 +831,8 @@ class addInformationUser extends Component {
           if (item.resource_type === "3x4") {
             let arrImg = res.data[i].resource_content;
             this.setState({
-              avatar3x4: arrImg.content
-            })
+              avatar3x4: arrImg.content,
+            });
           }
         }
       })
@@ -841,6 +841,22 @@ class addInformationUser extends Component {
       });
   };
   renderButton = (value) => {
+    return (
+      <li className="tabs-main-left-li tabs-main-left-li-submit">
+        <span className="btn-add-user" onClick={this.handleSave}>
+          Lưu
+        </span>
+        <Popconfirm
+          title="Bạn có chắc chắn xác nhận hồ sơ"
+          onConfirm={() => this.confirm()}
+          onCancel={this.cancel}
+          okText="Yes"
+          cancelText="No"
+        >
+          <span className="btn-add-user">Xác nhận</span>
+        </Popconfirm>
+      </li>
+    );
     if (value === 0) {
       return (
         <li className="tabs-main-left-li tabs-main-left-li-submit">
@@ -876,40 +892,42 @@ class addInformationUser extends Component {
   render() {
     return (
       <div className="edit-infor-form">
-        <div className="file-input btn-img34">
-          <input
-            type="file"
-            name="selectedFile"
-            onChange={this.onChangeCover}
-            id="file-input"
-            className="file-input__input"
-          />
-          <label className="file-input__label" for="file-input">
-            <svg
-              aria-hidden="true"
-              focusable="false"
-              data-prefix="fas"
-              data-icon="upload"
-              className="svg-inline--fa fa-upload fa-w-16"
-              role="img"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 512 512"
-            >
-              <path
-                fill="currentColor"
-                d="M296 384h-80c-13.3 0-24-10.7-24-24V192h-87.7c-17.8 0-26.7-21.5-14.1-34.1L242.3 5.7c7.5-7.5 19.8-7.5 27.3 0l152.2 152.2c12.6 12.6 3.7 34.1-14.1 34.1H320v168c0 13.3-10.7 24-24 24zm216-8v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h136v8c0 30.9 25.1 56 56 56h80c30.9 0 56-25.1 56-56v-8h136c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"
-              ></path>
-            </svg>
-            <span>Upload file</span>
-          </label>
-          <div className="thumb_1 div-img-cover div-img-3x4">
-                <img
-                  className="img-cover"
-                  src={`data:image/jpeg;base64,${this.state.avatar3x4}`}
-                  alt=""
-                />
+        {window.location.href.includes("create") === false && (
+          <div className="file-input btn-img34">
+            <input
+              type="file"
+              name="selectedFile"
+              onChange={this.onChangeCover}
+              id="file-input"
+              className="file-input__input"
+            />
+            <label className="file-input__label" for="file-input">
+              <svg
+                aria-hidden="true"
+                focusable="false"
+                data-prefix="fas"
+                data-icon="upload"
+                className="svg-inline--fa fa-upload fa-w-16"
+                role="img"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 512 512"
+              >
+                <path
+                  fill="currentColor"
+                  d="M296 384h-80c-13.3 0-24-10.7-24-24V192h-87.7c-17.8 0-26.7-21.5-14.1-34.1L242.3 5.7c7.5-7.5 19.8-7.5 27.3 0l152.2 152.2c12.6 12.6 3.7 34.1-14.1 34.1H320v168c0 13.3-10.7 24-24 24zm216-8v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h136v8c0 30.9 25.1 56 56 56h80c30.9 0 56-25.1 56-56v-8h136c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"
+                ></path>
+              </svg>
+              <span>Upload file</span>
+            </label>
+            <div className="thumb_1 div-img-cover div-img-3x4">
+              <img
+                className="img-cover"
+                src={`data:image/jpeg;base64,${this.state.avatar3x4}`}
+                alt=""
+              />
             </div>
-        </div>
+          </div>
+        )}
         <div className="tabs-main">
           <form
             style={{ width: "100%" }}
@@ -1344,11 +1362,7 @@ class addInformationUser extends Component {
                           placeholder="Chọn ngày"
                           style={{ width: "100%" }}
                           value={
-                            this.state.appointment_date == null ||
-                            moment(
-                              this.state.appointment_date,
-                              dateFormatList[0]
-                            ) == "Thu Jan 01 1970 08:00:00 GMT+0800"
+                            this.state.appointment_date == null
                               ? null
                               : moment(
                                   this.state.appointment_date,
