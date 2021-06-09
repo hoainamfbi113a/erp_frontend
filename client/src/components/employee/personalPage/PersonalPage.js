@@ -252,7 +252,7 @@ const PersonalPage = () => {
                     <img src={phone}></img>
                   </div>
                   <li className="infor-primary-phone">
-                    {dataUser ? dataUser.phone : "Chưa update phone"}
+                    {dataUser ? dataUser.phone : "Chưa cập nhật điện thoại"}
                   </li>
                   <div>
                     <img src={email}></img>
@@ -263,7 +263,7 @@ const PersonalPage = () => {
                 </ul>
               </div>
             </div>
-            <Tabs defaultActiveKey="1">
+            <Tabs defaultActiveKey="1" type="card">
               <TabPane
                 tab={
                   <span>
@@ -274,10 +274,10 @@ const PersonalPage = () => {
                 key="1"
               >
                 <div className="row">
-                  <div className="col-md-4">
+                  <div className="col-md-2">
                     <label>Bằng cấp</label>
                   </div>
-                  <div className="col-md-8">
+                  <div className="col-md-10">
                     <p>
                       {dataProfile && dataProfile.userDegree
                         ? dataProfile.userDegree.data.deg_diploma
@@ -286,10 +286,10 @@ const PersonalPage = () => {
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col-md-4">
+                  <div className="col-md-2">
                     <label>Ngoại ngữ</label>
                   </div>
-                  <div className="col-md-8">
+                  <div className="col-md-10">
                     <p>Tiếng anh</p>
                   </div>
                 </div>
@@ -319,22 +319,6 @@ const PersonalPage = () => {
                   {renderOrgan()}
                 </Timeline>
               </TabPane>
-              {/* <TabPane
-                tab={
-                  <span>
-                    <IdcardOutlined /> Quan hệ
-                  </span>
-                }
-                key="3"
-              >
-                <a href="">...</a>
-                <br />
-                <a href="">...</a>
-                <br />
-                <a href="">...</a>
-                <br />
-                <a href="">...</a>
-              </TabPane> */}
               <TabPane
                 tab={
                   <span>

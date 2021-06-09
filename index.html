@@ -1,16 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <script>
         var string1 = "Nguyen Hoai Nam";
         var string2 = "Hoai"
         console.log(string1.charAt(10));
+        console.log(string1.concat(string2));
+        console.log(string1.includes(string2));
+        console.log(string1.indexOf("a"));
+        console.log(string1.lastIndexOf("a"));
+        console.log(string1.replace("Hoai", "asdasdasd"))
+        console.log(string1.slice(8))
+        console.log(string1.split("a"))
+        console.log(string1.toLowerCase())
+        console.log(string1.toUpperCase())
+        var arr = [2, 5, 3, 1, 5, 7];
+        // console.log(arr.sort())
+        console.log(arr.slice(2, 3))
+        var sum = arr.reduce((total, item) => {
+            return total + item;
+        })
+        console.log(sum)
+        console.log(arr.map((item) => {
+            return item * 5
+        }))
+        console.log(arr.filter((item) => {
+            return item >= 5;
+        }))
+        console.log(arr)
+        console.log(arr.indexOf(1))
+        console.log(arr.join("[.]"))
+        console.log(... new Set(arr))
+        // let users = [
+        //     { id: 11, name: 'Adam', age: 23, group: 'editor' },
+        //     { id: 47, name: 'John', age: 28, group: 'admin' },
+        //     { id: 85, name: 'William', age: 34, group: 'editor' },
+        //     { id: 97, name: 'Oliver', age: 28, group: 'admin' }
+        // ];
+        // let res = users.filter((item)=>{
+        //     return item.name.includes("oli");
+        // })
+        // console.log(res)
+        let users = [
+            { id: 11, name: 'Adam', age: 23, group: 'editor' },
+            { id: 47, name: 'John', age: 28, group: 'admin' },
+            { id: 85, name: 'William', age: 34, group: 'editor' },
+            { id: 97, name: 'Oliver', age: 28, group: 'admin' }
+        ];
+
+        let groupByAge = users.reduce((acc, it) =>
+            ({ ...acc, [it.age]: (acc[it.age] || 0) + 1 }),
+            {});
+        console.log(groupByAge)
     </script>
 </body>
+
 </html>
