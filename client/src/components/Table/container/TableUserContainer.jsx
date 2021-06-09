@@ -122,17 +122,20 @@ const TableUserContainer = (props) => {
     {
       title: "Ảnh đại diện",
       width: 150,
-      dataIndex: "userImg",
-      key: "userImg",
+      dataIndex: "userResource",
+      key: "userResource",
       fixed: "left",
-      render: () => (
+      render: (userResource) => (
         <div>
+          {userResource ? <img
+            src={`data:image/jpeg;base64,${userResource.data.resource_content[5].content}`}
+            alt=""
+          />: 
           <Avatar
-            shape="square"
-            size={64}
-            style={{ marginRight: "3px" }}
-            src={user}
-          />
+          shape="square"
+          size={64}
+          src={user}
+        />}
         </div>
       ),
     },
