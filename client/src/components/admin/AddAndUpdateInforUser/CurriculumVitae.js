@@ -841,22 +841,6 @@ class addInformationUser extends Component {
       });
   };
   renderButton = (value) => {
-    return (
-      <li className="tabs-main-left-li tabs-main-left-li-submit">
-        <span className="btn-add-user" onClick={this.handleSave}>
-          Lưu
-        </span>
-        <Popconfirm
-          title="Bạn có chắc chắn xác nhận hồ sơ"
-          onConfirm={() => this.confirm()}
-          onCancel={this.cancel}
-          okText="Yes"
-          cancelText="No"
-        >
-          <span className="btn-add-user">Xác nhận</span>
-        </Popconfirm>
-      </li>
-    );
     if (value === 0) {
       return (
         <li className="tabs-main-left-li tabs-main-left-li-submit">
@@ -892,8 +876,28 @@ class addInformationUser extends Component {
   render() {
     return (
       <div className="edit-infor-form">
-        {window.location.href.includes("create") === false && (
+
+        <div className="tabs-main">
+          <form
+            style={{ width: "100%" }}
+            className="tabs-main"
+            noValidate
+            onSubmit={this.onSubmit}
+            method="post"
+          >
+            <div className="tabs-main-left" style={{ width: "41%" }}>
+              <div className="tabs-main-left-content">
+                <div className="tabs-main-left">
+                  <ul className="tabs-main-left-ul">
+                  {window.location.href.includes("create") === false && (
           <div className="file-input btn-img34">
+            <div className="thumb_1 div-img-cover div-img-3x4">
+              <img
+                className="img-cover"
+                src={`data:image/jpeg;base64,${this.state.avatar3x4}`}
+                alt=""
+              />
+            </div>
             <input
               type="file"
               name="selectedFile"
@@ -919,27 +923,9 @@ class addInformationUser extends Component {
               </svg>
               <span>Upload file</span>
             </label>
-            <div className="thumb_1 div-img-cover div-img-3x4">
-              <img
-                className="img-cover"
-                src={`data:image/jpeg;base64,${this.state.avatar3x4}`}
-                alt=""
-              />
-            </div>
+          
           </div>
         )}
-        <div className="tabs-main">
-          <form
-            style={{ width: "100%" }}
-            className="tabs-main"
-            noValidate
-            onSubmit={this.onSubmit}
-            method="post"
-          >
-            <div className="tabs-main-left" style={{ width: "41%" }}>
-              <div className="tabs-main-left-content">
-                <div className="tabs-main-left">
-                  <ul className="tabs-main-left-ul">
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
                         Họ và tên khai sinh:

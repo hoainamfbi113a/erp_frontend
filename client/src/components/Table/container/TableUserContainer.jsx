@@ -128,7 +128,7 @@ const TableUserContainer = (props) => {
       render: (userResource) => (
         <div>
           {userResource ? <img
-            src={`data:image/jpeg;base64,${userResource.data.resource_content[5].content}`}
+            src={`data:image/jpeg;base64,${userResource.data.resource_content[userResource.data.resource_content.length-1].content}`}
             alt=""
           />: 
           <Avatar
