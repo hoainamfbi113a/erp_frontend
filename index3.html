@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let string1 = "Nguyen Hoai Hoai Nam";
+        let string2 = "Hoai";
+        console.log(string1.charAt(7))
+        console.log(string1.concat(string2))
+        console.log(string1.includes(string2))
+        console.log(string1.indexOf(string2))
+        console.log(string1.lastIndexOf(string2))
+        console.log(string1.replace("Hoai", "123"))
+        console.log(string1.slice(5,8));
+        console.log([... new Set (string1.split(" "))]);
+        console.log(string1.toLowerCase())
+        console.log(string1.toUpperCase())
+        let arr = [2,4,6,2,3,1,6];
+        console.log(arr.map((item)=>{
+            return item * 10
+        }))
+        console.log(arr.filter((item)=>{
+            return item % 2 === 0;
+        }))
+        console.log(arr.concat(arr));
+        console.log(arr.find((item)=>{
+            return item > 3;
+        }))
+        console.log(arr.findIndex(item=>{
+            return item > 3
+        }))
+        console.log(arr.indexOf(6))
+        console.log(arr.lastIndexOf(6))
+        console.log(arr.join("  "))
+        console.log(arr.reverse())
+        console.log(arr.push(9))
+        console.log(arr)
+        console.log(arr.reduce((total,item)=>{
+            return total+ item;
+        }))
+        console.log(arr.slice(2,6))
+        console.log(arr.sort())
+
+    </script>
+</body>
+</html>

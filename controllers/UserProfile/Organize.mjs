@@ -53,7 +53,6 @@ const updateOrganize = async (req, res) =>{
   const config = {
     headers: { Authorization: req.headers.authorization },
   };
-  console.log(req.body)
   try {
     const data = await axios.put(`${process.env.apiEmployee}/api/organization/${id}`, req.body, config );
     res.send(data.data);
