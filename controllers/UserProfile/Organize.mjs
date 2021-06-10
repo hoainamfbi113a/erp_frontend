@@ -15,7 +15,6 @@ const getOrganize = async (req, res) => {
   } catch (error) {
     res.send("error")
   }
-
 };
 
 const createOrganize = async (req, res) => {
@@ -23,16 +22,14 @@ const createOrganize = async (req, res) => {
     headers: { Authorization: req.headers.authorization },
   };
   try {
-    console.log(req.body)
     const { data } = await axios.post(
       `${process.env.apiEmployee}/api/organization`,
       req.body,
       config
     );
-    console.log(data)
     res.send(data);
   } catch (error) {
-    // console.log("error",error)
+    console.log("error")
   }
 
 };
