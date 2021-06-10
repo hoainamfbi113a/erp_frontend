@@ -127,7 +127,7 @@ const TableUserContainer = (props) => {
       fixed: "left",
       render: (userResource) => (
         <div>
-          {userResource ? <img
+          {userResource ? <Avatar size={64} 
             src={`data:image/jpeg;base64,${userResource.data.resource_content[userResource.data.resource_content.length-1].content}`}
             alt=""
           />: 

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // let string1 = "Nguyen Hoai Nam";
+        // let string2 = "Hoai";
+        // console.log(string1.concat(string2));
+        // console.log(string1.includes("Hoai"));
+        // console.log(string1.indexOf("a"));
+        // console.log(string1.lastIndexOf("a"));
+        // console.log(string1.replace("Hoai","asdasdasdasdasdasd"));
+        // console.log(string1.slice(2,4))
+        // console.log(string1.split(" "));
+        // console.log(string1.toLowerCase())
+        // console.log(string1.toUpperCase());
+
+        let arr = [1, 2, 4, 2, 6, 3, 1];
+        console.log(arr.map((item) => {
+            return item + item;
+        }))
+        console.log(arr.filter((item) => {
+            return item;
+        }))
+        console.log(arr.toString())
+        console.log(arr.concat(arr))
+        console.log(arr.find((item) => {
+            return item == 2;
+        }))
+        console.log(arr.findIndex((item) => {
+            return item === 3;
+        }))
+        console.log(arr.join("[.]"))
+        console.log(arr.reduce((total, item) => {
+            return {
+                ...total,
+                [item[item]]: item
+            };
+        }, {}))
+        console.log(arr.slice(2, 6))
+        const convertArrayToObject = (array, key) => {
+            const initialValue = {};
+            return array.reduce((obj, item) => {
+                return {
+                    ...obj,
+                    [item[key]]: item,
+                };
+            });
+        }
+        const players = [
+            { id: 11, name: 'Messi', age: 33 },
+            { id: 12, name: 'Ronaldo', age: 34 },
+            { id: 13, name: 'Young', age: 35 },
+            { id: 14, name: 'Mane', age: 21 },
+            { id: 15, name: 'Salah', age: 24 },
+        ]
+
+        const playersModified = convertArrayToObject(players, 'id');
+        console.log(playersModified)
+    </script>
+</body>
+
+</html>

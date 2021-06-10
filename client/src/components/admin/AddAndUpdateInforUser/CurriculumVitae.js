@@ -5,35 +5,34 @@ import {
   Popconfirm,
   Radio,
   Select,
-  Steps,
+  Steps
 } from "antd";
-import moment from "moment";
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { withRouter } from "react-router";
-import { bindActionCreators } from "redux";
-import { getUser, register, updateUser } from "apis/authenticationApi";
+import { getUser, listUserCheck, register, updateUser } from "apis/authenticationApi";
 import {
   addDepartmentProfile,
   getListAllDepartment,
   searchDepartment,
-  updateDepartmentProfile,
+  updateDepartmentProfile
 } from "apis/departmentApi";
 import {
   addJournalistCards,
-  updateJournalistCards,
+  updateJournalistCards
 } from "apis/journalistCardsApi";
-import axios from "axios";
-import { searchParts, getListAllParts } from "apis/partsApi";
+import { getListAllParts, searchParts } from "apis/partsApi";
 import { getListAllPosition, searchPosition } from "apis/positionApi";
 import { addProfile, updateProfile } from "apis/profileApi";
 import { addUserDegrees, updateUserDegree } from "apis/userDegreesApi";
 import { workflowProfile } from "apis/workflowApi";
 import { addWorkObject, updateWorkObject } from "apis/workObjectsApi";
-import { listUserCheck } from "apis/authenticationApi";
-import { validateInputFormUser } from "helpers/FuncHelper";
+import axios from "axios";
 import { onChangeCoverFunc } from "helpers/changeHelper.js";
-import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
+import { validateInputFormUser } from "helpers/FuncHelper";
+import moment from "moment";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { withRouter } from "react-router";
+import { bindActionCreators } from "redux";
+import { hideLoading, showLoading } from "reduxToolkit/features/uiLoadingSlice";
 import PermissionContext from "../../../context/PermissionContext";
 const { Option } = Select;
 
@@ -338,7 +337,7 @@ class addInformationUser extends Component {
     this.setState({
       [name]: dateString,
     });
-  };
+  }; 
   onChangeRange = (e, dateString, name1, name2) => {
     this.setState({
       [name1]: dateString[0],
@@ -641,7 +640,6 @@ class addInformationUser extends Component {
         pro_identity_card_when:
           Date.parse(moment(this.state.pro_identity_card_when, "DD-MM-YYYY")) /
           1000,
-        // Date.parse(this.state.pro_identity_card_when) / 1000,
         pro_identity_card_where: this.state.pro_identity_card_where,
         pro_note: this.state.pro_note,
         button: value,
@@ -818,7 +816,7 @@ class addInformationUser extends Component {
     this.componentDidMount();
   };
   onChangeCover = (e) => {
-    onChangeCoverFunc(e, this.fetChImg, "5");
+    onChangeCoverFunc(e, this.fetChImg, this.props.idUser);
   };
   fetChImg = () => {
     axios
