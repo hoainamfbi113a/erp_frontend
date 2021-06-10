@@ -19,11 +19,11 @@ const getTraining = async (req, res) => {
 };
 
 const createTraining = async (req, res) => {
+  console.log("123")
   const config = {
     headers: { Authorization: req.headers.authorization },
   };
   try {
-    console.log(req.body)
     const { data } = await axios.post(
       `${process.env.apiEmployee}/api/training-fostering`,
       req.body,

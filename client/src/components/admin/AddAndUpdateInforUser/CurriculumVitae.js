@@ -874,7 +874,6 @@ class addInformationUser extends Component {
   render() {
     return (
       <div className="edit-infor-form">
-
         <div className="tabs-main">
           <form
             style={{ width: "100%" }}
