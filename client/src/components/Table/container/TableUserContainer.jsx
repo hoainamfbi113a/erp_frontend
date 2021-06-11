@@ -1,12 +1,12 @@
 import { Avatar, message, Popconfirm, Space, Tag } from "antd";
-import { listUser, searchUser } from "apis/authenticationApi";
+import { listUser, searchUser, listUserDepartFilter } from "apis/authenticationApi";
 import user from "assets/images/user2.png";
 import { checkVisible } from "helpers/FuncHelper";
 import React, { useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useRouteMatch } from "react-router-dom";
-import { eraseFamily } from "reduxToolkit/features/userProfile/familySlice";
 import { eraseHistory } from "reduxToolkit/features/userProfile/historySlice";
+import { eraseFamily } from "reduxToolkit/features/userProfile/familySlice";
 import { eraseKinship } from "reduxToolkit/features/userProfile/kinshipSlice";
 import { eraseSocial } from "reduxToolkit/features/userProfile/socialSlice";
 import { eraseTraining } from "reduxToolkit/features/userProfile/trainingSlice";
@@ -15,6 +15,7 @@ import { eraseOrganize } from "reduxToolkit/features/userProfile/organizeSlice";
 import { eraseOrganize2 } from "reduxToolkit/features/userProfile/organize2Slice";
 import PermissionContext from "../../../context/PermissionContext";
 import TableUser from "../TableUser";
+
 
 const TableUserContainer = (props) => {
   const dispatch = useDispatch();
@@ -27,8 +28,8 @@ const TableUserContainer = (props) => {
   const [dataUser, setDataUser] = useState(null);
   const [dataDepart, setDataDepart] = useState([
     {
-      text: "",
-      value: "",
+      text: "Phong CNTT",
+      value: "Phong CNTT",
     },
   ]);
   const [dataPos, setDataPos] = useState([
@@ -53,10 +54,20 @@ const TableUserContainer = (props) => {
     dispatch(eraseOrganize2());
   }, []);
 
+  useEffect(() => {
+    setLoading(true);
+    if (props.idDepart && props.idDepart !== "all") {
+      console.log(props.idDepart);
+      fetchDataByDepart(props.idDepart, 1, sizeOpt);
+    } else  if(props.idDepart === "all"){
+      fetchData(1, sizeOpt);
+    }
+  }, [props.idDepart]);
+
   useEffect(async () => {
     setLoading(true);
     if (props.valueSearch !== "") {
-      //fetchSearch(1, sizeOpt);
+      fetchSearch(1, sizeOpt);
       //suggestSearch(1, sizeOpt);
       // fetch(props.valueSearch, (autoSuggest) => {
       //   setAutoSuggest(autoSuggest)
@@ -78,10 +89,12 @@ const TableUserContainer = (props) => {
     }
   };
 
-  const suggestSearch = async (page, per_page) => {
-    let res = await searchUser(props.valueSearch, page, per_page);
-    if (!res.err) {
-      res.data.map((item) => console.log(item.full_name));
+  const fetchDataByDepart = async (id, page, per_page) => {
+    let res = await listUserDepartFilter(id, page, per_page);
+    if (res.message === "Successfully") {
+      setDataUser(res);
+      props.totalEmploy(res.pagination.total);
+      setLoading(false);
     } else {
       message.error("get list parts failed");
     }
@@ -151,14 +164,18 @@ const TableUserContainer = (props) => {
       key: "position",
       filters: dataPos,
       render: (department) => {
-        return department ? `${department.data.pos_name}` : "";
-      },
-      //ilteredValue: filter ? filter.department : null,
-      onFilter: (value, record) => {
-        return record.department
-          ? record.department.data.pos_name.includes(value)
+        return department && department.data
+          ? `${department.data.pos_name}`
+          : department && !department.data
+          ? `${department.pos_name}`
           : "";
       },
+      //ilteredValue: filter ? filter.department : null,
+      // onFilter: (value, record) => {
+      //   return record.department
+      //     ? record.department.data.pos_name.includes(value)
+      //     : "";
+      // },
       // onFilter: (value, record) =>
       //   record.department.data.pos_name.includes(value),
       // sorter: (a, b) => a.full_name.length - b.full_name.length,
@@ -170,14 +187,18 @@ const TableUserContainer = (props) => {
       filters: dataDepart,
       // render: (department) => `${department.data.dep_name}`,
       render: (department) => {
-        return department ? `${department.data.dep_name}` : "";
-      },
-      //filteredValue: filter ? filter.department : null,
-      onFilter: (value, record) => {
-        return record.department
-          ? record.department.data.dep_name.includes(value)
+        return department && department.data
+          ? `${department.data.dep_name}`
+          : department && !department.data
+          ? `${department.dep_name}`
           : "";
       },
+      //filteredValue: filter ? filter.department : null,
+      // onFilter: (value, record) => {
+      //   return record.department
+      //     ? record.department.data.dep_name.includes(value)
+      //     : "";
+      // },
 
       // onFilter: (value, record) =>
       //   record.department.data.dep_name.includes(value),
