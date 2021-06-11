@@ -16,7 +16,6 @@ import { getUser, register, updateUser } from "apis/authenticationApi";
 import {
   addDepartmentProfile,
   getListAllDepartment,
-  getListDepartment,
   searchDepartment,
   updateDepartmentProfile,
 } from "apis/departmentApi";
@@ -24,26 +23,28 @@ import {
   addJournalistCards,
   updateJournalistCards,
 } from "apis/journalistCardsApi";
+import axios from "axios";
 import { searchParts, getListAllParts } from "apis/partsApi";
 import { getListAllPosition, searchPosition } from "apis/positionApi";
-import { addProfile, getProfile, updateProfile } from "apis/profileApi";
+import { addProfile, updateProfile } from "apis/profileApi";
 import { addUserDegrees, updateUserDegree } from "apis/userDegreesApi";
 import { workflowProfile } from "apis/workflowApi";
 import { addWorkObject, updateWorkObject } from "apis/workObjectsApi";
-import { listUser, listUserCheck } from "apis/authenticationApi";
+import { listUserCheck } from "apis/authenticationApi";
 import { validateInputFormUser } from "helpers/FuncHelper";
-import { showLoading, hideLoading} from "reduxToolkit/features/uiLoadingSlice"
+import { onChangeCoverFunc } from "helpers/changeHelper.js";
+import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 import PermissionContext from "../../../context/PermissionContext";
 const { Option } = Select;
 
 const { Step } = Steps;
 const { RangePicker } = DatePicker;
-const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
+const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 class addInformationUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      listUser:[],
+      listUser: [],
       pro_id_saved: null,
       idSaved: null,
       dataUser: {},
@@ -53,7 +54,7 @@ class addInformationUser extends Component {
       dataPosition: null,
       dataWorkflowProfile: null,
       dataParts: null,
-      dataPartsInit:null,
+      dataPartsInit: null,
       user_id: null,
       pro_id: null,
       pro_name: null,
@@ -96,6 +97,7 @@ class addInformationUser extends Component {
       idJou: null,
       modalNotify: false,
       reasonDeny: null,
+      avatar3x4:null,
       valid_pro_name: {
         isValid: true,
         errorMessage: "",
@@ -124,12 +126,10 @@ class addInformationUser extends Component {
       searchDepartment: "",
       searchPosition: "",
       searchPart: "",
-      deg_permanent_residence:"",
-      deg_education:"",
-      deg_politic:"",
-      deg_foreign_language:"",
-
-
+      deg_permanent_residence: "",
+      deg_education: "",
+      deg_politic: "",
+      deg_foreign_language: "",
     };
     this.typingRef = React.createRef(null);
     this.handleSearchDepartment = this.handleSearchDepartment.bind(this);
@@ -137,7 +137,7 @@ class addInformationUser extends Component {
     this.handleSearchPart = this.handleSearchPart.bind(this);
   }
   componentDidMount = async () => {
-    this.fetchData()
+    this.fetchData();
   };
   functionSearch = async (prevProps, prevState) => {
     if (prevState.searchDepartment !== this.state.searchDepartment) {
@@ -165,11 +165,11 @@ class addInformationUser extends Component {
     }
     if (prevState.dep_id !== this.state.dep_id) {
       let arrParts = this.state.dataPartsInit;
-      let idDep = this.state.dep_id
-      let arrPartOfDep = []
-      for(let item of arrParts) {
-        if(idDep === item.dep_id){
-          arrPartOfDep.push(item)
+      let idDep = this.state.dep_id;
+      let arrPartOfDep = [];
+      for (let item of arrParts) {
+        if (idDep === item.dep_id) {
+          arrPartOfDep.push(item);
         }
       }
       this.setState({
@@ -189,24 +189,28 @@ class addInformationUser extends Component {
       }
     }
   };
-  formatDate (input) {
+  formatDate(input) {
     var datePart = input.match(/\d+/g),
-    year = datePart[0].substring(2), // get only two digits
-    month = datePart[1], day = datePart[2];
-  
-    return day+'/'+month+'/'+year;
+      year = datePart[0].substring(2), // get only two digits
+      month = datePart[1],
+      day = datePart[2];
+
+    return day + "/" + month + "/" + year;
   }
-  componentDidUpdate = (prevProps, prevState) => {
-    if(window.location.href.includes("create")=== false)
-    if (this.props.dataProfile !== prevProps.dataProfile) {
-      let data = this.props.dataProfile
-      if(data)
+  componentDidMount = () => {
+    this.fetchProfile();
+    this.fetchData();
+    this.fetChImg();
+  };
+  fetchProfile = () => {
+    let data = this.props.dataProfile;
+    if (data)
       this.setState({
         pro_id: data.id,
         user_id: data.user_id,
         pro_name: data.pro_name,
         pro_pen_name: data.pro_pen_name,
-        pro_birth_day: data.pro_birth_day == null ? null:data.pro_birth_day ,
+        pro_birth_day: data.pro_birth_day == null ? null : data.pro_birth_day,
         pro_gender: data.pro_gender,
         pro_birth_place: data.pro_birth_place,
         pro_home_town: data.pro_home_town,
@@ -217,13 +221,20 @@ class addInformationUser extends Component {
         pro_background_origin: data.pro_background_origin,
         pro_occupation: data.pro_occupation,
         pro_identity_card: data.pro_identity_card,
-        pro_identity_card_when: data.pro_identity_card_when==null? null:this.formatDate(data.pro_identity_card_when.toString().slice(0,10)) ,
+        pro_identity_card_when:
+          data.pro_identity_card_when == null
+            ? null
+            : this.formatDate(
+                data.pro_identity_card_when.toString().slice(0, 10)
+              ),
         pro_identity_card_where: data.pro_identity_card_where,
         pro_note: data.pro_note,
         dep_id: data.department ? data.department.data.dep_id : "",
         pos_id: data.department ? data.department.data.pos_id : "",
         par_id: data.department ? data.department.data.part_id : "",
-        appointment_date: data.department ? data.department.data.appointment_date : "",
+        appointment_date: data.department
+          ? data.department.data.appointment_date
+          : "",
         deg_type: data.userDegree ? data.userDegree.data.deg_type : "",
         deg_diploma: data.userDegree ? data.userDegree.data.deg_diploma : "",
         deg_majors: data.userDegree ? data.userDegree.data.deg_majors : "",
@@ -231,41 +242,55 @@ class addInformationUser extends Component {
           ? data.userDegree.data.deg_school_name
           : "",
         deg_begin_study:
-        data.userDegree && data.userDegree.data.deg_begin_study != null
-          ? new Date(data.userDegree.data.deg_begin_study * 1000)
-          : null,
-        deg_end_study: data.userDegree && data.userDegree.data.deg_end_study !=null
-          ? new Date(data.userDegree.data.deg_end_study * 1000)
-          : null,
-        deg_permanent_residence: data.userDegree ? data.userDegree.data.deg_permanent_residence : "",
-        deg_education: data.userDegree ? data.userDegree.data.deg_education : "",
+          data.userDegree && data.userDegree.data.deg_begin_study != null
+            ? new Date(data.userDegree.data.deg_begin_study * 1000)
+            : null,
+        deg_end_study:
+          data.userDegree && data.userDegree.data.deg_end_study != null
+            ? new Date(data.userDegree.data.deg_end_study * 1000)
+            : null,
+        deg_permanent_residence: data.userDegree
+          ? data.userDegree.data.deg_permanent_residence
+          : "",
+        deg_education: data.userDegree
+          ? data.userDegree.data.deg_education
+          : "",
         deg_politic: data.userDegree ? data.userDegree.data.deg_politic : "",
-        deg_foreign_language: data.userDegree ? data.userDegree.data.deg_foreign_language : "",
+        deg_foreign_language: data.userDegree
+          ? data.userDegree.data.deg_foreign_language
+          : "",
         deg_note: data.userDegree ? data.userDegree.data.deg_note : "",
-
 
         work_formality: data.workObject ? data.workObject.data.formality : "",
         work_note: data.workObject ? data.workObject.data.work_note : "",
         car_number: data.journalistCard
           ? data.journalistCard.data.car_number
           : "",
-        car_number_day: data.journalistCard && data.journalistCard.data.car_number_day !=null
-          ? new Date(data.journalistCard.data.car_number_day*1000)
-          : null,
-        car_begin: data.journalistCard && data.journalistCard.data.car_begin !=null
-          ? new Date(data.journalistCard.data.car_begin * 1000)
-          : null,
-        car_end: data.journalistCard && data.journalistCard.data.car_end !=null
-          ? new Date(data.journalistCard.data.car_end * 1000)
-          : null,
+        car_number_day:
+          data.journalistCard && data.journalistCard.data.car_number_day != null
+            ? new Date(data.journalistCard.data.car_number_day * 1000)
+            : null,
+        car_begin:
+          data.journalistCard && data.journalistCard.data.car_begin != null
+            ? new Date(data.journalistCard.data.car_begin * 1000)
+            : null,
+        car_end:
+          data.journalistCard && data.journalistCard.data.car_end != null
+            ? new Date(data.journalistCard.data.car_end * 1000)
+            : null,
         car_note: data.journalistCard ? data.journalistCard.data.car_note : "",
         idDepartment: data.department ? data.department.data.id : "",
         idUserDegree: data.userDegree ? data.userDegree.data.id : "",
         idWorkObject: data.workObject ? data.workObject.data.id : "",
         idJou: data.journalistCard ? data.journalistCard.data.id : "",
       });
-      this.fetchData();
-  }
+  };
+  componentDidUpdate = (prevProps, prevState) => {
+    if (window.location.href.includes("create") === false)
+      if (this.props.dataProfile !== prevProps.dataProfile) {
+        this.fetchProfile();
+        this.fetchData();
+      }
     this.functionSearch(prevProps, prevState);
   };
 
@@ -281,8 +306,8 @@ class addInformationUser extends Component {
       dataPosition: dataPosition.data,
       dataWorkflowProfile,
       dataParts: dataParts.data,
-      dataPartsInit:dataParts.data,
-      listUser:resListUser.data
+      dataPartsInit: dataParts.data,
+      listUser: resListUser.data,
     });
     this.props.uiActionCreatorsH();
   };
@@ -440,7 +465,7 @@ class addInformationUser extends Component {
         email: this.state.email,
         phone: this.state.phone,
         full_name: this.state.pro_name,
-        password:"123123",
+        password: "123123",
         service_management_id: "1",
       };
       let resRegister = await register(paramUser);
@@ -452,9 +477,8 @@ class addInformationUser extends Component {
           user_id: userId,
           pro_name: this.state.pro_name,
           pro_pen_name: this.state.pro_pen_name,
-          // pro_birth_day: Date.parse(this.state.pro_birth_day) / 1000,
-          pro_birth_day: Date.parse(moment(this.state.pro_birth_day, "DD-MM-YYYY"))/1000,
-          // pro_birth_day: Date.parse(this.state.pro_birth_day) / 1000,
+          pro_birth_day:
+            Date.parse(moment(this.state.pro_birth_day, "DD-MM-YYYY")) / 1000,
           pro_gender: this.state.pro_gender,
           pro_birth_place: this.state.pro_birth_place,
           pro_home_town: this.state.pro_home_town,
@@ -465,7 +489,10 @@ class addInformationUser extends Component {
           pro_background_origin: this.state.pro_background_origin,
           pro_occupation: this.state.pro_occupation,
           pro_identity_card: this.state.pro_identity_card,
-          pro_identity_card_when: Date.parse(moment(this.state.pro_identity_card_when, "DD-MM-YYYY"))/1000,
+          pro_identity_card_when:
+            Date.parse(
+              moment(this.state.pro_identity_card_when, "DD-MM-YYYY")
+            ) / 1000,
           pro_identity_card_where: this.state.pro_identity_card_where,
           pro_note: this.state.pro_note,
           button: value,
@@ -478,7 +505,6 @@ class addInformationUser extends Component {
         } else {
           messageErr = 2;
         }
-
       }
       if (userId !== 0 && proId !== 0) {
         let paramsDepartment = {
@@ -488,7 +514,9 @@ class addInformationUser extends Component {
           pos_id: this.state.pos_id,
           part_id: this.state.par_id,
           // appointment_date: Date.parse(this.state.appointment_date) / 1000,
-          appointment_date: Date.parse(moment(this.state.appointment_date, "DD-MM-YYYY"))/1000,
+          appointment_date:
+            Date.parse(moment(this.state.appointment_date, "DD-MM-YYYY")) /
+            1000,
         };
         let resAddDepartmentProfile = await addDepartmentProfile(
           paramsDepartment
@@ -504,8 +532,10 @@ class addInformationUser extends Component {
           deg_diploma: this.state.deg_diploma,
           deg_majors: this.state.deg_majors,
           deg_school_name: this.state.deg_school_name,
-          deg_begin_study: Date.parse(moment(this.state.deg_begin_study, "DD-MM-YYYY"))/1000,
-          deg_end_study: Date.parse(moment(this.state.deg_end_study, "DD-MM-YYYY"))/1000,
+          deg_begin_study:
+            Date.parse(moment(this.state.deg_begin_study, "DD-MM-YYYY")) / 1000,
+          deg_end_study:
+            Date.parse(moment(this.state.deg_end_study, "DD-MM-YYYY")) / 1000,
           deg_note: this.state.deg_note,
           deg_permanent_residence: this.state.deg_permanent_residence,
           deg_education: this.state.deg_education,
@@ -532,9 +562,11 @@ class addInformationUser extends Component {
           pro_id: proId,
           user_id: userId,
           car_number: this.state.car_number,
-          car_number_day: Date.parse(moment(this.state.car_number_day, "DD-MM-YYYY"))/1000,
-          car_begin: Date.parse(moment(this.state.car_begin, "DD-MM-YYYY"))/1000,
-          car_end: Date.parse(moment(this.state.car_end, "DD-MM-YYYY"))/1000,
+          car_number_day:
+            Date.parse(moment(this.state.car_number_day, "DD-MM-YYYY")) / 1000,
+          car_begin:
+            Date.parse(moment(this.state.car_begin, "DD-MM-YYYY")) / 1000,
+          car_end: Date.parse(moment(this.state.car_end, "DD-MM-YYYY")) / 1000,
           car_note: this.state.car_note,
         };
         let resAddJournalistCards = await addJournalistCards(
@@ -563,12 +595,10 @@ class addInformationUser extends Component {
   };
   handleEdit = async (value) => {
     await this.handleInputValid("pro_name", this.state.pro_name);
-    // await this.handleInputValid("phone", this.state.phone);
     await this.handleInputValid("department", this.state.dep_id);
     await this.handleInputValid("position", this.state.pos_id);
     if (
       !this.state.valid_pro_name.isValid &&
-      // !this.state.valid_phone.isValid &&
       !this.state.valid_department.isValid &&
       !this.state.valid_position.isValid
     ) {
@@ -591,12 +621,13 @@ class addInformationUser extends Component {
       } else {
         messageErr: 1;
       }
- 
+
       let params = {
         user_id: userId,
         pro_name: this.state.pro_name,
         pro_pen_name: this.state.pro_pen_name,
-        pro_birth_day: Date.parse(moment(this.state.pro_birth_day, "DD-MM-YYYY"))/1000,
+        pro_birth_day:
+          Date.parse(moment(this.state.pro_birth_day, "DD-MM-YYYY")) / 1000,
         pro_gender: this.state.pro_gender,
         pro_birth_place: this.state.pro_birth_place,
         pro_home_town: this.state.pro_home_town,
@@ -607,8 +638,10 @@ class addInformationUser extends Component {
         pro_background_origin: this.state.pro_background_origin,
         pro_occupation: this.state.pro_occupation,
         pro_identity_card: this.state.pro_identity_card,
-        pro_identity_card_when: Date.parse(moment(this.state.pro_identity_card_when, "DD-MM-YYYY"))/1000,
-          // Date.parse(this.state.pro_identity_card_when) / 1000,
+        pro_identity_card_when:
+          Date.parse(moment(this.state.pro_identity_card_when, "DD-MM-YYYY")) /
+          1000,
+        // Date.parse(this.state.pro_identity_card_when) / 1000,
         pro_identity_card_where: this.state.pro_identity_card_where,
         pro_note: this.state.pro_note,
         button: value,
@@ -625,8 +658,8 @@ class addInformationUser extends Component {
         dep_id: this.state.dep_id,
         pos_id: this.state.pos_id,
         part_id: this.state.par_id,
-        // appointment_date: Date.parse(this.state.appointment_date) / 1000,
-        appointment_date: Date.parse(moment(this.state.appointment_date, "DD-MM-YYYY"))/1000,
+        appointment_date:
+          Date.parse(moment(this.state.appointment_date, "DD-MM-YYYY")) / 1000,
       };
       let resUpdateDepartmentProfile = await updateDepartmentProfile(
         pro_id,
@@ -643,8 +676,10 @@ class addInformationUser extends Component {
         deg_diploma: this.state.deg_diploma,
         deg_majors: this.state.deg_majors,
         deg_school_name: this.state.deg_school_name,
-        deg_begin_study: Date.parse(moment(this.state.deg_begin_study, "DD-MM-YYYY"))/1000,
-        deg_end_study: Date.parse(moment(this.state.deg_end_study, "DD-MM-YYYY"))/1000,
+        deg_begin_study:
+          Date.parse(moment(this.state.deg_begin_study, "DD-MM-YYYY")) / 1000,
+        deg_end_study:
+          Date.parse(moment(this.state.deg_end_study, "DD-MM-YYYY")) / 1000,
         deg_note: this.state.deg_note,
         deg_permanent_residence: this.state.deg_permanent_residence,
         deg_education: this.state.deg_education,
@@ -677,12 +712,11 @@ class addInformationUser extends Component {
         user_id: userId,
         pro_id: pro_id,
         car_number: this.state.car_number,
-        // car_number_day: Date.parse(this.state.car_number_day)/1000,
-        car_number_day: Date.parse(moment(this.state.car_number_day, "DD-MM-YYYY"))/1000,
-        car_begin: Date.parse(moment(this.state.car_begin, "DD-MM-YYYY"))/1000,
-        car_end: Date.parse(moment(this.state.car_end, "DD-MM-YYYY"))/1000,
-        // car_begin: Date.parse(this.state.car_begin) / 1000,
-        // car_end: Date.parse(this.state.car_end) / 1000,
+        car_number_day:
+          Date.parse(moment(this.state.car_number_day, "DD-MM-YYYY")) / 1000,
+        car_begin:
+          Date.parse(moment(this.state.car_begin, "DD-MM-YYYY")) / 1000,
+        car_end: Date.parse(moment(this.state.car_end, "DD-MM-YYYY")) / 1000,
         car_note: this.state.car_note,
       };
       let resUpdateJournalistCards = await updateJournalistCards(
@@ -699,8 +733,6 @@ class addInformationUser extends Component {
       if (messageErr == 0) {
         window.location.reload();
         message.success("Cập nhât thông tin thành công");
-     
-        // this.props.handleReloadComponent();
       } else {
         message.error("Cập nhật thất bại");
       }
@@ -723,9 +755,12 @@ class addInformationUser extends Component {
   confirm = () => {
     this.handleSend();
   };
-  // Modal Notify
   handleInputValid = (name, value) => {
-    const { isValid, errorMessage } = validateInputFormUser(name, value, this.state.listUser);
+    const { isValid, errorMessage } = validateInputFormUser(
+      name,
+      value,
+      this.state.listUser
+    );
     this.setState({
       [`valid_${name}`]: {
         isValid: isValid,
@@ -782,50 +817,99 @@ class addInformationUser extends Component {
   handleReloadComponent = () => {
     this.componentDidMount();
   };
+  onChangeCover = (e) => {
+    onChangeCoverFunc(e, this.fetChImg, "5")
+  }
+  fetChImg = () => {
+    axios
+      .get(`/api/user/resources/${this.props.idUser}`)
+      .then((res) => {
+        let resImg = res.data;
+        let i = -1;
+        for (let item of resImg) {
+          i++;
+          if (item.resource_type === "3x4") {
+            let arrImg = res.data[i].resource_content;
+            this.setState({
+              avatar3x4: arrImg.content
+            })
+          }
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   renderButton = (value) => {
-    if(value === 0) {
+    if (value === 0) {
       return (
         <li className="tabs-main-left-li tabs-main-left-li-submit">
-        <span
-          className="btn-add-user"
-          onClick={this.handleSave}
-        >
-          Lưu
-        </span>
-        <Popconfirm
-          title="Bạn có chắc chắn xác nhận hồ sơ"
-          onConfirm={() => this.confirm()}
-          onCancel={this.cancel}
-          okText="Yes"
-          cancelText="No"
-        >
-          <span
-            className="btn-add-user"
-          >
-            Xác nhận
+          <span className="btn-add-user" onClick={this.handleSave}>
+            Lưu
           </span>
-        </Popconfirm>
-      </li>
-      )
+          <Popconfirm
+            title="Bạn có chắc chắn xác nhận hồ sơ"
+            onConfirm={() => this.confirm()}
+            onCancel={this.cancel}
+            okText="Yes"
+            cancelText="No"
+          >
+            <span className="btn-add-user">Xác nhận</span>
+          </Popconfirm>
+        </li>
+      );
     } else if (value === 1) {
       return (
-      <p className ="text-feedback-user">  Bạn chỉ có thể xem (nhân viên đang chỉnh hồ sơ của mình) </p>
-      )
+        <p className="text-feedback-user">
+          {" "}
+          Bạn chỉ có thể xem (nhân viên đang chỉnh hồ sơ của mình){" "}
+        </p>
+      );
     } else if (value === 2) {
-      return (
-        <p className ="text-feedback-user">Bạn hãy duyệt hồ sơ</p>
-      )
-    } else if (value ===3) {
-      return (
-        <p className ="text-feedback-user">Hồ sơ đã đống</p>
-      )
+      return <p className="text-feedback-user">Bạn hãy duyệt hồ sơ</p>;
+    } else if (value === 3) {
+      return <p className="text-feedback-user">Hồ sơ đã đống</p>;
     } else {
-      return 
+      return;
     }
-  }
+  };
   render() {
     return (
       <div className="edit-infor-form">
+        <div className="file-input btn-img34">
+          <input
+            type="file"
+            name="selectedFile"
+            onChange={this.onChangeCover}
+            id="file-input"
+            className="file-input__input"
+          />
+          <label className="file-input__label" for="file-input">
+            <svg
+              aria-hidden="true"
+              focusable="false"
+              data-prefix="fas"
+              data-icon="upload"
+              className="svg-inline--fa fa-upload fa-w-16"
+              role="img"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 512 512"
+            >
+              <path
+                fill="currentColor"
+                d="M296 384h-80c-13.3 0-24-10.7-24-24V192h-87.7c-17.8 0-26.7-21.5-14.1-34.1L242.3 5.7c7.5-7.5 19.8-7.5 27.3 0l152.2 152.2c12.6 12.6 3.7 34.1-14.1 34.1H320v168c0 13.3-10.7 24-24 24zm216-8v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h136v8c0 30.9 25.1 56 56 56h80c30.9 0 56-25.1 56-56v-8h136c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"
+              ></path>
+            </svg>
+            <span>Upload file</span>
+          </label>
+          <div className="thumb_1 div-img-cover div-img-3x4">
+                <img
+                  className="img-cover"
+                  src={`data:image/jpeg;base64,${this.state.avatar3x4}`}
+                  alt=""
+                />
+            </div>
+        </div>
         <div className="tabs-main">
           <form
             style={{ width: "100%" }}
@@ -863,8 +947,9 @@ class addInformationUser extends Component {
                       ) : null}
                     </li>
                     <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">Email cá nhân:
-                      <span>*</span>
+                      <span className="tabs-user-infor-top">
+                        Email cá nhân:
+                        <span>*</span>
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
@@ -887,8 +972,10 @@ class addInformationUser extends Component {
                       ) : null}
                     </li>
                     <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">Số điện thoại:
-                      <span>*</span></span>
+                      <span className="tabs-user-infor-top">
+                        Số điện thoại:
+                        <span>*</span>
+                      </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
                           disabled={this.props.idUser ? true : false}
@@ -940,9 +1027,16 @@ class addInformationUser extends Component {
                           format={dateFormatList}
                           placeholder="Chọn ngày"
                           value={
-                            this.state.pro_birth_day == null || moment(this.state.pro_birth_day,dateFormatList[0]) == "Thu Jan 01 1970 08:00:00 GMT+0800"
+                            this.state.pro_birth_day == null ||
+                            moment(
+                              this.state.pro_birth_day,
+                              dateFormatList[0]
+                            ) == "Thu Jan 01 1970 08:00:00 GMT+0800"
                               ? null
-                              : moment(this.state.pro_birth_day, dateFormatList[0])
+                              : moment(
+                                  this.state.pro_birth_day,
+                                  dateFormatList[0]
+                                )
                           }
                           onChange={(date, dateString) =>
                             this.onChangeBirthDay(
@@ -979,9 +1073,7 @@ class addInformationUser extends Component {
                       </div>
                     </li>
                     <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">
-                        Quê quán:
-                      </span>
+                      <span className="tabs-user-infor-top">Quê quán:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
                           name="pro_home_town"
@@ -1084,10 +1176,10 @@ class addInformationUser extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                         <DatePicker
-                       format={dateFormatList}
+                          format={dateFormatList}
                           placeholder="Chọn ngày"
                           value={
-                            this.state.pro_identity_card_when == null 
+                            this.state.pro_identity_card_when == null
                               ? null
                               : moment(
                                   this.state.pro_identity_card_when,
@@ -1176,9 +1268,7 @@ class addInformationUser extends Component {
                       ) : null}
                     </li>
                     <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">Tổ:
-                      {/* <span>*</span> */}
-                      </span>
+                      <span className="tabs-user-infor-top">Tổ:</span>
                       <div className="tabs-user-infor-bottom">
                         <Select
                           defaultValue={0}
@@ -1210,8 +1300,9 @@ class addInformationUser extends Component {
                       ) : null}
                     </li>
                     <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">Chức vụ:
-                      <span>*</span>
+                      <span className="tabs-user-infor-top">
+                        Chức vụ:
+                        <span>*</span>
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Select
@@ -1249,13 +1340,20 @@ class addInformationUser extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                         <DatePicker
-                        format={dateFormatList}
+                          format={dateFormatList}
                           placeholder="Chọn ngày"
                           style={{ width: "100%" }}
                           value={
-                            this.state.appointment_date == null || moment(this.state.appointment_date,dateFormatList[0]) == "Thu Jan 01 1970 08:00:00 GMT+0800"
+                            this.state.appointment_date == null ||
+                            moment(
+                              this.state.appointment_date,
+                              dateFormatList[0]
+                            ) == "Thu Jan 01 1970 08:00:00 GMT+0800"
                               ? null
-                              : moment(this.state.appointment_date, dateFormatList[0])
+                              : moment(
+                                  this.state.appointment_date,
+                                  dateFormatList[0]
+                                )
                           }
                           onChange={(date, dateString) =>
                             this.onChangeBirthDay(
@@ -1312,9 +1410,7 @@ class addInformationUser extends Component {
                       </div>
                     </li>
                     <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">
-                        Chuyên ngành:
-                      </span>
+                      <span className="tabs-user-infor-top">Chuyên ngành:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
                           name="deg_majors"
@@ -1337,7 +1433,7 @@ class addInformationUser extends Component {
                         />
                       </div>
                     </li>
-                   
+
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
                         Hình thức đào tạo:
@@ -1357,27 +1453,33 @@ class addInformationUser extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                         <RangePicker
-                        placeholder = {["Từ ngày", "Đến ngày"]}
-                         value={
-                          this.state.deg_begin_study == null
-                            ? null
-                            : [
-                                this.state.deg_begin_study == null ||
-                                moment(this.state.deg_begin_study,dateFormatList[0]) == "Thu Jan 01 1970 08:00:00 GMT+0800"
-                                  ? null
-                                  : moment(
-                                      this.state.deg_begin_study,
-                                      dateFormatList[0]
-                                    ),
-                                this.state.deg_end_study == null ||
-                                moment(this.state.deg_end_study,dateFormatList[0]) == "Thu Jan 01 1970 08:00:00 GMT+0800"
-                                  ? null
-                                  : moment(
-                                      this.state.deg_end_study,
-                                      dateFormatList[0]
-                                    ),
-                              ]
-                        }
+                          placeholder={["Từ ngày", "Đến ngày"]}
+                          value={
+                            this.state.deg_begin_study == null
+                              ? null
+                              : [
+                                  this.state.deg_begin_study == null ||
+                                  moment(
+                                    this.state.deg_begin_study,
+                                    dateFormatList[0]
+                                  ) == "Thu Jan 01 1970 08:00:00 GMT+0800"
+                                    ? null
+                                    : moment(
+                                        this.state.deg_begin_study,
+                                        dateFormatList[0]
+                                      ),
+                                  this.state.deg_end_study == null ||
+                                  moment(
+                                    this.state.deg_end_study,
+                                    dateFormatList[0]
+                                  ) == "Thu Jan 01 1970 08:00:00 GMT+0800"
+                                    ? null
+                                    : moment(
+                                        this.state.deg_end_study,
+                                        dateFormatList[0]
+                                      ),
+                                ]
+                          }
                           onChange={(date, dateString) =>
                             this.onChangeRange(
                               date,
@@ -1443,15 +1545,21 @@ class addInformationUser extends Component {
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">Ngày cấp thẻ:</span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
-                        {console.log(this.state.car_number_day)}
                         <DatePicker
-                        format={dateFormatList}
+                          format={dateFormatList}
                           placeholder="Chọn ngày"
                           style={{ width: "100%" }}
                           value={
-                            this.state.car_number_day == null || moment(this.state.car_number_day,dateFormatList[0]) == "Thu Jan 01 1970 08:00:00 GMT+0800"
+                            this.state.car_number_day == null ||
+                            moment(
+                              this.state.car_number_day,
+                              dateFormatList[0]
+                            ) == "Thu Jan 01 1970 08:00:00 GMT+0800"
                               ? null
-                              : moment(this.state.car_number_day, dateFormatList[0])
+                              : moment(
+                                  this.state.car_number_day,
+                                  dateFormatList[0]
+                                )
                           }
                           onChange={(date, dateString) =>
                             this.onChangeBirthDay(
@@ -1468,28 +1576,34 @@ class addInformationUser extends Component {
                         Thời gian thẻ có hiệu lực:
                       </span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
-                        <RangePicker 
-                        placeholder = {["Từ ngày", "Đến ngày"]}
-                         value={
-                          this.state.car_begin == null
-                            ? null
-                            : [
-                                this.state.car_begin == null ||
-                                moment(this.state.car_begin,dateFormatList[0]) == "Thu Jan 01 1970 08:00:00 GMT+0800"
-                                  ? null
-                                  : moment(
-                                      this.state.car_begin,
-                                      dateFormatList[0]
-                                    ),
-                                this.state.car_end == null ||
-                                moment(this.state.car_end,dateFormatList[0]) == "Thu Jan 01 1970 08:00:00 GMT+0800"
-                                  ? null
-                                  : moment(
-                                      this.state.car_end,
-                                      dateFormatList[0]
-                                    ),
-                              ]
-                        }
+                        <RangePicker
+                          placeholder={["Từ ngày", "Đến ngày"]}
+                          value={
+                            this.state.car_begin == null
+                              ? null
+                              : [
+                                  this.state.car_begin == null ||
+                                  moment(
+                                    this.state.car_begin,
+                                    dateFormatList[0]
+                                  ) == "Thu Jan 01 1970 08:00:00 GMT+0800"
+                                    ? null
+                                    : moment(
+                                        this.state.car_begin,
+                                        dateFormatList[0]
+                                      ),
+                                  this.state.car_end == null ||
+                                  moment(
+                                    this.state.car_end,
+                                    dateFormatList[0]
+                                  ) == "Thu Jan 01 1970 08:00:00 GMT+0800"
+                                    ? null
+                                    : moment(
+                                        this.state.car_end,
+                                        dateFormatList[0]
+                                      ),
+                                ]
+                          }
                           onChange={(date, dateString) =>
                             this.onChangeRange(
                               date,

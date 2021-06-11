@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { Link, useRouteMatch } from "react-router-dom";
 import { eraseHistory } from "reduxToolkit/features/userProfile/historySlice";
 import { eraseFamily } from "reduxToolkit/features/userProfile/familySlice";
+import { eraseHistory } from "reduxToolkit/features/userProfile/historySlice";
 import { eraseKinship } from "reduxToolkit/features/userProfile/kinshipSlice";
 import { eraseSocial } from "reduxToolkit/features/userProfile/socialSlice";
 import { eraseTraining } from "reduxToolkit/features/userProfile/trainingSlice";
