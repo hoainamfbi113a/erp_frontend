@@ -12,10 +12,10 @@ import {
   searchDepartment,
   updateDepartmentProfile,
 } from "apis/departmentApi";
-import { getListPosition, searchPosition } from "apis/positionApi";
+import { searchPosition } from "apis/positionApi";
 import { searchParts, getListParts } from "apis/partsApi";
-import { getProfile, updateProfile } from "apis/profileApi";
-import { updateUser, getUser } from "apis/authenticationApi";
+import { updateProfile } from "apis/profileApi";
+import { updateUser } from "apis/authenticationApi";
 import { updateUserDegree } from "apis/userDegreesApi";
 import { updateWorkObject } from "apis/workObjectsApi";
 import { updateJournalistCards } from "apis/journalistCardsApi";
@@ -25,7 +25,6 @@ import { Select } from "antd";
 const { Option } = Select;
 import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 import { bindActionCreators } from "redux";
-import { sleep } from "helpers/FuncHelper";
 import { getUserProfile } from "reduxToolkit/features/userProfileSlice";
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 const id_user = docCookies.getItem("user_id");
@@ -162,8 +161,7 @@ class CurriculumVitae extends Component {
       year = datePart[0].substring(2), // get only two digits
       month = datePart[1],
       day = datePart[2];
-
-    return day + "/" + month + "/" + year;
+      return day + "/" + month + "/" + year;
   }
   componentDidUpdate = (prevProps, prevState) => {
     this.functionSearch(prevProps, prevState);
@@ -175,14 +173,10 @@ class CurriculumVitae extends Component {
     let userId = this.state.user_id;
     let messageErr = 0;
     await this.handleInputValid("pro_name", this.state.pro_name);
-    // await this.handleInputValid("phone", this.state.phone);
-    // await this.handleInputValid("part", this.state.par_id);
     await this.handleInputValid("department", this.state.dep_id);
     await this.handleInputValid("position", this.state.pos_id);
     if (
       !this.state.valid_pro_name.isValid &&
-      // !this.state.valid_phone.isValid &&
-      // !this.state.valid_part.isValid &&
       !this.state.valid_department.isValid &&
       !this.state.valid_position.isValid
     ) {
@@ -308,17 +302,10 @@ class CurriculumVitae extends Component {
         await this.props.getUserProfileActionCreatorsH(this.state.user_id);
         message.success("Cập nhât thông tin thành công");
         window.location.reload();
-        // this.props.handleReloadComponent();
       } else {
         message.error("Cập nhật thất bại");
       }
     }
-  };
-  handleSave = () => {
-    this.onAddInforUser("save");
-  };
-  handleSend = () => {
-    this.onAddInforUser("send");
   };
   onChange = (e) => {
     const { name } = e.target;

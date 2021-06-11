@@ -19,22 +19,6 @@ let fakeData1 = [
     content: "123 Phạm Văn Đồng Gò Vấp giá trị 3 tỉ đồng",
   },
 ];
-let fakeData2 = [
-  {
-    id: 1,
-    title: "Vợ",
-    name: "Nguyễn Thị C",
-    job: "Giáo Viên",
-    content: "",
-  },
-  {
-    id: 2,
-    title: "Con",
-    name: "Nguyễn Thị D",
-    job: "Học sinh",
-    content: "",
-  },
-];
 const Family = () => {
   const user_id = docCookies.getItem("user_id");
   const [visible, setVisible] = useState(false);
@@ -106,41 +90,6 @@ const Family = () => {
       );
     });
   };
-
-  // const renderData2 = () => {
-  //   return fakeData2.map((item) => {
-  //     return (
-  //       <li key={item.id}>
-  //         <div className="personal-history-time">
-  //           {item.title} : {item.name}
-  //         </div>
-  //         <Space size="middle">
-  //           <Popconfirm
-  //             title="Are you sure hide this user?"
-  //             okText="Yes"
-  //             cancelText="No"
-  //           >
-  //             <Tag color="volcano" className="table-action">
-  //               Xoá
-  //             </Tag>
-  //           </Popconfirm>
-  //           <Tag
-  //             color="geekblue"
-  //             className="table-action"
-  //             onClick={() => handleUpdate2(item)}
-  //           >
-  //             Update
-  //           </Tag>
-  //         </Space>
-  //         <p className="personal-history-content">
-  //           {item.job}
-  //           <p>{item.content}</p>
-  //         </p>
-  //       </li>
-  //     );
-  //   });
-  // };
-
   const renderData2 = () => {
     if(data) {
       return data.map((item) => {
