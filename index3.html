@@ -43,9 +43,17 @@
         console.log(arr.reduce((total,item)=>{
             return total+ item;
         }))
-        console.log(arr.slice(2,6))
-        console.log(arr.sort())
-
+        console.log(arr.slice(2,6));
+        console.log(arr.sort());
+        const array1 = [1,2,5,4];
+        const array2 = [...arr,...array1];
+        console.log([...array1,65])
+        const SinhVien = {
+            ten: "Ngọc Anh",
+            gioiTinh: "Nữ"
+        };
+        const ketQua = {...SinhVien, ten: "aaa" };
+        console.log(ketQua);
     </script>
 </body>
 </html>

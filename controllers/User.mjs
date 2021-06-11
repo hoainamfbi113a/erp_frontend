@@ -26,7 +26,7 @@ router.get("/userpagin", async (req, res) => {
   };
   if (page ==='all') {
     let { data } = await axios.get(
-      `${process.env.apiEmployee}/api/profiles?order=desc&page=1&per_page=80`,
+      `${process.env.apiEmployee}/api/user?per_page=99`,
       config
     );
     res.send(data);
@@ -40,9 +40,9 @@ router.get("/userpagin", async (req, res) => {
 });
 router.get("/userpagin/filter-dep/:id", async(req, res) => {
   try{
-      const { page } = req.query;
+      const { page, per_page } = req.query;
       const { id } = req.params;
-      let { data } = await axios.get(`${process.env.apiEmployee}/api/departments/list-user/${id}?order=desc&page=${page}`);
+      let { data } = await axios.get(`${process.env.apiEmployee}/api/departments/list-user/${id}?order=desc&page=${page}&per_page=${per_page}`);
       res.send(data);
   } catch (error) {
       console.log(error);
