@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./EditInformationUser.css";
 import CurriculumVitae from "./edit-infor-child/CurriculumVitae";
-import CurriculumVitaes from "./edit-infor-child/CurriculumVitaes";
+// import CurriculumVitaes from "./edit-infor-child/CurriculumVitaes";
 import PersonalHistory from "./edit-infor-child/PersonalHistory";
 import JoinTCTTXH from "./edit-infor-child/JoinTCTTXH";
 // import JoinDCS from "./edit-infor-child/JoinDCS";
@@ -21,7 +21,6 @@ import { bindActionCreators } from "redux";
 import BonusContainer from "../admin/AddAndUpdateInforUser/Container/BonusContainer";
 import FamilyContainer from "../admin/AddAndUpdateInforUser/Container/FamilyContainer";
 import TrainingContainer from "../admin/AddAndUpdateInforUser/Container/TrainingContainer";
-// import CurriculumVitae from "../CurriculumVitae";
 import JoinDCS from "../admin/AddAndUpdateInforUser/Container/JoinDCSContainer";
 import OrganizeContainer from "../admin/AddAndUpdateInforUser/Container/OrganizeContainer";
 import PersonalHistoryContainer from "../admin/AddAndUpdateInforUser/Container/PersonalHistoryContainer";
