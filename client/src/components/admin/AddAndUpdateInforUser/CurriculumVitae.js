@@ -466,6 +466,7 @@ class addInformationUser extends Component {
         full_name: this.state.pro_name,
         password: "123123",
         service_management_id: "1",
+        store_profile:"1"
       };
       let resRegister = await register(paramUser);
       if (resRegister.message === "Đăng ký thành công!") {
