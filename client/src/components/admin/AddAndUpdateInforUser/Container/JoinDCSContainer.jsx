@@ -9,7 +9,7 @@ import {
 import moment from "moment";
 import JoinDCS from "../JoinDCS";
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
-import { formatDateNumber, validateOnlyNumber } from "../../../helpers/FuncHelper";
+import { formatDateNumber, validateOnlyNumber } from "../../../../helpers/FuncHelper";
 const JoinDCSContainer = (props) => {
   const [id, setId] = useState("");
   const dataJoinDCS = useSelector((state) => state.joinDCSUser);
@@ -167,7 +167,6 @@ const JoinDCSContainer = (props) => {
     } = joinDCS;
     const validatePar = validateOnlyNumber(par_member_id)
     if(validatePar === "") {
-      const validateOnlyNumber
       let date1 = moment(par_admission_date, "DD-MM-YYYY");
       let date2 = moment(par_announcement_date, "DD-MM-YYYY");
       let date3 = moment(par_issue_date, "DD-MM-YYYY");
