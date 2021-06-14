@@ -154,7 +154,10 @@ const Family = ({
                       <Option key="1" value="Vợ">
                         Vợ
                       </Option>
-                      <Option key="2" value="Con">
+                      <Option key="2" value="Chồng">
+                        Chồng
+                      </Option>
+                      <Option key="3" value="Con">
                         Con
                       </Option>
                     </Select>
