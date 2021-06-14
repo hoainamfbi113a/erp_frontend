@@ -1,5 +1,9 @@
 import { Avatar, message, Popconfirm, Space, Tag } from "antd";
-import { listUser, searchUser, listUserDepartFilter } from "apis/authenticationApi";
+import {
+  listUser,
+  searchUser,
+  listUserDepartFilter,
+} from "apis/authenticationApi";
 import user from "assets/images/user2.png";
 import { checkVisible } from "helpers/FuncHelper";
 import React, { useContext, useEffect, useState } from "react";
@@ -15,7 +19,7 @@ import { eraseOrganize } from "reduxToolkit/features/userProfile/organizeSlice";
 import { eraseOrganize2 } from "reduxToolkit/features/userProfile/organize2Slice";
 import PermissionContext from "../../../context/PermissionContext";
 import TableUser from "../TableUser";
-
+import { formatDateNumber } from "../../../helpers/FuncHelper";
 
 const TableUserContainer = (props) => {
   const dispatch = useDispatch();
@@ -59,7 +63,7 @@ const TableUserContainer = (props) => {
     if (props.idDepart && props.idDepart !== "all") {
       console.log(props.idDepart);
       fetchDataByDepart(props.idDepart, 1, sizeOpt);
-    } else  if(props.idDepart === "all"){
+    } else if (props.idDepart === "all") {
       fetchData(1, sizeOpt);
     }
   }, [props.idDepart]);
@@ -140,15 +144,15 @@ const TableUserContainer = (props) => {
       fixed: "left",
       render: (userResource) => (
         <div>
-          {userResource ? <Avatar size={64} 
-            src={`data:image/jpeg;base64,${userResource.data.resource_content.content}`}
-            alt=""
-          />: 
-          <Avatar
-          shape="square"
-          size={64}
-          src={user}
-        />}
+          {userResource ? (
+            <Avatar
+              size={64}
+              src={`data:image/jpeg;base64,${userResource.data.resource_content.content}`}
+              alt=""
+            />
+          ) : (
+            <Avatar shape="square" size={64} src={user} />
+          )}
         </div>
       ),
     },
@@ -209,7 +213,14 @@ const TableUserContainer = (props) => {
       width: 120,
       dataIndex: "profile",
       key: "profile",
-      render: (profile) => `${profile && profile.data.pro_birth_day}`,
+      render: (profile) =>
+        `${
+          profile && profile.data
+            ? profile.data.pro_birth_day
+            : profile.pro_birth_day !== null
+            ? formatDateNumber(profile.pro_birth_day, "DD-MM-YYYY")
+            : "01-01-1970"
+        }`,
       // sorter: (a, b) => a.full_name.length - b.full_name.length,
     },
     {
