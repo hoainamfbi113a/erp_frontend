@@ -60,18 +60,27 @@ const InfoUserContainer = (props) => {
         if (data) {
           setProfile(data);
           setProId(data.id);
+          // let dataTransfersProfile = {};
+          // dataTransfersProfile = await transfersProfile(data.id);
+          setStep_id(data.status);
+          // console.log("12345")
         }
         if (Object.keys(data).length != 0) {
-          let dataTransfersProfile = {};
-          dataTransfersProfile = await transfersProfile(data.id);
-          setStep_id(dataTransfersProfile.data.next_step_id);
+          // let dataTransfersProfile = {};
+          // dataTransfersProfile = await transfersProfile(data.id);
+          // setStep_id(dataTransfersProfile.data.next_step_id);
+          // console.log("123456")
+          setStep_id(data.status);
         }
       } else if (window.location.href.includes("create") === false) {
         setProfile(dataProfile);
         setProId(dataProfile.id);
-        let dataTransfersProfile = {};
-        dataTransfersProfile = await transfersProfile(dataProfile.id);
-        setStep_id(dataTransfersProfile.data.next_step_id);
+        setStep_id(dataProfile.status);
+        console.log(dataProfile.status)
+        // let dataTransfersProfile = {};
+        // dataTransfersProfile = await transfersProfile(dataProfile.id);
+        // setStep_id(dataTransfersProfile.data.next_step_id);
+        // console.log("12345")
       }
     })();
   }, []);
