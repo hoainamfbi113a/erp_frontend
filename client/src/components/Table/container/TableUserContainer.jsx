@@ -61,12 +61,15 @@ const TableUserContainer = (props) => {
   useEffect(() => {
     setLoading(true);
     if (props.idDepart && props.idDepart !== "all") {
-      console.log(props.idDepart);
       fetchDataByDepart(props.idDepart, 1, sizeOpt);
     } else if (props.idDepart === "all") {
       fetchData(1, sizeOpt);
     }
   }, [props.idDepart]);
+
+  const sendData = (data) => {
+    props.parentCallback(data);
+  }
 
   useEffect(async () => {
     setLoading(true);
@@ -96,6 +99,7 @@ const TableUserContainer = (props) => {
   const fetchDataByDepart = async (id, page, per_page) => {
     let res = await listUserDepartFilter(id, page, per_page);
     if (res.message === "Successfully") {
+      sendData(res);
       setDataUser(res);
       props.totalEmploy(res.pagination.total);
       setLoading(false);

@@ -19,8 +19,14 @@ const ContentUser = () => {
   let { path } = useRouteMatch();
   const { permissions } = useContext(PermissionContext);
   const [data, setData] = useState(null);
-  const [idDepart, setIdDepart] = useState(null);
+  const [idDepart, setIdDepart] = useState("all");
   const [userData, setUserData] = useState(null);
+
+  const [dataFilter, setDataFilter] = useState(null);
+
+  const callbackFunction = (childData) => {
+    setDataFilter(childData);
+  };
 
   useEffect(() => {
     fetchDataDepartment("all");
@@ -68,16 +74,23 @@ const ContentUser = () => {
               option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
           >
-          {
-            userData 
-            ? userData.data.map((user) => (
+            {userData && idDepart === "all"
+              ? userData.data.map((user) => (
+                  <Option key={user.full_name}>{user.full_name}</Option>
+                ))
+              : dataFilter && idDepart !== "all"
+              ? dataFilter.data.map((user) => (
                 <Option key={user.full_name}>{user.full_name}</Option>
-            ))
-            : null
-          }
+              )) 
+              : null}
           </Select>
 
-          <Button disabled={value === ""} style={{margin: "0 5px 0 5px"}} onClick={() => setValue("")} type="primary" >
+          <Button
+            disabled={value === ""}
+            style={{ margin: "0 5px 0 5px" }}
+            onClick={() => setValue("")}
+            type="primary"
+          >
             Xóa tìm kiếm
           </Button>
 
@@ -98,8 +111,6 @@ const ContentUser = () => {
                 ))
               : null}
           </Select>
-
-          
         </div>
         {checkVisible(permissions, "create", "api/profiles") && (
           <div className="content-top-right">
@@ -110,6 +121,7 @@ const ContentUser = () => {
         )}
       </div>
       <TableUserContainer
+        parentCallback={callbackFunction}
         valueSearch={value}
         totalEmploy={setTotal}
         idDepart={idDepart}
