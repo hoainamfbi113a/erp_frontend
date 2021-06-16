@@ -15,6 +15,7 @@ const Index = ({
   handleConfirm,
   handleReloadComponent,
   value,
+  setModalNotify
 }) => {
   const router = useRouteMatch();
 

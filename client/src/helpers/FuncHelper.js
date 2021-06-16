@@ -62,7 +62,7 @@ function resetStatusProfile(value) {
 const validateOnlyNumber = (number) =>  {
   let msg = "";
   const regexName = /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$/;
-  if (number.match(regexName)) {
+  if (String(number).match(regexName)) {
     msg = "Chỉ có thể chứa số"
   }
   return msg;

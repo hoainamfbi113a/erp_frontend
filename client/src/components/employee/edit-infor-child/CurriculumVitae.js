@@ -307,6 +307,13 @@ class CurriculumVitae extends Component {
       }
     }
   };
+  handleSave = () => {
+    this.onAddInforUser("save");
+  };
+  handleSend = () => {
+    this.onAddInforUser("send");
+  };
+
   onChange = (e) => {
     const { name } = e.target;
     const { value } = e.target;
@@ -590,7 +597,7 @@ class CurriculumVitae extends Component {
       return (
         <li className="tabs-main-left-li tabs-main-left-li-submit">
           <span className="btn-add-user" onClick={this.handleSave}>
-            Lưu
+            LưuS
           </span>
           <span className="btn-add-user" onClick={this.handleSend}>
             Xác nhận

@@ -141,10 +141,6 @@ const JoinDCSContainer = (props) => {
     setReward({ ...reward, type: value });
     setRefresh(!refresh);
   };
-  // const onChange = (e) => {
-  //   setReward({ ...reward, rew_formality: e.target.value });
-  // };
-
   const handleOk = () => {
     let {
       par_admission_date,
@@ -165,6 +161,7 @@ const JoinDCSContainer = (props) => {
       par_issue_date,
       par_issue_committee,
     } = joinDCS;
+    // alert(par_member_id)
     const validatePar = validateOnlyNumber(par_member_id)
     if(validatePar === "") {
       let date1 = moment(par_admission_date, "DD-MM-YYYY");
