@@ -13,7 +13,7 @@ const Index = ({
   renderWorkflow,
   handleReject,
   handleConfirm,
-  handleReloadComponent,
+handleReloadComponent,
   value,
   setModalNotify
 }) => {
