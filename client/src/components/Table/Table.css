@@ -1,0 +1,127 @@
+.table-btn-add {
+    margin: 20px;
+    margin-bottom: 0px;
+}
+.table-btn-search {
+    margin: 20px;
+    margin-bottom: 0px;
+}
+.table-btn-control {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.table-action {
+    cursor: pointer;
+}
+.ant-select-table {
+    width: 300px;
+}
+.select-span-table {
+    margin-top: 20px;
+}
+.select-span-table .ant-select {
+    width: 100%;
+}
+
+.ant-layout {
+    min-height: 100vh;
+    background: #fff;
+}
+.table-content {
+    border-radius: 12px;
+    box-shadow: rgba(0, 0, 0, 0.15) 0px 5px 15px;
+}
+.layout-footer {
+    /* margin-top: 10px; */
+    background: #fff;
+    z-index: -1;
+}
+/* .ant-table-row-level-0:hover{
+    background-color: crimson;
+} */
+.ant-avatar-square {
+    width: 102px !important;
+    height: 69px !important;
+    border-radius: 5px;
+    padding-right: 39px;
+}
+.user-infor-table-top {
+    margin-top: 14px;
+    margin-bottom: 10.6px;
+    font-weight: 600;
+    font-size: 18px;
+    color: #000;
+}
+.user-infor-table-center {
+    margin-bottom: 4.6px;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 15px;
+    color: #80808f;
+}
+.user-infor-table-bottom {
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 15px;
+    color: #b5b5c3;
+}
+.ant-table-pagination.ant-pagination {
+    margin: 11px 34px;
+}
+.tabs-main-modal {
+    /* display: flex; */
+    justify-content: center !important;
+    align-items: center !important;
+}
+.tabs-user-infor-bottom-modal input {
+    width: 450px !important;
+}
+.process-work-flow {
+    margin: 50px 0;
+}
+.modal-password input {
+    height: 25px !important;
+    width: 380px !important;
+}
+.modal-transfer-grant-permission .ant-modal-footer {
+    display: none;
+}
+.ant-transfer-list-content-item-checked {
+    background: #fff;
+}
+.ant-transfer-list-content-item-checked:hover {
+    background: #fff;
+}
+/* .ant-transfer-list-content-item * {
+    pointer-events: none;
+} */
+/* .ant-transfer-list-content-item-text {
+    pointer-events: auto;
+} */
+/* .custom-item {
+    pointer-events: auto;
+} */
+/* .tree-transfer{
+    position: absolute;
+    z-index: 3;
+}
+.ant-tree-list-holder-inner{
+    z-index: 4;
+} */
+/* custom transfer */
+.select-grant-role{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 10px;
+}
+.ant-transfer-list-header {
+    display: none;
+}
+.rdl-control {
+    height: 400px;
+}
+/* .rdl-control optgroup option {
+    display: none;
+} */

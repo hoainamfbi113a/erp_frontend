@@ -1,0 +1,74 @@
+.ant-dropdown-link{
+    color: #fff;
+}
+.example{
+    z-index: 2;
+}
+.site-layout-background{
+    border-bottom-left-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
+.header-bell{
+
+}
+.header-notification{
+    font-size: 26px;
+    color: #fff;
+}
+.header-user{
+    margin-left: 22px;
+
+}
+.header-right{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center
+}
+.site-layout-background{
+    background-color: #fff;
+}
+.header-left{
+    display: flex;
+    align-items: center;
+    justify-content: left;
+}
+.header-left-menu{
+    margin-top:2px;
+}
+.header-left-menu-active a{
+    background-color: #F3F6F9;
+    color:#2C94FF;
+    padding: 10px;
+    border-radius: 4px;
+}
+.anticon-bell{
+    color:#3699FF;
+}
+.header-user-name{
+    color: #111;
+}
+.header-main{
+    
+}
+.header-main-top{
+    padding-bottom: 5px;
+    border-bottom: solid 1px #EEEFF3;
+}
+.breadcrumb-main{
+    /* padding-left:50px; */
+    height: 31px;
+    padding:17px 0 18px 50px;
+}
+.ant-breadcrumb a {
+    font-size: 18px;
+    line-height: 21px;
+    color: #434349;
+    font-style: normal;
+    font-weight: normal;
+}
+.ant-breadcrumb-link{
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    color: #208EFF;
+}
