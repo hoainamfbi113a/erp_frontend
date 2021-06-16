@@ -174,8 +174,8 @@ export const checkApi = (params) => {
       };
     });
 };
-export const logout = () => {
-  docCookies.removeItem("usertoken", "/");
-  docCookies.removeItem("user_id", "/");
-  docCookies.removeItem("email", "/");
+export const logout = async () => {
+  await docCookies.removeItem("usertoken", "/");
+  await docCookies.removeItem("user_id", "/");
+  await docCookies.removeItem("email", "/");
 };
