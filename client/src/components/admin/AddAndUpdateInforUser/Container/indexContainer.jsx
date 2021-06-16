@@ -240,6 +240,7 @@ const InfoUserContainer = (props) => {
       <Index
         value={value}
         activeLink={activeLink}
+        setModalNotify = {setModalNotify}
         setActiveLink={setActiveLink}
         modalNotify={modalNotify}
         profile={profile}
