@@ -53,6 +53,7 @@ const Family = ({
                 Cập nhật
               </Tag>
             </Space>
+            <p className="personal-history-content">{item.rem_job}</p>
             <p className="personal-history-content">{item.rem_note}</p>
           </li>
         );

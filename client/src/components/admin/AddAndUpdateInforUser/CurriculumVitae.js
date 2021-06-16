@@ -518,18 +518,10 @@ class addInformationUser extends Component {
             Date.parse(moment(this.state.appointment_date, "DD-MM-YYYY")) /
             1000,
         };
-        // let resAddDepartmentProfile = await addDepartmentProfile(
-        //   paramsDepartment
-        // );
-        // if (resAddDepartmentProfile.message == "Success!. Stored") {
-        // } else {
-        //   messageErr = 4;
-        // }
-        let resUpdateDepartmentProfile = await updateDepartmentProfile(
-          proId,
+        let resAddDepartmentProfile = await addDepartmentProfile(
           paramsDepartment
         );
-        if (resUpdateDepartmentProfile.message == "Success!. Updated") {
+        if (resAddDepartmentProfile.message == "Success!. Stored") {
         } else {
           messageErr = 4;
         }
