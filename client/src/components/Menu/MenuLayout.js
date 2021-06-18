@@ -30,9 +30,9 @@ const icons = {
 const MenuLayout = (props) => {
   const dispatch = useDispatch();
   const permissions = useSelector((state) => state.permission);
-
+  let renderManagerRole = permissions[0].groups[8].permissions[0].name ==="Quản lý vai trò và quyền"
   const renderAdmin = () => {
-    if (true) {
+    if (renderManagerRole) {
       return (
         <SubMenu key="sub3" icon={<LockOutlined />} title="Vai trò & Quyền">
           <Menu.Item key="13">
