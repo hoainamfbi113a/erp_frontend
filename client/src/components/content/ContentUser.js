@@ -66,7 +66,7 @@ const ContentUser = () => {
             optionFilterProp="children"
             placeholder="Nhập tên nhân viên"
             allowClear
-            onSelect={(key) => setValue(key)}
+            onSelect={(value) => setValue(value)}
             // onSearch={(e) => setTempValue(e)}
             style={{ width: 200 }}
             className="table-btn-search"
@@ -76,11 +76,11 @@ const ContentUser = () => {
           >
             {userData && idDepart === "all"
               ? userData.data.map((user) => (
-                  <Option key={user.full_name}>{user.full_name}</Option>
+                  <Option key={user.id} value={user.full_name}>{user.full_name}</Option>
                 ))
               : dataFilter && idDepart !== "all"
               ? dataFilter.data.map((user) => (
-                <Option key={user.full_name}>{user.full_name}</Option>
+                <Option key={user.id} value={user.full_name}>{user.full_name}</Option>
               )) 
               : null}
           </Select>

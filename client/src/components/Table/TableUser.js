@@ -26,7 +26,12 @@ const TableUser = ({
                 rowKey="id"
                 pagination={{
                   onChange: handlePagination,
-                  current: dataUser ? dataUser.pagination.current_page : 1,
+                  current:
+                    dataUser && dataUser.pagination.current_page
+                      ? dataUser.pagination.current_page
+                      : dataUser && dataUser.pagination.currentPage
+                      ? dataUser.pagination.currentPage
+                      : 1,
                   total: dataUser ? dataUser.pagination.total : 0,
                   showSizeChanger: true,
                 }}
