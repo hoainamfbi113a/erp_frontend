@@ -24,29 +24,11 @@ import { formatDateNumber } from "../../../helpers/FuncHelper";
 const TableUserContainer = (props) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  const [keySearch, setKeySearch] = useState("");
-  const [autoSuggest, setAutoSuggest] = useState([]);
   const [sizeOpt, setSizeOt] = useState(10);
   const { permissions } = useContext(PermissionContext);
   const { path } = useRouteMatch();
   const [dataUser, setDataUser] = useState(null);
-  const [dataDepart, setDataDepart] = useState([
-    {
-      text: "Phong CNTT",
-      value: "Phong CNTT",
-    },
-  ]);
-  const [dataPos, setDataPos] = useState([
-    {
-      text: "",
-      value: "",
-    },
-  ]);
 
-  // useEffect(async () => {
-  //   let departUserFilter = await listUserDepartFilter(329, 1);
-  //   console.log(departUserFilter.data);
-  // }, []);
   useEffect(() => {
     dispatch(eraseHistory());
     dispatch(eraseFamily());
@@ -75,11 +57,6 @@ const TableUserContainer = (props) => {
     setLoading(true);
     if (props.valueSearch !== "") {
       fetchSearch(1, sizeOpt);
-      //suggestSearch(1, sizeOpt);
-      // fetch(props.valueSearch, (autoSuggest) => {
-      //   setAutoSuggest(autoSuggest)
-      //   console.log(autoSuggest);
-      // });
     } else {
       fetchData(1, sizeOpt);
     }
@@ -132,10 +109,10 @@ const TableUserContainer = (props) => {
   const handlePagination = async (page, pageSize) => {
     setSizeOt(pageSize);
     setLoading(true);
-    if (props.valueSearch === "") {
-      fetchData(page, pageSize);
+    if (props.idDepart && props.idDepart !== "all") {
+      fetchDataByDepart(props.idDepart, page, pageSize);
     } else {
-      fetchSearch(page, pageSize);
+      fetchData(page, pageSize);
     }
   };
 
@@ -167,10 +144,9 @@ const TableUserContainer = (props) => {
       // sorter: (a, b) => a.full_name.length - b.full_name.length,
     },
     {
-      title: "Chức vụ",
+      title: "Chức vụ, chức danh",
       dataIndex: "department",
       key: "position",
-      filters: dataPos,
       render: (department) => {
         return department && department.data
           ? `${department.data.pos_name}`
@@ -189,10 +165,9 @@ const TableUserContainer = (props) => {
       // sorter: (a, b) => a.full_name.length - b.full_name.length,
     },
     {
-      title: "Phòng ban",
+      title: "Đơn vị công tác",
       dataIndex: "department",
       key: "department",
-      filters: dataDepart,
       // render: (department) => `${department.data.dep_name}`,
       render: (department) => {
         return department && department.data

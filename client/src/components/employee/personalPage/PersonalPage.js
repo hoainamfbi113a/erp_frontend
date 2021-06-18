@@ -8,9 +8,7 @@ import {
   CarOutlined,
   SmileOutlined,
 } from "@ant-design/icons";
-import {
-  getReward,
-} from "../../../reduxToolkit/features/userProfile/rewardSlice";
+import { getReward } from "../../../reduxToolkit/features/userProfile/rewardSlice";
 import { Timeline } from "antd";
 import user2 from "assets/images/icon/user2.png";
 import phone from "assets/images/icon/phone.png";
@@ -32,12 +30,16 @@ const PersonalPage = () => {
   const dataReward = useSelector((state) => state.rewardUser);
   const [avatarCoverImg, setAvatarCoverImg] = useState(placeHolder);
   const [dataImg, setDataImg] = useState(placeHolder);
+  const [active, setActive] = useState(false);
+
   useEffect(() => {
     fetChImg();
-    dispatch(getReward({
-      type: 2,
-      id_user,
-    }));
+    dispatch(
+      getReward({
+        type: 2,
+        id_user,
+      })
+    );
     if (!dataOrgan2.length) {
       dispatch(
         getOrganize2({
@@ -120,31 +122,27 @@ const PersonalPage = () => {
               {formatDateNumber(item.org_time_to, dateFormatList[0])}
             </span>
           </div>
-          <p className="personal-history-content">
-           {item.org_note}
-          </p>
+          <p className="personal-history-content">{item.org_note}</p>
         </Timeline.Item>
       );
     });
   };
   const renderReward = () => {
-    return dataReward.map(item=>{
+    return dataReward.map((item) => {
       return (
         <Timeline.Item>
           <div className="personal-history-time">
-          {formatDateNumber(item.rew_time_from, dateFormatList[0])} -{" "}
+            {formatDateNumber(item.rew_time_from, dateFormatList[0])} -{" "}
             <span>
               {" "}
               {formatDateNumber(item.rew_time_to, dateFormatList[0])}
             </span>
           </div>
-          <p className="personal-history-content">
-           {item.rew_formality}
-          </p>
+          <p className="personal-history-content">{item.rew_formality}</p>
         </Timeline.Item>
-      )
-    })
-  }
+      );
+    });
+  };
   return (
     <div style={{ background: "#EEEFF3" }}>
       <div className="container-fluid emp-profile">
@@ -263,7 +261,7 @@ const PersonalPage = () => {
                 </ul>
               </div>
             </div>
-            <Tabs defaultActiveKey="1" type="card">
+            <Tabs type="card" onChange={() => setActive(true)}>
               <TabPane
                 tab={
                   <span>
@@ -273,38 +271,44 @@ const PersonalPage = () => {
                 }
                 key="1"
               >
-                <div className="row">
-                  <div className="col-md-2">
-                    <label>Bằng cấp</label>
+                {active ? (
+                  <div>
+                    <div className="row">
+                      <div className="col-md-2">
+                        <label>Bằng cấp</label>
+                      </div>
+                      <div className="col-md-10">
+                        <p>
+                          {dataProfile && dataProfile.userDegree
+                            ? dataProfile.userDegree.data.deg_diploma
+                            : "Đại học Công nghệ thông tin"}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-md-2">
+                        <label>Ngoại ngữ</label>
+                      </div>
+                      <div className="col-md-10">
+                        <p>Tiếng anh</p>
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col-md-4">
+                        <label>Địa chỉ</label>
+                      </div>
+                      <div className="col-md-8">
+                        <p>
+                          {dataProfile
+                            ? dataProfile.pro_resident
+                            : "Ấp 8 , Xã Tân An Luông, Huyện Vũng Liêm, Tỉnh Vĩnh Long"}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                  <div className="col-md-10">
-                    <p>
-                      {dataProfile && dataProfile.userDegree
-                        ? dataProfile.userDegree.data.deg_diploma
-                        : "Đại học Công nghệ thông tin"}
-                    </p>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-2">
-                    <label>Ngoại ngữ</label>
-                  </div>
-                  <div className="col-md-10">
-                    <p>Tiếng anh</p>
-                  </div>
-                </div>
-                <div className="row">
-                  <div className="col-md-4">
-                    <label>Địa chỉ</label>
-                  </div>
-                  <div className="col-md-8">
-                    <p>
-                      {dataProfile
-                        ? dataProfile.pro_resident
-                        : "Ấp 8 , Xã Tân An Luông, Huyện Vũng Liêm, Tỉnh Vĩnh Long"}
-                    </p>
-                  </div>
-                </div>
+                ) : (
+                  ""
+                )}
               </TabPane>
               <TabPane
                 tab={
@@ -329,7 +333,7 @@ const PersonalPage = () => {
                 }
                 key="4"
               >
-                 <Timeline className="personal-page-timeline">
+                <Timeline className="personal-page-timeline">
                   {renderReward()}
                 </Timeline>
               </TabPane>
