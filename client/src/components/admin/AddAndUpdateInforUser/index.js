@@ -125,28 +125,6 @@ const Index = ({
                   Hoàn cảnh kinh tế, quan hệ gia đình
                 </span>
               </li>
-              <li
-                onClick={() => {
-                  setActiveLink(8);
-                  window.scrollTo(0, 0);
-                }}
-              >
-                <div className={activeLink === 8 ? "active" : ""}>8</div>
-                <span className={activeLink === 8 ? "active" : ""}>
-                  Quan hệ gia đình, thân tộc
-                </span>
-              </li>
-              <li
-                onClick={() => {
-                  setActiveLink(9);
-                  window.scrollTo(0, 0);
-                }}
-              >
-                <div className={activeLink === 9 ? "active" : ""}>9</div>
-                <span className={activeLink === 9 ? "active" : ""}>
-                  Quan hệ xã hội
-                </span>
-              </li>
             </ul>
           )}
 

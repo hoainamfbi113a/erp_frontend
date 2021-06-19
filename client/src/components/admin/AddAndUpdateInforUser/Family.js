@@ -81,49 +81,7 @@ const Family = ({
             <ul className="personal-history-list">{renderData()}</ul>
           </div>
         </div>
-        <Modal
-          title="Nhập thông tin"
-          visible={visible}
-          onOk={hideModal}
-          onCancel={hideModal}
-          okText="OK"
-          cancelText="Cancel"
-          width={631}
-        >
-          <form
-            style={{ width: "100%" }}
-            className="tabs-main"
-            noValidate
-            // onSubmit={this.onSubmit}
-            method="post"
-          >
-            <ul style={{ width: "100%" }}>
-              <li className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row-clear">
-                <span className="tabs-user-infor-top">Tên tài sản:</span>
-                <div className="tabs-user-infor-bottom">
-                  <Input
-                    value={dataItem.title}
-                    name="pro_religion"
-                    style={{ width: "100%" }}
-                    // defaultValue={ state.pro_religion }
-                    placeholder=""
-                  />
-                </div>
-              </li>
-              <li className="tabs-main-left-li">
-                <span className="tabs-user-infor-top"></span>
-                <div className="tabs-user-infor-bottom">
-                  <TextArea
-                    value={dataItem.content}
-                    style={{ width: "100%" }}
-                    placeholder="Mời bạn nhập chi tiết"
-                    autoSize={{ minRows: 7, maxRows: 15 }}
-                  />
-                </div>
-              </li>
-            </ul>
-          </form>
-        </Modal>
+        
         <Modal
           title={!rem_relationship ? "Thêm thông tin" : "Chỉnh sửa thông tin"}
           visible={visible}
