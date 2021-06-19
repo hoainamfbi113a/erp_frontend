@@ -154,21 +154,11 @@ const TableUserContainer = (props) => {
           ? `${department.pos_name}`
           : "";
       },
-      //ilteredValue: filter ? filter.department : null,
-      // onFilter: (value, record) => {
-      //   return record.department
-      //     ? record.department.data.pos_name.includes(value)
-      //     : "";
-      // },
-      // onFilter: (value, record) =>
-      //   record.department.data.pos_name.includes(value),
-      // sorter: (a, b) => a.full_name.length - b.full_name.length,
     },
     {
       title: "Đơn vị công tác",
       dataIndex: "department",
       key: "department",
-      // render: (department) => `${department.data.dep_name}`,
       render: (department) => {
         return department && department.data
           ? `${department.data.dep_name}`
@@ -176,16 +166,6 @@ const TableUserContainer = (props) => {
           ? `${department.dep_name}`
           : "";
       },
-      //filteredValue: filter ? filter.department : null,
-      // onFilter: (value, record) => {
-      //   return record.department
-      //     ? record.department.data.dep_name.includes(value)
-      //     : "";
-      // },
-
-      // onFilter: (value, record) =>
-      //   record.department.data.dep_name.includes(value),
-      // sorter: (a, b) => a.full_name.length - b.full_name.length,
     },
     {
       title: "Ngày sinh",
@@ -200,13 +180,11 @@ const TableUserContainer = (props) => {
             ? formatDateNumber(profile.pro_birth_day, "DD-MM-YYYY")
             : "01-01-1970"
         }`,
-      // sorter: (a, b) => a.full_name.length - b.full_name.length,
     },
     {
       title: "Email",
       dataIndex: "email",
       key: "2",
-      // sorter: (a, b) => a.pro_name.length - b.pro_name.length,
     },
     {
       title: "Số điện thoại",
