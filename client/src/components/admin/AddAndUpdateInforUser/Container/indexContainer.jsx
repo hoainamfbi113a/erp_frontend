@@ -32,6 +32,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Index from "../index";
 import BonusContainer from "./BonusContainer";
 import FamilyContainer from "./FamilyContainer";
+import Family2 from "./Family2";
 import TrainingContainer from "./TrainingContainer";
 import CurriculumVitae from "../CurriculumVitae";
 import JoinDCS from "./JoinDCSContainer";
@@ -92,7 +93,7 @@ const InfoUserContainer = (props) => {
       case 1:
         return (
           <CurriculumVitae
-            activeLink = {activeLink}
+            activeLink={activeLink}
             idUser={userId}
             value={value}
             handleReloadComponent={handleReloadComponent}
@@ -120,45 +121,34 @@ const InfoUserContainer = (props) => {
       case 6:
         return <BonusContainer idUser={userId} dataProfile={profile} />;
       case 7:
+        // return (
+        //   <FamilyContainer
+        //     idUser={userId}
+        //     proId={pro_id}
+        //     type="family"
+        //     namination="Gia đình"
+        //     getData={getFamily({ id: userId, type: "family" })}
+        //     addData={addFamily}
+        //     updateData={updateFamily}
+        //     removeData={removeFamily}
+        //     data={dataFamily}
+        //   />
+        // );
         return (
-          <FamilyContainer
+          <Family2
             idUser={userId}
             proId={pro_id}
-            type="family"
-            namination="Gia đình"
-            getData={getFamily({ id: userId, type: "family" })}
-            addData={addFamily}
-            updateData={updateFamily}
-            removeData={removeFamily}
-            data={dataFamily}
-          />
-        );
-      case 8:
-        return (
-          <FamilyContainer
-            idUser={userId}
-            proId={pro_id}
-            type="kinship"
-            namination="Quan hệ thân tộc"
-            getData={getKinship({ id: userId, type: "kinship" })}
-            addData={addKinship}
-            updateData={updateKinship}
-            removeData={removeKinship}
-            data={dataKinship}
-          />
-        );
-      case 9:
-        return (
-          <FamilyContainer
-            idUser={userId}
-            proId={pro_id}
-            type="social"
-            namination="Quan hệ xã hội"
-            getData={getSocial({ id: userId, type: "social" })}
-            addData={addSocial}
-            updateData={updateSocial}
-            removeData={removeSocial}
-            data={dataSocial}
+            type={["family", "kinship", "social"]}
+            namination={["Gia đình", "Quan hệ thân tộc", "Quan hệ xã hội"]}
+            getData={[
+              getFamily({ id: userId, type: "family" }),
+              getKinship({ id: userId, type: "kinship" }),
+              getSocial({ id: userId, type: "social" })
+            ]}
+            addData={[addFamily, addKinship, addSocial]}
+            updateData={[updateFamily, updateKinship, updateSocial]}
+            removeData={[removeFamily, removeKinship, removeSocial]}
+            data={[dataFamily, dataKinship, dataSocial]}
           />
         );
     }

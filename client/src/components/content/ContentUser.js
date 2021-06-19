@@ -67,7 +67,6 @@ const ContentUser = () => {
             placeholder="Nhập tên nhân viên"
             allowClear
             onSelect={(value) => setValue(value)}
-            // onSearch={(e) => setTempValue(e)}
             style={{ width: 200 }}
             className="table-btn-search"
             filterOption={(input, option) =>
