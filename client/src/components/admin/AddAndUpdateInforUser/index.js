@@ -3,7 +3,7 @@ import Notify from "components/Modal/Notify";
 import React from "react";
 import { useRouteMatch } from "react-router-dom";
 const { Step } = Steps;
- 
+
 const Index = ({
   activeLink,
   setActiveLink,
@@ -89,7 +89,7 @@ handleReloadComponent,
               >
                 <div className={activeLink === 4 ? "active" : ""}>4</div>
                 <span className={activeLink === 4 ? "active" : ""}>
-                  Tham gia các tổ chức chính trị, xã hội, các cơ hội nghề nghiệp
+                  Tham gia các tổ chức chính trị, xã hội, các hội nghề nghiệp
                 </span>
               </li>
               <li
@@ -123,7 +123,7 @@ handleReloadComponent,
               >
                 <div className={activeLink === 7 ? "active" : ""}>7</div>
                 <span className={activeLink === 7 ? "active" : ""}>
-                  Hoàn cảnh kinh tế, quan hệ gia đình
+                  Quan hệ gia đình thân tộc
                 </span>
               </li>
             </ul>
@@ -132,7 +132,7 @@ handleReloadComponent,
           <div className="edit-infr-vertical-line"></div>
         </div>
         {/* <div className="edit-infor-form edit-infor-form-DCS"> */}
-          {renderMenuLeft()}
+        {renderMenuLeft()}
         {/* </div> */}
       </div>
       <Notify

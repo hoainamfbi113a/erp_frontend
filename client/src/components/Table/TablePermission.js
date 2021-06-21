@@ -268,8 +268,6 @@ class TablePermission extends Component {
     if (this.state.data) {
       data = this.state.data;
       const expandedRow = (row) => {
-        //total = this.state.data.meta.pagination.total;
-
         const columnsExpand = [
           { title: "Quyền", dataIndex: "label", key: "label" },
           { title: "Ngày tạo", dataIndex: "created_at", key: "created_at" },
@@ -288,7 +286,7 @@ class TablePermission extends Component {
                   cancelText="No"
                 >
                   <Tag color="volcano" className="table-action">
-                    Ẩn
+                    Ẩnssss
                   </Tag>
                 </Popconfirm>
                 <Tag
@@ -304,16 +302,18 @@ class TablePermission extends Component {
         ];
 
         return (
+          <div>
+          {console.log(data)}
           <Table
             loading={this.state.loading}
             style={{ paddingLeft: "2rem" }}
             columns={columnsExpand}
             dataSource={
-              //data[1].options
               data.find((group) => group.key === row.key).options
             }
             pagination={false}
           />
+          </div>
         );
       };
 
@@ -343,32 +343,13 @@ class TablePermission extends Component {
       );
     }
   }
-
+ 
   render() {
     return (
       <div>
         <Content>
           <div className="layout-content">
             <div style={{ padding: 24, minHeight: 200 }}>
-              {/* <Table
-                style={{ minHeight: "70vh" }}
-                dataSource={data}
-                columns={columns}
-                className="table-content"
-                expandable={
-                  <Table
-                    columns={expandColumns}
-                    dataSource={datas}
-                    pagination={false}
-                  />
-                }
-                rowKey="id"
-                pagination={{
-                  onChange: this.handlePagination,
-                  pageSize: 15,
-                  total: total,
-                }}
-              /> */}
               {this.NestedTable()}
             </div>
           </div>
