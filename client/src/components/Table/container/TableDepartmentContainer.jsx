@@ -224,19 +224,9 @@ const TableDepartmentContainer = (props) => {
     setDepart({ ...depart, [e.target.name]: e.target.value });
   };
 
-  // const onSizeChange = (current, size) => {
-  //   setSizeOt()
-  //   if(props.valueSearch === "") {
-  //     fetchData(1, size);
-  //   } else {
-  //     fetchSearch(1, size)
-  //   }
-  // }
 
   const expandedRow = (row) => {
-    //total = this.state.data.meta.pagination.total;
     if (partData && partData.data.length) {
-      console.log(partData.data);
       const columnsExpand = [
         { title: "Tên tổ", dataIndex: "part_name", key: "part_name" },
         { title: "Ghi chú", dataIndex: "part_note", key: "part_note" },
@@ -278,7 +268,7 @@ const TableDepartmentContainer = (props) => {
           columns={columnsExpand}
           dataSource={
             //data[1].options
-            partData.data.filter((part) => part.dep_id === row.key)
+            partData.data.filter((part) => part.dep_id === row.id)
           }
           pagination={false}
         />
