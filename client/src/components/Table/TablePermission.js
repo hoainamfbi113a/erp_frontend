@@ -343,7 +343,7 @@ class TablePermission extends Component {
       );
     }
   }
-
+ 
   render() {
     return (
       <div>

@@ -1,4 +1,4 @@
-import { message, Popconfirm, Space, Tag } from "antd";
+import { message, Popconfirm, Space, Tag, Table } from "antd";
 import {
   checkVisible,
   objCheckPermission,
@@ -8,9 +8,10 @@ import {
 import React, { useContext, useEffect, useState } from "react";
 import { checkPermission } from "apis/checkPermission";
 import { getListDepartment, searchDepartment } from "apis/departmentApi";
+import { getListParts } from "apis/partsApi";
 import PermissionContext from "../../../context/PermissionContext";
 import { simpleDate } from "../../../helpers/FuncHelper";
-import TableDepartment from "../TableDepartment";
+import TableDepartment from "../TableDepartment2";
 
 const TableDepartmentContainer = (props) => {
   const [loading, setLoading] = useState(false);
@@ -18,6 +19,7 @@ const TableDepartmentContainer = (props) => {
   const { permissions, domain, slug } = useContext(PermissionContext);
   const [id, setId] = useState("");
   const [data, setData] = useState(null);
+  const [partData, setPartData] = useState(null);
   const [isCreate, setIsCreate] = useState(false);
   const [depart, setDepart] = useState({
     dep_name: "",
@@ -30,6 +32,10 @@ const TableDepartmentContainer = (props) => {
     err_address: "",
     err_phone: "",
   });
+
+  useEffect(() => {
+    fetchPartData("all");
+  }, []);
 
   useEffect(async () => {
     setLoading(true);
@@ -58,6 +64,22 @@ const TableDepartmentContainer = (props) => {
       if (!data.err) {
         setData(data);
         props.total(data.meta.pagination.total);
+        setLoading(false);
+      } else {
+        message.error("get list department failed");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
+  };
+  const fetchPartData = async (page) => {
+    setLoading(true);
+    try {
+      let data = await getListParts(page);
+      if (!data.err) {
+        setPartData(data);
+        //props.total(data.meta.pagination.total);
         setLoading(false);
       } else {
         message.error("get list department failed");
@@ -211,11 +233,64 @@ const TableDepartmentContainer = (props) => {
   //   }
   // }
 
+  const expandedRow = (row) => {
+    //total = this.state.data.meta.pagination.total;
+    if (partData && partData.data.length) {
+      console.log(partData.data);
+      const columnsExpand = [
+        { title: "Tên tổ", dataIndex: "part_name", key: "part_name" },
+        { title: "Ghi chú", dataIndex: "part_note", key: "part_note" },
+        { title: "Ngày tạo", dataIndex: "created_at", key: "created_at" },
+        // {
+        //   title: "Hành động",
+        //   key: "operation",
+        //   dataIndex: "value",
+        //   fixed: "right",
+        //   render: (value, row) => (
+        //     <Space size="middle">
+        //       <Popconfirm
+        //         title="Bạn có muốn ẩn không?"
+        //         onConfirm={() => this.confirm(value)}
+        //         onCancel={this.cancel}
+        //         okText="Yes"
+        //         cancelText="No"
+        //       >
+        //         <Tag color="volcano" className="table-action">
+        //           Ẩn
+        //         </Tag>
+        //       </Popconfirm>
+        //       <Tag
+        //         onClick={() => this.showModal(value)}
+        //         color="geekblue"
+        //         className="table-action"
+        //       >
+        //         Cập nhật
+        //       </Tag>
+        //     </Space>
+        //   ),
+        // },
+      ];
+
+      return (
+        <Table
+          //loading={this.state.loading}
+          style={{ paddingLeft: "2rem" }}
+          columns={columnsExpand}
+          dataSource={
+            //data[1].options
+            partData.data.filter((part) => part.dep_id === row.key)
+          }
+          pagination={false}
+        />
+      );
+    }
+  };
+
   const columns = [
     {
       title: "Tên phòng ban",
       dataIndex: "dep_name",
-      key: "dep_name",
+      key: "id",
     },
     {
       title: "Địa chỉ",
@@ -292,7 +367,7 @@ const TableDepartmentContainer = (props) => {
 
   return (
     <div>
-      <TableDepartment 
+      <TableDepartment
         permissions={permissions}
         loading={loading}
         data={data}
@@ -305,6 +380,7 @@ const TableDepartmentContainer = (props) => {
         depart={depart}
         onChange={onChange}
         err={err}
+        expandedRow={expandedRow}
       />
     </div>
   );
