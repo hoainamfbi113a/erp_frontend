@@ -1411,7 +1411,7 @@ class addInformationUser extends Component {
                       </div>
                     </li>
                     <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">Trình độ:</span>
+                      <span className="tabs-user-infor-top">Trình độ chuyên môn:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
                           name="deg_diploma"
@@ -1544,7 +1544,7 @@ class addInformationUser extends Component {
                       </div>
                     </li>
                     <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">Số thẻ:</span>
+                      <span className="tabs-user-infor-top">Số thẻ nhà báo:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
                           name="car_number"
@@ -1555,7 +1555,7 @@ class addInformationUser extends Component {
                       </div>
                     </li>
                     <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">Ngày cấp thẻ:</span>
+                      <span className="tabs-user-infor-top">Ngày cấp thẻ nhà báo:</span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                         <DatePicker
                           format={dateFormatList}
@@ -1630,7 +1630,7 @@ class addInformationUser extends Component {
                     </li>
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
-                        Ghi chú số thẻ:
+                        Ghi chú số thẻ nhà báo:
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
