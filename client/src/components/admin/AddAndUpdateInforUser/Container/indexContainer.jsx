@@ -61,18 +61,29 @@ const InfoUserContainer = (props) => {
         if (data) {
           setProfile(data);
           setProId(data.id);
+          let dataTransfersProfile = {};
+          dataTransfersProfile = await transfersProfile(data.id);
+          setStep_id(dataTransfersProfile.data.next_step_id);
+          // console.log(dataTransfersProfile.data.next_step_id);
+
+          // setStep_id(data.status);
         }
         if (Object.keys(data).length != 0) {
           let dataTransfersProfile = {};
           dataTransfersProfile = await transfersProfile(data.id);
           setStep_id(dataTransfersProfile.data.next_step_id);
+          // setStep_id(data.status);
+          console.log(dataTransfersProfile.data.next_step_id);
         }
       } else if (window.location.href.includes("create") === false) {
         setProfile(dataProfile);
         setProId(dataProfile.id);
+        // setStep_id(dataProfile.status);
+        // console.log(dataProfile.status)
         let dataTransfersProfile = {};
         dataTransfersProfile = await transfersProfile(dataProfile.id);
-        setStep_id(dataTransfersProfile.data.next_step_id);
+        setStep_id(dataTransfersProfile.data.next_step_id)
+        console.log(dataTransfersProfile.data.next_step_id);
       }
     })();
   }, []);
@@ -219,6 +230,7 @@ const InfoUserContainer = (props) => {
       <Index
         value={value}
         activeLink={activeLink}
+        setModalNotify = {setModalNotify}
         setActiveLink={setActiveLink}
         modalNotify={modalNotify}
         profile={profile}

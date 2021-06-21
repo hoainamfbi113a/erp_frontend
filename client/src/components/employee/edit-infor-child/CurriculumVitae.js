@@ -307,6 +307,13 @@ class CurriculumVitae extends Component {
       }
     }
   };
+  handleSave = () => {
+    this.onAddInforUser("save");
+  };
+  handleSend = () => {
+    this.onAddInforUser("send");
+  };
+
   onChange = (e) => {
     const { name } = e.target;
     const { value } = e.target;
@@ -590,7 +597,7 @@ class CurriculumVitae extends Component {
       return (
         <li className="tabs-main-left-li tabs-main-left-li-submit">
           <span className="btn-add-user" onClick={this.handleSave}>
-            Lưu
+            LưuS
           </span>
           <span className="btn-add-user" onClick={this.handleSend}>
             Xác nhận
@@ -1084,7 +1091,7 @@ class CurriculumVitae extends Component {
                       </div>
                     </li>
                     <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">Trình độ:</span>
+                      <span className="tabs-user-infor-top">Trình độ chuyên môn:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
                           name="deg_diploma"
@@ -1216,7 +1223,7 @@ class CurriculumVitae extends Component {
                       </div>
                     </li>
                     <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">Số thẻ:</span>
+                      <span className="tabs-user-infor-top">Số thẻ nhà báo:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
                           name="car_number"
@@ -1227,7 +1234,7 @@ class CurriculumVitae extends Component {
                       </div>
                     </li>
                     <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">Ngày cấp thẻ:</span>
+                      <span className="tabs-user-infor-top">Ngày cấp thẻ nhà báo:</span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                         <DatePicker
                           format={dateFormatList}
@@ -1257,7 +1264,7 @@ class CurriculumVitae extends Component {
                     </li>
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
-                        Thời gian thẻ có hiệu lực:
+                        Thời gian thẻ nhà báo hiệu lực:
                       </span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                         <RangePicker
@@ -1302,7 +1309,7 @@ class CurriculumVitae extends Component {
                     </li>
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
-                        Ghi chú số thẻ:
+                        Ghi chú số thẻ nhà báo:
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
@@ -1314,24 +1321,6 @@ class CurriculumVitae extends Component {
                       </div>
                     </li>
                     {this.renderButton(this.props.statusProfile)}
-                    {/* {this.props.statusProfile == 2 ? (
-                      <li className="tabs-main-left-li tabs-main-left-li-submit">
-                        <span
-                          className="btn-add-user"
-                          onClick={this.handleSave}
-                        >
-                          Lưu
-                        </span>
-                        <span
-                          className="btn-add-user"
-                          onClick={this.handleSend}
-                        >
-                          Xác nhận
-                        </span>
-                      </li>
-                    ) : (
-                      "Bạn chỉ được xem hãy liên hệ nhân sự để được chỉnh sửa"
-                    )} */}
                   </ul>
                 </div>
               </div>

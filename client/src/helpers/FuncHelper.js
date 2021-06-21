@@ -59,6 +59,14 @@ function resetStatusProfile(value) {
   if (value == 1) return 4;
   return value;
 }
+const validateOnlyNumber = (number) =>  {
+  let msg = "";
+  const regexName = /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$/;
+  if (String(number).match(regexName)) {
+    msg = "Chỉ có thể chứa số"
+  }
+  return msg;
+}
 const validateInputFormUser = (type, checkingText, listUser) => {
   let isValid = true;
   let errorMessage = "";
@@ -244,4 +252,5 @@ export {
   checkVisible,
   formatDateNumber,
   convertFormatDate,
+  validateOnlyNumber
 };

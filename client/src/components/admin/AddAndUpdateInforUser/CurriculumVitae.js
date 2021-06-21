@@ -5,18 +5,23 @@ import {
   Popconfirm,
   Radio,
   Select,
-  Steps
+  Steps,
 } from "antd";
-import { getUser, listUserCheck, register, updateUser } from "apis/authenticationApi";
+import {
+  getUser,
+  listUserCheck,
+  register,
+  updateUser,
+} from "apis/authenticationApi";
 import {
   addDepartmentProfile,
   getListAllDepartment,
   searchDepartment,
-  updateDepartmentProfile
+  updateDepartmentProfile,
 } from "apis/departmentApi";
 import {
   addJournalistCards,
-  updateJournalistCards
+  updateJournalistCards,
 } from "apis/journalistCardsApi";
 import { getListAllParts, searchParts } from "apis/partsApi";
 import { getListAllPosition, searchPosition } from "apis/positionApi";
@@ -337,7 +342,7 @@ class addInformationUser extends Component {
     this.setState({
       [name]: dateString,
     });
-  }; 
+  };
   onChangeRange = (e, dateString, name1, name2) => {
     this.setState({
       [name1]: dateString[0],
@@ -466,7 +471,7 @@ class addInformationUser extends Component {
         full_name: this.state.pro_name,
         password: "123123",
         service_management_id: "1",
-        store_profile:"1"
+        // store_profile:"1"
       };
       let resRegister = await register(paramUser);
       if (resRegister.message === "Đăng ký thành công!") {
@@ -502,6 +507,16 @@ class addInformationUser extends Component {
         let resAddProfile = await addProfile(params);
         if (resAddProfile.message == "Success!. Stored") {
           proId = resAddProfile.id;
+          if (value === "send") {
+            let resUpdateProfile = await updateProfile(proId, params);
+            if (
+              resUpdateProfile &&
+              resUpdateProfile.message == "Success!. Updated"
+            ) {
+            } else {
+              messageErr = 2;
+            }
+          }
         } else {
           messageErr = 2;
         }
@@ -887,43 +902,42 @@ class addInformationUser extends Component {
               <div className="tabs-main-left-content">
                 <div className="tabs-main-left">
                   <ul className="tabs-main-left-ul">
-                  {window.location.href.includes("create") === false && (
-          <div className="file-input btn-img34">
-            <div className="thumb_1 div-img-cover div-img-3x4">
-              <img
-                className="img-cover"
-                src={`data:image/jpeg;base64,${this.state.avatar3x4}`}
-                alt=""
-              />
-            </div>
-            <input
-              type="file"
-              name="selectedFile"
-              onChange={this.onChangeCover}
-              id="file-input"
-              className="file-input__input"
-            />
-            <label className="file-input__label" for="file-input">
-              <svg
-                aria-hidden="true"
-                focusable="false"
-                data-prefix="fas"
-                data-icon="upload"
-                className="svg-inline--fa fa-upload fa-w-16"
-                role="img"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 512 512"
-              >
-                <path
-                  fill="currentColor"
-                  d="M296 384h-80c-13.3 0-24-10.7-24-24V192h-87.7c-17.8 0-26.7-21.5-14.1-34.1L242.3 5.7c7.5-7.5 19.8-7.5 27.3 0l152.2 152.2c12.6 12.6 3.7 34.1-14.1 34.1H320v168c0 13.3-10.7 24-24 24zm216-8v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h136v8c0 30.9 25.1 56 56 56h80c30.9 0 56-25.1 56-56v-8h136c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"
-                ></path>
-              </svg>
-              <span>Upload file</span>
-            </label>
-          
-          </div>
-        )}
+                    {window.location.href.includes("create") === false && (
+                      <div className="file-input btn-img34">
+                        <div className="thumb_1 div-img-cover div-img-3x4">
+                          <img
+                            className="img-cover"
+                            src={`data:image/jpeg;base64,${this.state.avatar3x4}`}
+                            alt=""
+                          />
+                        </div>
+                        <input
+                          type="file"
+                          name="selectedFile"
+                          onChange={this.onChangeCover}
+                          id="file-input"
+                          className="file-input__input"
+                        />
+                        <label className="file-input__label" for="file-input">
+                          <svg
+                            aria-hidden="true"
+                            focusable="false"
+                            data-prefix="fas"
+                            data-icon="upload"
+                            className="svg-inline--fa fa-upload fa-w-16"
+                            role="img"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 512 512"
+                          >
+                            <path
+                              fill="currentColor"
+                              d="M296 384h-80c-13.3 0-24-10.7-24-24V192h-87.7c-17.8 0-26.7-21.5-14.1-34.1L242.3 5.7c7.5-7.5 19.8-7.5 27.3 0l152.2 152.2c12.6 12.6 3.7 34.1-14.1 34.1H320v168c0 13.3-10.7 24-24 24zm216-8v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h136v8c0 30.9 25.1 56 56 56h80c30.9 0 56-25.1 56-56v-8h136c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z"
+                            ></path>
+                          </svg>
+                          <span>Upload file</span>
+                        </label>
+                      </div>
+                    )}
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
                         Họ và tên khai sinh:
@@ -1397,7 +1411,7 @@ class addInformationUser extends Component {
                       </div>
                     </li>
                     <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">Trình độ:</span>
+                      <span className="tabs-user-infor-top">Trình độ chuyên môn:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
                           name="deg_diploma"
@@ -1530,7 +1544,7 @@ class addInformationUser extends Component {
                       </div>
                     </li>
                     <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">Số thẻ:</span>
+                      <span className="tabs-user-infor-top">Số thẻ nhà báo:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
                           name="car_number"
@@ -1541,7 +1555,7 @@ class addInformationUser extends Component {
                       </div>
                     </li>
                     <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">Ngày cấp thẻ:</span>
+                      <span className="tabs-user-infor-top">Ngày cấp thẻ nhà báo:</span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                         <DatePicker
                           format={dateFormatList}
@@ -1616,7 +1630,7 @@ class addInformationUser extends Component {
                     </li>
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
-                        Ghi chú số thẻ:
+                        Ghi chú số thẻ nhà báo:
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input

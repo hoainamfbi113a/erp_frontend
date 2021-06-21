@@ -20,6 +20,7 @@ import axios from "axios";
 import { formatDateNumber } from "../../../helpers/FuncHelper";
 const { TabPane } = Tabs;
 const id_user = docCookies.getItem("user_id");
+console.log(id_user)
 const placeHolder = "R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 const PersonalPage = () => {
