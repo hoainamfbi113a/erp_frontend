@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Input } from "antd";
 import { Button, DatePicker } from "antd";
 import moment from "moment";
-import { formatDateNumber } from "../../../helpers/FuncHelper";
+import { formatDateNumber, validateOnlyNumber } from "../../../helpers/FuncHelper";
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 const JoinDCS = (props) => {
   let { par_admission_date,

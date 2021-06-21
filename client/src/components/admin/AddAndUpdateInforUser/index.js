@@ -13,8 +13,9 @@ const Index = ({
   renderWorkflow,
   handleReject,
   handleConfirm,
-  handleReloadComponent,
+handleReloadComponent,
   value,
+  setModalNotify
 }) => {
   const router = useRouteMatch();
 
@@ -88,7 +89,7 @@ const Index = ({
               >
                 <div className={activeLink === 4 ? "active" : ""}>4</div>
                 <span className={activeLink === 4 ? "active" : ""}>
-                  Tham gia các tổ chức chính trị, xã hội, các nghề nghiệp
+                  Tham gia các tổ chức chính trị, xã hội, các cơ hội nghề nghiệp
                 </span>
               </li>
               <li

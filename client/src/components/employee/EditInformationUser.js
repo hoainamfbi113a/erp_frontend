@@ -239,7 +239,7 @@ class EditInformationUser extends Component {
                   4
                 </div>
                 <span className={this.state.activeLink === 4 ? "active" : ""}>
-                  Tham gia các tổ chức chính trị, xã hội, các nghề nghiệp
+                  Tham gia các tổ chức chính trị, xã hội, các cơ hội nghề nghiệp
                 </span>
               </li>
 

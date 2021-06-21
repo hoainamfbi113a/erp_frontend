@@ -68,6 +68,7 @@ const Logins = () => {
       await dispatch(getPermission(respLogin.detail.id));
       await dispatch(getUserProfile(respLogin.detail.id));
       dispatch(hideLoading());
+      window.location.reload();
     } else if (
       respLogin &&
       respLogin.message === "Tài khoản hoặc mật khẩu không đúng!"
