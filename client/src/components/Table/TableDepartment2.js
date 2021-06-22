@@ -1,6 +1,6 @@
 import { Input, Layout, Modal, Table } from "antd";
 import { checkVisible } from "helpers/FuncHelper";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "../../App/App.css";
 import "./Table.css";
 const { Content } = Layout;
@@ -18,10 +18,21 @@ const TableDepartment = ({
   depart,
   onChange,
   err,
-  expandedRow
+  expandedRow,
+  filterDepId,
 }) => {
+  // const [bb, setBB] = useState("");
+
+  // useEffect(() => {
+  //   for (let i = 0; i < 3; i++) {
+  //     let aa =+ `${filterDepId[i]} + "||"`
+  //   }
+  //   setBB(aa)
+  // }, [filterDepId]);
+
   return (
     <div>
+      {console.log(filterDepId.join(' || '))}
       <Content>
         <div className="layout-content">
           <div style={{ padding: 24, minHeight: 200 }}>
@@ -31,7 +42,20 @@ const TableDepartment = ({
                 loading={loading}
                 columns={columns}
                 className="table-content"
-                expandedRowRender={expandedRow}
+                expandable={{
+                  expandedRowRender: expandedRow,
+                  rowExpandable: (expandedRow) =>
+                    expandedRow.id === 114 ||
+                    expandedRow.id === 115 ||
+                    expandedRow.id === 117,
+                  // ||
+                  //   expandedRow.id === 117 ||
+                  //   expandedRow.id === 115
+                  // }
+                  // (
+                  //   filterDepId.map((id) => (expandedRow.id === id))
+                  // )
+                }}
                 dataSource={data ? data.data : ""}
                 rowKey="id"
                 pagination={{
