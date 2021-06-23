@@ -45,16 +45,9 @@ const TableDepartment = ({
                 expandable={{
                   expandedRowRender: expandedRow,
                   rowExpandable: (expandedRow) =>
-                    expandedRow.id === 114 ||
-                    expandedRow.id === 115 ||
-                    expandedRow.id === 117,
-                  // ||
-                  //   expandedRow.id === 117 ||
-                  //   expandedRow.id === 115
-                  // }
-                  // (
-                  //   filterDepId.map((id) => (expandedRow.id === id))
-                  // )
+                  (
+                     filterDepId.some((item)=> item == expandedRow.id)
+                  )
                 }}
                 dataSource={data ? data.data : ""}
                 rowKey="id"
