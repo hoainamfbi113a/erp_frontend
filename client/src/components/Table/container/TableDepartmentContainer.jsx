@@ -21,6 +21,7 @@ const TableDepartmentContainer = (props) => {
   const [data, setData] = useState(null);
   const [partData, setPartData] = useState(null);
   const [isCreate, setIsCreate] = useState(false);
+  const [filterDepId, setFilterDepId] = useState([]);
   const [depart, setDepart] = useState({
     dep_name: "",
     dep_address: "",
@@ -36,6 +37,9 @@ const TableDepartmentContainer = (props) => {
   useEffect(() => {
     fetchPartData("all");
   }, []);
+  useEffect(() => {
+    filetDepId();
+  }, [data, partData]);
 
   useEffect(async () => {
     setLoading(true);
@@ -224,7 +228,46 @@ const TableDepartmentContainer = (props) => {
     setDepart({ ...depart, [e.target.name]: e.target.value });
   };
 
+  // const onSizeChange = (current, size) => {
+  //   setSizeOt()
+  //   if(props.valueSearch === "") {
+  //     fetchData(1, size);
+  //   } else {
+  //     fetchSearch(1, size)
+  //   }
+  // }
+  const filetDepId = () => {
+    if (data && data.data.length) {
+      let arr = [];
+      if (partData && partData.data.length) {
+        for (let j = 0; j < data.data.length; j++) {
+          for (let i = 0; i < partData.data.length; i++) {
+            if (data.data[j].id === partData.data[i].dep_id) {
+              arr.push(data.data[j].id);
+              break;
+            }
+          }
+        }
+        setFilterDepId(arr);
+      }
+    }
+  };
+  // if (data && data.data.length) {
+  //   let arr = [];
+  //   if (partData && partData.data.length) {
+  //     for (let j = 0; j < data.data.length; j++) {
+  //       for (let i = 0; i < partData.data.length; i++) {
+  //         if (data.data[j].id === partData.data[i].dep_id) {
+  //           arr.push(data.data[j].id);
+  //           break;
+  //         }
+  //       }
+  //     }
+  //     console.log(arr);
 
+  //     setFilterDepId(arr);
+  //   }
+  // }
   const expandedRow = (row) => {
     if (partData && partData.data.length) {
       const columnsExpand = [
@@ -264,6 +307,7 @@ const TableDepartmentContainer = (props) => {
       return (
         <Table
           //loading={this.state.loading}
+
           style={{ paddingLeft: "2rem" }}
           columns={columnsExpand}
           dataSource={
@@ -273,14 +317,14 @@ const TableDepartmentContainer = (props) => {
           pagination={false}
         />
       );
-    }
+    } else return "";
   };
 
   const columns = [
     {
       title: "Tên phòng ban",
       dataIndex: "dep_name",
-      key: "id",
+      key: "dep_name",
     },
     {
       title: "Địa chỉ",
@@ -371,6 +415,7 @@ const TableDepartmentContainer = (props) => {
         onChange={onChange}
         err={err}
         expandedRow={expandedRow}
+        filterDepId={filterDepId}
       />
     </div>
   );

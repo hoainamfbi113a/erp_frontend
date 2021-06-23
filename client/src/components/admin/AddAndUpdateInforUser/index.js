@@ -13,9 +13,9 @@ const Index = ({
   renderWorkflow,
   handleReject,
   handleConfirm,
-handleReloadComponent,
+  handleReloadComponent,
   value,
-  setModalNotify
+  setModalNotify,
 }) => {
   const router = useRouteMatch();
 
