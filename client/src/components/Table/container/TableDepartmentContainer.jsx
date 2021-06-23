@@ -268,11 +268,8 @@ const TableDepartmentContainer = (props) => {
   //     setFilterDepId(arr);
   //   }
   // }
-  const expandedRow = (row, depId) => {
-    //total = this.state.data.meta.pagination.total;
+  const expandedRow = (row) => {
     if (partData && partData.data.length) {
-      // const ab = partData.data.filter((part) => part.dep_id !== row.id);
-
       const columnsExpand = [
         { title: "Tên tổ", dataIndex: "part_name", key: "part_name" },
         { title: "Ghi chú", dataIndex: "part_note", key: "part_note" },
