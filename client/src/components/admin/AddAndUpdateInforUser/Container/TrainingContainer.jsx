@@ -24,6 +24,13 @@ const TrainingContainer = (props) => {
     tra_time_from: "",
     tra_time_from: "",
     tra_note: null,
+    tra_school_name:"",
+    tra_study_time:"",
+    tra_majors:"",
+    tra_study_mode:"",
+    tra_diploma:"",
+    tra_address:"",
+
   });
   const [visible, setVisible] = useState(false);
   const [cate, setCate] = useState({});
@@ -54,6 +61,12 @@ const TrainingContainer = (props) => {
       tra_time_from: "",
       tra_time_to: "",
       tra_note: null,
+      tra_school_name:"",
+      tra_study_time:"",
+      tra_majors:"",
+      tra_study_mode:"",
+      tra_diploma:"",
+      tra_address:"",
     });
     if (value == 1) {
       setCate({ category: 1 });
@@ -69,6 +82,12 @@ const TrainingContainer = (props) => {
       tra_time_from: "",
       tra_time_to: "",
       tra_note: null,
+      tra_school_name:"",
+      tra_study_time:"",
+      tra_majors:"",
+      tra_study_mode:"",
+      tra_diploma:"",
+      tra_address:"",
     });
     setId("");
 
@@ -83,7 +102,7 @@ const TrainingContainer = (props) => {
       dataTemp = dataTraining2.find((item) => item.id == value.id);
     }
 
-    let { id, tra_type, tra_time_from, tra_time_to, tra_note } = dataTemp;
+    let { id, tra_type, tra_time_from, tra_time_to, tra_note, tra_school_name, tra_study_time, tra_majors, tra_study_mode, tra_diploma, tra_address } = dataTemp;
     let date1 = formatDateNumber(tra_time_from, dateFormatList[0]);
     let date2 = formatDateNumber(tra_time_to, dateFormatList[0]);
     setId(id);
@@ -93,6 +112,12 @@ const TrainingContainer = (props) => {
       tra_time_to: date2,
       tra_note,
       tra_type,
+      tra_school_name,
+      tra_study_time,
+      tra_majors,
+      tra_study_mode,
+      tra_diploma,
+      tra_address,
     });
   };
   const onChangeRange = (dateString) => {
@@ -106,9 +131,13 @@ const TrainingContainer = (props) => {
     setDataItem({ ...dataItem, tra_type: value });
     setRefresh(!refresh);
   };
+  // const onChange = (e) => {
+  //   setDataItem({ ...dataItem, tra_note: e.target.value });
+  // };
   const onChange = (e) => {
-    setDataItem({ ...dataItem, tra_note: e.target.value });
+    setDataItem({ ...dataItem, [e.target.name]: e.target.value });
   };
+
   const datatraining = [];
   if (dataTraining && dataTraining.length !== 0) {
     for (let item of dataTraining) {
@@ -118,7 +147,8 @@ const TrainingContainer = (props) => {
     }
   } 
   const handleOk = () => {
-    let { tra_type, tra_time_from, tra_time_to, tra_note } = dataItem;
+    let { tra_type, tra_time_from, tra_time_to, tra_note, tra_school_name,
+       tra_study_time, tra_majors, tra_study_mode, tra_diploma, tra_address } = dataItem;
     let date1 = moment(tra_time_from, "DD-MM-YYYY");
     let date2 = moment(tra_time_to, "DD-MM-YYYY");
 
@@ -131,8 +161,15 @@ const TrainingContainer = (props) => {
       tra_time_from: parse_time_from,
       tra_time_to: parse_time_to,
       tra_note,
+      tra_school_name,
+      tra_study_time,
+      tra_majors,
+      tra_study_mode,
+      tra_diploma,
+      tra_address,
       id,
     };
+    console.log(params)
     if (id == "") {
       if (tra_type == 1) {
         dispatch(addTraining(params));
