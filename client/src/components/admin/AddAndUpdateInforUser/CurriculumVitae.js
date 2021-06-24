@@ -1214,14 +1214,14 @@ class addInformationUser extends Component {
                     </li>
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
-                        Nơi cấp CMND,CCCD:
+                        Nơi cấp CCCD:
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
                           name="pro_identity_card_where"
                           value={this.state.pro_identity_card_where}
                           onChange={this.onChange}
-                          placeholder="Nơi cấp CMND,CCCD"
+                          placeholder="Nơi cấp CCCD"
                         />
                       </div>
                     </li>
