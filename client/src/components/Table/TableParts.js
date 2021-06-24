@@ -122,6 +122,7 @@ const TableParts = ({
           </ul>
         </form>
       </Modal>
+    
     </div>
   );
 };
