@@ -102,7 +102,8 @@ const TrainingContainer = (props) => {
       dataTemp = dataTraining2.find((item) => item.id == value.id);
     }
 
-    let { id, tra_type, tra_time_from, tra_time_to, tra_note, tra_school_name, tra_study_time, tra_majors, tra_study_mode, tra_diploma, tra_address } = dataTemp;
+    let { id, tra_type, tra_time_from, tra_time_to, tra_note, tra_school_name,
+       tra_study_time, tra_majors, tra_study_mode, tra_diploma, tra_address } = dataTemp;
     let date1 = formatDateNumber(tra_time_from, dateFormatList[0]);
     let date2 = formatDateNumber(tra_time_to, dateFormatList[0]);
     setId(id);

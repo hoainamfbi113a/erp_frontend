@@ -19,6 +19,8 @@ const { TextArea } = Input;
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 
 const Bonus = (props) => {
+  const { type, rew_content, rew_decision_number,
+     rew_time_from, rew_time_to, rew_formality} = props.reward;
   const renderData = (data) =>{
     return data.map((item) => {
       return (
@@ -49,7 +51,9 @@ const Bonus = (props) => {
               Cập nhật
             </Tag>
           </Space>
-          <p className="personal-history-content">{item.rew_formality}</p>
+          <p style = {{marginTop:"4px"}} className="personal-history-content">Nội dung, hình thức khen thưởng/ kĩ thuật: {item.rew_content}</p>
+          <p className="personal-history-content">Số cấp quyết định: {item.rew_decision_number}</p>
+          <p className="personal-history-content">Ghi chú: {item.rew_formality}</p>
         </li>
       );
     });
@@ -101,7 +105,7 @@ const Bonus = (props) => {
                 <Select
                   onChange={props.handleChange}
                   className="modal-selection"
-                  value={props.reward.type == 1 ? "1" : "2"}
+                  value={type == 1 ? "1" : "2"}
                   style={{ width: 527 }}
                 >
                   <Option value="1">Khen thưởng</Option>
@@ -109,17 +113,40 @@ const Bonus = (props) => {
                 </Select>
               </div>
             </li>
+            <li style={{ width: "265px" }} className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
+              <span className="tabs-user-infor-top">Nội dung, hình thức khen thưởng</span>
+              <div className="tabs-user-infor-bottom">
+                <Input
+                  style={{ width: "100%" }}
+                  name="rew_content"
+                  value = {rew_content}
+                  onChange={props.onChange}
+                  placeholder="Nội dung, hình thức khen thưởng "
+                />
+              </div>
+            </li>
+            <li style={{ width: "265px" }} className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
+              <span className="tabs-user-infor-top">số cấp quyết định</span>
+              <div className="tabs-user-infor-bottom">
+                <Input
+                  style={{ width: "100%" }}
+                  name="rew_decision_number"
+                  value = {rew_decision_number}
+                  onChange={props.onChange}
+                  placeholder="số cấp quyết định "
+                />
+              </div>
+            </li>
             <li className="tabs-main-left-li tabs-main-left-li-row">
               <span className="tabs-user-infor-top">Từ ngày</span>
-              {console.log(props.reward.rew_time_to)}
               <div className="tabs-user-infor-bottom">
                 <RangePicker
                   placeholder={["Từ ngày", "Đến ngày"]}
                   value={
-                    props.reward.rew_time_from
+                    rew_time_from
                       ? [
-                       moment(props.reward.rew_time_from,dateFormatList[0]),
-                       moment(props.reward.rew_time_to,dateFormatList[0]),
+                       moment(rew_time_from,dateFormatList[0]),
+                       moment(rew_time_to,dateFormatList[0]),
                         ]
                       : null
                   }
@@ -137,11 +164,12 @@ const Bonus = (props) => {
               </div>
             </li>
             <li className="tabs-main-left-li">
-              <span className="tabs-user-infor-top"></span>
+              <span className="tabs-user-infor-top">Ghi chú</span>
               <div className="tabs-user-infor-bottom">
                 <TextArea
                   onChange={props.onChange}
-                  value={props.reward.rew_formality}
+                  value={rew_formality}
+                  name = "rew_formality"
                   placeholder="Mời bạn nhập chi tiết"
                   autoSize={{ minRows: 7, maxRows: 15 }}
                 />
