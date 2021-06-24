@@ -1,6 +1,6 @@
-import { Input, Layout, Modal, Table } from "antd";
+import { Input, Layout, Modal, Table, Select } from "antd";
 import { checkVisible } from "helpers/FuncHelper";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "../../App/App.css";
 import "./Table.css";
 const { Content } = Layout;
@@ -13,6 +13,7 @@ const TableDepartment = ({
   handlePagination,
   isCreate,
   showModalData,
+  showModalData2,
   onSubmit,
   hideModal,
   depart,
@@ -20,19 +21,14 @@ const TableDepartment = ({
   err,
   expandedRow,
   filterDepId,
+  onChangePart,
+  handleChangeDepart,
+  renderDepartment,
+  part,
+  hideModalPart
 }) => {
-  // const [bb, setBB] = useState("");
-
-  // useEffect(() => {
-  //   for (let i = 0; i < 3; i++) {
-  //     let aa =+ `${filterDepId[i]} + "||"`
-  //   }
-  //   setBB(aa)
-  // }, [filterDepId]);
-
   return (
     <div>
-      {console.log(filterDepId.join(' || '))}
       <Content>
         <div className="layout-content">
           <div style={{ padding: 24, minHeight: 200 }}>
@@ -45,22 +41,12 @@ const TableDepartment = ({
                 expandable={{
                   expandedRowRender: expandedRow,
                   rowExpandable: (expandedRow) =>
-                    expandedRow.id === 114 ||
-                    expandedRow.id === 115 ||
-                    expandedRow.id === 117,
-                  // ||
-                  //   expandedRow.id === 117 ||
-                  //   expandedRow.id === 115
-                  // }
-                  // (
-                  //   filterDepId.map((id) => (expandedRow.id === id))
-                  // )
+                    filterDepId.some((id) => id === expandedRow.id),
                 }}
                 dataSource={data ? data.data : ""}
                 rowKey="id"
                 pagination={{
                   onChange: handlePagination,
-                  //pageSize: 10,
                   current: data ? data.meta.pagination.current_page : 1,
                   total: data ? data.meta.pagination.total : 0,
                   showSizeChanger: true,
@@ -69,13 +55,12 @@ const TableDepartment = ({
             ) : (
               ""
             )}
-
-            {/* {!data ? "ko co data" : "co data"} */}
           </div>
         </div>
       </Content>
+      
       <Modal
-        title={isCreate ? "Tạo phòng ban" : "Cập nhật phòng ban"}
+        title={!isCreate ? "Tạo phòng ban" : "Cập nhật phòng ban"}
         visible={showModalData}
         onOk={onSubmit}
         onCancel={hideModal}
@@ -163,6 +148,82 @@ const TableDepartment = ({
                   value={depart.dep_note}
                   name="dep_note"
                   onChange={onChange}
+                />
+              </div>
+            </li>
+          </ul>
+        </form>
+      </Modal>
+
+      <Modal
+        title={isCreate ? "Tạo tổ" : "Cập nhật tổ"}
+        visible={showModalData2}
+        onOk={onSubmit}
+        onCancel={hideModalPart}
+        okText="OK"
+        cancelText="Cancel"
+        width={600}
+      >
+        <form
+          style={{ width: "100%" }}
+          className="tabs-main tabs-main-modal"
+          noValidate
+          method="post"
+        >
+          <ul style={{ marginLeft: "23px" }}>
+            <li className="tabs-main-left-li">
+              <span className="tabs-user-infor-top">
+                Chọn phòng ban<span>*</span>
+              </span>
+              <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal ">
+                <Select
+                  value={part.dep_id}
+                  style={{ width: 450 }}
+                  onChange={handleChangeDepart}
+                >
+                  {renderDepartment()}
+                </Select>
+              </div>
+              {err.err_dep !== "" ? (
+                <span
+                  style={{
+                    color: "red",
+                    fontStyle: "italic",
+                  }}
+                >
+                  {err.err_dep}
+                </span>
+              ) : null}
+            </li>
+            <li className="tabs-main-left-li">
+              <span className="tabs-user-infor-top">
+                Tên tổ<span>*</span>
+              </span>
+              <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
+                <Input
+                  value={part.part_name}
+                  name="part_name"
+                  onChange={onChangePart}
+                />
+              </div>
+              {err.err_name !== "" ? (
+                <span
+                  style={{
+                    color: "red",
+                    fontStyle: "italic",
+                  }}
+                >
+                  {err.err_name}
+                </span>
+              ) : null}
+            </li>
+            <li className="tabs-main-left-li">
+              <span className="tabs-user-infor-top">Ghi chú tổ</span>
+              <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
+                <Input
+                  value={part.part_note}
+                  name="part_note"
+                  onChange={onChangePart}
                 />
               </div>
             </li>

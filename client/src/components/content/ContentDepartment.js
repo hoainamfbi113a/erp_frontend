@@ -1,6 +1,6 @@
 import TableDepartmentContainer from "components/Table/container/TableDepartmentContainer";
 import React from "react";
-import Content from "./Content";
+import ContentDepartContainer from "./ContentDepartContainer";
 
 const ContentDepartment = () => {
   const obj = {
@@ -9,7 +9,7 @@ const ContentDepartment = () => {
     component: TableDepartmentContainer
   }
   return (
-    <Content {...obj}/>
+    <ContentDepartContainer {...obj}/>
   )
 };
 export default ContentDepartment;
