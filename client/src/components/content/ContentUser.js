@@ -10,7 +10,6 @@ import { checkVisible } from "../../helpers/FuncHelper";
 import { getListDepartment } from "apis/departmentApi";
 import { listUser } from "apis/authenticationApi";
 const { Option } = Select;
-const { Search } = Input;
 
 const ContentUser = () => {
   const [value, setValue] = useState("");
@@ -23,7 +22,7 @@ const ContentUser = () => {
   const [userData, setUserData] = useState(null);
 
   const [dataFilter, setDataFilter] = useState(null);
-
+ 
   const callbackFunction = (childData) => {
     setDataFilter(childData);
   };
