@@ -203,10 +203,76 @@ const ProfessionalCompensation = () => {
                   style={{ width: 527 }}
                   // onChange={handleChange}
                 >
-                  <Option value="1">Đào tạo</Option>
+                  <Option value="1">Đào tạosdfjkdsf </Option>
                   <Option value="2">Bồi dưỡng</Option>
 
                 </Select>
+              </div>
+            </li>
+            <li className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
+              <span className="tabs-user-infor-top">Tên trường</span>
+              <div className="tabs-user-infor-bottom">
+                <Input
+                  style={{ width: "100%" }}
+                  name="pro_religion"
+                  value={dataItem.job}
+                  placeholder="Tên trường"
+                />
+              </div>
+            </li>
+            <li className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
+              <span className="tabs-user-infor-top">Địa chỉ</span>
+              <div className="tabs-user-infor-bottom">
+                <Input
+                  style={{ width: "100%" }}
+                  name="pro_religion"
+                  value={dataItem.job}
+                  placeholder="Địa chỉ"
+                />
+              </div>
+            </li>
+            <li className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
+              <span className="tabs-user-infor-top">Chuyên ngành</span>
+              <div className="tabs-user-infor-bottom">
+                <Input
+                  style={{ width: "100%" }}
+                  name="pro_religion"
+                  value={dataItem.job}
+                  placeholder="Tên trường"
+                />
+              </div>
+            </li>
+            <li className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
+              <span className="tabs-user-infor-top">Chuyên ngành</span>
+              <div className="tabs-user-infor-bottom">
+                <Input
+                  style={{ width: "100%" }}
+                  name="pro_religion"
+                  value={dataItem.job}
+                  placeholder="Tên trường"
+                />
+              </div>
+            </li>
+            <li className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
+              <span className="tabs-user-infor-top">Chế độ học </span>
+              <div className="tabs-user-infor-bottom">
+                <Input
+                  style={{ width: "100%" }}
+                  name="pro_religion"
+                  value={dataItem.job}
+                  placeholder="Chế độ học"
+                />
+              </div>
+            </li>
+            <li className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
+              <span className="tabs-user-infor-top">Văn bằng</span>
+              <div className="tabs-user-infor-bottom">
+                <Input
+                  style={{ width: "100%" }}
+                  name="pro_religion"
+                  value={dataItem.job}
+                  placeholder="Chứng chỉ"
+                />
               </div>
             </li>
             <li className="tabs-main-left-li tabs-main-left-li-row">

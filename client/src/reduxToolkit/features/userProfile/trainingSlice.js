@@ -3,7 +3,7 @@ const trainingSlice = createSlice({
   name: "training",
   initialState: [],
   reducers: {
-    getTraining() {},
+    getTraining() { },
     setTraining(state, action) {
       state = [...action.payload];
       return state;
@@ -41,14 +41,27 @@ const trainingSlice = createSlice({
         tra_time_from,
         tra_time_to,
         tra_note,
+        tra_school_name,
+        tra_study_time,
+        tra_majors,
+        tra_study_mode,
+        tra_diploma,
+        tra_address
+
       } = action.payload;
       const index = data.findIndex((item) => item.id === id);
       if (index >= 0) {
         state[index].tra_time_from = tra_time_from;
         state[index].tra_time_to = tra_time_to;
         state[index].tra_note = tra_note;
+        state[index].tra_school_name = tra_school_name;
+        state[index].tra_study_time = tra_study_time;
+        state[index].tra_majors = tra_majors;
+        state[index].tra_study_mode = tra_study_mode;
+        state[index].tra_diploma = tra_diploma;
+        state[index].tra_address = tra_address;
       }
-    }, 
+    },
     updateTrainingFailed(state, action) {
       return [...state];
     },

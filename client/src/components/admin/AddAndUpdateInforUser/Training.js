@@ -19,6 +19,8 @@ const { TextArea } = Input;
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 
 const Training = (props) => {
+  const { tra_type, tra_time_from, tra_time_to, tra_note,
+     tra_school_name, tra_study_time, tra_majors, tra_study_mode, tra_diploma, tra_address } = props.dataItem;
   const renderData = (data) => {
     return data.map((item) => {
       return (
@@ -49,7 +51,12 @@ const Training = (props) => {
               Cập nhật
             </Tag>
           </Space>
-          <p className="personal-history-content">{item.tra_note}</p>
+          <p style = {{marginTop:"4px"}} className="personal-history-content">Tên trường: {item.tra_school_name}</p>
+          <p className="personal-history-content">Địa chỉ: {item.tra_address}</p>
+          <p className="personal-history-content">Chuyên ngành: {item.tra_majors}</p>
+          <p className="personal-history-content">Chế độ học: {item.tra_study_mode}</p>
+          <p className="personal-history-content">Văn bằng, chứng chỉ: {item.tra_diploma}</p>
+          <p className="personal-history-content">Ghi chú: {item.tra_note}</p>
         </li>
       );
     });
@@ -105,7 +112,7 @@ const Training = (props) => {
                 <Select
                   onChange={props.handleChange}
                   className="modal-selection"
-                  value={props.dataItem.tra_type == 1 ? "1" : "2"}
+                  value={tra_type == 1 ? "1" : "2"}
                   style={{ width: 527 }}
                 >
                   <Option value="1">Đào tạo</Option>
@@ -113,20 +120,80 @@ const Training = (props) => {
                 </Select>
               </div>
             </li>
-            <li className="tabs-main-left-li tabs-main-left-li-row">
+            <li style={{ width: "265px" }} className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
+              <span className="tabs-user-infor-top">Tên trường</span>
+              <div className="tabs-user-infor-bottom">
+                <Input
+                  style={{ width: "100%" }}
+                  name="tra_school_name"
+                  value = {tra_school_name}
+                  onChange={props.onChange}
+                  placeholder="Tên trường"
+                />
+              </div>
+            </li>
+            <li style={{ width: "265px" }} className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
+              <span className="tabs-user-infor-top">Địa chỉ</span>
+              <div className="tabs-user-infor-bottom">
+                <Input
+                  style={{ width: "100%" }}
+                  name="tra_address"
+                  value = {tra_address}
+                  onChange={props.onChange}
+                  placeholder="Địa chỉ"
+                />
+              </div>
+            </li>
+            <li style={{ width: "265px" }} className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
+              <span className="tabs-user-infor-top">Chuyên ngành</span>
+              <div className="tabs-user-infor-bottom">
+                <Input
+                  style={{ width: "100%" }}
+                  name="tra_majors"
+                  value = {tra_majors}
+                  onChange={props.onChange}
+                  placeholder="Chuyên ngành"
+                />
+              </div>
+            </li>
+            <li style={{ width: "265px" }} className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
+              <span className="tabs-user-infor-top">Chế độ học </span>
+              <div className="tabs-user-infor-bottom">
+                <Input
+                  style={{ width: "100%" }}
+                  name="tra_study_mode"
+                  value = {tra_study_mode}
+                  onChange={props.onChange}
+                  placeholder="Chế độ học"
+                />
+              </div>
+            </li>
+            <li style={{ width: "265px" }} className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
+              <span className="tabs-user-infor-top">Văn bằng/ chứng chỉ</span>
+              <div className="tabs-user-infor-bottom">
+                <Input
+                  style={{ width: "100%" }}
+                  name="tra_diploma"
+                  value = {tra_diploma}
+                  onChange={props.onChange}
+                  placeholder="Văn bằng, chứng chỉ"
+                />
+              </div>
+            </li>
+            <li  className="tabs-main-left-li tabs-main-left-li-row">
               <span className="tabs-user-infor-top">Từ ngày</span>
               <div className="tabs-user-infor-bottom">
                 <RangePicker
                   separator
                   placeholder={["Từ ngày", "Đến ngày"]}
                   value={
-                    props.dataItem.tra_time_from
+                    tra_time_from
                       ? [
                           moment(
-                            props.dataItem.tra_time_from,
+                            tra_time_from,
                             dateFormatList[0]
                           ),
-                          moment(props.dataItem.tra_time_to, dateFormatList[0]),
+                          moment(tra_time_to, dateFormatList[0]),
                         ]
                       : null
                   }
@@ -148,7 +215,8 @@ const Training = (props) => {
               <div className="tabs-user-infor-bottom">
                 <TextArea
                   onChange={props.onChange}
-                  value={props.dataItem.tra_note}
+                  value={tra_note}
+                  name="tra_note"
                   placeholder="Mời bạn nhập chi tiết"
                   autoSize={{ minRows: 7, maxRows: 15 }}
                 />
