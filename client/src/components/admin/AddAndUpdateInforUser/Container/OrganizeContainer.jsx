@@ -24,6 +24,11 @@ const OrganizeContainer = (props) => {
     org_time_from: "",
     org_time_from: "",
     org_note: null,
+    org_name:"",
+    org_headquarters_where:"",
+    org_position:"",
+    org_youth_team:"",
+    org_youth_group:"",
   });
   const [visible, setVisible] = useState(false);
   const [cate, setCate] = useState({});
@@ -54,6 +59,11 @@ const OrganizeContainer = (props) => {
       org_time_from: "",
       org_time_to: "",
       org_note: null,
+      org_name:"",
+      org_headquarters_where:"",
+      org_position:"",
+      org_youth_team:"",
+      org_youth_group:"",
     });
     if (value == 1) {
       setCate({ category: 1 });
@@ -69,6 +79,11 @@ const OrganizeContainer = (props) => {
       org_time_from: "",
       org_time_to: "",
       org_note: null,
+      org_name:"",
+      org_headquarters_where:"",
+      org_position:"",
+      org_youth_team:"",
+      org_youth_group:"",
     });
     setId("");
 
@@ -83,7 +98,8 @@ const OrganizeContainer = (props) => {
       dataTemp = dataOrg2.find((item) => item.id == value.id);
     }
 
-    let { id, org_type, org_time_from, org_time_to, org_note } = dataTemp;
+    let { id, org_type, org_time_from, org_time_to, org_note,
+      org_name, org_headquarters_where, org_position, org_youth_team, org_youth_group, } = dataTemp;
     let date1 = formatDateNumber(org_time_from, dateFormatList[0]);
     let date2 = formatDateNumber(org_time_to, dateFormatList[0]);
     setId(id);
@@ -93,6 +109,11 @@ const OrganizeContainer = (props) => {
       org_time_to: date2,
       org_note,
       org_type,
+      org_name,
+      org_headquarters_where,
+      org_position,
+      org_youth_team,
+      org_youth_group,
     });
   };
   const onChangeRange = (dateString) => {
@@ -107,7 +128,7 @@ const OrganizeContainer = (props) => {
     setRefresh(!refresh);
   };
   const onChange = (e) => {
-    setDataItem({ ...dataItem, org_note: e.target.value });
+    setDataItem({ ...dataItem, [e.target.name]: e.target.value });
   };
   const dataorg = [];
   if (dataOrg && dataOrg.length !== 0) {
@@ -118,7 +139,8 @@ const OrganizeContainer = (props) => {
     }
   }
   const handleOk = () => {
-    let { org_type, org_time_from, org_time_to, org_note } = dataItem;
+    let { org_type, org_time_from, org_time_to, org_note, org_name,
+      org_headquarters_where, org_position, org_youth_team, org_youth_group, } = dataItem;
     let date1 = moment(org_time_from, "DD-MM-YYYY");
     let date2 = moment(org_time_to, "DD-MM-YYYY");
 
@@ -131,6 +153,11 @@ const OrganizeContainer = (props) => {
       org_time_from: parse_time_from,
       org_time_to: parse_time_to,
       org_note,
+      org_name,
+      org_headquarters_where,
+      org_position,
+      org_youth_team,
+      org_youth_group,
       id,
     };
     console.log(params);
