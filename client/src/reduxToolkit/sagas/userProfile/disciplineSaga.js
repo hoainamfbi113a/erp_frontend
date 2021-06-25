@@ -46,12 +46,12 @@ function* addDisciplineSaga(action) {
   try {
     const resp = yield call(addRewardApi, action.payload);
     if (resp.message === "Success!. Stored") {
-      message.success("Thêm khen thưởng thành công");
+      message.success("Thêm kĩ luật thành công");
     } else {
-      message.error("Thêm khen thưởng thất bại");
+      message.error("Thêm kĩ luật thất bại");
     }
   } catch (error) {
-    message.error("Thêm khen thưởng thất bại");
+    message.error("Thêm kĩ luật thất bại");
   }
   yield put(hideLoading());
 }
@@ -60,14 +60,14 @@ function* removeDisciplineSaga(action) {
   try {
     const resp = yield call(removeRewardApi, action.payload);
     if (resp.message === "Success!. Deleted") {
-      message.success("Xoá khen thưởng thành công");
+      message.success("Xoá kĩ luật thành công");
       yield put(removeDisciplineSuccess(action.payload));
     } else {
-      message.error("Xoá khen thưởng thất bại");
+      message.error("Xoá kĩ luật thất bại");
       yield put(removeDisciplineFailed(action.payload));
     }
   } catch (error) {
-    message.error("Thêm khen thưởng thất bại");
+    message.error("Thêm kĩ luật thất bại");
   }
   yield put(hideLoading());
 }
@@ -89,7 +89,7 @@ function* updateDisciplineSaga(action) {
         yield put(addDisciplineSuccess(action.payload));
       }
     } else {
-      message.error("Cập nhật khen thưởng thất bại");
+      message.error("Cập nhật kĩ luật thất bại");
       yield put(updateDisciplineFailed(action.payload));
     }
   } catch (error) {

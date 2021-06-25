@@ -118,6 +118,35 @@ const Organize = (props) => {
           method="post"
         >
           <ul>
+          <li className="tabs-main-left-li tabs-main-left-li-row">
+              <span className="tabs-user-infor-top">Từ ngày</span>
+              <div className="tabs-user-infor-bottom">
+                <RangePicker
+                  placeholder={["Từ ngày", "Đến ngày"]}
+                  value={
+                    org_time_from
+                      ? [
+                          moment(
+                            org_time_from,
+                            dateFormatList[0]
+                          ),
+                          moment(org_time_to, dateFormatList[0]),
+                        ]
+                      : null
+                  }
+                  className="modal-ranPicker"
+                  format={dateFormatList}
+                  onChange={(date, dateString) =>
+                    props.onChangeRange(
+                      date,
+                      dateString,
+                      "deg_begin_study",
+                      "deg_end_study"
+                    )
+                  }
+                />
+              </div>
+            </li>
             <li className="tabs-main-left-li tabs-main-left-li-row">
               <span className="tabs-user-infor-top">Thông tin</span>
               <div className="tabs-user-infor-bottom">
@@ -192,35 +221,7 @@ const Organize = (props) => {
                 />
               </div>
             </li>
-            <li className="tabs-main-left-li tabs-main-left-li-row">
-              <span className="tabs-user-infor-top">Từ ngày</span>
-              <div className="tabs-user-infor-bottom">
-                <RangePicker
-                  placeholder={["Từ ngày", "Đến ngày"]}
-                  value={
-                    org_time_from
-                      ? [
-                          moment(
-                            org_time_from,
-                            dateFormatList[0]
-                          ),
-                          moment(org_time_to, dateFormatList[0]),
-                        ]
-                      : null
-                  }
-                  className="modal-ranPicker"
-                  format={dateFormatList}
-                  onChange={(date, dateString) =>
-                    props.onChangeRange(
-                      date,
-                      dateString,
-                      "deg_begin_study",
-                      "deg_end_study"
-                    )
-                  }
-                />
-              </div>
-            </li>
+           
             <li className="tabs-main-left-li">
               <span className="tabs-user-infor-top">Chi tiết</span>
               <div className="tabs-user-infor-bottom">
