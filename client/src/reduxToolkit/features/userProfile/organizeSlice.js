@@ -39,12 +39,22 @@ const organizeSlice = createSlice({
         org_time_from,
         org_time_to,
         org_note,
+        org_name,
+        org_headquarters_where,
+        org_position,
+        org_youth_team,
+        org_youth_group,
       } = action.payload;
       const index = data.findIndex((item) => item.id === id);
       if (index >= 0) {
         state[index].org_time_from = org_time_from;
         state[index].org_time_to = org_time_to;
         state[index].org_note = org_note;
+        state[index].org_name = org_name;
+        state[index].org_headquarters_where = org_headquarters_where;
+        state[index].org_position = org_position;
+        state[index].org_youth_team = org_youth_team;
+        state[index].org_youth_group = org_youth_group;
       }
     }, 
     updateOrganizeFailed(state, action) {

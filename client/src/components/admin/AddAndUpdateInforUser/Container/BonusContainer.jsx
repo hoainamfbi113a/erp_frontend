@@ -24,6 +24,8 @@ const BonusContainer = (props) => {
     rew_time_from: "",
     rew_time_to: "",
     rew_note: null,
+    rew_content:"",
+    rew_decision_number:""
   });
   const [visible, setVisible] = useState(false);
   const [dataItem, setDataItem] = useState({});
@@ -59,6 +61,8 @@ const BonusContainer = (props) => {
       rew_time_from: "",
       rew_time_to: "",
       rew_note: null,
+      rew_content:"",
+      rew_decision_number:""
     });
     setId("")
     
@@ -77,7 +81,8 @@ const BonusContainer = (props) => {
       );
     }
 
-    let { id, type, rew_formality, rew_time_from, rew_time_to, rew_note} = rewardItem;
+    let { id, type, rew_formality, rew_time_from, rew_time_to, rew_note,   rew_content,
+    rew_decision_number} = rewardItem;
     let date1 = formatDateNumber(rew_time_from, dateFormatList[0])
     let date2 = formatDateNumber(rew_time_to, dateFormatList[0])
     setId(id);
@@ -86,7 +91,9 @@ const BonusContainer = (props) => {
        rew_time_from:date1,
        rew_time_to:date2,
        rew_note,
-       type
+       type,
+       rew_content,
+       rew_decision_number
     });
   };
   const onChangeRange = (e, dateString, name1, name2) => {
@@ -97,8 +104,11 @@ const BonusContainer = (props) => {
     setReward({ ...reward, type: value });
     setRefresh(!refresh);
   };
+  // const onChange = (e) => {
+  //   setReward({ ...reward, rew_formality: e.target.value });
+  // };
   const onChange = (e) => {
-    setReward({ ...reward, rew_formality: e.target.value });
+    setReward({ ...reward, [e.target.name]: e.target.value });
   };
   const datareward = [];
   if (dataReward && dataReward.length !== 0) {
@@ -109,10 +119,10 @@ const BonusContainer = (props) => {
     }
   }
   const handleOk = () => {
-    let {type, rew_formality, rew_time_from, rew_time_to, rew_note} = reward;
+    let {type, rew_formality, rew_time_from, rew_time_to, rew_note,   rew_content,
+    rew_decision_number,} = reward;
     let date1 = (moment(rew_time_from, "DD-MM-YYYY"))
     let date2 = (moment(rew_time_to, "DD-MM-YYYY"))
-    // let date2 = Date.parse(moment(rew_time_to, "DD-MM-YYYY"))/1000
 
     const parseRew_time_from = Date.parse(date1) / 1000;
     const parseRew_time_to = Date.parse(date2) / 1000;
@@ -125,7 +135,10 @@ const BonusContainer = (props) => {
       rew_time_to: parseRew_time_to,
       rew_note,
       id,
+      rew_content,
+      rew_decision_number,
     };
+    console.log(params);
     if (id == "") {
       if(type == 1 ) {
         dispatch(addReward(params));
