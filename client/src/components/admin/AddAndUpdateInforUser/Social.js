@@ -173,7 +173,7 @@ const Social = () => {
               </div>
             </li>
             <li className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row-clear">
-              <span className="tabs-user-infor-top">Họ và tên:</span>
+              <span className="tabs-user-infor-top">Họ và tên   :</span>
               <div className="tabs-user-infor-bottom">
                 <Input
                   style={{ width: "100%" }}

@@ -19,6 +19,16 @@ const { TextArea } = Input;
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 
 const Organize = (props) => {
+  const {    org_name,
+  org_headquarters_where,
+  org_position,
+  org_youth_team,
+  org_youth_group,
+  org_type,
+  org_time_from,
+  org_time_to,
+  org_note
+} = props.dataItem
   const renderData = (data) => {
     if(data){
       return data.map((item) => {
@@ -50,7 +60,12 @@ const Organize = (props) => {
                 Cập nhật
               </Tag>
             </Space>
-            <p className="personal-history-content">{item.org_note}</p>
+            <p className="personal-history-content">Vào đội thiếu niên: {item.org_youth_team}</p>
+            <p className="personal-history-content">Vào đoàn thanh niên: {item.org_youth_group}</p>
+            <p className="personal-history-content">Tên tố chức: {item.org_name}</p>
+            <p className="personal-history-content">Trụ sở ở đâu: {item.org_headquarters_where}</p>
+            <p className="personal-history-content">Giữ chức danh/chức vụ  trong tổ chức: {item.org_position}</p>
+            <p className="personal-history-content">Ghi chú {item.org_note}</p>
           </li>
         );
       });
@@ -78,7 +93,7 @@ const Organize = (props) => {
           </ul>
         </div>
       </div>
-      <div className="tabs-main personal-history">
+      {/* <div className="tabs-main personal-history">
         <div className="personal-history-title">Tham gia các hội nghề nghiệp:</div>
         <div>
           <div className="edit-infr-vertical-line"></div>
@@ -86,7 +101,7 @@ const Organize = (props) => {
             {renderData(props.dataOrg2)}
           </ul>
         </div>
-      </div>
+      </div> */}
       <Modal
         title="Nhập thông tin"
         visible={props.visible}
@@ -103,33 +118,19 @@ const Organize = (props) => {
           method="post"
         >
           <ul>
-            <li className="tabs-main-left-li tabs-main-left-li-row">
-              <span className="tabs-user-infor-top">Thông tin</span>
-              <div className="tabs-user-infor-bottom">
-                <Select
-                  onChange={props.handleChange}
-                  className="modal-selection"
-                  value={props.dataItem.org_type == 1 ? "1" : "2"}
-                  style={{ width: 527 }}
-                >
-                  <Option value="1">Tổ chức chính trị, xã hội</Option>
-                  <Option value="2">Tổ chức nghề nghiệp</Option>
-                </Select>
-              </div>
-            </li>
-            <li className="tabs-main-left-li tabs-main-left-li-row">
+          <li className="tabs-main-left-li tabs-main-left-li-row">
               <span className="tabs-user-infor-top">Từ ngày</span>
               <div className="tabs-user-infor-bottom">
                 <RangePicker
                   placeholder={["Từ ngày", "Đến ngày"]}
                   value={
-                    props.dataItem.org_time_from
+                    org_time_from
                       ? [
                           moment(
-                            props.dataItem.org_time_from,
+                            org_time_from,
                             dateFormatList[0]
                           ),
-                          moment(props.dataItem.org_time_to, dateFormatList[0]),
+                          moment(org_time_to, dateFormatList[0]),
                         ]
                       : null
                   }
@@ -146,12 +147,90 @@ const Organize = (props) => {
                 />
               </div>
             </li>
+            <li className="tabs-main-left-li tabs-main-left-li-row">
+              <span className="tabs-user-infor-top">Thông tin</span>
+              <div className="tabs-user-infor-bottom">
+                <Select
+                  onChange={props.handleChange}
+                  className="modal-selection"
+                  value={org_type == 1 ? "1" : "2"}
+                  style={{ width: 527 }}
+                >
+                  <Option value="1">Đội thiếu niên CS HCM</Option>
+                  <Option value="2">Đoàn thanh niên CS HCM</Option>
+                  <Option value="3">Các hội nghề nghiệp</Option>
+                  <Option value="4">Tham gia hoạt động trong các tổ chức chính trị xã hội kháchác (trong và ngoài nước)</Option>
+                </Select>
+              </div>
+            </li>
+            {/* <li style={{ width: "265px" }} className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
+              <span className="tabs-user-infor-top">Vào đội thiếu niên</span>
+              <div className="tabs-user-infor-bottom">
+                <Input
+                  style={{ width: "100%" }}
+                  name="org_youth_team"
+                  value = {org_youth_team}
+                  onChange={props.onChange}
+                  placeholder="Vào đội thiếu niên"
+                />
+              </div>
+            </li>
+            <li style={{ width: "265px" }} className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
+              <span className="tabs-user-infor-top">Vào đoàn thanh niên</span>
+              <div className="tabs-user-infor-bottom">
+                <Input
+                  style={{ width: "100%" }}
+                  name="org_youth_group"
+                  value = {org_youth_group}
+                  onChange={props.onChange}
+                  placeholder="Vào đoàn thanh niên"
+                />
+              </div>
+            </li> */}
+            <li style={{ width: "265px" }} className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
+              <span className="tabs-user-infor-top">Tên tố chức</span>
+              <div className="tabs-user-infor-bottom">
+                <Input
+                  style={{ width: "100%" }}
+                  name="org_name"
+                  value = {org_name}
+                  onChange={props.onChange}
+                  placeholder="Tên tố chức"
+                />
+              </div>
+            </li>
+            <li style={{ width: "265px" }} className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
+              <span className="tabs-user-infor-top">Trụ sở ở đâu</span>
+              <div className="tabs-user-infor-bottom">
+                <Input
+                  style={{ width: "100%" }}
+                  name="org_headquarters_where"
+                  value = {org_headquarters_where}
+                  onChange={props.onChange}
+                  placeholder="Trụ sở ở đâu"
+                />
+              </div>
+            </li>
+            <li style={{ width: "265px" }} className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
+              <span className="tabs-user-infor-top">Giữ chức vụ/ chức danh </span>
+              <div className="tabs-user-infor-bottom">
+                <Input
+                  style={{ width: "100%" }}
+                  name="org_position"
+                  value = {org_position}
+                  onChange={props.onChange}
+                  placeholder="Giữ chức vụ/ chức danh"
+                />
+              </div>
+            </li>
+           
             <li className="tabs-main-left-li">
-              <span className="tabs-user-infor-top">Chi tiết</span>
+              <span className="tabs-user-infor-top">Chi tiết hoạt động</span>
               <div className="tabs-user-infor-bottom">
                 <TextArea
                   onChange={props.onChange}
-                  value={props.dataItem.org_note}
+                  value={org_note}
+                  name = "org_note"
                   placeholder="Mời bạn nhập chi tiết"
                   autoSize={{ minRows: 7, maxRows: 15 }}
                 />

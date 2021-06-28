@@ -138,8 +138,6 @@ app.use("/api/user-profile", userProfile);
 
 // không theo trật tự
 app.get("/api/list/permission/actions",listPermissionAction)
-// if (process.env.NODE_ENV === "production") {
-// Serve any static files
 app.use(express.static(path.join(__dirname, "client/dist")));
 
 // Handle React routing, return all requests to React app

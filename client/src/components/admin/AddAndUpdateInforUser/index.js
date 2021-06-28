@@ -78,7 +78,7 @@ const Index = ({
               >
                 <div className={activeLink === 3 ? "active" : ""}>3</div>
                 <span className={activeLink === 3 ? "active" : ""}>
-                  Gia nhập Đảng Cộng Sản Việt Nam
+                  Đảng
                 </span>
               </li>
               <li
@@ -124,6 +124,61 @@ const Index = ({
                 <div className={activeLink === 7 ? "active" : ""}>7</div>
                 <span className={activeLink === 7 ? "active" : ""}>
                   Quan hệ gia đình thân tộc
+                </span>
+              </li>
+              <li
+                onClick={() => {
+                  setActiveLink(8);
+                  window.scrollTo(0, 0);
+                }}
+              >
+                <div className={activeLink === 8 ? "active" : ""}>8</div>
+                <span className={activeLink === 8 ? "active" : ""}>
+                  Tài sản
+                </span>
+              </li>
+              <li
+                onClick={() => {
+                  setActiveLink(9);
+                  window.scrollTo(0, 0);
+                }}
+              >
+                <div className={activeLink === 9 ? "active" : ""}>9</div>
+                <span className={activeLink === 9 ? "active" : ""}>
+                  Đi nước ngoài
+                </span>
+              </li>
+              <li
+                onClick={() => {
+                  setActiveLink(10);
+                  window.scrollTo(0, 0);
+                }}
+              >
+                <div className={activeLink === 10 ? "active" : ""}>10</div>
+                <span className={activeLink === 10 ? "active" : ""}>
+                  Hợp đồng lao động
+                </span>
+              </li>
+              <li
+                onClick={() => {
+                  setActiveLink(11);
+                  window.scrollTo(0, 0);
+                }}
+              >
+                <div className={activeLink === 11 ? "active" : ""}>11</div>
+                <span className={activeLink === 11 ? "active" : ""}>
+                  Mức lương phụ cấp
+                </span>
+              </li>
+              <li
+                onClick={() => {
+                  setActiveLink(12);
+                  window.scrollTo(0, 0);
+                }}
+              >
+                <div className={activeLink === 12 ? "active" : ""}>12</div>
+                <span className={activeLink === 12 ? "active" : ""}>
+                  Bảo hiểm xã hội
                 </span>
               </li>
             </ul>
