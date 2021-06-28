@@ -262,7 +262,7 @@ const PersonalPage = () => {
                 </ul>
               </div>
             </div>
-            <Tabs type="card" onChange={() => setActive(true)}>
+            {/* <Tabs type="card" onChange={() => setActive(true)}>
               <TabPane
                 tab={
                   <span>
@@ -339,6 +339,7 @@ const PersonalPage = () => {
                 </Timeline>
               </TabPane>
             </Tabs>
+           */}
           </div>
           <div className="offset-md-1"></div>
         </div>
