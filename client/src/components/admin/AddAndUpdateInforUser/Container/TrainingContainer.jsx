@@ -33,8 +33,10 @@ const TrainingContainer = (props) => {
 
   });
   const [visible, setVisible] = useState(false);
+  const [fileList, setFileList] = useState([])
   const [cate, setCate] = useState({});
   const [refresh, setRefresh] = useState(true);
+  const [ uploading, setUploading ] = useState(false)
   const dispatch = useDispatch();
   const dataTraining = useSelector((state) => state.trainingUser);
   const dataTraining2 = useSelector((state) => state.training2User);
@@ -136,7 +138,9 @@ const TrainingContainer = (props) => {
   //   setDataItem({ ...dataItem, tra_note: e.target.value });
   // };
   const onChange = (e) => {
-    setDataItem({ ...dataItem, [e.target.name]: e.target.value });
+    if(!e.file) {
+      setDataItem({ ...dataItem, [e.target.name]: e.target.value });
+    }
   };
 
   const datatraining = [];
@@ -222,6 +226,37 @@ const TrainingContainer = (props) => {
       );
     }
   };
+  const handleUpload = () => {
+    const formData = new FormData();
+    fileList.forEach(file => {
+      formData.append('files[]', file);
+    });
+
+    this.setState({
+      uploading: true,
+    });
+
+    // You can use any AJAX library you like
+    // reqwest({
+    //   url: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+    //   method: 'post',
+    //   processData: false,
+    //   data: formData,
+    //   success: () => {
+    //     this.setState({
+    //       fileList: [],
+    //       uploading: false,
+    //     });
+    //     message.success('upload successfully.');
+    //   },
+    //   error: () => {
+    //     this.setState({
+    //       uploading: false,
+    //     });
+    //     message.error('upload failed.');
+    //   },
+    // });
+  };
   return (
     <div>
       <Training
@@ -237,6 +272,10 @@ const TrainingContainer = (props) => {
         handleChange={handleChange}
         onChange={onChange}
         handleOkDelete={handleOkDelete}
+        handleUpload = {handleUpload}
+        fileList = {fileList}
+        uploading = {uploading}
+        onChangeImage = {onChangeImage}
       />
     </div>
   );

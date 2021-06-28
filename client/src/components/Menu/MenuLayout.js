@@ -70,7 +70,8 @@ const MenuLayout = (props) => {
                       key={menu.name}
                     >
                       <Link to={`/${subMenu.slug}/${menu.slug}`}>
-                        {menu.name}
+                        {menu.name =="Vị trí làm việc"? "Chức danh, chức vụ": menu.name}
+                        
                       </Link>
                     </Menu.Item>
                   );
