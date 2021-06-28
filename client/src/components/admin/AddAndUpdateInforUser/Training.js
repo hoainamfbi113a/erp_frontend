@@ -1,6 +1,5 @@
 import { PlusCircleOutlined } from "@ant-design/icons";
 import {
-  Button,
   DatePicker,
   Input,
   Modal,
@@ -11,6 +10,8 @@ import {
 } from "antd";
 import moment from "moment";
 import React from "react";
+import { Upload, Button, message } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 import { formatDateNumber } from "../../../helpers/FuncHelper";
 const { RangePicker } = DatePicker;
 
@@ -20,7 +21,7 @@ const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 
 const Training = (props) => {
   const { tra_type, tra_time_from, tra_time_to, tra_note,
-     tra_school_name, tra_study_time, tra_majors, tra_study_mode, tra_diploma, tra_address } = props.dataItem;
+    tra_school_name, tra_study_time, tra_majors, tra_study_mode, tra_diploma, tra_address } = props.dataItem;
   const renderData = (data) => {
     return data.map((item) => {
       return (
@@ -51,7 +52,7 @@ const Training = (props) => {
               Cập nhật
             </Tag>
           </Space>
-          <p style = {{marginTop:"4px"}} className="personal-history-content">Tên trường: {item.tra_school_name}</p>
+          <p style={{ marginTop: "4px" }} className="personal-history-content">Tên trường: {item.tra_school_name}</p>
           <p className="personal-history-content">Địa chỉ: {item.tra_address}</p>
           <p className="personal-history-content">Chuyên ngành: {item.tra_majors}</p>
           <p className="personal-history-content">Chế độ học: {item.tra_study_mode}</p>
@@ -61,6 +62,23 @@ const Training = (props) => {
       );
     });
   };
+  // const props = {
+  //   name: 'file',
+  //   action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
+  //   headers: {
+  //     authorization: 'authorization-text',
+  //   },
+  //   onChange(info) {
+  //     if (info.file.status !== 'uploading') {
+  //       console.log(info.file, info.fileList);
+  //     }
+  //     if (info.file.status === 'done') {
+  //       message.success(`${info.file.name} file uploaded successfully`);
+  //     } else if (info.file.status === 'error') {
+  //       message.error(`${info.file.name} file upload failed.`);
+  //     }
+  //   },
+  // };
   return (
     <div className="edit-infor-form">
       <div className="tabs-main personal-history">
@@ -106,7 +124,7 @@ const Training = (props) => {
           method="post"
         >
           <ul>
-          <li  className="tabs-main-left-li tabs-main-left-li-row">
+            <li className="tabs-main-left-li tabs-main-left-li-row">
               <span className="tabs-user-infor-top">Từ ngày</span>
               <div className="tabs-user-infor-bottom">
                 <RangePicker
@@ -115,12 +133,12 @@ const Training = (props) => {
                   value={
                     tra_time_from
                       ? [
-                          moment(
-                            tra_time_from,
-                            dateFormatList[0]
-                          ),
-                          moment(tra_time_to, dateFormatList[0]),
-                        ]
+                        moment(
+                          tra_time_from,
+                          dateFormatList[0]
+                        ),
+                        moment(tra_time_to, dateFormatList[0]),
+                      ]
                       : null
                   }
                   className="modal-ranPicker"
@@ -156,7 +174,7 @@ const Training = (props) => {
                 <Input
                   style={{ width: "100%" }}
                   name="tra_school_name"
-                  value = {tra_school_name}
+                  value={tra_school_name}
                   onChange={props.onChange}
                   placeholder="Tên trường"
                 />
@@ -168,7 +186,7 @@ const Training = (props) => {
                 <Input
                   style={{ width: "100%" }}
                   name="tra_address"
-                  value = {tra_address}
+                  value={tra_address}
                   onChange={props.onChange}
                   placeholder="Địa chỉ"
                 />
@@ -180,7 +198,7 @@ const Training = (props) => {
                 <Input
                   style={{ width: "100%" }}
                   name="tra_majors"
-                  value = {tra_majors}
+                  value={tra_majors}
                   onChange={props.onChange}
                   placeholder="Chuyên ngành"
                 />
@@ -192,7 +210,7 @@ const Training = (props) => {
                 <Input
                   style={{ width: "100%" }}
                   name="tra_study_mode"
-                  value = {tra_study_mode}
+                  value={tra_study_mode}
                   onChange={props.onChange}
                   placeholder="Chế độ học"
                 />
@@ -204,13 +222,18 @@ const Training = (props) => {
                 <Input
                   style={{ width: "100%" }}
                   name="tra_diploma"
-                  value = {tra_diploma}
+                  value={tra_diploma}
                   onChange={props.onChange}
                   placeholder="Văn bằng, chứng chỉ"
                 />
               </div>
             </li>
-        
+            {/* <li> */}
+            <div>
+              <input type="file" id="myFile" name="filename" onChange = {props.onChangeImage}>
+              </input >
+            </div>
+            {/* </li> */}
             <li className="tabs-main-left-li">
               <span className="tabs-user-infor-top">Chi tiết</span>
               <div className="tabs-user-infor-bottom">
@@ -225,6 +248,7 @@ const Training = (props) => {
             </li>
           </ul>
         </form>
+
       </Modal>
     </div>
   );
