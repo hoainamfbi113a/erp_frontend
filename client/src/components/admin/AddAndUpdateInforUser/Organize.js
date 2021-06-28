@@ -93,7 +93,7 @@ const Organize = (props) => {
           </ul>
         </div>
       </div>
-      <div className="tabs-main personal-history">
+      {/* <div className="tabs-main personal-history">
         <div className="personal-history-title">Tham gia các hội nghề nghiệp:</div>
         <div>
           <div className="edit-infr-vertical-line"></div>
@@ -101,7 +101,7 @@ const Organize = (props) => {
             {renderData(props.dataOrg2)}
           </ul>
         </div>
-      </div>
+      </div> */}
       <Modal
         title="Nhập thông tin"
         visible={props.visible}
@@ -156,12 +156,14 @@ const Organize = (props) => {
                   value={org_type == 1 ? "1" : "2"}
                   style={{ width: 527 }}
                 >
-                  <Option value="1">Tổ chức chính trị, xã hội</Option>
-                  <Option value="2">Tổ chức nghề nghiệp</Option>
+                  <Option value="1">Đội thiếu niên CS HCM</Option>
+                  <Option value="2">Đoàn thanh niên CS HCM</Option>
+                  <Option value="3">Các hội nghề nghiệp</Option>
+                  <Option value="4">Tham gia hoạt động trong các tổ chức chính trị xã hội kháchác (trong và ngoài nước)</Option>
                 </Select>
               </div>
             </li>
-            <li style={{ width: "265px" }} className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
+            {/* <li style={{ width: "265px" }} className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
               <span className="tabs-user-infor-top">Vào đội thiếu niên</span>
               <div className="tabs-user-infor-bottom">
                 <Input
@@ -184,7 +186,7 @@ const Organize = (props) => {
                   placeholder="Vào đoàn thanh niên"
                 />
               </div>
-            </li>
+            </li> */}
             <li style={{ width: "265px" }} className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
               <span className="tabs-user-infor-top">Tên tố chức</span>
               <div className="tabs-user-infor-bottom">
@@ -223,7 +225,7 @@ const Organize = (props) => {
             </li>
            
             <li className="tabs-main-left-li">
-              <span className="tabs-user-infor-top">Chi tiết</span>
+              <span className="tabs-user-infor-top">Chi tiết hoạt động</span>
               <div className="tabs-user-infor-bottom">
                 <TextArea
                   onChange={props.onChange}

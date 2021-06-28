@@ -42,7 +42,7 @@ const OrganizeContainer = (props) => {
       dispatch(
         getOrganize({
           id_user: props.idUser,
-          type: 1,
+          type:""
         })
       );
       dispatch(

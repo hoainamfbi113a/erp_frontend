@@ -1432,7 +1432,7 @@ class addInformationUser extends Component {
                         />
                       </div>
                     </li>
-                    <li className="tabs-main-left-li">
+                    {/* <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
                         Tên trường đào tạo:
                       </span>
@@ -1444,8 +1444,8 @@ class addInformationUser extends Component {
                           placeholder="Tên trường đào tạo"
                         />
                       </div>
-                    </li>
-
+                    </li> */}
+{/* 
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
                         Hình thức đào tạo:
@@ -1458,8 +1458,8 @@ class addInformationUser extends Component {
                           placeholder="Hình thức đào tạo"
                         />
                       </div>
-                    </li>
-                    <li className="tabs-main-left-li">
+                    </li> */}
+                    {/* <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
                         Thời gian bắt đầu học:
                       </span>
@@ -1503,8 +1503,8 @@ class addInformationUser extends Component {
                           format={dateFormatList}
                         />
                       </div>
-                    </li>
-                    <li className="tabs-main-left-li">
+                    </li> */}
+                    {/* <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
                         Ghi chú về trình độ:
                       </span>
@@ -1516,7 +1516,7 @@ class addInformationUser extends Component {
                           placeholder="Ghi chú về trình độ"
                         />
                       </div>
-                    </li>
+                    </li> */}
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
                         Hình thức lao động:

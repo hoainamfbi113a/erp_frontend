@@ -1112,7 +1112,7 @@ class CurriculumVitae extends Component {
                         />
                       </div>
                     </li>
-                    <li className="tabs-main-left-li">
+                    {/* <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
                         Tên trường đào tạo:
                       </span>
@@ -1195,7 +1195,7 @@ class CurriculumVitae extends Component {
                           placeholder="Ghi chú về trình độ"
                         />
                       </div>
-                    </li>
+                    </li> */}
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
                         Hình thức lao động:
