@@ -12,7 +12,6 @@ import { Popconfirm } from "antd";
 const { TextArea } = Input;
 
 const Family = ({
-  fakeData,
   dataFamily,
   showModal,
   hideModal,

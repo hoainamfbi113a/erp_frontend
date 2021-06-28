@@ -1,6 +1,7 @@
 import { message, Popconfirm, Space, Tag, Table } from "antd";
 import {
   checkVisible,
+  notNull,
   objCheckPermission,
   ValidateField,
   ValidateNumber,
@@ -17,14 +18,79 @@ import PermissionContext from "../../../context/PermissionContext";
 import { simpleDate } from "../../../helpers/FuncHelper";
 import TableDepartment from "../TableDepartment2";
 
+const permissions2 = [
+  {
+    action: "create",
+    body: null,
+    created_at: "2021-06-21 11:35:53",
+    id: 18,
+    is_display: 1,
+    method: "post",
+    name: "Tạo bộ phận làm việc",
+    option: null,
+    param: null,
+    status: 1,
+    table_management_id: 7,
+    updated_at: "2021-06-21 11:35:53",
+    uri: "api/parts",
+  },
+  {
+    action: "update",
+    body: null,
+    created_at: "2021-06-21 11:35:53",
+    id: 19,
+    is_display: 1,
+    method: "put",
+    name: "Sửa bộ phận làm việc",
+    option: null,
+    param: null,
+    status: 1,
+    table_management_id: 7,
+    updated_at: "2021-06-21 11:35:53",
+    uri: "api/parts/{part}",
+  },
+  {
+    action: "delete",
+    body: null,
+    created_at: "2021-06-21 11:35:53",
+    id: 20,
+    is_display: 1,
+    method: "delete",
+    name: "Xoá bộ phận làm việc",
+    option: null,
+    param: null,
+    status: 1,
+    table_management_id: 7,
+    updated_at: "2021-06-21 11:35:53",
+    uri: "api/parts/{part}",
+  },
+  {
+    action: "list",
+    body: null,
+    created_at: "2021-06-21 11:35:53",
+    id: 21,
+    is_display: 1,
+    method: "get",
+    name: "Xem danh sách bộ phận làm việc",
+    option: null,
+    param: null,
+    status: 1,
+    table_management_id: 7,
+    updated_at: "2021-06-21 11:35:53",
+    uri: "api/parts",
+  },
+];
+
 const TableDepartmentContainer = (props) => {
   const [loading, setLoading] = useState(false);
   const [sizeOpt, setSizeOt] = useState(10);
   const { permissions, domain, slug } = useContext(PermissionContext);
   const [id, setId] = useState("");
+  const [id2, setId2] = useState("");
   const [data, setData] = useState(null);
   const [partData, setPartData] = useState(null);
   const [isCreate, setIsCreate] = useState(false);
+  const [isCreate2, setIsCreate2] = useState(false);
   const [filterDepId, setFilterDepId] = useState([]);
   const [idDepart, setIdDepart] = useState(null);
   const [depart, setDepart] = useState({
@@ -42,6 +108,10 @@ const TableDepartmentContainer = (props) => {
     dep_id: "",
     part_name: "",
     part_note: "",
+  });
+  const [err2, setErr2] = useState({
+    err_dep: "",
+    err_name: "",
   });
 
   useEffect(() => {
@@ -61,7 +131,6 @@ const TableDepartmentContainer = (props) => {
       fetchData(1, sizeOpt);
     }
   }, [props.valueSearch]);
-
 
   // send department data to Content Department Component
   const sendData = (data) => {
@@ -156,7 +225,6 @@ const TableDepartmentContainer = (props) => {
             null
           )
         );
-        console.log(res);
         if (res.message === "Success!. Stored") {
           message.success("Thêm phòng ban thành công");
           fetchData(1, sizeOpt);
@@ -188,6 +256,61 @@ const TableDepartmentContainer = (props) => {
     }
   };
 
+  // Add or Update part data
+  const onSubmitPart = async () => {
+    let err_name = await ValidateField(part.part_name, 2, 50, "Tổ");
+    let err_dep = await notNull(part.dep_id, "Phòng ban");
+
+    if (err_name || err_dep) {
+      setErr2({ err_dep, err_name });
+    }
+    if (err_dep === "" && err_name === "") {
+      hideModalPart();
+      setLoading(true);
+      if (id2 === "") {
+        let res = await checkPermission(
+          objCheckPermission(
+            permissions2,
+            "part",
+            domain,
+            "create",
+            "api/parts",
+            null,
+            part,
+            null
+          )
+        );
+        console.log(res);
+        if (res.message === "Success!. Stored") {
+          message.success("Thêm tổ thành công");
+          fetchPartData("all");
+        } else {
+          message.error("Thêm tổ thất bại");
+        }
+      } else {
+        let res = await checkPermission(
+          objCheckPermission(
+            permissions2,
+            "part",
+            domain,
+            "update",
+            "api/parts/{part}",
+            "{part}",
+            part,
+            id2
+          )
+        );
+        if (res.message === "Success!. Updated") {
+          message.success("Cập nhật tổ thành công");
+          setId2("");
+          fetchPartData("all");
+        } else {
+          message.error("Update permission thất bại");
+        }
+      }
+    }
+  };
+
   // Hide Department Modal
   const hideModal = () => {
     props.hideModal();
@@ -208,13 +331,13 @@ const TableDepartmentContainer = (props) => {
   // hide part modal
   const hideModalPart = () => {
     props.hideModal2();
-    setIsCreate(false);
+    setIsCreate2(false);
     setPart({
       dep_id: "",
       part_name: "",
       part_note: "",
     });
-    setErr({
+    setErr2({
       err_dep: "",
       err_name: "",
     });
@@ -222,7 +345,7 @@ const TableDepartmentContainer = (props) => {
 
   // show department modal
   const showModal = (id) => {
-    let dep = data.data.filter((item) => {
+    const dep = data.data.filter((item) => {
       return item.id == id;
     });
     setIsCreate(true);
@@ -239,11 +362,11 @@ const TableDepartmentContainer = (props) => {
 
   // show part modal
   const showModalPart = (id) => {
-    let parts = partData.data.filter((item) => {
+    const parts = partData.data.filter((item) => {
       return item.id == id;
     });
-    setIsCreate(true);
-    setId(parts[0].id);
+    setIsCreate2(false);
+    setId2(parts[0].id);
     setPart({
       dep_id: parts[0].dep_id,
       part_name: parts[0].part_name,
@@ -252,7 +375,18 @@ const TableDepartmentContainer = (props) => {
     props.showModal2();
   };
 
-  // confirm department button click 
+  // show add part model
+  const showAddPartModal = (id) => {
+    setIsCreate2(true);
+    setPart({
+      dep_id: id,
+      part_name: "",
+      part_note: "",
+    });
+    props.showModal2();
+  };
+
+  // confirm department button click
   const confirm = async (id) => {
     setLoading(true);
     let res = await checkPermission(
@@ -277,18 +411,18 @@ const TableDepartmentContainer = (props) => {
   };
 
   // confirm part button click
-  const confirmPart = async (id) => {
+  const confirmPart = async (id2) => {
     setLoading(true);
     let res = await checkPermission(
       objCheckPermission(
-        permissions,
-        slug,
+        permissions2,
+        "part",
         domain,
         "delete",
         "api/parts/{part}",
         "{part}",
         "",
-        id
+        id2
       )
     );
     if (res.message === "Success!. Deleted") {
@@ -321,7 +455,7 @@ const TableDepartmentContainer = (props) => {
   };
 
   const onChangePart = (e) => {
-    setPart({ ...depart, [e.target.name]: e.target.value });
+    setPart({ ...part, [e.target.name]: e.target.value });
   };
 
   const handleChangeDepart = (value) => {
@@ -368,10 +502,15 @@ const TableDepartmentContainer = (props) => {
           dataIndex: "part_name",
           key: "part_name",
         },
-        { title: "Ghi chú", dataIndex: "part_note", key: "part_note" },
+        {
+          title: "Ghi chú",
+          width: 200,
+          dataIndex: "part_note",
+          key: "part_note",
+        },
         {
           title: "Ngày tạo",
-          width: 300,
+          width: 200,
           dataIndex: "created_at",
           key: "created_at",
         },
@@ -403,9 +542,6 @@ const TableDepartmentContainer = (props) => {
               </Tag>
             </Space>
           ),
-        },
-        {
-          title: "Thêm tổ"
         },
       ];
 
@@ -478,13 +614,22 @@ const TableDepartmentContainer = (props) => {
                 "update",
                 "api/departments/{department}"
               ) && (
-                <Tag
-                  onClick={() => showModal(text)}
-                  color="geekblue"
-                  className="table-action"
-                >
-                  Cập nhật
-                </Tag>
+                <div>
+                  <Tag
+                    onClick={() => showModal(text)}
+                    color="geekblue"
+                    className="table-action"
+                  >
+                    Cập nhật
+                  </Tag>
+                  <Tag
+                    onClick={() => showAddPartModal(text)}
+                    color="cyan"
+                    className="table-action"
+                  >
+                    Thêm tổ
+                  </Tag>
+                </div>
               )}
             </Space>
           ),
@@ -509,9 +654,11 @@ const TableDepartmentContainer = (props) => {
         columns={columns}
         handlePagination={handlePagination}
         isCreate={isCreate}
+        isCreate2={isCreate2}
         showModalData={props.showModalData}
         showModalData2={props.showModalData2}
         onSubmit={onSubmit}
+        onSubmitPart={onSubmitPart}
         hideModal={hideModal}
         hideModalPart={hideModalPart}
         depart={depart}
@@ -521,6 +668,7 @@ const TableDepartmentContainer = (props) => {
         renderDepartment={renderDepartment}
         part={part}
         err={err}
+        err2={err2}
         expandedRow={expandedRow}
         filterDepId={filterDepId}
       />
