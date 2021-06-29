@@ -12,13 +12,16 @@ const TableDepartment = ({
   columns,
   handlePagination,
   isCreate,
+  isCreate2,
   showModalData,
   showModalData2,
   onSubmit,
+  onSubmitPart,
   hideModal,
   depart,
   onChange,
   err,
+  err2,
   expandedRow,
   filterDepId,
   onChangePart,
@@ -156,9 +159,9 @@ const TableDepartment = ({
       </Modal>
 
       <Modal
-        title={isCreate ? "Tạo tổ" : "Cập nhật tổ"}
+        title={isCreate2 ? "Tạo tổ" : "Cập nhật tổ"}
         visible={showModalData2}
-        onOk={onSubmit}
+        onOk={onSubmitPart}
         onCancel={hideModalPart}
         okText="OK"
         cancelText="Cancel"
@@ -184,14 +187,14 @@ const TableDepartment = ({
                   {renderDepartment()}
                 </Select>
               </div>
-              {err.err_dep !== "" ? (
+              {err2.err_dep !== "" ? (
                 <span
                   style={{
                     color: "red",
                     fontStyle: "italic",
                   }}
                 >
-                  {err.err_dep}
+                  {err2.err_dep}
                 </span>
               ) : null}
             </li>
@@ -206,14 +209,14 @@ const TableDepartment = ({
                   onChange={onChangePart}
                 />
               </div>
-              {err.err_name !== "" ? (
+              {err2.err_name !== "" ? (
                 <span
                   style={{
                     color: "red",
                     fontStyle: "italic",
                   }}
                 >
-                  {err.err_name}
+                  {err2.err_name}
                 </span>
               ) : null}
             </li>

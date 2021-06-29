@@ -2,14 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Family from "../Family";
 
-const fakeData = [
-  {
-    id: 1,
-    title: "Nhà",
-    content: "123 Phạm Văn Đồng Gò Vấp giá trị 3 tỉ đồng",
-  },
-];
-
 const FamilyContainer = ({
   idUser,
   proId,
@@ -96,7 +88,6 @@ const FamilyContainer = ({
   return (
     <div>
       <Family
-        fakeData={fakeData}
         dataFamily={data}
         showModal={showModal}
         hideModal={hideModal}

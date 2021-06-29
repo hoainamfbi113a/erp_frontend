@@ -6,17 +6,15 @@ import {
   checkVisible,
   notNull,
   objCheckPermission,
-  ValidateField
+  ValidateField,
 } from "helpers/FuncHelper";
 import React, { useContext, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import PermissionContext from "../../../context/PermissionContext";
 import { simpleDate } from "../../../helpers/FuncHelper";
 import TableParts from "../TableParts";
 const { Option } = Select;
 
 const TablePartContainer = (props) => {
-  const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [sizeOpt, setSizeOt] = useState(10);
   const { permissions, domain, slug } = useContext(PermissionContext);
@@ -35,6 +33,7 @@ const TablePartContainer = (props) => {
   const [isCreate, setIsCreate] = useState(false);
 
   useEffect(async () => {
+    console.log(permissions, domain, slug);
     fetchDepartment();
   }, []);
 
