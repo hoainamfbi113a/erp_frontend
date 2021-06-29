@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 import {
   addTraining,
   getTraining,
@@ -33,10 +34,9 @@ const TrainingContainer = (props) => {
 
   });
   const [visible, setVisible] = useState(false);
-  const [fileList, setFileList] = useState([])
-  const [cate, setCate] = useState({});
+  const [fileImg, setFileImg] = useState(null);
   const [refresh, setRefresh] = useState(true);
-  const [ uploading, setUploading ] = useState(false)
+  const [cate, setCate] = useState({});
   const dispatch = useDispatch();
   const dataTraining = useSelector((state) => state.trainingUser);
   const dataTraining2 = useSelector((state) => state.training2User);
@@ -152,6 +152,23 @@ const TrainingContainer = (props) => {
     }
   } 
   const handleOk = () => {
+    // const formData = new FormData();
+    // console.log(fileImg.target.files[0])
+    // formData.append("file", fileImg.target.files[0]);
+    // formData.append("type", "training")
+    // axios
+    //   .post("/api/user/resources", formData)
+    //   .then((res) => {
+    //     if (res.data.message === "Successfully") {
+    //       message.success("Cập nhật ảnh đại diện thành công");
+    //       fetChImg();
+    //     } else {
+    //       message.error("Cập nhật ảnh đại diện thất bại");
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
     let { tra_type, tra_time_from, tra_time_to, tra_note, tra_school_name,
        tra_study_time, tra_majors, tra_study_mode, tra_diploma, tra_address } = dataItem;
     let date1 = moment(tra_time_from, "DD-MM-YYYY");
@@ -226,37 +243,10 @@ const TrainingContainer = (props) => {
       );
     }
   };
-  const handleUpload = () => {
-    const formData = new FormData();
-    fileList.forEach(file => {
-      formData.append('files[]', file);
-    });
-
-    this.setState({
-      uploading: true,
-    });
-
-    // You can use any AJAX library you like
-    // reqwest({
-    //   url: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-    //   method: 'post',
-    //   processData: false,
-    //   data: formData,
-    //   success: () => {
-    //     this.setState({
-    //       fileList: [],
-    //       uploading: false,
-    //     });
-    //     message.success('upload successfully.');
-    //   },
-    //   error: () => {
-    //     this.setState({
-    //       uploading: false,
-    //     });
-    //     message.error('upload failed.');
-    //   },
-    // });
-  };
+  const onChangeImage = (e) => {
+    setFileImg(e)
+    console.log("Change Img")
+  }
   return (
     <div>
       <Training
@@ -272,9 +262,6 @@ const TrainingContainer = (props) => {
         handleChange={handleChange}
         onChange={onChange}
         handleOkDelete={handleOkDelete}
-        handleUpload = {handleUpload}
-        fileList = {fileList}
-        uploading = {uploading}
         onChangeImage = {onChangeImage}
       />
     </div>
