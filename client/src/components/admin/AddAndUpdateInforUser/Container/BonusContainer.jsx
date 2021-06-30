@@ -26,7 +26,8 @@ const BonusContainer = (props) => {
     rew_time_to: "",
     rew_note: null,
     rew_content: "",
-    rew_decision_number: ""
+    rew_decision_number: "",
+    id:"",
   });
   const [visible, setVisible] = useState(false);
   const [fileImg, setFileImg] = useState(null)
@@ -97,7 +98,8 @@ const BonusContainer = (props) => {
       rew_note,
       type,
       rew_content,
-      rew_decision_number
+      rew_decision_number,
+      id:id,
     });
   };
   const onChangeRange = (e, dateString, name1, name2) => {
@@ -122,6 +124,7 @@ const BonusContainer = (props) => {
   const addData = (idImg) => {
     let { type, rew_formality, rew_time_from, rew_time_to, rew_note, rew_content,
       rew_decision_number, } = reward;
+    console.log(reward)
     let date1 = (moment(rew_time_from, "DD-MM-YYYY"))
     let date2 = (moment(rew_time_to, "DD-MM-YYYY"))
 
@@ -188,23 +191,27 @@ const BonusContainer = (props) => {
       );
     }
   }
-  const handleOk = () => {
-    const formData = new FormData();
-    formData.append("file", fileImg.target.files[0]);
-    formData.append("type", "bounus" + dataItem.tra_type)
-    axios
-      .post("/api/resources", formData)
-      .then((res) => {
-        if (res.data.message === "Successfully") {
-          console.log(res.data.data.id)
-          addData(res.data.data.id)
-        } else {
-          message.error("Thêm ảnh thất bại");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const handleOk = (id) => {
+    if(fileImg) {
+      const formData = new FormData();
+      formData.append("file", fileImg.target.files[0]);
+      formData.append("type", "bounus" + dataItem.tra_type)
+      axios
+        .post("/api/resources", formData)
+        .then((res) => {
+          if (res.data.message === "Successfully") {
+            addData(res.data.data.id)
+          } else {
+            message.error("Thêm ảnh thất bại");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      addData(id)
+    }
+    
   };
   const onChangeImage = (e) => {
     setFileImg(e);
