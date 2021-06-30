@@ -116,12 +116,15 @@ const OrganizeContainer = (props) => {
       org_youth_group,
     });
   };
-  const onChangeRange = (dateString) => {
-    setDataItem({
-      ...dataItem,
-      org_time_from: dateString[0],
-      org_time_to: dateString[1],
-    });
+  // const onChangeRange = (dateString) => {
+  //   setDataItem({
+  //     ...dataItem,
+  //     org_time_from: dateString[0],
+  //     org_time_to: dateString[1],
+  //   });
+  // };
+  const onChangeRange = (e, dateString, name) => {
+    setDataItem({ ...dataItem, org_time_from: dateString });
   };
   const handleChange = (value) => {
     setDataItem({ ...dataItem, org_type: value });
