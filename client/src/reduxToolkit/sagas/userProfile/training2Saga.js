@@ -48,7 +48,7 @@ function* addTraining2Saga(action) {
   try {
     const resp = yield call(addTrainingApi, action.payload);
     if (resp.message === "Success!. Stored") {
-      message.success("Thêm lịch sử thành công");
+      message.success("Thêm thông tin thành công");
     } else {
       message.error("Thêm thông tin thất bại");
     }

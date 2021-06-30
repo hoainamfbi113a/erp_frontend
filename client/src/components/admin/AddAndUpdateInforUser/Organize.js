@@ -19,27 +19,71 @@ const { TextArea } = Input;
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 
 const Organize = (props) => {
-  const {    org_name,
-  org_headquarters_where,
-  org_position,
-  org_youth_team,
-  org_youth_group,
-  org_type,
-  org_time_from,
-  org_time_to,
-  org_note
-} = props.dataItem
+  const { org_name,
+    org_headquarters_where,
+    org_position,
+    org_youth_team,
+    org_youth_group,
+    org_type,
+    org_time_from,
+    org_time_to,
+    org_note
+  } = props.dataItem
+  const valueOrg = (value) => {
+    if (value == 1)
+      return "1";
+
+    if (value == 2)
+      return "2";
+
+    if (value == 3)
+      return "3";
+
+    if (value == 4)
+      return "4";
+
+  }
+  const renderType = (type) =>{
+    if(type == 1) {
+      return (
+        <div style= {{margin:"19px"}} >
+        <b>Đội thiếu niên CS HCM</b>
+        </div>
+      )
+    }
+    if(type == 2) {
+      return (
+        <div style= {{margin:"19px"}}>
+        <b>Đoàn thanh niên CS HCM</b>
+        </div>
+      )
+    }
+    if(type == 3) {
+      return (
+        <div style= {{margin:"19px"}}>
+        <b>Các hội nghề nghiệp</b>
+        </div>
+      )
+    }
+    if(type == 4) {
+      return (
+        <div style= {{margin:"19px"}}>
+        <b>Tham gia hoạt động trong các tổ chức chính trị xã hội kháchác (trong và ngoài nước)</b>
+        </div>
+      )
+    }
+  }
   const renderData = (data) => {
-    if(data){
+    if (data) {
       return data.map((item) => {
         return (
           <li key={item.id}>
             <div className="personal-history-time">
-              {formatDateNumber(item.org_time_from, dateFormatList[0])} -{" "}
-              <span>
+            Ngày tham gia: {formatDateNumber(item.org_time_from, dateFormatList[0])} {" "}
+              {/* <span>
                 {" "}
                 {formatDateNumber(item.org_time_to, dateFormatList[0])}
-              </span>
+              </span> */}
             </div>
             <Space size="middle">
               <Popconfirm
@@ -60,12 +104,19 @@ const Organize = (props) => {
                 Cập nhật
               </Tag>
             </Space>
-            <p className="personal-history-content">Vào đội thiếu niên: {item.org_youth_team}</p>
+            {renderType(item.org_type)}
+            { item.org_youth_team && <p className="personal-history-content">Vào đội thiếu niên: {item.org_youth_team}</p> }
+           { item.org_youth_group && <p className="personal-history-content">Vào đoàn thanh niên: {item.org_youth_group}</p> }
+           { item.org_name && <p className="personal-history-content">Tên tố chức: {item.org_name}</p> }
+           { item.org_headquarters_where && <p className="personal-history-content">Trụ sở ở đâu: {item.org_headquarters_where}</p> }
+           { item.org_position && <p className="personal-history-content">Giữ chức danh/chức vụ  trong tổ chức: {item.org_position}</p> }
+           { item.org_note && <p className="personal-history-content">Ghi chú: {item.org_note}</p> }
+            {/* <p className="personal-history-content">Vào đội thiếu niên: {item.org_youth_team}</p>
             <p className="personal-history-content">Vào đoàn thanh niên: {item.org_youth_group}</p>
             <p className="personal-history-content">Tên tố chức: {item.org_name}</p>
             <p className="personal-history-content">Trụ sở ở đâu: {item.org_headquarters_where}</p>
             <p className="personal-history-content">Giữ chức danh/chức vụ  trong tổ chức: {item.org_position}</p>
-            <p className="personal-history-content">Ghi chú {item.org_note}</p>
+            <p className="personal-history-content">Ghi chú {item.org_note}</p> */}
           </li>
         );
       });
@@ -118,20 +169,38 @@ const Organize = (props) => {
           method="post"
         >
           <ul>
-          <li className="tabs-main-left-li tabs-main-left-li-row">
-              <span className="tabs-user-infor-top">Từ ngày</span>
+            <li className="tabs-main-left-li tabs-main-left-li-row">
+              <span className="tabs-user-infor-top">Ngày tham gia</span>
               <div className="tabs-user-infor-bottom">
-                <RangePicker
+              <DatePicker
+                          format={dateFormatList}
+                          placeholder="Ngày bắt đầu"
+                          value={
+                            org_time_from ?
+                            moment(
+                              org_time_from,
+                              dateFormatList[0]
+                            ): null
+                          }
+                          onChange={(date, dateString) =>
+                            props.onChangeRange(
+                              date,
+                              dateString,
+                              "deg_begin_study"
+                            )
+                          }
+                        />
+                {/* <RangePicker
                   placeholder={["Từ ngày", "Đến ngày"]}
                   value={
                     org_time_from
                       ? [
-                          moment(
-                            org_time_from,
-                            dateFormatList[0]
-                          ),
-                          moment(org_time_to, dateFormatList[0]),
-                        ]
+                        moment(
+                          org_time_from,
+                          dateFormatList[0]
+                        ),
+                        moment(org_time_to, dateFormatList[0]),
+                      ]
                       : null
                   }
                   className="modal-ranPicker"
@@ -144,7 +213,7 @@ const Organize = (props) => {
                       "deg_end_study"
                     )
                   }
-                />
+                /> */}
               </div>
             </li>
             <li className="tabs-main-left-li tabs-main-left-li-row">
@@ -153,7 +222,7 @@ const Organize = (props) => {
                 <Select
                   onChange={props.handleChange}
                   className="modal-selection"
-                  value={org_type == 1 ? "1" : "2"}
+                  value={valueOrg(org_type)}
                   style={{ width: 527 }}
                 >
                   <Option value="1">Đội thiếu niên CS HCM</Option>
@@ -163,74 +232,52 @@ const Organize = (props) => {
                 </Select>
               </div>
             </li>
-            {/* <li style={{ width: "265px" }} className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
-              <span className="tabs-user-infor-top">Vào đội thiếu niên</span>
-              <div className="tabs-user-infor-bottom">
-                <Input
-                  style={{ width: "100%" }}
-                  name="org_youth_team"
-                  value = {org_youth_team}
-                  onChange={props.onChange}
-                  placeholder="Vào đội thiếu niên"
-                />
+            {(org_type == 3 || org_type == 4) &&
+              <div> <li style={{ width: "265px" }} className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
+                <span className="tabs-user-infor-top">Tên tố chức</span>
+                <div className="tabs-user-infor-bottom">
+                  <Input
+                    style={{ width: "100%" }}
+                    name="org_name"
+                    value={org_name}
+                    onChange={props.onChange}
+                    placeholder="Tên tố chức"
+                  />
+                </div>
+              </li>
+                <li style={{ width: "265px" }} className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
+                  <span className="tabs-user-infor-top">Trụ sở ở đâu</span>
+                  <div className="tabs-user-infor-bottom">
+                    <Input
+                      style={{ width: "100%" }}
+                      name="org_headquarters_where"
+                      value={org_headquarters_where}
+                      onChange={props.onChange}
+                      placeholder="Trụ sở ở đâu"
+                    />
+                  </div>
+                </li>
+                <li style={{ width: "265px" }} className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
+                  <span className="tabs-user-infor-top">Giữ chức vụ/ chức danh </span>
+                  <div className="tabs-user-infor-bottom">
+                    <Input
+                      style={{ width: "100%" }}
+                      name="org_position"
+                      value={org_position}
+                      onChange={props.onChange}
+                      placeholder="Giữ chức vụ/ chức danh"
+                    />
+                  </div>
+                </li>
               </div>
-            </li>
-            <li style={{ width: "265px" }} className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
-              <span className="tabs-user-infor-top">Vào đoàn thanh niên</span>
-              <div className="tabs-user-infor-bottom">
-                <Input
-                  style={{ width: "100%" }}
-                  name="org_youth_group"
-                  value = {org_youth_group}
-                  onChange={props.onChange}
-                  placeholder="Vào đoàn thanh niên"
-                />
-              </div>
-            </li> */}
-            <li style={{ width: "265px" }} className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
-              <span className="tabs-user-infor-top">Tên tố chức</span>
-              <div className="tabs-user-infor-bottom">
-                <Input
-                  style={{ width: "100%" }}
-                  name="org_name"
-                  value = {org_name}
-                  onChange={props.onChange}
-                  placeholder="Tên tố chức"
-                />
-              </div>
-            </li>
-            <li style={{ width: "265px" }} className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
-              <span className="tabs-user-infor-top">Trụ sở ở đâu</span>
-              <div className="tabs-user-infor-bottom">
-                <Input
-                  style={{ width: "100%" }}
-                  name="org_headquarters_where"
-                  value = {org_headquarters_where}
-                  onChange={props.onChange}
-                  placeholder="Trụ sở ở đâu"
-                />
-              </div>
-            </li>
-            <li style={{ width: "265px" }} className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
-              <span className="tabs-user-infor-top">Giữ chức vụ/ chức danh </span>
-              <div className="tabs-user-infor-bottom">
-                <Input
-                  style={{ width: "100%" }}
-                  name="org_position"
-                  value = {org_position}
-                  onChange={props.onChange}
-                  placeholder="Giữ chức vụ/ chức danh"
-                />
-              </div>
-            </li>
-           
+            }
             <li className="tabs-main-left-li">
               <span className="tabs-user-infor-top">Chi tiết hoạt động</span>
               <div className="tabs-user-infor-bottom">
                 <TextArea
                   onChange={props.onChange}
                   value={org_note}
-                  name = "org_note"
+                  name="org_note"
                   placeholder="Mời bạn nhập chi tiết"
                   autoSize={{ minRows: 7, maxRows: 15 }}
                 />
