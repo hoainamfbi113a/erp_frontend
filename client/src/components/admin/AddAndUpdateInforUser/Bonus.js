@@ -20,7 +20,7 @@ const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 
 const Bonus = (props) => {
   const { type, rew_content, rew_decision_number,
-    rew_time_from, rew_time_to, rew_formality } = props.reward;
+    rew_time_from, rew_time_to, rew_formality, id } = props.reward;
   const renderData = (data) => {
     return data.map((item) => {
       return (
@@ -63,6 +63,16 @@ const Bonus = (props) => {
       );
     });
   }
+  const renderInputFile = (id) =>{
+    if(id == "" || id == "undefined" || id == undefined) {
+      return (
+        <input type="file" name="file" onChange={props.onChangeImage}>
+        </input >
+      )
+    } else {
+      return ""
+    }
+  } 
   return (
     <div className="edit-infor-form">
       <div className="tabs-main personal-history">
@@ -91,7 +101,7 @@ const Bonus = (props) => {
       <Modal
         title="Nhập thông tin"
         visible={props.visible}
-        onOk={props.handleOk}
+        onOk={()=>{props.handleOk(id)}}
         onCancel={props.hideModal}
         okText="OK"
         cancelText="Cancel"
@@ -146,7 +156,6 @@ const Bonus = (props) => {
             </li>
             <li style={{ width: "265px" }} className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
               <span className="tabs-user-infor-top">Nội dung, hình thức {type == "1" ? "khen thưởng" : "kĩ luật"}</span>
-              {/* {console.log(type)} */}
               <div className="tabs-user-infor-bottom">
                 <Input
                   style={{ width: "100%" }}
@@ -170,8 +179,9 @@ const Bonus = (props) => {
               </div>
             </li>
             <div>
-              <input type="file" name="file" onChange={props.onChangeImage}>
-              </input >
+            {renderInputFile(id)}
+            </div>
+            <div>      
             </div>
             <li className="tabs-main-left-li">
               <span className="tabs-user-infor-top">Ghi chú {type == "1" ? "khen thưởng" : "kĩ luật"}</span>
