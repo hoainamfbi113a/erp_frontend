@@ -3,7 +3,7 @@ const organizeSlice = createSlice({
   name: "organize",
   initialState: [],
   reducers: {
-    getOrganize() {},
+    getOrganize() { },
     setOrganize(state, action) {
       state = [...action.payload];
       return state;
@@ -31,13 +31,14 @@ const organizeSlice = createSlice({
     },
     updateOrganize(state, action) {
       return [...state];
-    }, 
+    },
     updateOrganizeSuccess(state, action) {
       const data = current(state);
       const {
         id,
         org_time_from,
         org_time_to,
+        org_type,
         org_note,
         org_name,
         org_headquarters_where,
@@ -49,6 +50,7 @@ const organizeSlice = createSlice({
       if (index >= 0) {
         state[index].org_time_from = org_time_from;
         state[index].org_time_to = org_time_to;
+        state[index].org_type = org_type;
         state[index].org_note = org_note;
         state[index].org_name = org_name;
         state[index].org_headquarters_where = org_headquarters_where;
@@ -56,7 +58,7 @@ const organizeSlice = createSlice({
         state[index].org_youth_team = org_youth_team;
         state[index].org_youth_group = org_youth_group;
       }
-    }, 
+    },
     updateOrganizeFailed(state, action) {
       return [...state];
     },

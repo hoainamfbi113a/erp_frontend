@@ -24,11 +24,11 @@ const OrganizeContainer = (props) => {
     org_time_from: "",
     org_time_from: "",
     org_note: null,
-    org_name:"",
-    org_headquarters_where:"",
-    org_position:"",
-    org_youth_team:"",
-    org_youth_group:"",
+    org_name: "",
+    org_headquarters_where: "",
+    org_position: "",
+    org_youth_team: "",
+    org_youth_group: "",
   });
   const [visible, setVisible] = useState(false);
   const [cate, setCate] = useState({});
@@ -36,13 +36,12 @@ const OrganizeContainer = (props) => {
   const dispatch = useDispatch();
   const dataOrg = useSelector((state) => state.organizeUser);
   const dataOrg2 = useSelector((state) => state.organize2User);
-
   useEffect(() => {
     if (!dataOrg.length && !dataOrg2.length) {
       dispatch(
         getOrganize({
           id_user: props.idUser,
-          type:"org"
+          type: "org"
         })
       );
       // dispatch(
@@ -59,11 +58,11 @@ const OrganizeContainer = (props) => {
       org_time_from: "",
       org_time_to: "",
       org_note: null,
-      org_name:"",
-      org_headquarters_where:"",
-      org_position:"",
-      org_youth_team:"",
-      org_youth_group:"",
+      org_name: "",
+      org_headquarters_where: "",
+      org_position: "",
+      org_youth_team: "",
+      org_youth_group: "",
     });
     if (value == 1) {
       setCate({ category: 1 });
@@ -79,11 +78,11 @@ const OrganizeContainer = (props) => {
       org_time_from: "",
       org_time_to: "",
       org_note: null,
-      org_name:"",
-      org_headquarters_where:"",
-      org_position:"",
-      org_youth_team:"",
-      org_youth_group:"",
+      org_name: "",
+      org_headquarters_where: "",
+      org_position: "",
+      org_youth_team: "",
+      org_youth_group: "",
     });
     setId("");
 
@@ -92,12 +91,7 @@ const OrganizeContainer = (props) => {
   const handleUpdate = (value) => {
     setVisible(true);
     let dataTemp = {};
-    if (value.org_type == 1) {
-      dataTemp = dataOrg.find((item) => item.id == value.id);
-    } else {
-      dataTemp = dataOrg2.find((item) => item.id == value.id);
-    }
-
+    dataTemp = dataOrg.find((item) => item.id == value.id);
     let { id, org_type, org_time_from, org_time_to, org_note,
       org_name, org_headquarters_where, org_position, org_youth_team, org_youth_group, } = dataTemp;
     let date1 = formatDateNumber(org_time_from, dateFormatList[0]);
@@ -116,12 +110,6 @@ const OrganizeContainer = (props) => {
       org_youth_group,
     });
   };
-  // const onChangeRange = (dateString) => {
-  //   setDataItem({
-  //     ...dataItem,
-  //     org_time_from: dateString[0],
-  //     org_time_to: dateString[1],
-  //   });
   // };
   const onChangeRange = (e, dateString, name) => {
     setDataItem({ ...dataItem, org_time_from: dateString });
@@ -133,17 +121,16 @@ const OrganizeContainer = (props) => {
   const onChange = (e) => {
     setDataItem({ ...dataItem, [e.target.name]: e.target.value });
   };
-  const dataorg = [];
-  if (dataOrg && dataOrg.length !== 0) {
-    for (let item of dataOrg) {
-      if (item.org_type == 1) {
-        dataorg.push(item);
-      }
-    }
-  }
   const handleOk = () => {
     let { org_type, org_time_from, org_time_to, org_note, org_name,
       org_headquarters_where, org_position, org_youth_team, org_youth_group, } = dataItem;
+    if(org_type == 1 || org_type == 2) {
+      org_headquarters_where = "" ;
+      org_position = "" ;
+      org_youth_team = "" ;
+      org_youth_group = "" ;
+      org_name = "" ;
+    }
     let date1 = moment(org_time_from, "DD-MM-YYYY");
     let date2 = moment(org_time_to, "DD-MM-YYYY");
 
@@ -164,38 +151,19 @@ const OrganizeContainer = (props) => {
       id,
     };
     if (id == "") {
-      if (org_type == 1) {
-        dispatch(addOrganize(params));
-      } else {
-        dispatch(addOrganize2(params));
-      }
-
+      dispatch(addOrganize(params));
       setTimeout(() => {
-        if (org_type == 1) {
-          dispatch(
-            getOrganize({
-              id_user: props.idUser,
-              type: 1,
-            })
-          );
-        } else {
-          // dispatch(
-          //   getOrganize2({
-          //     id_user: props.idUser,
-          //     type: 2,
-          //   })
-          // );
-        }
+        dispatch(
+          getOrganize({
+            id_user: props.idUser,
+            type: 1,
+          })
+        );
       }, 200);
     } else {
-      if (org_type == 1) {
-        dispatch(updateOrganize(params));
-      } else {
-        dispatch(updateOrganize2(params));
-      }
+      dispatch(updateOrganize(params));
       setId("");
     }
-
     setVisible(false);
   };
   const handleOkDelete = (item) => {
@@ -217,7 +185,7 @@ const OrganizeContainer = (props) => {
   return (
     <div>
       <Organize
-        dataOrg={dataorg}
+        dataOrg={dataOrg}
         dataOrg2={dataOrg2}
         dataItem={dataItem}
         visible={visible}
