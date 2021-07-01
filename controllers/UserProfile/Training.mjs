@@ -19,7 +19,6 @@ const getTraining = async (req, res) => {
 };
 
 const createTraining = async (req, res) => {
-  console.log("123")
   const config = {
     headers: { Authorization: req.headers.authorization },
   };

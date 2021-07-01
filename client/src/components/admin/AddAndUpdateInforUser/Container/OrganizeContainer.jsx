@@ -45,12 +45,12 @@ const OrganizeContainer = (props) => {
           type:"org"
         })
       );
-      dispatch(
-        getOrganize2({
-          id_user: props.idUser,
-          type: 2,
-        })
-      );
+      // dispatch(
+      //   getOrganize2({
+      //     id_user: props.idUser,
+      //     type: 2,
+      //   })
+      // );
     }
   }, [dispatch]);
   const showModal = (value) => {
@@ -179,12 +179,12 @@ const OrganizeContainer = (props) => {
             })
           );
         } else {
-          dispatch(
-            getOrganize2({
-              id_user: props.idUser,
-              type: 2,
-            })
-          );
+          // dispatch(
+          //   getOrganize2({
+          //     id_user: props.idUser,
+          //     type: 2,
+          //   })
+          // );
         }
       }, 200);
     } else {
