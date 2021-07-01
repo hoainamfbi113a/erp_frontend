@@ -33,6 +33,7 @@ router.get("/user/resources/:id", async (req, res) => {
 });
 
 router.post("/user/resources",upload.single('file') , async (req, res) => {
+  console.log("1233", req.file)
   let { resource_type,user_resource_type, user_id } = req.body;
   const formData = new FormData()
   formData.append('resource_type', resource_type);
@@ -41,7 +42,22 @@ router.post("/user/resources",upload.single('file') , async (req, res) => {
   formData.append('file', fs.readFileSync(req.file.path), req.file.filename);
   try {
     let { data } = await axios.post(
-      `${process.env.apiEmployee}/api/user/resources`,formData,{ headers: formData.getHeaders() }
+      `${process.env.apiEmployee}/api/user/resources`, formData,{ headers: formData.getHeaders() }
+    );
+    res.send(data);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+router.post("/resources",upload.single('file') , async (req, res) => {
+  let {file, type } = req.body;
+  const formData = new FormData()
+  formData.append('type', type);
+  formData.append('file', fs.readFileSync(req.file.path), req.file.filename);
+  try {
+    let { data } = await axios.post(
+      `${process.env.apiEmployee}/api/resources`, formData,{ headers: formData.getHeaders() }
     );
     res.send(data);
   } catch (error) {
