@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 import {
   addReward,
   getReward,
@@ -24,26 +25,28 @@ const BonusContainer = (props) => {
     rew_time_from: "",
     rew_time_to: "",
     rew_note: null,
-    rew_content:"",
-    rew_decision_number:""
+    rew_content: "",
+    rew_decision_number: "",
+    id:"",
   });
   const [visible, setVisible] = useState(false);
+  const [fileImg, setFileImg] = useState(null)
   const [dataItem, setDataItem] = useState({});
   const [refresh, setRefresh] = useState(true);
   const dispatch = useDispatch();
   const dataReward = useSelector((state) => state.rewardUser);
   const dataDiscipline = useSelector((state) => state.disciplineUser);
-  const state = useSelector((state)=> state);
+  const state = useSelector((state) => state);
   useEffect(() => {
-      dispatch(getReward({
-        id_user: props.idUser,
-        type:1,
-      }));
-      dispatch(getDiscipline({
-        id_user: props.idUser,
-        type:2,
-      }));
-    
+    dispatch(getReward({
+      id_user: props.idUser,
+      type: 1,
+    }));
+    dispatch(getDiscipline({
+      id_user: props.idUser,
+      type: 2,
+    }));
+
   }, [dispatch]);
   const showModal = (value) => {
     if (value == 1) {
@@ -61,39 +64,42 @@ const BonusContainer = (props) => {
       rew_time_from: "",
       rew_time_to: "",
       rew_note: null,
-      rew_content:"",
-      rew_decision_number:""
+      rew_content: "",
+      rew_decision_number: "",
+      fileImg:null,
     });
     setId("")
-    
+
     setVisible(false);
   };
   const handleUpdate = (value) => {
     setVisible(true);
     let rewardItem = {}
-    if(value.type == 1) {
-      rewardItem = dataReward.find((item) => 
-      item.id == value.id
+    if (value.type == 1) {
+      rewardItem = dataReward.find((item) =>
+        item.id == value.id
       );
     } else {
-      rewardItem = dataDiscipline.find((item) => 
-      item.id == value.id
+      rewardItem = dataDiscipline.find((item) =>
+        item.id == value.id
       );
     }
 
-    let { id, type, rew_formality, rew_time_from, rew_time_to, rew_note,   rew_content,
-    rew_decision_number} = rewardItem;
+    let { id, type, rew_formality, rew_time_from, rew_time_to, rew_note, rew_content,
+      rew_decision_number } = rewardItem;
     let date1 = formatDateNumber(rew_time_from, dateFormatList[0])
     let date2 = formatDateNumber(rew_time_to, dateFormatList[0])
     setId(id);
-    setReward({ ...reward,
-       rew_formality,
-       rew_time_from:date1,
-       rew_time_to:date2,
-       rew_note,
-       type,
-       rew_content,
-       rew_decision_number
+    setReward({
+      ...reward,
+      rew_formality,
+      rew_time_from: date1,
+      rew_time_to: date2,
+      rew_note,
+      type,
+      rew_content,
+      rew_decision_number,
+      id:id,
     });
   };
   const onChangeRange = (e, dateString, name1, name2) => {
@@ -104,9 +110,6 @@ const BonusContainer = (props) => {
     setReward({ ...reward, type: value });
     setRefresh(!refresh);
   };
-  // const onChange = (e) => {
-  //   setReward({ ...reward, rew_formality: e.target.value });
-  // };
   const onChange = (e) => {
     setReward({ ...reward, [e.target.name]: e.target.value });
   };
@@ -118,9 +121,10 @@ const BonusContainer = (props) => {
       }
     }
   }
-  const handleOk = () => {
-    let {type, rew_formality, rew_time_from, rew_time_to, rew_note,   rew_content,
-    rew_decision_number,} = reward;
+  const addData = (idImg) => {
+    let { type, rew_formality, rew_time_from, rew_time_to, rew_note, rew_content,
+      rew_decision_number, } = reward;
+    console.log(reward)
     let date1 = (moment(rew_time_from, "DD-MM-YYYY"))
     let date2 = (moment(rew_time_to, "DD-MM-YYYY"))
 
@@ -137,30 +141,31 @@ const BonusContainer = (props) => {
       id,
       rew_content,
       rew_decision_number,
+      resource_id: idImg
     };
     console.log(params);
     if (id == "") {
-      if(type == 1 ) {
+      if (type == 1) {
         dispatch(addReward(params));
       } else {
         dispatch(addDiscipline(params));
       }
 
       setTimeout(() => {
-        if(type == 1) {
+        if (type == 1) {
           dispatch(getReward({
             id_user: props.idUser,
-            type:1,
+            type: 1,
           }));
         } else {
           dispatch(getDiscipline({
             id_user: props.idUser,
-            type:2,
+            type: 2,
           }));
         }
       }, 200);
     } else {
-      if(type == 1) {
+      if (type == 1) {
         dispatch(updateReward(params));
       } else {
         dispatch(updateDiscipline(params));
@@ -171,8 +176,8 @@ const BonusContainer = (props) => {
     setVisible(false);
   };
   const handleOkDelete = (item) => {
-    const {type, id} =item;
-    if(type == 1){
+    const { type, id } = item;
+    if (type == 1) {
       dispatch(
         removeReward({
           id,
@@ -185,7 +190,32 @@ const BonusContainer = (props) => {
         })
       );
     }
+  }
+  const handleOk = (id) => {
+    if(fileImg) {
+      const formData = new FormData();
+      formData.append("file", fileImg.target.files[0]);
+      formData.append("type", "bounus" + dataItem.tra_type)
+      axios
+        .post("/api/resources", formData)
+        .then((res) => {
+          if (res.data.message === "Successfully") {
+            addData(res.data.data.id)
+          } else {
+            message.error("Thêm ảnh thất bại");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      addData(id)
+    }
+    
   };
+  const onChangeImage = (e) => {
+    setFileImg(e);
+  }
   return (
     <div>
       <Bonus
@@ -201,6 +231,7 @@ const BonusContainer = (props) => {
         handleChange={handleChange}
         onChange={onChange}
         handleOkDelete={handleOkDelete}
+        onChangeImage={onChangeImage}
       />
     </div>
   );

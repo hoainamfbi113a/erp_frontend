@@ -42,7 +42,7 @@ const OrganizeContainer = (props) => {
       dispatch(
         getOrganize({
           id_user: props.idUser,
-          type:""
+          type:"org"
         })
       );
       dispatch(
@@ -116,12 +116,15 @@ const OrganizeContainer = (props) => {
       org_youth_group,
     });
   };
-  const onChangeRange = (dateString) => {
-    setDataItem({
-      ...dataItem,
-      org_time_from: dateString[0],
-      org_time_to: dateString[1],
-    });
+  // const onChangeRange = (dateString) => {
+  //   setDataItem({
+  //     ...dataItem,
+  //     org_time_from: dateString[0],
+  //     org_time_to: dateString[1],
+  //   });
+  // };
+  const onChangeRange = (e, dateString, name) => {
+    setDataItem({ ...dataItem, org_time_from: dateString });
   };
   const handleChange = (value) => {
     setDataItem({ ...dataItem, org_type: value });
@@ -160,7 +163,6 @@ const OrganizeContainer = (props) => {
       org_youth_group,
       id,
     };
-    console.log(params);
     if (id == "") {
       if (org_type == 1) {
         dispatch(addOrganize(params));

@@ -22,6 +22,7 @@ const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 const Training = (props) => {
   const { tra_type, tra_time_from, tra_time_to, tra_note,
     tra_school_name, tra_study_time, tra_majors, tra_study_mode, tra_diploma, tra_address } = props.dataItem;
+  console.log(props.dataItem)
   const renderData = (data) => {
     return data.map((item) => {
       return (
@@ -52,33 +53,21 @@ const Training = (props) => {
               Cập nhật
             </Tag>
           </Space>
-          <p style={{ marginTop: "4px" }} className="personal-history-content">Tên trường: {item.tra_school_name}</p>
-          <p className="personal-history-content">Địa chỉ: {item.tra_address}</p>
-          <p className="personal-history-content">Chuyên ngành: {item.tra_majors}</p>
-          <p className="personal-history-content">Chế độ học: {item.tra_study_mode}</p>
-          <p className="personal-history-content">Văn bằng, chứng chỉ: {item.tra_diploma}</p>
-          <p className="personal-history-content">Ghi chú: {item.tra_note}</p>
+          <div style = {{display:"flex"}}>
+          <div >
+            <p style={{ marginTop: "4px" }} className="personal-history-content">Tên trường: {item.tra_school_name}</p>
+            <p className="personal-history-content">Địa chỉ: {item.tra_address}</p>
+            <p className="personal-history-content">Chuyên ngành: {item.tra_majors}</p>
+            <p className="personal-history-content">Chế độ học: {item.tra_study_mode}</p>
+            <p className="personal-history-content">Văn bằng, chứng chỉ: {item.tra_diploma}</p>
+            <p className="personal-history-content">Ghi chú: {item.tra_note}</p>
+          </div >
+          {item.resource &&<img style= {{maxWidth:"400px", maxHeight:"200px"}} src={`data:image/jpeg;base64,${item.resource.content}`} alt="" />}
+          </div>
         </li>
       );
     });
   };
-  // const props = {
-  //   name: 'file',
-  //   action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-  //   headers: {
-  //     authorization: 'authorization-text',
-  //   },
-  //   onChange(info) {
-  //     if (info.file.status !== 'uploading') {
-  //       console.log(info.file, info.fileList);
-  //     }
-  //     if (info.file.status === 'done') {
-  //       message.success(`${info.file.name} file uploaded successfully`);
-  //     } else if (info.file.status === 'error') {
-  //       message.error(`${info.file.name} file upload failed.`);
-  //     }
-  //   },
-  // };
   return (
     <div className="edit-infor-form">
       <div className="tabs-main personal-history">
@@ -230,7 +219,7 @@ const Training = (props) => {
             </li>
             {/* <li> */}
             <div>
-              <input type="file" id="myFile" name="filename" onChange = {props.onChangeImage}>
+              <input type="file" name="file" onChange = {props.onChangeImage}>
               </input >
             </div>
             {/* </li> */}
