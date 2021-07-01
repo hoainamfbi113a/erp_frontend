@@ -8,6 +8,8 @@ const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 const PersonalHistoryContainer = ({
   idUser,
   proId,
+  type,
+  namination,
   getData,
   updateData,
   addData,
@@ -27,7 +29,7 @@ const PersonalHistoryContainer = ({
 
   useEffect(() => {
     if (!data.length) dispatch(getData);
-  }, []);
+  }, [type]);
 
   const handleOk = () => {
     let date1 = moment(dataItem.his_work_from, "DD-MM-YYYY");
@@ -43,6 +45,7 @@ const PersonalHistoryContainer = ({
       his_work_to: parseTimeTo,
       his_working_process: dataItem.his_working_process,
       his_note: dataItem.his_note,
+      type: type
     };
     const paramsUpdate = {
       id: idHis,
@@ -53,11 +56,11 @@ const PersonalHistoryContainer = ({
       his_work_to: parseTimeTo,
       his_working_process: dataItem.his_working_process,
       his_note: dataItem.his_note,
+      type: type
     };
     if (idHis) {
       dispatch(updateData(paramsUpdate));
     } else {
-      console.log(paramsAdd);
       dispatch(addData(paramsAdd));
       setTimeout(() => {
         dispatch(getData);
@@ -122,8 +125,8 @@ const PersonalHistoryContainer = ({
         handleOk={handleOk}
         handleDelete={handleDelete}
         onChangeRange={onChangeRange}
+        namination={namination}
       />
-      {/* {console.log(idHis)}; */}
     </div>
   );
 };

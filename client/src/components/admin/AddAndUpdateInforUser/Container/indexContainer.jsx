@@ -22,22 +22,27 @@ import {
   removeHistory,
   updateHistory,
 } from "../../../../reduxToolkit/features/userProfile/historySlice";
+import {
+  addHistory2,
+  getHistory2,
+  removeHistory2,
+  updateHistory2,
+} from "../../../../reduxToolkit/features/userProfile/historySlice2";
 import { message, Steps } from "antd";
 import axiosConfig from "apis/axios";
 import { getProfile, updateProfile } from "apis/profileApi";
 import { transfersProfile } from "apis/transfersApi";
 import { workflowProfile } from "apis/workflowApi";
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import Index from "../index";
 import BonusContainer from "./BonusContainer";
-import FamilyContainer from "./FamilyContainer";
+import Personal2 from "./Personal2";
 import Family2 from "./Family2";
 import TrainingContainer from "./TrainingContainer";
 import CurriculumVitae from "../CurriculumVitae";
 import JoinDCS from "./JoinDCSContainer";
 import OrganizeContainer from "./OrganizeContainer";
-import PersonalHistoryContainer from "./PersonalHistoryContainer";
 const { Step } = Steps;
 
 const InfoUserContainer = (props) => {
@@ -52,6 +57,7 @@ const InfoUserContainer = (props) => {
   const dataKinship = useSelector((state) => state.kinshipUser);
   const dataSocial = useSelector((state) => state.socialUser);
   const dataHistory = useSelector((state) => state.historyUser);
+  const dataHistory2 = useSelector((state) => state.history2User);
   const userId = props.match.params.id;
   useEffect(() => {
     (async function fetchTransfer() {
@@ -82,7 +88,7 @@ const InfoUserContainer = (props) => {
         // console.log(dataProfile.status)
         let dataTransfersProfile = {};
         dataTransfersProfile = await transfersProfile(dataProfile.id);
-        setStep_id(dataTransfersProfile.data.next_step_id)
+        setStep_id(dataTransfersProfile.data.next_step_id);
         console.log(dataTransfersProfile.data.next_step_id);
       }
     })();
@@ -102,14 +108,19 @@ const InfoUserContainer = (props) => {
         );
       case 2:
         return (
-          <PersonalHistoryContainer
+          <Personal2
             idUser={userId}
             proId={pro_id}
-            getData={getHistory({ id: userId })}
-            addData={addHistory}
-            updateData={updateHistory}
-            removeData={removeHistory}
-            data={dataHistory}
+            type={[0, 1]}
+            namination={["Học tập", "Làm việc"]}
+            getData={[
+              getHistory({ id: userId, type: 0 }),
+              getHistory2({ id: userId, type: 1 }),
+            ]}
+            addData={[addHistory, addHistory2]}
+            updateData={[updateHistory, updateHistory2]}
+            removeData={[removeHistory, removeHistory2]}
+            data={[dataHistory, dataHistory2]}
           />
         );
       case 3:
@@ -143,7 +154,7 @@ const InfoUserContainer = (props) => {
             getData={[
               getFamily({ id: userId, type: "family" }),
               getKinship({ id: userId, type: "kinship" }),
-              getSocial({ id: userId, type: "social" })
+              getSocial({ id: userId, type: "social" }),
             ]}
             addData={[addFamily, addKinship, addSocial]}
             updateData={[updateFamily, updateKinship, updateSocial]}
@@ -230,7 +241,7 @@ const InfoUserContainer = (props) => {
       <Index
         value={value}
         activeLink={activeLink}
-        setModalNotify = {setModalNotify}
+        setModalNotify={setModalNotify}
         setActiveLink={setActiveLink}
         modalNotify={modalNotify}
         profile={profile}

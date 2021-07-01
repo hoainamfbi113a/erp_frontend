@@ -1,6 +1,16 @@
 import express from "express";
-import { getReward, createReward, deleteReward, updateReward } from "./UserProfile/rewardDiscipline.mjs";
-import { getJoinDCS, createJoinDCS, deleteJoinDCS, updateJoinDCS } from "./UserProfile/joinDCS.mjs";
+import {
+  getReward,
+  createReward,
+  deleteReward,
+  updateReward,
+} from "./UserProfile/rewardDiscipline.mjs";
+import {
+  getJoinDCS,
+  createJoinDCS,
+  deleteJoinDCS,
+  updateJoinDCS,
+} from "./UserProfile/joinDCS.mjs";
 
 import {
   getFamilyRelation,
@@ -20,7 +30,18 @@ import {
   deleteTraining,
   updateTraining,
 } from "./UserProfile/Training.mjs";
-import {getOrganize, createOrganize, deleteOrganize, updateOrganize} from "./UserProfile/Organize.mjs"
+import {
+  getOrganize,
+  createOrganize,
+  deleteOrganize,
+  updateOrganize,
+} from "./UserProfile/Organize.mjs";
+import {
+  getGoAbroad,
+  createGoAbroad,
+  deleteGoAbroad,
+  updateGoAbroad,
+} from "./UserProfile/goAbroad.mjs";
 
 const router = express.Router();
 
@@ -58,5 +79,11 @@ router.get("/party/users/:id", getJoinDCS);
 router.post("/party", createJoinDCS);
 router.post("/partyd", deleteJoinDCS);
 router.put("/partyd/users", updateJoinDCS);
+
+// Go Abroad
+router.get("/abroad/:id", getGoAbroad);
+router.post("/abroad/add", createGoAbroad);
+router.post("/abroad/delete/:id", deleteGoAbroad);
+router.put("/abroad/update", updateGoAbroad);
 
 export default router;

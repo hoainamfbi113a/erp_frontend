@@ -637,13 +637,13 @@ const TableDepartmentContainer = (props) => {
       : {},
   ];
 
-  useEffect(() => {
-    if (data && data.data) {
-      data.data.map((el) => {
-        el.created_at = simpleDate(el.created_at);
-      });
-    }
-  }, [data]);
+  // useEffect(() => {
+  //   if (data && data.data) {
+  //     data.data.map((el) => {
+  //       el.created_at = simpleDate(el.created_at);
+  //     });
+  //   }
+  // }, [data]);
 
   return (
     <div>

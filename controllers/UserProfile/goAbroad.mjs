@@ -1,25 +1,23 @@
 import axios from "axios";
 import { config } from "../../helper/FuncHelpers.mjs";
 
-const getPersonalHistory = async (req, res) => {
+const getGoAbroad = async (req, res) => {
   try {
     const { id } = req.params;
-    const { type } = req.query;
     const { data } = await axios.get(
-      `${process.env.apiEmployee}/api/personal-histories/users/${id}?type=${type}`,
+      `${process.env.apiEmployee}/api/go-abroad/users/${id}`,
       config(req)
     );
-    console.log(id, data);
     res.send(data);
   } catch (error) {
     console.log(error);
   }
 };
 
-const createPersonalHistory = async (req, res) => {
+const createGoAbroad = async (req, res) => {
   try {
     const { data } = await axios.post(
-      `${process.env.apiEmployee}/api/personal-histories`,
+      `${process.env.apiEmployee}/api/go-abroad`,
       req.body,
       config(req)
     );
@@ -30,11 +28,11 @@ const createPersonalHistory = async (req, res) => {
   }
 };
 
-const deletePersonalHistory = async (req, res) => {
+const deleteGoAbroad = async (req, res) => {
   const { id } = req.params;
   try {
     const { data } = await axios.delete(
-      `${process.env.apiEmployee}/api/personal-histories/${id}`,
+      `${process.env.apiEmployee}/api/go-abroad/${id}`,
       config(req)
     );
     res.send(data);
@@ -43,11 +41,11 @@ const deletePersonalHistory = async (req, res) => {
   }
 };
 
-const updatePersonalHistory = async (req, res) => {
+const updateGoAbroad = async (req, res) => {
   const { id } = req.body;
   try {
     const { data } = await axios.put(
-      `${process.env.apiEmployee}/api/personal-histories/${id}`,
+      `${process.env.apiEmployee}/api/go-abroad/${id}`,
       req.body,
       config(req)
     );
@@ -57,4 +55,4 @@ const updatePersonalHistory = async (req, res) => {
   }
 };
 
-export { getPersonalHistory, createPersonalHistory, deletePersonalHistory, updatePersonalHistory };
+export { getGoAbroad, createGoAbroad, deleteGoAbroad, updateGoAbroad };

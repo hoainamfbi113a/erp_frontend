@@ -144,7 +144,7 @@ const TableUserContainer = (props) => {
       // sorter: (a, b) => a.full_name.length - b.full_name.length,
     },
     {
-      title: "Chức vụ, chức danh",
+      title: "Chức danh, chức vụ",
       dataIndex: "department",
       key: "position",
       render: (department) => {

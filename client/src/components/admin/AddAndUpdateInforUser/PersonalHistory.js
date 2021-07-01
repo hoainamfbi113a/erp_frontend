@@ -29,6 +29,7 @@ const History = ({
   handleOk,
   handleDelete,
   onChangeRange,
+  namination,
 }) => {
   const renderData = () => {
     if (dataHistory.length) {
@@ -78,7 +79,7 @@ const History = ({
       <div className="tabs-main personal-history">
         <div className="btn-btn-profile">
           <Button
-            onClick={() => showModal(1)}
+            onClick={showModal}
             className="btn-add-detail"
             icon={<PlusCircleOutlined />}
           >
@@ -86,7 +87,7 @@ const History = ({
           </Button>
         </div>
         <div className="personal-history-title">
-          Quá trình học tập và làm việc
+          Quá trình {namination}
         </div>
         <div>
           <div className="edit-infr-vertical-line"></div>
@@ -124,7 +125,7 @@ const History = ({
               </div>
             </li> */}
             <li className="tabs-main-left-li">
-              <span className="tabs-user-infor-top">Nơi học tập</span>
+              <span className="tabs-user-infor-top">Nơi {namination}</span>
               <div className="tabs-user-infor-bottom">
                 <Input
                   style={{ width: "100%" }}
@@ -163,7 +164,7 @@ const History = ({
             </li>
 
             <li className="tabs-main-left-li">
-              <span className="tabs-user-infor-top">Quá trình học tập</span>
+              <span className="tabs-user-infor-top">Quá trình {namination}</span>
               <div className="tabs-user-infor-bottom">
                 <Input
                   style={{ width: "100%" }}

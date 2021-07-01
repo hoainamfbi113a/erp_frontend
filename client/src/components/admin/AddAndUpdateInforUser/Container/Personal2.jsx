@@ -1,7 +1,7 @@
 import React from "react";
 import PersonalHistoryContainer from "./PersonalHistoryContainer";
 
-const PersonalHistory = ({
+const Personal2 = ({
   idUser,
   proId,
   type,
@@ -31,8 +31,7 @@ const PersonalHistory = ({
     <div>
       {renderData(0)}
       {renderData(1)}
-      {renderData(2)}
     </div>
   );
 };
-export default PersonalHistory;
+export default Personal2;
