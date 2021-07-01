@@ -42,7 +42,7 @@ const OrganizeContainer = (props) => {
       dispatch(
         getOrganize({
           id_user: props.idUser,
-          type:""
+          type:"org"
         })
       );
       dispatch(
@@ -163,7 +163,6 @@ const OrganizeContainer = (props) => {
       org_youth_group,
       id,
     };
-    console.log(params);
     if (id == "") {
       if (org_type == 1) {
         dispatch(addOrganize(params));

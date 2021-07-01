@@ -225,10 +225,10 @@ const Organize = (props) => {
                   value={valueOrg(org_type)}
                   style={{ width: 527 }}
                 >
-                  <Option value="1">Đội thiếu niên CS HCM</Option>
-                  <Option value="2">Đoàn thanh niên CS HCM</Option>
+                  <Option value="1">Đội thiếu niên TIền Phong TP.HCM</Option>
+                  <Option value="2">Đoàn thanh niên cộng sản TP.HCM</Option>
                   <Option value="3">Các hội nghề nghiệp</Option>
-                  <Option value="4">Tham gia hoạt động trong các tổ chức chính trị xã hội kháchác (trong và ngoài nước)</Option>
+                  <Option value="4">Các tổ chức chính trị xã hội khác (trong và ngoài nước)</Option>
                 </Select>
               </div>
             </li>
