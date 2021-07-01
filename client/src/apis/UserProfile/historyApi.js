@@ -2,7 +2,7 @@ import axiosConfig from "../axios";
 
 const getUserHistoryApi = (params) => {
   return axiosConfig
-    .get(`/api/user-profile/history/${params.id}`)
+    .get(`/api/user-profile/history/${params.id}?type=${params.type}`)
     .then((data) => {
       return data;
     })

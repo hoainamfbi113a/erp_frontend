@@ -11,6 +11,7 @@ import kinshipSlice from "./userProfile/kinshipSlice";
 import socialSlice from "./userProfile/socialSlice";
 import joinDCSSlice from "./userProfile/joinDCSSlice";
 import historySlice from "./userProfile/historySlice";
+import history2Slice from "./userProfile/historySlice2";
 import trainingSlice from "./userProfile/trainingSlice";
 import training2Slice from "./userProfile/training2Slice";
 import organizeSlice from "./userProfile/organizeSlice";
@@ -29,6 +30,7 @@ const reducer = combineReducers({
      socialUser: socialSlice,
      joinDCSUser: joinDCSSlice,
      historyUser: historySlice,
+     history2User: history2Slice,
      trainingUser: trainingSlice,
      training2User: training2Slice,
      organizeUser: organizeSlice,

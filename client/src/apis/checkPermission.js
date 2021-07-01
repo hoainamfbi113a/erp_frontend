@@ -6,7 +6,7 @@ export const checkPermission = (params) => {
     .put(`/api/pokemon`, params)
     .then(handleResponse)
     .then((data) => {
-      // console.log(data)
+      console.log(data)
       return data;
     })
     .catch((err) => {
