@@ -12,7 +12,7 @@ const Personal2 = ({
   removeData,
   data,
 }) => {
-  const renderData = (i) => {
+  const renderData = (i) => { 
       return (
         <PersonalHistoryContainer
           idUser={idUser}

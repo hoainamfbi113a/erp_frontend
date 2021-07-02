@@ -19,8 +19,16 @@ const { TextArea } = Input;
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 
 const Bonus = (props) => {
-  const { type, rew_content, rew_decision_number,
-    rew_time_from, rew_time_to, rew_formality, id } = props.reward;
+  const {
+    type,
+    rew_content,
+    rew_decision_number,
+    rew_time_from,
+    rew_time_to,
+    rew_formality,
+    id,
+  } = props.reward;
+  const { err_content, err_number } = props.err;
   const renderData = (data) => {
     return data.map((item) => {
       return (
@@ -51,28 +59,44 @@ const Bonus = (props) => {
               Cập nhật
             </Tag>
           </Space>
-          <div style = {{display:"flex"}}>
+          <div style={{ display: "flex" }}>
             <div>
-              <p style={{ marginTop: "4px" }} className="personal-history-content">Nội dung, hình thức {item.type == "1" ? "khen thưởng" : "kĩ luật"} : {item.rew_content}</p>
-              <p className="personal-history-content">Số cấp quyết định: {item.rew_decision_number}</p>
-              <p className="personal-history-content">Ghi chú: {item.rew_formality}</p>
+              <p
+                style={{ marginTop: "4px" }}
+                className="personal-history-content"
+              >
+                Nội dung, hình thức{" "}
+                {item.type == "1" ? "khen thưởng" : "kĩ luật"} :{" "}
+                {item.rew_content}
+              </p>
+              <p className="personal-history-content">
+                Số cấp quyết định: {item.rew_decision_number}
+              </p>
+              <p className="personal-history-content">
+                Ghi chú: {item.rew_formality}
+              </p>
+              {item.resource && (
+                <img
+                  style={{ maxWidth: "400px", maxHeight: "200px" }}
+                  src={`data:image/jpeg;base64,${item.resource.content}`}
+                  alt=""
+                />
+              )}
             </div>
-            {item.resource && <img style={{ maxWidth: "400px", maxHeight: "200px" }} src={`data:image/jpeg;base64,${item.resource.content}`} alt="" />}
           </div>
         </li>
       );
     });
-  }
-  const renderInputFile = (id) =>{
-    if(id == "" || id == "undefined" || id == undefined) {
+  };
+  const renderInputFile = (id) => {
+    if (id == "" || id == "undefined" || id == undefined) {
       return (
-        <input type="file" name="file" onChange={props.onChangeImage}>
-        </input >
-      )
+        <input type="file" name="file" onChange={props.onChangeImage}></input>
+      );
     } else {
-      return ""
+      return "";
     }
-  } 
+  };
   return (
     <div className="edit-infor-form">
       <div className="tabs-main personal-history">
@@ -88,20 +112,26 @@ const Bonus = (props) => {
         <div className="personal-history-title">Khen thưởng</div>
         <div>
           <div className="edit-infr-vertical-line"></div>
-          <ul className="personal-history-list">{renderData(props.dataReward)}</ul>
+          <ul className="personal-history-list">
+            {renderData(props.dataReward)}
+          </ul>
         </div>
       </div>
       <div className="tabs-main personal-history">
         <div className="personal-history-title">Kỷ luật:</div>
         <div>
           <div className="edit-infr-vertical-line"></div>
-          <ul className="personal-history-list">{renderData(props.dataDiscipline)}</ul>
+          <ul className="personal-history-list">
+            {renderData(props.dataDiscipline)}
+          </ul>
         </div>
       </div>
       <Modal
         title="Nhập thông tin"
         visible={props.visible}
-        onOk={()=>{props.handleOk(id)}}
+        onOk={() => {
+          props.handleOk(id);
+        }}
         onCancel={props.hideModal}
         okText="OK"
         cancelText="Cancel"
@@ -122,9 +152,9 @@ const Bonus = (props) => {
                   value={
                     rew_time_from
                       ? [
-                        moment(rew_time_from, dateFormatList[0]),
-                        moment(rew_time_to, dateFormatList[0]),
-                      ]
+                          moment(rew_time_from, dateFormatList[0]),
+                          moment(rew_time_to, dateFormatList[0]),
+                        ]
                       : null
                   }
                   className="modal-ranPicker"
@@ -154,9 +184,14 @@ const Bonus = (props) => {
                 </Select>
               </div>
             </li>
-            <li style={{ width: "265px" }} className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
-              <span className="tabs-user-infor-top">Nội dung, hình thức {type == "1" ? "khen thưởng" : "kĩ luật"}</span>
-              <div className="tabs-user-infor-bottom">
+            <li
+              style={{ width: "265px" }}
+              className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row"
+            >
+              <span className="tabs-user-infor-top">
+                Nội dung, hình thức {type == "1" ? "khen thưởng" : "kĩ luật"}
+              </span>
+              <div className="tabs-user-infor-bottom tabs-user-infor-bottom-modal">
                 <Input
                   style={{ width: "100%" }}
                   name="rew_content"
@@ -165,26 +200,50 @@ const Bonus = (props) => {
                   placeholder="Nội dung, hình thức khen thưởng "
                 />
               </div>
+              {err_content !== "" ? (
+                <span
+                  style={{
+                    color: "red",
+                    fontStyle: "italic",
+                  }}
+                >
+                  {err_content}
+                </span>
+              ) : null}
             </li>
-            <li style={{ width: "265px" }} className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
-              <span className="tabs-user-infor-top">số cấp quyết định {type == "1" ? "khen thưởng" : "kĩ luật"}</span>
+            <li
+              style={{ width: "265px" }}
+              className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row"
+            >
+              <span className="tabs-user-infor-top">
+                Số cấp quyết định {type == "1" ? "khen thưởng" : "kĩ luật"}
+              </span>
               <div className="tabs-user-infor-bottom">
                 <Input
                   style={{ width: "100%" }}
                   name="rew_decision_number"
                   value={rew_decision_number}
                   onChange={props.onChange}
-                  placeholder="số cấp quyết định "
+                  placeholder="Số cấp quyết định "
                 />
               </div>
+              {err_number !== "" ? (
+                <span
+                  style={{
+                    color: "red",
+                    fontStyle: "italic",
+                  }}
+                >
+                  {err_number}
+                </span>
+              ) : null}
             </li>
-            <div>
-            {renderInputFile(id)}
-            </div>
-            <div>      
-            </div>
+            <div>{renderInputFile(id)}</div>
+            <div></div>
             <li className="tabs-main-left-li">
-              <span className="tabs-user-infor-top">Ghi chú {type == "1" ? "khen thưởng" : "kĩ luật"}</span>
+              <span className="tabs-user-infor-top">
+                Ghi chú {type == "1" ? "khen thưởng" : "kĩ luật"}
+              </span>
               <div className="tabs-user-infor-bottom">
                 <TextArea
                   onChange={props.onChange}
