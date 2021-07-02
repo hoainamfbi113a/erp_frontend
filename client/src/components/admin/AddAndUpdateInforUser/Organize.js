@@ -47,14 +47,14 @@ const Organize = (props) => {
     if(type == 1) {
       return (
         <div style= {{margin:"19px"}} >
-        <b>Đội thiếu niên CS HCM</b>
+        <b>Đội thiếu niên TIền Phong TP.HCM</b>
         </div>
       )
     }
     if(type == 2) {
       return (
         <div style= {{margin:"19px"}}>
-        <b>Đoàn thanh niên CS HCM</b>
+        <b>Đoàn thanh niên cộng sản TP.HCM</b>
         </div>
       )
     }
@@ -68,7 +68,7 @@ const Organize = (props) => {
     if(type == 4) {
       return (
         <div style= {{margin:"19px"}}>
-        <b>Tham gia hoạt động trong các tổ chức chính trị xã hội kháchác (trong và ngoài nước)</b>
+        <b>Các tổ chức chính trị xã hội khác (trong và ngoài nước)</b>
         </div>
       )
     }
@@ -80,10 +80,6 @@ const Organize = (props) => {
           <li key={item.id}>
             <div className="personal-history-time">
             Ngày tham gia: {formatDateNumber(item.org_time_from, dateFormatList[0])} {" "}
-              {/* <span>
-                {" "}
-                {formatDateNumber(item.org_time_to, dateFormatList[0])}
-              </span> */}
             </div>
             <Space size="middle">
               <Popconfirm
@@ -111,12 +107,6 @@ const Organize = (props) => {
            { item.org_headquarters_where && <p className="personal-history-content">Trụ sở ở đâu: {item.org_headquarters_where}</p> }
            { item.org_position && <p className="personal-history-content">Giữ chức danh/chức vụ  trong tổ chức: {item.org_position}</p> }
            { item.org_note && <p className="personal-history-content">Ghi chú: {item.org_note}</p> }
-            {/* <p className="personal-history-content">Vào đội thiếu niên: {item.org_youth_team}</p>
-            <p className="personal-history-content">Vào đoàn thanh niên: {item.org_youth_group}</p>
-            <p className="personal-history-content">Tên tố chức: {item.org_name}</p>
-            <p className="personal-history-content">Trụ sở ở đâu: {item.org_headquarters_where}</p>
-            <p className="personal-history-content">Giữ chức danh/chức vụ  trong tổ chức: {item.org_position}</p>
-            <p className="personal-history-content">Ghi chú {item.org_note}</p> */}
           </li>
         );
       });
@@ -144,15 +134,6 @@ const Organize = (props) => {
           </ul>
         </div>
       </div>
-      {/* <div className="tabs-main personal-history">
-        <div className="personal-history-title">Tham gia các hội nghề nghiệp:</div>
-        <div>
-          <div className="edit-infr-vertical-line"></div>
-          <ul className="personal-history-list">
-            {renderData(props.dataOrg2)}
-          </ul>
-        </div>
-      </div> */}
       <Modal
         title="Nhập thông tin"
         visible={props.visible}
@@ -190,30 +171,6 @@ const Organize = (props) => {
                             )
                           }
                         />
-                {/* <RangePicker
-                  placeholder={["Từ ngày", "Đến ngày"]}
-                  value={
-                    org_time_from
-                      ? [
-                        moment(
-                          org_time_from,
-                          dateFormatList[0]
-                        ),
-                        moment(org_time_to, dateFormatList[0]),
-                      ]
-                      : null
-                  }
-                  className="modal-ranPicker"
-                  format={dateFormatList}
-                  onChange={(date, dateString) =>
-                    props.onChangeRange(
-                      date,
-                      dateString,
-                      "deg_begin_study",
-                      "deg_end_study"
-                    )
-                  }
-                /> */}
               </div>
             </li>
             <li className="tabs-main-left-li tabs-main-left-li-row">

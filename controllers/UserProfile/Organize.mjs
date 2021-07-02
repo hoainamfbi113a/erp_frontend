@@ -8,7 +8,7 @@ const getOrganize = async (req, res) => {
   const { type } = req.query;
   try {
     const { data } = await axios.get(
-      `${process.env.apiEmployee}/api/organization/users/${id}?type=${type}`,
+      `${process.env.apiEmployee}/api/organization/users/${id}`,
       config
     );
     res.send(data);
