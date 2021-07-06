@@ -47,7 +47,7 @@ const Organize = (props) => {
     if(type == 1) {
       return (
         <div style= {{margin:"19px"}} >
-        <b>Đội thiếu niên TIền Phong TP.HCM</b>
+        <b>Đội thiếu niên Tiền Phong TP.HCM</b>
         </div>
       )
     }

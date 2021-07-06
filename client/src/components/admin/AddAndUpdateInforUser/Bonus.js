@@ -59,7 +59,7 @@ const Bonus = (props) => {
               Cập nhật
             </Tag>
           </Space>
-          <div style={{ display: "flex" }}>
+          <div>
             <div>
               <p
                 style={{ marginTop: "4px" }}
