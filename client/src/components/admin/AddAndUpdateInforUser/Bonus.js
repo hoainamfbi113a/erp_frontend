@@ -10,7 +10,8 @@ import {
   Tag,
 } from "antd";
 import moment from "moment";
-import React, { useState } from "react";
+import React from "react";
+import Base64Downloader from 'react-base64-downloader';
 import { formatDateNumber } from "../../../helpers/FuncHelper";
 const { RangePicker } = DatePicker;
 
@@ -26,6 +27,7 @@ const Bonus = (props) => {
     rew_time_from,
     rew_time_to,
     rew_formality,
+    resource,
     id,
   } = props.reward;
   const { err_content, err_number } = props.err;
@@ -76,25 +78,46 @@ const Bonus = (props) => {
                 Ghi chú: {item.rew_formality}
               </p>
               {item.resource && (
-                <img
-                  style={{ maxWidth: "400px", maxHeight: "200px" }}
+                <img 
+                  style={{ maxWidth: "400px", maxHeight: "200px", marginBottom: "20px" }}
                   src={`data:image/jpeg;base64,${item.resource.content}`}
                   alt=""
                 />
               )}
+                <br />
+               {item.resource &&
+              <Base64Downloader style={{
+                color: '#fff', border: "none", background: "#3C9CFF",
+                boxShadow: "0 2px 6px 0 #9ed4ec", padding: "10px"
+              }} base64={`data:image/jpeg;base64,${item.resource.content}`} downloadName="file">
+                TẢI XUỐNG
+              </Base64Downloader>}
             </div>
           </div>
         </li>
       );
     });
   };
-  const renderInputFile = (id) => {
+  const renderInputFile = (id, resource) => {
     if (id == "" || id == "undefined" || id == undefined) {
       return (
-        <input type="file" name="file" onChange={props.onChangeImage}></input>
+        <input  
+        type="file"
+         name="file" onChange={props.onChangeImage}></input>
       );
     } else {
-      return "";
+      return (
+        <div>
+          <div style= {{margin:"10px 0", color:"red"}}>
+            Ảnh hiện tại :
+            {resource ? resource.name :""}
+          </div>
+          <input
+          style = {{marginBottom:"10px"}}
+          type="file"
+         name="file" onChange={props.onChangeImage}></input>
+        </div>
+      )
     }
   };
   return (
@@ -205,6 +228,7 @@ const Bonus = (props) => {
                   style={{
                     color: "red",
                     fontStyle: "italic",
+                    position: "absolute"
                   }}
                 >
                   {err_content}
@@ -232,13 +256,14 @@ const Bonus = (props) => {
                   style={{
                     color: "red",
                     fontStyle: "italic",
+                    position: "absolute"
                   }}
                 >
                   {err_number}
                 </span>
               ) : null}
             </li>
-            <div>{renderInputFile(id)}</div>
+            <div>{renderInputFile(id, resource)}</div> 
             <div></div>
             <li className="tabs-main-left-li">
               <span className="tabs-user-infor-top">

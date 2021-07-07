@@ -22,8 +22,31 @@ const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 
 const Training = (props) => {
   const { tra_type, tra_time_from, tra_time_to, tra_note,
-    tra_school_name, tra_study_time, tra_majors, tra_study_mode, tra_diploma, tra_address } = props.dataItem;
-  console.log(props.dataItem)
+    tra_school_name, tra_study_time, tra_majors, tra_study_mode, tra_diploma, tra_address, id, resource } = props.dataItem;
+    // console.log(props.dataItem);
+    const renderInputFile = (id, resource) => {
+      if (id == "" || id == "undefined" || id == undefined) {
+        return (
+          <input  
+          type="file"
+          name="file" onChange={props.onChangeImage}
+          ></input>
+        );
+      } else {
+        return (
+          <div>
+            <div style= {{margin:"10px 0", color:"red"}}>
+              Ảnh hiện tại :
+              {resource? resource.name:""}
+            </div>
+            <input
+            type="file"
+            style = {{marginBottom:"10px"}}
+           name="file" onChange={props.onChangeImage}></input>
+          </div>
+        )
+      }
+    };
   const renderData = (data) => {
     return data.map((item) => {
       return (
@@ -71,7 +94,7 @@ const Training = (props) => {
               <Base64Downloader style={{
                 color: '#fff', border: "none", background: "#3C9CFF",
                 boxShadow: "0 2px 6px 0 #9ed4ec", padding: "10px"
-              }} base64={`data:image/jpeg;base64,${item.resource.content}`} downloadName="1x1_red_pixel">
+              }} base64={`data:image/jpeg;base64,${item.resource.content}`} downloadName="file">
                 TẢI XUỐNG
               </Base64Downloader>}
 
@@ -230,9 +253,9 @@ const Training = (props) => {
               </div>
             </li>
             {/* <li> */}
+
             <div>
-              <input type="file" name="file" onChange={props.onChangeImage}>
-              </input >
+              {renderInputFile(id, resource)}
             </div>
             {/* </li> */}
             <li className="tabs-main-left-li">

@@ -18,6 +18,7 @@ import Training from "../Training";
 import moment from "moment";
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 import { formatDateNumber } from "../../../../helpers/FuncHelper";
+import { hideLoading, showLoading } from "reduxToolkit/features/uiLoadingSlice";
 
 const TrainingContainer = (props) => {
   const [id, setId] = useState("");
@@ -32,6 +33,7 @@ const TrainingContainer = (props) => {
     tra_study_mode:"",
     tra_diploma:"",
     tra_address:"",
+    resource:"",
 
   });
   const [visible, setVisible] = useState(false);
@@ -70,7 +72,8 @@ const TrainingContainer = (props) => {
       tra_study_mode:"",
       tra_diploma:"",
       tra_address:"",
-      fileImg:null
+      fileImg:null,
+      resource:"",
     });
     if (value == 1) {
       setCate({ category: 1 });
@@ -93,6 +96,8 @@ const TrainingContainer = (props) => {
       tra_diploma:"",
       tra_address:"",
       fileImg:null,
+      resource:"",
+      id:""
     });
     setId("");
 
@@ -108,7 +113,7 @@ const TrainingContainer = (props) => {
     }
 
     let { id, tra_type, tra_time_from, tra_time_to, tra_note, tra_school_name,
-       tra_study_time, tra_majors, tra_study_mode, tra_diploma, tra_address } = dataTemp;
+       tra_study_time, tra_majors, tra_study_mode, tra_diploma, tra_address, resource } = dataTemp;
     let date1 = formatDateNumber(tra_time_from, dateFormatList[0]);
     let date2 = formatDateNumber(tra_time_to, dateFormatList[0]);
     setId(id);
@@ -124,6 +129,8 @@ const TrainingContainer = (props) => {
       tra_study_mode,
       tra_diploma,
       tra_address,
+      id: id,
+      resource
     });
   };
   const onChangeRange = (dateString) => {
@@ -176,31 +183,12 @@ const TrainingContainer = (props) => {
      id,
      resource_id:idImg
    };
-   console.log(params)
    if (id == "") {
      if (tra_type == 1) {
        dispatch(addTraining(params));
      } else {
        dispatch(addTraining2(params));
      }
-
-     setTimeout(() => {
-       if (tra_type == 1) {
-         dispatch(
-           getTraining({
-             id_user: props.idUser,
-             type: 1,
-           })
-         );
-       } else {
-         dispatch(
-           getTraining2({
-             id_user: props.idUser,
-             type: 2,
-           })
-         );
-       }
-     }, 200);
    } else {
      if (tra_type == 1) {
        dispatch(updateTraining(params));
@@ -209,8 +197,24 @@ const TrainingContainer = (props) => {
      }
      setId("");
    }
-
-   setVisible(false);
+   setTimeout(() => {
+    if (tra_type == 1) {
+      dispatch(
+        getTraining({
+          id_user: props.idUser,
+          type: 1,
+        })
+      );
+    } else {
+      dispatch(
+        getTraining2({
+          id_user: props.idUser,
+          type: 2,
+        })
+      );
+    }
+  }, 200);
+  hideModal();
  };
  const handleOkDelete = (item) => {
    const { tra_type, id } = item;
@@ -229,22 +233,28 @@ const TrainingContainer = (props) => {
    }
   }
   const handleOk = () => {
-      const formData = new FormData();
-      formData.append("file", fileImg.target.files[0]);
-      formData.append("type", "training"+ dataItem.tra_type)
-      axios
-        .post("/api/resources", formData)
-        .then((res) => {
-          if (res.data.message === "Successfully") {
-            console.log(res.data.data.id)
-            addData(res.data.data.id)
-          } else {
-            message.error("Thêm ảnh thất bại");
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+        if (fileImg) {
+          const formData = new FormData();
+          formData.append("file", fileImg.target.files[0]);
+          formData.append("type", "training"+ dataItem.tra_type)
+          dispatch(showLoading());
+          axios
+            .post("/api/resources", formData)
+            .then((res) => {
+              if (res.data.message === "Successfully") {
+                addData(res.data.data.id);
+              } else {
+                message.error("Thêm ảnh thất bại");
+              }
+              dispatch(hideLoading());
+            })
+            .catch((err) => {
+              console.log(err);
+              dispatch(hideLoading());
+            });
+        } else {
+          addData(id);
+        }
   };
   const onChangeImage = (e) => {
     setFileImg(e);
