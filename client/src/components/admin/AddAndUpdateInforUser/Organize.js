@@ -125,7 +125,7 @@ const Organize = (props) => {
           </Button>
         </div>
         <div className="personal-history-title">
-          Tham gia các tổ chức chính trị, xã hội:
+          Tham gia các tổ chức chính trị, xã hội, các cơ hội nghề nghiệp
         </div>
         <div>
           <div className="edit-infr-vertical-line"></div>

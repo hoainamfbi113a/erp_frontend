@@ -55,24 +55,26 @@ const Training = (props) => {
             </Tag>
           </Space>
           <div>
-          <div >
-          {/* background: #3C9CFF; */}
-    {/* box-shadow: 0 2px 6px 0 #9ed4ec; */}
-            <p style={{ marginTop: "4px" }} className="personal-history-content">Tên trường: {item.tra_school_name}</p>
-            <p className="personal-history-content">Địa chỉ: {item.tra_address}</p>
-            <p className="personal-history-content">Chuyên ngành: {item.tra_majors}</p>
-            <p className="personal-history-content">Chế độ học: {item.tra_study_mode}</p>
-            <p className="personal-history-content">Văn bằng, chứng chỉ: {item.tra_diploma}</p>
-            <p className="personal-history-content">Ghi chú: {item.tra_note}</p>
-          </div >
-          {item.resource &&<img style= {{maxWidth:"400px", maxHeight:"200px", marginBottom:"20px"}} src={`data:image/jpeg;base64,${item.resource.content}`} alt="" />}
-          <br/>
-          {item.resource &&  
-          <Base64Downloader style={{ color: '#fff', border:"none", background: "#3C9CFF",
-           boxShadow: "0 2px 6px 0 #9ed4ec",padding: "10px" }} base64={`data:image/jpeg;base64,${item.resource.content}`} downloadName="1x1_red_pixel">
-                                TẢI XUỐNG 
-          </Base64Downloader> }
-          
+            <div >
+              {/* background: #3C9CFF; */}
+              {/* box-shadow: 0 2px 6px 0 #9ed4ec; */}
+              <p style={{ marginTop: "4px" }} className="personal-history-content">Tên trường: {item.tra_school_name}</p>
+              <p className="personal-history-content">Địa chỉ: {item.tra_address}</p>
+              <p className="personal-history-content">Chuyên ngành: {item.tra_majors}</p>
+              <p className="personal-history-content">Chế độ học: {item.tra_study_mode}</p>
+              <p className="personal-history-content">Văn bằng, chứng chỉ: {item.tra_diploma}</p>
+              <p className="personal-history-content">Ghi chú: {item.tra_note}</p>
+            </div >
+            {item.resource && <img style={{ maxWidth: "400px", maxHeight: "200px", marginBottom: "20px" }} src={`data:image/jpeg;base64,${item.resource.content}`} alt="" />}
+            <br />
+            {item.resource &&
+              <Base64Downloader style={{
+                color: '#fff', border: "none", background: "#3C9CFF",
+                boxShadow: "0 2px 6px 0 #9ed4ec", padding: "10px"
+              }} base64={`data:image/jpeg;base64,${item.resource.content}`} downloadName="1x1_red_pixel">
+                TẢI XUỐNG
+              </Base64Downloader>}
+
           </div>
         </li>
       );
@@ -229,7 +231,7 @@ const Training = (props) => {
             </li>
             {/* <li> */}
             <div>
-              <input type="file" name="file" onChange = {props.onChangeImage}>
+              <input type="file" name="file" onChange={props.onChangeImage}>
               </input >
             </div>
             {/* </li> */}

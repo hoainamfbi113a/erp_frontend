@@ -92,7 +92,7 @@ const TrainingContainer = (props) => {
       tra_study_mode:"",
       tra_diploma:"",
       tra_address:"",
-      fileImg:mull
+      fileImg:null,
     });
     setId("");
 
@@ -137,9 +137,7 @@ const TrainingContainer = (props) => {
     setDataItem({ ...dataItem, tra_type: value });
     setRefresh(!refresh);
   };
-  // const onChange = (e) => {
-  //   setDataItem({ ...dataItem, tra_note: e.target.value });
-  // };
+  
   const onChange = (e) => {
     if(!e.file) {
       setDataItem({ ...dataItem, [e.target.name]: e.target.value });
