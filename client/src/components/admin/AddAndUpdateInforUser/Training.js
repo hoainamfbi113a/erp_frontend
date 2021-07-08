@@ -2,8 +2,9 @@ import { PlusCircleOutlined } from "@ant-design/icons";
 import { DatePicker, Input, Modal, Popconfirm, Select, Space, Tag } from "antd";
 import moment from "moment";
 import React from "react";
-import { Upload, Button, message } from "antd";
-import { UploadOutlined } from "@ant-design/icons";
+import Base64Downloader from 'react-base64-downloader';
+import { Upload, Button, message } from 'antd';
+import { UploadOutlined } from '@ant-design/icons';
 import { formatDateNumber } from "../../../helpers/FuncHelper";
 const { RangePicker } = DatePicker;
 
@@ -12,19 +13,32 @@ const { TextArea } = Input;
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 
 const Training = (props) => {
-  const {
-    tra_type,
-    tra_time_from,
-    tra_time_to,
-    tra_note,
-    tra_school_name,
-    tra_study_time,
-    tra_majors,
-    tra_study_mode,
-    tra_diploma,
-    tra_address,
-  } = props.dataItem;
-  console.log(props.dataItem);
+  const { tra_type, tra_time_from, tra_time_to, tra_note,
+    tra_school_name, tra_study_time, tra_majors, tra_study_mode, tra_diploma, tra_address, id, resource } = props.dataItem;
+    // console.log(props.dataItem);
+    const renderInputFile = (id, resource) => {
+      if (id == "" || id == "undefined" || id == undefined) {
+        return (
+          <input  
+          type="file"
+          name="file" onChange={props.onChangeImage}
+          ></input>
+        );
+      } else {
+        return (
+          <div>
+            <div style= {{margin:"10px 0", color:"red"}}>
+              Ảnh hiện tại :
+              {resource? resource.name:""}
+            </div>
+            <input
+            type="file"
+            style = {{marginBottom:"10px"}}
+           name="file" onChange={props.onChangeImage}></input>
+          </div>
+        )
+      }
+    };
   const renderData = (data) => {
     return data.map((item) => {
       return (
@@ -55,37 +69,27 @@ const Training = (props) => {
               Cập nhật
             </Tag>
           </Space>
-          <div style={{ display: "flex" }}>
-            <div>
-              <p
-                style={{ marginTop: "4px" }}
-                className="personal-history-content"
-              >
-                Tên trường: {item.tra_school_name}
-              </p>
-              <p className="personal-history-content">
-                Địa chỉ: {item.tra_address}
-              </p>
-              <p className="personal-history-content">
-                Chuyên ngành: {item.tra_majors}
-              </p>
-              <p className="personal-history-content">
-                Chế độ học: {item.tra_study_mode}
-              </p>
-              <p className="personal-history-content">
-                Văn bằng, chứng chỉ: {item.tra_diploma}
-              </p>
-              <p className="personal-history-content">
-                Ghi chú: {item.tra_note}
-              </p>
-              {item.resource && (
-                <img
-                  style={{ maxWidth: "400px", maxHeight: "200px" }}
-                  src={`data:image/jpeg;base64,${item.resource.content}`}
-                  alt=""
-                />
-              )}
-            </div>
+          <div>
+            <div >
+              {/* background: #3C9CFF; */}
+              {/* box-shadow: 0 2px 6px 0 #9ed4ec; */}
+              <p style={{ marginTop: "4px" }} className="personal-history-content">Tên trường: {item.tra_school_name}</p>
+              <p className="personal-history-content">Địa chỉ: {item.tra_address}</p>
+              <p className="personal-history-content">Chuyên ngành: {item.tra_majors}</p>
+              <p className="personal-history-content">Chế độ học: {item.tra_study_mode}</p>
+              <p className="personal-history-content">Văn bằng, chứng chỉ: {item.tra_diploma}</p>
+              <p className="personal-history-content">Ghi chú: {item.tra_note}</p>
+            </div >
+            {item.resource && <img style={{ maxWidth: "400px", maxHeight: "200px", marginBottom: "20px" }} src={`data:image/jpeg;base64,${item.resource.content}`} alt="" />}
+            <br />
+            {item.resource &&
+              <Base64Downloader style={{
+                color: '#fff', border: "none", background: "#3C9CFF",
+                boxShadow: "0 2px 6px 0 #9ed4ec", padding: "10px"
+              }} base64={`data:image/jpeg;base64,${item.resource.content}`} downloadName="file">
+                TẢI XUỐNG
+              </Base64Downloader>}
+
           </div>
         </li>
       );
@@ -253,12 +257,9 @@ const Training = (props) => {
               </div>
             </li>
             {/* <li> */}
+
             <div>
-              <input
-                type="file"
-                name="file"
-                onChange={props.onChangeImage}
-              ></input>
+              {renderInputFile(id, resource)}
             </div>
             {/* </li> */}
             <li className="tabs-main-left-li">

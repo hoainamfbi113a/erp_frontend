@@ -21,6 +21,7 @@ import {
   ValidateNumber,
   ValidateField,
 } from "../../../../helpers/FuncHelper";
+import { hideLoading, showLoading } from "reduxToolkit/features/uiLoadingSlice";
 const BonusContainer = (props) => {
   const [id, setId] = useState("");
   const [reward, setReward] = useState({
@@ -31,6 +32,7 @@ const BonusContainer = (props) => {
     rew_note: null,
     rew_content: "",
     rew_decision_number: "",
+    resource:"",
     id: "",
   });
   const [err, setErr] = useState({
@@ -79,6 +81,7 @@ const BonusContainer = (props) => {
       rew_content: "",
       rew_decision_number: "",
       fileImg: null,
+      resource:""
     });
     setErr({
       err_content: "",
@@ -97,7 +100,6 @@ const BonusContainer = (props) => {
     } else {
       rewardItem = dataDiscipline.find((item) => item.id == value.id);
     }
-
     let {
       id,
       type,
@@ -107,6 +109,7 @@ const BonusContainer = (props) => {
       rew_note,
       rew_content,
       rew_decision_number,
+      resource
     } = rewardItem;
     let date1 = formatDateNumber(rew_time_from, dateFormatList[0]);
     let date2 = formatDateNumber(rew_time_to, dateFormatList[0]);
@@ -121,6 +124,7 @@ const BonusContainer = (props) => {
       rew_content,
       rew_decision_number,
       id: id,
+      resource
     });
   };
 
@@ -194,33 +198,33 @@ const BonusContainer = (props) => {
         } else {
           dispatch(addDiscipline(params));
         }
-
-        setTimeout(() => {
-          if (type == 1) {
-            dispatch(
-              getReward({
-                id_user: props.idUser,
-                type: 1,
-              })
-            );
-          } else {
-            dispatch(
-              getDiscipline({
-                id_user: props.idUser,
-                type: 2,
-              })
-            );
-          }
-        }, 200);
       } else {
         if (type == 1) {
           dispatch(updateReward(params));
         } else {
           dispatch(updateDiscipline(params));
         }
+        
         setId("");
       }
-
+      setTimeout(() => {
+        if (type == 1) {
+          dispatch(
+            getReward({
+              id_user: props.idUser,
+              type: 1,
+            })
+          );
+        } else {
+          dispatch(
+            getDiscipline({
+              id_user: props.idUser,
+              type: 2,
+            })
+          );
+        }
+      }, 200);
+      hideModal();
       setVisible(false);
     }
   };
@@ -247,6 +251,7 @@ const BonusContainer = (props) => {
       const formData = new FormData();
       formData.append("file", fileImg.target.files[0]);
       formData.append("type", "bounus" + dataItem.tra_type);
+      dispatch(showLoading());
       axios
         .post("/api/resources", formData)
         .then((res) => {
@@ -255,9 +260,11 @@ const BonusContainer = (props) => {
           } else {
             message.error("Thêm ảnh thất bại");
           }
+          dispatch(hideLoading());
         })
         .catch((err) => {
           console.log(err);
+          dispatch(hideLoading());
         });
     } else {
       addData(id);
@@ -267,7 +274,6 @@ const BonusContainer = (props) => {
   const onChangeImage = (e) => {
     setFileImg(e);
   };
-
   return (
     <div>
       <Bonus

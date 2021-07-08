@@ -47,7 +47,7 @@ const Organize = (props) => {
     if(type == 1) {
       return (
         <div style= {{margin:"19px"}} >
-        <b>Đội thiếu niên TIền Phong TP.HCM</b>
+        <b>Đội thiếu niên Tiền Phong TP.HCM</b>
         </div>
       )
     }
@@ -125,7 +125,7 @@ const Organize = (props) => {
           </Button>
         </div>
         <div className="personal-history-title">
-          Tham gia các tổ chức chính trị, xã hội:
+          Tham gia các tổ chức chính trị, xã hội, các cơ hội nghề nghiệp
         </div>
         <div>
           <div className="edit-infr-vertical-line"></div>
