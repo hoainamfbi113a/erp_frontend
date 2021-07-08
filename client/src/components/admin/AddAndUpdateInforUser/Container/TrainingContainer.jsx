@@ -26,13 +26,12 @@ const TrainingContainer = (props) => {
     tra_time_from: "",
     tra_time_from: "",
     tra_note: null,
-    tra_school_name:"",
-    tra_study_time:"",
-    tra_majors:"",
-    tra_study_mode:"",
-    tra_diploma:"",
-    tra_address:"",
-
+    tra_school_name: "",
+    tra_study_time: "",
+    tra_majors: "",
+    tra_study_mode: "",
+    tra_diploma: "",
+    tra_address: "",
   });
   const [visible, setVisible] = useState(false);
   const [fileImg, setFileImg] = useState(null);
@@ -64,13 +63,13 @@ const TrainingContainer = (props) => {
       tra_time_from: "",
       tra_time_to: "",
       tra_note: null,
-      tra_school_name:"",
-      tra_study_time:"",
-      tra_majors:"",
-      tra_study_mode:"",
-      tra_diploma:"",
-      tra_address:"",
-      fileImg:null
+      tra_school_name: "",
+      tra_study_time: "",
+      tra_majors: "",
+      tra_study_mode: "",
+      tra_diploma: "",
+      tra_address: "",
+      fileImg: null,
     });
     if (value == 1) {
       setCate({ category: 1 });
@@ -86,13 +85,13 @@ const TrainingContainer = (props) => {
       tra_time_from: "",
       tra_time_to: "",
       tra_note: null,
-      tra_school_name:"",
-      tra_study_time:"",
-      tra_majors:"",
-      tra_study_mode:"",
-      tra_diploma:"",
-      tra_address:"",
-      fileImg:mull
+      tra_school_name: "",
+      tra_study_time: "",
+      tra_majors: "",
+      tra_study_mode: "",
+      tra_diploma: "",
+      tra_address: "",
+      fileImg: mull,
     });
     setId("");
 
@@ -107,8 +106,19 @@ const TrainingContainer = (props) => {
       dataTemp = dataTraining2.find((item) => item.id == value.id);
     }
 
-    let { id, tra_type, tra_time_from, tra_time_to, tra_note, tra_school_name,
-       tra_study_time, tra_majors, tra_study_mode, tra_diploma, tra_address } = dataTemp;
+    let {
+      id,
+      tra_type,
+      tra_time_from,
+      tra_time_to,
+      tra_note,
+      tra_school_name,
+      tra_study_time,
+      tra_majors,
+      tra_study_mode,
+      tra_diploma,
+      tra_address,
+    } = dataTemp;
     let date1 = formatDateNumber(tra_time_from, dateFormatList[0]);
     let date2 = formatDateNumber(tra_time_to, dateFormatList[0]);
     setId(id);
@@ -141,7 +151,7 @@ const TrainingContainer = (props) => {
   //   setDataItem({ ...dataItem, tra_note: e.target.value });
   // };
   const onChange = (e) => {
-    if(!e.file) {
+    if (!e.file) {
       setDataItem({ ...dataItem, [e.target.name]: e.target.value });
     }
   };
@@ -154,103 +164,113 @@ const TrainingContainer = (props) => {
       }
     }
   }
-  const addData = (idImg) =>{
-    let { tra_type, tra_time_from, tra_time_to, tra_note, tra_school_name,
-      tra_study_time, tra_majors, tra_study_mode, tra_diploma, tra_address } = dataItem;
-   let date1 = moment(tra_time_from, "DD-MM-YYYY");
-   let date2 = moment(tra_time_to, "DD-MM-YYYY");
+  const addData = (idImg) => {
+    let {
+      tra_type,
+      tra_time_from,
+      tra_time_to,
+      tra_note,
+      tra_school_name,
+      tra_study_time,
+      tra_majors,
+      tra_study_mode,
+      tra_diploma,
+      tra_address,
+    } = dataItem;
+    let date1 = moment(tra_time_from, "DD-MM-YYYY");
+    let date2 = moment(tra_time_to, "DD-MM-YYYY");
 
-   const parse_time_from = Date.parse(date1) / 1000;
-   const parse_time_to = Date.parse(date2) / 1000;
-   const params = {
-     pro_id: props.dataProfile.id,
-     user_id: props.idUser,
-     tra_type,
-     tra_time_from: parse_time_from,
-     tra_time_to: parse_time_to,
-     tra_note,
-     tra_school_name,
-     tra_study_time,
-     tra_majors,
-     tra_study_mode,
-     tra_diploma,
-     tra_address,
-     id,
-     resource_id:idImg
-   };
-   console.log(params)
-   if (id == "") {
-     if (tra_type == 1) {
-       dispatch(addTraining(params));
-     } else {
-       dispatch(addTraining2(params));
-     }
+    const parse_time_from = Date.parse(date1) / 1000;
+    const parse_time_to = Date.parse(date2) / 1000;
+    const params = {
+      pro_id: props.dataProfile.id,
+      user_id: props.idUser,
+      tra_type,
+      tra_time_from: parse_time_from,
+      tra_time_to: parse_time_to,
+      tra_note,
+      tra_school_name,
+      tra_study_time,
+      tra_majors,
+      tra_study_mode,
+      tra_diploma,
+      tra_address,
+      id,
+      resource_id: idImg,
+    };
+    console.log(params);
+    if (id == "") {
+      if (tra_type == 1) {
+        dispatch(addTraining(params));
+      } else {
+        dispatch(addTraining2(params));
+      }
 
-     setTimeout(() => {
-       if (tra_type == 1) {
-         dispatch(
-           getTraining({
-             id_user: props.idUser,
-             type: 1,
-           })
-         );
-       } else {
-         dispatch(
-           getTraining2({
-             id_user: props.idUser,
-             type: 2,
-           })
-         );
-       }
-     }, 200);
-   } else {
-     if (tra_type == 1) {
-       dispatch(updateTraining(params));
-     } else {
-       dispatch(updateTraining2(params));
-     }
-     setId("");
-   }
+      setTimeout(() => {
+        if (tra_type == 1) {
+          dispatch(
+            getTraining({
+              id_user: props.idUser,
+              type: 1,
+            })
+          );
+        } else {
+          dispatch(
+            getTraining2({
+              id_user: props.idUser,
+              type: 2,
+            })
+          );
+        }
+      }, 200);
+    } else {
+      if (tra_type == 1) {
+        dispatch(updateTraining(params));
+      } else {
+        dispatch(updateTraining2(params));
+      }
+      setId("");
+    }
 
-   setVisible(false);
- };
- const handleOkDelete = (item) => {
-   const { tra_type, id } = item;
-   if (tra_type == 1) {
-     dispatch(
-       removeTraining({
-         id,
-       })
-     );
-   } else {
-     dispatch(
-       removeTraining2({
-         id,
-       })
-     );
-   }
-  }
-  const handleOk = () => {
-      const formData = new FormData();
-      formData.append("file", fileImg.target.files[0]);
-      formData.append("type", "training"+ dataItem.tra_type)
-      axios
-        .post("/api/resources", formData)
-        .then((res) => {
-          if (res.data.message === "Successfully") {
-            console.log(res.data.data.id)
-            addData(res.data.data.id)
-          } else {
-            message.error("Thêm ảnh thất bại");
-          }
+    setVisible(false);
+  };
+  const handleOkDelete = (item) => {
+    const { tra_type, id } = item;
+    if (tra_type == 1) {
+      dispatch(
+        removeTraining({
+          id,
         })
-        .catch((err) => {
-          console.log(err);
-        });
+      );
+    } else {
+      dispatch(
+        removeTraining2({
+          id,
+        })
+      );
+    }
+  };
+  const handleOk = () => {
+    const formData = new FormData();
+    formData.append("file", fileImg.target.files[0]);
+    formData.append("type", "training" + dataItem.tra_type);
+    axios
+      .post("/api/resources", formData)
+      .then((res) => {
+        if (res.data.message === "Successfully") {
+          console.log(res.data.data.id);
+          addData(res.data.data.id);
+        } else {
+          message.error("Thêm ảnh thất bại");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   const onChangeImage = (e) => {
     setFileImg(e);
-  }
+  };
   return (
     <div>
       <Training
@@ -266,7 +286,7 @@ const TrainingContainer = (props) => {
         handleChange={handleChange}
         onChange={onChange}
         handleOkDelete={handleOkDelete}
-        onChangeImage = {onChangeImage}
+        onChangeImage={onChangeImage}
       />
     </div>
   );

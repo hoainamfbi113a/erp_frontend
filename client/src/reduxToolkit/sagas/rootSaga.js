@@ -15,6 +15,7 @@ import trainingSaga from "./userProfile/trainingSaga";
 import training2Saga from "./userProfile/training2Saga";
 import organizeSaga from "./userProfile/organizeSaga";
 import organize2Saga from "./userProfile/organize2Saga";
+import abroadSaga from "./userProfile/abroadSaga";
 
 export function* rootSaga () {
     yield all([
@@ -34,6 +35,7 @@ export function* rootSaga () {
         training2Saga(),
         organizeSaga(),
         organize2Saga(),
+        abroadSaga()
     ])
 }
 // export default rootSaga;

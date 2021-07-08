@@ -16,6 +16,7 @@ import trainingSlice from "./userProfile/trainingSlice";
 import training2Slice from "./userProfile/training2Slice";
 import organizeSlice from "./userProfile/organizeSlice";
 import organize2Slice from "./userProfile/organize2Slice";
+import abroadSlice from "./userProfile/abroadSlice";
 
 const reducer = combineReducers({
      uiLoading: uiLoadingReducer,
@@ -35,5 +36,6 @@ const reducer = combineReducers({
      training2User: training2Slice,
      organizeUser: organizeSlice,
      organize2User: organize2Slice,
+     abroadUser: abroadSlice
 });
 export default reducer;

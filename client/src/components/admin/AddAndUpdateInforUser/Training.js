@@ -1,17 +1,9 @@
 import { PlusCircleOutlined } from "@ant-design/icons";
-import {
-  DatePicker,
-  Input,
-  Modal,
-  Popconfirm,
-  Select,
-  Space,
-  Tag,
-} from "antd";
+import { DatePicker, Input, Modal, Popconfirm, Select, Space, Tag } from "antd";
 import moment from "moment";
 import React from "react";
-import { Upload, Button, message } from 'antd';
-import { UploadOutlined } from '@ant-design/icons';
+import { Upload, Button, message } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
 import { formatDateNumber } from "../../../helpers/FuncHelper";
 const { RangePicker } = DatePicker;
 
@@ -20,9 +12,19 @@ const { TextArea } = Input;
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 
 const Training = (props) => {
-  const { tra_type, tra_time_from, tra_time_to, tra_note,
-    tra_school_name, tra_study_time, tra_majors, tra_study_mode, tra_diploma, tra_address } = props.dataItem;
-  console.log(props.dataItem)
+  const {
+    tra_type,
+    tra_time_from,
+    tra_time_to,
+    tra_note,
+    tra_school_name,
+    tra_study_time,
+    tra_majors,
+    tra_study_mode,
+    tra_diploma,
+    tra_address,
+  } = props.dataItem;
+  console.log(props.dataItem);
   const renderData = (data) => {
     return data.map((item) => {
       return (
@@ -53,16 +55,37 @@ const Training = (props) => {
               Cập nhật
             </Tag>
           </Space>
-          <div style = {{display:"flex"}}>
-          <div >
-            <p style={{ marginTop: "4px" }} className="personal-history-content">Tên trường: {item.tra_school_name}</p>
-            <p className="personal-history-content">Địa chỉ: {item.tra_address}</p>
-            <p className="personal-history-content">Chuyên ngành: {item.tra_majors}</p>
-            <p className="personal-history-content">Chế độ học: {item.tra_study_mode}</p>
-            <p className="personal-history-content">Văn bằng, chứng chỉ: {item.tra_diploma}</p>
-            <p className="personal-history-content">Ghi chú: {item.tra_note}</p>
-          </div >
-          {item.resource &&<img style= {{maxWidth:"400px", maxHeight:"200px"}} src={`data:image/jpeg;base64,${item.resource.content}`} alt="" />}
+          <div style={{ display: "flex" }}>
+            <div>
+              <p
+                style={{ marginTop: "4px" }}
+                className="personal-history-content"
+              >
+                Tên trường: {item.tra_school_name}
+              </p>
+              <p className="personal-history-content">
+                Địa chỉ: {item.tra_address}
+              </p>
+              <p className="personal-history-content">
+                Chuyên ngành: {item.tra_majors}
+              </p>
+              <p className="personal-history-content">
+                Chế độ học: {item.tra_study_mode}
+              </p>
+              <p className="personal-history-content">
+                Văn bằng, chứng chỉ: {item.tra_diploma}
+              </p>
+              <p className="personal-history-content">
+                Ghi chú: {item.tra_note}
+              </p>
+              {item.resource && (
+                <img
+                  style={{ maxWidth: "400px", maxHeight: "200px" }}
+                  src={`data:image/jpeg;base64,${item.resource.content}`}
+                  alt=""
+                />
+              )}
+            </div>
           </div>
         </li>
       );
@@ -122,12 +145,9 @@ const Training = (props) => {
                   value={
                     tra_time_from
                       ? [
-                        moment(
-                          tra_time_from,
-                          dateFormatList[0]
-                        ),
-                        moment(tra_time_to, dateFormatList[0]),
-                      ]
+                          moment(tra_time_from, dateFormatList[0]),
+                          moment(tra_time_to, dateFormatList[0]),
+                        ]
                       : null
                   }
                   className="modal-ranPicker"
@@ -157,7 +177,10 @@ const Training = (props) => {
                 </Select>
               </div>
             </li>
-            <li style={{ width: "265px" }} className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
+            <li
+              style={{ width: "265px" }}
+              className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row"
+            >
               <span className="tabs-user-infor-top">Tên trường</span>
               <div className="tabs-user-infor-bottom">
                 <Input
@@ -169,7 +192,10 @@ const Training = (props) => {
                 />
               </div>
             </li>
-            <li style={{ width: "265px" }} className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
+            <li
+              style={{ width: "265px" }}
+              className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row"
+            >
               <span className="tabs-user-infor-top">Địa chỉ</span>
               <div className="tabs-user-infor-bottom">
                 <Input
@@ -181,7 +207,10 @@ const Training = (props) => {
                 />
               </div>
             </li>
-            <li style={{ width: "265px" }} className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
+            <li
+              style={{ width: "265px" }}
+              className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row"
+            >
               <span className="tabs-user-infor-top">Chuyên ngành</span>
               <div className="tabs-user-infor-bottom">
                 <Input
@@ -193,7 +222,10 @@ const Training = (props) => {
                 />
               </div>
             </li>
-            <li style={{ width: "265px" }} className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
+            <li
+              style={{ width: "265px" }}
+              className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row"
+            >
               <span className="tabs-user-infor-top">Chế độ học </span>
               <div className="tabs-user-infor-bottom">
                 <Input
@@ -205,7 +237,10 @@ const Training = (props) => {
                 />
               </div>
             </li>
-            <li style={{ width: "265px" }} className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
+            <li
+              style={{ width: "265px" }}
+              className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row"
+            >
               <span className="tabs-user-infor-top">Văn bằng/ chứng chỉ</span>
               <div className="tabs-user-infor-bottom">
                 <Input
@@ -219,8 +254,11 @@ const Training = (props) => {
             </li>
             {/* <li> */}
             <div>
-              <input type="file" name="file" onChange = {props.onChangeImage}>
-              </input >
+              <input
+                type="file"
+                name="file"
+                onChange={props.onChangeImage}
+              ></input>
             </div>
             {/* </li> */}
             <li className="tabs-main-left-li">
@@ -237,7 +275,6 @@ const Training = (props) => {
             </li>
           </ul>
         </form>
-
       </Modal>
     </div>
   );

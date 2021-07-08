@@ -28,6 +28,12 @@ import {
   removeHistory2,
   updateHistory2,
 } from "../../../../reduxToolkit/features/userProfile/historySlice2";
+import {
+  getAbroad,
+  addAbroad,
+  removeAbroad,
+  updateAbroad,
+} from "../../../../reduxToolkit/features/userProfile/abroadSlice";
 import { message, Steps } from "antd";
 import axiosConfig from "apis/axios";
 import { getProfile, updateProfile } from "apis/profileApi";
@@ -43,6 +49,7 @@ import TrainingContainer from "./TrainingContainer";
 import CurriculumVitae from "../CurriculumVitae";
 import JoinDCS from "./JoinDCSContainer";
 import OrganizeContainer from "./OrganizeContainer";
+import GoAbroadContainer from "./GoAbroadContainer";
 const { Step } = Steps;
 
 const InfoUserContainer = (props) => {
@@ -58,6 +65,7 @@ const InfoUserContainer = (props) => {
   const dataSocial = useSelector((state) => state.socialUser);
   const dataHistory = useSelector((state) => state.historyUser);
   const dataHistory2 = useSelector((state) => state.history2User);
+  const dataAbroad = useSelector((state) => state.abroadUser);
   const userId = props.match.params.id;
   useEffect(() => {
     (async function fetchTransfer() {
@@ -132,19 +140,6 @@ const InfoUserContainer = (props) => {
       case 6:
         return <BonusContainer idUser={userId} dataProfile={profile} />;
       case 7:
-        // return (
-        //   <FamilyContainer
-        //     idUser={userId}
-        //     proId={pro_id}
-        //     type="family"
-        //     namination="Gia đình"
-        //     getData={getFamily({ id: userId, type: "family" })}
-        //     addData={addFamily}
-        //     updateData={updateFamily}
-        //     removeData={removeFamily}
-        //     data={dataFamily}
-        //   />
-        // );
         return (
           <Family2
             idUser={userId}
@@ -160,6 +155,18 @@ const InfoUserContainer = (props) => {
             updateData={[updateFamily, updateKinship, updateSocial]}
             removeData={[removeFamily, removeKinship, removeSocial]}
             data={[dataFamily, dataKinship, dataSocial]}
+          />
+        );
+      case 9:
+        return (
+          <GoAbroadContainer
+            idUser={userId}
+            proId={pro_id}
+            getData={getAbroad({ id: userId })}
+            addData={addAbroad}
+            updateData={updateAbroad}
+            removeData={removeAbroad}
+            data={dataAbroad}
           />
         );
     }

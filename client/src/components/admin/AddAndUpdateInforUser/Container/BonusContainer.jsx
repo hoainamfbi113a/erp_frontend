@@ -59,6 +59,7 @@ const BonusContainer = (props) => {
       })
     );
   }, [dispatch]);
+  
   const showModal = (value) => {
     if (value == 1) {
       setDataItem({ category: 1 });

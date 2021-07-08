@@ -26,6 +26,34 @@ const ValidateField = (value, min, max, field) => {
   }
   return msg;
 };
+const ValidateField2 = (value, min, max, field) => {
+  let msg = "";
+  if (value === undefined) {
+    msg = `${field} không được để trống!`;
+  } else if (value.length < min) {
+    msg = `${field} không được nhỏ hơn ${min} ký tự!`;
+  } else if (value.length > max) {
+    msg = `${field} không được lớn hơn ${max} ký tự!`;
+  } else {
+    msg = "";
+  }
+  return msg;
+};
+
+const ValidateField3 = (value, min, max, field) => {
+  let msg = "";
+  if (value === null) {
+    msg = `${field} không được để trống!`;
+  } else if (value.length < min) {
+    msg = `${field} không được nhỏ hơn ${min} ký tự!`;
+  } else if (value.length > max) {
+    msg = `${field} không được lớn hơn ${max} ký tự!`;
+  } else {
+    msg = "";
+  }
+  return msg;
+};
+
 const ValidateNumber = (value, min, max, field) => {
   let msg = "";
   if (value.length == 0) {
@@ -59,21 +87,23 @@ function resetStatusProfile(value) {
   if (value == 1) return 4;
   return value;
 }
-const validateOnlyNumber = (number) =>  {
+const validateOnlyNumber = (number) => {
   let msg = "";
-  const regexName = /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$/;
+  const regexName =
+    /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$/;
   if (String(number).match(regexName)) {
-    msg = "Chỉ có thể chứa số"
+    msg = "Chỉ có thể chứa số";
   }
   return msg;
-}
+};
 const validateInputFormUser = (type, checkingText, listUser) => {
   let isValid = true;
   let errorMessage = "";
   // let regex = "";
   switch (type) {
     case "pro_name":
-      const regexName = /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$/;
+      const regexName =
+        /^[a-zA-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂẾưăạảấầẩẫậắằẳẵặẹẻẽềềểếỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\s\W|_]+$/;
       if (!checkingText) {
         isValid = true;
         errorMessage = "Tên không được để trống";
@@ -203,6 +233,10 @@ const convertFormatDate = (date, format) => {
   return b;
 };
 
+const convertCurrency = (value) => {
+  return value.toLocaleString('vi', {style : 'currency', currency : 'VND'});
+}
+
 const objCheckPermission = (
   arr,
   slug,
@@ -230,6 +264,7 @@ const objCheckPermission = (
   };
   return obj;
 };
+
 const checkVisible = (arr, action_check, uri_check) => {
   let bdd = arr.filter(
     (permiss) => permiss.action === action_check && permiss.uri === uri_check
@@ -241,6 +276,8 @@ const sleep = (m) => new Promise((r) => setTimeout(r, m));
 export {
   ValidateEmail,
   ValidateField,
+  ValidateField2,
+  ValidateField3,
   ValidateNumber,
   notNull,
   resetStatusProfile,
@@ -252,5 +289,6 @@ export {
   checkVisible,
   formatDateNumber,
   convertFormatDate,
-  validateOnlyNumber
+  validateOnlyNumber,
+  convertCurrency
 };

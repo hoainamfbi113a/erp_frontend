@@ -59,10 +59,10 @@ function* removeFamilySaga(action) {
   try {
     const resp = yield call(removeUserFamilyApi, action.payload);
     if (resp.message === "Success!. Deleted") {
-      message.success("Xoá khen thưởng thành công");
+      message.success("Xoá quan hệ thành công");
       yield put(removeFamilySuccess(action.payload));
     } else {
-      message.error("Xoá khen thưởng thất bại");
+      message.error("Xoá quan hệ thất bại");
       yield put(removeFamilyFailed(action.payload));
     }
   } catch (error) {
