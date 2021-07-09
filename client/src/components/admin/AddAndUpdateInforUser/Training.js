@@ -1,8 +1,8 @@
-import { PlusCircleOutlined } from "@ant-design/icons";
+import { PlusCircleOutlined, CloudDownloadOutlined } from "@ant-design/icons";
 import { DatePicker, Input, Modal, Popconfirm, Select, Space, Tag } from "antd";
 import moment from "moment";
 import React from "react";
-import Base64Downloader from 'react-base64-downloader';
+import { triggerBase64Download } from 'react-base64-downloader';
 import { Upload, Button, message } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
 import { formatDateNumber } from "../../../helpers/FuncHelper";
@@ -27,7 +27,7 @@ const Training = (props) => {
       } else {
         return (
           <div>
-            <div style= {{margin:"10px 0", color:"red"}}>
+            <div style= {{marginBottom:"15px", color:"red"}}>
               Ảnh hiện tại :
               {resource? resource.name:""}
             </div>
@@ -80,15 +80,24 @@ const Training = (props) => {
               <p className="personal-history-content">Văn bằng, chứng chỉ: {item.tra_diploma}</p>
               <p className="personal-history-content">Ghi chú: {item.tra_note}</p>
             </div >
-            {item.resource && <img style={{ maxWidth: "400px", maxHeight: "200px", marginBottom: "20px" }} src={`data:image/jpeg;base64,${item.resource.content}`} alt="" />}
+            {/* {item.resource && <img style={{ maxWidth: "400px", maxHeight: "200px", marginBottom: "20px" }} src={`data:image/jpeg;base64,${item.resource.content}`} alt="" />} */}
             <br />
             {item.resource &&
+                <div onClick={() => triggerBase64Download(`data:image/jpeg;base64,${item.resource.content}`,
+                item.resource.name )}>
+             <CloudDownloadOutlined style={{ fontSize: '23px', marginRight:"5px"}} 
+                  
+                  />
+                  <span>{item.resource.name}</span>
+                </div>
+            }
+            {/* {item.resource &&
               <Base64Downloader style={{
                 color: '#fff', border: "none", background: "#3C9CFF",
                 boxShadow: "0 2px 6px 0 #9ed4ec", padding: "10px"
               }} base64={`data:image/jpeg;base64,${item.resource.content}`} downloadName="file">
                 TẢI XUỐNG
-              </Base64Downloader>}
+              </Base64Downloader>} */}
 
           </div>
         </li>
@@ -262,8 +271,8 @@ const Training = (props) => {
               {renderInputFile(id, resource)}
             </div>
             {/* </li> */}
-            <li className="tabs-main-left-li">
-              <span className="tabs-user-infor-top">Chi tiết</span>
+            <li className="tabs-main-left-li" >
+              <span style = {{marginBottom:"5px", marginTop:"5px"}} className="tabs-user-infor-top">Chi tiết</span>
               <div className="tabs-user-infor-bottom">
                 <TextArea
                   onChange={props.onChange}

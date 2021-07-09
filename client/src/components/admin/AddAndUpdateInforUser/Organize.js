@@ -150,7 +150,7 @@ const Organize = (props) => {
           method="post"
         >
           <ul>
-            <li className="tabs-main-left-li tabs-main-left-li-row">
+            <li className="tabs-main-left-li">
               <span className="tabs-user-infor-top">Ngày tham gia</span>
               <div className="tabs-user-infor-bottom">
               <DatePicker
@@ -173,7 +173,7 @@ const Organize = (props) => {
                         />
               </div>
             </li>
-            <li className="tabs-main-left-li tabs-main-left-li-row">
+            <li className="tabs-main-left-li">
               <span className="tabs-user-infor-top">Thông tin</span>
               <div className="tabs-user-infor-bottom">
                 <Select

@@ -1,4 +1,4 @@
-import { PlusCircleOutlined } from "@ant-design/icons";
+import { PlusCircleOutlined, CloudDownloadOutlined } from "@ant-design/icons";
 import {
   Button,
   DatePicker,
@@ -11,7 +11,7 @@ import {
 } from "antd";
 import moment from "moment";
 import React from "react";
-import Base64Downloader from 'react-base64-downloader';
+import { triggerBase64Download } from 'react-base64-downloader';
 import { formatDateNumber } from "../../../helpers/FuncHelper";
 const { RangePicker } = DatePicker;
 
@@ -77,21 +77,23 @@ const Bonus = (props) => {
               <p className="personal-history-content">
                 Ghi chú: {item.rew_formality}
               </p>
-              {item.resource && (
+              {/* {item.resource && (
                 <img 
                   style={{ maxWidth: "400px", maxHeight: "200px", marginBottom: "20px" }}
                   src={`data:image/jpeg;base64,${item.resource.content}`}
                   alt=""
                 />
-              )}
+              )} */}
                 <br />
                {item.resource &&
-              <Base64Downloader style={{
-                color: '#fff', border: "none", background: "#3C9CFF",
-                boxShadow: "0 2px 6px 0 #9ed4ec", padding: "10px"
-              }} base64={`data:image/jpeg;base64,${item.resource.content}`} downloadName="file">
-                TẢI XUỐNG
-              </Base64Downloader>}
+                <div onClick={() => triggerBase64Download(`data:image/jpeg;base64,${item.resource.content}`,
+                item.resource.name )}>
+                  <CloudDownloadOutlined style={{ fontSize: '23px', marginRight:"5px"}} 
+                  
+                  />
+                  <span>{item.resource.name}</span>
+                </div>
+            }
             </div>
           </div>
         </li>
@@ -108,7 +110,7 @@ const Bonus = (props) => {
     } else {
       return (
         <div>
-          <div style= {{margin:"10px 0", color:"red"}}>
+          <div style= {{marginBottom:"15px", color:"red"}}>
             Ảnh hiện tại :
             {resource ? resource.name :""}
           </div>
@@ -220,7 +222,8 @@ const Bonus = (props) => {
                   name="rew_content"
                   value={rew_content}
                   onChange={props.onChange}
-                  placeholder="Nội dung, hình thức khen thưởng "
+                  placeholder= { type == "1" ? "Nội dung, hình thức khen thưởng" : 
+                  "Nội dung, hình thức kĩ luật"}
                 />
               </div>
               {err_content !== "" ? (
@@ -266,7 +269,7 @@ const Bonus = (props) => {
             <div>{renderInputFile(id, resource)}</div> 
             <div></div>
             <li className="tabs-main-left-li">
-              <span className="tabs-user-infor-top">
+              <span className="tabs-user-infor-top" style = {{marginBottom: "5px", marginTop: "5px"}} >
                 Ghi chú {type == "1" ? "khen thưởng" : "kĩ luật"}
               </span>
               <div className="tabs-user-infor-bottom">

@@ -5,19 +5,19 @@ import FormData from 'form-data';
 import fs from 'fs'
 const router = express.Router();
 var storage = multer.diskStorage({
-    filename: function (req, file, cb) {
-      cb(null, Date.now() + '-' +file.originalname )
-    }
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + '-' + file.originalname)
+  }
 })
 var upload = multer({
   storage: storage,
   fileFilter: (req, file, cb) => {
-      if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
-          cb(null, true);
-      } else {
-          cb(null, false);
-          return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
-      }
+    if (file.mimetype == "image/png" || file.mimetype == "image/jpg" || file.mimetype == "image/jpeg") {
+      cb(null, true);
+    } else {
+      cb(null, false);
+      return cb(new Error('Only .png, .jpg and .jpeg format allowed!'));
+    }
   }
 });
 router.get("/user/resources/:id", async (req, res) => {
@@ -32,9 +32,8 @@ router.get("/user/resources/:id", async (req, res) => {
   }
 });
 
-router.post("/user/resources",upload.single('file') , async (req, res) => {
-  console.log("1233", req.file)
-  let { resource_type,user_resource_type, user_id } = req.body;
+router.post("/user/resources", upload.single('file'), async (req, res) => {
+  let { resource_type, user_resource_type, user_id } = req.body;
   const formData = new FormData()
   formData.append('resource_type', resource_type);
   formData.append('user_resource_type', user_resource_type);
@@ -42,7 +41,7 @@ router.post("/user/resources",upload.single('file') , async (req, res) => {
   formData.append('file', fs.readFileSync(req.file.path), req.file.filename);
   try {
     let { data } = await axios.post(
-      `${process.env.apiEmployee}/api/user/resources`, formData,{ headers: formData.getHeaders() }
+      `${process.env.apiEmployee}/api/user/resources`, formData, { headers: formData.getHeaders() }
     );
     res.send(data);
   } catch (error) {
@@ -50,14 +49,14 @@ router.post("/user/resources",upload.single('file') , async (req, res) => {
   }
 });
 
-router.post("/resources",upload.single('file') , async (req, res) => {
-  let {file, type } = req.body;
+router.post("/resources", upload.single('file'), async (req, res) => {
+  let { file, type } = req.body;
   const formData = new FormData()
   formData.append('type', type);
   formData.append('file', fs.readFileSync(req.file.path), req.file.filename);
   try {
     let { data } = await axios.post(
-      `${process.env.apiEmployee}/api/resources`, formData,{ headers: formData.getHeaders() }
+      `${process.env.apiEmployee}/api/resources`, formData, { headers: formData.getHeaders() }
     );
     res.send(data);
   } catch (error) {
