@@ -42,6 +42,7 @@ import {
   deleteGoAbroad,
   updateGoAbroad,
 } from "./UserProfile/goAbroad.mjs";
+import { getAllCity, getAllDistrict } from "./UserProfile/City.mjs";
 
 const router = express.Router();
 
@@ -86,4 +87,7 @@ router.post("/abroad/add", createGoAbroad);
 router.post("/abroad/delete/:id", deleteGoAbroad);
 router.put("/abroad/update", updateGoAbroad);
 
+// Get City
+router.get("/cities", getAllCity);
+router.get("/districts/:id", getAllDistrict);
 export default router;

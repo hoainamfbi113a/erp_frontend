@@ -30,6 +30,14 @@ const History = ({
   handleDelete,
   onChangeRange,
   namination,
+  his_city,
+  setHisCity,
+  setCityId,
+  his_district,
+  setHisDistrict,
+  cities,
+  districts,
+  onChangeDropDown,
 }) => {
   const renderData = () => {
     if (dataHistory.length) {
@@ -62,7 +70,10 @@ const History = ({
                 Cập nhật
               </Tag>
             </Space>
-            <p className="personal-history-content">{namination === "Học tập" ? "Học trường" : "Làm việc tại"} {item.his_work_place}, {item.his_working_process}</p>
+            <p className="personal-history-content">
+              {namination === "Học tập" ? "Học trường" : "Làm việc tại"}{" "}
+              {item.his_work_place}, {item.his_working_process}
+            </p>
             <p className="personal-history-content">{item.his_note}</p>
           </li>
         );
@@ -133,7 +144,9 @@ const History = ({
               </div>
             </li>
             <li className="tabs-main-left-li">
-              <span className="tabs-user-infor-top">{namination === "Học tập" ? "Học trường" : "Làm việc tại"}</span>
+              <span className="tabs-user-infor-top">
+                {namination === "Học tập" ? "Học trường" : "Làm việc tại"}
+              </span>
               <div className="tabs-user-infor-bottom">
                 <Input
                   style={{ width: "100%" }}
@@ -144,9 +157,8 @@ const History = ({
                 />
               </div>
             </li>
-            
 
-            <li className="tabs-main-left-li">
+            {/* <li className="tabs-main-left-li">
               <span className="tabs-user-infor-top">
                 Quận/Huyện và Tỉnh/Thành Phố
               </span>
@@ -158,6 +170,67 @@ const History = ({
                   value={dataItem.his_working_process}
                   placeholder="Mời bạn nhập quá trình học tập"
                 />
+              </div>
+            </li> */}
+            <li
+              style={{ width: "265px" }}
+              className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row"
+            >
+              <span className="tabs-user-infor-top">Tỉnh / Thành Phố</span>
+              <div className="tabs-user-infor-bottom">
+                <Select
+                  showSearch
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    option.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
+                  className="modal-selection"
+                  style={{ width: "100%" }}
+                  name="city"
+                  value={his_city}
+                  onChange={setHisCity}
+                  onSelect={setCityId}
+                  placeholder="Mời bạn chọn tỉnh thành"
+                
+                >
+                  {cities &&
+                    cities.map((city) => (
+                      <Option key={city.ID}>{city.Title}</Option>
+                    ))}
+                </Select>
+              </div>
+            </li>
+            <li
+              style={{ width: "265px" }}
+              className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row"
+            >
+              <span className="tabs-user-infor-top">Quận huyện</span>
+              <div className="tabs-user-infor-bottom">
+                <Select
+                  showSearch
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    option.children
+                      .toLowerCase()
+                      .indexOf(input.toLowerCase()) >= 0
+                  }
+                  className="modal-selection"
+                  style={{ width: "100%" }}
+                  name="district"
+                  value={his_district}
+                  onSelect={setHisDistrict}
+                  placeholder="Mời bạn chọn quận huyện"
+                >
+                  {districts && districts.length !== 0
+                    ? districts.map((district) => (
+                        <Option key={district.ID} value={district.Title}>
+                          {district.Title}
+                        </Option>
+                      ))
+                    : null}
+                </Select>
               </div>
             </li>
             <li className="tabs-main-left-li">
