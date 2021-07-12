@@ -46,6 +46,7 @@ const PersonalHistoryContainer = ({
 
   useEffect(() => {
     if (cityId !== "") {
+      setDistricts("");
       fetchDistrictData(cityId);
     }
   }, [cityId]);
