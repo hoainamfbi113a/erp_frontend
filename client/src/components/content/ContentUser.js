@@ -22,7 +22,7 @@ const ContentUser = () => {
   const [userData, setUserData] = useState(null);
 
   const [dataFilter, setDataFilter] = useState(null);
- 
+
   const callbackFunction = (childData) => {
     setDataFilter(childData);
   };
@@ -65,6 +65,7 @@ const ContentUser = () => {
             optionFilterProp="children"
             placeholder="Nhập tên nhân viên"
             allowClear
+            disabled={total === 0}
             onSelect={(value) => setValue(value)}
             style={{ width: 200 }}
             className="table-btn-search"
@@ -74,12 +75,16 @@ const ContentUser = () => {
           >
             {userData && idDepart === "all"
               ? userData.data.map((user) => (
-                  <Option key={user.id} value={user.full_name}>{user.full_name}</Option>
+                  <Option key={user.id} value={user.full_name}>
+                    {user.full_name}
+                  </Option>
                 ))
               : dataFilter && idDepart !== "all"
               ? dataFilter.data.map((user) => (
-                <Option key={user.id} value={user.full_name}>{user.full_name}</Option>
-              )) 
+                  <Option key={user.id} value={user.full_name}>
+                    {user.full_name}
+                  </Option>
+                ))
               : null}
           </Select>
 
@@ -94,6 +99,7 @@ const ContentUser = () => {
 
           <Select
             showSearch
+            disabled={total === 0}
             optionFilterProp="children"
             placeholder="Tìm theo phòng ban"
             style={{ width: 220 }}
