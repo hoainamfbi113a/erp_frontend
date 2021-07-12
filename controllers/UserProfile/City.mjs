@@ -16,7 +16,7 @@ const getAllDistrict = async (req, res) => {
   try {
     const { id } = req.params;
     const { data } = await axios.get(
-      `${process.env.apiCity}/api/city/${id}/district`,
+      `https://thongtindoanhnghiep.co/api/city/${id}/district`,
     );
     res.send(data);
   } catch (error) {

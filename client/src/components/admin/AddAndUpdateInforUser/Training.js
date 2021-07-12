@@ -15,30 +15,60 @@ const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 const Training = (props) => {
   const { tra_type, tra_time_from, tra_time_to, tra_note,
     tra_school_name, tra_study_time, tra_majors, tra_study_mode, tra_diploma, tra_address, id, resource } = props.dataItem;
-    // console.log(props.dataItem);
-    const renderInputFile = (id, resource) => {
-      if (id == "" || id == "undefined" || id == undefined) {
+  const renderDownload = (resource) => {
+    if (resource) {
+      if(resource.type === "pdf") 
+      {
         return (
-          <input  
-          type="file"
-          name="file" onChange={props.onChangeImage}
-          ></input>
-        );
+          <span onClick={() => {
+            const linkSource = `data:application/pdf;base64,${resource.content}`;
+            const downloadLink = document.createElement("a");
+            const fileName = "file.pdf";
+
+            downloadLink.href = linkSource;
+            downloadLink.download = fileName;
+            downloadLink.click();
+          }} > {resource.name}</span>
+        )
       } else {
         return (
           <div>
-            <div style= {{marginBottom:"15px", color:"red"}}>
-              Ảnh hiện tại :
-              {resource? resource.name:""}
+            <div onClick={() => triggerBase64Download(`data:image/jpeg;base64,${resource.content}`,
+              resource.name)}>
+              <CloudDownloadOutlined style={{ fontSize: '23px', marginRight: "5px" }}
+  
+              />
+              <span>{resource.name}</span>
             </div>
-            <input
-            type="file"
-            style = {{marginBottom:"10px"}}
-           name="file" onChange={props.onChangeImage}></input>
+    
           </div>
         )
       }
-    };
+    }
+  }
+  const renderInputFile = (id, resource) => {
+    if (id == "" || id == "undefined" || id == undefined) {
+      return (
+        <input
+          type="file"
+          name="file" onChange={props.onChangeImage}
+        ></input>
+      );
+    } else {
+      return (
+        <div>
+          <div style={{ marginBottom: "15px", color: "red" }}>
+            Ảnh hiện tại :
+            {resource ? resource.name : ""}
+          </div>
+          <input
+            type="file"
+            style={{ marginBottom: "10px" }}
+            name="file" onChange={props.onChangeImage}></input>
+        </div>
+      )
+    }
+  };
   const renderData = (data) => {
     return data.map((item) => {
       return (
@@ -82,22 +112,28 @@ const Training = (props) => {
             </div >
             {/* {item.resource && <img style={{ maxWidth: "400px", maxHeight: "200px", marginBottom: "20px" }} src={`data:image/jpeg;base64,${item.resource.content}`} alt="" />} */}
             <br />
-            {item.resource &&
+
+            {renderDownload(item.resource)}
+            {/* {item.resource &&
+              <div>
                 <div onClick={() => triggerBase64Download(`data:image/jpeg;base64,${item.resource.content}`,
-                item.resource.name )}>
-             <CloudDownloadOutlined style={{ fontSize: '23px', marginRight:"5px"}} 
-                  
+                  item.resource.name)}>
+                  <CloudDownloadOutlined style={{ fontSize: '23px', marginRight: "5px" }}
+
                   />
                   <span>{item.resource.name}</span>
                 </div>
-            }
-            {/* {item.resource &&
-              <Base64Downloader style={{
-                color: '#fff', border: "none", background: "#3C9CFF",
-                boxShadow: "0 2px 6px 0 #9ed4ec", padding: "10px"
-              }} base64={`data:image/jpeg;base64,${item.resource.content}`} downloadName="file">
-                TẢI XUỐNG
-              </Base64Downloader>} */}
+                      <span onClick={() => {
+                          const linkSource = `data:application/pdf;base64,${item.resource.content}`;
+                          const downloadLink = document.createElement("a");
+                          const fileName = "file.pdf";
+
+                          downloadLink.href = linkSource;
+                          downloadLink.download = fileName;
+                          downloadLink.click();
+                        }} > {item.resource.name}</span>
+              </div>
+            } */}
 
           </div>
         </li>
@@ -158,9 +194,9 @@ const Training = (props) => {
                   value={
                     tra_time_from
                       ? [
-                          moment(tra_time_from, dateFormatList[0]),
-                          moment(tra_time_to, dateFormatList[0]),
-                        ]
+                        moment(tra_time_from, dateFormatList[0]),
+                        moment(tra_time_to, dateFormatList[0]),
+                      ]
                       : null
                   }
                   className="modal-ranPicker"
@@ -272,7 +308,7 @@ const Training = (props) => {
             </div>
             {/* </li> */}
             <li className="tabs-main-left-li" >
-              <span style = {{marginBottom:"5px", marginTop:"5px"}} className="tabs-user-infor-top">Chi tiết</span>
+              <span style={{ marginBottom: "5px", marginTop: "5px" }} className="tabs-user-infor-top">Chi tiết</span>
               <div className="tabs-user-infor-bottom">
                 <TextArea
                   onChange={props.onChange}

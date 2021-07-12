@@ -31,6 +31,37 @@ const Bonus = (props) => {
     id,
   } = props.reward;
   const { err_content, err_number } = props.err;
+  const renderDownload = (resource) => {
+    if (resource) {
+      if(resource.type === "bounuspdf") 
+      {
+        return (
+          <span onClick={() => {
+            const linkSource = `data:application/pdf;base64,${resource.content}`;
+            const downloadLink = document.createElement("a");
+            const fileName = "file.pdf";
+
+            downloadLink.href = linkSource;
+            downloadLink.download = fileName;
+            downloadLink.click();
+          }} > {resource.name}</span>
+        )
+      } else {
+        return (
+          <div>
+            <div onClick={() => triggerBase64Download(`data:image/jpeg;base64,${resource.content}`,
+              resource.name)}>
+              <CloudDownloadOutlined style={{ fontSize: '23px', marginRight: "5px" }}
+  
+              />
+              <span>{resource.name}</span>
+            </div>
+    
+          </div>
+        )
+      }
+    }
+  }
   const renderData = (data) => {
     return data.map((item) => {
       return (
@@ -77,23 +108,8 @@ const Bonus = (props) => {
               <p className="personal-history-content">
                 Ghi chú: {item.rew_formality}
               </p>
-              {/* {item.resource && (
-                <img 
-                  style={{ maxWidth: "400px", maxHeight: "200px", marginBottom: "20px" }}
-                  src={`data:image/jpeg;base64,${item.resource.content}`}
-                  alt=""
-                />
-              )} */}
                 <br />
-               {item.resource &&
-                <div onClick={() => triggerBase64Download(`data:image/jpeg;base64,${item.resource.content}`,
-                item.resource.name )}>
-                  <CloudDownloadOutlined style={{ fontSize: '23px', marginRight:"5px"}} 
-                  
-                  />
-                  <span>{item.resource.name}</span>
-                </div>
-            }
+                {renderDownload(item.resource)}
             </div>
           </div>
         </li>
