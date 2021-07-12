@@ -77,7 +77,7 @@ const GoAbroadContainer = ({
       err_content = await ValidateField3(
         go_content,
         2,
-        20,
+        100,
         "Nội dung chuyến đi"
       );
       
@@ -93,10 +93,10 @@ const GoAbroadContainer = ({
     let err_purpose = await ValidateField2(
       go_purpose,
       2,
-      20,
+      30,
       "Mục đích chuyến đi"
     );
-    let err_expense = await ValidateField(go_expense, 2, 10, "Kinh phí");
+    let err_expense = await ValidateField(go_expense, 2, 20, "Kinh phí");
 
     if (
       err_destination_country ||

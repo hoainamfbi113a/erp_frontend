@@ -95,7 +95,7 @@ const GoAbroad = ({
             </p>
 
             <p className="personal-history-content">
-              Kinh phí chuyến đi: {convertCurrency(item.go_expense)}
+              Kinh phí chuyến đi: {convertCurrency(parseInt(item.go_expense.split('.')[0]))}
             </p>
             <p className="personal-history-content">
               Báo cáo chuyến đi:{" "}
@@ -256,12 +256,12 @@ const GoAbroad = ({
                     Nội dung chuyến đi
                   </span>
                   <div className="tabs-user-infor-bottom">
-                    <Input
-                      style={{ width: "100%" }}
+                    <TextArea
                       name="go_content"
                       onChange={onChange}
                       value={dataItem.go_content}
                       placeholder="Mời bạn nhập nội dung chuyến đi"
+                      autoSize={{ minRows: 7, maxRows: 15 }}
                     />
                   </div>
                   {err.err_content !== "" ? (

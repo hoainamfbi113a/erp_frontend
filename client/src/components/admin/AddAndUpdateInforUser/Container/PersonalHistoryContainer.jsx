@@ -3,6 +3,10 @@ import { useDispatch } from "react-redux";
 import PersonalHistory from "../PersonalHistory";
 import moment from "moment";
 import { formatDateNumber } from "../../../../helpers/FuncHelper";
+import {
+  getAllCityApi,
+  getDistrictById,
+} from "../../../../apis/UserProfile/cityApi";
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 
 const PersonalHistoryContainer = ({
@@ -25,11 +29,48 @@ const PersonalHistoryContainer = ({
     his_working_process: "",
     his_note: "",
   });
+  const [his_city, setHisCity] = useState([]);
+  const [his_district, setHisDistrict] = useState();
   const [idHis, setIdHis] = useState(null);
+  const [cities, setCities] = useState([]);
+  const [cityId, setCityId] = useState("");
+  const [districts, setDistricts] = useState([]);
 
   useEffect(() => {
     if (!data.length) dispatch(getData);
   }, [type]);
+
+  useEffect(() => {
+    fetchCityData();
+  }, []);
+
+  useEffect(() => {
+    if (cityId !== "") {
+      fetchDistrictData(cityId);
+    }
+  }, [cityId]);
+
+  const fetchCityData = async () => {
+    try {
+      const data = await getAllCityApi();
+      if (!data.err) {
+        setCities(data.LtsItem);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchDistrictData = async (id) => {
+    try {
+      const data = await getDistrictById(id);
+      if (!data.err) {
+        setDistricts(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleOk = () => {
     let date1 = moment(dataItem.his_work_from, "DD-MM-YYYY");
@@ -45,7 +86,7 @@ const PersonalHistoryContainer = ({
       his_work_to: parseTimeTo,
       his_working_process: dataItem.his_working_process,
       his_note: dataItem.his_note,
-      type: type
+      type: type,
     };
     const paramsUpdate = {
       id: idHis,
@@ -56,7 +97,7 @@ const PersonalHistoryContainer = ({
       his_work_to: parseTimeTo,
       his_working_process: dataItem.his_working_process,
       his_note: dataItem.his_note,
-      type: type
+      type: type,
     };
     if (idHis) {
       dispatch(updateData(paramsUpdate));
@@ -75,9 +116,16 @@ const PersonalHistoryContainer = ({
   };
 
   const handleUpdate = (value) => {
-    const { id, his_work_place, his_work_from, his_work_to, his_working_process, his_note } = value;
-    const date1 = formatDateNumber(his_work_from, dateFormatList[0])
-    const date2 = formatDateNumber(his_work_to, dateFormatList[0])
+    const {
+      id,
+      his_work_place,
+      his_work_from,
+      his_work_to,
+      his_working_process,
+      his_note,
+    } = value;
+    const date1 = formatDateNumber(his_work_from, dateFormatList[0]);
+    const date2 = formatDateNumber(his_work_to, dateFormatList[0]);
     setVisible(true);
     setIdHis(id);
     setDataItem({
@@ -86,7 +134,7 @@ const PersonalHistoryContainer = ({
       his_work_from: date1,
       his_work_to: date2,
       his_working_process,
-      his_note
+      his_note,
     });
   };
 
@@ -112,6 +160,11 @@ const PersonalHistoryContainer = ({
     });
   };
 
+  const onChangeDropDown = () => {
+    setDistricts([]);
+    console.log(districts);
+  }
+
   return (
     <div>
       <PersonalHistory
@@ -126,6 +179,14 @@ const PersonalHistoryContainer = ({
         handleDelete={handleDelete}
         onChangeRange={onChangeRange}
         namination={namination}
+        his_city={his_city}
+        setHisCity={setHisCity}
+        setCityId={setCityId}
+        his_district={his_district}
+        setHisDistrict={setHisDistrict}
+        cities={cities}
+        districts={districts}
+        onChangeDropDown={onChangeDropDown}
       />
     </div>
   );
