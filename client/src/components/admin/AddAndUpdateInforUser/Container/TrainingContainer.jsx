@@ -243,10 +243,15 @@ const TrainingContainer = (props) => {
    }
   }
   const handleOk = () => {
+    let fileName = fileImg.target.files[0].name;
         if (fileImg) {
           const formData = new FormData();
           formData.append("file", fileImg.target.files[0]);
-          formData.append("type", "training"+ dataItem.tra_type)
+          if(fileName.slice(fileName.indexOf(".")) === ".pdf") {
+            formData.append("type", "pdf")
+          } else {
+            formData.append("type", "training"+ dataItem.tra_type)  
+          }
           dispatch(showLoading());
           axios
             .post("/api/resources", formData)
