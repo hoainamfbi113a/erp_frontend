@@ -84,6 +84,8 @@ class addInformationUser extends Component {
       dep_name: null,
       dep_position: null,
       appointment_date: null,
+      expire_date: null,
+      position_association:null,
       deg_type: null,
       deg_diploma: null,
       deg_majors: null,
@@ -236,8 +238,12 @@ class addInformationUser extends Component {
         dep_id: data.department ? data.department.data.dep_id : "",
         pos_id: data.department ? data.department.data.pos_id : "",
         par_id: data.department ? data.department.data.part_id : "",
+        position_association: data.department ? data.department.data.position_association : "",
         appointment_date: data.department
           ? data.department.data.appointment_date
+          : null,
+        expire_date: data.department
+          ? data.department.data.expire_date
           : null,
         deg_type: data.userDegree ? data.userDegree.data.deg_type : "",
         deg_diploma: data.userDegree ? data.userDegree.data.deg_diploma : "",
@@ -528,9 +534,12 @@ class addInformationUser extends Component {
           dep_id: this.state.dep_id,
           pos_id: this.state.pos_id,
           part_id: this.state.par_id,
-          // appointment_date: Date.parse(this.state.appointment_date) / 1000,
+          position_association: this.state.position_association,
           appointment_date:
             Date.parse(moment(this.state.appointment_date, "DD-MM-YYYY")) /
+            1000,
+          expire_date:
+            Date.parse(moment(this.state.expire_date, "DD-MM-YYYY")) /
             1000,
         };
         let resAddDepartmentProfile = await addDepartmentProfile(
@@ -672,8 +681,11 @@ class addInformationUser extends Component {
         dep_id: this.state.dep_id,
         pos_id: this.state.pos_id,
         part_id: this.state.par_id,
+        position_association: this.state.position_association,
         appointment_date:
           Date.parse(moment(this.state.appointment_date, "DD-MM-YYYY")) / 1000,
+        expire_date:
+          Date.parse(moment(this.state.expire_date, "DD-MM-YYYY")) / 1000,
       };
       let resUpdateDepartmentProfile = await updateDepartmentProfile(
         pro_id,
@@ -1378,6 +1390,44 @@ class addInformationUser extends Component {
                       </div>
                     </li>
                     <li className="tabs-main-left-li">
+                      <span className="tabs-user-infor-top">
+                        Ngày hết hạn bổ nhiệm chức vụ :
+                      </span>
+                      <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
+                        <DatePicker
+                          format={dateFormatList}
+                          placeholder="Chọn ngày"
+                          style={{ width: "100%" }}
+                          value={
+                            this.state.expire_date == null
+                              ? null
+                              : moment(
+                                  this.state.expire_date,
+                                  dateFormatList[0]
+                                )
+                          }
+                          onChange={(date, dateString) =>
+                            this.onChangeBirthDay(
+                              date,
+                              dateString,
+                              "expire_date"
+                            )
+                          }
+                        />
+                      </div>
+                    </li>
+                    <li className="tabs-main-left-li">
+                      <span className="tabs-user-infor-top">Chức vụ đoàn thể:</span>
+                      <div className="tabs-user-infor-bottom">
+                        <Input
+                          name="position_association"
+                          value={this.state.position_association}
+                          onChange={this.onChange}
+                          placeholder="Chức vụ đoàn thể"
+                        />
+                      </div>
+                    </li>
+                    <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">Học vấn:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
@@ -1448,14 +1498,14 @@ class addInformationUser extends Component {
 {/* 
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
-                        Hình thức đào tạo:
+                        đối tượng đào tạo:
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
                           name="deg_type"
                           value={this.state.deg_type}
                           onChange={this.onChange}
-                          placeholder="Hình thức đào tạo"
+                          placeholder="đối tượng đào tạo"
                         />
                       </div>
                     </li> */}
@@ -1519,27 +1569,27 @@ class addInformationUser extends Component {
                     </li> */}
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
-                        Hình thức lao động:
+                        Đối tượng lao động:
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
                           name="work_formality"
                           value={this.state.work_formality}
                           onChange={this.onChange}
-                          placeholder="Hình thức lao động"
+                          placeholder="Đối tượng lao động"
                         />
                       </div>
                     </li>
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
-                        Ghi chú hình thức lao động:
+                        Ghi chú đối tượng lao động:
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
                           name="work_note"
                           value={this.state.work_note}
                           onChange={this.onChange}
-                          placeholder="Ghi chú hình thức lao động"
+                          placeholder="Ghi chú đối tượng lao động"
                         />
                       </div>
                     </li>
