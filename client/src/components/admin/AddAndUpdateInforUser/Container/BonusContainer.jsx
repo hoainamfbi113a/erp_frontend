@@ -165,18 +165,8 @@ const BonusContainer = (props) => {
       rew_content,
       rew_decision_number,
     } = reward;
-
     let date1 = moment(rew_time_from, "DD-MM-YYYY");
     let date2 = moment(rew_time_to, "DD-MM-YYYY");
-
-    let err_content = await ValidateField(rew_content, 5, 50, "Nội dung");
-    let err_number = await ValidateNumber(rew_decision_number, 5, 10, "Số Cấp");
-
-    if (err_content || err_number) {
-      setErr({ err_content, err_number });
-    }
-
-    if (err_content === "" && err_number === "") {
       const parseRew_time_from = Date.parse(date1) / 1000;
       const parseRew_time_to = Date.parse(date2) / 1000;
       const params = {
@@ -226,7 +216,6 @@ const BonusContainer = (props) => {
       }, 200);
       hideModal();
       setVisible(false);
-    }
   };
 
   const handleOkDelete = (item) => {
@@ -246,34 +235,48 @@ const BonusContainer = (props) => {
     }
   };
 
-  const handleOk = (id) => {
+  const handleOk = async (id) => {
     let fileName = fileImg.target.files[0].name;
-    if (fileImg) {
-      const formData = new FormData();
-      formData.append("file", fileImg.target.files[0]);
-      if(fileName.slice(fileName.indexOf(".")) === ".pdf") {
-        formData.append("type", "bounuspdf")
-      } else {
-        formData.append("type", "bounus"+ dataItem.tra_type)  
-      }
-      dispatch(showLoading());
-      axios
-        .post("/api/resources", formData)
-        .then((res) => {
-          if (res.data.message === "Successfully") {
-            addData(res.data.data.id);
-          } else {
-            message.error("Thêm ảnh thất bại");
-          }
-          dispatch(hideLoading());
-        })
-        .catch((err) => {
-          console.log(err);
-          dispatch(hideLoading());
-        });
-    } else {
-      addData(id);
+    let {
+      rew_content,
+      rew_decision_number,
+    } = reward;
+    let err_content = await ValidateField(rew_content, 5, 50, "Nội dung");
+    let err_number = await ValidateNumber(rew_decision_number, 5, 10, "Số Cấp");
+    if (err_content || err_number) {
+      setErr({ err_content, err_number });
     }
+    if (err_content === "" && err_number === "") {
+      if (fileImg) {
+        const formData = new FormData();
+        formData.append("file", fileImg.target.files[0]);
+        if(fileName.slice(fileName.indexOf(".")) === ".pdf") {
+          formData.append("type", "bounuspdf")
+        } else {
+          formData.append("type", "bounus"+ dataItem.tra_type)  
+        }
+        dispatch(showLoading());
+        fileImg.target.value = null;
+        axios
+          .post("/api/resources", formData)
+          .then((res) => {
+            if (res.data.message === "Successfully") {
+              addData(res.data.data.id);
+            } else {
+              message.error("Thêm ảnh thất bại");
+            }
+            dispatch(hideLoading());
+          })
+          .catch((err) => {
+            console.log(err);
+            dispatch(hideLoading());
+          });
+      } else {
+        addData(id);
+      }
+    }
+
+ 
   };
 
   const onChangeImage = (e) => {

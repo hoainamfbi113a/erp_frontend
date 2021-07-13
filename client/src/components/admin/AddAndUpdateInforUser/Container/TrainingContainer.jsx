@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { message } from "antd";
 import axios from "axios";
@@ -21,6 +21,7 @@ import { formatDateNumber } from "../../../../helpers/FuncHelper";
 import { hideLoading, showLoading } from "reduxToolkit/features/uiLoadingSlice";
 
 const TrainingContainer = (props) => {
+  const ref = useRef();
   const [id, setId] = useState("");
   const [dataItem, setDataItem] = useState({
     tra_type: 1,
@@ -253,10 +254,12 @@ const TrainingContainer = (props) => {
             formData.append("type", "training"+ dataItem.tra_type)  
           }
           dispatch(showLoading());
+          fileImg.target.value = null;
           axios
             .post("/api/resources", formData)
             .then((res) => {
               if (res.data.message === "Successfully") {
+                setFileImg(null);
                 addData(res.data.data.id);
               } else {
                 message.error("Thêm ảnh thất bại");
@@ -290,6 +293,7 @@ const TrainingContainer = (props) => {
         onChange={onChange}
         handleOkDelete={handleOkDelete}
         onChangeImage={onChangeImage}
+        ref = {ref}
       />
     </div>
   );
