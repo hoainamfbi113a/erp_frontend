@@ -20,7 +20,10 @@ const Training = (props) => {
       if(resource.type === "pdf") 
       {
         return (
-          <span onClick={() => {
+          <div>
+          <CloudDownloadOutlined style={{ fontSize: '23px', marginRight: "5px" }}
+          />
+          <span style={{color:"red"}} onClick={() => {
             const linkSource = `data:application/pdf;base64,${resource.content}`;
             const downloadLink = document.createElement("a");
             const fileName = "file.pdf";
@@ -28,7 +31,8 @@ const Training = (props) => {
             downloadLink.href = linkSource;
             downloadLink.download = fileName;
             downloadLink.click();
-          }} > {resource.name}</span>
+          }} > {resource.name.slice(resource.name.lastIndexOf("-")+1)}</span>
+          </div>
         )
       } else {
         return (
@@ -36,9 +40,10 @@ const Training = (props) => {
             <div onClick={() => triggerBase64Download(`data:image/jpeg;base64,${resource.content}`,
               resource.name)}>
               <CloudDownloadOutlined style={{ fontSize: '23px', marginRight: "5px" }}
-  
               />
-              <span>{resource.name}</span>
+              {/* <span style={{color:"green"}}>{resource.name}</span> */}
+              <span style={{color:"red"}}>{resource.name.slice(resource.name.lastIndexOf("-")+1)}</span>
+              {/* <span style={{color:"blue"}}>{resource.name.toString().lastIndexOf("-")+1}</span> */}
             </div>
     
           </div>
@@ -52,6 +57,7 @@ const Training = (props) => {
         <input
           type="file"
           name="file" onChange={props.onChangeImage}
+          ref={props.ref}
         ></input>
       );
     } else {
@@ -63,7 +69,9 @@ const Training = (props) => {
           </div>
           <input
             type="file"
+
             style={{ marginBottom: "10px" }}
+            ref={props.ref}
             name="file" onChange={props.onChangeImage}></input>
         </div>
       )
@@ -114,26 +122,6 @@ const Training = (props) => {
             <br />
 
             {renderDownload(item.resource)}
-            {/* {item.resource &&
-              <div>
-                <div onClick={() => triggerBase64Download(`data:image/jpeg;base64,${item.resource.content}`,
-                  item.resource.name)}>
-                  <CloudDownloadOutlined style={{ fontSize: '23px', marginRight: "5px" }}
-
-                  />
-                  <span>{item.resource.name}</span>
-                </div>
-                      <span onClick={() => {
-                          const linkSource = `data:application/pdf;base64,${item.resource.content}`;
-                          const downloadLink = document.createElement("a");
-                          const fileName = "file.pdf";
-
-                          downloadLink.href = linkSource;
-                          downloadLink.download = fileName;
-                          downloadLink.click();
-                        }} > {item.resource.name}</span>
-              </div>
-            } */}
 
           </div>
         </li>

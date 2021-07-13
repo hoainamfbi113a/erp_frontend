@@ -36,7 +36,10 @@ const Bonus = (props) => {
       if(resource.type === "bounuspdf") 
       {
         return (
-          <span onClick={() => {
+          <div>
+          <CloudDownloadOutlined style={{ fontSize: '23px', marginRight: "5px" }}
+          />
+          <span style={{color:"red"}} onClick={() => {
             const linkSource = `data:application/pdf;base64,${resource.content}`;
             const downloadLink = document.createElement("a");
             const fileName = "file.pdf";
@@ -44,7 +47,8 @@ const Bonus = (props) => {
             downloadLink.href = linkSource;
             downloadLink.download = fileName;
             downloadLink.click();
-          }} > {resource.name}</span>
+          }} > {resource.name.slice(resource.name.lastIndexOf("-")+1)}</span>
+          </div>
         )
       } else {
         return (
@@ -52,9 +56,8 @@ const Bonus = (props) => {
             <div onClick={() => triggerBase64Download(`data:image/jpeg;base64,${resource.content}`,
               resource.name)}>
               <CloudDownloadOutlined style={{ fontSize: '23px', marginRight: "5px" }}
-  
               />
-              <span>{resource.name}</span>
+              <span style={{color:"red"}}>{resource.name.slice(resource.name.lastIndexOf("-")+1)}</span>
             </div>
     
           </div>
