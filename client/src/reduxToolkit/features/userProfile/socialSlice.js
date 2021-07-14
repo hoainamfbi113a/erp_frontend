@@ -35,15 +35,23 @@ const socialSlice = createSlice({
         id,
         rem_relationship,
         rem_full_name,
-        rem_note,
+        rem_birthday,
         rem_job,
+        rem_workplace,
+        rem_historical_features,
+        rem_residence,
+        rem_note,
       } = action.payload;
       const index = data.findIndex((item) => item.id === id);
       if (index >= 0) {
         state[index].rem_relationship = rem_relationship;
         state[index].rem_full_name = rem_full_name;
-        state[index].rem_note = rem_note;
+        state[index].rem_birthday = rem_birthday;
         state[index].rem_job = rem_job;
+        state[index].rem_workplace = rem_workplace;
+        state[index].rem_historical_features = rem_historical_features;
+        state[index].rem_residence = rem_residence;
+        state[index].rem_note = rem_note;
       }
     },
     updateSocialFailed(state, action) {

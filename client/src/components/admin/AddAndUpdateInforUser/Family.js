@@ -4,10 +4,13 @@ import { Button, DatePicker } from "antd";
 import { Modal } from "antd";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Select } from "antd";
+import moment from "moment";
+import { formatDateNumber } from "../../../helpers/FuncHelper";
 
 import { Space, Tag } from "antd";
 const { Option } = Select;
 import { Popconfirm } from "antd";
+const dateFormatList = ["YYYY", "DD/MM/YY"];
 
 const { TextArea } = Input;
 
@@ -19,20 +22,20 @@ const Family = ({
   visible,
   dataItem,
   onChange,
+  onChangeRange,
   setRem,
   handleOk,
   handleDelete,
   rem_relationship,
   namination,
+  err,
 }) => {
   const renderData = () => {
     if (dataFamily.length) {
       return dataFamily.map((item) => {
         return (
           <li key={item.id}>
-            <div className="personal-history-time">
-              {item.rem_relationship} : {item.rem_full_name}
-            </div>
+            <div className="personal-history-time">{item.rem_relationship}</div>
             <Space size="middle">
               <Popconfirm
                 title="Are you sure hide this user?"
@@ -52,8 +55,26 @@ const Family = ({
                 Cập nhật
               </Tag>
             </Space>
-            <p className="personal-history-content">{item.rem_job}</p>
-            <p className="personal-history-content">{item.rem_note}</p>
+
+            <p className="personal-history-content">
+              {item.rem_full_name}, Sinh năm:{" "}
+              {formatDateNumber(item.rem_birthday, dateFormatList[0])}
+            </p>
+            {console.log(
+              formatDateNumber(item.rem_birthday, dateFormatList[0])
+            )}
+            <p className="personal-history-content">
+              Nghề nghiệp: {item.rem_job} tại {item.rem_workplace}
+            </p>
+            <p className="personal-history-content">
+              Đặc điểm lịch sử: {item.rem_historical_features}
+            </p>
+            <p className="personal-history-content">
+              Nơi cư trú: {item.rem_residence}
+            </p>
+            <p className="personal-history-content">
+              Hiện đang: {item.rem_note}
+            </p>
           </li>
         );
       });
@@ -61,7 +82,6 @@ const Family = ({
       null;
     }
   };
-  // if (dataFamily.length) {
   return (
     <div className="edit-infor-form">
       <div className="tabs-main personal-history">
@@ -94,7 +114,6 @@ const Family = ({
           style={{ width: "100%" }}
           className="tabs-main"
           noValidate
-          // onSubmit={this.onSubmit}
           method="post"
         >
           <ul>
@@ -175,9 +194,21 @@ const Family = ({
                   </Select>
                 )}
               </div>
+              {err.err_relationship !== "" ? (
+                <span
+                  style={{
+                    color: "red",
+                    fontStyle: "italic",
+                  }}
+                >
+                  {err.err_relationship}
+                </span>
+              ) : null}
             </li>
-            <li style={{ width: "387px" }}
-              className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
+            <li
+              style={{ width: "387px" }}
+              className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row"
+            >
               <span className="tabs-user-infor-top">Họ và tên:</span>
               <div className="tabs-user-infor-bottom">
                 <Input
@@ -185,37 +216,70 @@ const Family = ({
                   onChange={onChange}
                   name="rem_full_name"
                   value={dataItem.rem_full_name}
-                  placeholder="Họ và tên"
+                  placeholder="Mời nhập họ và tên"
                 />
               </div>
+              {err.err_full_name !== "" ? (
+                <div>
+                  <span
+                    style={{
+                      color: "red",
+                      fontStyle: "italic",
+                    }}
+                  >
+                    {err.err_full_name}
+                  </span>
+                  <p>&#8192;</p>
+                </div>
+              ) : err.err_birthday !== "" ? (
+                <div>
+                  <br />
+                  <br />
+                </div>
+              ) : null}
             </li>
-
-            <li style={{ width: "143px" }}
-              className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row">
+            <li
+              style={{ width: "143px" }}
+              className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row"
+            >
               <span className="tabs-user-infor-top">Sinh năm</span>
               <div className="tabs-user-infor-bottom">
                 <DatePicker
-                  style={{width: "100%"}}
+                  style={{ width: "100%" }}
                   picker="year"
                   placeholder={"Chọn năm"}
-                  // value={
-                  //   dataItem.his_work_from
-                  //     ?
-                  //         moment(dataItem.his_work_from, dateFormatList[0])
-                  //     : null
-                  // }
+                  value={
+                    dataItem.rem_birthday
+                      ? moment(dataItem.rem_birthday, dateFormatList[0])
+                      : null
+                  }
                   className="modal-ranPicker"
-                  // format={dateFormatList}
-                  // onChange={(date, dateString) =>
-                  //   onChangeRange(
-                  //     date,
-                  //     dateString,
-                  //     "deg_begin_study",
-                  //     "deg_end_study"
-                  //   )
-                  // }
+                  format={dateFormatList}
+                  onChange={(date, dateString) =>
+                    onChangeRange(
+                      date,
+                      dateString,
+                      "deg_begin_study",
+                      "deg_end_study"
+                    )
+                  }
                 />
               </div>
+              {err.err_birthday !== "" ? (
+                <span
+                  style={{
+                    color: "red",
+                    fontStyle: "italic",
+                  }}
+                >
+                  {err.err_birthday}
+                </span>
+              ) : err.err_full_name !== "" ? (
+                <div>
+                  <br />
+                  <br />
+                </div>
+              ) : null}
             </li>
             <li className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row-clear">
               <span className="tabs-user-infor-top">Nghề nghiệp:</span>
@@ -225,22 +289,41 @@ const Family = ({
                   name="rem_job"
                   onChange={onChange}
                   value={dataItem.rem_job}
-                  placeholder="Nghề nghiệp"
+                  placeholder="Mời nhập nghề nghiệp"
                 />
               </div>
+              {err.err_job !== "" ? (
+                <span
+                  style={{
+                    color: "red",
+                    fontStyle: "italic",
+                  }}
+                >
+                  {err.err_job}
+                </span>
+              ) : null}
             </li>
-
             <li className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row-clear">
               <span className="tabs-user-infor-top">Nơi công tác:</span>
               <div className="tabs-user-infor-bottom">
                 <Input
                   style={{ width: "100%" }}
-                  // name="rem_job"
-                  // onChange={onChange}
-                  // value={dataItem.rem_job}
-                  // placeholder="Nghề nghiệp"
+                  name="rem_workplace"
+                  onChange={onChange}
+                  value={dataItem.rem_workplace}
+                  placeholder="Mời nhập nơi công tác"
                 />
               </div>
+              {err.err_workplace !== "" ? (
+                <span
+                  style={{
+                    color: "red",
+                    fontStyle: "italic",
+                  }}
+                >
+                  {err.err_workplace}
+                </span>
+              ) : null}
             </li>
 
             <li className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row-clear">
@@ -248,25 +331,22 @@ const Family = ({
               <div className="tabs-user-infor-bottom">
                 <Input
                   style={{ width: "100%" }}
-                  // name="rem_job"
-                  // onChange={onChange}
-                  // value={dataItem.rem_job}
-                  // placeholder="Nghề nghiệp"
+                  name="rem_historical_features"
+                  onChange={onChange}
+                  value={dataItem.rem_historical_features}
+                  placeholder="Mời nhập đặc điểm lịch sử"
                 />
               </div>
-            </li>
-
-            <li className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row-clear">
-              <span className="tabs-user-infor-top">Hiện đang làm gì:</span>
-              <div className="tabs-user-infor-bottom">
-                <Input
-                  style={{ width: "100%" }}
-                  // name="rem_job"
-                  // onChange={onChange}
-                  // value={dataItem.rem_job}
-                  // placeholder="Nghề nghiệp"
-                />
-              </div>
+              {err.err_historical_features !== "" ? (
+                <span
+                  style={{
+                    color: "red",
+                    fontStyle: "italic",
+                  }}
+                >
+                  {err.err_historical_features}
+                </span>
+              ) : null}
             </li>
 
             <li className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row-clear">
@@ -274,16 +354,26 @@ const Family = ({
               <div className="tabs-user-infor-bottom">
                 <Input
                   style={{ width: "100%" }}
-                  // name="rem_job"
-                  // onChange={onChange}
-                  // value={dataItem.rem_job}
-                  // placeholder="Nghề nghiệp"
+                  name="rem_residence"
+                  onChange={onChange}
+                  value={dataItem.rem_residence}
+                  placeholder="Mời nhập nơi cư trú"
                 />
               </div>
+              {err.err_residence !== "" ? (
+                <span
+                  style={{
+                    color: "red",
+                    fontStyle: "italic",
+                  }}
+                >
+                  {err.err_residence}
+                </span>
+              ) : null}
             </li>
 
             <li className="tabs-main-left-li">
-              <span className="tabs-user-infor-top">Ghi chú:</span>
+              <span className="tabs-user-infor-top">Hiện đang làm gì:</span>
               <div className="tabs-user-infor-bottom">
                 <TextArea
                   name="rem_note"
@@ -299,9 +389,5 @@ const Family = ({
       </Modal>
     </div>
   );
-  // }
-  // return (
-  // null
-  // );
 };
 export default Family;

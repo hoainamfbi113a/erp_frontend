@@ -78,6 +78,15 @@ const notNull = (value, field) => {
   }
   return msg;
 };
+const notNull2 = (value, field) => {
+  let msg = "";
+  if (value === undefined) {
+    msg = `Bạn chưa chọn ${field}`;
+  } else {
+    msg = "";
+  }
+  return msg;
+};
 const getIdActionByName = (actionName, arrayId) => {
   for (let item of arrayId) {
     if (item.name == actionName) return arrayId.id;
@@ -280,6 +289,7 @@ export {
   ValidateField3,
   ValidateNumber,
   notNull,
+  notNull2,
   resetStatusProfile,
   getIdActionByName,
   validateInputFormUser,

@@ -37,6 +37,9 @@ const historySlice = createSlice({
         his_work_from,
         his_work_to,
         his_working_process,
+        his_cityId,
+        his_city,
+        his_district,
         his_note,
       } = action.payload;
       const index = data.findIndex((item) => item.id === id);
@@ -45,6 +48,9 @@ const historySlice = createSlice({
         state[index].his_work_from = his_work_from;
         state[index].his_work_to = his_work_to;
         state[index].his_working_process = his_working_process;
+        state[index].his_cityId = his_cityId;
+        state[index].his_city = his_city;
+        state[index].his_district = his_district;
         state[index].his_note = his_note;
       }
     },

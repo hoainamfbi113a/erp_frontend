@@ -37,11 +37,12 @@ const History = ({
   setHisDistrict,
   cities,
   districts,
-  onChangeDropDown,
+  err,
 }) => {
   const renderData = () => {
     if (dataHistory.length) {
       return dataHistory.map((item) => {
+        // const splitData = item.his_working_process && item.his_working_process.split(", ");
         return (
           <li key={item.id}>
             <div className="personal-history-time">
@@ -72,9 +73,10 @@ const History = ({
             </Space>
             <p className="personal-history-content">
               {namination === "Học tập" ? "Học trường" : "Làm việc tại"}{" "}
-              {item.his_work_place}, {item.his_working_process}
+              {item.his_work_place}
             </p>
-            <p className="personal-history-content">{item.his_note}</p>
+            <p className="personal-history-content">Địa chỉ: {item.his_working_process}, {item.his_city + ", " + item.his_district}</p>
+            <p className="personal-history-content">Ghi chú: {item.his_note}</p>
           </li>
         );
       });
@@ -153,32 +155,31 @@ const History = ({
                   name="his_work_place"
                   onChange={onChange}
                   value={dataItem.his_work_place}
-                  placeholder="Mời bạn nhập trường học"
+                  placeholder={`Mời bạn nhập ${
+                    namination === "Học tập" ? "trường học" : "nơi làm việc"
+                  }`}
                 />
               </div>
+              {err.err_work_place !== "" ? (
+                <span
+                  style={{
+                    color: "red",
+                    fontStyle: "italic",
+                  }}
+                >
+                  {err.err_work_place}
+                </span>
+              ) : null}
             </li>
 
-            {/* <li className="tabs-main-left-li">
-              <span className="tabs-user-infor-top">
-                Quận/Huyện và Tỉnh/Thành Phố
-              </span>
-              <div className="tabs-user-infor-bottom">
-                <Input
-                  style={{ width: "100%" }}
-                  name="his_working_process"
-                  onChange={onChange}
-                  value={dataItem.his_working_process}
-                  placeholder="Mời bạn nhập quá trình học tập"
-                />
-              </div>
-            </li> */}
             <li
               style={{ width: "265px" }}
               className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row"
             >
-              <span className="tabs-user-infor-top">Tỉnh / Thành Phố</span>
+              <span className="tabs-user-infor-top">Tỉnh/Thành Phố</span>
               <div className="tabs-user-infor-bottom">
                 <Select
+                  labelInValue
                   showSearch
                   optionFilterProp="children"
                   filterOption={(input, option) =>
@@ -188,25 +189,37 @@ const History = ({
                   }
                   className="modal-selection"
                   style={{ width: "100%" }}
-                  name="city"
-                  value={his_city}
-                  onChange={setHisCity}
-                  onSelect={setCityId}
-                  placeholder="Mời bạn chọn tỉnh thành"
-                
+                  value={his_city ? { label: his_city } : undefined}
+                  onSelect={(value) => setCityId(value.key)}
+                  onChange={(value) => setHisCity(value.label)}
+                  placeholder="Chọn tỉnh thành"
                 >
                   {cities &&
                     cities.map((city) => (
-                      <Option key={city.ID}>{city.Title}</Option>
+                      <Option key={city.ID} value={city.ID}>
+                        {city.Title}
+                      </Option>
                     ))}
                 </Select>
               </div>
+              {err.err_city !== "" ? (
+                <span
+                  style={{
+                    color: "red",
+                    fontStyle: "italic",
+                  }}
+                >
+                  {err.err_city}
+                </span>
+              ) : err.err_district !== "" ? (
+                <br/>
+              ) : null}
             </li>
             <li
               style={{ width: "265px" }}
               className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row"
             >
-              <span className="tabs-user-infor-top">Quận huyện</span>
+              <span className="tabs-user-infor-top">Quận/Huyện</span>
               <div className="tabs-user-infor-bottom">
                 <Select
                   showSearch
@@ -218,10 +231,9 @@ const History = ({
                   }
                   className="modal-selection"
                   style={{ width: "100%" }}
-                  name="district"
                   value={his_district}
                   onSelect={setHisDistrict}
-                  placeholder="Mời bạn chọn quận huyện"
+                  placeholder="Chọn quận/huyện"
                 >
                   {districts && districts.length !== 0
                     ? districts.map((district) => (
@@ -232,7 +244,43 @@ const History = ({
                     : null}
                 </Select>
               </div>
+              {err.err_district !== "" ? (
+                <span
+                  style={{
+                    color: "red",
+                    fontStyle: "italic",
+                  }}
+                >
+                  {err.err_district}
+                </span>
+              ) : null}
             </li>
+
+            <li className="tabs-main-left-li">
+              <span className="tabs-user-infor-top">
+                Địa chỉ cụ thể
+              </span>
+              <div className="tabs-user-infor-bottom">
+                <Input
+                  style={{ width: "100%" }}
+                  name="his_working_process"
+                  onChange={onChange}
+                  value={dataItem.his_working_process}
+                  placeholder={`Số nhà, ngõ, tên đường...`}
+                />
+              </div>
+              {err.err_working_process !== "" ? (
+                <span
+                  style={{
+                    color: "red",
+                    fontStyle: "italic",
+                  }}
+                >
+                  {err.err_working_process}
+                </span>
+              ) : null}
+            </li>
+
             <li className="tabs-main-left-li">
               <span className="tabs-user-infor-top">Ghi chú</span>
               <div className="tabs-user-infor-bottom">
