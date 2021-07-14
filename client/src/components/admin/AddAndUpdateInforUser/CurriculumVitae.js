@@ -85,7 +85,7 @@ class addInformationUser extends Component {
       dep_position: null,
       appointment_date: null,
       expire_date: null,
-      position_association:null,
+      position_association: null,
       deg_type: null,
       deg_diploma: null,
       deg_majors: null,
@@ -231,8 +231,8 @@ class addInformationUser extends Component {
           data.pro_identity_card_when == null
             ? null
             : this.formatDate(
-                data.pro_identity_card_when.toString().slice(0, 10)
-              ),
+              data.pro_identity_card_when.toString().slice(0, 10)
+            ),
         pro_identity_card_where: data.pro_identity_card_where,
         pro_note: data.pro_note,
         dep_id: data.department ? data.department.data.dep_id : "",
@@ -335,10 +335,14 @@ class addInformationUser extends Component {
   onChange = (e) => {
     const { name } = e.target;
     const { value } = e.target;
+    console.log(name);;
     this.setState({ [name]: value }, () => {
       this.handleInputValid(name, value);
     });
   };
+  // const onChange = (e) => {
+    // setDataItem({ ...dataItem, [e.target.name]: e.target.value });
+  // };
   onChangeSex = (e) => {
     this.setState({
       pro_gender: e.target.value,
@@ -355,6 +359,26 @@ class addInformationUser extends Component {
       [name2]: dateString[1],
     });
   };
+  handleChangeEducation = (value) =>{
+    this.setState({
+      deg_education: value,
+    })
+  }
+  handleChangePolitic = (value) =>{
+    this.setState({
+      deg_politic: value,
+    })
+  }
+  handleChangeDiploma = (value) =>{
+    this.setState({
+      deg_diploma: value,
+    })
+  }
+  handleChangeLanguage = (value) =>{
+    this.setState({
+      deg_foreign_language: value,
+    })
+  }
   handleConfirm = async () => {
     let idUser = this.props.idUser;
     let params = {
@@ -1056,15 +1080,15 @@ class addInformationUser extends Component {
                           placeholder="Chọn ngày"
                           value={
                             this.state.pro_birth_day == null ||
-                            moment(
-                              this.state.pro_birth_day,
-                              dateFormatList[0]
-                            ) == "Thu Jan 01 1970 08:00:00 GMT+0800"
+                              moment(
+                                this.state.pro_birth_day,
+                                dateFormatList[0]
+                              ) == "Thu Jan 01 1970 08:00:00 GMT+0800"
                               ? null
                               : moment(
-                                  this.state.pro_birth_day,
-                                  dateFormatList[0]
-                                )
+                                this.state.pro_birth_day,
+                                dateFormatList[0]
+                              )
                           }
                           onChange={(date, dateString) =>
                             this.onChangeBirthDay(
@@ -1210,9 +1234,9 @@ class addInformationUser extends Component {
                             this.state.pro_identity_card_when == null
                               ? null
                               : moment(
-                                  this.state.pro_identity_card_when,
-                                  dateFormatList[0]
-                                )
+                                this.state.pro_identity_card_when,
+                                dateFormatList[0]
+                              )
                           }
                           onChange={(date, dateString) =>
                             this.onChangeBirthDay(
@@ -1375,9 +1399,9 @@ class addInformationUser extends Component {
                             this.state.appointment_date == null
                               ? null
                               : moment(
-                                  this.state.appointment_date,
-                                  dateFormatList[0]
-                                )
+                                this.state.appointment_date,
+                                dateFormatList[0]
+                              )
                           }
                           onChange={(date, dateString) =>
                             this.onChangeBirthDay(
@@ -1402,9 +1426,9 @@ class addInformationUser extends Component {
                             this.state.expire_date == null
                               ? null
                               : moment(
-                                  this.state.expire_date,
-                                  dateFormatList[0]
-                                )
+                                this.state.expire_date,
+                                dateFormatList[0]
+                              )
                           }
                           onChange={(date, dateString) =>
                             this.onChangeBirthDay(
@@ -1427,7 +1451,7 @@ class addInformationUser extends Component {
                         />
                       </div>
                     </li>
-                    <li className="tabs-main-left-li">
+                    {/* <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">Học vấn:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
@@ -1437,8 +1461,42 @@ class addInformationUser extends Component {
                           placeholder="Học vấn"
                         />
                       </div>
+                    </li> */}
+                    <li className="tabs-main-left-li">
+                      <span className="tabs-user-infor-top">Học vấn:</span>
+                      <div className="tabs-user-infor-bottom">
+                        <Select
+                          onChange={this.handleChangeEducation}
+                          name="deg_education"
+                          value={this.state.deg_education}
+                        >
+                          <Option value="Trung cấp">Trung cấp</Option>
+                          <Option value="Cao đẳng">Cao đẳng</Option>
+                          <Option value="Đại học (đang chờ lấy bằng)">Đại học (đang chờ lấy bằng) </Option>
+                          <Option value="Đại học">Đại học</Option>
+                          <Option value="Thạc sĩ">Thạc sĩ</Option>
+                          <Option value="Khác">Khác</Option>
+                        </Select>
+                      </div>
                     </li>
                     <li className="tabs-main-left-li">
+                      <span className="tabs-user-infor-top">Chính trị:</span>
+                      <div className="tabs-user-infor-bottom">
+                        <Select
+                          onChange={this.handleChangePolitic}
+                          name="deg_politic"
+                          value={this.state.deg_politic}
+                        >
+                          <Option value="Sơ cấp">Sơ cấp</Option>
+                          <Option value="Trung cấp tương đương">Trung cấp tương đương</Option>
+                          <Option value="Trung cấp chính quy">Trung cấp chính quy </Option>
+                          <Option value="Cao cấp">Cao cấp</Option>
+                          <Option value="Cử nhân">Cử nhân</Option>
+                          <Option value="Khác">Khác</Option>
+                        </Select>
+                      </div>
+                    </li>
+                    {/* <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">Chính trị:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
@@ -1448,8 +1506,8 @@ class addInformationUser extends Component {
                           placeholder="Chính trị"
                         />
                       </div>
-                    </li>
-                    <li className="tabs-main-left-li">
+                    </li> */}
+                    {/* <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">Ngoại ngữ:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
@@ -1459,8 +1517,25 @@ class addInformationUser extends Component {
                           placeholder="Ngoại ngữ"
                         />
                       </div>
-                    </li>
+                    </li> */}
                     <li className="tabs-main-left-li">
+                      <span className="tabs-user-infor-top">Ngoại ngữ::</span>
+                      <div className="tabs-user-infor-bottom">
+                        <Select
+                          onChange={this.handleChangeLanguage}
+                          name="deg_foreign_language"
+                          value={this.state.deg_foreign_language}
+                        >
+                          <Option value="Ngôn ngữ anh">Ngôn ngữ anh</Option>
+                          <Option value="Ngôn ngữ trung ">Ngôn ngữ trung </Option>
+                          <Option value="Ngôn ngữ hàn">Ngôn ngữ hàn </Option>
+                          <Option value="Ngôn ngữ nhật">Ngôn ngữ nhật</Option>
+                          <Option value="Ngôn ngữ tây ban nha">Ngôn ngữ tây ban nha</Option>
+                          <Option value="Khác">Khác</Option>
+                        </Select>
+                      </div>
+                    </li>
+                    {/* <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">Trình độ chuyên môn:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
@@ -1469,6 +1544,24 @@ class addInformationUser extends Component {
                           onChange={this.onChange}
                           placeholder="Trình độ"
                         />
+                      </div>
+                    </li> */}
+                    <li className="tabs-main-left-li">
+                      <span className="tabs-user-infor-top">Trình độ chuyên môn:</span>
+                      <div className="tabs-user-infor-bottom">
+                        <Select
+                          onChange={this.handleChangeDiploma}
+                          name="deg_diploma"
+                          value={this.state.deg_diploma}
+                        >
+                          <Option value="Báo chí">Báo chí</Option>
+                          <Option value="Luật">Luật</Option>
+                          <Option value="Văn học">Văn học</Option>
+                          <Option value="Ngoại ngữ">Ngoại ngữ</Option>
+                          <Option value="Xã hội học">Xã hội học</Option>
+                          <Option value="Công nghệ thông tin">Công nghệ thông tin</Option>
+                          <Option value="Khác">Khác</Option>
+                        </Select>
                       </div>
                     </li>
                     <li className="tabs-main-left-li">
@@ -1495,7 +1588,7 @@ class addInformationUser extends Component {
                         />
                       </div>
                     </li> */}
-{/* 
+                    {/* 
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
                         đối tượng đào tạo:
@@ -1613,15 +1706,15 @@ class addInformationUser extends Component {
                           style={{ width: "100%" }}
                           value={
                             this.state.car_number_day == null ||
-                            moment(
-                              this.state.car_number_day,
-                              dateFormatList[0]
-                            ) == "Thu Jan 01 1970 08:00:00 GMT+0800"
+                              moment(
+                                this.state.car_number_day,
+                                dateFormatList[0]
+                              ) == "Thu Jan 01 1970 08:00:00 GMT+0800"
                               ? null
                               : moment(
-                                  this.state.car_number_day,
-                                  dateFormatList[0]
-                                )
+                                this.state.car_number_day,
+                                dateFormatList[0]
+                              )
                           }
                           onChange={(date, dateString) =>
                             this.onChangeBirthDay(
@@ -1644,27 +1737,27 @@ class addInformationUser extends Component {
                             this.state.car_begin == null
                               ? null
                               : [
-                                  this.state.car_begin == null ||
+                                this.state.car_begin == null ||
                                   moment(
                                     this.state.car_begin,
                                     dateFormatList[0]
                                   ) == "Thu Jan 01 1970 08:00:00 GMT+0800"
-                                    ? null
-                                    : moment(
-                                        this.state.car_begin,
-                                        dateFormatList[0]
-                                      ),
-                                  this.state.car_end == null ||
+                                  ? null
+                                  : moment(
+                                    this.state.car_begin,
+                                    dateFormatList[0]
+                                  ),
+                                this.state.car_end == null ||
                                   moment(
                                     this.state.car_end,
                                     dateFormatList[0]
                                   ) == "Thu Jan 01 1970 08:00:00 GMT+0800"
-                                    ? null
-                                    : moment(
-                                        this.state.car_end,
-                                        dateFormatList[0]
-                                      ),
-                                ]
+                                  ? null
+                                  : moment(
+                                    this.state.car_end,
+                                    dateFormatList[0]
+                                  ),
+                              ]
                           }
                           onChange={(date, dateString) =>
                             this.onChangeRange(

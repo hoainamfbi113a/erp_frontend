@@ -51,6 +51,15 @@ const MenuLayout = (props) => {
       );
     }
   };
+  const renderMenuItem = (value) => {
+    if(value === "Vị trí làm việc") {
+      return "Chức danh, chức vụ"
+    }
+    if(value === "Phòng ban") {
+      return "Đơn vị công tác"
+    } 
+    return value;
+  }
   const renderMenu = () => {
     if (permissions.length !== 0) {
       return (
@@ -70,7 +79,8 @@ const MenuLayout = (props) => {
                       key={menu.name}
                     >
                       <Link to={`/${subMenu.slug}/${menu.slug}`}>
-                        {menu.name =="Vị trí làm việc"? "Chức danh, chức vụ": menu.name}
+                        {/* {menu.name =="Vị trí làm việc"? "Chức danh, chức vụ": menu.name} */}
+                        {renderMenuItem(menu.name)}
                         
                       </Link>
                     </Menu.Item>

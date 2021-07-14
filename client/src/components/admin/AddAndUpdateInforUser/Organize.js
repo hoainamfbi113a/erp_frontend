@@ -165,7 +165,7 @@ const Organize = (props) => {
                           }
                           onChange={(date, dateString) =>
                             props.onChangeRange(
-                              date,
+                            date,
                               dateString,
                               "deg_begin_study"
                             )
