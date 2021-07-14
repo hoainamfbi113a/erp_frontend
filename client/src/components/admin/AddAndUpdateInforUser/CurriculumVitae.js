@@ -1451,17 +1451,6 @@ class addInformationUser extends Component {
                         />
                       </div>
                     </li>
-                    {/* <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">Học vấn:</span>
-                      <div className="tabs-user-infor-bottom">
-                        <Input
-                          name="deg_education"
-                          value={this.state.deg_education}
-                          onChange={this.onChange}
-                          placeholder="Học vấn"
-                        />
-                      </div>
-                    </li> */}
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">Học vấn:</span>
                       <div className="tabs-user-infor-bottom">
@@ -1496,28 +1485,6 @@ class addInformationUser extends Component {
                         </Select>
                       </div>
                     </li>
-                    {/* <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">Chính trị:</span>
-                      <div className="tabs-user-infor-bottom">
-                        <Input
-                          name="deg_politic"
-                          value={this.state.deg_politic}
-                          onChange={this.onChange}
-                          placeholder="Chính trị"
-                        />
-                      </div>
-                    </li> */}
-                    {/* <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">Ngoại ngữ:</span>
-                      <div className="tabs-user-infor-bottom">
-                        <Input
-                          name="deg_foreign_language"
-                          value={this.state.deg_foreign_language}
-                          onChange={this.onChange}
-                          placeholder="Ngoại ngữ"
-                        />
-                      </div>
-                    </li> */}
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">Ngoại ngữ::</span>
                       <div className="tabs-user-infor-bottom">
@@ -1535,17 +1502,7 @@ class addInformationUser extends Component {
                         </Select>
                       </div>
                     </li>
-                    {/* <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">Trình độ chuyên môn:</span>
-                      <div className="tabs-user-infor-bottom">
-                        <Input
-                          name="deg_diploma"
-                          value={this.state.deg_diploma}
-                          onChange={this.onChange}
-                          placeholder="Trình độ"
-                        />
-                      </div>
-                    </li> */}
+
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">Trình độ chuyên môn:</span>
                       <div className="tabs-user-infor-bottom">

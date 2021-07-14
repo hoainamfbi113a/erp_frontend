@@ -368,9 +368,11 @@ class CurriculumVitae extends Component {
       pro_name: data.pro_name,
       pro_pen_name: data.pro_pen_name,
       pro_birth_day:
-        data.pro_birth_day.indexOf("1970-01-01") == 0
-          ? null
-          : data.pro_birth_day,
+            Date.parse(moment(this.state.pro_birth_day, "DD-MM-YYYY")) / 1000,
+      // pro_birth_day:
+      //   data.pro_birth_day.indexOf("1970-01-01") == 0
+      //     ? null
+      //     : data.pro_birth_day,
       pro_gender: data.pro_gender,
       pro_birth_place: data.pro_birth_place,
       pro_home_town: data.pro_home_town,
@@ -569,6 +571,26 @@ class CurriculumVitae extends Component {
       }
     );
   };
+   handleChangeEducation = (value) =>{
+    this.setState({
+      deg_education: value,
+    })
+  }
+  handleChangePolitic = (value) =>{
+    this.setState({
+      deg_politic: value,
+    })
+  }
+  handleChangeDiploma = (value) =>{
+    this.setState({
+      deg_diploma: value,
+    })
+  }
+  handleChangeLanguage = (value) =>{
+    this.setState({
+      deg_foreign_language: value,
+    })
+  }
   onChangeCover = (e) => {
     onChangeCoverFunc(e, this.fetChImg, id_user);
   };
@@ -1105,48 +1127,73 @@ class CurriculumVitae extends Component {
                         />
                       </div>
                     </li>
-                    <li className="tabs-main-left-li">
+                      <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">Học vấn:</span>
                       <div className="tabs-user-infor-bottom">
-                        <Input
+                        <Select
+                          onChange={this.handleChangeEducation}
                           name="deg_education"
                           value={this.state.deg_education}
-                          onChange={this.onChange}
-                          placeholder="Học vấn"
-                        />
+                        >
+                          <Option value="Trung cấp">Trung cấp</Option>
+                          <Option value="Cao đẳng">Cao đẳng</Option>
+                          <Option value="Đại học (đang chờ lấy bằng)">Đại học (đang chờ lấy bằng) </Option>
+                          <Option value="Đại học">Đại học</Option>
+                          <Option value="Thạc sĩ">Thạc sĩ</Option>
+                          <Option value="Khác">Khác</Option>
+                        </Select>
                       </div>
                     </li>
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">Chính trị:</span>
                       <div className="tabs-user-infor-bottom">
-                        <Input
+                        <Select
+                          onChange={this.handleChangePolitic}
                           name="deg_politic"
                           value={this.state.deg_politic}
-                          onChange={this.onChange}
-                          placeholder="Chính trị"
-                        />
+                        >
+                          <Option value="Sơ cấp">Sơ cấp</Option>
+                          <Option value="Trung cấp tương đương">Trung cấp tương đương</Option>
+                          <Option value="Trung cấp chính quy">Trung cấp chính quy </Option>
+                          <Option value="Cao cấp">Cao cấp</Option>
+                          <Option value="Cử nhân">Cử nhân</Option>
+                          <Option value="Khác">Khác</Option>
+                        </Select>
                       </div>
                     </li>
-                    <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">Ngoại ngữ:</span>
+                      <li className="tabs-main-left-li">
+                      <span className="tabs-user-infor-top">Ngoại ngữ::</span>
                       <div className="tabs-user-infor-bottom">
-                        <Input
+                        <Select
+                          onChange={this.handleChangeLanguage}
                           name="deg_foreign_language"
                           value={this.state.deg_foreign_language}
-                          onChange={this.onChange}
-                          placeholder="Ngoại ngữ"
-                        />
+                        >
+                          <Option value="Ngôn ngữ anh">Ngôn ngữ anh</Option>
+                          <Option value="Ngôn ngữ trung ">Ngôn ngữ trung </Option>
+                          <Option value="Ngôn ngữ hàn">Ngôn ngữ hàn </Option>
+                          <Option value="Ngôn ngữ nhật">Ngôn ngữ nhật</Option>
+                          <Option value="Ngôn ngữ tây ban nha">Ngôn ngữ tây ban nha</Option>
+                          <Option value="Khác">Khác</Option>
+                        </Select>
                       </div>
                     </li>
-                    <li className="tabs-main-left-li">
+                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">Trình độ chuyên môn:</span>
                       <div className="tabs-user-infor-bottom">
-                        <Input
+                        <Select
+                          onChange={this.handleChangeDiploma}
                           name="deg_diploma"
                           value={this.state.deg_diploma}
-                          onChange={this.onChange}
-                          placeholder="Trình độ"
-                        />
+                        >
+                          <Option value="Báo chí">Báo chí</Option>
+                          <Option value="Luật">Luật</Option>
+                          <Option value="Văn học">Văn học</Option>
+                          <Option value="Ngoại ngữ">Ngoại ngữ</Option>
+                          <Option value="Xã hội học">Xã hội học</Option>
+                          <Option value="Công nghệ thông tin">Công nghệ thông tin</Option>
+                          <Option value="Khác">Khác</Option>
+                        </Select>
                       </div>
                     </li>
                     <li className="tabs-main-left-li">
