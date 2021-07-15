@@ -1169,11 +1169,14 @@ class CurriculumVitae extends Component {
                           name="deg_foreign_language"
                           value={this.state.deg_foreign_language}
                         >
-                          <Option value="Ngôn ngữ anh">Ngôn ngữ anh</Option>
-                          <Option value="Ngôn ngữ trung ">Ngôn ngữ trung </Option>
-                          <Option value="Ngôn ngữ hàn">Ngôn ngữ hàn </Option>
-                          <Option value="Ngôn ngữ nhật">Ngôn ngữ nhật</Option>
-                          <Option value="Ngôn ngữ tây ban nha">Ngôn ngữ tây ban nha</Option>
+                          <Option value="Ngôn ngữ anh">Ngôn ngữ Anh</Option>
+                          <Option value="Ngôn ngữ trung ">Ngôn ngữ Trung </Option>
+                          <Option value="Ngôn ngữ hàn">Ngôn ngữ Hàn </Option>
+                          <Option value="Ngôn ngữ nhật">Ngôn ngữ Nhật</Option>
+                          <Option value="Ngôn ngữ nhật">Ngôn ngữ Pháp</Option>
+                          <Option value="Ngôn ngữ tây ban nha">Ngôn ngữ Tây Ban Nha</Option>
+                          <Option value="Ngôn ngữ tây ban nha">Ngôn ngữ Bồ Đồ Nha</Option>
+                          <Option value="Ngôn ngữ tây ban nha">Ngôn ngữ Nga</Option>
                           <Option value="Khác">Khác</Option>
                         </Select>
                       </div>
@@ -1187,11 +1190,23 @@ class CurriculumVitae extends Component {
                           value={this.state.deg_diploma}
                         >
                           <Option value="Báo chí">Báo chí</Option>
-                          <Option value="Luật">Luật</Option>
-                          <Option value="Văn học">Văn học</Option>
-                          <Option value="Ngoại ngữ">Ngoại ngữ</Option>
-                          <Option value="Xã hội học">Xã hội học</Option>
+                          <Option value="Chính trị học">Chính trị học</Option>
                           <Option value="Công nghệ thông tin">Công nghệ thông tin</Option>
+                          <Option value="Cơ khí">Cơ khí</Option>
+                          <Option value="Luật">Luật</Option>
+                          <Option value="Kinh tế">Kinh tế</Option>
+                          <Option value="Kế toán">Kế toán</Option>
+                          <Option value="Kĩ thuật in">Kĩ thuật in</Option>
+                          <Option value="Mỹ thuật">Mỹ thuật</Option>
+                          <Option value="Ngoại ngữ">Ngoại ngữ</Option>
+                          <Option value="Quốc tế học">Quốc tế học</Option>
+                          <Option value="Quản trị kinh doanh">Quản trị kinh doanh</Option>
+                          <Option value="Quan hệ quốc tế">Quan hệ quốc tế</Option>
+                          <Option value="Thư viện, quản trị văn phòng">Thư viện, quản trị văn phòng</Option>
+                          <Option value="Sư phạm">Sư phạm</Option>
+                          <Option value="Xã hội học">Xã hội học</Option>
+                          <Option value="Văn học">Văn học</Option>
+                          <Option value="Khác">Khác</Option>
                           <Option value="Khác">Khác</Option>
                         </Select>
                       </div>

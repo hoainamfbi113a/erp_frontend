@@ -12,8 +12,8 @@ const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 import { formatDateNumber, validateOnlyNumber } from "../../../../helpers/FuncHelper";
 const JoinDCSContainer = (props) => {
   const [id, setId] = useState("");
+  const [idSelection, setIdselection] = useState("Gia nhập Đoàn");
   const dataJoinDCS = useSelector((state) => state.joinDCSUser);
-  // console.log(dataJoinDCS.par_admission_date)
   let [joinDCS, setJoinDCS] = useState({
     par_admission_date:dataJoinDCS.par_admission_date,
     par_branch:dataJoinDCS.par_branch,
@@ -36,7 +36,9 @@ const JoinDCSContainer = (props) => {
   const [visible, setVisible] = useState(false);
   const [refresh, setRefresh] = useState(true);
   const dispatch = useDispatch();
-  
+  const handleChange = () =>{
+
+  }
   useEffect(() => {
     dispatch(
       getJoinDCS({
@@ -153,9 +155,13 @@ const JoinDCSContainer = (props) => {
     setJoinDCS({ ...joinDCS, [e.target.name]: e.target.value });
    
   };
+  const handleChangeSelection = (value) =>{
+    setIdselection(value)
+  }
   return (
     <div>
       <JoinDCS
+        idSelection = {idSelection}
         dataJoinDCS={joinDCS}
         visible={visible}
         showModal={showModal}
@@ -163,6 +169,7 @@ const JoinDCSContainer = (props) => {
         handleOk={handleOk}
         onChange={onChange}
         onChangeBirthDay={onChangeBirthDay}
+        handleChangeSelection = {handleChangeSelection}
       />
     </div>
   );

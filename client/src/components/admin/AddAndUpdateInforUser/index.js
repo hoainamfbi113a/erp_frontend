@@ -78,7 +78,7 @@ const Index = ({
               >
                 <div className={activeLink === 3 ? "active" : ""}>3</div>
                 <span className={activeLink === 3 ? "active" : ""}>
-                  Đảng
+                  Đoàn/ Đảng
                 </span>
               </li>
               <li
