@@ -13,7 +13,7 @@ const getAllCity = async (req, res) => {
 };
 
 const getAllDistrict = async (req, res) => {
-  try {z
+  try {
     const { id } = req.params;
     const { data } = await axios.get(
       `https://thongtindoanhnghiep.co/api/city/${id}/district`,
