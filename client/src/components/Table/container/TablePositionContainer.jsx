@@ -234,7 +234,7 @@ const TablePositionContainer = (props) => {
                 >
                   Cập nhật
                 </Tag>
-              )}
+              )}∏
             </Space>
           ),
         }
@@ -243,7 +243,7 @@ const TablePositionContainer = (props) => {
   useEffect(() => {
     if (data && data.data) {
       data.data.map((el) => {
-        el.created_at = simpleDate(el.created_at);
+        el.created_at = el.created_at.toString().slice(0, el.created_at.indexOf("T"))
       });
     }
   }, [data]);

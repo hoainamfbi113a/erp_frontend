@@ -175,10 +175,9 @@ const TableUserContainer = (props) => {
       render: (profile) =>
         `${
           profile && profile.data
-            ? profile.data.pro_birth_day
-            : profile.pro_birth_day !== null
+            && profile.data.pro_birth_day !==null
             ? formatDateNumber(profile.pro_birth_day, "DD-MM-YYYY")
-            : "01-01-1970"
+            : "Chưa nhập"
         }`,
     },
     {

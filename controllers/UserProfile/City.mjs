@@ -4,7 +4,7 @@ import axios from "axios";
 const getAllCity = async (req, res) => {
   try {
     const { data } = await axios.get(
-      `http://thongtindoanhnghiep.co/api/city`,
+      `https://thongtindoanhnghiep.co/api/city`,
     );
     res.send(data);
   } catch (error) {
@@ -16,7 +16,7 @@ const getAllDistrict = async (req, res) => {
   try {
     const { id } = req.params;
     const { data } = await axios.get(
-      `http://thongtindoanhnghiep.co/api/city/${id}/district`,
+      `https://thongtindoanhnghiep.co/api/city/${id}/district`,
     );
     res.send(data);
   } catch (error) {
