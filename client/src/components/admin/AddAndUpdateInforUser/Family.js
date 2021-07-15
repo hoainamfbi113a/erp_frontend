@@ -292,16 +292,6 @@ const Family = ({
                   placeholder="Mời nhập nghề nghiệp"
                 />
               </div>
-              {err.err_job !== "" ? (
-                <span
-                  style={{
-                    color: "red",
-                    fontStyle: "italic",
-                  }}
-                >
-                  {err.err_job}
-                </span>
-              ) : null}
             </li>
             <li className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row-clear">
               <span className="tabs-user-infor-top">Nơi công tác:</span>
@@ -314,39 +304,19 @@ const Family = ({
                   placeholder="Mời nhập nơi công tác"
                 />
               </div>
-              {err.err_workplace !== "" ? (
-                <span
-                  style={{
-                    color: "red",
-                    fontStyle: "italic",
-                  }}
-                >
-                  {err.err_workplace}
-                </span>
-              ) : null}
             </li>
 
             <li className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row-clear">
               <span className="tabs-user-infor-top">Đặc điểm lịch sử:</span>
               <div className="tabs-user-infor-bottom">
-                <Input
-                  style={{ width: "100%" }}
+                <TextArea
+                  autoSize={{ minRows: 7, maxRows: 15 }}
                   name="rem_historical_features"
                   onChange={onChange}
                   value={dataItem.rem_historical_features}
                   placeholder="Mời nhập đặc điểm lịch sử"
                 />
               </div>
-              {err.err_historical_features !== "" ? (
-                <span
-                  style={{
-                    color: "red",
-                    fontStyle: "italic",
-                  }}
-                >
-                  {err.err_historical_features}
-                </span>
-              ) : null}
             </li>
 
             <li className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row-clear">
@@ -360,20 +330,10 @@ const Family = ({
                   placeholder="Mời nhập nơi cư trú"
                 />
               </div>
-              {err.err_residence !== "" ? (
-                <span
-                  style={{
-                    color: "red",
-                    fontStyle: "italic",
-                  }}
-                >
-                  {err.err_residence}
-                </span>
-              ) : null}
             </li>
 
             <li className="tabs-main-left-li">
-              <span className="tabs-user-infor-top">Hiện đang làm gì:</span>
+              <span className="tabs-user-infor-top">Ghi chú:</span>
               <div className="tabs-user-infor-bottom">
                 <TextArea
                   name="rem_note"
