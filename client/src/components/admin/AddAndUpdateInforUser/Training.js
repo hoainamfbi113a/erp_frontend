@@ -14,7 +14,9 @@ const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 
 const Training = (props) => {
   const { tra_type, tra_time_from, tra_time_to, tra_note,
-    tra_school_name, tra_study_time, tra_majors, tra_study_mode, tra_diploma, tra_address, id, resource } = props.dataItem;
+    tra_school_name, tra_study_time, tra_majors, tra_study_mode,
+     tra_diploma, tra_address, id, resource } = props.dataItem;
+  const { err_file } = props.err;
   const renderDownload = (resource) => {
     if (resource) {
       if(resource.type === "pdf") 
@@ -54,11 +56,23 @@ const Training = (props) => {
   const renderInputFile = (id, resource) => {
     if (id == "" || id == "undefined" || id == undefined) {
       return (
+        <div>
         <input
           type="file"
           name="file" onChange={props.onChangeImage}
           ref={props.ref}
         ></input>
+         {err_file !== "" ? (
+            <div
+              style={{
+                color: "red",
+                fontStyle: "italic",
+              }}
+            >
+              {err_file}
+            </div>
+          ) : null}
+          </div>
       );
     } else {
       return (

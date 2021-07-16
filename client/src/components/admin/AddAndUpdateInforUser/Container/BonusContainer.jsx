@@ -20,6 +20,7 @@ import {
   formatDateNumber,
   ValidateNumber,
   ValidateField,
+  checkEmpty
 } from "../../../../helpers/FuncHelper";
 import { hideLoading, showLoading } from "reduxToolkit/features/uiLoadingSlice";
 const BonusContainer = (props) => {
@@ -38,6 +39,7 @@ const BonusContainer = (props) => {
   const [err, setErr] = useState({
     err_content: "",
     err_number: "",
+    err_file: "",
   });
   const [visible, setVisible] = useState(false);
   const [fileImg, setFileImg] = useState(null);
@@ -85,7 +87,8 @@ const BonusContainer = (props) => {
     });
     setErr({
       err_content: "",
-      err_number: ""
+      err_number: "",
+      err_file:""
     })
     setId("");
 
@@ -236,18 +239,22 @@ const BonusContainer = (props) => {
   };
 
   const handleOk = async (id) => {
-    let fileName = fileImg.target.files[0].name;
     let {
       rew_content,
       rew_decision_number,
     } = reward;
     let err_content = await ValidateField(rew_content, 5, 50, "Nội dung");
     let err_number = await ValidateNumber(rew_decision_number, 5, 10, "Số Cấp");
-    if (err_content || err_number) {
-      setErr({ err_content, err_number });
+    let err_file = "";
+    if(fileImg == null && id == "") {
+      err_file = "File không thể để trống";
     }
-    if (err_content === "" && err_number === "") {
+    if (err_content || err_number || err_file !== "") {
+      setErr({ err_content, err_number, err_file });
+    }
+    if (err_content === "" && err_number === "" && err_file === "") {
       if (fileImg) {
+        let fileName = fileImg.target.files[0].name;
         const formData = new FormData();
         formData.append("file", fileImg.target.files[0]);
         if(fileName.slice(fileName.indexOf(".")) === ".pdf") {

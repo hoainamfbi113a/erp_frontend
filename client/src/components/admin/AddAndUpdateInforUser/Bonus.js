@@ -30,24 +30,23 @@ const Bonus = (props) => {
     resource,
     id,
   } = props.reward;
-  const { err_content, err_number } = props.err;
+  const { err_content, err_number, err_file } = props.err;
   const renderDownload = (resource) => {
     if (resource) {
-      if(resource.type === "bounuspdf") 
-      {
+      if (resource.type === "bounuspdf") {
         return (
           <div>
-          <CloudDownloadOutlined style={{ fontSize: '23px', marginRight: "5px" }}
-          />
-          <span style={{color:"red"}} onClick={() => {
-            const linkSource = `data:application/pdf;base64,${resource.content}`;
-            const downloadLink = document.createElement("a");
-            const fileName = "file.pdf";
+            <CloudDownloadOutlined style={{ fontSize: '23px', marginRight: "5px" }}
+            />
+            <span style={{ color: "red" }} onClick={() => {
+              const linkSource = `data:application/pdf;base64,${resource.content}`;
+              const downloadLink = document.createElement("a");
+              const fileName = "file.pdf";
 
-            downloadLink.href = linkSource;
-            downloadLink.download = fileName;
-            downloadLink.click();
-          }} > {resource.name.slice(resource.name.lastIndexOf("-")+1)}</span>
+              downloadLink.href = linkSource;
+              downloadLink.download = fileName;
+              downloadLink.click();
+            }} > {resource.name.slice(resource.name.lastIndexOf("-") + 1)}</span>
           </div>
         )
       } else {
@@ -57,9 +56,9 @@ const Bonus = (props) => {
               resource.name)}>
               <CloudDownloadOutlined style={{ fontSize: '23px', marginRight: "5px" }}
               />
-              <span style={{color:"red"}}>{resource.name.slice(resource.name.lastIndexOf("-")+1)}</span>
+              <span style={{ color: "red" }}>{resource.name.slice(resource.name.lastIndexOf("-") + 1)}</span>
             </div>
-    
+
           </div>
         )
       }
@@ -111,8 +110,8 @@ const Bonus = (props) => {
               <p className="personal-history-content">
                 Ghi chú: {item.rew_formality}
               </p>
-                <br />
-                {renderDownload(item.resource)}
+              <br />
+              {renderDownload(item.resource)}
             </div>
           </div>
         </li>
@@ -122,21 +121,36 @@ const Bonus = (props) => {
   const renderInputFile = (id, resource) => {
     if (id == "" || id == "undefined" || id == undefined) {
       return (
-        <input  
-        type="file"
-         name="file" onChange={props.onChangeImage}></input>
+        <div>
+          <input
+            style= {{marginTop:"12px"}}
+            type="file"
+            name="file" onChange={props.onChangeImage}>  
+          </input>
+          {err_file !== "" ? (
+            <div
+              style={{
+                color: "red",
+                fontStyle: "italic",
+                // position: "absolute"
+              }}
+            >
+              {err_file}
+            </div>
+          ) : null}
+        </div>
       );
     } else {
       return (
         <div>
-          <div style= {{marginBottom:"15px", color:"red"}}>
-            Ảnh hiện tại :
-            {resource ? resource.name :""}
+          <div style={{ marginBottom: "15px", color: "red" }}>
+            Ảnh hiện tại:
+            {resource ? resource.name : ""}
           </div>
           <input
-          style = {{marginBottom:"10px"}}
-          type="file"
-         name="file" onChange={props.onChangeImage}></input>
+            style={{ marginBottom: "10px" }}
+            type="file"
+            name="file" onChange={props.onChangeImage}></input>
         </div>
       )
     }
@@ -196,9 +210,9 @@ const Bonus = (props) => {
                   value={
                     rew_time_from
                       ? [
-                          moment(rew_time_from, dateFormatList[0]),
-                          moment(rew_time_to, dateFormatList[0]),
-                        ]
+                        moment(rew_time_from, dateFormatList[0]),
+                        moment(rew_time_to, dateFormatList[0]),
+                      ]
                       : null
                   }
                   className="modal-ranPicker"
@@ -241,8 +255,8 @@ const Bonus = (props) => {
                   name="rew_content"
                   value={rew_content}
                   onChange={props.onChange}
-                  placeholder= { type == "1" ? "Nội dung, hình thức khen thưởng" : 
-                  "Nội dung, hình thức kĩ luật"}
+                  placeholder={type == "1" ? "Nội dung, hình thức khen thưởng" :
+                    "Nội dung, hình thức kĩ luật"}
                 />
               </div>
               {err_content !== "" ? (
@@ -285,10 +299,10 @@ const Bonus = (props) => {
                 </span>
               ) : null}
             </li>
-            <div>{renderInputFile(id, resource)}</div> 
+            <div>{renderInputFile(id, resource)}</div>
             <div></div>
             <li className="tabs-main-left-li">
-              <span className="tabs-user-infor-top" style = {{marginBottom: "5px", marginTop: "5px"}} >
+              <span className="tabs-user-infor-top" style={{ marginBottom: "5px", marginTop: "5px" }} >
                 Ghi chú {type == "1" ? "khen thưởng" : "kĩ luật"}
               </span>
               <div className="tabs-user-infor-bottom">

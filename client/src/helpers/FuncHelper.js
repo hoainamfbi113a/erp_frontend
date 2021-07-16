@@ -282,6 +282,13 @@ const checkVisible = (arr, action_check, uri_check) => {
 };
 
 const sleep = (m) => new Promise((r) => setTimeout(r, m));
+const checkEmpty = (value) => {
+  let msg = "";
+  if (value.length == 0) {
+    msg = "không được để trống!";
+  }
+  return msg;
+};
 export {
   ValidateEmail,
   ValidateField,
@@ -300,5 +307,6 @@ export {
   formatDateNumber,
   convertFormatDate,
   validateOnlyNumber,
-  convertCurrency
+  convertCurrency,
+  checkEmpty
 };

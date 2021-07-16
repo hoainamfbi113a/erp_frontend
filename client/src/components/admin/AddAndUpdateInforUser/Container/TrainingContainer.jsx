@@ -28,14 +28,17 @@ const TrainingContainer = (props) => {
     tra_time_from: "",
     tra_time_from: "",
     tra_note: null,
-    tra_school_name:"",
-    tra_study_time:"",
-    tra_majors:"",
-    tra_study_mode:"",
-    tra_diploma:"",
-    tra_address:"",
-    resource:"",
+    tra_school_name: "",
+    tra_study_time: "",
+    tra_majors: "",
+    tra_study_mode: "",
+    tra_diploma: "",
+    tra_address: "",
+    resource: "",
 
+  });
+  const [err, setErr] = useState({
+    err_file: "",
   });
   const [visible, setVisible] = useState(false);
   const [fileImg, setFileImg] = useState(null);
@@ -67,14 +70,14 @@ const TrainingContainer = (props) => {
       tra_time_from: "",
       tra_time_to: "",
       tra_note: null,
-      tra_school_name:"",
-      tra_study_time:"",
-      tra_majors:"",
-      tra_study_mode:"",
-      tra_diploma:"",
-      tra_address:"",
-      fileImg:null,
-      resource:"",
+      tra_school_name: "",
+      tra_study_time: "",
+      tra_majors: "",
+      tra_study_mode: "",
+      tra_diploma: "",
+      tra_address: "",
+      fileImg: null,
+      resource: "",
     });
     if (value == 1) {
       setCate({ category: 1 });
@@ -90,15 +93,15 @@ const TrainingContainer = (props) => {
       tra_time_from: "",
       tra_time_to: "",
       tra_note: null,
-      tra_school_name:"",
-      tra_study_time:"",
-      tra_majors:"",
-      tra_study_mode:"",
-      tra_diploma:"",
-      tra_address:"",
-      fileImg:null,
-      resource:"",
-      id:""
+      tra_school_name: "",
+      tra_study_time: "",
+      tra_majors: "",
+      tra_study_mode: "",
+      tra_diploma: "",
+      tra_address: "",
+      fileImg: null,
+      resource: "",
+      id: ""
     });
     setId("");
 
@@ -114,7 +117,7 @@ const TrainingContainer = (props) => {
     }
 
     let { id, tra_type, tra_time_from, tra_time_to, tra_note, tra_school_name,
-       tra_study_time, tra_majors, tra_study_mode, tra_diploma, tra_address, resource } = dataTemp;
+      tra_study_time, tra_majors, tra_study_mode, tra_diploma, tra_address, resource } = dataTemp;
     let date1 = formatDateNumber(tra_time_from, dateFormatList[0]);
     let date2 = formatDateNumber(tra_time_to, dateFormatList[0]);
     setId(id);
@@ -145,7 +148,7 @@ const TrainingContainer = (props) => {
     setDataItem({ ...dataItem, tra_type: value });
     setRefresh(!refresh);
   };
-  
+
   const onChange = (e) => {
     if (!e.file) {
       setDataItem({ ...dataItem, [e.target.name]: e.target.value });
@@ -176,103 +179,110 @@ const TrainingContainer = (props) => {
     let date1 = moment(tra_time_from, "DD-MM-YYYY");
     let date2 = moment(tra_time_to, "DD-MM-YYYY");
 
-   const parse_time_from = Date.parse(date1) / 1000;
-   const parse_time_to = Date.parse(date2) / 1000;
-   const params = {
-     pro_id: props.dataProfile.id,
-     user_id: props.idUser,
-     tra_type,
-     tra_time_from: parse_time_from,
-     tra_time_to: parse_time_to,
-     tra_note,
-     tra_school_name,
-     tra_study_time,
-     tra_majors,
-     tra_study_mode,
-     tra_diploma,
-     tra_address,
-     id,
-     resource_id:idImg
-   };
-   if (id == "") {
-     if (tra_type == 1) {
-       dispatch(addTraining(params));
-     } else {
-       dispatch(addTraining2(params));
-     }
-   } else {
-     if (tra_type == 1) {
-       dispatch(updateTraining(params));
-     } else {
-       dispatch(updateTraining2(params));
-     }
-     setId("");
-   }
-   setTimeout(() => {
+    const parse_time_from = Date.parse(date1) / 1000;
+    const parse_time_to = Date.parse(date2) / 1000;
+    const params = {
+      pro_id: props.dataProfile.id,
+      user_id: props.idUser,
+      tra_type,
+      tra_time_from: parse_time_from,
+      tra_time_to: parse_time_to,
+      tra_note,
+      tra_school_name,
+      tra_study_time,
+      tra_majors,
+      tra_study_mode,
+      tra_diploma,
+      tra_address,
+      id,
+      resource_id: idImg
+    };
+    if (id == "") {
+      if (tra_type == 1) {
+        dispatch(addTraining(params));
+      } else {
+        dispatch(addTraining2(params));
+      }
+    } else {
+      if (tra_type == 1) {
+        dispatch(updateTraining(params));
+      } else {
+        dispatch(updateTraining2(params));
+      }
+      setId("");
+    }
+    setTimeout(() => {
+      if (tra_type == 1) {
+        dispatch(
+          getTraining({
+            id_user: props.idUser,
+            type: 1,
+          })
+        );
+      } else {
+        dispatch(
+          getTraining2({
+            id_user: props.idUser,
+            type: 2,
+          })
+        );
+      }
+    }, 200);
+    hideModal();
+  };
+  const handleOkDelete = (item) => {
+    const { tra_type, id } = item;
     if (tra_type == 1) {
       dispatch(
-        getTraining({
-          id_user: props.idUser,
-          type: 1,
+        removeTraining({
+          id,
         })
       );
     } else {
       dispatch(
-        getTraining2({
-          id_user: props.idUser,
-          type: 2,
+        removeTraining2({
+          id,
         })
       );
     }
-  }, 200);
-  hideModal();
- };
- const handleOkDelete = (item) => {
-   const { tra_type, id } = item;
-   if (tra_type == 1) {
-     dispatch(
-       removeTraining({
-         id,
-       })
-     );
-   } else {
-     dispatch(
-       removeTraining2({
-         id,
-       })
-     );
-   }
   }
   const handleOk = () => {
-    let fileName = fileImg.target.files[0].name;
-        if (fileImg) {
-          const formData = new FormData();
-          formData.append("file", fileImg.target.files[0]);
-          if(fileName.slice(fileName.indexOf(".")) === ".pdf") {
-            formData.append("type", "pdf")
+    let err_file = "";
+    if (fileImg == null && id == "") {
+      err_file = "File không thể để trống";
+    }
+    if (err_file !== "") {
+      setErr({ err_file });
+    }
+    if (fileImg && err_file === "") {
+      let fileName = fileImg.target.files[0].name;
+      const formData = new FormData();
+      formData.append("file", fileImg.target.files[0]);
+      if (fileName.slice(fileName.indexOf(".")) === ".pdf") {
+        formData.append("type", "pdf")
+      } else {
+        formData.append("type", "training" + dataItem.tra_type)
+      }
+      dispatch(showLoading());
+      fileImg.target.value = null;
+      axios
+        .post("/api/resources", formData)
+        .then((res) => {
+          if (res.data.message === "Successfully") {
+            setFileImg(null);
+            addData(res.data.data.id);
           } else {
-            formData.append("type", "training"+ dataItem.tra_type)  
+            message.error("Thêm ảnh thất bại");
           }
-          dispatch(showLoading());
-          fileImg.target.value = null;
-          axios
-            .post("/api/resources", formData)
-            .then((res) => {
-              if (res.data.message === "Successfully") {
-                setFileImg(null);
-                addData(res.data.data.id);
-              } else {
-                message.error("Thêm ảnh thất bại");
-              }
-              dispatch(hideLoading());
-            })
-            .catch((err) => {
-              console.log(err);
-              dispatch(hideLoading());
-            });
-        } else {
-          addData(id);
-        }
+          dispatch(hideLoading());
+        })
+        .catch((err) => {
+          console.log(err);
+          dispatch(hideLoading());
+        });
+    } else if (err_file === "") {
+      addData(id);
+    }
   };
   const onChangeImage = (e) => {
     setFileImg(e);
@@ -293,7 +303,8 @@ const TrainingContainer = (props) => {
         onChange={onChange}
         handleOkDelete={handleOkDelete}
         onChangeImage={onChangeImage}
-        ref = {ref}
+        err={err}
+        ref={ref}
       />
     </div>
   );
