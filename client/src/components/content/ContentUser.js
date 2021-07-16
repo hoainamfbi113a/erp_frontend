@@ -63,9 +63,15 @@ const ContentUser = () => {
           <Select
             showSearch
             allowClear
+            // searchValue=""
             optionFilterProp="children"
             placeholder="Nhập tên nhân viên"
             disabled={total === null}
+            onChange={() => {
+              if (idDepart === "all") {
+                setValue("");
+              }
+            }}
             onSelect={(value) => setValue(value)}
             style={{ width: 200 }}
             className="table-btn-search"
@@ -73,13 +79,14 @@ const ContentUser = () => {
               option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
           >
-            {userData
+            <Option key="allinone">Tất cả</Option>
+            {userData && (idDepart === "all" || idDepart === "")
               ? userData.data.map((user) => (
                   <Option key={user.id} value={user.full_name}>
                     {user.full_name}
                   </Option>
                 ))
-              : dataFilter
+              : dataFilter && idDepart !== "all"
               ? dataFilter.data.map((user) => (
                   <Option key={user.id} value={user.full_name}>
                     {user.full_name}
@@ -87,15 +94,6 @@ const ContentUser = () => {
                 ))
               : null}
           </Select>
-
-          <Button
-            disabled={value === ""}
-            style={{ margin: "0 5px 0 5px" }}
-            onClick={() => setValue("")}
-            type="primary"
-          >
-            Xóa tìm kiếm
-          </Button>
 
           <Select
             showSearch
@@ -127,6 +125,7 @@ const ContentUser = () => {
       <TableUserContainer
         parentCallback={callbackFunction}
         valueSearch={value}
+        setValueSearch={setValue}
         totalEmploy={setTotal}
         idDepart={idDepart}
       />

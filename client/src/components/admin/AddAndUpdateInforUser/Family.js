@@ -67,14 +67,13 @@ const Family = ({
               Nghề nghiệp: {item.rem_job} tại {item.rem_workplace}
             </p>
             <p className="personal-history-content">
-              Đặc điểm lịch sử: {item.rem_historical_features}
-            </p>
-            <p className="personal-history-content">
               Nơi cư trú: {item.rem_residence}
             </p>
             <p className="personal-history-content">
-              Hiện đang: {item.rem_note}
+              Đặc điểm lịch sử: {item.rem_historical_features}
             </p>
+
+            <p className="personal-history-content">Ghi chú: {item.rem_note}</p>
           </li>
         );
       });
@@ -307,19 +306,6 @@ const Family = ({
             </li>
 
             <li className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row-clear">
-              <span className="tabs-user-infor-top">Đặc điểm lịch sử:</span>
-              <div className="tabs-user-infor-bottom">
-                <TextArea
-                  autoSize={{ minRows: 7, maxRows: 15 }}
-                  name="rem_historical_features"
-                  onChange={onChange}
-                  value={dataItem.rem_historical_features}
-                  placeholder="Mời nhập đặc điểm lịch sử"
-                />
-              </div>
-            </li>
-
-            <li className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row-clear">
               <span className="tabs-user-infor-top">Nơi cư trú:</span>
               <div className="tabs-user-infor-bottom">
                 <Input
@@ -328,6 +314,19 @@ const Family = ({
                   onChange={onChange}
                   value={dataItem.rem_residence}
                   placeholder="Mời nhập nơi cư trú"
+                />
+              </div>
+            </li>
+
+            <li className="tabs-main-left-li tabs-main-left-li-row-three  tabs-main-left-li-row-clear">
+              <span className="tabs-user-infor-top">Đặc điểm lịch sử:</span>
+              <div className="tabs-user-infor-bottom">
+                <TextArea
+                  autoSize={{ minRows: 7, maxRows: 15 }}
+                  name="rem_historical_features"
+                  onChange={onChange}
+                  value={dataItem.rem_historical_features}
+                  placeholder="Mời nhập đặc điểm lịch sử"
                 />
               </div>
             </li>

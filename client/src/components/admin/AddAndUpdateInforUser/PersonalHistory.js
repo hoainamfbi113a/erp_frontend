@@ -77,7 +77,7 @@ const History = ({
             </p>
             <p className="personal-history-content">
               Địa chỉ: {item.his_working_process},{" "}
-              {item.his_city + ", " + item.his_district}
+              {item.his_district + ", " + item.his_city}
             </p>
             <p className="personal-history-content">Ghi chú: {item.his_note}</p>
           </li>
