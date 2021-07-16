@@ -231,7 +231,7 @@ class EditInformationUser extends Component {
                   3
                 </div>
                 <span className={this.state.activeLink === 3 ? "active" : ""}>
-                  Gia nhập Đảng Cộng Sản Việt Nam
+                  Đoàn - Đảng
                 </span>
               </li>
               <li onClick={() => this.handleClick(4)}>

@@ -209,7 +209,8 @@ const PersonalPage = () => {
           <div className="col-md-8">
             <div className="profile-head">
               <div className="row">
-                <div className="col-md-8">
+                <div className="col-md-8 profile-decs">
+                  <span>Họ và tên: &nbsp; </span>
                   <h5>
                     {dataProfile
                       ? dataProfile.pro_name
@@ -224,18 +225,34 @@ const PersonalPage = () => {
                     value="Edit Profile"
                   />
                 </div>
+                <div>
+                </div>
+             
               </div>
-
-              <h6>
-                {dataProfile && dataProfile.department
-                  ? dataProfile.department.data.pos_name
-                  : "Chưa cập nhật chức vụ"}
-              </h6>
-              <h6>
-                {dataProfile && dataProfile.department
-                  ? dataProfile.department.data.dep_name
-                  : "Chưa cập nhật phòng ban"}
-              </h6>
+              <div className = "profile-decs">
+                  <span className= "profile-decs-content" >Chức danh - chức vụ: &nbsp; </span>
+                  <h6>
+                    {dataProfile && dataProfile.department
+                      ? dataProfile.department.data.pos_name
+                      : "Chưa cập nhật chức vụ"}
+                  </h6>
+                </div>
+              <div className = "profile-decs">
+                <span className= "profile-decs-content">Đơn vị công tác: &nbsp; </span>
+                <h6>
+                  {dataProfile && dataProfile.department
+                    ? dataProfile.department.data.dep_name
+                    : "Chưa cập nhật phòng ban"}
+                </h6>
+              </div>
+              <div className = "profile-decs">
+                <span className= "profile-decs-content">Đối tượng lao động: &nbsp; </span>
+                <h6>
+                  {dataProfile && dataProfile.workObject
+                    ? dataProfile.workObject.data.formality
+                    : "Chưa cập nhật đối tượng lao động"}
+                </h6>
+              </div>
               <div className="infor-primary-contact">
                 <ul>
                   <div>
@@ -245,8 +262,8 @@ const PersonalPage = () => {
                     style={{ width: "120px" }}
                     className="infor-primary-birthday"
                   >
-                    {console.log(dataProfile)}
-                    {dataProfile ? dataProfile.pro_local_phone : "Sdt nội bộ"}
+                    {dataProfile.pro_local_phone != null ? dataProfile.pro_local_phone:"Chưa cập nhật sdt nội bộ" }
+                    {/* {dataProfile ? dataProfile.pro_local_phone != null: dataProfile.pro_local_phone  ? "dataProfile.pro_local_phone": "Sdt nội bộ chưa cập nhật"} */}
                   </li>
                   <div>
                     <img src={phone}></img>
@@ -263,84 +280,6 @@ const PersonalPage = () => {
                 </ul>
               </div>
             </div>
-            {/* <Tabs type="card" onChange={() => setActive(true)}>
-              <TabPane
-                tab={
-                  <span>
-                    <InfoCircleOutlined />
-                    Thông tin
-                  </span>
-                }
-                key="1"
-              >
-                {active ? (
-                  <div>
-                    <div className="row">
-                      <div className="col-md-2">
-                        <label>Bằng cấp</label>
-                      </div>
-                      <div className="col-md-10">
-                        <p>
-                          {dataProfile && dataProfile.userDegree
-                            ? dataProfile.userDegree.data.deg_diploma
-                            : "Đại học Công nghệ thông tin"}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-2">
-                        <label>Ngoại ngữ</label>
-                      </div>
-                      <div className="col-md-10">
-                        <p>Tiếng anh</p>
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col-md-4">
-                        <label>Địa chỉ</label>
-                      </div>
-                      <div className="col-md-8">
-                        <p>
-                          {dataProfile
-                            ? dataProfile.pro_resident
-                            : "Ấp 8 , Xã Tân An Luông, Huyện Vũng Liêm, Tỉnh Vĩnh Long"}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                ) : (
-                  ""
-                )}
-              </TabPane>
-              <TabPane
-                tab={
-                  <span>
-                    <CarOutlined />
-                    Quá trình công tác
-                  </span>
-                }
-                key="2"
-              >
-                <Timeline className="personal-page-timeline">
-                  {renderOrgan()}
-                </Timeline>
-              </TabPane>
-              <TabPane
-                tab={
-                  <span>
-                    {" "}
-                    <SmileOutlined />
-                    Khen thưởng
-                  </span>
-                }
-                key="4"
-              >
-                <Timeline className="personal-page-timeline">
-                  {renderReward()}
-                </Timeline>
-              </TabPane>
-            </Tabs>
-           */}
           </div>
           <div className="offset-md-1"></div>
         </div>

@@ -87,6 +87,9 @@
     right: 0;
     top: 0;
 }
+.profile-head {
+    padding-left: 20px;
+}
 .profile-head h5{
     color: #333;
 }
@@ -195,4 +198,14 @@
     height: 16px;
     margin-right: 4px;
   }
+  .profile-decs {
+      display: flex;
+      /* justify-content: ; */
+  }
+  .profile-decs * {
+      margin-top: 3px;
+  }
+  .profile-decs-content {
+      width: 170px;
+  } 
   
