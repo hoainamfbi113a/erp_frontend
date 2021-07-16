@@ -42,6 +42,7 @@ const TableUserContainer = (props) => {
 
   useEffect(() => {
     setLoading(true);
+    // props.setValueSearch("");
     if (props.idDepart && props.idDepart !== "all") {
       fetchDataByDepart(props.idDepart, 1, sizeOpt);
     } else if (props.idDepart === "all") {
@@ -55,7 +56,7 @@ const TableUserContainer = (props) => {
 
   useEffect(async () => {
     setLoading(true);
-    if (props.valueSearch !== "") {
+    if (props.valueSearch !== "allinone") {
       fetchSearch(1, sizeOpt);
     } else {
       fetchData(1, sizeOpt);
