@@ -49,6 +49,7 @@ const JoinDCS = (props) => {
                       onChange={props.handleChangeSelection}
                       className="modal-selection"
                       // style={{ width: 527 }}
+                      defaultValue = "Gia nhập Đoàn"
                     >
                       <Option value="Gia nhập Đoàn">Gia nhập Đoàn</Option>
                       <Option value="Gia nhập Đảng">Gia nhập Đảng</Option>
@@ -298,6 +299,33 @@ const JoinDCS = (props) => {
                     </span>
                   </li>
                   </div>
+                  }
+
+                  { props.idSelection === "Gia nhập Đoàn" &&
+                      <li className="tabs-main-left-li tabs-main-left-li-lever-2">
+                      <li className="tabs-main-left-li tabs-main-left-li-row">
+                        <span className="tabs-user-infor-top">Chức vụ :</span>
+                        <div className="tabs-user-infor-bottom">
+                          <Input
+                            name="par_second_position"
+                            // value={par_second_position}
+                            onChange={props.onChange}
+                            placeholder="Chức vụ "
+                          />
+                        </div>
+                      </li>
+                      <li className="tabs-main-left-li tabs-main-left-li-row">
+                        <span className="tabs-user-infor-top">Đơn vị :</span>
+                        <div className="tabs-user-infor-bottom">
+                          <Input
+                            // value={par_second_workplace}
+                            name="par_second_workplace"
+                            onChange={props.onChange}
+                            placeholder="Đơn vị "
+                          />
+                        </div>
+                      </li>
+                    </li>
                   }
                 </ul>
               </div>
