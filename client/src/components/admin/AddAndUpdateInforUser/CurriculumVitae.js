@@ -341,7 +341,7 @@ class addInformationUser extends Component {
     });
   };
   // const onChange = (e) => {
-    // setDataItem({ ...dataItem, [e.target.name]: e.target.value });
+  // setDataItem({ ...dataItem, [e.target.name]: e.target.value });
   // };
   onChangeSex = (e) => {
     this.setState({
@@ -359,26 +359,32 @@ class addInformationUser extends Component {
       [name2]: dateString[1],
     });
   };
-  handleChangeEducation = (value) =>{
+  handleChangeEducation = (value) => {
     this.setState({
       deg_education: value,
     })
   }
-  handleChangePolitic = (value) =>{
+  handleChangePolitic = (value) => {
     this.setState({
       deg_politic: value,
     })
   }
-  handleChangeDiploma = (value) =>{
+  handleChangeDiploma = (value) => {
     this.setState({
       deg_diploma: value,
     })
   }
-  handleChangeLanguage = (value) =>{
+  handleChangeLanguage = (value) => {
     this.setState({
       deg_foreign_language: value,
     })
   }
+  handleChangeFormality = (value) => {
+    this.setState({
+      work_formality: value,
+    })
+  }
+
   handleConfirm = async () => {
     let idUser = this.props.idUser;
     let params = {
@@ -1493,14 +1499,14 @@ class addInformationUser extends Component {
                           name="deg_foreign_language"
                           value={this.state.deg_foreign_language}
                         >
-                          <Option value="Ngôn ngữ anh">Ngôn ngữ Anh</Option>
-                          <Option value="Ngôn ngữ trung ">Ngôn ngữ Trung </Option>
-                          <Option value="Ngôn ngữ hàn">Ngôn ngữ Hàn </Option>
-                          <Option value="Ngôn ngữ nhật">Ngôn ngữ Nhật</Option>
-                          <Option value="Ngôn ngữ nhật">Ngôn ngữ Pháp</Option>
-                          <Option value="Ngôn ngữ tây ban nha">Ngôn ngữ Tây Ban Nha</Option>
-                          <Option value="Ngôn ngữ tây ban nha">Ngôn ngữ Bồ Đồ Nha</Option>
-                          <Option value="Ngôn ngữ tây ban nha">Ngôn ngữ Nga</Option>
+                          <Option value="Ngôn ngữ Anh">Ngôn ngữ Anh</Option>
+                          <Option value="Ngôn ngữ Trung ">Ngôn ngữ Trung </Option>
+                          <Option value="Ngôn ngữ Hàn">Ngôn ngữ Hàn </Option>
+                          <Option value="Ngôn ngữ Nhật">Ngôn ngữ Nhật</Option>
+                          <Option value="Ngôn ngữ Pháp">Ngôn ngữ Pháp</Option>
+                          <Option value="Ngôn ngữ Tây Ban Nha">Ngôn ngữ Tây Ban Nha</Option>
+                          <Option value="Ngôn ngữ Bồ Đồ Nha">Ngôn ngữ Bồ Đồ Nha</Option>
+                          <Option value="Ngôn ngữ Nga">Ngôn ngữ Nga</Option>
                           <Option value="Khác">Khác</Option>
                         </Select>
                       </div>
@@ -1546,102 +1552,28 @@ class addInformationUser extends Component {
                         />
                       </div>
                     </li>
-                    {/* <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">
-                        Tên trường đào tạo:
-                      </span>
-                      <div className="tabs-user-infor-bottom">
-                        <Input
-                          name="deg_school_name"
-                          value={this.state.deg_school_name}
-                          onChange={this.onChange}
-                          placeholder="Tên trường đào tạo"
-                        />
-                      </div>
-                    </li> */}
-                    {/* 
-                    <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">
-                        đối tượng đào tạo:
-                      </span>
-                      <div className="tabs-user-infor-bottom">
-                        <Input
-                          name="deg_type"
-                          value={this.state.deg_type}
-                          onChange={this.onChange}
-                          placeholder="đối tượng đào tạo"
-                        />
-                      </div>
-                    </li> */}
-                    {/* <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">
-                        Thời gian bắt đầu học:
-                      </span>
-                      <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
-                        <RangePicker
-                          placeholder={["Từ ngày", "Đến ngày"]}
-                          value={
-                            this.state.deg_begin_study == null
-                              ? null
-                              : [
-                                  this.state.deg_begin_study == null ||
-                                  moment(
-                                    this.state.deg_begin_study,
-                                    dateFormatList[0]
-                                  ) == "Thu Jan 01 1970 08:00:00 GMT+0800"
-                                    ? null
-                                    : moment(
-                                        this.state.deg_begin_study,
-                                        dateFormatList[0]
-                                      ),
-                                  this.state.deg_end_study == null ||
-                                  moment(
-                                    this.state.deg_end_study,
-                                    dateFormatList[0]
-                                  ) == "Thu Jan 01 1970 08:00:00 GMT+0800"
-                                    ? null
-                                    : moment(
-                                        this.state.deg_end_study,
-                                        dateFormatList[0]
-                                      ),
-                                ]
-                          }
-                          onChange={(date, dateString) =>
-                            this.onChangeRange(
-                              date,
-                              dateString,
-                              "deg_begin_study",
-                              "deg_end_study"
-                            )
-                          }
-                          format={dateFormatList}
-                        />
-                      </div>
-                    </li> */}
-                    {/* <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">
-                        Ghi chú về trình độ:
-                      </span>
-                      <div className="tabs-user-infor-bottom">
-                        <Input
-                          name="deg_note"
-                          value={this.state.deg_note}
-                          onChange={this.onChange}
-                          placeholder="Ghi chú về trình độ"
-                        />
-                      </div>
-                    </li> */}
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
                         Đối tượng lao động:
                       </span>
                       <div className="tabs-user-infor-bottom">
-                        <Input
+                        <Select
+                          onChange={this.handleChangeFormality}
+                          name="work_formality"
+                          value={this.state.work_formality}
+                        >
+                          <Option value="Thực tập sinh">Thực tập sinh</Option>
+                          <Option value="Khoán việc">Khoán việc</Option>
+                          <Option value="Nhân viên thời vụ">Nhân viên thời vụ</Option>
+                          <Option value="Nhân viên chính thức">Nhân viên chính thức</Option>
+                          <Option value="Khác">Khác</Option>
+                        </Select>
+                        {/* <Input
                           name="work_formality"
                           value={this.state.work_formality}
                           onChange={this.onChange}
                           placeholder="Đối tượng lao động"
-                        />
+                        /> */}
                       </div>
                     </li>
                     <li className="tabs-main-left-li">
