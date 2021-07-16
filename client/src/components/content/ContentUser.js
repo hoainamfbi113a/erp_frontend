@@ -14,11 +14,11 @@ const { Option } = Select;
 const ContentUser = () => {
   const [value, setValue] = useState("");
   const [tempValue, setTempValue] = useState("");
-  const [total, setTotal] = useState(0);
+  const [total, setTotal] = useState(null);
   let { path } = useRouteMatch();
   const { permissions } = useContext(PermissionContext);
   const [data, setData] = useState(null);
-  const [idDepart, setIdDepart] = useState("all");
+  const [idDepart, setIdDepart] = useState("");
   const [userData, setUserData] = useState(null);
 
   const [dataFilter, setDataFilter] = useState(null);
@@ -62,10 +62,10 @@ const ContentUser = () => {
           <div className="content-top-left-sum-item">{total} Nhân viên</div>
           <Select
             showSearch
+            allowClear
             optionFilterProp="children"
             placeholder="Nhập tên nhân viên"
-            allowClear
-            disabled={total === 0}
+            disabled={total === null}
             onSelect={(value) => setValue(value)}
             style={{ width: 200 }}
             className="table-btn-search"
@@ -73,13 +73,13 @@ const ContentUser = () => {
               option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
           >
-            {userData && idDepart === "all"
+            {userData
               ? userData.data.map((user) => (
                   <Option key={user.id} value={user.full_name}>
                     {user.full_name}
                   </Option>
                 ))
-              : dataFilter && idDepart !== "all"
+              : dataFilter
               ? dataFilter.data.map((user) => (
                   <Option key={user.id} value={user.full_name}>
                     {user.full_name}
@@ -99,7 +99,7 @@ const ContentUser = () => {
 
           <Select
             showSearch
-            disabled={total === 0}
+            disabled={total === null}
             optionFilterProp="children"
             placeholder="Tìm theo phòng ban"
             style={{ width: 220 }}

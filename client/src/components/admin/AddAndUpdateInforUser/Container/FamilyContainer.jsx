@@ -34,10 +34,6 @@ const FamilyContainer = ({
   const [err, setErr] = useState({
     err_full_name: "",
     err_birthday: "",
-    err_job: "",
-    err_workplace: "",
-    err_historical_features: "",
-    err_residence: "",
     err_relationship: "",
   });
   const [rem_relationship, setRem] = useState();
@@ -62,47 +58,16 @@ const FamilyContainer = ({
 
     const err_full_name = await ValidateField2(rem_full_name, 3, 30, "Họ tên");
     const err_birthday = await notNull2(rem_birthday, "Năm sinh");
-    const err_job = await ValidateField2(rem_job, 3, 30, "Nghề nghiệp");
-    const err_work_place = await ValidateField2(
-      rem_workplace,
-      3,
-      30,
-      "Nơi làm việc"
-    );
-    const err_historical_features = await ValidateField2(
-      rem_historical_features,
-      3,
-      50,
-      "Đặc điểm lịch sử"
-    );
-    const err_residence = await ValidateField2(
-      rem_residence,
-      3,
-      50,
-      "Nơi cư trú"
-    );
     const err_relationship = await ValidateField2(
       rem_relationship,
       1,
       30,
       "Trường này"
     );
-    if (
-      err_full_name ||
-      err_birthday ||
-      err_job ||
-      err_work_place ||
-      err_historical_features ||
-      err_residence ||
-      err_relationship
-    ) {
+    if (err_full_name || err_birthday || err_relationship) {
       setErr({
         err_full_name,
         err_birthday,
-        err_job,
-        err_work_place,
-        err_historical_features,
-        err_residence,
         err_relationship,
       });
     }
@@ -110,10 +75,6 @@ const FamilyContainer = ({
     if (
       err_full_name === "" &&
       err_birthday === "" &&
-      err_job === "" &&
-      err_work_place === "" &&
-      err_historical_features === "" &&
-      err_residence === "" &&
       err_relationship === ""
     ) {
       const paramsAdd = {

@@ -75,7 +75,10 @@ const History = ({
               {namination === "Học tập" ? "Học trường" : "Làm việc tại"}{" "}
               {item.his_work_place}
             </p>
-            <p className="personal-history-content">Địa chỉ: {item.his_working_process}, {item.his_city + ", " + item.his_district}</p>
+            <p className="personal-history-content">
+              Địa chỉ: {item.his_working_process},{" "}
+              {item.his_city + ", " + item.his_district}
+            </p>
             <p className="personal-history-content">Ghi chú: {item.his_note}</p>
           </li>
         );
@@ -212,7 +215,7 @@ const History = ({
                   {err.err_city}
                 </span>
               ) : err.err_district !== "" ? (
-                <br/>
+                <br />
               ) : null}
             </li>
             <li
@@ -257,9 +260,7 @@ const History = ({
             </li>
 
             <li className="tabs-main-left-li">
-              <span className="tabs-user-infor-top">
-                Địa chỉ cụ thể
-              </span>
+              <span className="tabs-user-infor-top">Địa chỉ</span>
               <div className="tabs-user-infor-bottom">
                 <Input
                   style={{ width: "100%" }}

@@ -51,7 +51,7 @@ const TableUserContainer = (props) => {
 
   const sendData = (data) => {
     props.parentCallback(data);
-  }
+  };
 
   useEffect(async () => {
     setLoading(true);
@@ -90,10 +90,13 @@ const TableUserContainer = (props) => {
     if (!res.err) {
       setDataUser(res);
       props.totalEmploy(res.pagination.total);
-      setLoading(false);
+
+      // setTimeout(() => {
+      // },500)
     } else {
       message.error("search fail");
     }
+    setLoading(false);
   };
 
   const confirm = (e) => {
