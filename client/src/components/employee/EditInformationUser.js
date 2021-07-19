@@ -80,6 +80,7 @@ class EditInformationUser extends Component {
       );
     }
     if (this.state.activeLink === 2) {
+      console.log(this.props.userProfileState.user_id)
       return (
         <PersonalHistoryContainer
           idUser={this.props.userProfileState.user_id}
@@ -139,6 +140,7 @@ class EditInformationUser extends Component {
       );
     }
     if (this.state.activeLink === 9) {
+      console.log(this.props.dataAbroad)
       return (
           <GoAbroadContainer
             idUser={this.props.userProfileState.user_id}
@@ -148,6 +150,13 @@ class EditInformationUser extends Component {
             updateData={updateAbroad}
             removeData={removeAbroad}
             data={this.props.dataAbroad}
+            // idUser={this.props.userProfileState.user_id}
+            // proId={this.props.userProfileState.id}
+            // getData={getAbroad({ id: this.props.userProfileState.user_id })}
+            // addData={addAbroad}
+            // updateData={updateAbroad}
+            // removeData={removeAbroad}
+            // data={this.props.dataAbroad}
           />
         // <FamilyContainer
         //   idUser={this.props.userProfileState.user_id}
@@ -358,6 +367,7 @@ const mapStateToProps = (state) => {
     dataKinship: state.kinshipUser,
     dataSocial: state.socialUser,
     dataHistory: state.historyUser,
+    dataAbroad: state.abroadUser
   };
 };
 

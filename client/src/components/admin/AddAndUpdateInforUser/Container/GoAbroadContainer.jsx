@@ -37,13 +37,14 @@ const GoAbroadContainer = ({
     err_purpose: "",
     err_expense: "",
     err_inviting_unit: "",
-    err_content: "",
+    err_content: "" ,
   });
   const [idAbroad, setIdAbroad] = useState("");
 
   useEffect(() => {
-    if (data&& !data.length) dispatch(getData);
-  }, [data&&data.length]);
+    // if (data&& !data.length) 
+    dispatch(getData);
+  }, [dispatch]);
 
   const handleOk = async () => {
     let {

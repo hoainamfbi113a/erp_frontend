@@ -49,7 +49,7 @@ const TrainingContainer = (props) => {
   const dataTraining2 = useSelector((state) => state.training2User);
 
   useEffect(() => {
-    if (!dataTraining.length && !dataTraining2.length) {
+    // if (!dataTraining.length && !dataTraining2.length) {
       dispatch(
         getTraining({
           id_user: props.idUser,
@@ -62,7 +62,7 @@ const TrainingContainer = (props) => {
           type: 2,
         })
       );
-    }
+    // }
   }, [dispatch]);
   const showModal = (value) => {
     setDataItem({

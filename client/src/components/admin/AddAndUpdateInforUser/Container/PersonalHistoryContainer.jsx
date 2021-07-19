@@ -46,7 +46,8 @@ const PersonalHistoryContainer = ({
   const [districts, setDistricts] = useState([]);
 
   useEffect(() => {
-    if (!data.length) dispatch(getData);
+    // if (!data.length)
+     dispatch(getData);
   }, [type]);
 
   useEffect(() => {

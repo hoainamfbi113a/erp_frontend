@@ -37,7 +37,7 @@ const OrganizeContainer = (props) => {
   const dataOrg = useSelector((state) => state.organizeUser);
   const dataOrg2 = useSelector((state) => state.organize2User);
   useEffect(() => {
-    if (!dataOrg.length && !dataOrg2.length) {
+    // if (!dataOrg.length && !dataOrg2.length) {
       dispatch(
         getOrganize({
           id_user: props.idUser,
@@ -50,7 +50,7 @@ const OrganizeContainer = (props) => {
       //     type: 2,
       //   })
       // );
-    }
+    // }
   }, [dispatch]);
   const showModal = (value) => {
     setDataItem({
