@@ -42,8 +42,8 @@ const GoAbroadContainer = ({
   const [idAbroad, setIdAbroad] = useState("");
 
   useEffect(() => {
-    if (!data.length) dispatch(getData);
-  }, [data.length]);
+    if (data&& !data.length) dispatch(getData);
+  }, [data&&data.length]);
 
   const handleOk = async () => {
     let {

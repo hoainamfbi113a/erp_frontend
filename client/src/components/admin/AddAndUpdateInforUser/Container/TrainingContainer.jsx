@@ -246,7 +246,7 @@ const TrainingContainer = (props) => {
       );
     }
   }
-  const handleOk = () => {
+  const handleOk = (idImg) => {
     let err_file = "";
     if (fileImg == null && id == "") {
       err_file = "File không thể để trống";
@@ -281,7 +281,7 @@ const TrainingContainer = (props) => {
           dispatch(hideLoading());
         });
     } else if (err_file === "") {
-      addData(id);
+      addData(idImg);
     }
   };
   const onChangeImage = (e) => {

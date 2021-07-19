@@ -41,12 +41,12 @@ function* addJoinDCSSaga(action) {
   try {
     const resp = yield call(addJoinDCSApi, action.payload);
     if (resp.message === "Success!. Stored") {
-      message.success("Thêm thành công");
+      message.success("Cập nhật thành công");
     } else {
-      message.error("Thêm thất bại");
+      message.error("Cập nhật thất bại");
     }
   } catch (error) {
-    message.error("Thêm thất bại");
+    message.error("Cập nhật thất bại");
   }
   yield put(hideLoading());
 }

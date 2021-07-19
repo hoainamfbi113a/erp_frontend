@@ -18,7 +18,7 @@ const getAllDistrict = async (req, res) => {
     const { data } = await axios.get(
       `https://thongtindoanhnghiep.co/api/city/${id}/district`,
     );
-    res.send(data);
+    res.send(data); 
   } catch (error) {
     console.log(error);
   }

@@ -47,7 +47,7 @@ const GoAbroad = ({
   };
 
   const renderData = () => {
-    if (dataAbroad.length) {
+    if (dataAbroad && dataAbroad.length) {
       return dataAbroad.map((item) => {
         return (
           <li key={item.id}>

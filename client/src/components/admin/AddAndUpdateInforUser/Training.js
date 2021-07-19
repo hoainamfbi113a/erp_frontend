@@ -43,9 +43,7 @@ const Training = (props) => {
               resource.name)}>
               <CloudDownloadOutlined style={{ fontSize: '23px', marginRight: "5px" }}
               />
-              {/* <span style={{color:"green"}}>{resource.name}</span> */}
               <span style={{color:"red"}}>{resource.name.slice(resource.name.lastIndexOf("-")+1)}</span>
-              {/* <span style={{color:"blue"}}>{resource.name.toString().lastIndexOf("-")+1}</span> */}
             </div>
     
           </div>
@@ -79,7 +77,7 @@ const Training = (props) => {
         <div>
           <div style={{ marginBottom: "15px", color: "red" }}>
             Ảnh hiện tại :
-            {resource ? resource.name : ""}
+            {resource ? resource.name.slice(resource.name.lastIndexOf("-")+1) : ""}
           </div>
           <input
             type="file"
@@ -174,7 +172,9 @@ const Training = (props) => {
       <Modal
         title="Nhập thông tin"
         visible={props.visible}
-        onOk={props.handleOk}
+        onOk={() => {
+          props.handleOk(resource.id);
+        }}
         onCancel={props.hideModal}
         okText="OK"
         cancelText="Cancel"

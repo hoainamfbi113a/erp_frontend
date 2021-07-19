@@ -20,7 +20,7 @@ import { eraseOrganize2 } from "reduxToolkit/features/userProfile/organize2Slice
 import PermissionContext from "../../../context/PermissionContext";
 import TableUser from "../TableUser";
 import { formatDateNumber } from "../../../helpers/FuncHelper";
-
+const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 const TableUserContainer = (props) => {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -180,10 +180,12 @@ const TableUserContainer = (props) => {
         `${
           profile && profile.data
             && profile.data.pro_birth_day !==null
-            ? formatDateNumber(profile.pro_birth_day, "DD-MM-YYYY")
+            ? formatDateNumber(profile.data.pro_birth_day, dateFormatList[0])
             : "Chưa nhập"
         }`,
+        
     },
+    // moment(rew_time_from, dateFormatList[0]),
     {
       title: "Email",
       dataIndex: "email",

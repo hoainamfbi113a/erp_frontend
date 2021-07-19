@@ -33,7 +33,7 @@ const BonusContainer = (props) => {
     rew_note: null,
     rew_content: "",
     rew_decision_number: "",
-    resource:"",
+    resource: "",
     id: "",
   });
   const [err, setErr] = useState({
@@ -63,7 +63,7 @@ const BonusContainer = (props) => {
       })
     );
   }, [dispatch]);
-  
+
   const showModal = (value) => {
     if (value == 1) {
       setDataItem({ category: 1 });
@@ -83,12 +83,12 @@ const BonusContainer = (props) => {
       rew_content: "",
       rew_decision_number: "",
       fileImg: null,
-      resource:""
+      resource: ""
     });
     setErr({
       err_content: "",
       err_number: "",
-      err_file:""
+      err_file: ""
     })
     setId("");
 
@@ -159,6 +159,7 @@ const BonusContainer = (props) => {
   }
 
   const addData = async (idImg) => {
+    // return
     let {
       type,
       rew_formality,
@@ -170,55 +171,55 @@ const BonusContainer = (props) => {
     } = reward;
     let date1 = moment(rew_time_from, "DD-MM-YYYY");
     let date2 = moment(rew_time_to, "DD-MM-YYYY");
-      const parseRew_time_from = Date.parse(date1) / 1000;
-      const parseRew_time_to = Date.parse(date2) / 1000;
-      const params = {
-        pro_id: props.dataProfile.id,
-        user_id: props.idUser,
-        rew_formality,
-        type,
-        rew_time_from: parseRew_time_from,
-        rew_time_to: parseRew_time_to,
-        rew_note,
-        id,
-        rew_content,
-        rew_decision_number,
-        resource_id: idImg,
-      };
-      if (id == "") {
-        if (type == 1) {
-          dispatch(addReward(params));
-        } else {
-          dispatch(addDiscipline(params));
-        }
+    const parseRew_time_from = Date.parse(date1) / 1000;
+    const parseRew_time_to = Date.parse(date2) / 1000;
+    const params = {
+      pro_id: props.dataProfile.id,
+      user_id: props.idUser,
+      rew_formality,
+      type,
+      rew_time_from: parseRew_time_from,
+      rew_time_to: parseRew_time_to,
+      rew_note,
+      id,
+      rew_content,
+      rew_decision_number,
+      resource_id: idImg,
+    };
+    if (id == "") {
+      if (type == 1) {
+        dispatch(addReward(params));
       } else {
-        if (type == 1) {
-          dispatch(updateReward(params));
-        } else {
-          dispatch(updateDiscipline(params));
-        }
-        
-        setId("");
+        dispatch(addDiscipline(params));
       }
-      setTimeout(() => {
-        if (type == 1) {
-          dispatch(
-            getReward({
-              id_user: props.idUser,
-              type: 1,
-            })
-          );
-        } else {
-          dispatch(
-            getDiscipline({
-              id_user: props.idUser,
-              type: 2,
-            })
-          );
-        }
-      }, 200);
-      hideModal();
-      setVisible(false);
+    } else {
+      if (type == 1) {
+        dispatch(updateReward(params));
+      } else {
+        dispatch(updateDiscipline(params));
+      }
+
+      setId("");
+    }
+    setTimeout(() => {
+      if (type == 1) {
+        dispatch(
+          getReward({
+            id_user: props.idUser,
+            type: 1,
+          })
+        );
+      } else {
+        dispatch(
+          getDiscipline({
+            id_user: props.idUser,
+            type: 2,
+          })
+        );
+      }
+    }, 200);
+    hideModal();
+    setVisible(false);
   };
 
   const handleOkDelete = (item) => {
@@ -246,7 +247,7 @@ const BonusContainer = (props) => {
     let err_content = await ValidateField(rew_content, 5, 50, "Nội dung");
     let err_number = await ValidateNumber(rew_decision_number, 5, 10, "Số Cấp");
     let err_file = "";
-    if(fileImg == null && id == "") {
+    if (fileImg == null && id == "") {
       err_file = "File không thể để trống";
     }
     if (err_content || err_number || err_file !== "") {
@@ -257,10 +258,10 @@ const BonusContainer = (props) => {
         let fileName = fileImg.target.files[0].name;
         const formData = new FormData();
         formData.append("file", fileImg.target.files[0]);
-        if(fileName.slice(fileName.indexOf(".")) === ".pdf") {
+        if (fileName.slice(fileName.indexOf(".")) === ".pdf") {
           formData.append("type", "bounuspdf")
         } else {
-          formData.append("type", "bounus"+ dataItem.tra_type)  
+          formData.append("type", "bounus" + dataItem.tra_type)
         }
         dispatch(showLoading());
         fileImg.target.value = null;
@@ -282,8 +283,6 @@ const BonusContainer = (props) => {
         addData(id);
       }
     }
-
- 
   };
 
   const onChangeImage = (e) => {

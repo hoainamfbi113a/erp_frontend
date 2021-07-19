@@ -69,7 +69,7 @@ const Bonus = (props) => {
       return (
         <li key={item.id}>
           <div className="personal-history-time">
-            {formatDateNumber(item.rew_time_from, dateFormatList[0])} -{" "}
+            {formatDateNumber("1626282000", dateFormatList[0])} +{" "}
             <span>
               {" "}
               {formatDateNumber(item.rew_time_to, dateFormatList[0])}
@@ -145,7 +145,8 @@ const Bonus = (props) => {
         <div>
           <div style={{ marginBottom: "15px", color: "red" }}>
             Ảnh hiện tại:
-            {resource ? resource.name : ""}
+            {resource ? resource.name.slice(resource.name.lastIndexOf("-") + 1) : ""}
+            
           </div>
           <input
             style={{ marginBottom: "10px" }}
@@ -188,7 +189,7 @@ const Bonus = (props) => {
         title="Nhập thông tin"
         visible={props.visible}
         onOk={() => {
-          props.handleOk(id);
+          props.handleOk(resource.id);
         }}
         onCancel={props.hideModal}
         okText="OK"

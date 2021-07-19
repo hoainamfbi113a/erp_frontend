@@ -24,6 +24,7 @@ import TrainingContainer from "../admin/AddAndUpdateInforUser/Container/Training
 import JoinDCS from "../admin/AddAndUpdateInforUser/Container/JoinDCSContainer";
 import OrganizeContainer from "../admin/AddAndUpdateInforUser/Container/OrganizeContainer";
 import PersonalHistoryContainer from "../admin/AddAndUpdateInforUser/Container/PersonalHistoryContainer";
+import GoAbroadContainer from "../admin/AddAndUpdateInforUser/Container/GoAbroadContainer";
 import axiosConfig from "apis/axios";
 import {
   getFamily,
@@ -49,6 +50,12 @@ import {
   removeHistory,
   updateHistory,
 } from "../../reduxToolkit/features/userProfile/historySlice";
+import {
+  getAbroad,
+  addAbroad,
+  removeAbroad,
+  updateAbroad,
+} from "../../reduxToolkit/features/userProfile/abroadSlice";
 const { Step } = Steps;
 class EditInformationUser extends Component {
   constructor(props) {
@@ -123,7 +130,7 @@ class EditInformationUser extends Component {
           proId={this.props.userProfileState.id}
           type="kinship"
           namination="Quan hệ thân tộc"
-          getData={getKinship({  id: this.props.userProfileState.user_id, type: "kinship" })}
+          getData={getKinship({ id: this.props.userProfileState.user_id, type: "kinship" })}
           addData={addKinship}
           updateData={updateKinship}
           removeData={removeKinship}
@@ -133,17 +140,26 @@ class EditInformationUser extends Component {
     }
     if (this.state.activeLink === 9) {
       return (
-        <FamilyContainer
-        idUser={this.props.userProfileState.user_id}
-        proId={this.props.userProfileState.id}
-          type="social"
-          namination="Quan hệ xã hội"
-          getData={getSocial({  id: this.props.userProfileState.user_id, type: "social" })}
-          addData={addSocial}
-          updateData={updateSocial}
-          removeData={removeSocial}
-          data={this.props.dataSocial}
-        />
+          <GoAbroadContainer
+            idUser={this.props.userProfileState.user_id}
+            proId={this.props.userProfileState.id}
+            getData={getAbroad({ id: this.props.userProfileState.user_id })}
+            addData={addAbroad}
+            updateData={updateAbroad}
+            removeData={removeAbroad}
+            data={this.props.dataAbroad}
+          />
+        // <FamilyContainer
+        //   idUser={this.props.userProfileState.user_id}
+        //   proId={this.props.userProfileState.id}
+        //   type="social"
+        //   namination="Quan hệ xã hội"
+        //   getData={getSocial({ id: this.props.userProfileState.user_id, type: "social" })}
+        //   addData={addSocial}
+        //   updateData={updateSocial}
+        //   removeData={removeSocial}
+        //   data={this.props.dataSocial}
+        // />
       );
     }
   };
@@ -260,28 +276,70 @@ class EditInformationUser extends Component {
                   Khen thưởng, kỷ luật
                 </span>
               </li>
-              <li onClick={() => this.handleClick(7)}>
-                <div className={this.state.activeLink === 7 ? "active" : ""}>
-                  7
-                </div>
+              <li
+                onClick={() => {
+                  this.handleClick(7);
+                  window.scrollTo(0, 0);
+                }}
+              >
+                <div className={this.state.activeLink === 7 ? "active" : ""}>7</div>
                 <span className={this.state.activeLink === 7 ? "active" : ""}>
-                  Hoàn cảnh kinh tế, quan hệ gia đình
+                  Quan hệ gia đình thân tộc
                 </span>
               </li>
-              <li onClick={() => this.handleClick(8)}>
-                <div className={this.state.activeLink === 8 ? "active" : ""}>
-                  8
-                </div>
+              <li
+                onClick={() => {
+                  this.handleClick(8);
+                  window.scrollTo(0, 0);
+                }}
+              >
+                <div className={this.state.activeLink === 8 ? "active" : ""}>8</div>
                 <span className={this.state.activeLink === 8 ? "active" : ""}>
-                  Quan hệ gia đình, thân tộc
+                  Tài sản
                 </span>
               </li>
-              <li onClick={() => this.handleClick(9)}>
-                <div className={this.state.activeLink === 9 ? "active" : ""}>
-                  9
-                </div>
+              <li
+                onClick={() => {
+                  this.handleClick(9);
+                  window.scrollTo(0, 0);
+                }}
+              >
+                <div className={this.state.activeLink === 9 ? "active" : ""}>9</div>
                 <span className={this.state.activeLink === 9 ? "active" : ""}>
-                  Quan hệ xã hội
+                  Đi nước ngoài
+                </span>
+              </li>
+              <li
+                onClick={() => {
+                  this.handleClick(10);
+                  window.scrollTo(0, 0);
+                }}
+              >
+                <div className={this.state.activeLink === 10 ? "active" : ""}>10</div>
+                <span className={this.state.activeLink === 10 ? "active" : ""}>
+                  Hợp đồng lao động
+                </span>
+              </li>
+              <li
+                onClick={() => {
+                  this.handleClick(11);
+                  window.scrollTo(0, 0);
+                }}
+              >
+                <div className={this.state.activeLink === 11 ? "active" : ""}>11</div>
+                <span className={this.state.activeLink === 11 ? "active" : ""}>
+                  Mức lương phụ cấp
+                </span>
+              </li>
+              <li
+                onClick={() => {
+                  this.handleClick(12);
+                  window.scrollTo(0, 0);
+                }}
+              >
+                <div className={this.state.activeLink === 12 ? "active" : ""}>12</div>
+                <span className={this.state.activeLink === 12 ? "active" : ""}>
+                  Bảo hiểm xã hội
                 </span>
               </li>
             </ul>
