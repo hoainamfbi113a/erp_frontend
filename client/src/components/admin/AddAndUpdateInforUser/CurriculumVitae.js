@@ -483,6 +483,16 @@ class addInformationUser extends Component {
     }
   };
   handleAdd = async (value) => {
+    // console.log("pro_birth_day", Date.parse(moment(this.state.pro_birth_day, "DD-MM-YYYY")) / 1000);
+    // console.log("pro_identity_card_when", Date.parse(moment(this.state.pro_identity_card_when, "DD-MM-YYYY")) / 1000)
+    // console.log("appointment_date", Date.parse(moment(this.state.appointment_date, "DD-MM-YYYY")) /1000);
+    // console.log("expire_date", Date.parse(moment(this.state.expire_date, "DD-MM-YYYY")) /1000);
+    // console.log("deg_begin_study", Date.parse(moment(this.state.deg_begin_study, "DD-MM-YYYY")) / 1000);
+    // console.log("deg_end_study", Date.parse(moment(this.state.deg_end_study, "DD-MM-YYYY")) / 1000);
+    // console.log("car_number_day", Date.parse(moment(this.state.car_number_day, "DD-MM-YYYY")) / 1000);
+    // console.log("car_begin", Date.parse(moment(this.state.car_begin, "DD-MM-YYYY")) / 1000);
+    // console.log("car_end", Date.parse(moment(this.state.car_end, "DD-MM-YYYY")) / 1000);
+    return ;
     this.props.uiActionCreatorsS();
     let messageErr = 0;
     let userId = 0;
@@ -679,7 +689,7 @@ class addInformationUser extends Component {
         user_id: userId,
         pro_name: this.state.pro_name,
         pro_pen_name: this.state.pro_pen_name,
-        pro_birth_day:this.state.pro_birth_day,
+        pro_birth_day: this.formatDateNumberAdd(this.state.pro_birth_day),
         pro_gender: this.state.pro_gender,
         pro_birth_place: this.state.pro_birth_place,
         pro_home_town: this.state.pro_home_town,
@@ -690,15 +700,12 @@ class addInformationUser extends Component {
         pro_background_origin: this.state.pro_background_origin,
         pro_occupation: this.state.pro_occupation,
         pro_identity_card: this.state.pro_identity_card,
-        pro_identity_card_when: this.state.pro_identity_card_when,
+        pro_identity_card_when: this.formatDateNumberAdd(this.state.pro_identity_card_when),
         pro_identity_card_where: this.state.pro_identity_card_where,
         pro_note: this.state.pro_note,
         button: value,
         action: "create",
       };
-      console.log(this.state.pro_identity_card_when);
-      console.log(params);
-      return;
       let resUpdateProfile = await updateProfile(pro_id, params);
       if (resUpdateProfile && resUpdateProfile.message == "Success!. Updated") {
       } else {
@@ -934,6 +941,11 @@ class addInformationUser extends Component {
     ? value
     :formatDateNumber(value, dateFormatList[0]),
      dateFormatList[0])
+  }
+  formatDateNumberAdd = (value) =>{
+    return value == null ? null: value.toString().includes("/") ? 
+    Date.parse(moment(value, "DD-MM-YYYY")) / 1000 
+     : value;
   }
   render() {
     return (
