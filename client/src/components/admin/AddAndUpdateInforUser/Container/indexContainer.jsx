@@ -80,14 +80,11 @@ const InfoUserContainer = (props) => {
           setStep_id(dataTransfersProfile.data.next_step_id);
           // console.log(dataTransfersProfile.data.next_step_id);
 
-          // setStep_id(data.status);
         }
         if (Object.keys(data).length != 0) {
           let dataTransfersProfile = {};
           dataTransfersProfile = await transfersProfile(data.id);
           setStep_id(dataTransfersProfile.data.next_step_id);
-          // setStep_id(data.status);
-          console.log(dataTransfersProfile.data.next_step_id);
         }
       } else if (window.location.href.includes("create") === false) {
         setProfile(dataProfile);

@@ -39,6 +39,7 @@ import { withRouter } from "react-router";
 import { bindActionCreators } from "redux";
 import { hideLoading, showLoading } from "reduxToolkit/features/uiLoadingSlice";
 import PermissionContext from "../../../context/PermissionContext";
+import { formatDateNumber } from "../../../helpers/FuncHelper";
 const { Option } = Select;
 
 const { Step } = Steps;
@@ -229,10 +230,8 @@ class addInformationUser extends Component {
         pro_identity_card: data.pro_identity_card,
         pro_identity_card_when:
           data.pro_identity_card_when == null
-            ? null
-            : this.formatDate(
-              data.pro_identity_card_when.toString().slice(0, 10)
-            ),
+            ? null: 
+              data.pro_identity_card_when,
         pro_identity_card_where: data.pro_identity_card_where,
         pro_note: data.pro_note,
         dep_id: data.department ? data.department.data.dep_id : "",
@@ -680,8 +679,7 @@ class addInformationUser extends Component {
         user_id: userId,
         pro_name: this.state.pro_name,
         pro_pen_name: this.state.pro_pen_name,
-        pro_birth_day:
-          Date.parse(moment(this.state.pro_birth_day, "DD-MM-YYYY")) / 1000,
+        pro_birth_day:this.state.pro_birth_day,
         pro_gender: this.state.pro_gender,
         pro_birth_place: this.state.pro_birth_place,
         pro_home_town: this.state.pro_home_town,
@@ -692,14 +690,15 @@ class addInformationUser extends Component {
         pro_background_origin: this.state.pro_background_origin,
         pro_occupation: this.state.pro_occupation,
         pro_identity_card: this.state.pro_identity_card,
-        pro_identity_card_when:
-          Date.parse(moment(this.state.pro_identity_card_when, "DD-MM-YYYY")) /
-          1000,
+        pro_identity_card_when: this.state.pro_identity_card_when,
         pro_identity_card_where: this.state.pro_identity_card_where,
         pro_note: this.state.pro_note,
         button: value,
         action: "create",
       };
+      console.log(this.state.pro_identity_card_when);
+      console.log(params);
+      return;
       let resUpdateProfile = await updateProfile(pro_id, params);
       if (resUpdateProfile && resUpdateProfile.message == "Success!. Updated") {
       } else {
@@ -929,6 +928,13 @@ class addInformationUser extends Component {
       return;
     }
   };
+  formatDateNumberFunc = (value) =>{ 
+    return value == null ? null :
+    moment(value.toString().includes("/")
+    ? value
+    :formatDateNumber(value, dateFormatList[0]),
+     dateFormatList[0])
+  }
   render() {
     return (
       <div className="edit-infor-form">
@@ -1085,16 +1091,7 @@ class addInformationUser extends Component {
                           format={dateFormatList}
                           placeholder="Chọn ngày"
                           value={
-                            this.state.pro_birth_day == null ||
-                              moment(
-                                this.state.pro_birth_day,
-                                dateFormatList[0]
-                              ) == "Thu Jan 01 1970 08:00:00 GMT+0800"
-                              ? null
-                              : moment(
-                                this.state.pro_birth_day,
-                                dateFormatList[0]
-                              )
+                            this.formatDateNumberFunc(this.state.pro_birth_day)
                           }
                           onChange={(date, dateString) =>
                             this.onChangeBirthDay(
@@ -1230,20 +1227,16 @@ class addInformationUser extends Component {
                     </li>
                     <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">
-                        Ngày cấp CCCD :
+                        Ngày cấp CCCD:
                       </span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
+                        {/* {console.log(this.state.pro_identity_card_when)} */}
                         <DatePicker
                           format={dateFormatList}
                           placeholder="Chọn ngày"
-                          value={
-                            this.state.pro_identity_card_when == null
-                              ? null
-                              : moment(
-                                this.state.pro_identity_card_when,
-                                dateFormatList[0]
-                              )
-                          }
+                          value={ 
+                            this.formatDateNumberFunc(this.state.pro_identity_card_when)
+                          } 
                           onChange={(date, dateString) =>
                             this.onChangeBirthDay(
                               date,
