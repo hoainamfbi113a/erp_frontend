@@ -144,12 +144,13 @@ router.get('/workflow/detail',async (req,res)=>{
       headers: { Authorization: req.headers.authorization },
     };
   let {type_id } = req.query;
-  let  {data, status}  = await axios.get(`${process.env.apiWorkflow}/api/workflow/detail?type_id=${type_id}`);
-  if(status == 204) {
-    res.status(204).send()
-  } else {
-      res.send(data);
-  }
+  // let  {data, status}  = await axios.get(`${process.env.apiWorkflow}/api/workflow/detail?type_id=${type_id}`);
+  // if(status == 204) {
+    // res.status(204).send()
+  // } else {
+      // res.send(data);
+      res.send({});
+  // }
 })
 
 router.post('/issue/store', async (req,res)=>{

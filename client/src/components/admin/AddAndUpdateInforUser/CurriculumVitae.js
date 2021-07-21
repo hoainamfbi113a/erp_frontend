@@ -455,7 +455,7 @@ class addInformationUser extends Component {
     );
   };
   renderParts = () => {
-    if (this.state.dataParts !== null) {
+    if (this.state.dataParts !== null && this.state.dataParts) {
       return this.state.dataParts.map((item) => {
         return (
           <Option key={item.id} value={item.id}>

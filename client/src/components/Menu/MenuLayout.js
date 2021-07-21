@@ -87,11 +87,10 @@ const MenuLayout = (props) => {
                 }
               })}
               <Menu.Item
-                // icon={<AiOutlineNotification />}
-                // className="ant-menu-submenu-title"
+                style = {{paddingLeft: "48px"}}
                 key="99"
               >
-                <Link to="/notification-general">Lương nhân viên</Link>
+                <Link to="/notification-general">--  Lương nhân viên</Link>
               </Menu.Item>
             </SubMenu>
           ))}
