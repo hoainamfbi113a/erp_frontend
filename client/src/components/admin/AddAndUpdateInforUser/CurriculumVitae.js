@@ -2,7 +2,7 @@ import {
   DatePicker,
   Input,
   message,
-  Popconfirm,
+  Modal,
   Radio,
   Select,
   Steps,
@@ -137,6 +137,7 @@ class addInformationUser extends Component {
       deg_education: "",
       deg_politic: "",
       deg_foreign_language: "",
+      isModalVisibleSave: false,
     };
     this.typingRef = React.createRef(null);
     this.handleSearchDepartment = this.handleSearchDepartment.bind(this);
@@ -230,8 +231,8 @@ class addInformationUser extends Component {
         pro_identity_card: data.pro_identity_card,
         pro_identity_card_when:
           data.pro_identity_card_when == null
-            ? null: 
-              data.pro_identity_card_when,
+            ? null :
+            data.pro_identity_card_when,
         pro_identity_card_where: data.pro_identity_card_where,
         pro_note: data.pro_note,
         dep_id: data.department ? data.department.data.dep_id : "",
@@ -892,6 +893,23 @@ class addInformationUser extends Component {
         console.log(err);
       });
   };
+  showModalSave = () => {
+    this.setState({
+      isModalVisibleSave: true,
+    })
+  };
+
+  handleOkSave = () => {
+    this.setState({
+      isModalVisibleSave: false,
+    })
+  };
+
+  handleCancelSave = () => {
+    this.setState({
+      isModalVisibleSave: false,
+    })
+  };
   renderButton = (value) => {
     if (value === 0) {
       return (
@@ -899,15 +917,16 @@ class addInformationUser extends Component {
           <span className="btn-add-user" onClick={this.handleSave}>
             Lưu
           </span>
-          <Popconfirm
-            title="Bạn có chắc chắn xác nhận hồ sơ"
-            onConfirm={() => this.confirm()}
-            onCancel={this.cancel}
-            okText="Yes"
-            cancelText="No"
+          <span className="btn-add-user" onClick={
+            this.showModalSave
+          }>Xác nhận</span>
+          <Modal title="Tiêu đề"
+            visible={this.state.isModalVisibleSave}
+            onOk={this.handleOkSave}
+            onCancel={this.handleCancelSave}
           >
-            <span className="btn-add-user">Xác nhận</span>
-          </Popconfirm>
+            <p>BẠN CÓ CHẮC LƯU THÔNG TIN</p>
+          </Modal>
         </li>
       );
     } else if (value === 1) {
@@ -925,19 +944,20 @@ class addInformationUser extends Component {
       return;
     }
   };
-  formatDateNumberFunc = (value) =>{ 
+  formatDateNumberFunc = (value) => {
     return value == null ? null :
-    moment(value.toString().includes("/")
-    ? value
-    :formatDateNumber(value, dateFormatList[0]),
-     dateFormatList[0])
+      moment(value.toString().includes("/")
+        ? value
+        : formatDateNumber(value, dateFormatList[0]),
+        dateFormatList[0])
   }
-  formatDateNumberAdd = (value) =>{
-    return value == null ? null: value.toString().includes("/") ? 
-    Date.parse(moment(value, "DD-MM-YYYY")) / 1000 
-     : value;
+  formatDateNumberAdd = (value) => {
+    return value == null ? null : value.toString().includes("/") ?
+      Date.parse(moment(value, "DD-MM-YYYY")) / 1000
+      : value;
   }
   render() {
+    const statusProfile = this.props.value;
     return (
       <div className="edit-infor-form">
         <div className="tabs-main">
@@ -995,6 +1015,7 @@ class addInformationUser extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                          disabled={statusProfile === 3 ? true : false}
                           value={this.state.pro_name}
                           name="pro_name"
                           onChange={this.onChange}
@@ -1068,6 +1089,7 @@ class addInformationUser extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                        disabled={statusProfile === 3 ? true : false}
                           name="pro_local_phone"
                           value={this.state.pro_local_phone}
                           onChange={this.onChange}
@@ -1079,6 +1101,7 @@ class addInformationUser extends Component {
                       <span className="tabs-user-infor-top">Bút danh:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                        disabled={statusProfile === 3 ? true : false}
                           name="pro_pen_name"
                           value={this.state.pro_pen_name}
                           onChange={this.onChange}
@@ -1090,6 +1113,7 @@ class addInformationUser extends Component {
                       <span className="tabs-user-infor-top">Ngày sinh:</span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                         <DatePicker
+                        disabled={statusProfile === 3 ? true : false}
                           format={dateFormatList}
                           placeholder="Chọn ngày"
                           value={
@@ -1109,6 +1133,7 @@ class addInformationUser extends Component {
                       <span className="tabs-user-infor-top">Giới tính:</span>
                       <div className="tabs-user-infor-bottom">
                         <Radio.Group
+                        disabled={statusProfile === 3 ? true : false}
                           onChange={this.onChangeSex}
                           value={this.state.pro_gender}
                         >
@@ -1122,6 +1147,7 @@ class addInformationUser extends Component {
                       <span className="tabs-user-infor-top">Nơi sinh:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                        disabled={statusProfile === 3 ? true : false}
                           name="pro_birth_place"
                           value={this.state.pro_birth_place}
                           onChange={this.onChange}
@@ -1133,6 +1159,7 @@ class addInformationUser extends Component {
                       <span className="tabs-user-infor-top">Quê quán:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                        disabled={statusProfile === 3 ? true : false}
                           name="pro_home_town"
                           value={this.state.pro_home_town}
                           onChange={this.onChange}
@@ -1146,6 +1173,7 @@ class addInformationUser extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                        disabled={statusProfile === 3 ? true : false}
                           name="deg_permanent_residence"
                           value={this.state.deg_permanent_residence}
                           onChange={this.onChange}
@@ -1159,6 +1187,7 @@ class addInformationUser extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                        disabled={statusProfile === 3 ? true : false}
                           name="pro_resident"
                           value={this.state.pro_resident}
                           onChange={this.onChange}
@@ -1170,6 +1199,7 @@ class addInformationUser extends Component {
                       <span className="tabs-user-infor-top">Dân tộc:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                        disabled={statusProfile === 3 ? true : false}
                           name="pro_ethnic"
                           value={this.state.pro_ethnic}
                           onChange={this.onChange}
@@ -1181,6 +1211,7 @@ class addInformationUser extends Component {
                       <span className="tabs-user-infor-top">Tôn giáo:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                        disabled={statusProfile === 3 ? true : false}
                           name="pro_religion"
                           value={this.state.pro_religion}
                           onChange={this.onChange}
@@ -1194,6 +1225,7 @@ class addInformationUser extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                        disabled={statusProfile === 3 ? true : false}
                           name="pro_background_origin"
                           value={this.state.pro_background_origin}
                           onChange={this.onChange}
@@ -1207,6 +1239,7 @@ class addInformationUser extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                        disabled={statusProfile === 3 ? true : false}
                           name="pro_occupation"
                           value={this.state.pro_occupation}
                           onChange={this.onChange}
@@ -1220,6 +1253,7 @@ class addInformationUser extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                        disabled={statusProfile === 3 ? true : false}
                           name="pro_identity_card"
                           value={this.state.pro_identity_card}
                           onChange={this.onChange}
@@ -1234,11 +1268,12 @@ class addInformationUser extends Component {
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                         {/* {console.log(this.state.pro_identity_card_when)} */}
                         <DatePicker
+                        disabled={statusProfile === 3 ? true : false}
                           format={dateFormatList}
                           placeholder="Chọn ngày"
-                          value={ 
+                          value={
                             this.formatDateNumberFunc(this.state.pro_identity_card_when)
-                          } 
+                          }
                           onChange={(date, dateString) =>
                             this.onChangeBirthDay(
                               date,
@@ -1255,6 +1290,7 @@ class addInformationUser extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                        disabled={statusProfile === 3 ? true : false}
                           name="pro_identity_card_where"
                           value={this.state.pro_identity_card_where}
                           onChange={this.onChange}
@@ -1268,6 +1304,7 @@ class addInformationUser extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                        disabled={statusProfile === 3 ? true : false}
                           name="pro_note"
                           value={this.state.pro_note}
                           onChange={this.onChange}
@@ -1290,6 +1327,7 @@ class addInformationUser extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Select
+                        disabled={statusProfile === 3 ? true : false}
                           defaultValue={0}
                           showSearch
                           value={this.state.dep_id}
@@ -1324,6 +1362,7 @@ class addInformationUser extends Component {
                       <span className="tabs-user-infor-top">Tổ:</span>
                       <div className="tabs-user-infor-bottom">
                         <Select
+                        disabled={statusProfile === 3 ? true : false}
                           defaultValue={0}
                           showSearch
                           value={this.state.par_id}
@@ -1359,6 +1398,7 @@ class addInformationUser extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Select
+                        disabled={statusProfile === 3 ? true : false}
                           defaultValue={0}
                           showSearch
                           value={this.state.pos_id}
@@ -1393,6 +1433,7 @@ class addInformationUser extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                         <DatePicker
+                        disabled={statusProfile === 3 ? true : false}
                           format={dateFormatList}
                           placeholder="Chọn ngày"
                           style={{ width: "100%" }}
@@ -1420,6 +1461,7 @@ class addInformationUser extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                         <DatePicker
+                        disabled={statusProfile === 3 ? true : false}
                           format={dateFormatList}
                           placeholder="Chọn ngày"
                           style={{ width: "100%" }}
@@ -1445,6 +1487,7 @@ class addInformationUser extends Component {
                       <span className="tabs-user-infor-top">Chức vụ đoàn thể:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                        disabled={statusProfile === 3 ? true : false}
                           name="position_association"
                           value={this.state.position_association}
                           onChange={this.onChange}
@@ -1456,6 +1499,7 @@ class addInformationUser extends Component {
                       <span className="tabs-user-infor-top">Học vấn:</span>
                       <div className="tabs-user-infor-bottom">
                         <Select
+                        disabled={statusProfile === 3 ? true : false}
                           onChange={this.handleChangeEducation}
                           name="deg_education"
                           value={this.state.deg_education}
@@ -1473,6 +1517,7 @@ class addInformationUser extends Component {
                       <span className="tabs-user-infor-top">Chính trị:</span>
                       <div className="tabs-user-infor-bottom">
                         <Select
+                        disabled={statusProfile === 3 ? true : false}
                           onChange={this.handleChangePolitic}
                           name="deg_politic"
                           value={this.state.deg_politic}
@@ -1490,6 +1535,7 @@ class addInformationUser extends Component {
                       <span className="tabs-user-infor-top">Ngoại ngữ::</span>
                       <div className="tabs-user-infor-bottom">
                         <Select
+                        disabled={statusProfile === 3 ? true : false}
                           onChange={this.handleChangeLanguage}
                           name="deg_foreign_language"
                           value={this.state.deg_foreign_language}
@@ -1511,6 +1557,7 @@ class addInformationUser extends Component {
                       <span className="tabs-user-infor-top">Trình độ chuyên môn:</span>
                       <div className="tabs-user-infor-bottom">
                         <Select
+                        disabled={statusProfile === 3 ? true : false}
                           onChange={this.handleChangeDiploma}
                           name="deg_diploma"
                           value={this.state.deg_diploma}
@@ -1540,6 +1587,7 @@ class addInformationUser extends Component {
                       <span className="tabs-user-infor-top">Chuyên ngành:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                        disabled={statusProfile === 3 ? true : false}
                           name="deg_majors"
                           value={this.state.deg_majors}
                           onChange={this.onChange}
@@ -1553,6 +1601,7 @@ class addInformationUser extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Select
+                        disabled={statusProfile === 3 ? true : false}
                           onChange={this.handleChangeFormality}
                           name="work_formality"
                           value={this.state.work_formality}
@@ -1577,6 +1626,7 @@ class addInformationUser extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                        disabled={statusProfile === 3 ? true : false}
                           name="work_note"
                           value={this.state.work_note}
                           onChange={this.onChange}
@@ -1588,6 +1638,7 @@ class addInformationUser extends Component {
                       <span className="tabs-user-infor-top">Số thẻ nhà báo:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                        disabled={statusProfile === 3 ? true : false}
                           name="car_number"
                           value={this.state.car_number}
                           onChange={this.onChange}
@@ -1599,6 +1650,7 @@ class addInformationUser extends Component {
                       <span className="tabs-user-infor-top">Ngày cấp thẻ nhà báo:</span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                         <DatePicker
+                        disabled={statusProfile === 3 ? true : false}
                           format={dateFormatList}
                           placeholder="Chọn ngày"
                           style={{ width: "100%" }}
@@ -1630,6 +1682,7 @@ class addInformationUser extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                         <RangePicker
+                        disabled={statusProfile === 3 ? true : false}
                           placeholder={["Từ ngày", "Đến ngày"]}
                           value={
                             this.state.car_begin == null
@@ -1675,6 +1728,7 @@ class addInformationUser extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                        disabled={statusProfile === 3 ? true : false}
                           name="car_note"
                           value={this.state.car_note}
                           onChange={this.onChange}
