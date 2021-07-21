@@ -3,71 +3,121 @@ import {
   listUser,
   searchUser,
   listUserDepartFilter,
-  listUserDepartAndPos
+  listUserDepartAndPos,
+  listUserByPosition,
 } from "apis/authenticationApi";
 import user from "assets/images/user2.png";
 import { checkVisible } from "helpers/FuncHelper";
 import React, { useContext, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
 import { Link, useRouteMatch } from "react-router-dom";
-import { eraseHistory } from "reduxToolkit/features/userProfile/historySlice";
-import { eraseHistory2 } from "../../../reduxToolkit/features/userProfile/historySlice2";
-import { eraseFamily } from "reduxToolkit/features/userProfile/familySlice";
-import { eraseKinship } from "reduxToolkit/features/userProfile/kinshipSlice";
-import { eraseSocial } from "reduxToolkit/features/userProfile/socialSlice";
-import { eraseTraining } from "reduxToolkit/features/userProfile/trainingSlice";
-import { eraseTraining2 } from "reduxToolkit/features/userProfile/training2Slice";
-import { eraseOrganize } from "reduxToolkit/features/userProfile/organizeSlice";
-import { eraseOrganize2 } from "reduxToolkit/features/userProfile/organize2Slice";
-import { eraseAbroad } from "../../../reduxToolkit/features/userProfile/abroadSlice";
 import PermissionContext from "../../../context/PermissionContext";
 import TableUser from "../TableUser";
 import { formatDateNumber } from "../../../helpers/FuncHelper";
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
-const TableUserContainer = (props) => {
-  const dispatch = useDispatch();
+const all = "Tất cả";
+const TableUserContainer = ({
+  idDepart,
+  idPos,
+  valueSearch,
+  totalEmploy,
+  parentCallback,
+  loadingCallback,
+  setIdDepart,
+  setIdPos,
+}) => {
   const [loading, setLoading] = useState(false);
   const [sizeOpt, setSizeOt] = useState(10);
   const { permissions } = useContext(PermissionContext);
   const { path } = useRouteMatch();
   const [dataUser, setDataUser] = useState(null);
 
-  useEffect(() => {
-    setLoading(true);
-    // props.setValueSearch("");
-    if (props.idDepart && props.idDepart !== "all") {
-      fetchDataByDepart(props.idDepart, 1, sizeOpt);
-    } else if (props.idDepart === "all") {
-      fetchData(1, sizeOpt);
-    }
-  }, [props.idDepart]);
+  const nullIdDepart = idDepart !== "" && idDepart !== all;
+  const nullIdPos = idPos !== all && idPos !== "";
+  const allOrNullDep = idDepart === all || idDepart === "";
+  const allOrNullPos = idPos === all || idPos === "";
+  const orAll = idDepart === all || idPos === all;
+  const orNull = idDepart === "" || idPos === "";
+
+  // useEffect(() => {
+  //   if (nullIdDepart && allOrNullPos) {
+  //     fetchDataByDepart(idDepart, 1, sizeOpt);
+  //   } else if (nullIdPos && allOrNullDep) {
+  //     fetchDataByPos(idPos, 1, sizeOpt);
+  //   } else if (idPos === "Tất cả" && allOrNullDep) {
+  //     fetchData(1, sizeOpt);
+  //   } else if (idDepart === "Tất cả" && idPos === "") {
+  //     fetchData(1, sizeOpt);
+  //   } else if (nullIdDepart && nullIdPos) {
+  //     fetchDataByDepartAndPos(idDepart, idPos, 1, sizeOpt);
+  //   }
+  // }, [idDepart, idPos]);
 
   useEffect(() => {
-    
-    if(props.idDepart !== "all" && props.idDepart !== "" && props.idPos !== "all" && props.idPos !== "") {
-      setLoading(true);
-      fetchDataByDepartAndPos(props.idDepart, props.idPos, 1, sizeOpt);
+    switch (true) {
+      case nullIdDepart && allOrNullPos:
+        fetchDataByDepart(idDepart, 1, sizeOpt);
+        break;
+      case nullIdPos && allOrNullDep:
+        fetchDataByPos(idPos, 1, sizeOpt);
+        break;
+      case idPos === all && allOrNullDep:
+        fetchData(1, sizeOpt);
+        break;
+      case idDepart === all && idPos === "":
+        fetchData(1, sizeOpt);
+        break;
+      case nullIdDepart && nullIdPos:
+        fetchDataByDepartAndPos(idDepart, idPos, 1, sizeOpt);
+        break;
     }
-  }, [props.idPos]);
+  }, [idDepart, idPos]);
 
-  const sendData = (data) => {
-    props.parentCallback(data);
-  };
+  // useEffect(() => {
+  //   if (nullIdPos && allOrNullDep) {
+  //     setLoading(true);
+  //     fetchDataByPos(idPos, 1, sizeOpt);
+  //   } else if (idPos === "Tất cả" && allOrNullDep) {
+  //     setLoading(true);
+  //     fetchData(1, sizeOpt);
+  //   }
+  // }, [idPos, idDepart]);
 
   useEffect(async () => {
-    setLoading(true);
-    if (props.valueSearch !== "allinone") {
-      fetchSearch(1, sizeOpt);
-    } else {
-      fetchData(1, sizeOpt);
+    const valueIsAll = valueSearch === all;
+    switch (true) {
+      case valueSearch !== all:
+        fetchSearch(1, sizeOpt);
+        break;
+      case valueIsAll && allOrNullDep && allOrNullPos:
+        fetchData(1, sizeOpt);
+        break;
+      case valueIsAll && nullIdDepart && allOrNullPos:
+        fetchDataByDepart(idDepart, 1, sizeOpt);
+        break;
+      case valueIsAll && nullIdPos && allOrNullDep:
+        fetchDataByPos(idPos, 1, sizeOpt);
+        break;
+      case valueIsAll && nullIdDepart && nullIdPos:
+        fetchDataByDepartAndPos(idDepart, idPos, 1, sizeOpt);
+        break;
     }
-  }, [props.valueSearch]);
+  }, [valueSearch]);
+
+  const sendData = (data) => {
+    parentCallback(data);
+  };
+
+  const sendLoadingStatus = (bool) => {
+    loadingCallback(bool);
+  };
 
   const fetchData = async (page, per_page) => {
+    setLoading(true);
     const res = await listUser(page, per_page);
     if (!res.err) {
+      // sendData(res);
       setDataUser(res);
-      props.totalEmploy(res.pagination.total);
+      totalEmploy(res.pagination.total);
       setLoading(false);
     } else {
       message.error("get list user failed");
@@ -75,37 +125,69 @@ const TableUserContainer = (props) => {
   };
 
   const fetchDataByDepart = async (id, page, per_page) => {
+    setLoading(true);
     const res = await listUserDepartFilter(id, page, per_page);
     if (res.message === "Successfully") {
-      sendData(res);
+      const totalDepUser = res.pagination.total;
+      if (totalDepUser > sizeOpt) {
+        const data = await listUserDepartFilter(id, 1, 99);
+        if (data.message === "Successfully") {
+          sendData(data);
+        }
+      }
       setDataUser(res);
-      props.totalEmploy(res.pagination.total);
+      totalEmploy(totalDepUser);
       setLoading(false);
+      sendLoadingStatus(loading);
     } else {
       message.error("get list user by depart failed");
     }
   };
 
-  const fetchDataByDepartAndPos = async (id, pos_id, page, per_page) => {
-    const res = await listUserDepartAndPos(id, pos_id, page, per_page);
-    if(res.message === "Successfully") {
-      sendData(res);
+  const fetchDataByPos = async (id, page, per_page) => {
+    setLoading(true);
+    const res = await listUserByPosition(id, page, per_page);
+    if (res.message === "Successfully") {
+      const totalDepUser = res.pagination.total;
+      if (totalDepUser > sizeOpt) {
+        const data = await listUserByPosition(id, 1, 99);
+        if (data.message === "Successfully") {
+          sendData(data);
+        }
+      }
       setDataUser(res);
-      props.totalEmploy(res.pagination.total);
+      totalEmploy(res.pagination.total);
+      setLoading(false);
+    } else {
+      message.error("get list user by pos failed");
+    }
+  };
+
+  const fetchDataByDepartAndPos = async (id, pos_id, page, per_page) => {
+    setLoading(true);
+    const res = await listUserDepartAndPos(id, pos_id, page, per_page);
+    if (res.message === "Successfully") {
+      const totalDepUser = res.pagination.total;
+      if (totalDepUser > sizeOpt) {
+        const data = await listUserDepartAndPos(id, pos_id, 1, 99);
+        if (data.message === "Successfully") {
+          sendData(data);
+        }
+      }
+      setDataUser(res);
+      totalEmploy(res.pagination.total);
       setLoading(false);
     } else {
       message.error("get list user by depart and pos failed");
     }
-  }
+  };
 
   const fetchSearch = async (page, per_page) => {
-    let res = await searchUser(props.valueSearch, page, per_page);
+    setLoading(true);
+    let res = await searchUser(valueSearch, page, per_page);
     if (!res.err) {
       setDataUser(res);
-      props.totalEmploy(res.pagination.total);
-
-      // setTimeout(() => {
-      // },500)
+      totalEmploy(res.pagination.total);
     } else {
       message.error("search fail");
     }
@@ -124,9 +206,12 @@ const TableUserContainer = (props) => {
 
   const handlePagination = async (page, pageSize) => {
     setSizeOt(pageSize);
-    setLoading(true);
-    if (props.idDepart && props.idDepart !== "all") {
-      fetchDataByDepart(props.idDepart, page, pageSize);
+    if (idDepart && idDepart !== all && allOrNullPos) {
+      fetchDataByDepart(idDepart, page, pageSize);
+    } else if (idPos && idPos !== all && allOrNullDep) {
+      fetchDataByPos(idPos, page, pageSize);
+    } else if (idDepart && idPos && nullIdDepart && nullIdPos) {
+      fetchDataByDepartAndPos(idDepart, idPos, page, pageSize);
     } else {
       fetchData(page, pageSize);
     }

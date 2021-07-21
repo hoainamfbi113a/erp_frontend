@@ -33,7 +33,9 @@ const TableUser = ({
                       ? dataUser.pagination.currentPage
                       : 1,
                   total: dataUser ? dataUser.pagination.total : 0,
-                  showSizeChanger: true,
+                  showSizeChanger: 
+                  // dataUser && dataUser.data.length === 10,
+                  true
                 }}
               />
             ) : (

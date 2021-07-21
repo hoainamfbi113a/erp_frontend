@@ -10,6 +10,7 @@ import { checkVisible } from "../../helpers/FuncHelper";
 import { getListDepartment } from "apis/departmentApi";
 import { getListPosition } from "../../apis/positionApi";
 import { listUser } from "apis/authenticationApi";
+import usePrevious from "../../hooks/usePrevious";
 
 const { Option } = Select;
 
@@ -17,6 +18,7 @@ const ContentUser = () => {
   const [value, setValue] = useState("");
   const [tempValue, setTempValue] = useState("");
   const [total, setTotal] = useState(null);
+  const prevTotal = usePrevious(total);
   let { path } = useRouteMatch();
   const { permissions } = useContext(PermissionContext);
   const [data, setData] = useState(null);
@@ -26,9 +28,14 @@ const ContentUser = () => {
   const [posData, setPosData] = useState(null);
 
   const [dataFilter, setDataFilter] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const callbackFunction = (childData) => {
     setDataFilter(childData);
+  };
+
+  const loadingCallback = (childData) => {
+    setLoading(childData);
   };
 
   useEffect(() => {
@@ -77,34 +84,49 @@ const ContentUser = () => {
     <div>
       <div className="content-top">
         <div className="content-top-left">
-          <div className="content-top-left-sum-item">{total} Nhân viên</div>
+          <div className="content-top-left-sum-item">
+            {total ? `${total} nhân viên` : "0 nhân viên"}{" "}
+          </div>
           <Select
             showSearch
             allowClear
             // searchValue=""
             optionFilterProp="children"
             placeholder="Nhập tên nhân viên"
-            disabled={total === null}
-            onChange={() => {
-              if (idDepart === "all") {
-                setValue("");
-              }
-            }}
+            disabled={
+              total === null
+              // || !loading
+            }
+            // onChange={() => {
+            //   if (idDepart === "Tất cả") {
+            //     setValue("");
+            //     // setIdDepart("");
+            //     // setIdPos("");
+            //   }
+            // }}
             onSelect={(value) => setValue(value)}
-            style={{ width: 200 }}
+            style={{ width: 250, marginRight: "5px" }}
             className="table-btn-search"
             filterOption={(input, option) =>
               option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
           >
-            <Option key="allinone">Tất cả</Option>
-            {userData && (idDepart === "all" || idDepart === "")
+            {value !== "Tất cả" &&
+            value !== "" 
+            // &&
+            // (idDepart === "Tất cả" || idDepart === "") 
+            ? (
+              <Option key="Tất cả">Tất cả</Option>
+            ) : null}
+            {userData &&
+            (idDepart === "Tất cả" || idDepart === "") &&
+            (idPos === "Tất cả" || idPos === "")
               ? userData.data.map((user) => (
                   <Option key={user.id} value={user.full_name}>
                     {user.full_name}
                   </Option>
                 ))
-              : dataFilter && idDepart !== "all"
+              : dataFilter && (idDepart !== "Tất cả" || idPos !== "Tất cả")
               ? dataFilter.data.map((user) => (
                   <Option key={user.id} value={user.full_name}>
                     {user.full_name}
@@ -117,14 +139,16 @@ const ContentUser = () => {
             showSearch
             disabled={total === null}
             optionFilterProp="children"
-            placeholder="Tìm theo phòng ban"
-            style={{ width: 220 }}
+            placeholder="Tìm theo đơn vị công tác"
+            style={{ width: 250, marginRight: "5px" }}
             onChange={(key) => setIdDepart(key)}
             filterOption={(input, option) =>
               option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
           >
-            <Option key="all">Tất cả</Option>
+            {idDepart !== "Tất cả" && idDepart !== "" && (
+              <Option key="Tất cả">Tất cả</Option>
+            )}
             {data
               ? data.data.map((department) => (
                   <Option key={department.id}>{department.dep_name}</Option>
@@ -136,14 +160,16 @@ const ContentUser = () => {
             showSearch
             disabled={total === null}
             optionFilterProp="children"
-            placeholder="Mời chọn chức danh / chức vụ"
-            style={{ width: 220 }}
+            placeholder="Tìm theo chức danh / chức vụ"
+            style={{ width: 250, marginRight: "5px" }}
             onChange={(key) => setIdPos(key)}
             filterOption={(input, option) =>
               option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
             }
           >
-            <Option key="all">Tất cả</Option>
+            {idPos !== "Tất cả" && idPos !== "" && (
+              <Option key="Tất cả">Tất cả</Option>
+            )}
             {posData
               ? posData.data.map((position) => (
                   <Option key={position.id}>{position.pos_name}</Option>
@@ -161,11 +187,14 @@ const ContentUser = () => {
       </div>
       <TableUserContainer
         parentCallback={callbackFunction}
+        loadingCallback={loadingCallback}
         valueSearch={value}
         setValueSearch={setValue}
         totalEmploy={setTotal}
         idDepart={idDepart}
         idPos={idPos}
+        setIdDepart={setIdDepart}
+        setIdPos={setLoading}
       />
     </div>
   );
