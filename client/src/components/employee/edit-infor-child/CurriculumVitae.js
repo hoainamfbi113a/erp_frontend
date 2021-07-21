@@ -26,6 +26,7 @@ const { Option } = Select;
 import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
 import { bindActionCreators } from "redux";
 import { getUserProfile } from "reduxToolkit/features/userProfileSlice";
+import { formatDateNumber } from "../../../helpers/FuncHelper";
 const dateFormatList = ["DD/MM/YYYY", "DD/MM/YY"];
 const id_user = docCookies.getItem("user_id");
 class CurriculumVitae extends Component {
@@ -53,7 +54,7 @@ class CurriculumVitae extends Component {
       pro_note: null,
       dep_name: null,
       dep_position: null,
-      dep_appointment_date: "",
+      appointment_date: "",
       expire_date: "",
       position_association: "",
       dep_note: null,
@@ -199,8 +200,7 @@ class CurriculumVitae extends Component {
         action: "update",
         pro_name: this.state.pro_name,
         pro_pen_name: this.state.pro_pen_name,
-        pro_birth_day:
-          Date.parse(moment(this.state.pro_birth_day, "DD-MM-YYYY")) / 1000,
+        pro_birth_day: this.formatDateNumberAdd(this.state.pro_birth_day),
         pro_gender: this.state.pro_gender,
         pro_birth_place: this.state.pro_birth_place,
         pro_home_town: this.state.pro_home_town,
@@ -211,9 +211,7 @@ class CurriculumVitae extends Component {
         pro_background_origin: this.state.pro_background_origin,
         pro_occupation: this.state.pro_occupation,
         pro_identity_card: this.state.pro_identity_card,
-        pro_identity_card_when:
-          Date.parse(moment(this.state.pro_identity_card_when, "DD-MM-YYYY")) /
-          1000,
+        pro_identity_card_when: this.formatDateNumberAdd(this.state.pro_identity_card_when),
         pro_identity_card_where: this.state.pro_identity_card_where,
         pro_note: this.state.pro_note,
       };
@@ -234,6 +232,7 @@ class CurriculumVitae extends Component {
         expire_date:
           Date.parse(moment(this.state.expire_date, "DD-MM-YYYY")) / 1000,
       };
+      console.log(paramsDepartment)
       let resUpdateDepartmentProfile = await updateDepartmentProfile(
         this.state.pro_id,
         paramsDepartment
@@ -367,12 +366,7 @@ class CurriculumVitae extends Component {
       user_id: data.user_id,
       pro_name: data.pro_name,
       pro_pen_name: data.pro_pen_name,
-      pro_birth_day:
-            Date.parse(moment(this.state.pro_birth_day, "DD-MM-YYYY")) / 1000,
-      // pro_birth_day:
-      //   data.pro_birth_day.indexOf("1970-01-01") == 0
-      //     ? null
-      //     : data.pro_birth_day,
+      pro_birth_day: data.pro_birth_day,
       pro_gender: data.pro_gender,
       pro_birth_place: data.pro_birth_place,
       pro_home_town: data.pro_home_town,
@@ -383,13 +377,7 @@ class CurriculumVitae extends Component {
       pro_background_origin: data.pro_background_origin,
       pro_occupation: data.pro_occupation,
       pro_identity_card: data.pro_identity_card,
-      // pro_identity_card_when: data.pro_identity_card_when == null ? null:data.pro_identity_card_when ,
-      pro_identity_card_when:
-        data.pro_identity_card_when == null
-          ? null
-          : this.formatDate(
-              data.pro_identity_card_when.toString().slice(0, 10)
-            ),
+      pro_identity_card_when: data.pro_identity_card_when,
       pro_identity_card_where: data.pro_identity_card_where,
       pro_note: data.pro_note,
       dep_id: data.department.data.dep_id,
@@ -399,6 +387,7 @@ class CurriculumVitae extends Component {
       dataDep_name: data.department.data.dep_name,
       dataPos_name: data.department.data.pos_name,
       dataPart_name: data.department.data.part_name,
+      appointment_date: data.department.data.appointment_date,
       expire_date:
         // data.department &&
         // data.department.data.expire_date.indexOf("1970-01-01") != 0
@@ -644,6 +633,18 @@ class CurriculumVitae extends Component {
       return <p className="text-feedback-user">Hồ sơ đã sẵn sàng</p>;
     }
   };
+  formatDateNumberFunc = (value) =>{ 
+    return value == null ? null :
+    moment(value.toString().includes("/")
+    ? value
+    :formatDateNumber(value, dateFormatList[0]),
+     dateFormatList[0])
+  }
+  formatDateNumberAdd = (value) =>{
+    return value == null ? null: value.toString().includes("/") ? 
+    Date.parse(moment(value, "DD-MM-YYYY")) / 1000 
+     : value;
+  }
   render() {
     return (
       <div className="edit-infor-form">
@@ -791,16 +792,7 @@ class CurriculumVitae extends Component {
                           format={dateFormatList}
                           placeholder="Chọn ngày"
                           value={
-                            this.state.pro_birth_day == null ||
-                            moment(
-                              this.state.pro_birth_day,
-                              dateFormatList[0]
-                            ) == "Thu Jan 01 1970 08:00:00 GMT+0800"
-                              ? null
-                              : moment(
-                                  this.state.pro_birth_day,
-                                  dateFormatList[0]
-                                )
+                            this.formatDateNumberFunc(this.state.pro_birth_day)
                           }
                           onChange={(date, dateString) =>
                             this.onChangeBirthDay(
@@ -942,17 +934,8 @@ class CurriculumVitae extends Component {
                         <DatePicker
                           format={dateFormatList}
                           placeholder="Chọn ngày"
-                          value={
-                            this.state.pro_identity_card_when == null ||
-                            moment(
-                              this.state.pro_identity_card_when,
-                              dateFormatList[0]
-                            ) == "Thu Jan 01 1970 08:00:00 GMT+0800"
-                              ? null
-                              : moment(
-                                  this.state.pro_identity_card_when,
-                                  dateFormatList[0]
-                                )
+                          value={ 
+                            this.formatDateNumberFunc(this.state.pro_identity_card_when)
                           }
                           onChange={(date, dateString) =>
                             this.onChangeBirthDay(
@@ -1040,13 +1023,13 @@ class CurriculumVitae extends Component {
                         </span>
                       ) : null}
                     </li>
-                    <li className="tabs-main-left-li">
-                      <span className="tabs-user-infor-top">Chức vụ:</span>
-                      <div className="tabs-user-infor-bottom">
+                    <li className= "tabs-main-left-li">
+                      <span className= "tabs-user-infor-top">Chức vụ:</span>
+                      <div className= "tabs-user-infor-bottom">
                         <Input
-                          name="pro_note"
-                          value={this.state.dataPos_name}
-                          placeholder="Ghi chú thông tin căn bản"
+                          name= "pro_note"
+                          value= {this.state.dataPos_name}
+                          placeholder= "Ghi chú thông tin căn bản"
                         />
                       </div>
                       {this.state.valid_position.isValid ? (

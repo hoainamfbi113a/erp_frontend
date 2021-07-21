@@ -30,7 +30,7 @@ const icons = {
 const MenuLayout = (props) => {
   const dispatch = useDispatch();
   const permissions = useSelector((state) => state.permission);
-  let renderManagerRole = permissions[0].groups[8].permissions[0].name ==="Quản lý vai trò và quyền"
+  let renderManagerRole = permissions[0].groups[8].permissions[0].name === "Quản lý vai trò và quyền"
   const renderAdmin = () => {
     if (renderManagerRole) {
       return (
@@ -52,12 +52,12 @@ const MenuLayout = (props) => {
     }
   };
   const renderMenuItem = (value) => {
-    if(value === "Vị trí làm việc") {
+    if (value === "Vị trí làm việc") {
       return "Chức danh, chức vụ"
     }
-    if(value === "Phòng ban") {
+    if (value === "Phòng ban") {
       return "Đơn vị công tác"
-    } 
+    }
     return value;
   }
   const renderMenu = () => {
@@ -81,12 +81,17 @@ const MenuLayout = (props) => {
                       <Link to={`/${subMenu.slug}/${menu.slug}`}>
                         {/* {menu.name =="Vị trí làm việc"? "Chức danh, chức vụ": menu.name} */}
                         {renderMenuItem(menu.name)}
-                        
                       </Link>
                     </Menu.Item>
                   );
                 }
               })}
+              <Menu.Item
+                style = {{paddingLeft: "48px"}}
+                key="99"
+              >
+                <Link to="/notification-general">--  Lương nhân viên</Link>
+              </Menu.Item>
             </SubMenu>
           ))}
         </Fragment>
