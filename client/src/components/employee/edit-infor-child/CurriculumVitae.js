@@ -111,6 +111,7 @@ class CurriculumVitae extends Component {
       searchDepartment: "",
       searchPosition: "",
       searchPart: "",
+      visibleInput: false,
     };
     this.typingRef = React.createRef(null);
     this.handleSearchDepartment = this.handleSearchDepartment.bind(this);
@@ -164,7 +165,7 @@ class CurriculumVitae extends Component {
       year = datePart[0].substring(2), // get only two digits
       month = datePart[1],
       day = datePart[2];
-      return day + "/" + month + "/" + year;
+    return day + "/" + month + "/" + year;
   }
   componentDidUpdate = (prevProps, prevState) => {
     this.functionSearch(prevProps, prevState);
@@ -393,7 +394,7 @@ class CurriculumVitae extends Component {
         // data.department.data.expire_date.indexOf("1970-01-01") != 0
         //   ? data.department.data.expire_date
         //   : 
-          null,
+        null,
       deg_type: data.userDegree ? data.userDegree.data.deg_type : "",
       deg_diploma: data.userDegree ? data.userDegree.data.deg_diploma : "",
       deg_majors: data.userDegree ? data.userDegree.data.deg_majors : "",
@@ -561,27 +562,27 @@ class CurriculumVitae extends Component {
       }
     );
   };
-   handleChangeEducation = (value) =>{
+  handleChangeEducation = (value) => {
     this.setState({
       deg_education: value,
     })
   }
-  handleChangePolitic = (value) =>{
+  handleChangePolitic = (value) => {
     this.setState({
       deg_politic: value,
     })
   }
-  handleChangeDiploma = (value) =>{
+  handleChangeDiploma = (value) => {
     this.setState({
       deg_diploma: value,
     })
   }
-  handleChangeLanguage = (value) =>{
+  handleChangeLanguage = (value) => {
     this.setState({
       deg_foreign_language: value,
     })
   }
-  handleChangeFormality = (value) =>{
+  handleChangeFormality = (value) => {
     this.setState({
       work_formality: value,
     })
@@ -610,6 +611,7 @@ class CurriculumVitae extends Component {
       });
   };
   renderButton = (value) => {
+    console.log(value)
     if (value === 0) {
       return <p className="text-feedback-user">Hồ sơ chưa mở</p>;
     } else if (value === 1) {
@@ -633,21 +635,22 @@ class CurriculumVitae extends Component {
       return <p className="text-feedback-user">Hồ sơ đã sẵn sàng</p>;
     }
   };
-  formatDateNumberFunc = (value) =>{ 
+  formatDateNumberFunc = (value) => {
     return value == null ? null :
-    moment(value.toString().includes("/")
-    ? value
-    :formatDateNumber(value, dateFormatList[0]),
-     dateFormatList[0])
+      moment(value.toString().includes("/")
+        ? value
+        : formatDateNumber(value, dateFormatList[0]),
+        dateFormatList[0])
   }
-  formatDateNumberAdd = (value) =>{
-    return value == null ? null: value.toString().includes("/") ? 
-    Date.parse(moment(value, "DD-MM-YYYY")) / 1000 
-     : value;
+  formatDateNumberAdd = (value) => {
+    return value == null ? null : value.toString().includes("/") ?
+      Date.parse(moment(value, "DD-MM-YYYY")) / 1000
+      : value;
   }
   render() {
     return (
       <div className="edit-infor-form">
+        {console.log(this.state.visibleInput)}
         <div className="tabs-main">
           <form
             style={{ width: "100%" }}
@@ -701,6 +704,8 @@ class CurriculumVitae extends Component {
                       <div className="tabs-user-infor-bottom">
                         <Input
                           value={this.state.pro_name}
+                          disabled={this.props.statusProfile === 4 ? true : false}
+                          // this.props.statusProfile
                           name="pro_name"
                           onChange={this.onChange}
                           placeholder="Nhập họ và tên khai sinh"
@@ -767,6 +772,7 @@ class CurriculumVitae extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           name="pro_local_phone"
                           value={this.state.pro_local_phone}
                           onChange={this.onChange}
@@ -778,6 +784,7 @@ class CurriculumVitae extends Component {
                       <span className="tabs-user-infor-top">Bút danh:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           name="pro_pen_name"
                           value={this.state.pro_pen_name}
                           onChange={this.onChange}
@@ -789,6 +796,7 @@ class CurriculumVitae extends Component {
                       <span className="tabs-user-infor-top">Ngày sinh</span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                         <DatePicker
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           format={dateFormatList}
                           placeholder="Chọn ngày"
                           value={
@@ -808,6 +816,7 @@ class CurriculumVitae extends Component {
                       <span className="tabs-user-infor-top">Giới tính:</span>
                       <div className="tabs-user-infor-bottom">
                         <Radio.Group
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           onChange={this.onChangeSex}
                           value={this.state.pro_gender}
                         >
@@ -821,6 +830,7 @@ class CurriculumVitae extends Component {
                       <span className="tabs-user-infor-top">Nơi sinh:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           name="pro_birth_place"
                           value={this.state.pro_birth_place}
                           onChange={this.onChange}
@@ -832,6 +842,7 @@ class CurriculumVitae extends Component {
                       <span className="tabs-user-infor-top">Quê quán:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           name="pro_home_town"
                           value={this.state.pro_home_town}
                           onChange={this.onChange}
@@ -845,6 +856,7 @@ class CurriculumVitae extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           name="deg_permanent_residence"
                           value={this.state.deg_permanent_residence}
                           onChange={this.onChange}
@@ -858,6 +870,7 @@ class CurriculumVitae extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           name="pro_resident"
                           value={this.state.pro_resident}
                           onChange={this.onChange}
@@ -869,6 +882,7 @@ class CurriculumVitae extends Component {
                       <span className="tabs-user-infor-top">Dân tộc:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           name="pro_ethnic"
                           value={this.state.pro_ethnic}
                           onChange={this.onChange}
@@ -880,6 +894,7 @@ class CurriculumVitae extends Component {
                       <span className="tabs-user-infor-top">Tôn giáo:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           name="pro_religion"
                           value={this.state.pro_religion}
                           onChange={this.onChange}
@@ -893,6 +908,7 @@ class CurriculumVitae extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           name="pro_background_origin"
                           value={this.state.pro_background_origin}
                           onChange={this.onChange}
@@ -906,6 +922,7 @@ class CurriculumVitae extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           name="pro_occupation"
                           value={this.state.pro_occupation}
                           onChange={this.onChange}
@@ -919,6 +936,7 @@ class CurriculumVitae extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           name="pro_identity_card"
                           value={this.state.pro_identity_card}
                           onChange={this.onChange}
@@ -932,9 +950,10 @@ class CurriculumVitae extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                         <DatePicker
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           format={dateFormatList}
                           placeholder="Chọn ngày"
-                          value={ 
+                          value={
                             this.formatDateNumberFunc(this.state.pro_identity_card_when)
                           }
                           onChange={(date, dateString) =>
@@ -955,6 +974,7 @@ class CurriculumVitae extends Component {
                         <Input
                           name="pro_identity_card_where"
                           value={this.state.pro_identity_card_where}
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           onChange={this.onChange}
                           placeholder="Nơi cấp CCCD"
                         />
@@ -966,6 +986,7 @@ class CurriculumVitae extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           name="pro_note"
                           value={this.state.pro_note}
                           onChange={this.onChange}
@@ -987,6 +1008,7 @@ class CurriculumVitae extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           name="pro_note"
                           value={this.state.dataDep_name}
                           placeholder="Ghi chú thông tin căn bản"
@@ -1007,6 +1029,7 @@ class CurriculumVitae extends Component {
                       <span className="tabs-user-infor-top">Tổ: </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           name="pro_note"
                           value={this.state.dataPart_name}
                           placeholder="Ghi chú thông tin căn bản"
@@ -1023,13 +1046,14 @@ class CurriculumVitae extends Component {
                         </span>
                       ) : null}
                     </li>
-                    <li className= "tabs-main-left-li">
-                      <span className= "tabs-user-infor-top">Chức vụ:</span>
-                      <div className= "tabs-user-infor-bottom">
+                    <li className="tabs-main-left-li">
+                      <span className="tabs-user-infor-top">Chức vụ:</span>
+                      <div className="tabs-user-infor-bottom">
                         <Input
-                          name= "pro_note"
-                          value= {this.state.dataPos_name}
-                          placeholder= "Ghi chú thông tin căn bản"
+                          disabled={this.props.statusProfile === 4 ? true : false}
+                          name="pro_note"
+                          value={this.state.dataPos_name}
+                          placeholder="Ghi chú thông tin căn bản"
                         />
                       </div>
                       {this.state.valid_position.isValid ? (
@@ -1049,20 +1073,21 @@ class CurriculumVitae extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                         <DatePicker
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           format={dateFormatList}
                           placeholder="Chọn ngày"
                           style={{ width: "100%" }}
                           value={
                             this.state.appointment_date == null ||
-                            moment(
-                              this.state.appointment_date,
-                              dateFormatList[0]
-                            ) == "Thu Jan 01 1970 08:00:00 GMT+0800"
+                              moment(
+                                this.state.appointment_date,
+                                dateFormatList[0]
+                              ) == "Thu Jan 01 1970 08:00:00 GMT+0800"
                               ? null
                               : moment(
-                                  this.state.appointment_date,
-                                  dateFormatList[0]
-                                )
+                                this.state.appointment_date,
+                                dateFormatList[0]
+                              )
                           }
                           onChange={(date, dateString) =>
                             this.onChangeBirthDay(
@@ -1080,20 +1105,21 @@ class CurriculumVitae extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                         <DatePicker
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           format={dateFormatList}
                           placeholder="Chọn ngày"
                           style={{ width: "100%" }}
                           value={
                             this.state.expire_date == null ||
-                            moment(
-                              this.state.expire_date,
-                              dateFormatList[0]
-                            ) == "Thu Jan 01 1970 08:00:00 GMT+0800"
+                              moment(
+                                this.state.expire_date,
+                                dateFormatList[0]
+                              ) == "Thu Jan 01 1970 08:00:00 GMT+0800"
                               ? null
                               : moment(
-                                  this.state.expire_date,
-                                  dateFormatList[0]
-                                )
+                                this.state.expire_date,
+                                dateFormatList[0]
+                              )
                           }
                           onChange={(date, dateString) =>
                             this.onChangeBirthDay(
@@ -1109,6 +1135,7 @@ class CurriculumVitae extends Component {
                       <span className="tabs-user-infor-top">Chức vụ đoàn thể:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           name="position_association"
                           value={this.state.position_association}
                           onChange={this.onChange}
@@ -1116,10 +1143,11 @@ class CurriculumVitae extends Component {
                         />
                       </div>
                     </li>
-                      <li className="tabs-main-left-li">
+                    <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">Học vấn:</span>
                       <div className="tabs-user-infor-bottom">
                         <Select
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           onChange={this.handleChangeEducation}
                           name="deg_education"
                           value={this.state.deg_education}
@@ -1137,6 +1165,7 @@ class CurriculumVitae extends Component {
                       <span className="tabs-user-infor-top">Chính trị:</span>
                       <div className="tabs-user-infor-bottom">
                         <Select
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           onChange={this.handleChangePolitic}
                           name="deg_politic"
                           value={this.state.deg_politic}
@@ -1150,10 +1179,11 @@ class CurriculumVitae extends Component {
                         </Select>
                       </div>
                     </li>
-                      <li className="tabs-main-left-li">
+                    <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">Ngoại ngữ::</span>
                       <div className="tabs-user-infor-bottom">
                         <Select
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           onChange={this.handleChangeLanguage}
                           name="deg_foreign_language"
                           value={this.state.deg_foreign_language}
@@ -1170,10 +1200,11 @@ class CurriculumVitae extends Component {
                         </Select>
                       </div>
                     </li>
-                     <li className="tabs-main-left-li">
+                    <li className="tabs-main-left-li">
                       <span className="tabs-user-infor-top">Trình độ chuyên môn:</span>
                       <div className="tabs-user-infor-bottom">
                         <Select
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           onChange={this.handleChangeDiploma}
                           name="deg_diploma"
                           value={this.state.deg_diploma}
@@ -1204,6 +1235,7 @@ class CurriculumVitae extends Component {
                       <span className="tabs-user-infor-top">Chuyên ngành:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           name="deg_majors"
                           value={this.state.deg_majors}
                           onChange={this.onChange}
@@ -1223,6 +1255,7 @@ class CurriculumVitae extends Component {
                           placeholder="Đối tượng lao động"
                         /> */}
                         <Select
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           onChange={this.handleChangeFormality}
                           name="work_formality"
                           value={this.state.work_formality}
@@ -1241,6 +1274,7 @@ class CurriculumVitae extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           name="work_note"
                           value={this.state.work_note}
                           onChange={this.onChange}
@@ -1252,6 +1286,7 @@ class CurriculumVitae extends Component {
                       <span className="tabs-user-infor-top">Số thẻ nhà báo:</span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           name="car_number"
                           value={this.state.car_number}
                           onChange={this.onChange}
@@ -1263,20 +1298,21 @@ class CurriculumVitae extends Component {
                       <span className="tabs-user-infor-top">Ngày cấp thẻ nhà báo:</span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                         <DatePicker
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           format={dateFormatList}
                           placeholder="Chọn ngày"
                           style={{ width: "100%" }}
                           value={
                             this.state.car_number_day == null ||
-                            moment(
-                              this.state.car_number_day,
-                              dateFormatList[0]
-                            ) == "Thu Jan 01 1970 08:00:00 GMT+0800"
+                              moment(
+                                this.state.car_number_day,
+                                dateFormatList[0]
+                              ) == "Thu Jan 01 1970 08:00:00 GMT+0800"
                               ? null
                               : moment(
-                                  this.state.car_number_day,
-                                  dateFormatList[0]
-                                )
+                                this.state.car_number_day,
+                                dateFormatList[0]
+                              )
                           }
                           onChange={(date, dateString) =>
                             this.onChangeBirthDay(
@@ -1294,32 +1330,33 @@ class CurriculumVitae extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom tabs-user-infor-bottom-date">
                         <RangePicker
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           placeholder={["Từ ngày", "Đến ngày"]}
                           value={
                             this.state.car_begin == null
                               ? null
                               : [
-                                  this.state.car_begin == null ||
+                                this.state.car_begin == null ||
                                   moment(
                                     this.state.car_begin,
                                     dateFormatList[0]
                                   ) == "Thu Jan 01 1970 08:00:00 GMT+0800"
-                                    ? null
-                                    : moment(
-                                        this.state.car_begin,
-                                        dateFormatList[0]
-                                      ),
-                                  this.state.car_end == null ||
+                                  ? null
+                                  : moment(
+                                    this.state.car_begin,
+                                    dateFormatList[0]
+                                  ),
+                                this.state.car_end == null ||
                                   moment(
                                     this.state.car_end,
                                     dateFormatList[0]
                                   ) == "Thu Jan 01 1970 08:00:00 GMT+0800"
-                                    ? null
-                                    : moment(
-                                        this.state.car_end,
-                                        dateFormatList[0]
-                                      ),
-                                ]
+                                  ? null
+                                  : moment(
+                                    this.state.car_end,
+                                    dateFormatList[0]
+                                  ),
+                              ]
                           }
                           onChange={(date, dateString) =>
                             this.onChangeRange(
@@ -1339,6 +1376,7 @@ class CurriculumVitae extends Component {
                       </span>
                       <div className="tabs-user-infor-bottom">
                         <Input
+                          disabled={this.props.statusProfile === 4 ? true : false}
                           name="car_note"
                           value={this.state.car_note}
                           onChange={this.onChange}
