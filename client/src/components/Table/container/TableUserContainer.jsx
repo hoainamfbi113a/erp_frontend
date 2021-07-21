@@ -3,6 +3,7 @@ import {
   listUser,
   searchUser,
   listUserDepartFilter,
+  listUserDepartAndPos
 } from "apis/authenticationApi";
 import user from "assets/images/user2.png";
 import { checkVisible } from "helpers/FuncHelper";
@@ -10,6 +11,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Link, useRouteMatch } from "react-router-dom";
 import { eraseHistory } from "reduxToolkit/features/userProfile/historySlice";
+import { eraseHistory2 } from "../../../reduxToolkit/features/userProfile/historySlice2";
 import { eraseFamily } from "reduxToolkit/features/userProfile/familySlice";
 import { eraseKinship } from "reduxToolkit/features/userProfile/kinshipSlice";
 import { eraseSocial } from "reduxToolkit/features/userProfile/socialSlice";
@@ -17,6 +19,7 @@ import { eraseTraining } from "reduxToolkit/features/userProfile/trainingSlice";
 import { eraseTraining2 } from "reduxToolkit/features/userProfile/training2Slice";
 import { eraseOrganize } from "reduxToolkit/features/userProfile/organizeSlice";
 import { eraseOrganize2 } from "reduxToolkit/features/userProfile/organize2Slice";
+import { eraseAbroad } from "../../../reduxToolkit/features/userProfile/abroadSlice";
 import PermissionContext from "../../../context/PermissionContext";
 import TableUser from "../TableUser";
 import { formatDateNumber } from "../../../helpers/FuncHelper";
@@ -30,17 +33,6 @@ const TableUserContainer = (props) => {
   const [dataUser, setDataUser] = useState(null);
 
   useEffect(() => {
-    dispatch(eraseHistory());
-    dispatch(eraseFamily());
-    dispatch(eraseKinship());
-    dispatch(eraseSocial());
-    dispatch(eraseTraining());
-    dispatch(eraseTraining2());
-    dispatch(eraseOrganize());
-    dispatch(eraseOrganize2());
-  }, []);
-
-  useEffect(() => {
     setLoading(true);
     // props.setValueSearch("");
     if (props.idDepart && props.idDepart !== "all") {
@@ -49,6 +41,14 @@ const TableUserContainer = (props) => {
       fetchData(1, sizeOpt);
     }
   }, [props.idDepart]);
+
+  useEffect(() => {
+    
+    if(props.idDepart !== "all" && props.idDepart !== "" && props.idPos !== "all" && props.idPos !== "") {
+      setLoading(true);
+      fetchDataByDepartAndPos(props.idDepart, props.idPos, 1, sizeOpt);
+    }
+  }, [props.idPos]);
 
   const sendData = (data) => {
     props.parentCallback(data);
@@ -64,27 +64,39 @@ const TableUserContainer = (props) => {
   }, [props.valueSearch]);
 
   const fetchData = async (page, per_page) => {
-    let res = await listUser(page, per_page);
+    const res = await listUser(page, per_page);
     if (!res.err) {
       setDataUser(res);
       props.totalEmploy(res.pagination.total);
       setLoading(false);
     } else {
-      message.error("get list parts failed");
+      message.error("get list user failed");
     }
   };
 
   const fetchDataByDepart = async (id, page, per_page) => {
-    let res = await listUserDepartFilter(id, page, per_page);
+    const res = await listUserDepartFilter(id, page, per_page);
     if (res.message === "Successfully") {
       sendData(res);
       setDataUser(res);
       props.totalEmploy(res.pagination.total);
       setLoading(false);
     } else {
-      message.error("get list parts failed");
+      message.error("get list user by depart failed");
     }
   };
+
+  const fetchDataByDepartAndPos = async (id, pos_id, page, per_page) => {
+    const res = await listUserDepartAndPos(id, pos_id, page, per_page);
+    if(res.message === "Successfully") {
+      sendData(res);
+      setDataUser(res);
+      props.totalEmploy(res.pagination.total);
+      setLoading(false);
+    } else {
+      message.error("get list user by depart and pos failed");
+    }
+  }
 
   const fetchSearch = async (page, per_page) => {
     let res = await searchUser(props.valueSearch, page, per_page);
@@ -178,12 +190,10 @@ const TableUserContainer = (props) => {
       key: "profile",
       render: (profile) =>
         `${
-          profile && profile.data
-            && profile.data.pro_birth_day !==null
+          profile && profile.data && profile.data.pro_birth_day !== null
             ? formatDateNumber(profile.data.pro_birth_day, dateFormatList[0])
             : "Chưa nhập"
         }`,
-        
     },
     // moment(rew_time_from, dateFormatList[0]),
     {

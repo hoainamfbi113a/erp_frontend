@@ -400,10 +400,11 @@ class CurriculumVitae extends Component {
       dataPos_name: data.department.data.pos_name,
       dataPart_name: data.department.data.part_name,
       expire_date:
-        data.department &&
-        data.department.data.expire_date.indexOf("1970-01-01") != 0
-          ? data.department.data.expire_date
-          : null,
+        // data.department &&
+        // data.department.data.expire_date.indexOf("1970-01-01") != 0
+        //   ? data.department.data.expire_date
+        //   : 
+          null,
       deg_type: data.userDegree ? data.userDegree.data.deg_type : "",
       deg_diploma: data.userDegree ? data.userDegree.data.deg_diploma : "",
       deg_majors: data.userDegree ? data.userDegree.data.deg_majors : "",

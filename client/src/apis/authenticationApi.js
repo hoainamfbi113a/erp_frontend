@@ -160,6 +160,21 @@ export const listUserDepartFilter = (id, page, per_page) => {
       };
     });
 };
+export const listUserDepartAndPos = (id, pos_id, page, per_page) => {
+  return axiosConfig
+    .get(
+      `/api/userpagin/filter-dep-pos/${id}?pos_id=${pos_id}&page=${page}&per_page=${per_page}`
+    )
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => {
+      console.log(err);
+      return {
+        err: "error",
+      };
+    });
+};
 export const checkApi = (params) => {
   return axiosConfig
     .post("/api/check-permission", params)

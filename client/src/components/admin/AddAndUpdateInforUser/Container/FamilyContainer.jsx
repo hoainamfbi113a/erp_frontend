@@ -39,8 +39,7 @@ const FamilyContainer = ({
   const [rem_relationship, setRem] = useState();
   const [idFam, setIdFam] = useState(null);
   useEffect(() => {
-    // if (!data.length)
-     dispatch(getData);
+    if (!data.length) dispatch(getData);
   }, [type]);
 
   const handleOk = async () => {

@@ -3,44 +3,54 @@ import {
   addFamily,
   removeFamily,
   updateFamily,
+  eraseFamily,
 } from "../../../../reduxToolkit/features/userProfile/familySlice";
 import {
   getKinship,
   addKinship,
   removeKinship,
   updateKinship,
+  eraseKinship,
 } from "../../../../reduxToolkit/features/userProfile/kinshipSlice";
 import {
   getSocial,
   addSocial,
   removeSocial,
   updateSocial,
+  eraseSocial,
 } from "../../../../reduxToolkit/features/userProfile/socialSlice";
 import {
   addHistory,
   getHistory,
   removeHistory,
   updateHistory,
+  eraseHistory,
 } from "../../../../reduxToolkit/features/userProfile/historySlice";
 import {
   addHistory2,
   getHistory2,
   removeHistory2,
   updateHistory2,
+  eraseHistory2,
 } from "../../../../reduxToolkit/features/userProfile/historySlice2";
 import {
   getAbroad,
   addAbroad,
   removeAbroad,
   updateAbroad,
+  eraseAbroad,
 } from "../../../../reduxToolkit/features/userProfile/abroadSlice";
+import { eraseTraining } from "reduxToolkit/features/userProfile/trainingSlice";
+import { eraseTraining2 } from "reduxToolkit/features/userProfile/training2Slice";
+import { eraseOrganize } from "reduxToolkit/features/userProfile/organizeSlice";
+import { eraseOrganize2 } from "reduxToolkit/features/userProfile/organize2Slice";
 import { message, Steps } from "antd";
 import axiosConfig from "apis/axios";
 import { getProfile, updateProfile } from "apis/profileApi";
 import { transfersProfile } from "apis/transfersApi";
 import { workflowProfile } from "apis/workflowApi";
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Index from "../index";
 import BonusContainer from "./BonusContainer";
 import Personal2 from "./Personal2";
@@ -50,9 +60,11 @@ import CurriculumVitae from "../CurriculumVitae";
 import JoinDCS from "./JoinDCSContainer";
 import OrganizeContainer from "./OrganizeContainer";
 import GoAbroadContainer from "./GoAbroadContainer";
+
 const { Step } = Steps;
 
 const InfoUserContainer = (props) => {
+  const dispatch = useDispatch();
   const [activeLink, setActiveLink] = useState(1);
   const [modalNotify, setModalNotify] = useState(false);
   const [step_id, setStep_id] = useState(0);
@@ -67,6 +79,22 @@ const InfoUserContainer = (props) => {
   const dataHistory2 = useSelector((state) => state.history2User);
   const dataAbroad = useSelector((state) => state.abroadUser);
   const userId = props.match.params.id;
+
+  useEffect(() => {
+    return () => {
+      dispatch(eraseHistory());
+      dispatch(eraseHistory2());
+      dispatch(eraseFamily());
+      dispatch(eraseKinship());
+      dispatch(eraseSocial());
+      dispatch(eraseTraining());
+      dispatch(eraseTraining2());
+      dispatch(eraseOrganize());
+      dispatch(eraseOrganize2());
+      dispatch(eraseAbroad());
+    };
+  }, []);
+  
   useEffect(() => {
     (async function fetchTransfer() {
       fetchFlowProfile();
@@ -79,7 +107,6 @@ const InfoUserContainer = (props) => {
           dataTransfersProfile = await transfersProfile(data.id);
           setStep_id(dataTransfersProfile.data.next_step_id);
           // console.log(dataTransfersProfile.data.next_step_id);
-
         }
         if (Object.keys(data).length != 0) {
           let dataTransfersProfile = {};

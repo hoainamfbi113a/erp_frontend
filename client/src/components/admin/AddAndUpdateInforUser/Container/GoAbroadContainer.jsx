@@ -37,13 +37,12 @@ const GoAbroadContainer = ({
     err_purpose: "",
     err_expense: "",
     err_inviting_unit: "",
-    err_content: "" ,
+    err_content: "",
   });
   const [idAbroad, setIdAbroad] = useState("");
 
   useEffect(() => {
-    // if (data&& !data.length) 
-    dispatch(getData);
+    if (data && !data.length) dispatch(getData);
   }, [dispatch]);
 
   const handleOk = async () => {
@@ -81,7 +80,6 @@ const GoAbroadContainer = ({
         100,
         "Nội dung chuyến đi"
       );
-      
     }
     if (err_inviting_unit || err_content) {
       setErr({
@@ -143,7 +141,7 @@ const GoAbroadContainer = ({
       };
       const paramsUpdate = {
         id: idAbroad,
-        ...paramsAdd
+        ...paramsAdd,
       };
       if (idAbroad) {
         dispatch(updateData(paramsUpdate));

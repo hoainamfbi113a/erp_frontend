@@ -60,9 +60,6 @@ const Family = ({
               {item.rem_full_name}, Sinh năm:{" "}
               {formatDateNumber(item.rem_birthday, dateFormatList[0])}
             </p>
-            {console.log(
-              formatDateNumber(item.rem_birthday, dateFormatList[0])
-            )}
             <p className="personal-history-content">
               Nghề nghiệp: {item.rem_job} tại {item.rem_workplace}
             </p>

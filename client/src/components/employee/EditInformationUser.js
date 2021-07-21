@@ -1,49 +1,14 @@
-import React, { Component } from "react";
-import "./EditInformationUser.css";
-import CurriculumVitae from "./edit-infor-child/CurriculumVitae";
-// import CurriculumVitaes from "./edit-infor-child/CurriculumVitaes";
-import PersonalHistory from "./edit-infor-child/PersonalHistory";
-import JoinTCTTXH from "./edit-infor-child/JoinTCTTXH";
-// import JoinDCS from "./edit-infor-child/JoinDCS";
-import ProfessionalCompensation from "./edit-infor-child/ProfessionalCompensation";
-import Bonus from "./edit-infor-child/Bonus";
-import Family from "./edit-infor-child/Family";
-import Kinship from "./edit-infor-child/Kinship";
-import Social from "./edit-infor-child/Social";
 import { Steps } from "antd";
-import docCookies from "doc-cookies";
-import { getProfile } from "apis/profileApi";
-import { workflowProfile } from "apis/workflowApi";
-import { transfersProfile } from "apis/transfersApi";
-import { showLoading, hideLoading } from "reduxToolkit/features/uiLoadingSlice";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import BonusContainer from "../admin/AddAndUpdateInforUser/Container/BonusContainer";
-import FamilyContainer from "../admin/AddAndUpdateInforUser/Container/FamilyContainer";
-import TrainingContainer from "../admin/AddAndUpdateInforUser/Container/TrainingContainer";
-import JoinDCS from "../admin/AddAndUpdateInforUser/Container/JoinDCSContainer";
-import OrganizeContainer from "../admin/AddAndUpdateInforUser/Container/OrganizeContainer";
-import PersonalHistoryContainer from "../admin/AddAndUpdateInforUser/Container/PersonalHistoryContainer";
-import GoAbroadContainer from "../admin/AddAndUpdateInforUser/Container/GoAbroadContainer";
 import axiosConfig from "apis/axios";
+import { transfersProfile } from "apis/transfersApi";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import {
-  getFamily,
   addFamily,
+  getFamily,
   removeFamily,
   updateFamily,
 } from "../../reduxToolkit/features/userProfile/familySlice";
-import {
-  getKinship,
-  addKinship,
-  removeKinship,
-  updateKinship,
-} from "../../reduxToolkit/features/userProfile/kinshipSlice";
-import {
-  getSocial,
-  addSocial,
-  removeSocial,
-  updateSocial,
-} from "../../reduxToolkit/features/userProfile/socialSlice";
 import {
   addHistory,
   getHistory,
@@ -51,142 +16,160 @@ import {
   updateHistory,
 } from "../../reduxToolkit/features/userProfile/historySlice";
 import {
+  addHistory2,
+  getHistory2,
+  removeHistory2,
+  updateHistory2,
+} from "../../reduxToolkit/features/userProfile/historySlice2";
+import {
+  addKinship,
+  getKinship,
+  removeKinship,
+  updateKinship,
+} from "../../reduxToolkit/features/userProfile/kinshipSlice";
+import {
+  addSocial,
+  getSocial,
+  removeSocial,
+  updateSocial,
+} from "../../reduxToolkit/features/userProfile/socialSlice";
+import {
   getAbroad,
   addAbroad,
   removeAbroad,
   updateAbroad,
 } from "../../reduxToolkit/features/userProfile/abroadSlice";
+import BonusContainer from "../admin/AddAndUpdateInforUser/Container/BonusContainer";
+import Family2 from "../admin/AddAndUpdateInforUser/Container/Family2";
+import JoinDCS from "../admin/AddAndUpdateInforUser/Container/JoinDCSContainer";
+import OrganizeContainer from "../admin/AddAndUpdateInforUser/Container/OrganizeContainer";
+import Personal2 from "../admin/AddAndUpdateInforUser/Container/Personal2";
+import TrainingContainer from "../admin/AddAndUpdateInforUser/Container/TrainingContainer";
+import GoAbroadContainer from "../admin/AddAndUpdateInforUser/Container/GoAbroadContainer";
+import CurriculumVitae from "./edit-infor-child/CurriculumVitae";
+import "./EditInformationUser.css";
 const { Step } = Steps;
-class EditInformationUser extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      activeLink: 1,
-      STATUS_PROFILE: 1,
-      dataWorkflow: null,
-      step_id: null,
-    };
-  }
-  handleClick = (id) => {
-    this.setState({ activeLink: id });
-  };
-  renderComponents = () => {
-    if (this.state.activeLink === 1) {
+const EditInformationUser = ({}) => {
+  const [activeLink, setActiveLink] = useState(1);
+  const [STATUS_PROFILE, setStatusProfile] = useState(1);
+  const [dataWorkflow, setDataWorkflow] = useState(null);
+  const [step_id, setStepId] = useState(null);
+  const dataProfile = useSelector((state) => state.userProfile);
+  const dataFamily = useSelector((state) => state.familyUser);
+  const dataKinship = useSelector((state) => state.kinshipUser);
+  const dataSocial = useSelector((state) => state.socialUser);
+  const dataHistory = useSelector((state) => state.historyUser);
+  const dataHistory2 = useSelector((state) => state.history2User);
+  const dataAbroad = useSelector((state) => state.abroadUser);
+
+  useEffect(() => {
+    fetchProfile();
+    fetchWorkflowProfile();
+  }, []);
+
+  // const handleClick = (id) => {
+  //   setActiveLink(id);
+  // };
+
+  const renderComponents = () => {
+    if (activeLink === 1) {
       return (
         <CurriculumVitae
-          statusProfile={this.state.step_id}
-          handleReloadComponent={this.handleReloadComponent}
+          statusProfile={step_id}
+          handleReloadComponent={fetchProfile}
         />
       );
     }
-    if (this.state.activeLink === 2) {
-      console.log(this.props.userProfileState.user_id)
+    if (activeLink === 2) {
       return (
-        <PersonalHistoryContainer
-          idUser={this.props.userProfileState.user_id}
-          proId={this.props.userProfileState.id}
-          getData={getHistory({ id: this.props.userProfileState.user_id })}
-          addData={addHistory}
-          updateData={updateHistory}
-          removeData={removeHistory}
-          data={this.props.dataHistory}
+        <Personal2
+          idUser={dataProfile.user_id}
+          proId={dataProfile.id}
+          type={[0, 1]}
+          namination={["Học tập", "Làm việc"]}
+          getData={[
+            getHistory({ id: dataProfile.user_id, type: 0 }),
+            getHistory2({ id: dataProfile.user_id, type: 1 }),
+          ]}
+          addData={[addHistory, addHistory2]}
+          updateData={[updateHistory, updateHistory2]}
+          removeData={[removeHistory, removeHistory2]}
+          data={[dataHistory, dataHistory2]}
         />
       );
     }
-    if (this.state.activeLink === 3) {
-      return <JoinDCS idUser={this.props.userProfileState.user_id} dataProfile={this.props.userProfileState} />;
+    if (activeLink === 3) {
+      return <JoinDCS idUser={dataProfile.user_id} dataProfile={dataProfile} />;
       // return <JoinDCS />;
     }
-    if (this.state.activeLink === 4) {
-      return <OrganizeContainer idUser={this.props.userProfileState.user_id} dataProfile={this.props.userProfileState} />;
-    }
-    if (this.state.activeLink === 5) {
-      return <TrainingContainer idUser={this.props.userProfileState.user_id} dataProfile={this.props.userProfileState} />;
-    }
-    if (this.state.activeLink === 6) {
-      return <BonusContainer idUser={this.props.userProfileState.user_id} dataProfile={this.props.userProfileState} />
-    }
-    if (this.state.activeLink === 7) {
+    if (activeLink === 4) {
       return (
-        <FamilyContainer
-          idUser={this.props.userProfileState.user_id}
-          proId={this.props.userProfileState.id}
-          type="family"
-          namination="Gia đình"
-          getData={getFamily({
-            id: this.props.userProfileState.user_id,
-            type: "family",
-          })}
-          addData={addFamily}
-          updateData={updateFamily}
-          removeData={removeFamily}
-          data={this.props.dataFamily}
+        <OrganizeContainer
+          idUser={dataProfile.user_id}
+          dataProfile={dataProfile}
         />
       );
     }
-    if (this.state.activeLink === 8) {
+    if (activeLink === 5) {
       return (
-        <FamilyContainer
-          idUser={this.props.userProfileState.user_id}
-          proId={this.props.userProfileState.id}
-          type="kinship"
-          namination="Quan hệ thân tộc"
-          getData={getKinship({ id: this.props.userProfileState.user_id, type: "kinship" })}
-          addData={addKinship}
-          updateData={updateKinship}
-          removeData={removeKinship}
-          data={this.props.dataKinship}
+        <TrainingContainer
+          idUser={dataProfile.user_id}
+          dataProfile={dataProfile}
         />
       );
     }
-    if (this.state.activeLink === 9) {
-      console.log(this.props.dataAbroad)
+    if (activeLink === 6) {
       return (
-          <GoAbroadContainer
-            idUser={this.props.userProfileState.user_id}
-            proId={this.props.userProfileState.id}
-            getData={getAbroad({ id: this.props.userProfileState.user_id })}
+        <BonusContainer
+          idUser={dataProfile.user_id}
+          dataProfile={dataProfile}
+        />
+      );
+    }
+    if (activeLink === 7) {
+      return (
+        
+        <Family2
+          idUser={dataProfile.user_id}
+          proId={dataProfile.id}
+          type={["family", "kinship", "social"]}
+          namination={["Gia đình", "Quan hệ thân tộc", "Quan hệ xã hội"]}
+          getData={[
+            getFamily({ id: dataProfile.user_id, type: "family" }),
+            getKinship({ id: dataProfile.user_id, type: "kinship" }),
+            getSocial({ id: dataProfile.user_id, type: "social" }),
+          ]}
+          addData={[addFamily, addKinship, addSocial]}
+          updateData={[updateFamily, updateKinship, updateSocial]}
+          removeData={[removeFamily, removeKinship, removeSocial]}
+          data={[dataFamily, dataKinship, dataSocial]}
+        />
+      );
+    }
+    if (activeLink === 8) {
+      return <div></div>;
+    }
+    if (activeLink === 9) {
+      return (
+        <GoAbroadContainer
+            idUser={dataProfile.user_id}
+            proId={dataProfile.id}
+            getData={getAbroad({ id: dataProfile.user_id })}
             addData={addAbroad}
             updateData={updateAbroad}
             removeData={removeAbroad}
-            data={this.props.dataAbroad}
-            // idUser={this.props.userProfileState.user_id}
-            // proId={this.props.userProfileState.id}
-            // getData={getAbroad({ id: this.props.userProfileState.user_id })}
-            // addData={addAbroad}
-            // updateData={updateAbroad}
-            // removeData={removeAbroad}
-            // data={this.props.dataAbroad}
+            data={dataAbroad}
           />
-        // <FamilyContainer
-        //   idUser={this.props.userProfileState.user_id}
-        //   proId={this.props.userProfileState.id}
-        //   type="social"
-        //   namination="Quan hệ xã hội"
-        //   getData={getSocial({ id: this.props.userProfileState.user_id, type: "social" })}
-        //   addData={addSocial}
-        //   updateData={updateSocial}
-        //   removeData={removeSocial}
-        //   data={this.props.dataSocial}
-        // />
       );
     }
   };
-  fetProfile = async () => {
-    const userProfile = this.props.userProfileState;
-    console.log(userProfile);
-    let dataTransfersProfile = await transfersProfile(userProfile.id);
-    this.setState({
-      STATUS_PROFILE: dataTransfersProfile.data.after_status,
-      step_id: dataTransfersProfile.data.next_step_id,
-    });
+  const fetchProfile = async () => {
+    let dataTransfersProfile = await transfersProfile(dataProfile.id);
+    setStatusProfile(dataTransfersProfile.data.after_status);
+    setStepId(dataTransfersProfile.data.next_step_id);
   };
-  async componentDidMount() {
-    this.fetProfile();
-    this.fetchWorkflowProfile();
-  }
 
-  fetchWorkflowProfile = async () => {
+  const fetchWorkflowProfile = async () => {
     let params = {
       type_id: "5",
     };
@@ -201,181 +184,101 @@ class EditInformationUser extends Component {
         console.log(err);
       });
   };
-  renderWorkflow = () => {
-    if (this.state.dataWorkflow) {
-      const workflowProfile = this.state.dataWorkflow;
-      return workflowProfile.map((item) => {
+
+  const renderWorkflow = () => {
+    if (dataWorkflow) {
+      return dataWorkflow.map((item) => {
         return <Step key={item.id} title={item.name} />;
       });
     }
   };
-  handleReloadComponent = () => {
-    this.fetProfile();
-    // this.fetchWorkflowProfile();
-  };
-  render() {
-    let value = 0;
-    let step_id = this.state.step_id;
-    if (step_id === 1) {
-      value = 0;
-    } else if (step_id === 2) {
-      value = 1;
-    } else if (step_id === 3) {
-      value = 2;
-    } else {
-      value = 3;
-    }
-    return (
-      <div className="content-background2">
-        <Steps current={value} size="small" className="process-work-flow">
-          {this.renderWorkflow()}
-          <Step title="Hồ sơ sẵn sàng" />
-        </Steps>
-        <div style={{ minHeight: "70vh" }} className="edit-infor" disabled>
-          <div className="edit-infor-tabs">
-            <ul>
-              <li onClick={() => this.handleClick(1)}>
-                <div className={this.state.activeLink === 1 ? "active" : ""}>
-                  1
-                </div>
-                <span className={this.state.activeLink === 1 ? "active" : ""}>
-                  Sơ yếu lý lịch
-                </span>
-              </li>
-              <li onClick={() => this.handleClick(2)}>
-                <div className={this.state.activeLink === 2 ? "active" : ""}>
-                  2
-                </div>
-                <span className={this.state.activeLink === 2 ? "active" : ""}>
-                  Lịch sử bản thân
-                </span>
-              </li>
-
-              <li onClick={() => this.handleClick(3)}>
-                <div className={this.state.activeLink === 3 ? "active" : ""}>
-                  3
-                </div>
-                <span className={this.state.activeLink === 3 ? "active" : ""}>
-                  Đoàn - Đảng
-                </span>
-              </li>
-              <li onClick={() => this.handleClick(4)}>
-                <div className={this.state.activeLink === 4 ? "active" : ""}>
-                  4
-                </div>
-                <span className={this.state.activeLink === 4 ? "active" : ""}>
-                  Tham gia các tổ chức chính trị, xã hội, các cơ hội nghề nghiệp
-                </span>
-              </li>
-
-              <li onClick={() => this.handleClick(5)}>
-                <div className={this.state.activeLink === 5 ? "active" : ""}>
-                  5
-                </div>
-                <span className={this.state.activeLink === 5 ? "active" : ""}>
-                  Đào tạo, bồi dưỡng về chuyên môn, nghiệp vụ, lý luận chính trị
-                  ngoại ngữ
-                </span>
-              </li>
-              <li onClick={() => this.handleClick(6)}>
-                <div className={this.state.activeLink === 6 ? "active" : ""}>
-                  6
-                </div>
-                <span className={this.state.activeLink === 6 ? "active" : ""}>
-                  Khen thưởng, kỷ luật
-                </span>
-              </li>
-              <li
-                onClick={() => {
-                  this.handleClick(7);
-                  window.scrollTo(0, 0);
-                }}
-              >
-                <div className={this.state.activeLink === 7 ? "active" : ""}>7</div>
-                <span className={this.state.activeLink === 7 ? "active" : ""}>
-                  Quan hệ gia đình thân tộc
-                </span>
-              </li>
-              <li
-                onClick={() => {
-                  this.handleClick(8);
-                  window.scrollTo(0, 0);
-                }}
-              >
-                <div className={this.state.activeLink === 8 ? "active" : ""}>8</div>
-                <span className={this.state.activeLink === 8 ? "active" : ""}>
-                  Tài sản
-                </span>
-              </li>
-              <li
-                onClick={() => {
-                  this.handleClick(9);
-                  window.scrollTo(0, 0);
-                }}
-              >
-                <div className={this.state.activeLink === 9 ? "active" : ""}>9</div>
-                <span className={this.state.activeLink === 9 ? "active" : ""}>
-                  Đi nước ngoài
-                </span>
-              </li>
-              <li
-                onClick={() => {
-                  this.handleClick(10);
-                  window.scrollTo(0, 0);
-                }}
-              >
-                <div className={this.state.activeLink === 10 ? "active" : ""}>10</div>
-                <span className={this.state.activeLink === 10 ? "active" : ""}>
-                  Hợp đồng lao động
-                </span>
-              </li>
-              <li
-                onClick={() => {
-                  this.handleClick(11);
-                  window.scrollTo(0, 0);
-                }}
-              >
-                <div className={this.state.activeLink === 11 ? "active" : ""}>11</div>
-                <span className={this.state.activeLink === 11 ? "active" : ""}>
-                  Mức lương phụ cấp
-                </span>
-              </li>
-              <li
-                onClick={() => {
-                  this.handleClick(12);
-                  window.scrollTo(0, 0);
-                }}
-              >
-                <div className={this.state.activeLink === 12 ? "active" : ""}>12</div>
-                <span className={this.state.activeLink === 12 ? "active" : ""}>
-                  Bảo hiểm xã hội
-                </span>
-              </li>
-            </ul>
-            <div className="edit-infr-vertical-line"></div>
-          </div>
-          {this.renderComponents()}
-        </div>
-      </div>
-    );
+  // handleReloadComponent = () => {
+  //   this.fetProfile();
+  //   // this.fetchWorkflowProfile();
+  // };
+  let value = 0;
+  if (step_id === 1) {
+    value = 0;
+  } else if (step_id === 2) {
+    value = 1;
+  } else if (step_id === 3) {
+    value = 2;
+  } else {
+    value = 3;
   }
-}
-const mapStateToProps = (state) => {
-  return {
-    userProfileState: state.userProfile,
-    dataFamily: state.familyUser,
-    dataKinship: state.kinshipUser,
-    dataSocial: state.socialUser,
-    dataHistory: state.historyUser,
-    dataAbroad: state.abroadUser
-  };
+  return (
+    <div className="content-background2">
+      <Steps current={value} size="small" className="process-work-flow">
+        {renderWorkflow()}
+        <Step title="Hồ sơ sẵn sàng" />
+      </Steps>
+      <div style={{ minHeight: "70vh" }} className="edit-infor" disabled>
+        <div className="edit-infor-tabs">
+          <ul>
+            <li onClick={() => setActiveLink(1)}>
+              <div className={activeLink === 1 ? "active" : ""}>1</div>
+              <span className={activeLink === 1 ? "active" : ""}>
+                Sơ yếu lý lịch
+              </span>
+            </li>
+            <li onClick={() => setActiveLink(2)}>
+              <div className={activeLink === 2 ? "active" : ""}>2</div>
+              <span className={activeLink === 2 ? "active" : ""}>
+                Lịch sử bản thân
+              </span>
+            </li>
+
+            <li onClick={() => setActiveLink(3)}>
+              <div className={activeLink === 3 ? "active" : ""}>3</div>
+              <span className={activeLink === 3 ? "active" : ""}>
+                Đoàn - Đảng
+              </span>
+            </li>
+            <li onClick={() => setActiveLink(4)}>
+              <div className={activeLink === 4 ? "active" : ""}>4</div>
+              <span className={activeLink === 4 ? "active" : ""}>
+                Tham gia các tổ chức chính trị, xã hội, các cơ hội nghề nghiệp
+              </span>
+            </li>
+
+            <li onClick={() => setActiveLink(5)}>
+              <div className={activeLink === 5 ? "active" : ""}>5</div>
+              <span className={activeLink === 5 ? "active" : ""}>
+                Đào tạo, bồi dưỡng về chuyên môn, nghiệp vụ, lý luận chính trị
+                ngoại ngữ
+              </span>
+            </li>
+            <li onClick={() => setActiveLink(6)}>
+              <div className={activeLink === 6 ? "active" : ""}>6</div>
+              <span className={activeLink === 6 ? "active" : ""}>
+                Khen thưởng, kỷ luật
+              </span>
+            </li>
+            <li onClick={() => setActiveLink(7)}>
+              <div className={activeLink === 7 ? "active" : ""}>7</div>
+              <span className={activeLink === 7 ? "active" : ""}>
+              Quan hệ gia đình thân tộc
+              </span>
+            </li>
+            <li onClick={() => setActiveLink(8)}>
+              <div className={activeLink === 8 ? "active" : ""}>8</div>
+              <span className={activeLink === 8 ? "active" : ""}>
+                Tài sản
+              </span>
+            </li>
+            <li onClick={() => setActiveLink(9)}>
+              <div className={activeLink === 9 ? "active" : ""}>9</div>
+              <span className={activeLink === 9 ? "active" : ""}>
+                Đi nước ngoài
+              </span>
+            </li>
+          </ul>
+          <div className="edit-infr-vertical-line"></div>
+        </div>
+        {renderComponents()}
+      </div>
+    </div>
+  );
 };
 
-const mapDispatchToProps = (dispatch) => ({
-  uiActionCreatorsS: bindActionCreators(showLoading, dispatch),
-  uiActionCreatorsH: bindActionCreators(hideLoading, dispatch),
-});
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(EditInformationUser);
+export default EditInformationUser;

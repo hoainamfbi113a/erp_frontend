@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Select, Button, Input } from "antd";
+import { Select, Button, message } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { Link, useRouteMatch } from "react-router-dom";
 import TableUserContainer from "../Table/container/TableUserContainer";
@@ -8,7 +8,9 @@ import withRoute from "../RouterULR/route/withRoute";
 import PermissionContext from "../../context/PermissionContext";
 import { checkVisible } from "../../helpers/FuncHelper";
 import { getListDepartment } from "apis/departmentApi";
+import { getListPosition } from "../../apis/positionApi";
 import { listUser } from "apis/authenticationApi";
+
 const { Option } = Select;
 
 const ContentUser = () => {
@@ -19,7 +21,9 @@ const ContentUser = () => {
   const { permissions } = useContext(PermissionContext);
   const [data, setData] = useState(null);
   const [idDepart, setIdDepart] = useState("");
+  const [idPos, setIdPos] = useState("");
   const [userData, setUserData] = useState(null);
+  const [posData, setPosData] = useState(null);
 
   const [dataFilter, setDataFilter] = useState(null);
 
@@ -29,6 +33,7 @@ const ContentUser = () => {
 
   useEffect(() => {
     fetchDataDepartment("all");
+    fetchDataPosition("all");
     fetchData("all");
   }, []);
 
@@ -39,6 +44,19 @@ const ContentUser = () => {
         setData(data);
       } else {
         message.error("get list department failed");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchDataPosition = async (page) => {
+    try {
+      const data = await getListPosition(page);
+      if (!data.err) {
+        setPosData(data);
+      } else {
+        message.error("get list position failed");
       }
     } catch (error) {
       console.log(error);
@@ -113,6 +131,25 @@ const ContentUser = () => {
                 ))
               : null}
           </Select>
+
+          <Select
+            showSearch
+            disabled={total === null}
+            optionFilterProp="children"
+            placeholder="Mời chọn chức danh / chức vụ"
+            style={{ width: 220 }}
+            onChange={(key) => setIdPos(key)}
+            filterOption={(input, option) =>
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            }
+          >
+            <Option key="all">Tất cả</Option>
+            {posData
+              ? posData.data.map((position) => (
+                  <Option key={position.id}>{position.pos_name}</Option>
+                ))
+              : null}
+          </Select>
         </div>
         {checkVisible(permissions, "create", "api/profiles") && (
           <div className="content-top-right">
@@ -128,6 +165,7 @@ const ContentUser = () => {
         setValueSearch={setValue}
         totalEmploy={setTotal}
         idDepart={idDepart}
+        idPos={idPos}
       />
     </div>
   );
