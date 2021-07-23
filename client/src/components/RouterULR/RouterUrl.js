@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import ServiceRoute from "./route/ServiceRoute";
 import PersonalPage from "../employee/personalPage/PersonalPage";
 import Workflow from "../admin/workflow/Workflow";
+import salaryComponent from "../salary/salaryComponent";
 import NotFound from "../NotFound";
 
 const RouterUrl = ({ props }) => {
@@ -74,8 +75,12 @@ const RouterUrl = ({ props }) => {
           path="/permission"
           component={ContentPermission}
         ></Route>
-        {/* <Route exact path="/form-builder" component={FormBuilder}></Route>
-          <Route exact path="/document-type" component={DocumentType}></Route> */}
+        <Route
+          key="9"
+          exact
+          path="/salary"
+          component={salaryComponent}
+        ></Route>
         <Route component={NotFound}></Route>
       </Switch>
     );

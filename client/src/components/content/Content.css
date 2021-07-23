@@ -73,12 +73,6 @@
 .content-bottom{
     margin-top: 50px;
 }
-.ant-breadcrumb-link{
-    opacity: 0;
-}
-.ant-breadcrumb-separator{
-    opacity: 0;
-}
 .create-notifi{
     display: flex;
 }

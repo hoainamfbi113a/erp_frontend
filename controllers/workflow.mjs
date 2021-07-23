@@ -14,7 +14,7 @@ router.get('/get-workflow-types', async (req,res)=>{
 })
 router.post('/store', async (req,res)=>{
   let { data } = await axios.post(`${process.env.apiWorkflow}/api/workflow/store`,req.body);
-    res.send(data);
+  res.send(data);
 })
 
 

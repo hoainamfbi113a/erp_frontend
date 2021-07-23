@@ -90,7 +90,7 @@ const MenuLayout = (props) => {
                 style = {{paddingLeft: "48px"}}
                 key="99"
               >
-                <Link to="/notification-general">--  Lương nhân viên</Link>
+                <Link to="/salary">--  Lương nhân viên</Link>
               </Menu.Item>
             </SubMenu>
           ))}
