@@ -12,7 +12,6 @@ const Workflow = () => {
     id: user_id,
     name: "Admin"
   };
-  console.log(user)
   let urls ={
     // get_list_document_types: 'https://document.tuoitre.vn/api/document-type/get-document-types',
     // get_one_document_type: 'https://document.tuoitre.vn/api/document-type/get',
