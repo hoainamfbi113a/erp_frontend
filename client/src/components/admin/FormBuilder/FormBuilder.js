@@ -28,7 +28,7 @@ const FormBuilderComponent = () => {
   // }];
   let user = {
     id: user_id,
-    name: "Lương Xuân Bảo",
+    name: user_name.full_name,
   };
   const { permissions } = useContext(PermissionContext);
   return (

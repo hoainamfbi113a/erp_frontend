@@ -3,28 +3,30 @@ import { useContext } from "react";
 import { DocumentType, FormBuilder } from "@tuoitre/form-builder";
 import "@tuoitre/form-builder/dist/index.css";
 import docCookies from "doc-cookies";
+import { useSelector } from "react-redux";
 const user_id = docCookies.getItem("user_id");
 
 import PermissionContext from "../../../context/PermissionContext";
 const DocumentTypeComponent = () => {
   const { permissions } = useContext(PermissionContext);
+  const user_name = useSelector((state) => state.user);
   let user = {
     id: user_id,
-    name: "Lương Xuân Bảo",
+    name: user_name.full_name,
   };
   console.log(user, permissions);
   return (
-      <DocumentType
-        urls={{
-          getListTypes: "/api/document-type/get-document-types",
-          saveType: "/api/document-type/store",
-          // saveType: 'https://document.tuoitre.vn/api/document-type/store',
-          updateType: "/api/document-type/update",
-          deleteType: "/api/document-type/delete",
-        }}
-        permissions={permissions}
-        user={user}
-      />
+    <DocumentType
+      urls={{
+        getListTypes: "/api/document-type/get-document-types",
+        saveType: "/api/document-type/store",
+        // saveType: 'https://document.tuoitre.vn/api/document-type/store',
+        updateType: "/api/document-type/update",
+        deleteType: "/api/document-type/delete",
+      }}
+      permissions={permissions}
+      user={user}
+    />
     // <div>
     //   <TTFormBuilder urls={
     //     {
